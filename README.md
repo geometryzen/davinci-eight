@@ -227,6 +227,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.123.0: 2015-10-07 CylinderGeometry
 * 2.124.0: 2015-10-09 ArrowGeometry
 * 2.125.0: 2015-10-10 VortexGeometry
+* 2.126.0: 2015-10-12 DirectionalLight
 
 ## License
 Copyright (c) 2014-2015 David Holmes

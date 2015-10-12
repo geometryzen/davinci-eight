@@ -1,8 +1,14 @@
+import cannotAssignTypeToProperty = require('../i18n/cannotAssignTypeToProperty')
+import Cartesian3 = require('../math/Cartesian3')
 import computeFaceNormals = require('../geometries/computeFaceNormals')
+import feedback = require('../feedback/feedback')
 import Geometry = require('../geometries/Geometry')
+import isObject = require('../checks/isObject')
+import isUndefined = require('../checks/isUndefined')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeString = require('../checks/mustBeString')
 import quad = require('../geometries/quadrilateral')
+import readOnly = require('../i18n/readOnly')
 import Simplex = require('../geometries/Simplex')
 import Symbolic = require('../core/Symbolic')
 import triangle = require('../geometries/triangle')
@@ -16,22 +22,38 @@ import VectorN = require('../math/VectorN')
  */
 class CuboidGeometry extends Geometry {
   /**
-   * @property a {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.
+   * Parameter is private so that we can detect assignments.
+   * @property _a
+   * @type {Vector3}
+   * @private
    */
-  public a: Vector3 = Vector3.e1.clone();
+  private _a: Vector3;
   /**
-   * @property b {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.
+   * Parameter is private so that we can detect assignments.
+   * @property _b
+   * @type {Vector3}
+   * @private
    */
-  public b: Vector3 = Vector3.e2.clone();
+  private _b: Vector3;
   /**
-   * @property c {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.
+   * Parameter is private so that we can detect assignments.
+   * @property _c
+   * @type {Vector3}
+   * @private
    */
-  public c: Vector3 = Vector3.e3.clone();
+  private _c: Vector3;
   /**
    * @property _k {number} The dimensionality of the simplices representing the cuboid.
    * @private
    */
   private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+  /**
+   * Used to mark the parameters of this object dirty when they are possibly shared.
+   * @property _isModified
+   * @type {boolean}
+   * @private
+   */
+  private _isModified: boolean = true;
   /**
    * <p>
    * The <code>CuboidGeometry</code> generates simplices representing a cuboid, or more precisely a parallelepiped.
@@ -50,12 +72,79 @@ class CuboidGeometry extends Geometry {
    */
   constructor(type: string = 'CuboidGeometry') {
     super(mustBeString('type',type))
+    this.a = Vector3.e1.clone()
+    this.b = Vector3.e2.clone()
+    this.c = Vector3.e3.clone()
     this.recalculate();
   }
   /**
-   *
+   * <p>
+   * A vector parameterizing the shape of the cuboid.
+   * Defaults to the standard basis vector e1.
+   * Assignment is by reference making it possible for parameters to be shared references.
+   * </p>
+   * @property a
+   * @type {Vector3}
    */
-  public get k() {
+  public get a(): Vector3 {
+    return this._a
+  }
+  public set a(a: Vector3) {
+    if (a instanceof Vector3) {
+      this._a = a
+      this._isModified = true
+    }
+    else {
+      feedback.warn(cannotAssignTypeToProperty(typeof a, 'a'))
+    }
+  }
+  /**
+   * <p>
+   * A vector parameterizing the shape of the cuboid.
+   * Defaults to the standard basis vector e2.
+   * Assignment is by reference making it possible for parameters to be shared references.
+   * </p>
+   * @property b
+   * @type {Vector3}
+   */
+  public get b(): Vector3 {
+    return this._b
+  }
+  public set b(b: Vector3) {
+    if (b instanceof Vector3) {
+      this._b = b
+      this._isModified = true
+    }
+    else {
+      feedback.warn(cannotAssignTypeToProperty(typeof b, 'b'))
+    }
+  }
+  /**
+   * <p>
+   * A vector parameterizing the shape of the cuboid.
+   * Defaults to the standard basis vector e3.
+   * Assignment is by reference making it possible for parameters to be shared references.
+   * </p>
+   * @property c
+   * @type {Vector3}
+   */
+  public get c(): Vector3 {
+    return this._c
+  }
+  public set c(c: Vector3) {
+    if (c instanceof Vector3) {
+      this._c = c
+      this._isModified = true
+    }
+    else {
+      feedback.warn(cannotAssignTypeToProperty(typeof c, 'c'))
+    }
+  }
+  /**
+   * @property k
+   * @type {number}
+   */
+  public get k(): number {
     return this._k.x
   }
   public set k(k: number) {
@@ -63,7 +152,7 @@ class CuboidGeometry extends Geometry {
   }
 
   public isModified() {
-    return this.a.modified || this.b.modified || this.c.modified || this._k.modified
+    return this._isModified || this._a.modified || this._b.modified || this._c.modified || this._k.modified
   }
   /**
    * @method setModified
@@ -71,9 +160,10 @@ class CuboidGeometry extends Geometry {
    * @return {CuboidGeometry} `this` instance.
    */
   public setModified(modified: boolean): CuboidGeometry {
-    this.a.modified  = modified
-    this.b.modified  = modified
-    this.c.modified  = modified
+    this._isModified = modified
+    this._a.modified  = modified
+    this._b.modified  = modified
+    this._c.modified  = modified
     this._k.modified = modified
     return this
   }
@@ -83,18 +173,17 @@ class CuboidGeometry extends Geometry {
    * @return {void}
    */
   public recalculate(): void {
-
     this.setModified(false)
 
     var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})
-    pos[0] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2)
-    pos[1] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2)
-    pos[2] = new Vector3().add(this.a).add(this.b).add(this.c).divideScalar(2)
-    pos[3] = new Vector3().sub(this.a).add(this.b).add(this.c).divideScalar(2)
-    pos[4] = new Vector3().copy(pos[3]).sub(this.c)
-    pos[5] = new Vector3().copy(pos[2]).sub(this.c)
-    pos[6] = new Vector3().copy(pos[1]).sub(this.c)
-    pos[7] = new Vector3().copy(pos[0]).sub(this.c)
+    pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideScalar(2)
+    pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divideScalar(2)
+    pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divideScalar(2)
+    pos[3] = new Vector3().sub(this._a).add(this._b).add(this._c).divideScalar(2)
+    pos[4] = new Vector3().copy(pos[3]).sub(this._c)
+    pos[5] = new Vector3().copy(pos[2]).sub(this._c)
+    pos[6] = new Vector3().copy(pos[1]).sub(this._c)
+    pos[7] = new Vector3().copy(pos[0]).sub(this._c)
 
     function simplex(indices: number[]): Simplex {
       let simplex = new Simplex(indices.length - 1)

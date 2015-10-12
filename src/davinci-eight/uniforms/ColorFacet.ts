@@ -149,7 +149,7 @@ class ColorFacet extends Shareable implements ColorRGB, IFacet, IProperties, IUn
     }
   }
   setUniforms(visitor: IFacetVisitor, canvasId: number) {
-    visitor.uniformVector3(this.name, this.data, canvasId)
+    visitor.uniformCartesian3(this.name, this.data, canvasId)
   }
 }
 

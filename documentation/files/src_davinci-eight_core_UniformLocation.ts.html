@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.125.0</em>
+            <em>API Docs for: 2.126.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -63,6 +64,7 @@
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
@@ -107,8 +109,12 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
+                                <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
@@ -141,6 +147,7 @@
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
@@ -194,21 +201,22 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import Matrix1 = require(&#x27;../math/Matrix1&#x27;);
-import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
-import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
-import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
-import IContextProgramConsumer = require(&#x27;../core/IContextProgramConsumer&#x27;);
-import IContextProvider = require(&#x27;../core/IContextProvider&#x27;);
-import Vector1 = require(&#x27;../math/Vector1&#x27;);
-import Vector2 = require(&#x27;../math/Vector2&#x27;);
-import Vector3 = require(&#x27;../math/Vector3&#x27;);
-import Vector4 = require(&#x27;../math/Vector4&#x27;);
-
-function matrix4NE(a: number[], b: Float32Array): boolean {
-  return a[0x0] !== b[0x0] || a[0x1] !== b[0x1] || a[0x2] !== b[0x2] || a[0x3] !== b[0x3] || a[0x4] !== b[0x4] || a[0x5] !== b[0x5] || a[0x6] !== b[0x6] || a[0x7] !== b[0x7] || a[0x8] !== b[0x8] || a[0x9] !== b[0x9] || a[0xA] !== b[0xA] || a[0xB] !== b[0xB] || a[0xC] !== b[0xC] || a[0xD] !== b[0xD] || a[0xE] !== b[0xE] || a[0xF] !== b[0xF];
-}
+import Cartesian1 = require(&#x27;../math/Cartesian1&#x27;)
+import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;)
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
+import Cartesian4 = require(&#x27;../math/Cartesian4&#x27;)
+import expectArg = require(&#x27;../checks/expectArg&#x27;)
+import feedback = require(&#x27;../feedback/feedback&#x27;)
+import Matrix1 = require(&#x27;../math/Matrix1&#x27;)
+import Matrix2 = require(&#x27;../math/Matrix2&#x27;)
+import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
+import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
+import IContextProgramConsumer = require(&#x27;../core/IContextProgramConsumer&#x27;)
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
+import Vector1 = require(&#x27;../math/Vector1&#x27;)
+import Vector2 = require(&#x27;../math/Vector2&#x27;)
+import Vector3 = require(&#x27;../math/Vector3&#x27;)
+import Vector4 = require(&#x27;../math/Vector4&#x27;)
 
 /**
  * Utility class for managing a shader uniform variable.
@@ -219,13 +227,6 @@ class UniformLocation implements IContextProgramConsumer {
   private _location: WebGLUniformLocation;
   private _name: string;
   private _program: WebGLProgram;
-  // FIXME: No more mirroring.
-  private _x: number = void 0;
-  private _y: number = void 0;
-  private _z: number = void 0;
-  private _w: number = void 0;
-  private _matrix4: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(() =&gt; {return void 0;});
-  private _transpose: boolean = void 0;
   /**
    * @class UniformLocation
    * @constructor
@@ -262,16 +263,44 @@ class UniformLocation implements IContextProgramConsumer {
     this._context  = void 0;
     this._location = void 0;
     this._program  = void 0;
-    this._x = void 0;
-    this._y = void 0;
-    this._z = void 0;
-    this._w = void 0;
-    this._matrix4.map(() =&gt; {return void 0});
-    this._transpose = void 0;
+  }
+  /**
+   * @method cartesian1
+   * @param coords {Cartesian1}
+   */
+  cartesian1(coords: Cartesian1): void {
+    this._context.useProgram(this._program);
+    this._context.uniform1f(this._location, coords.x);
+  }
+  /**
+   * @method cartesian2
+   * @param coords {Cartesian2}
+   */
+  cartesian2(coords: Cartesian2): void {
+    this._context.useProgram(this._program);
+    this._context.uniform2f(this._location, coords.x, coords.y);
+  }
+  /**
+   * @method cartesian3
+   * @param coords {Cartesian3}
+   */
+  cartesian3(coords: Cartesian3): void {
+    if (coords) {
+      this._context.useProgram(this._program)
+      this._context.uniform3f(this._location, coords.x, coords.y, coords.z)
+    }
+  }
+  /**
+   * @method cartesian4
+   * @param coords {Cartesian4}
+   */
+  cartesian4(coords: Cartesian4): void {
+    this._context.useProgram(this._program);
+    this._context.uniform4f(this._location, coords.x, coords.y, coords.z, coords.w);
   }
   /**
    * @method uniform1f
-   * @param x
+   * @param x {number}
    */
   uniform1f(x: number): void {
     this._context.useProgram(this._program);
@@ -340,76 +369,42 @@ class UniformLocation implements IContextProgramConsumer {
    * @param matrix {Matrix4}
    */
   matrix4(transpose: boolean, matrix: Matrix4): void {
-    this._context.useProgram(this._program);
-    let matrix4 = this._matrix4;
-    let data = matrix.data;
-    if (matrix4NE(matrix4, data) || this._transpose != transpose) {
-      this._context.uniformMatrix4fv(this._location, transpose, data);
-      // TODO: Use Matrix4.
-      matrix4[0x0] = data[0x0];
-      matrix4[0x1] = data[0x1];
-      matrix4[0x2] = data[0x2];
-      matrix4[0x3] = data[0x3];
-      matrix4[0x4] = data[0x4];
-      matrix4[0x5] = data[0x5];
-      matrix4[0x6] = data[0x6];
-      matrix4[0x7] = data[0x7];
-      matrix4[0x8] = data[0x8];
-      matrix4[0x9] = data[0x9];
-      matrix4[0xA] = data[0xA];
-      matrix4[0xB] = data[0xB];
-      matrix4[0xC] = data[0xC];
-      matrix4[0xD] = data[0xD];
-      matrix4[0xE] = data[0xE];
-      matrix4[0xF] = data[0xF];
-      this._transpose = transpose;
+    if (matrix) {
+      this._context.useProgram(this._program)
+      this._context.uniformMatrix4fv(this._location, transpose, matrix.data)
     }
   }
   /**
    * @method vector1
-   * @param vector {Vector1}
+   * @param data {number[]}
    */
-  vector1(vector: Vector1): void {
+  vector1(data: number[]): void {
     this._context.useProgram(this._program);
-    this._context.uniform1fv(this._location, vector.data);
+    this._context.uniform1fv(this._location, data);
   }
   /**
    * @method vector2
-   * @param vector {Vector2}
+   * @param data {number[]}
    */
-  vector2(vector: Vector2): void {
+  vector2(data: number[]): void {
     this._context.useProgram(this._program);
-    this._context.uniform2fv(this._location, vector.data);
+    this._context.uniform2fv(this._location, data);
   }
   /**
    * @method vector3
-   * @param vector {Vector3}
+   * @param data {number[]}
    */
-  vector3(vector: Vector3): void {
-    if (vector) {
-      this._context.useProgram(this._program);
-      let data: number[] = vector.data;
-      let x = data[0];
-      let y = data[1];
-      let z = data[2];
-      if (this._x !== x || this._y !== y || this._z !== z) {
-        this._context.uniform3fv(this._location, data);
-        this._x = x;
-        this._y = y;
-        this._z = z;
-      }
-    }
-    else {
-      console.warn(&quot;UniformLocation.vector3 called with &#x60;typeof vector&#x60; =&gt; &quot; + typeof vector)
-    }
+  vector3(data: number[]): void {
+    this._context.useProgram(this._program);
+    this._context.uniform3fv(this._location, data);
   }
   /**
    * @method vector4
-   * @param vector {Vector4}
+   * @param data {number[]}
    */
-  vector4(vector: Vector4): void {
+  vector4(data: number[]): void {
     this._context.useProgram(this._program);
-    this._context.uniform4fv(this._location, vector.data);
+    this._context.uniform4fv(this._location, data);
   }
   /**
    * @method toString

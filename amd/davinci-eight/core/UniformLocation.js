@@ -1,7 +1,4 @@
 define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    function matrix4NE(a, b) {
-        return a[0x0] !== b[0x0] || a[0x1] !== b[0x1] || a[0x2] !== b[0x2] || a[0x3] !== b[0x3] || a[0x4] !== b[0x4] || a[0x5] !== b[0x5] || a[0x6] !== b[0x6] || a[0x7] !== b[0x7] || a[0x8] !== b[0x8] || a[0x9] !== b[0x9] || a[0xA] !== b[0xA] || a[0xB] !== b[0xB] || a[0xC] !== b[0xC] || a[0xD] !== b[0xD] || a[0xE] !== b[0xE] || a[0xF] !== b[0xF];
-    }
     /**
      * Utility class for managing a shader uniform variable.
      * @class UniformLocation
@@ -14,13 +11,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
          */
         function UniformLocation(manager, name) {
-            // FIXME: No more mirroring.
-            this._x = void 0;
-            this._y = void 0;
-            this._z = void 0;
-            this._w = void 0;
-            this._matrix4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(function () { return void 0; });
-            this._transpose = void 0;
             expectArg('manager', manager).toBeObject().value;
             this._name = expectArg('name', name).toBeString().value;
         }
@@ -50,16 +40,44 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             this._context = void 0;
             this._location = void 0;
             this._program = void 0;
-            this._x = void 0;
-            this._y = void 0;
-            this._z = void 0;
-            this._w = void 0;
-            this._matrix4.map(function () { return void 0; });
-            this._transpose = void 0;
+        };
+        /**
+         * @method cartesian1
+         * @param coords {Cartesian1}
+         */
+        UniformLocation.prototype.cartesian1 = function (coords) {
+            this._context.useProgram(this._program);
+            this._context.uniform1f(this._location, coords.x);
+        };
+        /**
+         * @method cartesian2
+         * @param coords {Cartesian2}
+         */
+        UniformLocation.prototype.cartesian2 = function (coords) {
+            this._context.useProgram(this._program);
+            this._context.uniform2f(this._location, coords.x, coords.y);
+        };
+        /**
+         * @method cartesian3
+         * @param coords {Cartesian3}
+         */
+        UniformLocation.prototype.cartesian3 = function (coords) {
+            if (coords) {
+                this._context.useProgram(this._program);
+                this._context.uniform3f(this._location, coords.x, coords.y, coords.z);
+            }
+        };
+        /**
+         * @method cartesian4
+         * @param coords {Cartesian4}
+         */
+        UniformLocation.prototype.cartesian4 = function (coords) {
+            this._context.useProgram(this._program);
+            this._context.uniform4f(this._location, coords.x, coords.y, coords.z, coords.w);
         };
         /**
          * @method uniform1f
-         * @param x
+         * @param x {number}
          */
         UniformLocation.prototype.uniform1f = function (x) {
             this._context.useProgram(this._program);
@@ -128,76 +146,42 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param matrix {Matrix4}
          */
         UniformLocation.prototype.matrix4 = function (transpose, matrix) {
-            this._context.useProgram(this._program);
-            var matrix4 = this._matrix4;
-            var data = matrix.data;
-            if (matrix4NE(matrix4, data) || this._transpose != transpose) {
-                this._context.uniformMatrix4fv(this._location, transpose, data);
-                // TODO: Use Matrix4.
-                matrix4[0x0] = data[0x0];
-                matrix4[0x1] = data[0x1];
-                matrix4[0x2] = data[0x2];
-                matrix4[0x3] = data[0x3];
-                matrix4[0x4] = data[0x4];
-                matrix4[0x5] = data[0x5];
-                matrix4[0x6] = data[0x6];
-                matrix4[0x7] = data[0x7];
-                matrix4[0x8] = data[0x8];
-                matrix4[0x9] = data[0x9];
-                matrix4[0xA] = data[0xA];
-                matrix4[0xB] = data[0xB];
-                matrix4[0xC] = data[0xC];
-                matrix4[0xD] = data[0xD];
-                matrix4[0xE] = data[0xE];
-                matrix4[0xF] = data[0xF];
-                this._transpose = transpose;
+            if (matrix) {
+                this._context.useProgram(this._program);
+                this._context.uniformMatrix4fv(this._location, transpose, matrix.data);
             }
         };
         /**
          * @method vector1
-         * @param vector {Vector1}
+         * @param data {number[]}
          */
-        UniformLocation.prototype.vector1 = function (vector) {
+        UniformLocation.prototype.vector1 = function (data) {
             this._context.useProgram(this._program);
-            this._context.uniform1fv(this._location, vector.data);
+            this._context.uniform1fv(this._location, data);
         };
         /**
          * @method vector2
-         * @param vector {Vector2}
+         * @param data {number[]}
          */
-        UniformLocation.prototype.vector2 = function (vector) {
+        UniformLocation.prototype.vector2 = function (data) {
             this._context.useProgram(this._program);
-            this._context.uniform2fv(this._location, vector.data);
+            this._context.uniform2fv(this._location, data);
         };
         /**
          * @method vector3
-         * @param vector {Vector3}
+         * @param data {number[]}
          */
-        UniformLocation.prototype.vector3 = function (vector) {
-            if (vector) {
-                this._context.useProgram(this._program);
-                var data = vector.data;
-                var x = data[0];
-                var y = data[1];
-                var z = data[2];
-                if (this._x !== x || this._y !== y || this._z !== z) {
-                    this._context.uniform3fv(this._location, data);
-                    this._x = x;
-                    this._y = y;
-                    this._z = z;
-                }
-            }
-            else {
-                console.warn("UniformLocation.vector3 called with `typeof vector` => " + typeof vector);
-            }
+        UniformLocation.prototype.vector3 = function (data) {
+            this._context.useProgram(this._program);
+            this._context.uniform3fv(this._location, data);
         };
         /**
          * @method vector4
-         * @param vector {Vector4}
+         * @param data {number[]}
          */
-        UniformLocation.prototype.vector4 = function (vector) {
+        UniformLocation.prototype.vector4 = function (data) {
             this._context.useProgram(this._program);
-            this._context.uniform4fv(this._location, vector.data);
+            this._context.uniform4fv(this._location, data);
         };
         /**
          * @method toString

@@ -4,7 +4,7 @@ import mustBeDefined = require('../checks/mustBeDefined');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 
 /**
- *
+ * Generates a fragment shader
  */
 function fragmentShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vLight: boolean) {
 
@@ -14,6 +14,7 @@ function fragmentShader(attributes: { [name: string]: AttribMetaInfo }, uniforms
   mustBeBoolean('vLight', vLight);
 
   var lines: string[] = [];
+  lines.push("// generated fragment shader")
   if (vColor) {
     lines.push("varying highp vec4 vColor;");
   }

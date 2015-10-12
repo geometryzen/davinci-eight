@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.125.0</em>
+            <em>API Docs for: 2.126.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -63,6 +64,7 @@
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
@@ -107,8 +109,12 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
+                                <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
@@ -141,6 +147,7 @@
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
@@ -195,7 +202,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:33</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:27</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -234,7 +241,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:33</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:27</code></a>
         </p>
 
 
@@ -294,6 +301,22 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_cartesian1">cartesian1</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_cartesian2">cartesian2</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_cartesian3">cartesian3</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_cartesian4">cartesian4</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_contextFree">contextFree</a>
 
@@ -368,6 +391,214 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_cartesian1" class="method item">
+    <h3 class="name"><code>cartesian1</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>coords</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:64</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">coords</code>
+                        <span class="type"><a href="../classes/Cartesian1.html" class="crosslink">Cartesian1</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_cartesian2" class="method item">
+    <h3 class="name"><code>cartesian2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>coords</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:72</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">coords</code>
+                        <span class="type"><a href="../classes/Cartesian2.html" class="crosslink">Cartesian2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_cartesian3" class="method item">
+    <h3 class="name"><code>cartesian3</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>coords</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:80</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">coords</code>
+                        <span class="type"><a href="../classes/Cartesian3.html" class="crosslink">Cartesian3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_cartesian4" class="method item">
+    <h3 class="name"><code>cartesian4</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>coords</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:90</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">coords</code>
+                        <span class="type"><a href="../classes/Cartesian4.html" class="crosslink">Cartesian4</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_contextFree" class="method item">
     <h3 class="name"><code>contextFree</code></h3>
 
@@ -383,7 +614,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:43</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:37</code></a>
         </p>
 
 
@@ -422,7 +653,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:49</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:43</code></a>
         </p>
 
 
@@ -478,7 +709,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:62</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:56</code></a>
         </p>
 
 
@@ -517,7 +748,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:114</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l136"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:136</code></a>
         </p>
 
 
@@ -544,7 +775,7 @@
                 </li>
                 <li class="param">
                         <code class="param-name">matrix</code>
-                        <span class="type">Matrix1</span>
+                        <span class="type"><a href="../classes/Matrix1.html" class="crosslink">Matrix1</a></span>
 
 
                     <div class="param-description">
@@ -582,7 +813,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:123</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l145"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:145</code></a>
         </p>
 
 
@@ -609,7 +840,7 @@
                 </li>
                 <li class="param">
                         <code class="param-name">matrix</code>
-                        <span class="type">Matrix2</span>
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
 
 
                     <div class="param-description">
@@ -647,7 +878,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:132</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:154</code></a>
         </p>
 
 
@@ -674,7 +905,7 @@
                 </li>
                 <li class="param">
                         <code class="param-name">matrix</code>
-                        <span class="type">Matrix3</span>
+                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
 
 
                     <div class="param-description">
@@ -712,7 +943,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:141</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l163"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:163</code></a>
         </p>
 
 
@@ -768,7 +999,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:218</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:206</code></a>
         </p>
 
 
@@ -804,7 +1035,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:76</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:98</code></a>
         </p>
 
 
@@ -821,7 +1052,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">x</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
                     <div class="param-description">
@@ -859,7 +1090,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:84</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:106</code></a>
         </p>
 
 
@@ -927,7 +1158,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:93</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:115</code></a>
         </p>
 
 
@@ -1008,7 +1239,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:103</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l125"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:125</code></a>
         </p>
 
 
@@ -1075,7 +1306,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>vector</code>
+                        <code>data</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1090,7 +1321,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:172</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:174</code></a>
         </p>
 
 
@@ -1106,8 +1337,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/Vector1.html" class="crosslink">Vector1</a></span>
+                        <code class="param-name">data</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number[]</a></span>
 
 
                     <div class="param-description">
@@ -1127,7 +1358,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>vector</code>
+                        <code>data</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1142,7 +1373,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:180</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l182"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:182</code></a>
         </p>
 
 
@@ -1158,8 +1389,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/Vector2.html" class="crosslink">Vector2</a></span>
+                        <code class="param-name">data</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number[]</a></span>
 
 
                     <div class="param-description">
@@ -1179,7 +1410,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>vector</code>
+                        <code>data</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1194,7 +1425,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l188"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:188</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:190</code></a>
         </p>
 
 
@@ -1210,8 +1441,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+                        <code class="param-name">data</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number[]</a></span>
 
 
                     <div class="param-description">
@@ -1231,7 +1462,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>vector</code>
+                        <code>data</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1246,7 +1477,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l210"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:210</code></a>
+        <a href="../files/src_davinci-eight_core_UniformLocation.ts.html#l198"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformLocation.ts:198</code></a>
         </p>
 
 
@@ -1262,8 +1493,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/Vector4.html" class="crosslink">Vector4</a></span>
+                        <code class="param-name">data</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number[]</a></span>
 
 
                     <div class="param-description">

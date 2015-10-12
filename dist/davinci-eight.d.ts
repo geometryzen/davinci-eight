@@ -488,24 +488,32 @@ class Euclidean3 implements Cartesian3, Spinor3Coords {
 /**
  *
  */
-class Matrix1 {
+class AbstractMatrix implements Mutable<Float32Array> {
   public data: Float32Array;
+  public dimensions: number;
+  public callback: () => Float32Array;
+  public modified: boolean;
+  constructor(data: Float32Array, dimensions: number);
+}
+
+/**
+ *
+ */
+class Matrix1 extends AbstractMatrix {
   constructor(data: Float32Array);
 }
 
 /**
  *
  */
-class Matrix2 {
-  public data: Float32Array;
+class Matrix2 extends AbstractMatrix {
   constructor(data: Float32Array);
 }
 
 /**
  *
  */
-class Matrix3 {
-  public data: Float32Array;
+class Matrix3 extends AbstractMatrix {
   constructor(data: Float32Array);
   /**
    * Generates a new identity matrix.
@@ -524,8 +532,7 @@ class Matrix3 {
 /**
  *
  */
-class Matrix4 {
-  public data: Float32Array;
+class Matrix4 extends AbstractMatrix {
   constructor(data: Float32Array);
   /**
    * Generates a new identity matrix.
@@ -546,6 +553,10 @@ class Matrix4 {
   /**
    *
    */
+  clone(): Matrix4;
+  /**
+   *
+   */
   copy(matrix: Matrix4): Matrix4;
   /**
    *
@@ -558,13 +569,14 @@ class Matrix4 {
   invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
   multiply(matrix: Matrix4): Matrix4;
   product(a: Matrix4, b: Matrix4): Matrix4;
-  rotate(spinor: Spinor3Coords): void;
-  rotation(spinor: Spinor3Coords): void;
-  scale(scale: Cartesian3): void;
-  scaling(scale: Cartesian3): void;
-  translate(displacement: Cartesian3): void;
-  translation(displacement: Cartesian3): void;
-  frustum(left: number, right: number, bottom: number, top: number, near: number, far: number);
+  rotate(spinor: Spinor3Coords): Matrix4;
+  rotation(spinor: Spinor3Coords): Matrix4;
+  scale(scale: Cartesian3): Matrix4;
+  scaling(scale: Cartesian3): Matrix4;
+  translate(displacement: Cartesian3): Matrix4;
+  translation(displacement: Cartesian3): Matrix4;
+  transpose(): Matrix4;
+  frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4;
   toString(): string;
   toFixed(digits?: number): string;
 }
@@ -765,10 +777,10 @@ interface IFacetVisitor {
   uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number);
   uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number);
   uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number);
-  uniformVector1(name: string, vector: Vector1, canvasId: number);
-  uniformVector2(name: string, vector: Vector2, canvasId: number);
-  uniformVector3(name: string, vector: Vector3, canvasId: number);
-  uniformVector4(name: string, vector: Vector4, canvasId: number);
+  uniformCartesian1(name: string, vector: Vector1, canvasId: number);
+  uniformCartesian2(name: string, vector: Vector2, canvasId: number);
+  uniformCartesian3(name: string, vector: Vector3, canvasId: number);
+  uniformCartesian4(name: string, vector: Vector4, canvasId: number);
 }
 
 /**
@@ -1437,12 +1449,12 @@ interface ContextRenderer extends IContextConsumer, IUnknown {
    * Pushes a command onto the list of commands to be executed by the `prolog()` method.
    * command: The command to execute.
    */
-  addPrologCommand(command: IPrologCommand): void;
+  addPrologCommand(command: IPrologCommand): IPrologCommand;
   /**
    * Pushes a command onto the list of commands to be executed on contextGain.
    * command: The command to execute.
    */
-  addContextGainCommand(command: IContextCommand): void;
+  addContextGainCommand(command: IContextCommand): IContextCommand;
   /**
    * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
    */
@@ -1486,8 +1498,8 @@ class Canvas3D implements ContextController, IContextMonitor, ContextRenderer {
    * Executes commands in the prolog list. e.g., 
    */
   prolog(): void;
-  addPrologCommand(command: IPrologCommand): void;
-  addContextGainCommand(command: IContextCommand): void;
+  addPrologCommand(command: IPrologCommand): IPrologCommand;
+  addContextGainCommand(command: IContextCommand): IContextCommand;
   release(): number;
   removeContextListener(user: IContextConsumer): void;
   /**
@@ -1631,10 +1643,10 @@ class Material implements IMaterial {
   uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void
   uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void
   uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void
-  uniformVector1(name: string, vector: Vector1, canvasId: number): void
-  uniformVector2(name: string, vector: Vector2, canvasId: number): void
-  uniformVector3(name: string, vector: Vector3, canvasId: number): void
-  uniformVector4(name: string, vector: Vector4, canvasId: number): void
+  uniformCartesian1(name: string, vector: Vector1, canvasId: number): void
+  uniformCartesian2(name: string, vector: Vector2, canvasId: number): void
+  uniformCartesian3(name: string, vector: Vector3, canvasId: number): void
+  uniformCartesian4(name: string, vector: Vector4, canvasId: number): void
 }
 
 /**
@@ -1730,6 +1742,13 @@ class MeshMaterial extends Material {
   constructor(contexts?: IContextMonitor[], parameters?: MeshMaterialParameters);
 }
 
+/**
+ *
+ */
+class MeshLambertMaterial extends Material {
+  constructor(contexts?: IContextMonitor[]);
+}
+
 class SmartMaterialBuilder {
   constructor(elements?: GeometryElements);
   public attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
@@ -1737,6 +1756,9 @@ class SmartMaterialBuilder {
   public build(contexts: IContextMonitor[]): Material;
 }
 
+/**
+ *
+ */
 class ColorFacet extends Shareable implements IFacet, IProperties, IUnknownExt<ColorFacet> {
   red: number;
   green: number;
@@ -1752,6 +1774,15 @@ class ColorFacet extends Shareable implements IFacet, IProperties, IUnknownExt<C
   setRGB(red: number, green: number, blue: number): ColorFacet;
   setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
+
+class DirectionalLight extends Shareable implements IFacet {
+  public direction: Vector3;
+  public color: Color;
+  constructor();
+  destructor(): void;
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+}
+
 
 // FIXME SineUniformsSetter
 class SineWaveUniform extends Shareable implements IFacet {
@@ -1769,6 +1800,14 @@ class EulerFacet extends Shareable implements IFacet {
   setUniforms(visitor: IFacetVisitor, canvasId: number): void
 }
 
+/**
+ * A (name: string, vector: Vector3) pair that can be used to set a uniform variable.
+ */
+class Vector3Uniform extends Shareable implements IFacet {
+  constructor(name: string, vector: Vector3);
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+}
+
 class RoundUniform implements IFacetVisitor {
   next: IFacetVisitor;
   constructor();
@@ -1780,10 +1819,10 @@ class RoundUniform implements IFacetVisitor {
   uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number);
   uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number);
   uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number);
-  uniformVector1(name: string, vector: Vector1, canvasId: number);
-  uniformVector2(name: string, vector: Vector2, canvasId: number);
-  uniformVector3(name: string, vector: Vector3, canvasId: number);
-  uniformVector4(name: string, vector: Vector4, canvasId: number);
+  uniformCartesian1(name: string, vector: Vector1, canvasId: number);
+  uniformCartesian2(name: string, vector: Vector2, canvasId: number);
+  uniformCartesian3(name: string, vector: Vector3, canvasId: number);
+  uniformCartesian4(name: string, vector: Vector4, canvasId: number);
 }
 
 // commands

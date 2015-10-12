@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.125.0</em>
+            <em>API Docs for: 2.126.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -63,6 +64,7 @@
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
@@ -107,8 +109,12 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
+                                <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
@@ -141,6 +147,7 @@
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
@@ -198,7 +205,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:35</code></a>
+            Defined in: <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:57</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -238,7 +245,7 @@ The default settings create a unit cube centered at the origin.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:35</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:57</code></a>
         </p>
 
 
@@ -343,23 +350,43 @@ The default settings create a unit cube centered at the origin.
 
                     <ul class="index-list properties extends">
                             <li class="index-item property private">
+                                <a href="#property__a">_a</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__b">_b</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__c">_c</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__isModified">_isModified</a>
+
+                            </li>
+                            <li class="index-item property private">
                                 <a href="#property__k  The dimensionality of the simplices representing the cuboid.">_k  The dimensionality of the simplices representing the cuboid.</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.">a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.</a>
+                                <a href="#property_a">a</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.">b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.</a>
+                                <a href="#property_b">b</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.">c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.</a>
+                                <a href="#property_c">c</a>
 
                             </li>
                             <li class="index-item property inherited">
                                 <a href="#property_data">data</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_k">k</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -592,7 +619,7 @@ as the last call in the derived class destructor.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:80</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:170</code></a>
         </p>
 
 
@@ -685,7 +712,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:68</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l157"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:157</code></a>
         </p>
 
 
@@ -833,6 +860,110 @@ Notifies this instance that something is dereferencing it.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property__a" class="property item private">
+    <h3 class="name"><code>_a</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:24</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Parameter is private so that we can detect assignments.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property__b" class="property item private">
+    <h3 class="name"><code>_b</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:31</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Parameter is private so that we can detect assignments.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property__c" class="property item private">
+    <h3 class="name"><code>_c</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:38</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Parameter is private so that we can detect assignments.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property__isModified" class="property item private">
+    <h3 class="name"><code>_isModified</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:50</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Used to mark the parameters of this object dirty when they are possibly shared.</p>
+
+    </div>
+
+
+
+</div>
 <div id="property__k  The dimensionality of the simplices representing the cuboid." class="property item private">
     <h3 class="name"><code>_k  The dimensionality of the simplices representing the cuboid.</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
@@ -845,7 +976,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:30</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:45</code></a>
         </p>
 
 
@@ -858,8 +989,8 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="property_a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1." class="property item">
-    <h3 class="name"><code>a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.</code></h3>
+<div id="property_a" class="property item">
+    <h3 class="name"><code>a</code></h3>
     <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
 
@@ -869,21 +1000,25 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:18</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:80</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+A vector parameterizing the shape of the cuboid.
+Defaults to the standard basis vector e1.
+Assignment is by reference making it possible for parameters to be shared references.
+</p>
     </div>
 
 
 
 </div>
-<div id="property_b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2." class="property item">
-    <h3 class="name"><code>b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.</code></h3>
+<div id="property_b" class="property item">
+    <h3 class="name"><code>b</code></h3>
     <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
 
@@ -893,21 +1028,25 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:22</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:101</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+A vector parameterizing the shape of the cuboid.
+Defaults to the standard basis vector e2.
+Assignment is by reference making it possible for parameters to be shared references.
+</p>
     </div>
 
 
 
 </div>
-<div id="property_c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3." class="property item">
-    <h3 class="name"><code>c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.</code></h3>
+<div id="property_c" class="property item">
+    <h3 class="name"><code>c</code></h3>
     <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
 
@@ -917,14 +1056,18 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:26</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:122</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+A vector parameterizing the shape of the cuboid.
+Defaults to the standard basis vector e3.
+Assignment is by reference making it possible for parameters to be shared references.
+</p>
     </div>
 
 
@@ -942,6 +1085,30 @@ Notifies this instance that something is dereferencing it.
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property_data">Geometry</a>:
         <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:15</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_k" class="property item">
+    <h3 class="name"><code>k</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:143</code></a>
         </p>
 
 

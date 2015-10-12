@@ -140,7 +140,7 @@ define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math
             }
         };
         ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.uniformVector3(this.name, this.data, canvasId);
+            visitor.uniformCartesian3(this.name, this.data, canvasId);
         };
         /**
          * property PROP_RGB

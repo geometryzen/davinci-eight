@@ -102,17 +102,29 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
       return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
     },
-    uniformVector1(name: string, vector: Vector1, canvasId: number) {
-      return innerProgram.uniformVector1(name, vector, canvasId);
+    uniformCartesian1(name: string, vector: Vector1, canvasId: number) {
+      return innerProgram.uniformCartesian1(name, vector, canvasId);
     },
-    uniformVector2(name: string, vector: Vector2, canvasId: number) {
-      return innerProgram.uniformVector2(name, vector, canvasId);
+    uniformCartesian2(name: string, vector: Vector2, canvasId: number) {
+      return innerProgram.uniformCartesian2(name, vector, canvasId);
     },
-    uniformVector3(name: string, vector: Vector3, canvasId: number) {
-      return innerProgram.uniformVector3(name, vector, canvasId);
+    uniformCartesian3(name: string, vector: Vector3, canvasId: number) {
+      return innerProgram.uniformCartesian3(name, vector, canvasId);
     },
-    uniformVector4(name: string, vector: Vector4, canvasId: number) {
-      return innerProgram.uniformVector4(name, vector, canvasId);
+    uniformCartesian4(name: string, vector: Vector4, canvasId: number) {
+      return innerProgram.uniformCartesian4(name, vector, canvasId);
+    },
+    vector1(name: string, data: number[], canvasId: number): void {
+      return innerProgram.vector1(name, data, canvasId);
+    },
+    vector2(name: string, data: number[], canvasId: number): void {
+      return innerProgram.vector2(name, data, canvasId);
+    },
+    vector3(name: string, data: number[], canvasId: number): void {
+      return innerProgram.vector3(name, data, canvasId);
+    },
+    vector4(name: string, data: number[], canvasId: number): void {
+      return innerProgram.vector4(name, data, canvasId);
     }
   }
 

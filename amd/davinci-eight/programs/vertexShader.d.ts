@@ -1,7 +1,7 @@
 import AttribMetaInfo = require('../core/AttribMetaInfo');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 /**
- *
+ * Generates a vertex shader.
  */
 declare function vertexShader(attributes: {
     [name: string]: AttribMetaInfo;

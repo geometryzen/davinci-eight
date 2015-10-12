@@ -6,22 +6,38 @@ import Vector3 = require('../math/Vector3');
  */
 declare class CuboidGeometry extends Geometry {
     /**
-     * @property a {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.
+     * Parameter is private so that we can detect assignments.
+     * @property _a
+     * @type {Vector3}
+     * @private
      */
-    a: Vector3;
+    private _a;
     /**
-     * @property b {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.
+     * Parameter is private so that we can detect assignments.
+     * @property _b
+     * @type {Vector3}
+     * @private
      */
-    b: Vector3;
+    private _b;
     /**
-     * @property c {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.
+     * Parameter is private so that we can detect assignments.
+     * @property _c
+     * @type {Vector3}
+     * @private
      */
-    c: Vector3;
+    private _c;
     /**
      * @property _k {number} The dimensionality of the simplices representing the cuboid.
      * @private
      */
     private _k;
+    /**
+     * Used to mark the parameters of this object dirty when they are possibly shared.
+     * @property _isModified
+     * @type {boolean}
+     * @private
+     */
+    private _isModified;
     /**
      * <p>
      * The <code>CuboidGeometry</code> generates simplices representing a cuboid, or more precisely a parallelepiped.
@@ -40,7 +56,38 @@ declare class CuboidGeometry extends Geometry {
      */
     constructor(type?: string);
     /**
-     *
+     * <p>
+     * A vector parameterizing the shape of the cuboid.
+     * Defaults to the standard basis vector e1.
+     * Assignment is by reference making it possible for parameters to be shared references.
+     * </p>
+     * @property a
+     * @type {Vector3}
+     */
+    a: Vector3;
+    /**
+     * <p>
+     * A vector parameterizing the shape of the cuboid.
+     * Defaults to the standard basis vector e2.
+     * Assignment is by reference making it possible for parameters to be shared references.
+     * </p>
+     * @property b
+     * @type {Vector3}
+     */
+    b: Vector3;
+    /**
+     * <p>
+     * A vector parameterizing the shape of the cuboid.
+     * Defaults to the standard basis vector e3.
+     * Assignment is by reference making it possible for parameters to be shared references.
+     * </p>
+     * @property c
+     * @type {Vector3}
+     */
+    c: Vector3;
+    /**
+     * @property k
+     * @type {number}
      */
     k: number;
     isModified(): boolean;

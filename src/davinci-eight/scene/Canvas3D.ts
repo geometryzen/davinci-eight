@@ -139,11 +139,11 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   prolog(): void {
     this._renderer.prolog()
   }
-  addPrologCommand(command: IPrologCommand): void {
-    this._renderer.addPrologCommand(command)
+  addPrologCommand(command: IPrologCommand): IPrologCommand {
+    return this._renderer.addPrologCommand(command)
   }
-  addContextGainCommand(command: IContextCommand): void {
-    this._renderer.addContextGainCommand(command)
+  addContextGainCommand(command: IContextCommand): IContextCommand {
+    return this._renderer.addContextGainCommand(command)
   }
   removeContextListener(user: IContextConsumer): void {
     this._kahuna.removeContextListener(user)

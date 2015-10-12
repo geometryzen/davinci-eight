@@ -10,10 +10,10 @@ import Spinor3Coords = require('../math/Spinor3Coords');
 import Cartesian3 = require('../math/Cartesian3');
 // TODO: Probably better not to couple this way.
 import frustumMatrix = require('../cameras/frustumMatrix');
+
 /**
- * 4x4 matrix integrating with WebGL.
- *
  * @class Matrix4
+ * @extends AbstractMatrix
  */
 class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
 // The correspondence between the data property index and the matrix entries is...
@@ -23,15 +23,35 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
 //  2  6 10 14
 //  3  7 11 15
   /**
+   * 4x4 (square) matrix of numbers.
    * Constructs a Matrix4 by wrapping a Float32Array.
    * @class Matrix4
    * @constructor
    */
   constructor(data: Float32Array) {
-    super(data, 16);
+    super(data, 4);
   }
+  /**
+   * <p>
+   * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+   * </p>
+   * @method identity
+   * @return {Matrix3}
+   * @static
+   */
   public static identity() {
     return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+  }
+  /**
+   * <p>
+   * Creates a new matrix with all elements zero.
+   * </p>
+   * @method zero
+   * @return {Matrix4}
+   * @static
+   */
+  public static zero() {
+    return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
   }
   public static scaling(scale: Cartesian3): Matrix4 {
     return Matrix4.identity().scaling(scale);
@@ -42,8 +62,13 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
   public static rotation(spinor: Spinor3Coords): Matrix4 {
     return Matrix4.identity().rotation(spinor);
   }
+  /**
+   * Returns a copy of this Matrix4 instance.
+   * @method clone
+   * @return {Matrix}
+   */
   clone(): Matrix4 {
-    return Matrix4.identity().copy(this);
+    return Matrix4.zero().copy(this);
   }
   compose(scale: Cartesian3, attitude: Spinor3Coords, position: Cartesian3): Matrix4 {
     // We 
@@ -134,7 +159,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
   identity(): Matrix4 {
     return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   }
-  scale(s: number) {
+  scale(s: number): Matrix4 {
     let te = this.data;
     te[ 0 ] *= s; te[ 4 ] *= s; te[ 8 ] *= s; te[ 12 ] *= s;
     te[ 1 ] *= s; te[ 5 ] *= s; te[ 9 ] *= s; te[ 13 ] *= s;
@@ -142,6 +167,10 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     te[ 3 ] *= s; te[ 7 ] *= s; te[ 11 ] *= s; te[ 15 ] *= s;
     return this;
   }
+  /**
+   * @method transpose
+   * @return {Matrix4}
+   */
   transpose(): Matrix4 {
     let te: Float32Array = this.data;
     var tmp: number;
@@ -233,8 +262,9 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     return this;
   }
   /**
-   * @method
+   * @method row
    * @param i {number} the zero-based index of the row.
+   * @return {number[]}
    */
   row(i: number): number[] {
     let te = this.data;
@@ -289,7 +319,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
   toFixed(digits?: number): string {
     if (isDefined(digits)) {expectArg('digits', digits).toBeNumber();}
     let text: string[] = [];
-    for (var i = 0; i <= 3;i++) {
+    for (var i = 0; i <= this.dimensions - 1; i++) {
       text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(digits) }).join(' '));
     }
     return text.join('\n');

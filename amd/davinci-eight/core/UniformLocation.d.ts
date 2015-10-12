@@ -1,13 +1,13 @@
+import Cartesian1 = require('../math/Cartesian1');
+import Cartesian2 = require('../math/Cartesian2');
+import Cartesian3 = require('../math/Cartesian3');
+import Cartesian4 = require('../math/Cartesian4');
 import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import IContextProgramConsumer = require('../core/IContextProgramConsumer');
 import IContextProvider = require('../core/IContextProvider');
-import Vector1 = require('../math/Vector1');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
-import Vector4 = require('../math/Vector4');
 /**
  * Utility class for managing a shader uniform variable.
  * @class UniformLocation
@@ -17,12 +17,6 @@ declare class UniformLocation implements IContextProgramConsumer {
     private _location;
     private _name;
     private _program;
-    private _x;
-    private _y;
-    private _z;
-    private _w;
-    private _matrix4;
-    private _transpose;
     /**
      * @class UniformLocation
      * @constructor
@@ -45,8 +39,28 @@ declare class UniformLocation implements IContextProgramConsumer {
      */
     contextLost(): void;
     /**
+     * @method cartesian1
+     * @param coords {Cartesian1}
+     */
+    cartesian1(coords: Cartesian1): void;
+    /**
+     * @method cartesian2
+     * @param coords {Cartesian2}
+     */
+    cartesian2(coords: Cartesian2): void;
+    /**
+     * @method cartesian3
+     * @param coords {Cartesian3}
+     */
+    cartesian3(coords: Cartesian3): void;
+    /**
+     * @method cartesian4
+     * @param coords {Cartesian4}
+     */
+    cartesian4(coords: Cartesian4): void;
+    /**
      * @method uniform1f
-     * @param x
+     * @param x {number}
      */
     uniform1f(x: number): void;
     /**
@@ -96,24 +110,24 @@ declare class UniformLocation implements IContextProgramConsumer {
     matrix4(transpose: boolean, matrix: Matrix4): void;
     /**
      * @method vector1
-     * @param vector {Vector1}
+     * @param data {number[]}
      */
-    vector1(vector: Vector1): void;
+    vector1(data: number[]): void;
     /**
      * @method vector2
-     * @param vector {Vector2}
+     * @param data {number[]}
      */
-    vector2(vector: Vector2): void;
+    vector2(data: number[]): void;
     /**
      * @method vector3
-     * @param vector {Vector3}
+     * @param data {number[]}
      */
-    vector3(vector: Vector3): void;
+    vector3(data: number[]): void;
     /**
      * @method vector4
-     * @param vector {Vector4}
+     * @param data {number[]}
      */
-    vector4(vector: Vector4): void;
+    vector4(data: number[]): void;
     /**
      * @method toString
      */

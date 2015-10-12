@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.125.0</em>
+            <em>API Docs for: 2.126.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -63,6 +64,7 @@
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
@@ -107,8 +109,12 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
+                                <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
@@ -141,6 +147,7 @@
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
@@ -194,87 +201,89 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttribMetaInfo = require(&#x27;../core/AttribMetaInfo&#x27;);
-import getAttribVarName = require(&#x27;../core/getAttribVarName&#x27;);
-import getUniformVarName = require(&#x27;../core/getUniformVarName&#x27;);
-import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;);
-import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;);
-import Symbolic = require(&#x27;../core/Symbolic&#x27;);
-import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
+import AttribMetaInfo = require(&#x27;../core/AttribMetaInfo&#x27;)
+import getAttribVarName = require(&#x27;../core/getAttribVarName&#x27;)
+import getUniformVarName = require(&#x27;../core/getUniformVarName&#x27;)
+import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;)
+import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
+import Symbolic = require(&#x27;../core/Symbolic&#x27;)
+import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;)
 
 function getUniformCodeName(uniforms: { [name: string]: UniformMetaInfo }, name: string) {
-  return getUniformVarName(uniforms[name], name);
+  return getUniformVarName(uniforms[name], name)
 }
 
-let SPACE = &#x27; &#x27;;
-let ATTRIBUTE = &#x27;attribute&#x27; + SPACE;
-let UNIFORM = &#x27;uniform&#x27; + SPACE;
-let COMMA = &#x27;,&#x27; + SPACE;
-let SEMICOLON = &#x27;;&#x27;;
-let LPAREN = &#x27;(&#x27;;
-let RPAREN = &#x27;)&#x27;;
-let TIMES  = SPACE + &#x27;*&#x27; + SPACE;
-let ASSIGN = SPACE + &#x27;=&#x27; + SPACE;
+let SPACE = &#x27; &#x27;
+let ATTRIBUTE = &#x27;attribute&#x27; + SPACE
+let UNIFORM = &#x27;uniform&#x27; + SPACE
+let COMMA = &#x27;,&#x27; + SPACE
+let SEMICOLON = &#x27;;&#x27;
+let LPAREN = &#x27;(&#x27;
+let RPAREN = &#x27;)&#x27;
+let TIMES  = SPACE + &#x27;*&#x27; + SPACE
+let ASSIGN = SPACE + &#x27;=&#x27; + SPACE
 let DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = &quot;directionalLightCosineFactor&quot;
 
 function indent(n: number): string {
   return SPACE + SPACE
 }
+
 /**
- * 
+ * Generates a vertex shader.
  */
 function vertexShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vLight: boolean): string {
 
-  mustBeDefined(&#x27;attributes&#x27;, attributes);
-  mustBeDefined(&#x27;uniforms&#x27;, uniforms);
-  mustBeBoolean(&#x27;vColor&#x27;, vColor);
-  mustBeBoolean(&#x27;vLight&#x27;, vLight);
+  mustBeDefined(&#x27;attributes&#x27;, attributes)
+  mustBeDefined(&#x27;uniforms&#x27;, uniforms)
+  mustBeBoolean(&#x27;vColor&#x27;, vColor)
+  mustBeBoolean(&#x27;vLight&#x27;, vLight)
 
-  var lines: string[] = [];
+  var lines: string[] = []
+  lines.push(&quot;// generated vertex shader&quot;)
   for (var aName in attributes) {
-    lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON);
+    lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON)
   }
   for (var uName in uniforms) {
-    lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
+    lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON)
   }
   if (vColor) {
-    lines.push(&quot;varying highp vec4 vColor;&quot;);
+    lines.push(&quot;varying highp vec4 vColor;&quot;)
   }
   if (vLight) {
     lines.push(&quot;varying highp vec3 vLight;&quot;);
   }
-  lines.push(&quot;void main(void) {&quot;);
-  let glPosition: string[] = [];
-  glPosition.unshift(SEMICOLON);
+  lines.push(&quot;void main(void) {&quot;)
+  let glPosition: string[] = []
+  glPosition.unshift(SEMICOLON)
 
   if (attributes[Symbolic.ATTRIBUTE_POSITION]) {
-    glPosition.unshift(RPAREN);
-    glPosition.unshift(&quot;1.0&quot;);
-    glPosition.unshift(COMMA);
-    glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
-    glPosition.unshift(LPAREN);
-    glPosition.unshift(&quot;vec4&quot;);
+    glPosition.unshift(RPAREN)
+    glPosition.unshift(&quot;1.0&quot;)
+    glPosition.unshift(COMMA)
+    glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION))
+    glPosition.unshift(LPAREN)
+    glPosition.unshift(&quot;vec4&quot;)
   }
   else {
-    glPosition.unshift(&quot;vec4(0.0, 0.0, 0.0, 1.0)&quot;);
+    glPosition.unshift(&quot;vec4(0.0, 0.0, 0.0, 1.0)&quot;)
   }
 
   if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
-    glPosition.unshift(TIMES);
-    glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));
+    glPosition.unshift(TIMES)
+    glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX))
   }
   if (uniforms[Symbolic.UNIFORM_VIEW_MATRIX]) {
-    glPosition.unshift(TIMES);
-    glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_VIEW_MATRIX));
+    glPosition.unshift(TIMES)
+    glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_VIEW_MATRIX))
   }
   if (uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]) {
-    glPosition.unshift(TIMES);
-    glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_PROJECTION_MATRIX));
+    glPosition.unshift(TIMES)
+    glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_PROJECTION_MATRIX))
   }
-  glPosition.unshift(ASSIGN);
-  glPosition.unshift(&quot;gl_Position&quot;);
-  glPosition.unshift(&#x27;  &#x27;);
-  lines.push(glPosition.join(&#x27;&#x27;));
+  glPosition.unshift(ASSIGN)
+  glPosition.unshift(&quot;gl_Position&quot;)
+  glPosition.unshift(&#x27;  &#x27;)
+  lines.push(glPosition.join(&#x27;&#x27;))
 
   if (uniforms[Symbolic.UNIFORM_POINT_SIZE]) {
     lines.push(&quot;  gl_PointSize = &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_POINT_SIZE) + &quot;;&quot;)
@@ -282,70 +291,71 @@ function vertexShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: 
 
   if (vColor) {
     if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-      let colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
+      let colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR)
       switch(attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
         case &#x27;vec4&#x27;: {
-          lines.push(&quot;  vColor = &quot; + colorAttribVarName + SEMICOLON);
+          lines.push(&quot;  vColor = &quot; + colorAttribVarName + SEMICOLON)
         }
-        break;
+        break
         case &#x27;vec3&#x27;: {
-          lines.push(&quot;  vColor = vec4(&quot; + colorAttribVarName + &quot;, 1.0);&quot;);
+          lines.push(&quot;  vColor = vec4(&quot; + colorAttribVarName + &quot;, 1.0);&quot;)
         }
-        break;
+        break
         default: {
-          throw new Error(&quot;Unexpected type for color attribute: &quot; + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
+          throw new Error(&quot;Unexpected type for color attribute: &quot; + attributes[Symbolic.ATTRIBUTE_COLOR].glslType)
         }
       }
     }
     else if (uniforms[Symbolic.UNIFORM_COLOR]) {
-      let colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
+      let colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR)
       switch(uniforms[Symbolic.UNIFORM_COLOR].glslType) {
         case &#x27;vec4&#x27;: {
-          lines.push(&quot;  vColor = &quot; + colorUniformVarName + SEMICOLON);
+          lines.push(&quot;  vColor = &quot; + colorUniformVarName + SEMICOLON)
         }
-        break;
+        break
         case &#x27;vec3&#x27;: {
-          lines.push(&quot;  vColor = vec4(&quot; + colorUniformVarName + &quot;, 1.0);&quot;);
+          lines.push(&quot;  vColor = vec4(&quot; + colorUniformVarName + &quot;, 1.0);&quot;)
         }
-        break;
+        break
         default: {
-          throw new Error(&quot;Unexpected type for color uniform: &quot; + uniforms[Symbolic.UNIFORM_COLOR].glslType);
+          throw new Error(&quot;Unexpected type for color uniform: &quot; + uniforms[Symbolic.UNIFORM_COLOR].glslType)
         }
       }
     }
     else {
-      lines.push(&quot;  vColor = vec4(1.0, 1.0, 1.0, 1.0);&quot;);
+      lines.push(&quot;  vColor = vec4(1.0, 1.0, 1.0, 1.0);&quot;)
     }
   }
 
   if (vLight) {
     if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] &amp;&amp; uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] &amp;&amp; uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] &amp;&amp; attributes[Symbolic.ATTRIBUTE_NORMAL]) {
-      lines.push(&quot;  vec3 L = normalize(&quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + &quot;);&quot;);
-      lines.push(&quot;  vec3 N = normalize(&quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_NORMAL_MATRIX) + &quot; * &quot; + getAttribVarName(attributes[Symbolic.ATTRIBUTE_NORMAL], Symbolic.ATTRIBUTE_NORMAL) + &quot;);&quot;);
-      lines.push(&quot;  float &quot; + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + &quot; = max(dot(N, L), 0.0);&quot;);
+      lines.push(&quot;  vec3 L = normalize(&quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + &quot;);&quot;)
+      lines.push(&quot;  vec3 N = normalize(&quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_NORMAL_MATRIX) + &quot; * &quot; + getAttribVarName(attributes[Symbolic.ATTRIBUTE_NORMAL], Symbolic.ATTRIBUTE_NORMAL) + &quot;);&quot;)
+      lines.push(&quot;  // The minus sign arises because L is the light direction, so we need dot(N, -L) = -dot(N, L)&quot;)
+      lines.push(&quot;  float &quot; + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + &quot; = max(-dot(N, L), 0.0);&quot;)
       if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-        lines.push(&quot;  vLight = &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + &quot; + &quot; + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + &quot; * &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + &quot;;&quot;);
+        lines.push(&quot;  vLight = &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + &quot; + &quot; + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + &quot; * &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + &quot;;&quot;)
       }
       else {
-        lines.push(&quot;  vLight = &quot; + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + &quot; * &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + &quot;;&quot;);
+        lines.push(&quot;  vLight = &quot; + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + &quot; * &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + &quot;;&quot;)
       }
     }
     else {
       if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-        lines.push(&quot;  vLight = &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + &quot;;&quot;);
+        lines.push(&quot;  vLight = &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + &quot;;&quot;)
       }
       else {
-        lines.push(&quot;  vLight = vec3(1.0, 1.0, 1.0);&quot;);
+        lines.push(&quot;  vLight = vec3(1.0, 1.0, 1.0);&quot;)
       }
     }
   }
-  lines.push(&quot;}&quot;);
+  lines.push(&quot;}&quot;)
 
-  let code = lines.join(&quot;\n&quot;);
-  return code;
+  let code = lines.join(&quot;\n&quot;)
+  return code
 }
 
-export = vertexShader;
+export = vertexShader
 
     </pre>
 </div>

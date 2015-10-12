@@ -226,48 +226,91 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                     }
                 }
             },
-            uniformVector1: function (name, vector, canvasId) {
+            uniformCartesian1: function (name, vector, canvasId) {
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.vector1(vector);
+                        uniformLoc.cartesian1(vector);
                     }
                 }
             },
-            uniformVector2: function (name, vector, canvasId) {
+            uniformCartesian2: function (name, vector, canvasId) {
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.vector2(vector);
+                        uniformLoc.cartesian2(vector);
                     }
                 }
             },
-            uniformVector3: function (name, vector, canvasId) {
+            uniformCartesian3: function (name, vector, canvasId) {
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.vector3(vector);
+                        uniformLoc.cartesian3(vector);
                     }
                 }
             },
-            uniformVector4: function (name, vector, canvasId) {
+            uniformCartesian4: function (name, vector, canvasId) {
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
-                    // FIXME: Renames to simply uniforms (what else could they be?)
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.vector4(vector);
+                        uniformLoc.cartesian4(vector);
+                    }
+                }
+            },
+            vector1: function (name, data, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector1(data);
+                    }
+                }
+            },
+            vector2: function (name, data, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector2(data);
+                    }
+                }
+            },
+            vector3: function (name, data, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector3(data);
+                    }
+                }
+            },
+            vector4: function (name, data, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector4(data);
                     }
                 }
             }

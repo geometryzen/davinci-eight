@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, mustBeInteger, mustBeString, quad, Simplex, Symbolic, Vector1, Vector3) {
+define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometries/computeFaceNormals', '../feedback/feedback', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, cannotAssignTypeToProperty, computeFaceNormals, feedback, Geometry, mustBeInteger, mustBeString, quad, Simplex, Symbolic, Vector1, Vector3) {
     /**
      * @class CuboidGeometry
      * @extends Geometry
@@ -30,27 +30,101 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../geometries
             if (type === void 0) { type = 'CuboidGeometry'; }
             _super.call(this, mustBeString('type', type));
             /**
-             * @property a {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.
-             */
-            this.a = Vector3.e1.clone();
-            /**
-             * @property b {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.
-             */
-            this.b = Vector3.e2.clone();
-            /**
-             * @property c {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.
-             */
-            this.c = Vector3.e3.clone();
-            /**
              * @property _k {number} The dimensionality of the simplices representing the cuboid.
              * @private
              */
             this._k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+            /**
+             * Used to mark the parameters of this object dirty when they are possibly shared.
+             * @property _isModified
+             * @type {boolean}
+             * @private
+             */
+            this._isModified = true;
+            this.a = Vector3.e1.clone();
+            this.b = Vector3.e2.clone();
+            this.c = Vector3.e3.clone();
             this.recalculate();
         }
+        Object.defineProperty(CuboidGeometry.prototype, "a", {
+            /**
+             * <p>
+             * A vector parameterizing the shape of the cuboid.
+             * Defaults to the standard basis vector e1.
+             * Assignment is by reference making it possible for parameters to be shared references.
+             * </p>
+             * @property a
+             * @type {Vector3}
+             */
+            get: function () {
+                return this._a;
+            },
+            set: function (a) {
+                if (a instanceof Vector3) {
+                    this._a = a;
+                    this._isModified = true;
+                }
+                else {
+                    feedback.warn(cannotAssignTypeToProperty(typeof a, 'a'));
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CuboidGeometry.prototype, "b", {
+            /**
+             * <p>
+             * A vector parameterizing the shape of the cuboid.
+             * Defaults to the standard basis vector e2.
+             * Assignment is by reference making it possible for parameters to be shared references.
+             * </p>
+             * @property b
+             * @type {Vector3}
+             */
+            get: function () {
+                return this._b;
+            },
+            set: function (b) {
+                if (b instanceof Vector3) {
+                    this._b = b;
+                    this._isModified = true;
+                }
+                else {
+                    feedback.warn(cannotAssignTypeToProperty(typeof b, 'b'));
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CuboidGeometry.prototype, "c", {
+            /**
+             * <p>
+             * A vector parameterizing the shape of the cuboid.
+             * Defaults to the standard basis vector e3.
+             * Assignment is by reference making it possible for parameters to be shared references.
+             * </p>
+             * @property c
+             * @type {Vector3}
+             */
+            get: function () {
+                return this._c;
+            },
+            set: function (c) {
+                if (c instanceof Vector3) {
+                    this._c = c;
+                    this._isModified = true;
+                }
+                else {
+                    feedback.warn(cannotAssignTypeToProperty(typeof c, 'c'));
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(CuboidGeometry.prototype, "k", {
             /**
-             *
+             * @property k
+             * @type {number}
              */
             get: function () {
                 return this._k.x;
@@ -62,7 +136,7 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../geometries
             configurable: true
         });
         CuboidGeometry.prototype.isModified = function () {
-            return this.a.modified || this.b.modified || this.c.modified || this._k.modified;
+            return this._isModified || this._a.modified || this._b.modified || this._c.modified || this._k.modified;
         };
         /**
          * @method setModified
@@ -70,9 +144,10 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../geometries
          * @return {CuboidGeometry} `this` instance.
          */
         CuboidGeometry.prototype.setModified = function (modified) {
-            this.a.modified = modified;
-            this.b.modified = modified;
-            this.c.modified = modified;
+            this._isModified = modified;
+            this._a.modified = modified;
+            this._b.modified = modified;
+            this._c.modified = modified;
             this._k.modified = modified;
             return this;
         };
@@ -84,14 +159,14 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../geometries
         CuboidGeometry.prototype.recalculate = function () {
             this.setModified(false);
             var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
-            pos[0] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2);
-            pos[1] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2);
-            pos[2] = new Vector3().add(this.a).add(this.b).add(this.c).divideScalar(2);
-            pos[3] = new Vector3().sub(this.a).add(this.b).add(this.c).divideScalar(2);
-            pos[4] = new Vector3().copy(pos[3]).sub(this.c);
-            pos[5] = new Vector3().copy(pos[2]).sub(this.c);
-            pos[6] = new Vector3().copy(pos[1]).sub(this.c);
-            pos[7] = new Vector3().copy(pos[0]).sub(this.c);
+            pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideScalar(2);
+            pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divideScalar(2);
+            pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divideScalar(2);
+            pos[3] = new Vector3().sub(this._a).add(this._b).add(this._c).divideScalar(2);
+            pos[4] = new Vector3().copy(pos[3]).sub(this._c);
+            pos[5] = new Vector3().copy(pos[2]).sub(this._c);
+            pos[6] = new Vector3().copy(pos[1]).sub(this._c);
+            pos[7] = new Vector3().copy(pos[0]).sub(this._c);
             function simplex(indices) {
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {

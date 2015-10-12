@@ -1,4 +1,8 @@
 import AttribLocation = require('../core/AttribLocation')
+import Cartesian1 = require('../math/Cartesian1')
+import Cartesian2 = require('../math/Cartesian2')
+import Cartesian3 = require('../math/Cartesian3')
+import Cartesian4 = require('../math/Cartesian4')
 import IContextProvider = require('../core/IContextProvider')
 import IContextMonitor = require('../core/IContextMonitor')
 import core = require('../core')
@@ -261,48 +265,91 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
         }
       }
     },
-    uniformVector1(name: string, vector: Vector1, canvasId: number) {
+    uniformCartesian1(name: string, vector: Cartesian1, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakReference(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.vector1(vector)
+          uniformLoc.cartesian1(vector)
         }
       }
     },
-    uniformVector2(name: string, vector: Vector2, canvasId: number) {
+    uniformCartesian2(name: string, vector: Cartesian2, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakReference(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.vector2(vector)
+          uniformLoc.cartesian2(vector)
         }
       }
     },
-    uniformVector3(name: string, vector: Vector3, canvasId: number) {
+    uniformCartesian3(name: string, vector: Cartesian3, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakReference(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.vector3(vector)
+          uniformLoc.cartesian3(vector)
         }
       }
     },
-    uniformVector4(name: string, vector: Vector4, canvasId: number): void {
+    uniformCartesian4(name: string, vector: Cartesian4, canvasId: number): void {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakReference(canvasId)
       if (program) {
-        // FIXME: Renames to simply uniforms (what else could they be?)
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.vector4(vector)
+          uniformLoc.cartesian4(vector)
+        }
+      }
+    },
+    vector1(name: string, data: number[], canvasId: number): void {
+      mustBeString('name', name)
+      mustBeInteger('canvasId', canvasId)
+      let program = programsByCanvasId.getWeakReference(canvasId)
+      if (program) {
+        let uniformLoc = program.uniforms[name]
+        if (uniformLoc) {
+          uniformLoc.vector1(data)
+        }
+      }
+    },
+    vector2(name: string, data: number[], canvasId: number): void {
+      mustBeString('name', name)
+      mustBeInteger('canvasId', canvasId)
+      let program = programsByCanvasId.getWeakReference(canvasId)
+      if (program) {
+        let uniformLoc = program.uniforms[name]
+        if (uniformLoc) {
+          uniformLoc.vector2(data)
+        }
+      }
+    },
+    vector3(name: string, data: number[], canvasId: number): void {
+      mustBeString('name', name)
+      mustBeInteger('canvasId', canvasId)
+      let program = programsByCanvasId.getWeakReference(canvasId)
+      if (program) {
+        let uniformLoc = program.uniforms[name]
+        if (uniformLoc) {
+          uniformLoc.vector3(data)
+        }
+      }
+    },
+    vector4(name: string, data: number[], canvasId: number): void {
+      mustBeString('name', name)
+      mustBeInteger('canvasId', canvasId)
+      let program = programsByCanvasId.getWeakReference(canvasId)
+      if (program) {
+        let uniformLoc = program.uniforms[name]
+        if (uniformLoc) {
+          uniformLoc.vector4(data)
         }
       }
     }

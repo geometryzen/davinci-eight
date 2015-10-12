@@ -2,13 +2,39 @@ import AbstractMatrix = require('../math/AbstractMatrix');
 import Cartesian1 = require('../math/Cartesian1');
 import GeometricElement = require('../math/GeometricElement');
 import Matrix = require('../math/Matrix');
+/**
+ * @class Matrix1
+ * @extends AbstractMatrix
+ */
 declare class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElement<Matrix1, Matrix1, Matrix1, Cartesian1> {
     /**
+     * 1x1 (square) matrix of numbers.
      * Constructs a Matrix1 by wrapping a Float32Array.
+     * @class Matrix1
      * @constructor
      */
     constructor(data: Float32Array);
+    /**
+     * <p>
+     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+     * </p>
+     * @method identity
+     * @return {Matrix1}
+     * @static
+     */
     static identity(): Matrix1;
+    /**
+     * <p>
+     * Creates a new matrix with all elements zero.
+     * </p>
+     * @method zero
+     * @return {Matrix1}
+     * @static
+     */
+    static zero(): Matrix1;
+    /**
+     *
+     */
     add(element: Matrix1): Matrix1;
     sum(a: Matrix1, b: Matrix1): Matrix1;
     clone(): Matrix1;

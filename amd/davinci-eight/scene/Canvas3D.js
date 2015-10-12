@@ -132,10 +132,10 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             this._renderer.prolog();
         };
         Canvas3D.prototype.addPrologCommand = function (command) {
-            this._renderer.addPrologCommand(command);
+            return this._renderer.addPrologCommand(command);
         };
         Canvas3D.prototype.addContextGainCommand = function (command) {
-            this._renderer.addContextGainCommand(command);
+            return this._renderer.addContextGainCommand(command);
         };
         Canvas3D.prototype.removeContextListener = function (user) {
             this._kahuna.removeContextListener(user);

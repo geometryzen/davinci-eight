@@ -16,7 +16,7 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         return SPACE + SPACE;
     }
     /**
-     *
+     * Generates a vertex shader.
      */
     function vertexShader(attributes, uniforms, vColor, vLight) {
         mustBeDefined('attributes', attributes);
@@ -24,6 +24,7 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         mustBeBoolean('vColor', vColor);
         mustBeBoolean('vLight', vLight);
         var lines = [];
+        lines.push("// generated vertex shader");
         for (var aName in attributes) {
             lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON);
         }
@@ -114,7 +115,8 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
             if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
                 lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
                 lines.push("  vec3 N = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[Symbolic.ATTRIBUTE_NORMAL], Symbolic.ATTRIBUTE_NORMAL) + ");");
-                lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(dot(N, L), 0.0);");
+                lines.push("  // The minus sign arises because L is the light direction, so we need dot(N, -L) = -dot(N, L)");
+                lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(-dot(N, L), 0.0);");
                 if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
                     lines.push("  vLight = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
                 }

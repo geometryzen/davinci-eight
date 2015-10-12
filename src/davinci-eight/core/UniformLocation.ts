@@ -1,18 +1,19 @@
-import expectArg = require('../checks/expectArg');
-import Matrix1 = require('../math/Matrix1');
-import Matrix2 = require('../math/Matrix2');
-import Matrix3 = require('../math/Matrix3');
-import Matrix4 = require('../math/Matrix4');
-import IContextProgramConsumer = require('../core/IContextProgramConsumer');
-import IContextProvider = require('../core/IContextProvider');
-import Vector1 = require('../math/Vector1');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
-import Vector4 = require('../math/Vector4');
-
-function matrix4NE(a: number[], b: Float32Array): boolean {
-  return a[0x0] !== b[0x0] || a[0x1] !== b[0x1] || a[0x2] !== b[0x2] || a[0x3] !== b[0x3] || a[0x4] !== b[0x4] || a[0x5] !== b[0x5] || a[0x6] !== b[0x6] || a[0x7] !== b[0x7] || a[0x8] !== b[0x8] || a[0x9] !== b[0x9] || a[0xA] !== b[0xA] || a[0xB] !== b[0xB] || a[0xC] !== b[0xC] || a[0xD] !== b[0xD] || a[0xE] !== b[0xE] || a[0xF] !== b[0xF];
-}
+import Cartesian1 = require('../math/Cartesian1')
+import Cartesian2 = require('../math/Cartesian2')
+import Cartesian3 = require('../math/Cartesian3')
+import Cartesian4 = require('../math/Cartesian4')
+import expectArg = require('../checks/expectArg')
+import feedback = require('../feedback/feedback')
+import Matrix1 = require('../math/Matrix1')
+import Matrix2 = require('../math/Matrix2')
+import Matrix3 = require('../math/Matrix3')
+import Matrix4 = require('../math/Matrix4')
+import IContextProgramConsumer = require('../core/IContextProgramConsumer')
+import IContextProvider = require('../core/IContextProvider')
+import Vector1 = require('../math/Vector1')
+import Vector2 = require('../math/Vector2')
+import Vector3 = require('../math/Vector3')
+import Vector4 = require('../math/Vector4')
 
 /**
  * Utility class for managing a shader uniform variable.
@@ -23,13 +24,6 @@ class UniformLocation implements IContextProgramConsumer {
   private _location: WebGLUniformLocation;
   private _name: string;
   private _program: WebGLProgram;
-  // FIXME: No more mirroring.
-  private _x: number = void 0;
-  private _y: number = void 0;
-  private _z: number = void 0;
-  private _w: number = void 0;
-  private _matrix4: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(() => {return void 0;});
-  private _transpose: boolean = void 0;
   /**
    * @class UniformLocation
    * @constructor
@@ -66,16 +60,44 @@ class UniformLocation implements IContextProgramConsumer {
     this._context  = void 0;
     this._location = void 0;
     this._program  = void 0;
-    this._x = void 0;
-    this._y = void 0;
-    this._z = void 0;
-    this._w = void 0;
-    this._matrix4.map(() => {return void 0});
-    this._transpose = void 0;
+  }
+  /**
+   * @method cartesian1
+   * @param coords {Cartesian1}
+   */
+  cartesian1(coords: Cartesian1): void {
+    this._context.useProgram(this._program);
+    this._context.uniform1f(this._location, coords.x);
+  }
+  /**
+   * @method cartesian2
+   * @param coords {Cartesian2}
+   */
+  cartesian2(coords: Cartesian2): void {
+    this._context.useProgram(this._program);
+    this._context.uniform2f(this._location, coords.x, coords.y);
+  }
+  /**
+   * @method cartesian3
+   * @param coords {Cartesian3}
+   */
+  cartesian3(coords: Cartesian3): void {
+    if (coords) {
+      this._context.useProgram(this._program)
+      this._context.uniform3f(this._location, coords.x, coords.y, coords.z)
+    }
+  }
+  /**
+   * @method cartesian4
+   * @param coords {Cartesian4}
+   */
+  cartesian4(coords: Cartesian4): void {
+    this._context.useProgram(this._program);
+    this._context.uniform4f(this._location, coords.x, coords.y, coords.z, coords.w);
   }
   /**
    * @method uniform1f
-   * @param x
+   * @param x {number}
    */
   uniform1f(x: number): void {
     this._context.useProgram(this._program);
@@ -144,76 +166,42 @@ class UniformLocation implements IContextProgramConsumer {
    * @param matrix {Matrix4}
    */
   matrix4(transpose: boolean, matrix: Matrix4): void {
-    this._context.useProgram(this._program);
-    let matrix4 = this._matrix4;
-    let data = matrix.data;
-    if (matrix4NE(matrix4, data) || this._transpose != transpose) {
-      this._context.uniformMatrix4fv(this._location, transpose, data);
-      // TODO: Use Matrix4.
-      matrix4[0x0] = data[0x0];
-      matrix4[0x1] = data[0x1];
-      matrix4[0x2] = data[0x2];
-      matrix4[0x3] = data[0x3];
-      matrix4[0x4] = data[0x4];
-      matrix4[0x5] = data[0x5];
-      matrix4[0x6] = data[0x6];
-      matrix4[0x7] = data[0x7];
-      matrix4[0x8] = data[0x8];
-      matrix4[0x9] = data[0x9];
-      matrix4[0xA] = data[0xA];
-      matrix4[0xB] = data[0xB];
-      matrix4[0xC] = data[0xC];
-      matrix4[0xD] = data[0xD];
-      matrix4[0xE] = data[0xE];
-      matrix4[0xF] = data[0xF];
-      this._transpose = transpose;
+    if (matrix) {
+      this._context.useProgram(this._program)
+      this._context.uniformMatrix4fv(this._location, transpose, matrix.data)
     }
   }
   /**
    * @method vector1
-   * @param vector {Vector1}
+   * @param data {number[]}
    */
-  vector1(vector: Vector1): void {
+  vector1(data: number[]): void {
     this._context.useProgram(this._program);
-    this._context.uniform1fv(this._location, vector.data);
+    this._context.uniform1fv(this._location, data);
   }
   /**
    * @method vector2
-   * @param vector {Vector2}
+   * @param data {number[]}
    */
-  vector2(vector: Vector2): void {
+  vector2(data: number[]): void {
     this._context.useProgram(this._program);
-    this._context.uniform2fv(this._location, vector.data);
+    this._context.uniform2fv(this._location, data);
   }
   /**
    * @method vector3
-   * @param vector {Vector3}
+   * @param data {number[]}
    */
-  vector3(vector: Vector3): void {
-    if (vector) {
-      this._context.useProgram(this._program);
-      let data: number[] = vector.data;
-      let x = data[0];
-      let y = data[1];
-      let z = data[2];
-      if (this._x !== x || this._y !== y || this._z !== z) {
-        this._context.uniform3fv(this._location, data);
-        this._x = x;
-        this._y = y;
-        this._z = z;
-      }
-    }
-    else {
-      console.warn("UniformLocation.vector3 called with `typeof vector` => " + typeof vector)
-    }
+  vector3(data: number[]): void {
+    this._context.useProgram(this._program);
+    this._context.uniform3fv(this._location, data);
   }
   /**
    * @method vector4
-   * @param vector {Vector4}
+   * @param data {number[]}
    */
-  vector4(vector: Vector4): void {
+  vector4(data: number[]): void {
     this._context.useProgram(this._program);
-    this._context.uniform4fv(this._location, vector.data);
+    this._context.uniform4fv(this._location, data);
   }
   /**
    * @method toString

@@ -4,18 +4,46 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
+    /**
+     * @class Matrix1
+     * @extends AbstractMatrix
+     */
     var Matrix1 = (function (_super) {
         __extends(Matrix1, _super);
         /**
+         * 1x1 (square) matrix of numbers.
          * Constructs a Matrix1 by wrapping a Float32Array.
+         * @class Matrix1
          * @constructor
          */
         function Matrix1(data) {
             _super.call(this, data, 1);
         }
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+         * </p>
+         * @method identity
+         * @return {Matrix1}
+         * @static
+         */
         Matrix1.identity = function () {
             return new Matrix1(new Float32Array([1]));
         };
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero.
+         * </p>
+         * @method zero
+         * @return {Matrix1}
+         * @static
+         */
+        Matrix1.zero = function () {
+            return new Matrix1(new Float32Array([0]));
+        };
+        /**
+         *
+         */
         Matrix1.prototype.add = function (element) {
             return this;
         };

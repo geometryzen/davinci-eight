@@ -337,16 +337,16 @@ class Material extends Shareable implements IMaterial {
       }
     }
   }
-  uniformVector1(name: string, vector: Vector1, canvasId: number): void {
+  uniformCartesian1(name: string, vector: Vector1, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformVector1(name, vector, canvasId)
+      this.inner.uniformCartesian1(name, vector, canvasId)
     }
     else {
       let async = false
       let readyPending = this.readyPending
       this.makeReady(async)
       if (this.inner) {
-        this.inner.uniformVector1(name, vector, canvasId)
+        this.inner.uniformCartesian1(name, vector, canvasId)
       }
       else {
         if (!readyPending) {
@@ -355,16 +355,16 @@ class Material extends Shareable implements IMaterial {
       }
     }
   }
-  uniformVector2(name: string, vector: Vector2, canvasId: number): void {
+  uniformCartesian2(name: string, vector: Vector2, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformVector2(name, vector, canvasId)
+      this.inner.uniformCartesian2(name, vector, canvasId)
     }
     else {
       let async = false
       let readyPending = this.readyPending
       this.makeReady(async)
       if (this.inner) {
-        this.inner.uniformVector2(name, vector, canvasId)
+        this.inner.uniformCartesian2(name, vector, canvasId)
       }
       else {
         if (!readyPending) {
@@ -373,16 +373,16 @@ class Material extends Shareable implements IMaterial {
       }
     }
   }
-  uniformVector3(name: string, vector: Vector3, canvasId: number): void {
+  uniformCartesian3(name: string, vector: Vector3, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformVector3(name, vector, canvasId)
+      this.inner.uniformCartesian3(name, vector, canvasId)
     }
     else {
       let async = false
       let readyPending = this.readyPending
       this.makeReady(async)
       if (this.inner) {
-        this.inner.uniformVector3(name, vector, canvasId)
+        this.inner.uniformCartesian3(name, vector, canvasId)
       }
       else {
         if (!readyPending) {
@@ -391,20 +391,92 @@ class Material extends Shareable implements IMaterial {
       }
     }
   }
-  uniformVector4(name: string, vector: Vector4, canvasId: number): void {
+  uniformCartesian4(name: string, vector: Vector4, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformVector4(name, vector, canvasId)
+      this.inner.uniformCartesian4(name, vector, canvasId)
     }
     else {
       let async = false
       let readyPending = this.readyPending
       this.makeReady(async)
       if (this.inner) {
-        this.inner.uniformVector4(name, vector, canvasId)
+        this.inner.uniformCartesian4(name, vector, canvasId)
       }
       else {
         if (!readyPending) {
           consoleWarnDroppedUniform(this.type, 'Vector4', name, canvasId)
+        }
+      }
+    }
+  }
+  vector1(name: string, data: number[], canvasId: number): void {
+    if (this.inner) {
+      this.inner.vector1(name, data, canvasId)
+    }
+      else {
+      let async = false
+      let readyPending = this.readyPending
+      this.makeReady(async)
+      if (this.inner) {
+        this.inner.vector1(name, data, canvasId)
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, 'vector1', name, canvasId)
+        }
+      }
+    }
+  }
+  vector2(name: string, data: number[], canvasId: number): void {
+      if (this.inner) {
+      this.inner.vector2(name, data, canvasId)
+    }
+      else {
+      let async = false
+      let readyPending = this.readyPending
+      this.makeReady(async)
+      if (this.inner) {
+        this.inner.vector2(name, data, canvasId)
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, 'vector2', name, canvasId)
+        }
+      }
+    }
+  }
+  vector3(name: string, data: number[], canvasId: number): void {
+      if (this.inner) {
+      this.inner.vector3(name, data, canvasId)
+    }
+      else {
+      let async = false
+      let readyPending = this.readyPending
+      this.makeReady(async)
+      if (this.inner) {
+        this.inner.vector3(name, data, canvasId)
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, 'vector3', name, canvasId)
+        }
+      }
+    }
+  }
+  vector4(name: string, data: number[], canvasId: number): void {
+      if (this.inner) {
+      this.inner.vector4(name, data, canvasId)
+    }
+      else {
+      let async = false
+      let readyPending = this.readyPending
+      this.makeReady(async)
+      if (this.inner) {
+        this.inner.vector4(name, data, canvasId)
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, 'vector4', name, canvasId)
         }
       }
     }

@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.125.0",
+        "version": "2.126.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -681,6 +681,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/i18n/cannotAssignTypeToProperty.ts": {
+            "name": "src/davinci-eight/i18n/cannotAssignTypeToProperty.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/i18n/readOnly.ts": {
             "name": "src/davinci-eight/i18n/readOnly.ts",
             "modules": {},
@@ -711,6 +718,15 @@
             "modules": {},
             "classes": {
                 "Material": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/materials/MeshLambertMaterial.ts": {
+            "name": "src/davinci-eight/materials/MeshLambertMaterial.ts",
+            "modules": {},
+            "classes": {
+                "MeshLambertMaterial": 1
             },
             "fors": {},
             "namespaces": {}
@@ -747,6 +763,15 @@
             "modules": {},
             "classes": {
                 "SmartMaterialBuilder": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/AbstractMatrix.ts": {
+            "name": "src/davinci-eight/math/AbstractMatrix.ts",
+            "modules": {},
+            "classes": {
+                "AbstractMatrix": 1
             },
             "fors": {},
             "namespaces": {}
@@ -860,21 +885,27 @@
         "src/davinci-eight/math/Matrix1.ts": {
             "name": "src/davinci-eight/math/Matrix1.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Matrix1": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src/davinci-eight/math/Matrix2.ts": {
             "name": "src/davinci-eight/math/Matrix2.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Matrix2": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "src/davinci-eight/math/Matrix3.ts": {
             "name": "src/davinci-eight/math/Matrix3.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Matrix3": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1317,6 +1348,24 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/uniforms/DirectionalLight.ts": {
+            "name": "src/davinci-eight/uniforms/DirectionalLight.ts",
+            "modules": {},
+            "classes": {
+                "DirectionalLight": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/uniforms/Vector3Uniform.ts": {
+            "name": "src/davinci-eight/uniforms/Vector3Uniform.ts",
+            "modules": {},
+            "classes": {
+                "Vector3Uniform": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/utils/IUnknownArray.ts": {
             "name": "src/davinci-eight/utils/IUnknownArray.ts",
             "modules": {},
@@ -1466,10 +1515,12 @@
                 "HTMLScriptsMaterial": 1,
                 "LineMaterial": 1,
                 "Material": 1,
+                "MeshLambertMaterial": 1,
                 "MeshMaterial": 1,
                 "PointMaterial": 1,
                 "SmartMaterial": 1,
                 "SmartMaterialBuilder": 1,
+                "AbstractMatrix": 1,
                 "Cartesian1": 1,
                 "Cartesian2": 1,
                 "Cartesian3": 1,
@@ -1481,6 +1532,9 @@
                 "Euclidean3": 1,
                 "LinearElement<I, M, S>": 1,
                 "Matrix<M>": 1,
+                "Matrix1": 1,
+                "Matrix2": 1,
+                "Matrix3": 1,
                 "Matrix4": 1,
                 "Mutable": 1,
                 "Rational": 1,
@@ -1512,6 +1566,8 @@
                 "IProperties": 1,
                 "ISlide": 1,
                 "ColorFacet": 1,
+                "DirectionalLight": 1,
+                "Vector3Uniform": 1,
                 "IUnknownArray": 1,
                 "NumberIUnknownMap<V>": 1,
                 "Shareable": 1,
@@ -2034,7 +2090,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 33,
+            "line": 27,
             "description": "Utility class for managing a shader uniform variable.",
             "is_constructor": 1,
             "params": [
@@ -2090,7 +2146,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 35,
+            "line": 57,
             "extends": "Geometry",
             "description": "<p>\nThe <code>CuboidGeometry</code> generates simplices representing a cuboid, or more precisely a parallelepiped.\nThe parallelepiped is parameterized by the three vectors <b>a</b>, <b>b</b>, and <b>c</b>.\nThe property <code>k</code> represents the dimensionality of the vertices.\nThe default settings create a unit cube centered at the origin.\n</p>",
             "is_constructor": 1,
@@ -2698,6 +2754,27 @@
                 }
             ]
         },
+        "MeshLambertMaterial": {
+            "name": "MeshLambertMaterial",
+            "shortname": "MeshLambertMaterial",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/materials/MeshLambertMaterial.ts",
+            "line": 25,
+            "extends": "Material",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "monitors",
+                    "description": "[IContextMonitor[]=[]]"
+                }
+            ]
+        },
         "MeshMaterial": {
             "name": "MeshMaterial",
             "shortname": "MeshMaterial",
@@ -2781,13 +2858,39 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/materials/SmartMaterialBuilder.ts",
-            "line": 48,
+            "line": 47,
             "is_constructor": 1,
             "params": [
                 {
                     "name": "elements",
                     "description": "Optional.",
                     "type": "Geometry"
+                }
+            ]
+        },
+        "AbstractMatrix": {
+            "name": "AbstractMatrix",
+            "shortname": "AbstractMatrix",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/AbstractMatrix.ts",
+            "line": 14,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Float32Array"
+                },
+                {
+                    "name": "dimensions",
+                    "description": "",
+                    "type": "Number"
                 }
             ]
         },
@@ -3032,6 +3135,54 @@
             "file": "src/davinci-eight/math/Matrix.ts",
             "line": 1
         },
+        "Matrix1": {
+            "name": "Matrix1",
+            "shortname": "Matrix1",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/Matrix1.ts",
+            "line": 11,
+            "extends": "AbstractMatrix",
+            "description": "1x1 (square) matrix of numbers.\nConstructs a Matrix1 by wrapping a Float32Array.",
+            "is_constructor": 1
+        },
+        "Matrix2": {
+            "name": "Matrix2",
+            "shortname": "Matrix2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/Matrix2.ts",
+            "line": 11,
+            "extends": "AbstractMatrix",
+            "description": "2x2 (square) matrix of numbers.\nConstructs a Matrix2 by wrapping a Float32Array.",
+            "is_constructor": 1
+        },
+        "Matrix3": {
+            "name": "Matrix3",
+            "shortname": "Matrix3",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 12,
+            "extends": "AbstractMatrix",
+            "description": "3x3 (square) matrix of numbers.\nConstructs a Matrix3 by wrapping a Float32Array.",
+            "is_constructor": 1
+        },
         "Matrix4": {
             "name": "Matrix4",
             "shortname": "Matrix4",
@@ -3044,7 +3195,8 @@
             "namespace": "",
             "file": "src/davinci-eight/math/Matrix4.ts",
             "line": 25,
-            "description": "Constructs a Matrix4 by wrapping a Float32Array.",
+            "extends": "AbstractMatrix",
+            "description": "4x4 (square) matrix of numbers.\nConstructs a Matrix4 by wrapping a Float32Array.",
             "is_constructor": 1
         },
         "Mutable": {
@@ -3668,6 +3820,48 @@
                     "description": "",
                     "optional": true,
                     "optdefault": " Symbolic.UNIFORM_COLOR"
+                }
+            ]
+        },
+        "DirectionalLight": {
+            "name": "DirectionalLight",
+            "shortname": "DirectionalLight",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/uniforms/DirectionalLight.ts",
+            "line": 31,
+            "extends": "Shareable",
+            "description": "Constructs a white light in the -e3 direction.",
+            "is_constructor": 1
+        },
+        "Vector3Uniform": {
+            "name": "Vector3Uniform",
+            "shortname": "Vector3Uniform",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/uniforms/Vector3Uniform.ts",
+            "line": 20,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "Vector3"
                 }
             ]
         },
@@ -5052,6 +5246,416 @@
             "class": "IFacetVisitor"
         },
         {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 22,
+            "itemtype": "method",
+            "name": "uniform2f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 30,
+            "itemtype": "method",
+            "name": "uniform3f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 39,
+            "itemtype": "method",
+            "name": "uniform3f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "w",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 49,
+            "itemtype": "method",
+            "name": "uniformMatrix1",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "transpose",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix1"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 57,
+            "itemtype": "method",
+            "name": "uniformMatrix2",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "transpose",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix2"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 65,
+            "itemtype": "method",
+            "name": "uniformMatrix3",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "transpose",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix3"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 73,
+            "itemtype": "method",
+            "name": "uniformMatrix4",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "transpose",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix4"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 81,
+            "itemtype": "method",
+            "name": "uniformCartesian1",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "Cartesian1"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 88,
+            "itemtype": "method",
+            "name": "uniformCartesian2",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "Cartesian2"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 96,
+            "itemtype": "method",
+            "name": "uniformCartesian3",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "Cartesian3"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 103,
+            "itemtype": "method",
+            "name": "uniformCartesian4",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "Cartesian4"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 110,
+            "itemtype": "method",
+            "name": "vector1",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 117,
+            "itemtype": "method",
+            "name": "vector2",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 124,
+            "itemtype": "method",
+            "name": "vector3",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 131,
+            "itemtype": "method",
+            "name": "vector4",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
+        },
+        {
             "file": "src/davinci-eight/core/IMaterial.ts",
             "line": 19,
             "itemtype": "property",
@@ -5325,14 +5929,14 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 43,
+            "line": 37,
             "itemtype": "method",
             "name": "contextFree",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 49,
+            "line": 43,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -5351,27 +5955,84 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 62,
+            "line": 56,
             "itemtype": "method",
             "name": "contextLost",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 76,
+            "line": 64,
             "itemtype": "method",
-            "name": "uniform1f",
+            "name": "cartesian1",
             "params": [
                 {
-                    "name": "x",
-                    "description": ""
+                    "name": "coords",
+                    "description": "",
+                    "type": "Cartesian1"
                 }
             ],
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 84,
+            "line": 72,
+            "itemtype": "method",
+            "name": "cartesian2",
+            "params": [
+                {
+                    "name": "coords",
+                    "description": "",
+                    "type": "Cartesian2"
+                }
+            ],
+            "class": "UniformLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/UniformLocation.ts",
+            "line": 80,
+            "itemtype": "method",
+            "name": "cartesian3",
+            "params": [
+                {
+                    "name": "coords",
+                    "description": "",
+                    "type": "Cartesian3"
+                }
+            ],
+            "class": "UniformLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/UniformLocation.ts",
+            "line": 90,
+            "itemtype": "method",
+            "name": "cartesian4",
+            "params": [
+                {
+                    "name": "coords",
+                    "description": "",
+                    "type": "Cartesian4"
+                }
+            ],
+            "class": "UniformLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/UniformLocation.ts",
+            "line": 98,
+            "itemtype": "method",
+            "name": "uniform1f",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "UniformLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/UniformLocation.ts",
+            "line": 106,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -5390,7 +6051,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 93,
+            "line": 115,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -5414,7 +6075,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 103,
+            "line": 125,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -5443,7 +6104,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 114,
+            "line": 136,
             "itemtype": "method",
             "name": "matrix1",
             "params": [
@@ -5462,7 +6123,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 123,
+            "line": 145,
             "itemtype": "method",
             "name": "matrix2",
             "params": [
@@ -5481,7 +6142,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 132,
+            "line": 154,
             "itemtype": "method",
             "name": "matrix3",
             "params": [
@@ -5500,7 +6161,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 141,
+            "line": 163,
             "itemtype": "method",
             "name": "matrix4",
             "params": [
@@ -5519,63 +6180,63 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 172,
+            "line": 174,
             "itemtype": "method",
             "name": "vector1",
             "params": [
                 {
-                    "name": "vector",
+                    "name": "data",
                     "description": "",
-                    "type": "Vector1"
+                    "type": "Number[]"
                 }
             ],
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 180,
+            "line": 182,
             "itemtype": "method",
             "name": "vector2",
             "params": [
                 {
-                    "name": "vector",
+                    "name": "data",
                     "description": "",
-                    "type": "Vector2"
+                    "type": "Number[]"
                 }
             ],
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 188,
+            "line": 190,
             "itemtype": "method",
             "name": "vector3",
             "params": [
                 {
-                    "name": "vector",
+                    "name": "data",
                     "description": "",
-                    "type": "Vector3"
+                    "type": "Number[]"
                 }
             ],
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 210,
+            "line": 198,
             "itemtype": "method",
             "name": "vector4",
             "params": [
                 {
-                    "name": "vector",
+                    "name": "data",
                     "description": "",
-                    "type": "Vector4"
+                    "type": "Number[]"
                 }
             ],
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 218,
+            "line": 206,
             "itemtype": "method",
             "name": "toString",
             "class": "UniformLocation"
@@ -5726,34 +6387,43 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 18,
+            "line": 24,
+            "description": "Parameter is private so that we can detect assignments.",
             "itemtype": "property",
-            "name": "a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.",
-            "type": "Vector3",
+            "name": "_a",
+            "type": "{Vector3}",
+            "access": "private",
+            "tagname": "",
             "class": "CuboidGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 22,
+            "line": 31,
+            "description": "Parameter is private so that we can detect assignments.",
             "itemtype": "property",
-            "name": "b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.",
-            "type": "Vector3",
+            "name": "_b",
+            "type": "{Vector3}",
+            "access": "private",
+            "tagname": "",
             "class": "CuboidGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 26,
+            "line": 38,
+            "description": "Parameter is private so that we can detect assignments.",
             "itemtype": "property",
-            "name": "c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.",
-            "type": "Vector3",
+            "name": "_c",
+            "type": "{Vector3}",
+            "access": "private",
+            "tagname": "",
             "class": "CuboidGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 30,
+            "line": 45,
             "itemtype": "property",
             "name": "_k  The dimensionality of the simplices representing the cuboid.",
             "type": "Number",
@@ -5764,13 +6434,58 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 55,
+            "line": 50,
+            "description": "Used to mark the parameters of this object dirty when they are possibly shared.",
+            "itemtype": "property",
+            "name": "_isModified",
+            "type": "{boolean}",
+            "access": "private",
+            "tagname": "",
             "class": "CuboidGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 68,
+            "line": 80,
+            "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e1.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
+            "itemtype": "property",
+            "name": "a",
+            "type": "{Vector3}",
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 101,
+            "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e2.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
+            "itemtype": "property",
+            "name": "b",
+            "type": "{Vector3}",
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 122,
+            "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e3.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
+            "itemtype": "property",
+            "name": "c",
+            "type": "{Vector3}",
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 143,
+            "itemtype": "property",
+            "name": "k",
+            "type": "{number}",
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 157,
             "itemtype": "method",
             "name": "setModified",
             "params": [
@@ -5789,7 +6504,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 80,
+            "line": 170,
             "description": "recalculate the geometry based upon the current parameters.",
             "itemtype": "method",
             "name": "recalculate",
@@ -6476,6 +7191,12 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/i18n/cannotAssignTypeToProperty.ts",
+            "line": 3,
+            "class": "HTMLScriptsMaterial",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/i18n/readOnly.ts",
             "line": 3,
             "class": "HTMLScriptsMaterial",
@@ -6531,6 +7252,13 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/materials/MeshLambertMaterial.ts",
+            "line": 11,
+            "description": "Name used for reference count monitoring and logging.",
+            "class": "MeshLambertMaterial",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/materials/MeshMaterial.ts",
             "line": 10,
             "description": "Name used for reference count monitoring and logging.",
@@ -6549,6 +7277,34 @@
             "line": 21,
             "description": "Name used for reference count monitoring and logging.",
             "class": "SmartMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/AbstractMatrix.ts",
+            "line": 27,
+            "itemtype": "property",
+            "name": "data",
+            "type": "{Float32Array}",
+            "class": "AbstractMatrix",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/AbstractMatrix.ts",
+            "line": 49,
+            "itemtype": "property",
+            "name": "callback",
+            "type": "{() => Float32Array}",
+            "class": "AbstractMatrix",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/AbstractMatrix.ts",
+            "line": 60,
+            "itemtype": "property",
+            "name": "dimensions",
+            "type": "{number}",
+            "readonly": "",
+            "class": "AbstractMatrix",
             "module": "EIGHT"
         },
         {
@@ -6981,37 +7737,175 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix1.ts",
-            "line": 7,
-            "description": "Constructs a Matrix1 by wrapping a Float32Array.",
-            "is_constructor": 1,
-            "class": "Matrix4",
+            "line": 20,
+            "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
+            "itemtype": "method",
+            "name": "identity",
+            "return": {
+                "description": "",
+                "type": "Matrix1"
+            },
+            "static": 1,
+            "class": "Matrix1",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix1.ts",
+            "line": 31,
+            "description": "<p>\nCreates a new matrix with all elements zero.\n</p>",
+            "itemtype": "method",
+            "name": "zero",
+            "return": {
+                "description": "",
+                "type": "Matrix1"
+            },
+            "static": 1,
+            "class": "Matrix1",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix1.ts",
+            "line": 42,
+            "class": "Matrix1",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 8,
-            "description": "Constructs a Matrix2 by wrapping a Float32Array.",
-            "is_constructor": 1,
-            "class": "Matrix4",
+            "line": 20,
+            "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
+            "itemtype": "method",
+            "name": "identity",
+            "return": {
+                "description": "",
+                "type": "Matrix2"
+            },
+            "static": 1,
+            "class": "Matrix2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix2.ts",
+            "line": 31,
+            "description": "<p>\nCreates a new matrix with all elements zero.\n</p>",
+            "itemtype": "method",
+            "name": "zero",
+            "return": {
+                "description": "",
+                "type": "Matrix2"
+            },
+            "static": 1,
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix3.ts",
-            "line": 8,
-            "description": "Constructs a Matrix4 by wrapping a Float32Array.",
-            "is_constructor": 1,
+            "line": 21,
+            "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
+            "itemtype": "method",
+            "name": "identity",
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "static": 1,
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 32,
+            "description": "<p>\nCreates a new matrix with all elements zero.\n</p>",
+            "itemtype": "method",
+            "name": "zero",
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "static": 1,
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 100,
+            "itemtype": "method",
+            "name": "row",
+            "params": [
+                {
+                    "name": "i",
+                    "description": "the zero-based index of the row.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number[]"
+            },
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix4.ts",
+            "line": 34,
+            "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
+            "itemtype": "method",
+            "name": "identity",
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "static": 1,
             "class": "Matrix4",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 159,
+            "line": 45,
+            "description": "<p>\nCreates a new matrix with all elements zero.\n</p>",
+            "itemtype": "method",
+            "name": "zero",
+            "return": {
+                "description": "",
+                "type": "Matrix4"
+            },
+            "static": 1,
             "class": "Matrix4",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 209,
+            "line": 65,
+            "description": "Returns a copy of this Matrix4 instance.",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "",
+                "type": "Matrix"
+            },
+            "class": "Matrix4",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix4.ts",
+            "line": 170,
+            "itemtype": "method",
+            "name": "transpose",
+            "return": {
+                "description": "",
+                "type": "Matrix4"
+            },
+            "class": "Matrix4",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix4.ts",
+            "line": 188,
+            "class": "Matrix4",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix4.ts",
+            "line": 238,
             "itemtype": "method",
             "name": "rotate",
             "params": [
@@ -7025,9 +7919,9 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 235,
+            "line": 264,
             "itemtype": "method",
-            "name": "",
+            "name": "row",
             "params": [
                 {
                     "name": "i",
@@ -7035,6 +7929,10 @@
                     "type": "Number"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Number[]"
+            },
             "class": "Matrix4",
             "module": "EIGHT"
         },
@@ -7754,21 +8652,21 @@
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 28,
+            "line": 32,
             "description": "Name used for reference count monitoring and logging.",
             "class": "ContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 33,
+            "line": 37,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": "ContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 51,
+            "line": 55,
             "description": "Because we are multi-canvas aware, programs are tracked by the canvas id.",
             "class": "ContextRenderer",
             "module": "EIGHT"
@@ -7776,6 +8674,7 @@
         {
             "file": "src/davinci-eight/programs/fragmentShader.ts",
             "line": 6,
+            "description": "Generates a fragment shader",
             "class": "ContextRenderer",
             "module": "EIGHT"
         },
@@ -7823,7 +8722,8 @@
         },
         {
             "file": "src/davinci-eight/programs/vertexShader.ts",
-            "line": 27,
+            "line": 28,
+            "description": "Generates a vertex shader.",
             "class": "ContextRenderer",
             "module": "EIGHT"
         },
@@ -7874,7 +8774,7 @@
         {
             "file": "src/davinci-eight/renderers/ContextRenderer.ts",
             "line": 42,
-            "description": "Adds a command to the `prolog` that will be executed as part of the render() call, before drawing.",
+            "description": "Adds a command to the `prolog` that will be executed as part of the render() call, before drawing.\nThe method is chainable on the command added.",
             "itemtype": "method",
             "name": "addPrologCommand",
             "params": [
@@ -7886,14 +8786,16 @@
             ],
             "return": {
                 "description": "",
-                "type": "Void"
+                "type": "IPrologCommand"
             },
+            "chainable": 1,
             "class": "ContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/renderers/ContextRenderer.ts",
-            "line": 49,
+            "line": 51,
+            "description": "Adds a handler that will be executed for context free, gain, and loss events.",
             "itemtype": "method",
             "name": "addContextGainCommand",
             "params": [
@@ -7905,8 +8807,9 @@
             ],
             "return": {
                 "description": "",
-                "type": "Void"
+                "type": "IContextCommand"
             },
+            "chainable": 1,
             "class": "ContextRenderer",
             "module": "EIGHT"
         },
@@ -8862,6 +9765,59 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/uniforms/DirectionalLight.ts",
+            "line": 21,
+            "itemtype": "property",
+            "name": "direction",
+            "type": "{Vector3}",
+            "class": "DirectionalLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/DirectionalLight.ts",
+            "line": 26,
+            "itemtype": "property",
+            "name": "color",
+            "type": "{Color}",
+            "class": "DirectionalLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/DirectionalLight.ts",
+            "line": 41,
+            "itemtype": "method",
+            "name": "destructor",
+            "type": "{void}",
+            "access": "protected",
+            "tagname": "",
+            "class": "DirectionalLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/DirectionalLight.ts",
+            "line": 49,
+            "itemtype": "method",
+            "name": "setUniforms",
+            "params": [
+                {
+                    "name": "visitor",
+                    "description": "",
+                    "type": "IFacetVisitor"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "DirectionalLight",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
             "line": 8,
             "description": "Essentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -9476,10 +10432,6 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/geometries/CuboidGeometry.ts:55"
-        },
-        {
-            "message": "Missing item type",
             "line": " src/davinci-eight/geometries/Geometry.ts:119"
         },
         {
@@ -9600,6 +10552,10 @@
         },
         {
             "message": "Missing item type",
+            "line": " src/davinci-eight/i18n/cannotAssignTypeToProperty.ts:3"
+        },
+        {
+            "message": "Missing item type",
             "line": " src/davinci-eight/i18n/readOnly.ts:3"
         },
         {
@@ -9609,6 +10565,10 @@
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
             "line": " src/davinci-eight/materials/LineMaterial.ts:10"
+        },
+        {
+            "message": "Missing item type\nName used for reference count monitoring and logging.",
+            "line": " src/davinci-eight/materials/MeshLambertMaterial.ts:11"
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
@@ -9691,20 +10651,12 @@
             "line": " src/davinci-eight/math/GeometricElement.ts:2"
         },
         {
-            "message": "Missing item type\nConstructs a Matrix1 by wrapping a Float32Array.",
-            "line": " src/davinci-eight/math/Matrix1.ts:7"
-        },
-        {
-            "message": "Missing item type\nConstructs a Matrix2 by wrapping a Float32Array.",
-            "line": " src/davinci-eight/math/Matrix2.ts:8"
-        },
-        {
-            "message": "Missing item type\nConstructs a Matrix4 by wrapping a Float32Array.",
-            "line": " src/davinci-eight/math/Matrix3.ts:8"
+            "message": "Missing item type",
+            "line": " src/davinci-eight/math/Matrix1.ts:42"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/math/Matrix4.ts:159"
+            "line": " src/davinci-eight/math/Matrix4.ts:188"
         },
         {
             "message": "Missing item type\nQuaternion is retained for reference only.\nQuaternion should not be exposed.",
@@ -9736,18 +10688,18 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:28"
+            "line": " src/davinci-eight/programs/createMaterial.ts:32"
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:33"
+            "line": " src/davinci-eight/programs/createMaterial.ts:37"
         },
         {
             "message": "Missing item type\nBecause we are multi-canvas aware, programs are tracked by the canvas id.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:51"
+            "line": " src/davinci-eight/programs/createMaterial.ts:55"
         },
         {
-            "message": "Missing item type",
+            "message": "Missing item type\nGenerates a fragment shader",
             "line": " src/davinci-eight/programs/fragmentShader.ts:6"
         },
         {
@@ -9759,8 +10711,8 @@
             "line": " src/davinci-eight/programs/smartProgram.ts:26"
         },
         {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/programs/vertexShader.ts:27"
+            "message": "Missing item type\nGenerates a vertex shader.",
+            "line": " src/davinci-eight/programs/vertexShader.ts:28"
         },
         {
             "message": "Missing item type\nTODO: Undecided as to whether this should be used.",

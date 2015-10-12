@@ -1,6 +1,7 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
+        "AbstractMatrix",
         "AnimatedMirror",
         "ArrowGeometry",
         "AttribLocation",
@@ -25,6 +26,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "CylinderArgs",
         "CylinderGeometry",
         "Dimensions",
+        "DirectionalLight",
         "DodecahedronGeometry",
         "Drawable",
         "EIGHTLogger",
@@ -67,8 +69,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "LinearElement<I, M, S>",
         "LocalizableMessage",
         "Material",
+        "Matrix1",
+        "Matrix2",
+        "Matrix3",
         "Matrix4",
         "Matrix<M>",
+        "MeshLambertMaterial",
         "MeshMaterial",
         "ModelFacet",
         "Mutable",
@@ -101,6 +107,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Vector1",
         "Vector2",
         "Vector3",
+        "Vector3Uniform",
         "Vector4",
         "VectorN",
         "VectorN<T>",

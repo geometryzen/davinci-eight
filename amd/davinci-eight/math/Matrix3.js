@@ -4,17 +4,42 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
+    /**
+     * @class Matrix3
+     * @extends AbstractMatrix
+     */
     var Matrix3 = (function (_super) {
         __extends(Matrix3, _super);
         /**
-         * Constructs a Matrix4 by wrapping a Float32Array.
+         * 3x3 (square) matrix of numbers.
+         * Constructs a Matrix3 by wrapping a Float32Array.
+         * @class Matrix3
          * @constructor
          */
         function Matrix3(data) {
-            _super.call(this, data, 9);
+            _super.call(this, data, 3);
         }
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+         * </p>
+         * @method identity
+         * @return {Matrix3}
+         * @static
+         */
         Matrix3.identity = function () {
             return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+        };
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero.
+         * </p>
+         * @method zero
+         * @return {Matrix3}
+         * @static
+         */
+        Matrix3.zero = function () {
+            return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
         };
         Matrix3.prototype.determinant = function () {
             return 1;
@@ -55,6 +80,15 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         Matrix3.prototype.multiply = function (rhs) {
             return this.product(this, rhs);
         };
+        /**
+         * @method row
+         * @param i {number} the zero-based index of the row.
+         * @return {number[]}
+         */
+        Matrix3.prototype.row = function (i) {
+            var te = this.data;
+            return [te[0 + i], te[3 + i], te[6 + i]];
+        };
         Matrix3.prototype.scale = function (s) {
             var m = this.data;
             m[0] *= s;
@@ -86,6 +120,13 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             te[5] = n32;
             te[8] = n33;
             return this;
+        };
+        Matrix3.prototype.toString = function () {
+            var text = [];
+            for (var i = 0; i < this.dimensions; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
+            }
+            return text.join('\n');
         };
         Matrix3.prototype.transpose = function () {
             var tmp;

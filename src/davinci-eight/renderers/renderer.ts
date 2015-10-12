@@ -32,9 +32,9 @@ function setStartUpCommands(renderer: ContextRenderer) {
   cmd.release()
 
   // `WebGL major.minor (OpenGL ES ...)`
-  // cmd = new VersionLogger()
-  // renderer.addContextGainCommand(cmd)
-  // cmd.release()
+  cmd = new VersionLogger()
+  renderer.addContextGainCommand(cmd)
+  cmd.release()
 
   // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
   // cmd = new ContextAttributesLogger()
@@ -125,11 +125,13 @@ let renderer = function(): ContextRenderer {
         }
       }
     },
-    addPrologCommand(command: IPrologCommand): void {
+    addPrologCommand(command: IPrologCommand): IPrologCommand {
       prolog.push(command)
+      return command
     },
-    addContextGainCommand(command: IContextCommand): void {
+    addContextGainCommand(command: IContextCommand): IContextCommand {
       startUp.push(command)
+      return command
     },
     release(): number {
       refCount--

@@ -3,21 +3,43 @@ import Matrix = require('../math/Matrix');
 import Spinor3Coords = require('../math/Spinor3Coords');
 import Cartesian3 = require('../math/Cartesian3');
 /**
- * 4x4 matrix integrating with WebGL.
- *
  * @class Matrix4
+ * @extends AbstractMatrix
  */
 declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     /**
+     * 4x4 (square) matrix of numbers.
      * Constructs a Matrix4 by wrapping a Float32Array.
      * @class Matrix4
      * @constructor
      */
     constructor(data: Float32Array);
+    /**
+     * <p>
+     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+     * </p>
+     * @method identity
+     * @return {Matrix3}
+     * @static
+     */
     static identity(): Matrix4;
+    /**
+     * <p>
+     * Creates a new matrix with all elements zero.
+     * </p>
+     * @method zero
+     * @return {Matrix4}
+     * @static
+     */
+    static zero(): Matrix4;
     static scaling(scale: Cartesian3): Matrix4;
     static translation(vector: Cartesian3): Matrix4;
     static rotation(spinor: Spinor3Coords): Matrix4;
+    /**
+     * Returns a copy of this Matrix4 instance.
+     * @method clone
+     * @return {Matrix}
+     */
     clone(): Matrix4;
     compose(scale: Cartesian3, attitude: Spinor3Coords, position: Cartesian3): Matrix4;
     copy(m: Matrix4): Matrix4;
@@ -25,6 +47,10 @@ declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
     identity(): Matrix4;
     scale(s: number): Matrix4;
+    /**
+     * @method transpose
+     * @return {Matrix4}
+     */
     transpose(): Matrix4;
     /**
      *
@@ -40,8 +66,9 @@ declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
      */
     rotation(spinor: Spinor3Coords): Matrix4;
     /**
-     * @method
+     * @method row
      * @param i {number} the zero-based index of the row.
+     * @return {number[]}
      */
     row(i: number): number[];
     scaleXYZ(scale: Cartesian3): Matrix4;

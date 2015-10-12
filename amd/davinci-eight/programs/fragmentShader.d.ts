@@ -1,7 +1,7 @@
 import AttribMetaInfo = require('../core/AttribMetaInfo');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 /**
- *
+ * Generates a fragment shader
  */
 declare function fragmentShader(attributes: {
     [name: string]: AttribMetaInfo;

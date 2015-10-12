@@ -98,6 +98,7 @@ import Material             = require('davinci-eight/materials/Material')
 import HTMLScriptsMaterial  = require('davinci-eight/materials/HTMLScriptsMaterial')
 import LineMaterial   = require('davinci-eight/materials/LineMaterial')
 import MeshMaterial   = require('davinci-eight/materials/MeshMaterial')
+import MeshLambertMaterial   = require('davinci-eight/materials/MeshLambertMaterial')
 import PointMaterial = require('davinci-eight/materials/PointMaterial')
 import SmartMaterialBuilder = require('davinci-eight/materials/SmartMaterialBuilder')
 // mappers
@@ -163,8 +164,10 @@ import initWebGL = require('davinci-eight/renderers/initWebGL')
 import renderer = require('davinci-eight/renderers/renderer')
 // uniforms
 import ColorFacet                 = require('davinci-eight/uniforms/ColorFacet')
+import DirectionalLight           = require('davinci-eight/uniforms/DirectionalLight')
 import SineWaveUniform            = require('davinci-eight/uniforms/SineWaveUniform')
 import StockTicker                = require('davinci-eight/uniforms/StockTicker')
+import Vector3Uniform             = require('davinci-eight/uniforms/Vector3Uniform')
 
 // utils
 import contextProxy               = require('davinci-eight/utils/contextProxy')
@@ -224,6 +227,7 @@ var eight = {
   get Material() { return Material },
   get LineMaterial() { return LineMaterial },
   get MeshMaterial() { return MeshMaterial },
+  get MeshLambertMaterial() { return MeshLambertMaterial },
   get PointMaterial() { return PointMaterial },
   get SmartMaterialBuilder() { return SmartMaterialBuilder },
   //commands
@@ -313,7 +317,9 @@ var eight = {
   get GeometryElements() { return GeometryElements },
   // uniforms
   get ColorFacet() { return ColorFacet },
+  get DirectionalLight() { return DirectionalLight },
   get SineWaveUniform() { return SineWaveUniform },
+  get Vector3Uniform() { return Vector3Uniform },
   // utils
   get IUnknownArray() { return IUnknownArray },
   get NumberIUnknownMap() { return NumberIUnknownMap },

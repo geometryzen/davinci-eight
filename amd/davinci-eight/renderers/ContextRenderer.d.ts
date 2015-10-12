@@ -39,16 +39,20 @@ interface ContextRenderer extends IContextConsumer, IUnknown {
     prolog(): void;
     /**
      * Adds a command to the `prolog` that will be executed as part of the render() call, before drawing.
+     * The method is chainable on the command added.
      * @method addPrologCommand
      * @param command {IPrologCommand}
-     * @return {void}
+     * @return {IPrologCommand}
+     * @chainable
      */
-    addPrologCommand(command: IPrologCommand): void;
+    addPrologCommand(command: IPrologCommand): IPrologCommand;
     /**
+     * Adds a handler that will be executed for context free, gain, and loss events.
      * @method addContextGainCommand
      * @param command {IContextCommand}
-     * @return {void}
+     * @return {IContextCommand}
+     * @chainable
      */
-    addContextGainCommand(command: IContextCommand): void;
+    addContextGainCommand(command: IContextCommand): IContextCommand;
 }
 export = ContextRenderer;

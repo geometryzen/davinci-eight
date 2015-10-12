@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.125.0</em>
+            <em>API Docs for: 2.126.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -63,6 +64,7 @@
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
@@ -107,8 +109,12 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
+                                <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
@@ -141,6 +147,7 @@
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
@@ -200,16 +207,41 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import Matrix = require(&#x27;../math/Matrix&#x27;);
 import Matrix4 = require(&#x27;./Matrix4&#x27;);
 
+/**
+ * @class Matrix3
+ * @extends AbstractMatrix
+ */
 class Matrix3 extends AbstractMatrix implements Matrix&lt;Matrix3&gt; {
   /**
-   * Constructs a Matrix4 by wrapping a Float32Array.
+   * 3x3 (square) matrix of numbers.
+   * Constructs a Matrix3 by wrapping a Float32Array.
+   * @class Matrix3
    * @constructor
    */
   constructor(data: Float32Array) {
-    super(data, 9);
+    super(data, 3);
   }
+  /**
+   * &lt;p&gt;
+   * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+   * &lt;/p&gt;
+   * @method identity
+   * @return {Matrix3}
+   * @static
+   */
   public static identity() {
     return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+  }
+  /**
+   * &lt;p&gt;
+   * Creates a new matrix with all elements zero.
+   * &lt;/p&gt;
+   * @method zero
+   * @return {Matrix3}
+   * @static
+   */
+  public static zero(): Matrix3 {
+    return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
   }
   determinant(): number {
     return 1;
@@ -267,6 +299,16 @@ class Matrix3 extends AbstractMatrix implements Matrix&lt;Matrix3&gt; {
   multiply(rhs: Matrix3) {
     return this.product(this, rhs);
   }
+
+  /**
+   * @method row
+   * @param i {number} the zero-based index of the row.
+   * @return {number[]}
+   */
+  row(i: number): number[] {
+    let te = this.data
+    return [te[0 + i], te[3 + i], te[6 + i]]
+  }
   scale(s: number) {
     let m = this.data;
     m[0] *= s; m[3] *= s; m[6] *= s;
@@ -298,6 +340,13 @@ class Matrix3 extends AbstractMatrix implements Matrix&lt;Matrix3&gt; {
     te[ 2 ] = n31; te[ 5 ] = n32; te[ 8 ] = n33;
 
     return this;
+  }
+  toString(): string {
+    let text: string[] = [];
+    for (var i = 0; i &lt; this.dimensions; i++) {
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toString() }).join(&#x27; &#x27;));
+    }
+    return text.join(&#x27;\n&#x27;);
   }
   transpose(): Matrix3 {
     var tmp: number;

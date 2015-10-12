@@ -46,17 +46,29 @@ class RoundUniform implements IFacetVisitor {
   uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4): void {
     console.warn("uniform");
   }
-  uniformVector1(name: string, vector: Vector1): void {
+  uniformCartesian1(name: string, vector: Vector1): void {
     console.warn("uniform");
   }
-  uniformVector2(name: string, vector: Vector2): void {
+  uniformCartesian2(name: string, vector: Vector2): void {
     console.warn("uniform");
   }
-  uniformVector3(name: string, vector: Vector3): void {
+  uniformCartesian3(name: string, vector: Vector3): void {
     console.warn("uniform");
   }
-  uniformVector4(name: string, vector: Vector4): void {
+  uniformCartesian4(name: string, vector: Vector4): void {
     console.warn("uniform");
+  }
+  vector1( name:string, data: number[], canvasId: number): void {
+    this._next.vector1(name, data, canvasId)
+  }
+  vector2( name:string, data: number[], canvasId: number): void {
+    this._next.vector2(name, data, canvasId)
+  }
+  vector3( name:string, data: number[], canvasId: number): void {
+    this._next.vector3(name, data, canvasId)
+  }
+  vector4( name:string, data: number[], canvasId: number): void {
+    this._next.vector4(name, data, canvasId)
   }
 }
 

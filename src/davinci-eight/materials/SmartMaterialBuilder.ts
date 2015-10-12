@@ -11,7 +11,6 @@ import UniformMetaInfo = require('../core/UniformMetaInfo');
 import vColorRequired = require('../programs/vColorRequired');
 import vLightRequired = require('../programs/vLightRequired');
 
-// FIXME: Probably shuld do this calculation
 function computeAttribParams(values: { [key: string]: { size: number, name?: string}}) {
   var result: { [key: string]: { glslType: string, name?: string}} = {}
   let keys = Object.keys(values);

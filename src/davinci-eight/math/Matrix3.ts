@@ -4,16 +4,41 @@ import isDefined = require('../checks/isDefined');
 import Matrix = require('../math/Matrix');
 import Matrix4 = require('./Matrix4');
 
+/**
+ * @class Matrix3
+ * @extends AbstractMatrix
+ */
 class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
   /**
-   * Constructs a Matrix4 by wrapping a Float32Array.
+   * 3x3 (square) matrix of numbers.
+   * Constructs a Matrix3 by wrapping a Float32Array.
+   * @class Matrix3
    * @constructor
    */
   constructor(data: Float32Array) {
-    super(data, 9);
+    super(data, 3);
   }
+  /**
+   * <p>
+   * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+   * </p>
+   * @method identity
+   * @return {Matrix3}
+   * @static
+   */
   public static identity() {
     return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+  }
+  /**
+   * <p>
+   * Creates a new matrix with all elements zero.
+   * </p>
+   * @method zero
+   * @return {Matrix3}
+   * @static
+   */
+  public static zero(): Matrix3 {
+    return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
   }
   determinant(): number {
     return 1;
@@ -71,6 +96,16 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
   multiply(rhs: Matrix3) {
     return this.product(this, rhs);
   }
+
+  /**
+   * @method row
+   * @param i {number} the zero-based index of the row.
+   * @return {number[]}
+   */
+  row(i: number): number[] {
+    let te = this.data
+    return [te[0 + i], te[3 + i], te[6 + i]]
+  }
   scale(s: number) {
     let m = this.data;
     m[0] *= s; m[3] *= s; m[6] *= s;
@@ -102,6 +137,13 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
     te[ 2 ] = n31; te[ 5 ] = n32; te[ 8 ] = n33;
 
     return this;
+  }
+  toString(): string {
+    let text: string[] = [];
+    for (var i = 0; i < this.dimensions; i++) {
+      text.push(this.row(i).map(function(element: number, index: number) { return element.toString() }).join(' '));
+    }
+    return text.join('\n');
   }
   transpose(): Matrix3 {
     var tmp: number;

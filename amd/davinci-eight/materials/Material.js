@@ -323,16 +323,16 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        Material.prototype.uniformVector1 = function (name, vector, canvasId) {
+        Material.prototype.uniformCartesian1 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVector1(name, vector, canvasId);
+                this.inner.uniformCartesian1(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVector1(name, vector, canvasId);
+                    this.inner.uniformCartesian1(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
@@ -341,16 +341,16 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        Material.prototype.uniformVector2 = function (name, vector, canvasId) {
+        Material.prototype.uniformCartesian2 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVector2(name, vector, canvasId);
+                this.inner.uniformCartesian2(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVector2(name, vector, canvasId);
+                    this.inner.uniformCartesian2(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
@@ -359,16 +359,16 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        Material.prototype.uniformVector3 = function (name, vector, canvasId) {
+        Material.prototype.uniformCartesian3 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVector3(name, vector, canvasId);
+                this.inner.uniformCartesian3(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVector3(name, vector, canvasId);
+                    this.inner.uniformCartesian3(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
@@ -377,20 +377,92 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        Material.prototype.uniformVector4 = function (name, vector, canvasId) {
+        Material.prototype.uniformCartesian4 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVector4(name, vector, canvasId);
+                this.inner.uniformCartesian4(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVector4(name, vector, canvasId);
+                    this.inner.uniformCartesian4(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
                         consoleWarnDroppedUniform(this.type, 'Vector4', name, canvasId);
+                    }
+                }
+            }
+        };
+        Material.prototype.vector1 = function (name, data, canvasId) {
+            if (this.inner) {
+                this.inner.vector1(name, data, canvasId);
+            }
+            else {
+                var async = false;
+                var readyPending = this.readyPending;
+                this.makeReady(async);
+                if (this.inner) {
+                    this.inner.vector1(name, data, canvasId);
+                }
+                else {
+                    if (!readyPending) {
+                        consoleWarnDroppedUniform(this.type, 'vector1', name, canvasId);
+                    }
+                }
+            }
+        };
+        Material.prototype.vector2 = function (name, data, canvasId) {
+            if (this.inner) {
+                this.inner.vector2(name, data, canvasId);
+            }
+            else {
+                var async = false;
+                var readyPending = this.readyPending;
+                this.makeReady(async);
+                if (this.inner) {
+                    this.inner.vector2(name, data, canvasId);
+                }
+                else {
+                    if (!readyPending) {
+                        consoleWarnDroppedUniform(this.type, 'vector2', name, canvasId);
+                    }
+                }
+            }
+        };
+        Material.prototype.vector3 = function (name, data, canvasId) {
+            if (this.inner) {
+                this.inner.vector3(name, data, canvasId);
+            }
+            else {
+                var async = false;
+                var readyPending = this.readyPending;
+                this.makeReady(async);
+                if (this.inner) {
+                    this.inner.vector3(name, data, canvasId);
+                }
+                else {
+                    if (!readyPending) {
+                        consoleWarnDroppedUniform(this.type, 'vector3', name, canvasId);
+                    }
+                }
+            }
+        };
+        Material.prototype.vector4 = function (name, data, canvasId) {
+            if (this.inner) {
+                this.inner.vector4(name, data, canvasId);
+            }
+            else {
+                var async = false;
+                var readyPending = this.readyPending;
+                this.makeReady(async);
+                if (this.inner) {
+                    this.inner.vector4(name, data, canvasId);
+                }
+                else {
+                    if (!readyPending) {
+                        consoleWarnDroppedUniform(this.type, 'vector4', name, canvasId);
                     }
                 }
             }

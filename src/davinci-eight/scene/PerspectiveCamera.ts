@@ -105,7 +105,7 @@ class PerspectiveCamera extends Shareable implements ICamera, Perspective, IFace
    * The aspect ratio (width / height) of the camera viewport.
    * @property aspect
    * @type {number}
-   * @readonly
+   * @readOnly
    */
   get aspect(): number {
     return this.inner.aspect
@@ -124,7 +124,7 @@ class PerspectiveCamera extends Shareable implements ICamera, Perspective, IFace
    * The position of the camera.
    * @property eye
    * @type {Vector3}
-   * @readonly
+   * @readOnly
    */
   get eye(): Vector3 {
     return this.inner.eye
@@ -144,7 +144,7 @@ class PerspectiveCamera extends Shareable implements ICamera, Perspective, IFace
    * Measured in radians.
    * @property fov
    * @type {number}
-   * @readonly
+   * @readOnly
    */
   // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
   get fov(): number {
@@ -176,7 +176,7 @@ class PerspectiveCamera extends Shareable implements ICamera, Perspective, IFace
    * The distance to the near plane.
    * @property near
    * @type {number}
-   * @readonly
+   * @readOnly
    */
   get near(): number {
     return this.inner.near

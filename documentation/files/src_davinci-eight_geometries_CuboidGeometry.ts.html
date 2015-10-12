@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.125.0</em>
+            <em>API Docs for: 2.126.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
@@ -63,6 +64,7 @@
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
@@ -107,8 +109,12 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
+                                <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
@@ -141,6 +147,7 @@
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
@@ -194,11 +201,17 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import cannotAssignTypeToProperty = require(&#x27;../i18n/cannotAssignTypeToProperty&#x27;)
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
 import computeFaceNormals = require(&#x27;../geometries/computeFaceNormals&#x27;)
+import feedback = require(&#x27;../feedback/feedback&#x27;)
 import Geometry = require(&#x27;../geometries/Geometry&#x27;)
+import isObject = require(&#x27;../checks/isObject&#x27;)
+import isUndefined = require(&#x27;../checks/isUndefined&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import quad = require(&#x27;../geometries/quadrilateral&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 import triangle = require(&#x27;../geometries/triangle&#x27;)
@@ -212,22 +225,38 @@ import VectorN = require(&#x27;../math/VectorN&#x27;)
  */
 class CuboidGeometry extends Geometry {
   /**
-   * @property a {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.
+   * Parameter is private so that we can detect assignments.
+   * @property _a
+   * @type {Vector3}
+   * @private
    */
-  public a: Vector3 = Vector3.e1.clone();
+  private _a: Vector3;
   /**
-   * @property b {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.
+   * Parameter is private so that we can detect assignments.
+   * @property _b
+   * @type {Vector3}
+   * @private
    */
-  public b: Vector3 = Vector3.e2.clone();
+  private _b: Vector3;
   /**
-   * @property c {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.
+   * Parameter is private so that we can detect assignments.
+   * @property _c
+   * @type {Vector3}
+   * @private
    */
-  public c: Vector3 = Vector3.e3.clone();
+  private _c: Vector3;
   /**
    * @property _k {number} The dimensionality of the simplices representing the cuboid.
    * @private
    */
   private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+  /**
+   * Used to mark the parameters of this object dirty when they are possibly shared.
+   * @property _isModified
+   * @type {boolean}
+   * @private
+   */
+  private _isModified: boolean = true;
   /**
    * &lt;p&gt;
    * The &lt;code&gt;CuboidGeometry&lt;/code&gt; generates simplices representing a cuboid, or more precisely a parallelepiped.
@@ -246,12 +275,79 @@ class CuboidGeometry extends Geometry {
    */
   constructor(type: string = &#x27;CuboidGeometry&#x27;) {
     super(mustBeString(&#x27;type&#x27;,type))
+    this.a = Vector3.e1.clone()
+    this.b = Vector3.e2.clone()
+    this.c = Vector3.e3.clone()
     this.recalculate();
   }
   /**
-   *
+   * &lt;p&gt;
+   * A vector parameterizing the shape of the cuboid.
+   * Defaults to the standard basis vector e1.
+   * Assignment is by reference making it possible for parameters to be shared references.
+   * &lt;/p&gt;
+   * @property a
+   * @type {Vector3}
    */
-  public get k() {
+  public get a(): Vector3 {
+    return this._a
+  }
+  public set a(a: Vector3) {
+    if (a instanceof Vector3) {
+      this._a = a
+      this._isModified = true
+    }
+    else {
+      feedback.warn(cannotAssignTypeToProperty(typeof a, &#x27;a&#x27;))
+    }
+  }
+  /**
+   * &lt;p&gt;
+   * A vector parameterizing the shape of the cuboid.
+   * Defaults to the standard basis vector e2.
+   * Assignment is by reference making it possible for parameters to be shared references.
+   * &lt;/p&gt;
+   * @property b
+   * @type {Vector3}
+   */
+  public get b(): Vector3 {
+    return this._b
+  }
+  public set b(b: Vector3) {
+    if (b instanceof Vector3) {
+      this._b = b
+      this._isModified = true
+    }
+    else {
+      feedback.warn(cannotAssignTypeToProperty(typeof b, &#x27;b&#x27;))
+    }
+  }
+  /**
+   * &lt;p&gt;
+   * A vector parameterizing the shape of the cuboid.
+   * Defaults to the standard basis vector e3.
+   * Assignment is by reference making it possible for parameters to be shared references.
+   * &lt;/p&gt;
+   * @property c
+   * @type {Vector3}
+   */
+  public get c(): Vector3 {
+    return this._c
+  }
+  public set c(c: Vector3) {
+    if (c instanceof Vector3) {
+      this._c = c
+      this._isModified = true
+    }
+    else {
+      feedback.warn(cannotAssignTypeToProperty(typeof c, &#x27;c&#x27;))
+    }
+  }
+  /**
+   * @property k
+   * @type {number}
+   */
+  public get k(): number {
     return this._k.x
   }
   public set k(k: number) {
@@ -259,7 +355,7 @@ class CuboidGeometry extends Geometry {
   }
 
   public isModified() {
-    return this.a.modified || this.b.modified || this.c.modified || this._k.modified
+    return this._isModified || this._a.modified || this._b.modified || this._c.modified || this._k.modified
   }
   /**
    * @method setModified
@@ -267,9 +363,10 @@ class CuboidGeometry extends Geometry {
    * @return {CuboidGeometry} &#x60;this&#x60; instance.
    */
   public setModified(modified: boolean): CuboidGeometry {
-    this.a.modified  = modified
-    this.b.modified  = modified
-    this.c.modified  = modified
+    this._isModified = modified
+    this._a.modified  = modified
+    this._b.modified  = modified
+    this._c.modified  = modified
     this._k.modified = modified
     return this
   }
@@ -279,18 +376,17 @@ class CuboidGeometry extends Geometry {
    * @return {void}
    */
   public recalculate(): void {
-
     this.setModified(false)
 
     var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})
-    pos[0] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2)
-    pos[1] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2)
-    pos[2] = new Vector3().add(this.a).add(this.b).add(this.c).divideScalar(2)
-    pos[3] = new Vector3().sub(this.a).add(this.b).add(this.c).divideScalar(2)
-    pos[4] = new Vector3().copy(pos[3]).sub(this.c)
-    pos[5] = new Vector3().copy(pos[2]).sub(this.c)
-    pos[6] = new Vector3().copy(pos[1]).sub(this.c)
-    pos[7] = new Vector3().copy(pos[0]).sub(this.c)
+    pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideScalar(2)
+    pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divideScalar(2)
+    pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divideScalar(2)
+    pos[3] = new Vector3().sub(this._a).add(this._b).add(this._c).divideScalar(2)
+    pos[4] = new Vector3().copy(pos[3]).sub(this._c)
+    pos[5] = new Vector3().copy(pos[2]).sub(this._c)
+    pos[6] = new Vector3().copy(pos[1]).sub(this._c)
+    pos[7] = new Vector3().copy(pos[0]).sub(this._c)
 
     function simplex(indices: number[]): Simplex {
       let simplex = new Simplex(indices.length - 1)

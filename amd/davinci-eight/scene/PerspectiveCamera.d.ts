@@ -60,7 +60,7 @@ declare class PerspectiveCamera extends Shareable implements ICamera, Perspectiv
      * The aspect ratio (width / height) of the camera viewport.
      * @property aspect
      * @type {number}
-     * @readonly
+     * @readOnly
      */
     aspect: number;
     /**
@@ -74,7 +74,7 @@ declare class PerspectiveCamera extends Shareable implements ICamera, Perspectiv
      * The position of the camera.
      * @property eye
      * @type {Vector3}
-     * @readonly
+     * @readOnly
      */
     eye: Vector3;
     /**
@@ -89,7 +89,7 @@ declare class PerspectiveCamera extends Shareable implements ICamera, Perspectiv
      * Measured in radians.
      * @property fov
      * @type {number}
-     * @readonly
+     * @readOnly
      */
     fov: number;
     /**
@@ -105,7 +105,7 @@ declare class PerspectiveCamera extends Shareable implements ICamera, Perspectiv
      * The distance to the near plane.
      * @property near
      * @type {number}
-     * @readonly
+     * @readOnly
      */
     near: number;
     /**

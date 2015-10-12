@@ -74,17 +74,29 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             uniformMatrix4: function (name, transpose, matrix, canvasId) {
                 return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
             },
-            uniformVector1: function (name, vector, canvasId) {
-                return innerProgram.uniformVector1(name, vector, canvasId);
+            uniformCartesian1: function (name, vector, canvasId) {
+                return innerProgram.uniformCartesian1(name, vector, canvasId);
             },
-            uniformVector2: function (name, vector, canvasId) {
-                return innerProgram.uniformVector2(name, vector, canvasId);
+            uniformCartesian2: function (name, vector, canvasId) {
+                return innerProgram.uniformCartesian2(name, vector, canvasId);
             },
-            uniformVector3: function (name, vector, canvasId) {
-                return innerProgram.uniformVector3(name, vector, canvasId);
+            uniformCartesian3: function (name, vector, canvasId) {
+                return innerProgram.uniformCartesian3(name, vector, canvasId);
             },
-            uniformVector4: function (name, vector, canvasId) {
-                return innerProgram.uniformVector4(name, vector, canvasId);
+            uniformCartesian4: function (name, vector, canvasId) {
+                return innerProgram.uniformCartesian4(name, vector, canvasId);
+            },
+            vector1: function (name, data, canvasId) {
+                return innerProgram.vector1(name, data, canvasId);
+            },
+            vector2: function (name, data, canvasId) {
+                return innerProgram.vector2(name, data, canvasId);
+            },
+            vector3: function (name, data, canvasId) {
+                return innerProgram.vector3(name, data, canvasId);
+            },
+            vector4: function (name, data, canvasId) {
+                return innerProgram.vector4(name, data, canvasId);
             }
         };
         return self;

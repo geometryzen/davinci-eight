@@ -82,7 +82,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
              * The aspect ratio (width / height) of the camera viewport.
              * @property aspect
              * @type {number}
-             * @readonly
+             * @readOnly
              */
             get: function () {
                 return this.inner.aspect;
@@ -105,7 +105,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
              * The position of the camera.
              * @property eye
              * @type {Vector3}
-             * @readonly
+             * @readOnly
              */
             get: function () {
                 return this.inner.eye;
@@ -129,7 +129,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
              * Measured in radians.
              * @property fov
              * @type {number}
-             * @readonly
+             * @readOnly
              */
             // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
             get: function () {
@@ -168,7 +168,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
              * The distance to the near plane.
              * @property near
              * @type {number}
-             * @readonly
+             * @readOnly
              */
             get: function () {
                 return this.inner.near;

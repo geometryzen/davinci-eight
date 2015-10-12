@@ -64,10 +64,14 @@ declare class Material extends Shareable implements IMaterial {
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
     uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void;
-    uniformVector1(name: string, vector: Vector1, canvasId: number): void;
-    uniformVector2(name: string, vector: Vector2, canvasId: number): void;
-    uniformVector3(name: string, vector: Vector3, canvasId: number): void;
-    uniformVector4(name: string, vector: Vector4, canvasId: number): void;
+    uniformCartesian1(name: string, vector: Vector1, canvasId: number): void;
+    uniformCartesian2(name: string, vector: Vector2, canvasId: number): void;
+    uniformCartesian3(name: string, vector: Vector3, canvasId: number): void;
+    uniformCartesian4(name: string, vector: Vector4, canvasId: number): void;
+    vector1(name: string, data: number[], canvasId: number): void;
+    vector2(name: string, data: number[], canvasId: number): void;
+    vector3(name: string, data: number[], canvasId: number): void;
+    vector4(name: string, data: number[], canvasId: number): void;
     vertexShader: string;
 }
 export = Material;

@@ -1,4 +1,4 @@
-define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IUnknownArray', '../checks/mustBeBoolean', '../utils/refChange', '../utils/uuid4', '../commands/WebGLClear', '../commands/WebGLClearColor', '../commands/WebGLEnable'], function (require, exports, core, EIGHTLogger, IUnknownArray, mustBeBoolean, refChange, uuid4, WebGLClear, WebGLClearColor, WebGLEnable) {
+define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IUnknownArray', '../checks/mustBeBoolean', '../utils/refChange', '../utils/uuid4', '../commands/VersionLogger', '../commands/WebGLClear', '../commands/WebGLClearColor', '../commands/WebGLEnable'], function (require, exports, core, EIGHTLogger, IUnknownArray, mustBeBoolean, refChange, uuid4, VersionLogger, WebGLClear, WebGLClearColor, WebGLEnable) {
     function setStartUpCommands(renderer) {
         var cmd;
         // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
@@ -6,9 +6,9 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
         renderer.addContextGainCommand(cmd);
         cmd.release();
         // `WebGL major.minor (OpenGL ES ...)`
-        // cmd = new VersionLogger()
-        // renderer.addContextGainCommand(cmd)
-        // cmd.release()
+        cmd = new VersionLogger();
+        renderer.addContextGainCommand(cmd);
+        cmd.release();
         // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
         // cmd = new ContextAttributesLogger()
         // renderer.addContextGainCommand(cmd)
@@ -92,9 +92,11 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
             },
             addPrologCommand: function (command) {
                 prolog.push(command);
+                return command;
             },
             addContextGainCommand: function (command) {
                 startUp.push(command);
+                return command;
             },
             release: function () {
                 refCount--;

@@ -59,8 +59,8 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
     createTexture2D(): ITexture2D;
     gl: WebGLRenderingContext;
     prolog(): void;
-    addPrologCommand(command: IPrologCommand): void;
-    addContextGainCommand(command: IContextCommand): void;
+    addPrologCommand(command: IPrologCommand): IPrologCommand;
+    addContextGainCommand(command: IContextCommand): IContextCommand;
     removeContextListener(user: IContextConsumer): void;
     setSize(width: number, height: number): void;
     start(canvas: HTMLCanvasElement, canvasId: number): void;

@@ -19,9 +19,13 @@ declare class RoundUniform implements IFacetVisitor {
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2): void;
     uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3): void;
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4): void;
-    uniformVector1(name: string, vector: Vector1): void;
-    uniformVector2(name: string, vector: Vector2): void;
-    uniformVector3(name: string, vector: Vector3): void;
-    uniformVector4(name: string, vector: Vector4): void;
+    uniformCartesian1(name: string, vector: Vector1): void;
+    uniformCartesian2(name: string, vector: Vector2): void;
+    uniformCartesian3(name: string, vector: Vector3): void;
+    uniformCartesian4(name: string, vector: Vector4): void;
+    vector1(name: string, data: number[], canvasId: number): void;
+    vector2(name: string, data: number[], canvasId: number): void;
+    vector3(name: string, data: number[], canvasId: number): void;
+    vector4(name: string, data: number[], canvasId: number): void;
 }
 export = RoundUniform;

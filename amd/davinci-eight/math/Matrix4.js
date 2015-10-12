@@ -5,9 +5,8 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../checks/isDefined', '../math/_M4_x_M4_'], function (require, exports, AbstractMatrix, expectArg, isDefined, _M4_x_M4_) {
     /**
-     * 4x4 matrix integrating with WebGL.
-     *
      * @class Matrix4
+     * @extends AbstractMatrix
      */
     var Matrix4 = (function (_super) {
         __extends(Matrix4, _super);
@@ -18,15 +17,35 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         //  2  6 10 14
         //  3  7 11 15
         /**
+         * 4x4 (square) matrix of numbers.
          * Constructs a Matrix4 by wrapping a Float32Array.
          * @class Matrix4
          * @constructor
          */
         function Matrix4(data) {
-            _super.call(this, data, 16);
+            _super.call(this, data, 4);
         }
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+         * </p>
+         * @method identity
+         * @return {Matrix3}
+         * @static
+         */
         Matrix4.identity = function () {
             return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+        };
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero.
+         * </p>
+         * @method zero
+         * @return {Matrix4}
+         * @static
+         */
+        Matrix4.zero = function () {
+            return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
         };
         Matrix4.scaling = function (scale) {
             return Matrix4.identity().scaling(scale);
@@ -37,8 +56,13 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         Matrix4.rotation = function (spinor) {
             return Matrix4.identity().rotation(spinor);
         };
+        /**
+         * Returns a copy of this Matrix4 instance.
+         * @method clone
+         * @return {Matrix}
+         */
         Matrix4.prototype.clone = function () {
-            return Matrix4.identity().copy(this);
+            return Matrix4.zero().copy(this);
         };
         Matrix4.prototype.compose = function (scale, attitude, position) {
             // We 
@@ -141,6 +165,10 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             te[15] *= s;
             return this;
         };
+        /**
+         * @method transpose
+         * @return {Matrix4}
+         */
         Matrix4.prototype.transpose = function () {
             var te = this.data;
             var tmp;
@@ -234,8 +262,9 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             return this;
         };
         /**
-         * @method
+         * @method row
          * @param i {number} the zero-based index of the row.
+         * @return {number[]}
          */
         Matrix4.prototype.row = function (i) {
             var te = this.data;
@@ -284,7 +313,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
                 expectArg('digits', digits).toBeNumber();
             }
             var text = [];
-            for (var i = 0; i <= 3; i++) {
+            for (var i = 0; i <= this.dimensions - 1; i++) {
                 text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));
             }
             return text.join('\n');

@@ -40,17 +40,29 @@ define(["require", "exports"], function (require, exports) {
         RoundUniform.prototype.uniformMatrix4 = function (name, transpose, matrix) {
             console.warn("uniform");
         };
-        RoundUniform.prototype.uniformVector1 = function (name, vector) {
+        RoundUniform.prototype.uniformCartesian1 = function (name, vector) {
             console.warn("uniform");
         };
-        RoundUniform.prototype.uniformVector2 = function (name, vector) {
+        RoundUniform.prototype.uniformCartesian2 = function (name, vector) {
             console.warn("uniform");
         };
-        RoundUniform.prototype.uniformVector3 = function (name, vector) {
+        RoundUniform.prototype.uniformCartesian3 = function (name, vector) {
             console.warn("uniform");
         };
-        RoundUniform.prototype.uniformVector4 = function (name, vector) {
+        RoundUniform.prototype.uniformCartesian4 = function (name, vector) {
             console.warn("uniform");
+        };
+        RoundUniform.prototype.vector1 = function (name, data, canvasId) {
+            this._next.vector1(name, data, canvasId);
+        };
+        RoundUniform.prototype.vector2 = function (name, data, canvasId) {
+            this._next.vector2(name, data, canvasId);
+        };
+        RoundUniform.prototype.vector3 = function (name, data, canvasId) {
+            this._next.vector3(name, data, canvasId);
+        };
+        RoundUniform.prototype.vector4 = function (name, data, canvasId) {
+            this._next.vector4(name, data, canvasId);
         };
         return RoundUniform;
     })();
