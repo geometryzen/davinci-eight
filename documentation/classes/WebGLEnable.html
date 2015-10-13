@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.127.0</em>
+            <em>API Docs for: 2.128.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -90,6 +89,7 @@
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IContextRenderer.html">IContextRenderer</a></li>
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
@@ -99,11 +99,11 @@
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
-                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
+                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
@@ -156,8 +156,9 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexGeometry.html">VortexGeometry</a></li>
-                                <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
+                                <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
+                                <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -206,7 +207,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_commands_WebGLEnable.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLEnable.ts:20</code></a>
+            Defined in: <a href="../files/src_davinci-eight_commands_WebGLEnable.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLEnable.ts:19</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -216,7 +217,7 @@
 
 <div class="box intro">
     <p>
-enable(capability: number): void
+enable(capability: string): void
 <p>
 </div>
 
@@ -225,7 +226,13 @@ enable(capability: number): void
 <div id="method_WebGLEnable" class="method item">
     <h3 class="name"><code>WebGLEnable</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>capability</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
@@ -237,7 +244,7 @@ enable(capability: number): void
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_commands_WebGLEnable.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLEnable.ts:20</code></a>
+        <a href="../files/src_davinci-eight_commands_WebGLEnable.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLEnable.ts:19</code></a>
         </p>
 
 
@@ -248,6 +255,23 @@ enable(capability: number): void
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">capability</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+                    <div class="param-description">
+                        <p>The name of the WebGLRenderingContext property to be enabled.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -286,12 +310,8 @@ enable(capability: number): void
                                 <a href="#method_contextLost">contextLost</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method protected inherited">
                                 <a href="#method_destructor">destructor</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_execute">execute</a>
 
                             </li>
                             <li class="index-item method inherited inherited">
@@ -550,7 +570,7 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="method_destructor" class="method item">
+<div id="method_destructor" class="method item protected">
     <h3 class="name"><code>destructor</code></h3>
 
         <span class="paren">()</span>
@@ -560,6 +580,7 @@ Notifies this instance that something is dereferencing it.
         </span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
@@ -571,52 +592,6 @@ Notifies this instance that something is dereferencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_commands_WebGLEnable.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLEnable.ts:61</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_execute" class="method item">
-    <h3 class="name"><code>execute</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>gl</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
         <a href="../files/src_davinci-eight_commands_WebGLEnable.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLEnable.ts:52</code></a>
         </p>
 
@@ -628,22 +603,6 @@ Notifies this instance that something is dereferencing it.
         
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">gl</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext" class="crosslink external" target="_blank">WebGLRenderingContext</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
         <div class="returns">
             <h4>Returns:</h4>

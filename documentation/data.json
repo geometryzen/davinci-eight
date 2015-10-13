@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.127.0",
+        "version": "2.128.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -84,11 +84,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/commands/WebGLClear.ts": {
-            "name": "src/davinci-eight/commands/WebGLClear.ts",
+        "src/davinci-eight/commands/WebGLBlendFunc.ts": {
+            "name": "src/davinci-eight/commands/WebGLBlendFunc.ts",
             "modules": {},
             "classes": {
-                "WebGLClear": 1
+                "WebGLBlendFunc": 1
             },
             "fors": {},
             "namespaces": {}
@@ -98,6 +98,15 @@
             "modules": {},
             "classes": {
                 "WebGLClearColor": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/commands/WebGLDisable.ts": {
+            "name": "src/davinci-eight/commands/WebGLDisable.ts",
+            "modules": {},
+            "classes": {
+                "WebGLDisable": 1
             },
             "fors": {},
             "namespaces": {}
@@ -269,15 +278,6 @@
             "modules": {},
             "classes": {
                 "IMaterial": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/IPrologCommand.ts": {
-            "name": "src/davinci-eight/core/IPrologCommand.ts",
-            "modules": {},
-            "classes": {
-                "IPrologCommand": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1154,19 +1154,19 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/renderers/ContextRenderer.ts": {
-            "name": "src/davinci-eight/renderers/ContextRenderer.ts",
-            "modules": {},
-            "classes": {
-                "ContextRenderer": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/renderers/FrameworkDrawContext.ts": {
             "name": "src/davinci-eight/renderers/FrameworkDrawContext.ts",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/renderers/IContextRenderer.ts": {
+            "name": "src/davinci-eight/renderers/IContextRenderer.ts",
+            "modules": {},
+            "classes": {
+                "IContextRenderer": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1379,6 +1379,7 @@
             "name": "src/davinci-eight/utils/IUnknownArray.ts",
             "modules": {},
             "classes": {
+                "IUnknownArray<T extends IUnknown>": 1,
                 "IUnknownArray": 1
             },
             "fors": {},
@@ -1471,8 +1472,9 @@
                 "ContextAttributesLogger": 1,
                 "EIGHTLogger": 1,
                 "VersionLogger": 1,
-                "WebGLClear": 1,
+                "WebGLBlendFunc": 1,
                 "WebGLClearColor": 1,
+                "WebGLDisable": 1,
                 "WebGLEnable": 1,
                 "AttribLocation": 1,
                 "AttribMetaInfo": 1,
@@ -1489,7 +1491,6 @@
                 "IFacet\nextends IUnknown": 1,
                 "IFacetVisitor": 1,
                 "IMaterial": 1,
-                "IPrologCommand": 1,
                 "IUnknown": 1,
                 "Line3": 1,
                 "Point3": 1,
@@ -1562,7 +1563,7 @@
                 "EllipsoidMesh": 1,
                 "EulerFacet": 1,
                 "ModelFacet": 1,
-                "ContextRenderer": 1,
+                "IContextRenderer": 1,
                 "Canvas3D": 1,
                 "Drawable": 1,
                 "IDrawList": 1,
@@ -1578,6 +1579,7 @@
                 "ColorFacet": 1,
                 "DirectionalLight": 1,
                 "Vector3Uniform": 1,
+                "IUnknownArray<T extends IUnknown>": 1,
                 "IUnknownArray": 1,
                 "NumberIUnknownMap<V>": 1,
                 "Shareable": 1,
@@ -1668,7 +1670,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/commands/ContextAttributesLogger.ts",
-            "line": 7,
+            "line": 8,
             "description": "<p>\nDisplays details about the WegGL version to the console.\n<p>",
             "extends": "Shareable",
             "implements": "IContextCommand"
@@ -1683,7 +1685,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/commands/EIGHTLogger.ts",
-            "line": 17,
+            "line": 18,
             "description": "<p>\nInitializes <b>the</b> `type` property to 'EIGHTLogger'.\n</p>",
             "extends": "Shareable",
             "implements": "IContextCommand",
@@ -1699,27 +1701,38 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/commands/VersionLogger.ts",
-            "line": 19,
-            "description": "<p>\nDisplays details about the WegGL version to the console.\n<p> \n<p>\nInitializes the <code>type</code> property to <code>'VersionLogger'</code> for reference count tracking.\n<p>",
+            "line": 14,
             "extends": "Shareable",
             "implements": "IContextCommand",
+            "description": "<p>\nDisplays details about the WegGL version to the console.\n</p> \n<p>\nInitializes the <code>type</code> property to <code>'VersionLogger'</code> for reference count tracking.\n</p>",
             "is_constructor": 1
         },
-        "WebGLClear": {
-            "name": "WebGLClear",
-            "shortname": "WebGLClear",
+        "WebGLBlendFunc": {
+            "name": "WebGLBlendFunc",
+            "shortname": "WebGLBlendFunc",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
-            "file": "src/davinci-eight/commands/WebGLClear.ts",
-            "line": 23,
-            "description": "<p>\nclear(mask: number): void\n<p>",
+            "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
+            "line": 40,
             "extends": "Shareable",
-            "implements": "IContextCommand",
-            "is_constructor": 1
+            "implements": "IContextConsumer",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "sfactor",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "dfactor",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
         },
         "WebGLClearColor": {
             "name": "WebGLClearColor",
@@ -1731,11 +1744,34 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 23,
+            "line": 21,
             "description": "<p>\nclearColor(red: number, green: number, blue: number, alpha: number): void\n<p>",
             "extends": "Shareable",
             "implements": "IContextConsumer",
             "is_constructor": 1
+        },
+        "WebGLDisable": {
+            "name": "WebGLDisable",
+            "shortname": "WebGLDisable",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/commands/WebGLDisable.ts",
+            "line": 19,
+            "description": "<p>\ndisable(capability: string): void\n<p>",
+            "extends": "Shareable",
+            "implements": "IContextConsumer",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "capability",
+                    "description": "The name of the WebGLRenderingContext property to be disabled.",
+                    "type": "String"
+                }
+            ]
         },
         "WebGLEnable": {
             "name": "WebGLEnable",
@@ -1747,11 +1783,18 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/commands/WebGLEnable.ts",
-            "line": 20,
-            "description": "<p>\nenable(capability: number): void\n<p>",
+            "line": 19,
+            "description": "<p>\nenable(capability: string): void\n<p>",
             "extends": "Shareable",
             "implements": "IContextConsumer",
-            "is_constructor": 1
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "capability",
+                    "description": "The name of the WebGLRenderingContext property to be enabled.",
+                    "type": "String"
+                }
+            ]
         },
         "AttribLocation": {
             "name": "AttribLocation",
@@ -1909,8 +1952,9 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 2,
-            "description": "This interface standardizes the concept of an implementation being dependent upon\na WebGL rendering context. The notification methods for context gain, loss, and free\nallow the implementation to participate in the dynamic and volatile environment\nwhereupon a browser may reset its WebGL rendering contexts."
+            "line": 4,
+            "description": "This interface standardizes the concept of an implementation being dependent upon\na WebGL rendering context. The notification methods for context gain, loss, and free\nallow the implementation to participate in the dynamic and volatile environment\nwhereupon a browser may reset its WebGL rendering contexts.",
+            "extends": "IUnknown"
         },
         "IContextMonitor": {
             "name": "IContextMonitor",
@@ -1991,20 +2035,6 @@
             "description": "<p>\nThe role of a IMaterial is to manage WebGLProgram(s) consisting of a vertex shader and fragment shader.\nThe Program must be able to provide introspection information that describes the program.\n</p>",
             "extends": "IFacetVisitor",
             "beta": 1
-        },
-        "IPrologCommand": {
-            "name": "IPrologCommand",
-            "shortname": "IPrologCommand",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/core/IPrologCommand.ts",
-            "line": 4,
-            "description": "The interface to be satisfied by commands run in the prolog phase of the animation loop.",
-            "extends": "IUnknown"
         },
         "IUnknown": {
             "name": "IUnknown",
@@ -2796,7 +2826,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/materials/MeshMaterial.ts",
-            "line": 26,
+            "line": 24,
             "extends": "Material",
             "is_constructor": 1,
             "params": [
@@ -3565,9 +3595,9 @@
             "description": "ModelFacet implements IFacet required for manipulating a body.",
             "is_constructor": 1
         },
-        "ContextRenderer": {
-            "name": "ContextRenderer",
-            "shortname": "ContextRenderer",
+        "IContextRenderer": {
+            "name": "IContextRenderer",
+            "shortname": "IContextRenderer",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -3575,7 +3605,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
+            "file": "src/davinci-eight/renderers/IContextRenderer.ts",
             "line": 7,
             "description": "This interface is to be implemented by classes associated with a single context.\nThis does mean that the commands are not shared.",
             "extends": "IUnknown"
@@ -3822,7 +3852,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/uniforms/AmbientLight.ts",
-            "line": 25,
+            "line": 26,
             "extends": "Shareable",
             "description": "Constructs a white light in the -e3 direction.",
             "is_constructor": 1
@@ -3891,6 +3921,20 @@
                 }
             ]
         },
+        "IUnknownArray<T extends IUnknown>": {
+            "name": "IUnknownArray<T extends IUnknown>",
+            "shortname": "IUnknownArray<T extends IUnknown>",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/utils/IUnknownArray.ts",
+            "line": 29,
+            "extends": "Shareable"
+        },
         "IUnknownArray": {
             "name": "IUnknownArray",
             "shortname": "IUnknownArray",
@@ -3902,7 +3946,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 35,
+            "line": 41,
             "description": "Collection class for maintaining an array of types derived from IUnknown.\nProvides a safer way to maintain reference counts than a native array.",
             "is_constructor": 1
         },
@@ -4352,7 +4396,7 @@
         },
         {
             "file": "src/davinci-eight/commands/EIGHTLogger.ts",
-            "line": 27,
+            "line": 30,
             "description": "Logs the version, GitHub URL, and last modified date to the console.",
             "itemtype": "method",
             "name": "execute",
@@ -4366,7 +4410,7 @@
         },
         {
             "file": "src/davinci-eight/commands/EIGHTLogger.ts",
-            "line": 35,
+            "line": 40,
             "description": "Does nothing.",
             "access": "protected",
             "tagname": "",
@@ -4379,15 +4423,15 @@
         },
         {
             "file": "src/davinci-eight/commands/VersionLogger.ts",
-            "line": 26,
+            "line": 29,
             "description": "<p>\nLogs the WebGL <code>VERSION</code> parameter to the console.\n</p>",
             "itemtype": "method",
-            "name": "execute",
+            "name": "contextGain",
             "params": [
                 {
-                    "name": "gl",
+                    "name": "manager",
                     "description": "",
-                    "type": "WebGLRenderingContext"
+                    "type": "IContextProvider"
                 }
             ],
             "return": {
@@ -4398,7 +4442,7 @@
         },
         {
             "file": "src/davinci-eight/commands/VersionLogger.ts",
-            "line": 37,
+            "line": 43,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -4410,55 +4454,73 @@
             "class": "VersionLogger"
         },
         {
-            "file": "src/davinci-eight/commands/WebGLClear.ts",
-            "line": 17,
-            "description": "The mask used to specify which buffers to clear.",
-            "itemtype": "property",
-            "name": "mask",
-            "type": "{number}",
-            "class": "WebGLClear"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLClear.ts",
-            "line": 31,
+            "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
+            "line": 51,
             "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLClear"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLClear.ts",
-            "line": 38,
-            "itemtype": "method",
-            "name": "execute",
+            "name": "contextFree",
             "params": [
                 {
-                    "name": "gl",
+                    "name": "canvasId",
                     "description": "",
-                    "type": "WebGLRenderingContext"
+                    "type": "Number"
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Void"
             },
-            "class": "WebGLClear"
+            "class": "WebGLBlendFunc"
         },
         {
-            "file": "src/davinci-eight/commands/WebGLClear.ts",
-            "line": 46,
-            "itemtype": "property",
-            "name": "name",
-            "type": "{string}",
-            "readonly": "",
-            "class": "WebGLClear"
+            "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
+            "line": 59,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WebGLBlendFunc"
+        },
+        {
+            "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
+            "line": 67,
+            "itemtype": "method",
+            "name": "contextLost",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WebGLBlendFunc"
+        },
+        {
+            "file": "src/davinci-eight/commands/WebGLBlendFunc.ts",
+            "line": 80,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WebGLBlendFunc"
         },
         {
             "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 34,
+            "line": 32,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -4476,7 +4538,7 @@
         },
         {
             "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 42,
+            "line": 40,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -4494,7 +4556,7 @@
         },
         {
             "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 50,
+            "line": 52,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
@@ -4512,25 +4574,7 @@
         },
         {
             "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 58,
-            "itemtype": "method",
-            "name": "execute",
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLClearColor"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 70,
+            "line": 60,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -4538,6 +4582,73 @@
                 "type": "Void"
             },
             "class": "WebGLClearColor"
+        },
+        {
+            "file": "src/davinci-eight/commands/WebGLDisable.ts",
+            "line": 28,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WebGLDisable"
+        },
+        {
+            "file": "src/davinci-eight/commands/WebGLDisable.ts",
+            "line": 36,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WebGLDisable"
+        },
+        {
+            "file": "src/davinci-eight/commands/WebGLDisable.ts",
+            "line": 44,
+            "itemtype": "method",
+            "name": "contextLost",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "WebGLDisable"
+        },
+        {
+            "file": "src/davinci-eight/commands/WebGLDisable.ts",
+            "line": 52,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "WebGLDisable"
         },
         {
             "file": "src/davinci-eight/commands/WebGLEnable.ts",
@@ -4597,29 +4708,13 @@
             "file": "src/davinci-eight/commands/WebGLEnable.ts",
             "line": 52,
             "itemtype": "method",
-            "name": "execute",
-            "params": [
-                {
-                    "name": "gl",
-                    "description": "",
-                    "type": "WebGLRenderingContext"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "WebGLEnable"
-        },
-        {
-            "file": "src/davinci-eight/commands/WebGLEnable.ts",
-            "line": 61,
-            "itemtype": "method",
             "name": "destructor",
             "return": {
                 "description": "",
                 "type": "Void"
             },
+            "access": "protected",
+            "tagname": "",
             "class": "WebGLEnable"
         },
         {
@@ -4948,7 +5043,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 10,
+            "line": 13,
             "description": "Called to request the dependent to free any WebGL resources acquired and owned.\nThe dependent may assume that its cached context is still valid in order\nto properly dispose of any cached resources. In the case of shared objects, this\nmethod may be called multiple times for what is logically the same context. In such\ncases the dependent must be idempotent and respond only to the first request.",
             "itemtype": "method",
             "name": "contextFree",
@@ -4963,7 +5058,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 21,
+            "line": 24,
             "description": "Called to inform the dependent of a new WebGL rendering context.\nThe implementation should ignore the notification if it has already\nreceived the same context.",
             "itemtype": "method",
             "name": "contextGain",
@@ -4978,7 +5073,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 29,
+            "line": 32,
             "description": "Called to inform the dependent of a loss of WebGL rendering context.\nThe dependent must assume that any cached context is invalid.\nThe dependent must not try to use and cached context to free resources.\nThe dependent should reset its state to that for which there is no context.",
             "itemtype": "method",
             "name": "contextLost",
@@ -5771,34 +5866,6 @@
             ],
             "beta": 1,
             "class": "IMaterial"
-        },
-        {
-            "file": "src/davinci-eight/core/IPrologCommand.ts",
-            "line": 10,
-            "description": "<p>\nThe unique name of the command.\n</p>",
-            "itemtype": "property",
-            "name": "name",
-            "type": "{string}",
-            "readonly": "",
-            "class": "IPrologCommand"
-        },
-        {
-            "file": "src/davinci-eight/core/IPrologCommand.ts",
-            "line": 19,
-            "itemtype": "method",
-            "name": "execute",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IPrologCommand"
         },
         {
             "file": "src/davinci-eight/core/ITexture.ts",
@@ -7239,7 +7306,7 @@
             "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
             "line": 40,
             "itemtype": "method",
-            "name": "createProgram",
+            "name": "createMaterial",
             "return": {
                 "description": "",
                 "type": "IMaterial"
@@ -7288,6 +7355,34 @@
             "file": "src/davinci-eight/materials/MeshMaterial.ts",
             "line": 10,
             "description": "Name used for reference count monitoring and logging.",
+            "class": "MeshMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/MeshMaterial.ts",
+            "line": 33,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "MeshMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/MeshMaterial.ts",
+            "line": 41,
+            "itemtype": "method",
+            "name": "createMaterial",
+            "return": {
+                "description": "",
+                "type": "IMaterial"
+            },
+            "access": "protected",
+            "tagname": "",
             "class": "MeshMaterial",
             "module": "EIGHT"
         },
@@ -8673,41 +8768,41 @@
             "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
             "line": 8,
             "description": "This class is \"simple because\" it assumes exactly one vertex shader and on fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the manager in the constructor enables it to enforce this invariant.",
-            "class": "ContextRenderer",
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
             "line": 32,
             "description": "Name used for reference count monitoring and logging.",
-            "class": "ContextRenderer",
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
             "line": 37,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
-            "class": "ContextRenderer",
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
             "line": 55,
             "description": "Because we are multi-canvas aware, programs are tracked by the canvas id.",
-            "class": "ContextRenderer",
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/fragmentShader.ts",
             "line": 6,
             "description": "Generates a fragment shader",
-            "class": "ContextRenderer",
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/makeWebGLShader.ts",
             "line": 1,
-            "class": "ContextRenderer",
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
@@ -8737,113 +8832,54 @@
                     "type": "Document"
                 }
             ],
-            "class": "ContextRenderer",
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/smartProgram.ts",
             "line": 26,
-            "class": "ContextRenderer",
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/vertexShader.ts",
             "line": 28,
             "description": "Generates a vertex shader.",
-            "class": "ContextRenderer",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
-            "line": 15,
-            "description": "The (readonly) cached WebGL rendering context. The context may sometimes be undefined.",
-            "itemtype": "property",
-            "name": "gl",
-            "type": "{WebGLRenderingContext}",
-            "readonly": "",
-            "class": "ContextRenderer",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
-            "line": 22,
-            "itemtype": "property",
-            "name": "canvas",
-            "type": "{HTMLCanvasElement}",
-            "readonly": "",
-            "class": "ContextRenderer",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
-            "line": 28,
-            "description": "<p>\nDetermines whether the prolog commands are run automatically as part of the render method.\n</p>",
-            "itemtype": "property",
-            "name": "autoProlog",
-            "type": "{boolean}",
-            "class": "ContextRenderer",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
-            "line": 36,
-            "description": "Executes the prolog commands.",
-            "itemtype": "method",
-            "name": "prolog",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextRenderer",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
-            "line": 42,
-            "description": "Adds a command to the `prolog` that will be executed as part of the render() call, before drawing.\nThe method is chainable on the command added.",
-            "itemtype": "method",
-            "name": "addPrologCommand",
-            "params": [
-                {
-                    "name": "command",
-                    "description": "",
-                    "type": "IPrologCommand"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "IPrologCommand"
-            },
-            "chainable": 1,
-            "class": "ContextRenderer",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
-            "line": 51,
-            "description": "Adds a handler that will be executed for context free, gain, and loss events.",
-            "itemtype": "method",
-            "name": "addContextGainCommand",
-            "params": [
-                {
-                    "name": "command",
-                    "description": "",
-                    "type": "IContextCommand"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "IContextCommand"
-            },
-            "chainable": 1,
-            "class": "ContextRenderer",
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/renderers/FrameworkDrawContext.ts",
             "line": 2,
             "description": "TODO: Undecided as to whether this should be used.",
-            "class": "Canvas3D",
+            "class": "IContextRenderer",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/renderers/IContextRenderer.ts",
+            "line": 15,
+            "description": "The (readonly) cached WebGL rendering context. The context may sometimes be undefined.",
+            "itemtype": "property",
+            "name": "gl",
+            "type": "{WebGLRenderingContext}",
+            "readonly": "",
+            "class": "IContextRenderer",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/renderers/IContextRenderer.ts",
+            "line": 22,
+            "itemtype": "property",
+            "name": "canvas",
+            "type": "{HTMLCanvasElement}",
+            "readonly": "",
+            "class": "IContextRenderer",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/renderers/IContextRenderer.ts",
+            "line": 28,
+            "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
@@ -8855,7 +8891,7 @@
         },
         {
             "file": "src/davinci-eight/renderers/renderer.ts",
-            "line": 67,
+            "line": 21,
             "description": "We need to know the canvasId so that we can tell drawables where to draw.\nHowever, we don't need an don't want a canvas because we can only get that once the\ncanvas has loaded. I suppose a promise would be OK, but that's for another day.\n\nPart of the role of this class is to manage the commands that are executed at startup/prolog.",
             "class": "Canvas3D",
             "module": "EIGHT"
@@ -8896,18 +8932,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 72,
-            "description": "<p>\nDetermines whether prolog commands are run automatically as part of the `render()` call.\n</p>",
-            "itemtype": "property",
-            "name": "autoProlog",
-            "type": "boolean",
-            "default": "true",
-            "class": "Canvas3D",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 92,
+            "line": 78,
             "itemtype": "property",
             "name": "canvasId",
             "type": "{number}",
@@ -9701,7 +9726,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/AmbientLight.ts",
-            "line": 20,
+            "line": 21,
             "itemtype": "property",
             "name": "color",
             "type": "{Color}",
@@ -9710,7 +9735,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/AmbientLight.ts",
-            "line": 34,
+            "line": 39,
             "itemtype": "method",
             "name": "destructor",
             "type": "{void}",
@@ -9721,7 +9746,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/AmbientLight.ts",
-            "line": 42,
+            "line": 47,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -9891,12 +9916,23 @@
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
             "line": 8,
             "description": "Essentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
-            "class": "IUnknownArray",
+            "class": "IUnknownArray<T extends IUnknown>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 49,
+            "line": 34,
+            "itemtype": "property",
+            "name": "_elements",
+            "type": "{T[]}",
+            "access": "private",
+            "tagname": "",
+            "class": "IUnknownArray<T extends IUnknown>",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/IUnknownArray.ts",
+            "line": 55,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -9910,7 +9946,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 62,
+            "line": 68,
             "description": "Gets the element at the specified index, incrementing the reference count.",
             "itemtype": "method",
             "name": "get",
@@ -9930,7 +9966,27 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 76,
+            "line": 81,
+            "description": "Gets the element at the specified index, without incrementing the reference count.",
+            "itemtype": "method",
+            "name": "getWeakRef",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "T"
+            },
+            "class": "IUnknownArray",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/IUnknownArray.ts",
+            "line": 90,
             "itemtype": "method",
             "name": "indexOf",
             "params": [
@@ -9954,7 +10010,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 85,
+            "line": 99,
             "itemtype": "property",
             "name": "length",
             "return": {
@@ -9966,7 +10022,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 98,
+            "line": 112,
             "description": "The slice() method returns a shallow copy of a portion of an array into a new array object.\nIt does not remove elements from the original array.",
             "itemtype": "method",
             "name": "slice",
@@ -9985,7 +10041,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 108,
+            "line": 122,
             "description": "The splice() method changes the content of an array by removing existing elements and/or adding new elements.",
             "itemtype": "method",
             "name": "splice",
@@ -10010,7 +10066,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 119,
+            "line": 133,
             "itemtype": "method",
             "name": "shift",
             "return": {
@@ -10022,7 +10078,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 127,
+            "line": 141,
             "description": "Traverse without Reference Counting",
             "itemtype": "method",
             "name": "forEach",
@@ -10042,7 +10098,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 136,
+            "line": 150,
             "description": "Pushes an element onto the tail of the list and increments the element reference count.",
             "itemtype": "method",
             "name": "push",
@@ -10062,7 +10118,27 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 149,
+            "line": 162,
+            "description": "Pushes an element onto the tail of the list without incrementing the element reference count.",
+            "itemtype": "method",
+            "name": "pushWeakRef",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "T"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "IUnknownArray",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/IUnknownArray.ts",
+            "line": 171,
             "itemtype": "method",
             "name": "pop",
             "return": {
@@ -10390,7 +10466,7 @@
         },
         {
             "message": "unknown tag: parameters",
-            "line": " src/davinci-eight/materials/MeshMaterial.ts:26"
+            "line": " src/davinci-eight/materials/MeshMaterial.ts:24"
         },
         {
             "message": "unknown tag: parameters",
@@ -10789,12 +10865,16 @@
             "line": " src/davinci-eight/renderers/FrameworkDrawContext.ts:2"
         },
         {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/renderers/IContextRenderer.ts:28"
+        },
+        {
             "message": "Missing item type\nReturns the WebGLRenderingContext given a canvas.\ncanvas\nattributes\nIf the canvas is undefined then an undefined value is returned for the context.",
             "line": " src/davinci-eight/renderers/initWebGL.ts:3"
         },
         {
             "message": "Missing item type\nWe need to know the canvasId so that we can tell drawables where to draw.\nHowever, we don't need an don't want a canvas because we can only get that once the\ncanvas has loaded. I suppose a promise would be OK, but that's for another day.\n\nPart of the role of this class is to manage the commands that are executed at startup/prolog.",
-            "line": " src/davinci-eight/renderers/renderer.ts:67"
+            "line": " src/davinci-eight/renderers/renderer.ts:21"
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",

@@ -1,12 +1,14 @@
 import IContextProvider = require('../core/IContextProvider');
+import IUnknown = require('../core/IUnknown');
 /**
  * This interface standardizes the concept of an implementation being dependent upon
  * a WebGL rendering context. The notification methods for context gain, loss, and free
  * allow the implementation to participate in the dynamic and volatile environment
  * whereupon a browser may reset its WebGL rendering contexts.
  * @class IContextConsumer
+ * @extends IUnknown
  */
-interface IContextConsumer {
+interface IContextConsumer extends IUnknown {
     /**
      * Called to request the dependent to free any WebGL resources acquired and owned.
      * The dependent may assume that its cached context is still valid in order

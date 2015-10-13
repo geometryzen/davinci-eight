@@ -1,8 +1,6 @@
-import IUnknown = require('../core/IUnknown');
+import IContextConsumer = require('../core/IContextConsumer');
 
-interface IContextCommand extends IUnknown {
-  name: string;
-  execute(gl: WebGLRenderingContext): void;
+interface IContextCommand extends IContextConsumer {
 }
 
 export = IContextCommand;

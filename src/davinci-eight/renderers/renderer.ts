@@ -1,68 +1,22 @@
 import Color = require('../core/Color')
 import core = require('../core')
-import EIGHTLogger = require('../commands/EIGHTLogger')
 import expectArg = require('../checks/expectArg')
 import ContextAttributesLogger = require('../commands/ContextAttributesLogger')
 import IContextProvider = require('../core/IContextProvider')
-import ContextRenderer = require('../renderers/ContextRenderer')
+import IContextRenderer = require('../renderers/IContextRenderer')
 import IContextCommand = require('../core/IContextCommand')
 import IDrawable = require('../core/IDrawable')
 import IDrawList = require('../scene/IDrawList')
 import IBufferGeometry = require('../geometries/IBufferGeometry')
 import IMaterial = require('../core/IMaterial')
-import IPrologCommand = require('../core/IPrologCommand')
 import IUnknownArray = require('../utils/IUnknownArray')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustSatisfy = require('../checks/mustSatisfy')
 import IFacet = require('../core/IFacet')
 import refChange = require('../utils/refChange')
 import uuid4 = require('../utils/uuid4')
-import VersionLogger = require('../commands/VersionLogger')
-import WebGLClear      = require('../commands/WebGLClear')
-import WebGLClearColor = require('../commands/WebGLClearColor')
-import WebGLEnable     = require('../commands/WebGLEnable')
 
-function setStartUpCommands(renderer: ContextRenderer) {
-
-  var cmd: IContextCommand
-
-  // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
-  cmd = new EIGHTLogger()
-  renderer.addContextGainCommand(cmd)
-  cmd.release()
-
-  // `WebGL major.minor (OpenGL ES ...)`
-  cmd = new VersionLogger()
-  renderer.addContextGainCommand(cmd)
-  cmd.release()
-
-  // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
-  // cmd = new ContextAttributesLogger()
-  // renderer.addContextGainCommand(cmd)
-  // cmd.release()
-
-  // cmd(red, green, blue, alpha)
-  cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0)
-  renderer.addContextGainCommand(cmd)
-  cmd.release()
-
-  // enable(capability)
-  cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST)
-  renderer.addContextGainCommand(cmd)
-  cmd.release()
-}
-
-function setPrologCommands(renderer: ContextRenderer) {
-
-  var cmd: IPrologCommand
-
-  // clear(mask)
-  cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT)
-  renderer.addPrologCommand(cmd)
-  cmd.release()
-}
-
-let CLASS_NAME = "CanonicalContextRenderer"
+let CLASS_NAME = "CanonicalIContextRenderer"
 
 /**
  * We need to know the canvasId so that we can tell drawables where to draw.
@@ -71,76 +25,52 @@ let CLASS_NAME = "CanonicalContextRenderer"
  *
  * Part of the role of this class is to manage the commands that are executed at startup/prolog.
  */
-let renderer = function(): ContextRenderer {
+let renderer = function(): IContextRenderer {
   var _manager: IContextProvider;
   let uuid = uuid4().generate()
   let refCount = 1
-  var _autoProlog: boolean = true;
-  let prolog = new IUnknownArray<IPrologCommand>([], CLASS_NAME)
-  let startUp = new IUnknownArray<IContextCommand>([], CLASS_NAME)
+  let commands = new IUnknownArray<IContextCommand>([], CLASS_NAME)
 
-  let self: ContextRenderer = {
+  let self: IContextRenderer = {
     addRef(): number {
       refCount++
       refChange(uuid, CLASS_NAME, +1)
       return refCount
     },
-    get autoProlog(): boolean {
-      return _autoProlog;
-    },
-    set autoProlog(autoProlog: boolean) {
-      mustBeBoolean('autoProlog', autoProlog)
-      _autoProlog = autoProlog;
-    },
     get canvas(): HTMLCanvasElement {
       return _manager ? _manager.canvas : void 0
+    },
+    get commands(): IUnknownArray<IContextCommand> {
+      return commands;
     },
     get gl(): WebGLRenderingContext {
       return _manager ? _manager.gl : void 0
     },
-    contextFree() {
+    contextFree(canvasId: number) {
+      commands.forEach(function(command: IContextCommand){
+        command.contextFree(canvasId)
+      })
       _manager = void 0;
     },
     contextGain(manager: IContextProvider) {
       // This object is single context, so we only ever get called with one manager at a time (serially).
       _manager = manager;
-      startUp.forEach(function(command: IContextCommand){
-        command.execute(manager.gl)
+      commands.forEach(function(command: IContextCommand){
+        command.contextGain(manager)
       })
     },
-    contextLost() {
+    contextLost(canvasId: number) {
+      commands.forEach(function(command: IContextCommand){
+        command.contextLost(canvasId)
+      })
       _manager = void 0;
-    },
-    prolog(): void {
-      if (_manager) {
-        for (var i = 0, length = prolog.length; i < length; i++) {
-         var command =  prolog.get(i)
-         command.execute(_manager)
-         command.release()
-        }
-      }
-      else {
-        if (core.verbose) {
-          console.warn("Unable to execute prolog because WebGLRenderingContext is missing.")
-        }
-      }
-    },
-    addPrologCommand(command: IPrologCommand): IPrologCommand {
-      prolog.push(command)
-      return command
-    },
-    addContextGainCommand(command: IContextCommand): IContextCommand {
-      startUp.push(command)
-      return command
     },
     release(): number {
       refCount--
       refChange(uuid, CLASS_NAME, -1)
       if (refCount === 0) {
-        prolog.release()
-        prolog = void 0
-        startUp.release()
-        startUp = void 0
+        commands.release()
+        commands = void 0
         return 0
       }
       else {
@@ -149,8 +79,6 @@ let renderer = function(): ContextRenderer {
     }
   }
   refChange(uuid, CLASS_NAME, +1)
-  setStartUpCommands(self)
-  setPrologCommands(self)
   return self
 }
 

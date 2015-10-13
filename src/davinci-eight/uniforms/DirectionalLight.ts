@@ -35,8 +35,8 @@ class DirectionalLight extends Shareable implements IFacet {
    */
   constructor() {
     super('DirectionalLight')
-    this.direction = Vector3.e3.clone().scale(-1);
-    this.color = Color.white;
+    this.direction = new Vector3([-1, -1, -1]).normalize()
+    this.color = Color.white.clone()
   }
   /**
    * @method destructor

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/commands/WebGLClear.ts - davinci-eight</title>
+    <title>src/davinci-eight/commands/WebGLDisable.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.127.0</em>
+            <em>API Docs for: 2.128.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -90,6 +89,7 @@
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IContextRenderer.html">IContextRenderer</a></li>
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
@@ -99,11 +99,11 @@
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
-                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
+                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
@@ -156,8 +156,9 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexGeometry.html">VortexGeometry</a></li>
-                                <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
+                                <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
+                                <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -198,66 +199,73 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/commands/WebGLClear.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/commands/WebGLDisable.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
-import IPrologCommand = require(&#x27;../core/IPrologCommand&#x27;);
+import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;);
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;);
+import IContextCommand = require(&#x27;../core/IContextCommand&#x27;);
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;);
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;);
 import Shareable = require(&#x27;../utils/Shareable&#x27;);
-
-var QUALIFIED_NAME = &#x27;WebGLRenderingContext.clear&#x27;
 
 /**
  * &lt;p&gt;
- * clear(mask: number): void
+ * disable(capability: string): void
  * &lt;p&gt; 
- * @class WebGLClear
+ * @class WebGLDisable
  * @extends Shareable
  * @implements IContextCommand
+ * @implements IContextConsumer
  */
-class WebGLClear extends Shareable implements IPrologCommand {
+class WebGLDisable extends Shareable implements IContextCommand, IContextConsumer {
+  private _capability: string;
   /**
-   * The mask used to specify which buffers to clear.
-   * @property mask
-   * @type {number}
-   */
-  public mask: number;
-  /**
-   * @class WebGLClear
+   * @class WebGLDisable
    * @constructor
+   * @param capability {string} The name of the WebGLRenderingContext property to be disabled.
    */
-  constructor(mask: number) {
-    super(QUALIFIED_NAME);
-    this.mask = mustBeNumber(&#x27;mask&#x27;, mask);
+  constructor(capability: string) {
+    super(&#x27;WebGLDisable&#x27;)
+    this._capability = mustBeString(&#x27;capability&#x27;, capability)
+  }
+  /**
+   * @method contextFree
+   * @param canvasId {number}
+   * @return {void}
+   */
+  contextFree(canvasId: number): void {
+    // do nothing
+  }
+  /**
+   * @method contextGain
+   * @param manager {IContextProvider}
+   * @return {void}
+   */
+  contextGain(manager: IContextProvider): void {
+    manager.gl.disable(mustBeNumber(this._capability, &lt;number&gt;((&lt;any&gt;manager.gl)[this._capability])))
+  }
+  /**
+   * @method contextLost
+   * @param canvasId {number}
+   * @return {void}
+   */
+  contextLost(canvasId: number): void {
+    // do nothing
   }
   /**
    * @method destructor
    * @return {void}
+   * @protected
    */
-  destructor(): void {
-      this.mask = void 0;
-  }
-  /**
-   * @method execute
-   * @param gl {WebGLRenderingContext}
-   * @return {void}
-   */
-  execute(manager: IContextProvider): void {
-    manager.gl.clear(this.mask);
-  }
-  /**
-   * @property name
-   * @type {string}
-   * @readOnly
-   */
-  get name(): string {
-    return QUALIFIED_NAME;
+  protected destructor(): void {
+    this._capability = void 0
+    super.destructor()
   }
 }
 
-export = WebGLClear;
+export = WebGLDisable
     </pre>
 </div>
                     </div>

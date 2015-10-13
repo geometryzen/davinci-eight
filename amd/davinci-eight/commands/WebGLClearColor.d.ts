@@ -1,4 +1,3 @@
-import IContextConsumer = require('../core/IContextConsumer');
 import IContextProvider = require('../core/IContextProvider');
 import IContextCommand = require('../core/IContextCommand');
 import Shareable = require('../utils/Shareable');
@@ -11,7 +10,7 @@ import Shareable = require('../utils/Shareable');
  * @implements IContextCommand
  * @implements IContextConsumer
  */
-declare class WebGLClearColor extends Shareable implements IContextCommand, IContextConsumer {
+declare class WebGLClearColor extends Shareable implements IContextCommand {
     red: number;
     green: number;
     blue: number;
@@ -40,16 +39,9 @@ declare class WebGLClearColor extends Shareable implements IContextCommand, ICon
      */
     contextLost(canvasId: number): void;
     /**
-     * @method execute
-     * @param gl {WebGLRenderingContext}
-     * @return {void}
-     */
-    execute(gl: WebGLRenderingContext): void;
-    /**
      * @method destructor
      * @return {void}
      */
     destructor(): void;
-    name: string;
 }
 export = WebGLClearColor;

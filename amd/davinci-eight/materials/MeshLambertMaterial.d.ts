@@ -14,6 +14,6 @@ declare class MeshLambertMaterial extends Material {
      */
     constructor(monitors?: IContextMonitor[]);
     protected destructor(): void;
-    protected createProgram(): IMaterial;
+    protected createMaterial(): IMaterial;
 }
 export = MeshLambertMaterial;

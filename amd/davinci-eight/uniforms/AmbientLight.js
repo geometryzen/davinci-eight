@@ -21,7 +21,11 @@ define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Sy
          */
         function AmbientLight() {
             _super.call(this, 'AmbientLight');
-            this.color = Color.white;
+            // FIXME: Need some kind of locking for constants
+            this.color = Color.white.clone();
+            this.color.red = 0.2;
+            this.color.green = 0.2;
+            this.color.blue = 0.2;
         }
         /**
          * @method destructor
@@ -38,7 +42,7 @@ define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Sy
          * @return {void}
          */
         AmbientLight.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, this.color.data, canvasId);
+            visitor.vector3(Symbolic.UNIFORM_AMBIENT_LIGHT, this.color.data, canvasId);
         };
         return AmbientLight;
     })(Shareable);

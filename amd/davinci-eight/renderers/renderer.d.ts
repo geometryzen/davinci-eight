@@ -1,4 +1,4 @@
-import ContextRenderer = require('../renderers/ContextRenderer');
+import IContextRenderer = require('../renderers/IContextRenderer');
 /**
  * We need to know the canvasId so that we can tell drawables where to draw.
  * However, we don't need an don't want a canvas because we can only get that once the
@@ -6,5 +6,5 @@ import ContextRenderer = require('../renderers/ContextRenderer');
  *
  * Part of the role of this class is to manage the commands that are executed at startup/prolog.
  */
-declare let renderer: () => ContextRenderer;
+declare let renderer: () => IContextRenderer;
 export = renderer;

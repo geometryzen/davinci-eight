@@ -1,5 +1,6 @@
 import core = require('../core');
 import IContextCommand = require('../core/IContextCommand');
+import IContextProvider = require('../core/IContextProvider');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Shareable = require('../utils/Shareable');
 
@@ -24,13 +25,17 @@ class EIGHTLogger extends Shareable implements IContextCommand {
   constructor() {
     super(QUALIFIED_NAME);
   }
+  contextFree(canvasId: number): void {
+  }
   /**
    * Logs the version, GitHub URL, and last modified date to the console. 
    * @method execute
    * @param unused WebGLRenderingContext
    */
-  execute(unused: WebGLRenderingContext): void {
+  contextGain(manager: IContextProvider): void {
     console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_MODIFIED);
+  }
+  contextLost(canvasId: number): void {
   }
   /**
    * Does nothing.

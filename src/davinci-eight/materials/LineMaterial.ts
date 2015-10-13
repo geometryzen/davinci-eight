@@ -32,7 +32,7 @@ class LineMaterial extends Material {
   constructor(monitors: IContextMonitor[] = [], parameters?: LineMaterialParameters) {
     super(monitors, LOGGING_NAME);
   }
-  protected createProgram(): IMaterial {
+  protected createMaterial(): IMaterial {
     let smb = new SmartMaterialBuilder();
 
     smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);

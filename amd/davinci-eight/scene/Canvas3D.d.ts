@@ -2,19 +2,19 @@ import ContextController = require('../core/ContextController');
 import IContextProvider = require('../core/IContextProvider');
 import IContextMonitor = require('../core/IContextMonitor');
 import IContextConsumer = require('../core/IContextConsumer');
-import ContextRenderer = require('../renderers/ContextRenderer');
+import IContextRenderer = require('../renderers/IContextRenderer');
 import GeometryData = require('../geometries/GeometryData');
 import IBuffer = require('../core/IBuffer');
 import IContextCommand = require('../core/IContextCommand');
 import IBufferGeometry = require('../geometries/IBufferGeometry');
 import ITexture2D = require('../core/ITexture2D');
 import ITextureCubeMap = require('../core/ITextureCubeMap');
-import IPrologCommand = require('../core/IPrologCommand');
+import IUnknownArray = require('../utils/IUnknownArray');
 import Shareable = require('../utils/Shareable');
 /**
  * @class Canvas3D
  */
-declare class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, ContextRenderer {
+declare class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
     private _kahuna;
     private _renderer;
     /**
@@ -33,15 +33,6 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
      */
     protected destructor(): void;
     addContextListener(user: IContextConsumer): void;
-    /**
-     * <p>
-     * Determines whether prolog commands are run automatically as part of the `render()` call.
-     * </p>
-     * @property autoProlog
-     * @type boolean
-     * @default true
-     */
-    autoProlog: boolean;
     canvas: HTMLCanvasElement;
     /**
      * @property canvasId
@@ -49,6 +40,7 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
      * @readOnly
      */
     canvasId: number;
+    commands: IUnknownArray<IContextCommand>;
     contextFree(canvasId: number): void;
     contextGain(manager: IContextProvider): void;
     contextLost(canvasId: number): void;
@@ -58,9 +50,6 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
     createTextureCubeMap(): ITextureCubeMap;
     createTexture2D(): ITexture2D;
     gl: WebGLRenderingContext;
-    prolog(): void;
-    addPrologCommand(command: IPrologCommand): IPrologCommand;
-    addContextGainCommand(command: IContextCommand): IContextCommand;
     removeContextListener(user: IContextConsumer): void;
     setSize(width: number, height: number): void;
     start(canvas: HTMLCanvasElement, canvasId: number): void;

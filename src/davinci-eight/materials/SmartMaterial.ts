@@ -63,7 +63,7 @@ class SmartMaterial extends Material {
     // We can start eagerly or omit this call entirely and wait till we are use(d).
     this.makeReady(false);
   }
-  protected createProgram(): IMaterial {
+  protected createMaterial(): IMaterial {
     let bindings: string[] = [];
     return createMaterial(this.monitors, this.vertexShader, this.fragmentShader, bindings);
   }

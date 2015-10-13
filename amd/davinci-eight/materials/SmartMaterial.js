@@ -43,7 +43,7 @@ define(["require", "exports", '../programs/fragmentShader', '../materials/Materi
             // We can start eagerly or omit this call entirely and wait till we are use(d).
             this.makeReady(false);
         }
-        SmartMaterial.prototype.createProgram = function () {
+        SmartMaterial.prototype.createMaterial = function () {
             var bindings = [];
             return createMaterial(this.monitors, this.vertexShader, this.fragmentShader, bindings);
         };

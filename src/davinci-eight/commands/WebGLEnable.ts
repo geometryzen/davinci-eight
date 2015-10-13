@@ -2,13 +2,12 @@ import IContextConsumer = require('../core/IContextConsumer');
 import IContextProvider = require('../core/IContextProvider');
 import IContextCommand = require('../core/IContextCommand');
 import mustBeNumber = require('../checks/mustBeNumber');
+import mustBeString = require('../checks/mustBeString');
 import Shareable = require('../utils/Shareable');
-
-var QUALIFIED_NAME = 'WebGLRenderingContext.enable'
 
 /**
  * <p>
- * enable(capability: number): void
+ * enable(capability: string): void
  * <p> 
  * @class WebGLEnable
  * @extends Shareable
@@ -16,14 +15,15 @@ var QUALIFIED_NAME = 'WebGLRenderingContext.enable'
  * @implements IContextConsumer
  */
 class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer {
-  public capability: number;
+  private _capability: string;
   /**
    * @class WebGLEnable
    * @constructor
+   * @param capability {string} The name of the WebGLRenderingContext property to be enabled.
    */
-  constructor(capability: number = 1) {
-    super(QUALIFIED_NAME);
-    this.capability = mustBeNumber('capability', capability);
+  constructor(capability: string) {
+    super('WebGLEnable')
+    this._capability = mustBeString('capability', capability)
   }
   /**
    * @method contextFree
@@ -39,7 +39,7 @@ class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer
    * @return {void}
    */
   contextGain(manager: IContextProvider): void {
-    this.execute(manager.gl);
+    manager.gl.enable(mustBeNumber(this._capability, <number>((<any>manager.gl)[this._capability])))
   }
   /**
    * @method contextLost
@@ -50,24 +50,14 @@ class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer
     // do nothing
   }
   /**
-   * @method execute
-   * @param gl {WebGLRenderingContext}
-   * @return {void}
-   */
-  execute(gl: WebGLRenderingContext): void {
-    mustBeNumber('capability', this.capability);
-    gl.enable(this.capability);
-  }
-  /**
    * @method destructor
    * @return {void}
+   * @protected
    */
-  destructor(): void {
-    this.capability = void 0;
-  }
-  get name(): string {
-    return QUALIFIED_NAME;
+  protected destructor(): void {
+    this._capability = void 0
+    super.destructor()
   }
 }
 
-export = WebGLEnable;
+export = WebGLEnable

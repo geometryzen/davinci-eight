@@ -5,7 +5,7 @@ import IContextProvider = require('../core/IContextProvider')
 import IContextMonitor = require('../core/IContextMonitor')
 import IContextConsumer = require('../core/IContextConsumer')
 import contextProxy = require('../utils/contextProxy')
-import ContextRenderer = require('../renderers/ContextRenderer')
+import IContextRenderer = require('../renderers/IContextRenderer')
 import core = require('../core')
 import GeometryData = require('../geometries/GeometryData')
 import IBuffer = require('../core/IBuffer')
@@ -14,8 +14,8 @@ import IDrawList = require('../scene/IDrawList')
 import IBufferGeometry = require('../geometries/IBufferGeometry')
 import ITexture2D = require('../core/ITexture2D')
 import ITextureCubeMap = require('../core/ITextureCubeMap')
-import IPrologCommand = require('../core/IPrologCommand')
 import IUnknown = require('../core/IUnknown')
+import IUnknownArray = require('../utils/IUnknownArray')
 import mustBeDefined = require('../checks/mustBeDefined')
 import mustBeFunction = require('../checks/mustBeFunction')
 import mustBeInteger = require('../checks/mustBeInteger')
@@ -34,9 +34,9 @@ let defaultCanvasBuilder = () => {return document.createElement('canvas')}
 /**
  * @class Canvas3D
  */
-class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, ContextRenderer {
+class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
   private _kahuna: ContextKahuna;
-  private _renderer: ContextRenderer;
+  private _renderer: IContextRenderer;
   /**
    * @class Canvas3D
    * @constructor
@@ -69,20 +69,6 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   addContextListener(user: IContextConsumer): void {
     this._kahuna.addContextListener(user)
   }
-  /**
-   * <p>
-   * Determines whether prolog commands are run automatically as part of the `render()` call.
-   * </p>
-   * @property autoProlog
-   * @type boolean
-   * @default true
-   */
-  get autoProlog(): boolean {
-    return this._renderer.autoProlog;
-  }
-  set autoProlog(autoProlog) {
-    this._renderer.autoProlog = autoProlog;
-  }
   get canvas(): HTMLCanvasElement {
     return this._kahuna.canvas;
   }
@@ -100,6 +86,9 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   set canvasId(unused) {
     // FIXME: DRY delegate to kahuna? Should give the same result.
     throw new Error(readOnly('canvasId').message)
+  }
+  get commands(): IUnknownArray<IContextCommand> {
+    return this._renderer.commands;
   }
   /* FIXME: Do we need this. Why. Why not kahuna too?
   // No contract says that we need to return this.
@@ -135,15 +124,6 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   }
   get gl(): WebGLRenderingContext {
     return this._kahuna.gl
-  }
-  prolog(): void {
-    this._renderer.prolog()
-  }
-  addPrologCommand(command: IPrologCommand): IPrologCommand {
-    return this._renderer.addPrologCommand(command)
-  }
-  addContextGainCommand(command: IContextCommand): IContextCommand {
-    return this._renderer.addContextGainCommand(command)
   }
   removeContextListener(user: IContextConsumer): void {
     this._kahuna.removeContextListener(user)

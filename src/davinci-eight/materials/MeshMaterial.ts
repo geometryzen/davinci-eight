@@ -21,8 +21,6 @@ function nameBuilder(): string {
  * @extends Material
  */
 class MeshMaterial extends Material {
-  // A super call must be the first statement in the constructor when a class
-  // contains initialized propertied or has parameter properties (TS2376).
   /**
    * @class MeshMaterial
    * @constructor
@@ -32,7 +30,20 @@ class MeshMaterial extends Material {
   constructor(monitors: IContextMonitor[] = [], parameters?: MeshMaterialParameters) {
     super(monitors, LOGGING_NAME);
   }
-  protected createProgram(): IMaterial {
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    super.destructor();
+  }
+  /**
+   * @method createMaterial
+   * @return {IMaterial}
+   * @protected
+   */
+  protected createMaterial(): IMaterial {
     let smb = new SmartMaterialBuilder();
 
     smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
@@ -44,6 +55,10 @@ class MeshMaterial extends Material {
     smb.uniform(Symbolic.UNIFORM_NORMAL_MATRIX, 'mat3');
     smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
     smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+
+    smb.uniform(Symbolic.UNIFORM_AMBIENT_LIGHT, 'vec3')
+    smb.uniform(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, 'vec3')
+    smb.uniform(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, 'vec3')
 
     return smb.build(this.monitors);
   }

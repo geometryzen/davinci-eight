@@ -38,7 +38,7 @@ declare class SmartMaterial extends Material {
             glslType: string;
         };
     }, vColor: boolean, vLight: boolean);
-    protected createProgram(): IMaterial;
+    protected createMaterial(): IMaterial;
     vertexShader: string;
     fragmentShader: string;
 }

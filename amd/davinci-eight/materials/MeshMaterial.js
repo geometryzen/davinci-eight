@@ -17,8 +17,6 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
      */
     var MeshMaterial = (function (_super) {
         __extends(MeshMaterial, _super);
-        // A super call must be the first statement in the constructor when a class
-        // contains initialized propertied or has parameter properties (TS2376).
         /**
          * @class MeshMaterial
          * @constructor
@@ -29,7 +27,20 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
             if (monitors === void 0) { monitors = []; }
             _super.call(this, monitors, LOGGING_NAME);
         }
-        MeshMaterial.prototype.createProgram = function () {
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        MeshMaterial.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        /**
+         * @method createMaterial
+         * @return {IMaterial}
+         * @protected
+         */
+        MeshMaterial.prototype.createMaterial = function () {
             var smb = new SmartMaterialBuilder();
             smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
             smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3);
@@ -39,6 +50,9 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
             smb.uniform(Symbolic.UNIFORM_NORMAL_MATRIX, 'mat3');
             smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
             smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_AMBIENT_LIGHT, 'vec3');
+            smb.uniform(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, 'vec3');
+            smb.uniform(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, 'vec3');
             return smb.build(this.monitors);
         };
         return MeshMaterial;

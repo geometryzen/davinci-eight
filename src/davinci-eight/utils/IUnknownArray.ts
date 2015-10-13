@@ -27,9 +27,15 @@ function transferOwnership<T extends IUnknown>(data: T[], userName: string): IUn
 }
 
 /**
- * @class IUnknownArray
+ * @class IUnknownArray<T extends IUnknown>
+ * @extends Shareable
  */
 class IUnknownArray<T extends IUnknown> extends Shareable {
+  /**
+   * @property _elements
+   * @type {T[]}
+   * @private
+   */
   private _elements: T[];
   private userName: string;
   /**
@@ -66,12 +72,20 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
    * @return {T}
    */
   get(index: number): T {
-    var element: T
-    element = this._elements[index]
+    var element = this.getWeakRef(index)
     if (element) {
       element.addRef()
     }
     return element
+  }
+  /**
+   * Gets the element at the specified index, without incrementing the reference count.
+   * @method getWeakRef
+   * @param index {number}
+   * @return {T}
+   */
+  getWeakRef(index: number): T {
+    return this._elements[index]
   }
   /**
    * @method indexOf
@@ -140,11 +154,19 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
    * @return {number}
    */
   push(element: T): number {
-    var x: number = this._elements.push(element)
     if (element) {
       element.addRef()
     }
-    return x
+    return this.pushWeakRef(element)
+  }
+  /**
+   * Pushes an element onto the tail of the list without incrementing the element reference count.
+   * @method pushWeakRef
+   * @param element {T}
+   * @return {number}
+   */
+  pushWeakRef(element: T): number {
+    return this._elements.push(element)
   }
   /**
    * @method pop

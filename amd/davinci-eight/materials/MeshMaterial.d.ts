@@ -14,6 +14,17 @@ declare class MeshMaterial extends Material {
      * @parameters [MeshNormalParameters]
      */
     constructor(monitors?: IContextMonitor[], parameters?: MeshMaterialParameters);
-    protected createProgram(): IMaterial;
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void;
+    /**
+     * @method createMaterial
+     * @return {IMaterial}
+     * @protected
+     */
+    protected createMaterial(): IMaterial;
 }
 export = MeshMaterial;

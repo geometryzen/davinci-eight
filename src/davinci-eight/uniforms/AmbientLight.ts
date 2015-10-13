@@ -1,6 +1,7 @@
 import Color = require('../core/Color')
 import IFacet = require('../core/IFacet')
 import IFacetVisitor = require('../core/IFacetVisitor')
+import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import mustBeString = require('../checks/mustBeString')
 import Shareable = require('../utils/Shareable')
@@ -29,7 +30,11 @@ class AmbientLight extends Shareable implements IFacet {
    */
   constructor() {
     super('AmbientLight')
-    this.color = Color.white;
+    // FIXME: Need some kind of locking for constants
+    this.color = Color.white.clone()
+    this.color.red = 0.2
+    this.color.green = 0.2
+    this.color.blue = 0.2
   }
   /**
    * @method destructor
@@ -46,7 +51,7 @@ class AmbientLight extends Shareable implements IFacet {
    * @return {void}
    */
   setUniforms(visitor: IFacetVisitor, canvasId: number): void {
-    visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, this.color.data, canvasId)
+    visitor.vector3(Symbolic.UNIFORM_AMBIENT_LIGHT, this.color.data, canvasId)
   }
 }
 

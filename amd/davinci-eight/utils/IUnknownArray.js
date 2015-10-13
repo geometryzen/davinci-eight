@@ -28,7 +28,8 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
         }
     }
     /**
-     * @class IUnknownArray
+     * @class IUnknownArray<T extends IUnknown>
+     * @extends Shareable
      */
     var IUnknownArray = (function (_super) {
         __extends(IUnknownArray, _super);
@@ -67,12 +68,20 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
          * @return {T}
          */
         IUnknownArray.prototype.get = function (index) {
-            var element;
-            element = this._elements[index];
+            var element = this.getWeakRef(index);
             if (element) {
                 element.addRef();
             }
             return element;
+        };
+        /**
+         * Gets the element at the specified index, without incrementing the reference count.
+         * @method getWeakRef
+         * @param index {number}
+         * @return {T}
+         */
+        IUnknownArray.prototype.getWeakRef = function (index) {
+            return this._elements[index];
         };
         /**
          * @method indexOf
@@ -145,11 +154,19 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
          * @return {number}
          */
         IUnknownArray.prototype.push = function (element) {
-            var x = this._elements.push(element);
             if (element) {
                 element.addRef();
             }
-            return x;
+            return this.pushWeakRef(element);
+        };
+        /**
+         * Pushes an element onto the tail of the list without incrementing the element reference count.
+         * @method pushWeakRef
+         * @param element {T}
+         * @return {number}
+         */
+        IUnknownArray.prototype.pushWeakRef = function (element) {
+            return this._elements.push(element);
         };
         /**
          * @method pop

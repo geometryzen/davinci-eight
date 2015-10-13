@@ -4,17 +4,16 @@ DaVinci EIGHT is a WebGL library for mathematical physics using Geometric Algebr
 
 EIGHT is designed and developed according to the following principles:
 
-1. Designed foremost to enable custom shader development.
+1. Designed foremost to integrate with Mathematical Physics and Geometric Algebra.
 2. Manage shader complexity rather than trying to hide it.
-3. Be un-opinionated. Make no assumptions in the core code other than those intrinsic to WebGL.
+3. Be un-opinionated.
 4. Assist with management of WebGL state and invariants.
 5. Assist with GLSL boilerplate.
-6. Assist with shader program integrity using e.g. introspection.
+6. Assist with long running interactions, resource sharing and context management.
 7. Provide reusable geometry abstractions on top of the core for productivity.
 8. Provide smart shader program builders for productivity.
 9. Facilitate use for research programming, education and demonstration.
 10. Explicit is better than implicit.
-11. It must go up to eleven.
 
 Used here: [__http://www.mathdoodle.io__](http://mathdoodle.io)
 
@@ -32,7 +31,7 @@ WARNING. This library is under active development; the API is subject to changes
 
 ## API documentation
 
-[2.102.0](http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html)
+[API Documentation](http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html)
 
 ## Getting Started
 
@@ -229,6 +228,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.125.0: 2015-10-10 VortexGeometry
 * 2.126.0: 2015-10-12 DirectionalLight
 * 2.127.0: 2015-10-12 AmbientLight
+* 2.128.0: 2015-10-12 Blending
 
 ## License
 Copyright (c) 2014-2015 David Holmes

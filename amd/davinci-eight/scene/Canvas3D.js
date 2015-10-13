@@ -45,24 +45,6 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         Canvas3D.prototype.addContextListener = function (user) {
             this._kahuna.addContextListener(user);
         };
-        Object.defineProperty(Canvas3D.prototype, "autoProlog", {
-            /**
-             * <p>
-             * Determines whether prolog commands are run automatically as part of the `render()` call.
-             * </p>
-             * @property autoProlog
-             * @type boolean
-             * @default true
-             */
-            get: function () {
-                return this._renderer.autoProlog;
-            },
-            set: function (autoProlog) {
-                this._renderer.autoProlog = autoProlog;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(Canvas3D.prototype, "canvas", {
             get: function () {
                 return this._kahuna.canvas;
@@ -85,6 +67,13 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             set: function (unused) {
                 // FIXME: DRY delegate to kahuna? Should give the same result.
                 throw new Error(readOnly('canvasId').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Canvas3D.prototype, "commands", {
+            get: function () {
+                return this._renderer.commands;
             },
             enumerable: true,
             configurable: true
@@ -128,15 +117,6 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             enumerable: true,
             configurable: true
         });
-        Canvas3D.prototype.prolog = function () {
-            this._renderer.prolog();
-        };
-        Canvas3D.prototype.addPrologCommand = function (command) {
-            return this._renderer.addPrologCommand(command);
-        };
-        Canvas3D.prototype.addContextGainCommand = function (command) {
-            return this._renderer.addContextGainCommand(command);
-        };
         Canvas3D.prototype.removeContextListener = function (user) {
             this._kahuna.removeContextListener(user);
         };

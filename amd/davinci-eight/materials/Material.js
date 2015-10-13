@@ -162,7 +162,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
         };
         Material.prototype.contextGain = function (manager) {
             if (isUndefined(this.inner)) {
-                this.inner = this.createProgram();
+                this.inner = this.createMaterial();
             }
             if (isDefined(this.inner)) {
                 this.inner.contextGain(manager);
@@ -173,9 +173,9 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 this.inner.contextLost(canvasId);
             }
         };
-        Material.prototype.createProgram = function () {
+        Material.prototype.createMaterial = function () {
             // FIXME Since we get contextGain by canvas, expect canvasId to be an argument?
-            throw new Error("Material createProgram method is virtual and should be implemented by " + this.type);
+            throw new Error("Material createMaterial method is virtual and should be implemented by " + this.type);
         };
         Material.prototype.uniform1f = function (name, x, canvasId) {
             if (this.inner) {

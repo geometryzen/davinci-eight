@@ -29,7 +29,7 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
             if (monitors === void 0) { monitors = []; }
             _super.call(this, monitors, LOGGING_NAME);
         }
-        PointMaterial.prototype.createProgram = function () {
+        PointMaterial.prototype.createMaterial = function () {
             var smb = new SmartMaterialBuilder();
             smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
             // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);

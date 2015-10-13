@@ -14,6 +14,6 @@ declare class PointMaterial extends Material {
      * @parameters [MeshNormalParameters]
      */
     constructor(monitors?: IContextMonitor[], parameters?: LineMaterialParameters);
-    protected createProgram(): IMaterial;
+    protected createMaterial(): IMaterial;
 }
 export = PointMaterial;

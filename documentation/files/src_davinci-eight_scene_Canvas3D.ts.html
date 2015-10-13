@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.127.0</em>
+            <em>API Docs for: 2.128.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -90,6 +89,7 @@
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IContextRenderer.html">IContextRenderer</a></li>
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
@@ -99,11 +99,11 @@
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
-                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
+                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
@@ -156,8 +156,9 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexGeometry.html">VortexGeometry</a></li>
-                                <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
+                                <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
+                                <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -209,7 +210,7 @@ import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
 import IContextMonitor = require(&#x27;../core/IContextMonitor&#x27;)
 import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;)
 import contextProxy = require(&#x27;../utils/contextProxy&#x27;)
-import ContextRenderer = require(&#x27;../renderers/ContextRenderer&#x27;)
+import IContextRenderer = require(&#x27;../renderers/IContextRenderer&#x27;)
 import core = require(&#x27;../core&#x27;)
 import GeometryData = require(&#x27;../geometries/GeometryData&#x27;)
 import IBuffer = require(&#x27;../core/IBuffer&#x27;)
@@ -218,8 +219,8 @@ import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
 import IBufferGeometry = require(&#x27;../geometries/IBufferGeometry&#x27;)
 import ITexture2D = require(&#x27;../core/ITexture2D&#x27;)
 import ITextureCubeMap = require(&#x27;../core/ITextureCubeMap&#x27;)
-import IPrologCommand = require(&#x27;../core/IPrologCommand&#x27;)
 import IUnknown = require(&#x27;../core/IUnknown&#x27;)
+import IUnknownArray = require(&#x27;../utils/IUnknownArray&#x27;)
 import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
 import mustBeFunction = require(&#x27;../checks/mustBeFunction&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
@@ -238,9 +239,9 @@ let defaultCanvasBuilder = () =&gt; {return document.createElement(&#x27;canvas&
 /**
  * @class Canvas3D
  */
-class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, ContextRenderer {
+class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
   private _kahuna: ContextKahuna;
-  private _renderer: ContextRenderer;
+  private _renderer: IContextRenderer;
   /**
    * @class Canvas3D
    * @constructor
@@ -273,20 +274,6 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   addContextListener(user: IContextConsumer): void {
     this._kahuna.addContextListener(user)
   }
-  /**
-   * &lt;p&gt;
-   * Determines whether prolog commands are run automatically as part of the &#x60;render()&#x60; call.
-   * &lt;/p&gt;
-   * @property autoProlog
-   * @type boolean
-   * @default true
-   */
-  get autoProlog(): boolean {
-    return this._renderer.autoProlog;
-  }
-  set autoProlog(autoProlog) {
-    this._renderer.autoProlog = autoProlog;
-  }
   get canvas(): HTMLCanvasElement {
     return this._kahuna.canvas;
   }
@@ -304,6 +291,9 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   set canvasId(unused) {
     // FIXME: DRY delegate to kahuna? Should give the same result.
     throw new Error(readOnly(&#x27;canvasId&#x27;).message)
+  }
+  get commands(): IUnknownArray&lt;IContextCommand&gt; {
+    return this._renderer.commands;
   }
   /* FIXME: Do we need this. Why. Why not kahuna too?
   // No contract says that we need to return this.
@@ -339,15 +329,6 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   }
   get gl(): WebGLRenderingContext {
     return this._kahuna.gl
-  }
-  prolog(): void {
-    this._renderer.prolog()
-  }
-  addPrologCommand(command: IPrologCommand): IPrologCommand {
-    return this._renderer.addPrologCommand(command)
-  }
-  addContextGainCommand(command: IContextCommand): IContextCommand {
-    return this._renderer.addContextGainCommand(command)
   }
   removeContextListener(user: IContextConsumer): void {
     this._kahuna.removeContextListener(user)

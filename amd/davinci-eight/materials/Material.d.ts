@@ -55,7 +55,7 @@ declare class Material extends Shareable implements IMaterial {
     contextFree(canvasId: number): void;
     contextGain(manager: IContextProvider): void;
     contextLost(canvasId: number): void;
-    protected createProgram(): IMaterial;
+    protected createMaterial(): IMaterial;
     uniform1f(name: string, x: number, canvasId: number): void;
     uniform2f(name: string, x: number, y: number, canvasId: number): void;
     uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;

@@ -255,7 +255,7 @@ class Director extends Shareable implements ISlideHost {
       for (var i = 0, iLength = canvasIds.length; i < iLength; i++) {
         var canvasId = canvasIds[i]
         var c3d = this.contexts.get(canvasId)
-        c3d.prolog()
+        // prolog?
         c3d.release()
         var ambients: StringIUnknownMap<IFacet> = this.uniformsByCanvasId.get(canvasId)
         // FIXME: scenesByCanvasId

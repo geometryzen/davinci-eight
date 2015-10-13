@@ -34,7 +34,7 @@ class MeshLambertMaterial extends Material {
   protected destructor(): void {
     super.destructor()
   }
-  protected createProgram(): IMaterial {
+  protected createMaterial(): IMaterial {
     let smb = new SmartMaterialBuilder()
 
     smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3)

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/IPrologCommand.ts - davinci-eight</title>
+    <title>src/davinci-eight/renderers/IContextRenderer.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.127.0</em>
+            <em>API Docs for: 2.128.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -90,6 +89,7 @@
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IContextRenderer.html">IContextRenderer</a></li>
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
@@ -99,11 +99,11 @@
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
-                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
+                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
@@ -156,8 +156,9 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexGeometry.html">VortexGeometry</a></li>
-                                <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
+                                <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
+                                <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -198,37 +199,44 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/IPrologCommand.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/renderers/IContextRenderer.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
+import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;)
+import IContextCommand = require(&#x27;../core/IContextCommand&#x27;)
+import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
 import IUnknown = require(&#x27;../core/IUnknown&#x27;)
-
+import IUnknownArray = require(&#x27;../utils/IUnknownArray&#x27;)
+import IFacet = require(&#x27;../core/IFacet&#x27;) 
 /**
- * The interface to be satisfied by commands run in the prolog phase of the animation loop.
- * @class IPrologCommand
+ * This interface is to be implemented by classes associated with a single context.
+ * This does mean that the commands are not shared.
+ * @class IContextRenderer
+ * @extends IContextConsumer
  * @extends IUnknown
  */
-interface IPrologCommand extends IUnknown {
+interface IContextRenderer extends IContextConsumer, IUnknown {
   /**
-   * &lt;p&gt;
-   * The unique name of the command.
-   * &lt;/p&gt;
-   * @property name
-   * @type {string}
+   * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
+   * @property gl
+   * @type {WebGLRenderingContext}
    * @readOnly
    */
-  name: string;
+  gl: WebGLRenderingContext;
   /**
-   * @method execute
-   * @param manager {IContextProvider}
-   * @return {void}
+   * @property canvas
+   * @type {HTMLCanvasElement}
+   * @readOnly
    */
-  execute(manager: IContextProvider): void;
+  canvas: HTMLCanvasElement;
+  /**
+   *
+   */
+  commands: IUnknownArray&lt;IContextCommand&gt;;
 }
 
-export = IPrologCommand;
+export = IContextRenderer;
     </pre>
 </div>
                     </div>

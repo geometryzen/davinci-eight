@@ -38,10 +38,10 @@ class HTMLScriptsMaterial extends Material {
     this.dom = dom;
   }
   /**
-   * @method createProgram
+   * @method createMaterial
    * @return {IMaterial}
    */
-  createProgram(): IMaterial {
+  createMaterial(): IMaterial {
     let vsId = this.scriptIds[0];
     let fsId = this.scriptIds[1];
     return programFromScripts(this.monitors, vsId, fsId, this.dom, this.attributeBindings);

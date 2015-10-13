@@ -176,7 +176,7 @@ class Material extends Shareable implements IMaterial {
   }
   contextGain(manager: IContextProvider) {
     if (isUndefined(this.inner)) {
-      this.inner = this.createProgram()
+      this.inner = this.createMaterial()
     }
     if (isDefined(this.inner)) {
       this.inner.contextGain(manager)
@@ -187,9 +187,9 @@ class Material extends Shareable implements IMaterial {
       this.inner.contextLost(canvasId)
     }
   }
-  protected createProgram(): IMaterial {
+  protected createMaterial(): IMaterial {
     // FIXME Since we get contextGain by canvas, expect canvasId to be an argument?
-    throw new Error("Material createProgram method is virtual and should be implemented by " + this.type)
+    throw new Error("Material createMaterial method is virtual and should be implemented by " + this.type)
   }
   uniform1f(name: string, x: number, canvasId: number): void {
     if (this.inner) {

@@ -4,7 +4,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
-    var QUALIFIED_NAME = 'WebGLRenderingContext.clearColor';
     /**
      * <p>
      * clearColor(red: number, green: number, blue: number, alpha: number): void
@@ -25,7 +24,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             if (green === void 0) { green = 0; }
             if (blue === void 0) { blue = 0; }
             if (alpha === void 0) { alpha = 1; }
-            _super.call(this, 'WebGLRenderingContext.clearColor');
+            _super.call(this, 'WebGLClearColor');
             this.red = mustBeNumber('red', red);
             this.green = mustBeNumber('green', green);
             this.blue = mustBeNumber('blue', blue);
@@ -45,7 +44,11 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
          * @return {void}
          */
         WebGLClearColor.prototype.contextGain = function (manager) {
-            this.execute(manager.gl);
+            mustBeNumber('red', this.red);
+            mustBeNumber('green', this.green);
+            mustBeNumber('blue', this.blue);
+            mustBeNumber('alpha', this.alpha);
+            manager.gl.clearColor(this.red, this.green, this.blue, this.alpha);
         };
         /**
          * @method contextLost
@@ -56,18 +59,6 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             // do nothing
         };
         /**
-         * @method execute
-         * @param gl {WebGLRenderingContext}
-         * @return {void}
-         */
-        WebGLClearColor.prototype.execute = function (gl) {
-            mustBeNumber('red', this.red);
-            mustBeNumber('green', this.green);
-            mustBeNumber('blue', this.blue);
-            mustBeNumber('alpha', this.alpha);
-            gl.clearColor(this.red, this.green, this.blue, this.alpha);
-        };
-        /**
          * @method destructor
          * @return {void}
          */
@@ -76,14 +67,8 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             this.green = void 0;
             this.blue = void 0;
             this.alpha = void 0;
+            _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(WebGLClearColor.prototype, "name", {
-            get: function () {
-                return QUALIFIED_NAME;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return WebGLClearColor;
     })(Shareable);
     return WebGLClearColor;

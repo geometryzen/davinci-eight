@@ -1,4 +1,3 @@
-/// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import Animator = require('davinci-eight/slideshow/Animator');
 import Director = require('davinci-eight/slideshow/Director');
 import Animation = require('davinci-eight/slideshow/animations/Animation');
@@ -12,8 +11,9 @@ import SpinTask = require('davinci-eight/slideshow/tasks/SpinTask');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
-import WebGLClear = require('davinci-eight/commands/WebGLClear');
+import WebGLBlendFunc = require('davinci-eight/commands/WebGLBlendFunc');
 import WebGLClearColor = require('davinci-eight/commands/WebGLClearColor');
+import WebGLDisable = require('davinci-eight/commands/WebGLDisable');
 import WebGLEnable = require('davinci-eight/commands/WebGLEnable');
 import AttribLocation = require('davinci-eight/core/AttribLocation');
 import AttribMetaInfo = require('davinci-eight/core/AttribMetaInfo');
@@ -75,7 +75,7 @@ import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
 import EulerFacet = require('davinci-eight/models/EulerFacet');
 import ModelFacet = require('davinci-eight/models/ModelFacet');
 import IMaterial = require('davinci-eight/core/IMaterial');
-import ContextRenderer = require('davinci-eight/renderers/ContextRenderer');
+import IContextRenderer = require('davinci-eight/renderers/IContextRenderer');
 import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ColorFacet = require('davinci-eight/uniforms/ColorFacet');
 import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
@@ -110,8 +110,9 @@ declare var eight: {
     MeshLambertMaterial: typeof MeshLambertMaterial;
     PointMaterial: typeof PointMaterial;
     SmartMaterialBuilder: typeof SmartMaterialBuilder;
-    WebGLClear: typeof WebGLClear;
+    WebGLBlendFunc: typeof WebGLBlendFunc;
     WebGLClearColor: typeof WebGLClearColor;
+    WebGLDisable: typeof WebGLDisable;
     WebGLEnable: typeof WebGLEnable;
     initWebGL: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => WebGLRenderingContext;
     createFrustum: (viewMatrixName: string, projectionMatrixName: string) => Frustum;
@@ -138,7 +139,7 @@ declare var eight: {
     PerspectiveCamera: typeof PerspectiveCamera;
     Canvas3D: typeof Canvas3D;
     createDrawList: () => IDrawList;
-    renderer: () => ContextRenderer;
+    renderer: () => IContextRenderer;
     webgl: (attributes?: WebGLContextAttributes) => ContextKahuna;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;

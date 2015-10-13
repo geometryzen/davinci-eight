@@ -35,20 +35,25 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
    * Collection class for maintaining an array of types derived from IUnknown.
    * Provides a safer way to maintain reference counts than a native array.
    */
-  constructor()
-  destructor(): void
+  constructor(elements?: T[]);
+  destructor(): void;
+  get(index: number): T;
   /**
    * Gets the element at the specified index without incrementing the reference count.
    * Use this method when you don't intend to hold onto the returned value.
    */
-  getWeakReference(index: number): T
-  get(index: number): T
-  indexOf(searchElement: T, fromIndex?: number): number
-  splice(index: number, count: number): T[]
-  forEach(callback: (value: T, index: number) => void): void
-  pushStrongReference(element: T): number
-  pushWeakReference(element: T): number
-  pop(): T
+  getWeakRef(index: number): T;
+  indexOf(searchElement: T, fromIndex?: number): number;
+  slice(begin?: number, end?: number): IUnknownArray<T>;
+  splice(index: number, deleteCount: number): IUnknownArray<T>;
+  forEach(callback: (value: T, index: number) => void): void;
+  push(element: T): number;
+  /**
+   * Pushes an element onto the tail of the list without incrementing the element reference count.
+   */
+  pushWeakRef(element: T): number;
+  pop(): T;
+  shift(): T;
 }
 
 class NumberIUnknownMap<V extends IUnknown> extends Shareable {
@@ -102,7 +107,7 @@ class Shareable implements IUnknown {
 /**
  *
  */
-interface IContextConsumer {
+interface IContextConsumer extends IUnknown {
   /**
    * Called to request the dependent to free any WebGL resources acquired and owned.
    * The dependent may assume that its cached context is still valid in order
@@ -1430,55 +1435,35 @@ class PerspectiveCamera implements Animated, ICamera, Perspective, IFacet {
 /**
  *
  */
-interface IPrologCommand extends IUnknown {
-  name: string;
-  execute(manager: IContextProvider): void;
-}
-
-/**
- *
- */
-interface ContextRenderer extends IContextConsumer, IUnknown {
-  /**
-   * Determines whether prolog commands are run automatically as part of the render() call.
-   * It may be useful to manually exceute the prolog commands if you want to render
-   * multiple times within the animation loop without e.g., clearing the color and depth buffers.
-   */
-  autoProlog: boolean;
-  /**
-   * Execute the commands in the prolog list.
-   */
-  prolog(): void;
-  /**
-   * Pushes a command onto the list of commands to be executed by the `prolog()` method.
-   * command: The command to execute.
-   */
-  addPrologCommand(command: IPrologCommand): IPrologCommand;
-  /**
-   * Pushes a command onto the list of commands to be executed on contextGain.
-   * command: The command to execute.
-   */
-  addContextGainCommand(command: IContextCommand): IContextCommand;
+interface IContextRenderer extends IContextConsumer, IUnknown {
   /**
    * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
    */
   gl: WebGLRenderingContext;
+  /**
+   * @property canvas
+   * @type {HTMLCanvasElement}
+   * @readOnly
+   */
+  canvas: HTMLCanvasElement;
+  /**
+   * Commands that are executed for context free, gain and loss events.
+   * These commands are reference counted but don't hold references to this instance.
+   */
+  commands: IUnknownArray<IContextCommand>;
 }
 
 /**
  *
  */
-class Canvas3D implements ContextController, IContextMonitor, ContextRenderer {
+class Canvas3D implements ContextController, IContextMonitor, IContextRenderer {
   /**
-   * <p>
-   * Determines whether prolog commands are run automatically as part of the render() call.
-   * It may be useful to manually exceute the prolog commands if you want to render
-   * multiple times within the animation loop without e.g., clearing the color and depth buffers.
-   * The deafault is <code>true</code>
-   * </p>
+   *
    */
-  autoProlog: boolean;
   canvasId: number;
+  /**
+   *
+   */
   gl: WebGLRenderingContext;
   /**
    * If the canvas property has not been initialized by calling `start()`,
@@ -1487,6 +1472,10 @@ class Canvas3D implements ContextController, IContextMonitor, ContextRenderer {
    * until `stop()` is called.
    */
   canvas: HTMLCanvasElement;
+  /**
+   *
+   */
+  commands: IUnknownArray<IContextCommand>;
   constructor(attributes?: WebGLContextAttributes);
   addContextListener(user: IContextConsumer): void;
   addRef(): number;
@@ -1498,12 +1487,6 @@ class Canvas3D implements ContextController, IContextMonitor, ContextRenderer {
   createElementArrayBuffer(): IBuffer;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
-  /**
-   * Executes commands in the prolog list. e.g., 
-   */
-  prolog(): void;
-  addPrologCommand(command: IPrologCommand): IPrologCommand;
-  addContextGainCommand(command: IContextCommand): IContextCommand;
   release(): number;
   removeContextListener(user: IContextConsumer): void;
   /**
@@ -1841,41 +1824,38 @@ class RoundUniform implements IFacetVisitor {
 }
 
 // commands
-
-interface IContextCommand extends IUnknown {
-  name: string;
-  execute(gl: WebGLRenderingContext): void;
+interface IContextCommand extends IContextConsumer {
 }
 
 /**
- * clear(mask: number): void
+ * `blendFunc(sfactor: number, dfactor: number): void`
  */
-class WebGLClear extends Shareable implements IContextCommand {
-  public mask: number;
-  public name: string;
+class WebGLBlendFunc extends Shareable implements IContextCommand {
+  sfactor: string;
+  dfactor: string;
+  constructor(sfactor?: string, dfactor?: string);
   /**
-   *
+   * canvasId
    */
-  constructor(mask?: number);
+  contextFree(canvasId: number): void;
   /**
-   *
+   * manager
    */
-  execute(gl: WebGLRenderingContext): void;
+  contextGain(manager: IContextProvider): void;
   /**
-   *
+   * canvasId
    */
-  destructor(): void;
+  contextLost(canvasId: number): void;
 }
 
 /**
  * `clearColor(red: number, green: number, blue: number, alpha: number): void`
  */
-class WebGLClearColor extends Shareable implements IContextCommand, IContextConsumer {
+class WebGLClearColor extends Shareable implements IContextCommand {
   red: number;
   green: number;
   blue: number;
   alpha: number;
-  name: string;
   constructor(red?: number, green?: number, blue?: number, alpha?: number);
   /**
    * canvasId
@@ -1889,23 +1869,17 @@ class WebGLClearColor extends Shareable implements IContextCommand, IContextCons
    * canvasId
    */
   contextLost(canvasId: number): void;
-  /**
-   * Executes the gl.clearColor command using the instance properties for red, green ,blue and alpha. 
-   * gl The WebGL rendering context.
-   */
-  execute(gl: WebGLRenderingContext): void;
 }
 
+
 /**
- * `enable(capability: number): void`
+ * `disable(capability: number): void`
  */
-class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer {
-  public capability: number;
-  public name: string;
+class WebGLDisable extends Shareable implements IContextCommand {
   /**
-   *
+   * capability e.g. 'DEPTH_TEST', 'BLEND'
    */
-  constructor(capability: number);
+  constructor(capability: string);
   /**
    *
    */
@@ -1918,15 +1892,30 @@ class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer
    *
    */
   contextLost(canvasId: number): void;
-  /**
-   *
-   */
-  execute(gl: WebGLRenderingContext): void;
-  /**
-   *
-   */
-  destructor(): void;
 }
+
+/**
+ * `enable(capability: number): void`
+ */
+class WebGLEnable extends Shareable implements IContextCommand {
+  /**
+   * capability e.g. 'DEPTH_TEST', 'BLEND'
+   */
+  constructor(capability: string);
+  /**
+   *
+   */
+  contextFree(canvasId: number): void;
+  /**
+   *
+   */
+  contextGain(manager: IContextProvider): void;
+  /**
+   *
+   */
+  contextLost(canvasId: number): void;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 interface IAnimateOptions {

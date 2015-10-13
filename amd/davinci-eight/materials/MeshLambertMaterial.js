@@ -30,7 +30,7 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
         MeshLambertMaterial.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        MeshLambertMaterial.prototype.createProgram = function () {
+        MeshLambertMaterial.prototype.createMaterial = function () {
             var smb = new SmartMaterialBuilder();
             smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
             smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3);

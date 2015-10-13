@@ -4,8 +4,6 @@ import IContextCommand = require('../core/IContextCommand');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Shareable = require('../utils/Shareable');
 
-var QUALIFIED_NAME = 'WebGLRenderingContext.clearColor'
-
 /**
  * <p>
  * clearColor(red: number, green: number, blue: number, alpha: number): void
@@ -15,7 +13,7 @@ var QUALIFIED_NAME = 'WebGLRenderingContext.clearColor'
  * @implements IContextCommand
  * @implements IContextConsumer
  */
-class WebGLClearColor extends Shareable implements IContextCommand, IContextConsumer {
+class WebGLClearColor extends Shareable implements IContextCommand {
   public red: number;
   public green: number;
   public blue: number;
@@ -25,7 +23,7 @@ class WebGLClearColor extends Shareable implements IContextCommand, IContextCons
    * @constructor
    */
   constructor(red: number = 0, green: number = 0, blue: number = 0, alpha: number = 1) {
-    super('WebGLRenderingContext.clearColor')
+    super('WebGLClearColor')
     this.red   = mustBeNumber('red',   red)
     this.green = mustBeNumber('green', green)
     this.blue  = mustBeNumber('blue',  blue)
@@ -45,7 +43,11 @@ class WebGLClearColor extends Shareable implements IContextCommand, IContextCons
    * @return {void}
    */
   contextGain(manager: IContextProvider): void {
-    this.execute(manager.gl)
+    mustBeNumber('red', this.red)
+    mustBeNumber('green', this.green)
+    mustBeNumber('blue', this.blue)
+    mustBeNumber('alpha', this.alpha)
+    manager.gl.clearColor(this.red, this.green, this.blue, this.alpha)
   }
   /**
    * @method contextLost
@@ -56,18 +58,6 @@ class WebGLClearColor extends Shareable implements IContextCommand, IContextCons
     // do nothing
   }
   /**
-   * @method execute
-   * @param gl {WebGLRenderingContext}
-   * @return {void}
-   */
-  execute(gl: WebGLRenderingContext): void {
-    mustBeNumber('red', this.red)
-    mustBeNumber('green', this.green)
-    mustBeNumber('blue', this.blue)
-    mustBeNumber('alpha', this.alpha)
-    gl.clearColor(this.red, this.green, this.blue, this.alpha)
-  }
-  /**
    * @method destructor
    * @return {void}
    */
@@ -76,9 +66,7 @@ class WebGLClearColor extends Shareable implements IContextCommand, IContextCons
     this.green = void 0
     this.blue = void 0
     this.alpha = void 0
-  }
-  get name(): string {
-    return QUALIFIED_NAME
+    super.destructor()
   }
 }
 

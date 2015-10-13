@@ -21,8 +21,8 @@ define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Sy
          */
         function DirectionalLight() {
             _super.call(this, 'DirectionalLight');
-            this.direction = Vector3.e3.clone().scale(-1);
-            this.color = Color.white;
+            this.direction = new Vector3([-1, -1, -1]).normalize();
+            this.color = Color.white.clone();
         }
         /**
          * @method destructor

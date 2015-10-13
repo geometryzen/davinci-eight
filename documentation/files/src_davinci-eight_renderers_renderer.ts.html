@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.127.0</em>
+            <em>API Docs for: 2.128.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -90,6 +89,7 @@
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IContextRenderer.html">IContextRenderer</a></li>
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
@@ -99,11 +99,11 @@
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
-                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
+                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
@@ -156,8 +156,9 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexGeometry.html">VortexGeometry</a></li>
-                                <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
+                                <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
+                                <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -204,69 +205,23 @@
     <pre class="code prettyprint linenums">
 import Color = require(&#x27;../core/Color&#x27;)
 import core = require(&#x27;../core&#x27;)
-import EIGHTLogger = require(&#x27;../commands/EIGHTLogger&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;)
 import ContextAttributesLogger = require(&#x27;../commands/ContextAttributesLogger&#x27;)
 import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
-import ContextRenderer = require(&#x27;../renderers/ContextRenderer&#x27;)
+import IContextRenderer = require(&#x27;../renderers/IContextRenderer&#x27;)
 import IContextCommand = require(&#x27;../core/IContextCommand&#x27;)
 import IDrawable = require(&#x27;../core/IDrawable&#x27;)
 import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
 import IBufferGeometry = require(&#x27;../geometries/IBufferGeometry&#x27;)
 import IMaterial = require(&#x27;../core/IMaterial&#x27;)
-import IPrologCommand = require(&#x27;../core/IPrologCommand&#x27;)
 import IUnknownArray = require(&#x27;../utils/IUnknownArray&#x27;)
 import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;)
 import mustSatisfy = require(&#x27;../checks/mustSatisfy&#x27;)
 import IFacet = require(&#x27;../core/IFacet&#x27;)
 import refChange = require(&#x27;../utils/refChange&#x27;)
 import uuid4 = require(&#x27;../utils/uuid4&#x27;)
-import VersionLogger = require(&#x27;../commands/VersionLogger&#x27;)
-import WebGLClear      = require(&#x27;../commands/WebGLClear&#x27;)
-import WebGLClearColor = require(&#x27;../commands/WebGLClearColor&#x27;)
-import WebGLEnable     = require(&#x27;../commands/WebGLEnable&#x27;)
 
-function setStartUpCommands(renderer: ContextRenderer) {
-
-  var cmd: IContextCommand
-
-  // &#x60;EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD&#x60;
-  cmd = new EIGHTLogger()
-  renderer.addContextGainCommand(cmd)
-  cmd.release()
-
-  // &#x60;WebGL major.minor (OpenGL ES ...)&#x60;
-  cmd = new VersionLogger()
-  renderer.addContextGainCommand(cmd)
-  cmd.release()
-
-  // &#x60;alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil&#x60;
-  // cmd = new ContextAttributesLogger()
-  // renderer.addContextGainCommand(cmd)
-  // cmd.release()
-
-  // cmd(red, green, blue, alpha)
-  cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0)
-  renderer.addContextGainCommand(cmd)
-  cmd.release()
-
-  // enable(capability)
-  cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST)
-  renderer.addContextGainCommand(cmd)
-  cmd.release()
-}
-
-function setPrologCommands(renderer: ContextRenderer) {
-
-  var cmd: IPrologCommand
-
-  // clear(mask)
-  cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT)
-  renderer.addPrologCommand(cmd)
-  cmd.release()
-}
-
-let CLASS_NAME = &quot;CanonicalContextRenderer&quot;
+let CLASS_NAME = &quot;CanonicalIContextRenderer&quot;
 
 /**
  * We need to know the canvasId so that we can tell drawables where to draw.
@@ -275,76 +230,52 @@ let CLASS_NAME = &quot;CanonicalContextRenderer&quot;
  *
  * Part of the role of this class is to manage the commands that are executed at startup/prolog.
  */
-let renderer = function(): ContextRenderer {
+let renderer = function(): IContextRenderer {
   var _manager: IContextProvider;
   let uuid = uuid4().generate()
   let refCount = 1
-  var _autoProlog: boolean = true;
-  let prolog = new IUnknownArray&lt;IPrologCommand&gt;([], CLASS_NAME)
-  let startUp = new IUnknownArray&lt;IContextCommand&gt;([], CLASS_NAME)
+  let commands = new IUnknownArray&lt;IContextCommand&gt;([], CLASS_NAME)
 
-  let self: ContextRenderer = {
+  let self: IContextRenderer = {
     addRef(): number {
       refCount++
       refChange(uuid, CLASS_NAME, +1)
       return refCount
     },
-    get autoProlog(): boolean {
-      return _autoProlog;
-    },
-    set autoProlog(autoProlog: boolean) {
-      mustBeBoolean(&#x27;autoProlog&#x27;, autoProlog)
-      _autoProlog = autoProlog;
-    },
     get canvas(): HTMLCanvasElement {
       return _manager ? _manager.canvas : void 0
+    },
+    get commands(): IUnknownArray&lt;IContextCommand&gt; {
+      return commands;
     },
     get gl(): WebGLRenderingContext {
       return _manager ? _manager.gl : void 0
     },
-    contextFree() {
+    contextFree(canvasId: number) {
+      commands.forEach(function(command: IContextCommand){
+        command.contextFree(canvasId)
+      })
       _manager = void 0;
     },
     contextGain(manager: IContextProvider) {
       // This object is single context, so we only ever get called with one manager at a time (serially).
       _manager = manager;
-      startUp.forEach(function(command: IContextCommand){
-        command.execute(manager.gl)
+      commands.forEach(function(command: IContextCommand){
+        command.contextGain(manager)
       })
     },
-    contextLost() {
+    contextLost(canvasId: number) {
+      commands.forEach(function(command: IContextCommand){
+        command.contextLost(canvasId)
+      })
       _manager = void 0;
-    },
-    prolog(): void {
-      if (_manager) {
-        for (var i = 0, length = prolog.length; i &lt; length; i++) {
-         var command =  prolog.get(i)
-         command.execute(_manager)
-         command.release()
-        }
-      }
-      else {
-        if (core.verbose) {
-          console.warn(&quot;Unable to execute prolog because WebGLRenderingContext is missing.&quot;)
-        }
-      }
-    },
-    addPrologCommand(command: IPrologCommand): IPrologCommand {
-      prolog.push(command)
-      return command
-    },
-    addContextGainCommand(command: IContextCommand): IContextCommand {
-      startUp.push(command)
-      return command
     },
     release(): number {
       refCount--
       refChange(uuid, CLASS_NAME, -1)
       if (refCount === 0) {
-        prolog.release()
-        prolog = void 0
-        startUp.release()
-        startUp = void 0
+        commands.release()
+        commands = void 0
         return 0
       }
       else {
@@ -353,8 +284,6 @@ let renderer = function(): ContextRenderer {
     }
   }
   refChange(uuid, CLASS_NAME, +1)
-  setStartUpCommands(self)
-  setPrologCommands(self)
   return self
 }
 

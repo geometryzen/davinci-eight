@@ -225,7 +225,7 @@ define(["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '..
                 for (var i = 0, iLength = canvasIds.length; i < iLength; i++) {
                     var canvasId = canvasIds[i];
                     var c3d = this.contexts.get(canvasId);
-                    c3d.prolog();
+                    // prolog?
                     c3d.release();
                     var ambients = this.uniformsByCanvasId.get(canvasId);
                     // FIXME: scenesByCanvasId

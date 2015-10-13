@@ -6,7 +6,7 @@ function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShader: string, frag
   let fs: WebGLShader = makeWebGLShader(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
 
   // Create the program object.
-  let program = ctx.createProgram();
+  let program: WebGLProgram = ctx.createProgram();
 
   // Attach our two shaders to the program.
   ctx.attachShader(program, vs);

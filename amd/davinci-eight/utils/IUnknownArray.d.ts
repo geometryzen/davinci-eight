@@ -1,9 +1,15 @@
 import IUnknown = require('../core/IUnknown');
 import Shareable = require('../utils/Shareable');
 /**
- * @class IUnknownArray
+ * @class IUnknownArray<T extends IUnknown>
+ * @extends Shareable
  */
 declare class IUnknownArray<T extends IUnknown> extends Shareable {
+    /**
+     * @property _elements
+     * @type {T[]}
+     * @private
+     */
     private _elements;
     private userName;
     /**
@@ -26,6 +32,13 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
      * @return {T}
      */
     get(index: number): T;
+    /**
+     * Gets the element at the specified index, without incrementing the reference count.
+     * @method getWeakRef
+     * @param index {number}
+     * @return {T}
+     */
+    getWeakRef(index: number): T;
     /**
      * @method indexOf
      * @param searchElement {T}
@@ -73,6 +86,13 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
      * @return {number}
      */
     push(element: T): number;
+    /**
+     * Pushes an element onto the tail of the list without incrementing the element reference count.
+     * @method pushWeakRef
+     * @param element {T}
+     * @return {number}
+     */
+    pushWeakRef(element: T): number;
     /**
      * @method pop
      * @return {T}

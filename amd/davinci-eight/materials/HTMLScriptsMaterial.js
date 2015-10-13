@@ -35,10 +35,10 @@ define(["require", "exports", '../materials/Material', '../checks/mustSatisfy', 
             this.dom = dom;
         }
         /**
-         * @method createProgram
+         * @method createMaterial
          * @return {IMaterial}
          */
-        HTMLScriptsMaterial.prototype.createProgram = function () {
+        HTMLScriptsMaterial.prototype.createMaterial = function () {
             var vsId = this.scriptIds[0];
             var fsId = this.scriptIds[1];
             return programFromScripts(this.monitors, vsId, fsId, this.dom, this.attributeBindings);

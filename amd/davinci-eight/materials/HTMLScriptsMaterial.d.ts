@@ -18,9 +18,9 @@ declare class HTMLScriptsMaterial extends Material {
      */
     constructor(contexts: IContextMonitor[], scriptIds?: string[], dom?: Document);
     /**
-     * @method createProgram
+     * @method createMaterial
      * @return {IMaterial}
      */
-    createProgram(): IMaterial;
+    createMaterial(): IMaterial;
 }
 export = HTMLScriptsMaterial;

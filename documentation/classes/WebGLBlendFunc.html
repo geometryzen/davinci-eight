@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/renderers/ContextRenderer.ts - davinci-eight</title>
+    <title>WebGLBlendFunc - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.127.0</em>
+            <em>API Docs for: 2.128.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -90,6 +89,7 @@
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IContextRenderer.html">IContextRenderer</a></li>
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
@@ -99,11 +99,11 @@
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
-                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
+                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
@@ -156,8 +156,9 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexGeometry.html">VortexGeometry</a></li>
-                                <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
+                                <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
+                                <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -198,72 +199,509 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/renderers/ContextRenderer.ts</h1>
+<h1>WebGLBlendFunc Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;)
-import IContextCommand = require(&#x27;../core/IContextCommand&#x27;)
-import IPrologCommand = require(&#x27;../core/IPrologCommand&#x27;)
-import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
-import IUnknown = require(&#x27;../core/IUnknown&#x27;)
-import IFacet = require(&#x27;../core/IFacet&#x27;) 
-/**
- * This interface is to be implemented by classes associated with a single context.
- * This does mean that the commands are not shared.
- * @class ContextRenderer
- * @extends IContextConsumer
- * @extends IUnknown
- */
-interface ContextRenderer extends IContextConsumer, IUnknown {
-  /**
-   * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
-   * @property gl
-   * @type {WebGLRenderingContext}
-   * @readOnly
-   */
-  gl: WebGLRenderingContext;
-  /**
-   * @property canvas
-   * @type {HTMLCanvasElement}
-   * @readOnly
-   */
-  canvas: HTMLCanvasElement;
-  /**
-   * &lt;p&gt;
-   * Determines whether the prolog commands are run automatically as part of the render method.
-   * &lt;/p&gt;
-   * @property autoProlog
-   * @type {boolean}
-   */
-  autoProlog: boolean;
-  /**
-   * Executes the prolog commands.
-   * @method prolog
-   * @return {void}
-   */
-  prolog(): void;
-  /**
-   * Adds a command to the &#x60;prolog&#x60; that will be executed as part of the render() call, before drawing.
-   * The method is chainable on the command added.
-   * @method addPrologCommand
-   * @param command {IPrologCommand}
-   * @return {IPrologCommand}
-   * @chainable
-   */
-  addPrologCommand(command: IPrologCommand): IPrologCommand;
-  /**
-   * Adds a handler that will be executed for context free, gain, and loss events. 
-   * @method addContextGainCommand
-   * @param command {IContextCommand}
-   * @return {IContextCommand}
-   * @chainable
-   */
-  addContextGainCommand(command: IContextCommand): IContextCommand;
-}
+        <div class="extends">
+            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+        </div>
 
-export = ContextRenderer;
-    </pre>
+        <div class="foundat">
+            Defined in: <a href="../files/src_davinci-eight_commands_WebGLBlendFunc.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLBlendFunc.ts:40</code></a>
+        </div>
+
+            Module: <a href="../modules/EIGHT.html">EIGHT</a>
+
+</div>
+
+
+<div class="box intro">
+    
+</div>
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_WebGLBlendFunc" class="method item">
+    <h3 class="name"><code>WebGLBlendFunc</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>sfactor</code>
+                </li>
+                <li class="arg">
+                        <code>dfactor</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_commands_WebGLBlendFunc.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLBlendFunc.ts:40</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">sfactor</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">dfactor</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextFree">contextFree</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextGain">contextGain</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextLost">contextLost</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_destructor">destructor</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:24</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextFree" class="method item">
+    <h3 class="name"><code>contextFree</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>canvasId</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_commands_WebGLBlendFunc.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLBlendFunc.ts:51</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">canvasId</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextGain" class="method item">
+    <h3 class="name"><code>contextGain</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>manager</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_commands_WebGLBlendFunc.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLBlendFunc.ts:59</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">manager</code>
+                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextLost" class="method item">
+    <h3 class="name"><code>contextLost</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>canvasId</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_commands_WebGLBlendFunc.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLBlendFunc.ts:67</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">canvasId</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_destructor" class="method item">
+    <h3 class="name"><code>destructor</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/Shareable.html#method_destructor">
+                Shareable
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_commands_WebGLBlendFunc.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;commands&#x2F;WebGLBlendFunc.ts:80</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:37</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:77</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+            </div>
+
+
+    </div>
 </div>
                     </div>
                 </div>

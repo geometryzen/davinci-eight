@@ -4,7 +4,7 @@ import IContextCommand = require('../core/IContextCommand');
 import Shareable = require('../utils/Shareable');
 /**
  * <p>
- * enable(capability: number): void
+ * enable(capability: string): void
  * <p>
  * @class WebGLEnable
  * @extends Shareable
@@ -12,12 +12,13 @@ import Shareable = require('../utils/Shareable');
  * @implements IContextConsumer
  */
 declare class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer {
-    capability: number;
+    private _capability;
     /**
      * @class WebGLEnable
      * @constructor
+     * @param capability {string} The name of the WebGLRenderingContext property to be enabled.
      */
-    constructor(capability?: number);
+    constructor(capability: string);
     /**
      * @method contextFree
      * @param canvasId {number}
@@ -37,16 +38,10 @@ declare class WebGLEnable extends Shareable implements IContextCommand, IContext
      */
     contextLost(canvasId: number): void;
     /**
-     * @method execute
-     * @param gl {WebGLRenderingContext}
-     * @return {void}
-     */
-    execute(gl: WebGLRenderingContext): void;
-    /**
      * @method destructor
      * @return {void}
+     * @protected
      */
-    destructor(): void;
-    name: string;
+    protected destructor(): void;
 }
 export = WebGLEnable;

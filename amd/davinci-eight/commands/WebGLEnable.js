@@ -3,11 +3,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
-    var QUALIFIED_NAME = 'WebGLRenderingContext.enable';
+define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeNumber, mustBeString, Shareable) {
     /**
      * <p>
-     * enable(capability: number): void
+     * enable(capability: string): void
      * <p>
      * @class WebGLEnable
      * @extends Shareable
@@ -19,11 +18,11 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
         /**
          * @class WebGLEnable
          * @constructor
+         * @param capability {string} The name of the WebGLRenderingContext property to be enabled.
          */
         function WebGLEnable(capability) {
-            if (capability === void 0) { capability = 1; }
-            _super.call(this, QUALIFIED_NAME);
-            this.capability = mustBeNumber('capability', capability);
+            _super.call(this, 'WebGLEnable');
+            this._capability = mustBeString('capability', capability);
         }
         /**
          * @method contextFree
@@ -39,7 +38,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
          * @return {void}
          */
         WebGLEnable.prototype.contextGain = function (manager) {
-            this.execute(manager.gl);
+            manager.gl.enable(mustBeNumber(this._capability, (manager.gl[this._capability])));
         };
         /**
          * @method contextLost
@@ -50,28 +49,14 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             // do nothing
         };
         /**
-         * @method execute
-         * @param gl {WebGLRenderingContext}
-         * @return {void}
-         */
-        WebGLEnable.prototype.execute = function (gl) {
-            mustBeNumber('capability', this.capability);
-            gl.enable(this.capability);
-        };
-        /**
          * @method destructor
          * @return {void}
+         * @protected
          */
         WebGLEnable.prototype.destructor = function () {
-            this.capability = void 0;
+            this._capability = void 0;
+            _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(WebGLEnable.prototype, "name", {
-            get: function () {
-                return QUALIFIED_NAME;
-            },
-            enumerable: true,
-            configurable: true
-        });
         return WebGLEnable;
     })(Shareable);
     return WebGLEnable;
