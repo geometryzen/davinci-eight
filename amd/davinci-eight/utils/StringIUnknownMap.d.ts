@@ -26,6 +26,7 @@ declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
      */
     exists(key: string): boolean;
     get(key: string): V;
+    getWeakRef(key: string): V;
     put(key: string, value: V): void;
     /**
      * @method putWeakReference
@@ -34,7 +35,7 @@ declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
      * @return {void}
      * @private
      */
-    private putWeakReference(key, value);
+    putWeakRef(key: string, value: V): void;
     forEach(callback: (key: string, value: V) => void): void;
     keys: string[];
     values: V[];

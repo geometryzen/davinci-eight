@@ -1,16 +1,19 @@
+import Geometry = require('../geometries/Geometry');
+import Slide = require('../slideshow/Slide');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
 import IFacet = require('../core/IFacet');
-import ISlide = require('../slideshow/ISlide');
 import ISlideHost = require('../slideshow/ISlideHost');
 import Shareable = require('../utils/Shareable');
+/**
+ * @class Director
+ */
 declare class Director extends Shareable implements ISlideHost {
     private slides;
     private step;
     /**
      * (canvasId: number) => Canvas3D
      */
-    private contexts;
     /**
      * (sceneName: string) => Scene
      */
@@ -19,6 +22,7 @@ declare class Director extends Shareable implements ISlideHost {
      * (name: string) => IUniform
      */
     private drawables;
+    private geometries;
     /**
      * (name: string) => IUniform
      */
@@ -31,13 +35,19 @@ declare class Director extends Shareable implements ISlideHost {
      * (canvasId: number) => ((uniform.name) => IFacet)
      */
     private uniformsByCanvasId;
+    /**
+     * @class Director
+     * @constructor
+     */
     constructor();
     destructor(): void;
-    apply(slide: ISlide, forward: boolean): void;
     addCanvasSceneLink(canvasId: number, sceneName: string): void;
     addDrawable(name: string, drawable: IDrawable): void;
     getDrawable(name: string): IDrawable;
     removeDrawable(name: string): void;
+    addGeometry(name: string, geometry: Geometry): void;
+    removeGeometry(name: string): void;
+    getGeometry(name: string): Geometry;
     addToScene(drawableId: string, sceneId: string): void;
     removeFromScene(drawableId: string, sceneId: string): void;
     addFacet(name: string, uniform: IFacet): void;
@@ -46,18 +56,14 @@ declare class Director extends Shareable implements ISlideHost {
     /**
      *
      */
-    createScene(sceneName: string, canvasIds: number[]): void;
-    deleteScene(name: string): void;
-    createSlide(): ISlide;
+    createSlide(): Slide;
     getScene(name: string): IDrawList;
     go(step: number, instant?: boolean): void;
     forward(instant?: boolean, delay?: number): void;
     canForward(): boolean;
     backward(instant?: boolean, delay?: number): void;
     canBackward(): boolean;
-    pushSlide(slide: ISlide): number;
-    addCanvas(canvas: HTMLCanvasElement, canvasId: number): void;
-    update(speed: number): void;
-    render(): void;
+    pushSlide(slide: Slide): number;
+    advance(interval: number): void;
 }
 export = Director;

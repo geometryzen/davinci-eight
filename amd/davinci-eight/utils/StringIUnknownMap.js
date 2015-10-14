@@ -34,7 +34,7 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             if (this._refCount === 0) {
                 var self_1 = this;
                 this.forEach(function (key) {
-                    self_1.putWeakReference(key, void 0);
+                    self_1.putWeakRef(key, void 0);
                 });
                 this._elements = void 0;
             }
@@ -60,11 +60,14 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
                 return void 0;
             }
         };
+        StringIUnknownMap.prototype.getWeakRef = function (key) {
+            return this._elements[key];
+        };
         StringIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
             }
-            this.putWeakReference(key, value);
+            this.putWeakRef(key, value);
         };
         /**
          * @method putWeakReference
@@ -73,7 +76,7 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
          * @return {void}
          * @private
          */
-        StringIUnknownMap.prototype.putWeakReference = function (key, value) {
+        StringIUnknownMap.prototype.putWeakRef = function (key, value) {
             var elements = this._elements;
             var existing = elements[key];
             if (existing) {

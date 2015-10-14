@@ -2,13 +2,13 @@ import Shareable = require('../utils/Shareable');
 import Spinor3 = require('../math/Spinor3');
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
-import IProperties = require('../slideshow/IProperties');
+import IAnimationTarget = require('../slideshow/IAnimationTarget');
 import IUnknownExt = require('../core/IUnknownExt');
 import Vector3 = require('../math/Vector3');
 /**
  * @class ModelFacet
  */
-declare class ModelFacet extends Shareable implements IFacet, IProperties, IUnknownExt<ModelFacet> {
+declare class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacet> {
     static PROP_ATTITUDE: string;
     static PROP_POSITION: string;
     private _position;

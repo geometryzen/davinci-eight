@@ -176,6 +176,13 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
     // No need to addRef because ownership is being transferred to caller.
     return this._elements.pop()
   }
+  unshift(element: T): number {
+    element.addRef()
+    return this.unshiftWeakRef(element)
+  }
+  unshiftWeakRef(element: T): number {
+    return this._elements.unshift(element)
+  }
 }
 
 export = IUnknownArray;

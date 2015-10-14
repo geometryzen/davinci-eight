@@ -7,14 +7,14 @@ import Spinor3 = require('../math/Spinor3')
 import Symbolic = require('../core/Symbolic')
 import IFacet = require('../core/IFacet')
 import IFacetVisitor = require('../core/IFacetVisitor')
-import IProperties = require('../slideshow/IProperties')
+import IAnimationTarget = require('../slideshow/IAnimationTarget')
 import IUnknownExt = require('../core/IUnknownExt')
 import Vector3 = require('../math/Vector3')
 
 /**
  * @class ModelFacet
  */
-class ModelFacet extends Shareable implements IFacet, IProperties, IUnknownExt<ModelFacet> {
+class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacet> {
 
   public static PROP_ATTITUDE = 'attitude';
   public static PROP_POSITION = 'position';
@@ -93,10 +93,10 @@ class ModelFacet extends Shareable implements IFacet, IProperties, IUnknownExt<M
   getProperty(name: string): number[] {
     switch(name) {
       case ModelFacet.PROP_ATTITUDE: {
-        return this._attitude.data
+        return this._attitude.data.map((x) => { return x })
       }
       case ModelFacet.PROP_POSITION: {
-        return this._position.data
+        return this._position.data.map((x: number) => { return x })
       }
       default: {
         console.warn("ModelFacet.getProperty " + name)

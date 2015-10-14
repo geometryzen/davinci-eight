@@ -1,15 +1,12 @@
 // slideshow
-import Animator                = require('davinci-eight/slideshow/Animator')
-import Director                = require('davinci-eight/slideshow/Director')
 import Slide                   = require('davinci-eight/slideshow/Slide')
-import Animation               = require('davinci-eight/slideshow/animations/Animation')
-import ColorTo                 = require('davinci-eight/slideshow/animations/ColorTo')
-import MoveTo                  = require('davinci-eight/slideshow/animations/MoveTo')
-import SpinTo                  = require('davinci-eight/slideshow/animations/SpinTo')
-import ColorTask               = require('davinci-eight/slideshow/tasks/ColorTask')
-import CubeTask                = require('davinci-eight/slideshow/tasks/CubeTask')
-import MoveTask                = require('davinci-eight/slideshow/tasks/MoveTask')
-import SpinTask                = require('davinci-eight/slideshow/tasks/SpinTask')
+import Director                = require('davinci-eight/slideshow/Director')
+import DirectorKeyboardHandler = require('davinci-eight/slideshow/DirectorKeyboardHandler')
+import WaitAnimation           = require('davinci-eight/slideshow/animations/WaitAnimation')
+import ColorAnimation          = require('davinci-eight/slideshow/animations/ColorAnimation')
+import Vector3Animation        = require('davinci-eight/slideshow/animations/Vector3Animation')
+import Spinor3Animation        = require('davinci-eight/slideshow/animations/Spinor3Animation')
+import TestCommand             = require('davinci-eight/slideshow/commands/TestCommand')
 
 // cameras
 import createFrustum           = require('davinci-eight/cameras/createFrustum')
@@ -45,6 +42,8 @@ import UniformLocation         = require('davinci-eight/core/UniformLocation')
 import UniformMetaInfo         = require('davinci-eight/core/UniformMetaInfo')
 // curves
 import Curve                   = require('davinci-eight/curves/Curve')
+// devices
+import Keyboard                = require('davinci-eight/devices/Keyboard')
 // geometries
 import GeometryAttribute       = require('davinci-eight/geometries/GeometryAttribute')
 import GeometryData            = require('davinci-eight/geometries/GeometryData')
@@ -209,16 +208,17 @@ var eight = {
    */
   get VERSION() { return core.VERSION },
   // slideshow
-  get Animator() { return Animator },
+  get Slide() { return Slide },
   get Director() { return Director },
-  get Animation() { return Animation },
-  get ColorTo() { return ColorTo },
-  get MoveTo() { return MoveTo },
-  get SpinTo() { return SpinTo },
-  get ColorTask() { return ColorTask },
-  get CubeTask() { return CubeTask },
-  get MoveTask() { return MoveTask },
-  get SpinTask() { return SpinTask },
+  get DirectorKeyboardHandler() { return DirectorKeyboardHandler },
+  get ColorAnimation() { return ColorAnimation },
+  get WaitAnimation() { return WaitAnimation },
+  get Vector3Animation() { return Vector3Animation },
+  get Spinor3Animation() { return Spinor3Animation },
+  get TestCommand() { return TestCommand },
+
+  // devices
+  get Keyboard() { return Keyboard },
 
   // TODO: Arrange in alphabetical order in order to assess width of API.
   // materials

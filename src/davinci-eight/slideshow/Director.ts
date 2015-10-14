@@ -1,23 +1,31 @@
+import Geometry = require('../geometries/Geometry')
+import Slide = require('../slideshow/Slide')
 import Canvas3D = require('../scene/Canvas3D')
 import IDrawable = require('../core/IDrawable')
 import IDrawList = require('../scene/IDrawList')
 import IFacet = require('../core/IFacet')
-import ISlide = require('../slideshow/ISlide')
 import ISlideHost = require('../slideshow/ISlideHost')
 import IUnknownArray = require('../utils/IUnknownArray')
 import NumberIUnknownMap = require('../utils/NumberIUnknownMap')
 import Scene = require('../scene/Scene')
 import Shareable = require('../utils/Shareable')
-import Slide = require('../slideshow/Slide')
 import StringIUnknownMap = require('../utils/StringIUnknownMap')
+///////////////////////////////////////////////////////////////////////////////
+// Design Ideas:
+// 1. Should be able to attach itself to an EIGHT program and drive it.
+// 2. Should be able to create the elements of an EIGHT program.
+//
 
+/**
+ * @class Director
+ */
 class Director extends Shareable implements ISlideHost {
-  private slides: IUnknownArray<ISlide>;
+  private slides: IUnknownArray<Slide>;
   private step: number;
   /**
    * (canvasId: number) => Canvas3D
    */
-  private contexts: NumberIUnknownMap<Canvas3D>;
+  // private contexts: NumberIUnknownMap<Canvas3D>;
   /**
    * (sceneName: string) => Scene
    */
@@ -26,6 +34,7 @@ class Director extends Shareable implements ISlideHost {
    * (name: string) => IUniform
    */
   private drawables: StringIUnknownMap<IDrawable>;
+  private geometries: StringIUnknownMap<Geometry>;
   /**
    * (name: string) => IUniform
    */
@@ -38,13 +47,18 @@ class Director extends Shareable implements ISlideHost {
    * (canvasId: number) => ((uniform.name) => IFacet)
    */
   private uniformsByCanvasId: NumberIUnknownMap<StringIUnknownMap<IFacet>>;
+  /**
+   * @class Director
+   * @constructor
+   */
   constructor() {
     super('Director')
-    this.slides = new IUnknownArray<ISlide>([], 'Director.slides')
+    this.slides = new IUnknownArray<Slide>([], 'Director.slides')
     this.step = -1 // Position before the first slide.
-    this.contexts = new NumberIUnknownMap<Canvas3D>()
+    // this.contexts = new NumberIUnknownMap<Canvas3D>()
     this.scenes = new StringIUnknownMap<IDrawList>('Director.scenes')
     this.drawables = new StringIUnknownMap<IDrawable>('Director.drawables')
+    this.geometries = new StringIUnknownMap<Geometry>('Director.geometries')
     this.uniforms = new StringIUnknownMap<IFacet>('Director.uniforms')
     this.sceneNamesByCanvasId = {}
     this.uniformsByCanvasId = new NumberIUnknownMap<StringIUnknownMap<IFacet>>();
@@ -52,27 +66,21 @@ class Director extends Shareable implements ISlideHost {
   destructor(): void {
     this.slides.release()
     this.slides = void 0
-    this.contexts.forEach(function(canvasId, context) {
-      context.stop()
-    })
-    this.contexts.release()
-    this.contexts = void 0
+    //this.contexts.forEach(function(canvasId, context) {
+      //context.stop()
+    //})
+    //this.contexts.release()
+    //this.contexts = void 0
     this.scenes.release()
     this.scenes = void 0
     this.drawables.release()
     this.drawables = void 0
+    this.geometries.release()
+    this.geometries = void 0
     this.uniforms.release()
     this.uniforms = void 0
     this.uniformsByCanvasId.release()
     this.uniformsByCanvasId = void 0
-  }
-  apply(slide: ISlide, forward: boolean): void {
-    if (forward) {
-      slide.exec(this)
-    }
-    else {
-      slide.undo(this)
-    }
   }
   addCanvasSceneLink(canvasId: number, sceneName: string) {
     var names = this.sceneNamesByCanvasId[canvasId]
@@ -91,6 +99,15 @@ class Director extends Shareable implements ISlideHost {
   }
   removeDrawable(name: string): void {
     this.drawables.remove(name)
+  }
+  addGeometry(name: string, geometry: Geometry): void {
+    this.geometries.put(name, geometry)
+  }
+  removeGeometry(name: string): void {
+    this.geometries.remove(name)
+  }
+  getGeometry(name: string): Geometry {
+    return this.geometries.get(name)
   }
   addToScene(drawableId: string, sceneId: string): void {
     var drawable = this.drawables.get(drawableId)
@@ -140,8 +157,9 @@ class Director extends Shareable implements ISlideHost {
   /**
    *
    */
+  /*
   createScene(sceneName: string, canvasIds: number[]) {
-    var contexts = this.contexts;
+    //var contexts = this.contexts;
     var monitors: Canvas3D[] = canvasIds.map(function(canvasId) {
       return contexts.getWeakReference(canvasId)
     })
@@ -158,7 +176,8 @@ class Director extends Shareable implements ISlideHost {
       this.scenes.remove(name)
     }
   }
-  createSlide(): ISlide {
+  */
+  createSlide(): Slide {
     var slide = new Slide()
     this.slides.push(slide)
     return slide
@@ -176,37 +195,40 @@ class Director extends Shareable implements ISlideHost {
     if (!this.canForward()) {
       return
     }
-    var slideIndex = this.step + 1
-    var slide: ISlide = this.slides.get(slideIndex)
-    try {
-      var self = this;
-      var apply = function() {
-        self.apply(slide, true)
-        self.step++
+    var slideLeaving: Slide = this.slides.getWeakRef(this.step)
+    var slideEntering: Slide = this.slides.getWeakRef(this.step + 1)
+    var self = this;
+    var apply = function() {
+      if (slideLeaving) {
+        slideLeaving.onExit(self)
       }
-      if (delay) {
-        setTimeout(apply, delay)
-      }
-      else {
-        apply()
-      }
+      slideEntering.onEnter(self)
+      self.step++
     }
-    finally {
-      slide.release()
+    if (delay) {
+      setTimeout(apply, delay)
+    }
+    else {
+      apply()
     }
   }
   canForward(): boolean {
+    // The last slide index is (length - 1)
     return this.step < (this.slides.length - 1)
   }
   backward(instant: boolean = true, delay: number = 0) {
     if (!this.canBackward()) {
       return
     }
-    var slideIndex = this.step - 1
-    var slide = this.slides.get(slideIndex)
+    var slideLeaving = this.slides.getWeakRef(this.step)
+    var slideEntering = this.slides.getWeakRef(this.step - 1)
     var self = this;
     var apply = function() {
-      self.apply(slide, false)
+      slideLeaving.undo(self)
+      slideLeaving.onExit(self)
+      if (slideEntering) {
+        slideEntering.onEnter(self)
+      }
       self.step--
     }
     if (delay) {
@@ -215,27 +237,29 @@ class Director extends Shareable implements ISlideHost {
     else {
       apply()
     }
-    slide.release()
   }
   canBackward(): boolean {
-    return this.step > 0
+    // A step value of -1 positions us just before the 1st slide.
+    return this.step >= 0
   }
-  pushSlide(slide: ISlide): number {
+  pushSlide(slide: Slide): number {
     return this.slides.push(slide)
   }
+  /*
   addCanvas(canvas: HTMLCanvasElement, canvasId: number): void {
     var c3d = new Canvas3D()
     c3d.start(canvas, canvasId)
     this.contexts.put(canvasId, c3d)
     c3d.release()
   }
-  update(speed: number): void {
+  */
+  advance(interval: number): void {
     var slideIndex = this.step
     if (slideIndex >= 0 && slideIndex < this.slides.length) {
-      var slide: ISlide = this.slides.get(slideIndex)
+      var slide: Slide = this.slides.get(slideIndex)
       if (slide) {
         try {
-          slide.update(speed)
+          slide.advance(interval)
         }
         finally {
           slide.release()
@@ -247,6 +271,7 @@ class Director extends Shareable implements ISlideHost {
       }
     }
   }
+  /*
   render(): void {
     var slideIndex = this.step
     if (slideIndex >= 0 && slideIndex < this.slides.length) {
@@ -272,6 +297,7 @@ class Director extends Shareable implements ISlideHost {
       }
     }
   }
+  */
 }
 
 export = Director

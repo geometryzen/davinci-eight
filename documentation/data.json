@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.128.0",
+        "version": "2.129.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -1271,19 +1271,12 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/slideshow/Animator.ts": {
-            "name": "src/davinci-eight/slideshow/Animator.ts",
-            "modules": {},
-            "classes": {
-                "AnimatedMirror": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/slideshow/Director.ts": {
             "name": "src/davinci-eight/slideshow/Director.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Director": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1296,39 +1289,19 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/slideshow/IAnimationClock.ts": {
-            "name": "src/davinci-eight/slideshow/IAnimationClock.ts",
+        "src/davinci-eight/slideshow/IAnimationTarget.ts": {
+            "name": "src/davinci-eight/slideshow/IAnimationTarget.ts",
             "modules": {},
             "classes": {
-                "IAnimationClock": 1
+                "IAnimationTarget": 1
             },
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/slideshow/IExchange.ts": {
-            "name": "src/davinci-eight/slideshow/IExchange.ts",
+        "src/davinci-eight/slideshow/Slide.ts": {
+            "name": "src/davinci-eight/slideshow/Slide.ts",
             "modules": {},
-            "classes": {
-                "IExchange": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/slideshow/IProperties.ts": {
-            "name": "src/davinci-eight/slideshow/IProperties.ts",
-            "modules": {},
-            "classes": {
-                "IProperties": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/slideshow/ISlide.ts": {
-            "name": "src/davinci-eight/slideshow/ISlide.ts",
-            "modules": {},
-            "classes": {
-                "ISlide": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -1569,12 +1542,9 @@
                 "IDrawList": 1,
                 "PerspectiveCamera": 1,
                 "Scene": 1,
-                "AnimatedMirror": 1,
+                "Director": 1,
                 "IAnimation": 1,
-                "IAnimationClock": 1,
-                "IExchange": 1,
-                "IProperties": 1,
-                "ISlide": 1,
+                "IAnimationTarget": 1,
                 "AmbientLight": 1,
                 "ColorFacet": 1,
                 "DirectionalLight": 1,
@@ -3756,9 +3726,9 @@
                 }
             ]
         },
-        "AnimatedMirror": {
-            "name": "AnimatedMirror",
-            "shortname": "AnimatedMirror",
+        "Director": {
+            "name": "Director",
+            "shortname": "Director",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -3766,9 +3736,8 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/slideshow/Animator.ts",
-            "line": 331,
-            "description": "The super-symmetric partner of an IProperties adapter.\nThis class keeps track of animation state.",
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 50,
             "is_constructor": 1
         },
         "IAnimation": {
@@ -3782,12 +3751,13 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/slideshow/IAnimation.ts",
-            "line": 3,
+            "line": 4,
+            "description": "An animation represents the runtime aspects of changing properties.",
             "extends": "IUnknown"
         },
-        "IAnimationClock": {
-            "name": "IAnimationClock",
-            "shortname": "IAnimationClock",
+        "IAnimationTarget": {
+            "name": "IAnimationTarget",
+            "shortname": "IAnimationTarget",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -3795,51 +3765,9 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/slideshow/IAnimationClock.ts",
-            "line": 1
-        },
-        "IExchange": {
-            "name": "IExchange",
-            "shortname": "IExchange",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/slideshow/IExchange.ts",
-            "line": 1,
-            "access": "private",
-            "tagname": ""
-        },
-        "IProperties": {
-            "name": "IProperties",
-            "shortname": "IProperties",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/slideshow/IProperties.ts",
+            "file": "src/davinci-eight/slideshow/IAnimationTarget.ts",
             "line": 3,
             "extends": "IUnknown"
-        },
-        "ISlide": {
-            "name": "ISlide",
-            "shortname": "ISlide",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/slideshow/ISlide.ts",
-            "line": 9,
-            "description": "A slide is a collection of animations."
         },
         "AmbientLight": {
             "name": "AmbientLight",
@@ -9404,185 +9332,102 @@
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 30,
             "description": "A grouping of IDrawable, by IMaterial.",
-            "class": "AnimatedMirror",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 35,
             "description": "I can't see this being used; it's all about the drawables!",
-            "class": "AnimatedMirror",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 72,
             "description": "accept provides a way to push out the IMaterial without bumping the reference count.",
-            "class": "AnimatedMirror",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 119,
             "description": "Should look like a set of Drawable Groups. Maybe like a Scene!",
-            "class": "AnimatedMirror",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 123,
             "description": "Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
-            "class": "AnimatedMirror",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 252,
             "description": "method contextGain",
-            "class": "AnimatedMirror",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/shaders/ShareableWebGLShader.ts",
             "line": 8,
             "description": "Construction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",
-            "class": "AnimatedMirror",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Animator.ts",
-            "line": 44,
-            "description": "Attach animator to an object.",
-            "class": "AnimatedMirror",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Animator.ts",
-            "line": 82,
-            "description": "Hurry all animations on an object by speeding by a factor.",
-            "class": "AnimatedMirror",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Animator.ts",
-            "line": 107,
-            "description": "Stop all animations on an object.",
-            "itemtype": "method",
-            "name": "stop",
-            "params": [
-                {
-                    "name": "object",
-                    "description": "",
-                    "type": "Animated"
-                },
-                {
-                    "name": "attributes",
-                    "description": "",
-                    "type": "IExchange"
-                }
-            ],
-            "class": "AnimatedMirror",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Animator.ts",
-            "line": 133,
-            "description": "Animate a set of attributes on an object.",
-            "itemtype": "method",
-            "name": "animate",
-            "params": [
-                {
-                    "name": "object",
-                    "description": "The object to be animated",
-                    "type": "Animated"
-                },
-                {
-                    "name": "animation",
-                    "description": "The animations to be applied by property name.",
-                    "type": "[name: string]:IAnimation"
-                },
-                {
-                    "name": "options",
-                    "description": "[IAnimateOptions] determine how the attributes will be animated."
-                }
-            ],
-            "class": "AnimatedMirror",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Animator.ts",
-            "line": 205,
-            "description": "Remove current animation on an object attribute.",
-            "class": "AnimatedMirror",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Animator.ts",
-            "line": 252,
-            "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
-            "itemtype": "method",
-            "name": "update",
-            "params": [
-                {
-                    "name": "speed",
-                    "description": "Advances the static Animator.now property.",
-                    "type": "Number"
-                }
-            ],
-            "class": "AnimatedMirror",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 17,
-            "description": "(canvasId: number) => Canvas3D",
-            "class": "IAnimation",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 21,
-            "description": "(sceneName: string) => Scene",
-            "class": "IAnimation",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
             "line": 25,
-            "description": "(name: string) => IUniform",
-            "class": "IAnimation",
+            "description": "(canvasId: number) => Canvas3D",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
             "line": 29,
-            "description": "(name: string) => IUniform",
-            "class": "IAnimation",
+            "description": "(sceneName: string) => Scene",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
             "line": 33,
+            "description": "(name: string) => IUniform",
+            "class": "Director",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 38,
+            "description": "(name: string) => IUniform",
+            "class": "Director",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 42,
             "description": "(canvasId: number) => scene.name",
-            "class": "IAnimation",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 37,
+            "line": 46,
             "description": "(canvasId: number) => ((uniform.name) => IFacet)",
-            "class": "IAnimation",
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 140,
-            "class": "IAnimation",
+            "line": 157,
+            "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/IAnimation.ts",
-            "line": 8,
+            "line": 10,
             "itemtype": "method",
             "name": "apply",
             "params": [
@@ -9601,7 +9446,7 @@
         },
         {
             "file": "src/davinci-eight/slideshow/IAnimation.ts",
-            "line": 14,
+            "line": 16,
             "itemtype": "method",
             "name": "skip",
             "return": {
@@ -9613,7 +9458,7 @@
         },
         {
             "file": "src/davinci-eight/slideshow/IAnimation.ts",
-            "line": 19,
+            "line": 21,
             "itemtype": "method",
             "name": "hurry",
             "params": [
@@ -9632,7 +9477,8 @@
         },
         {
             "file": "src/davinci-eight/slideshow/IAnimation.ts",
-            "line": 25,
+            "line": 27,
+            "description": "extra = now - start - duration, the elapsed time, as of now, since the animation finished.\nstart + duration = now - extra, when the animation finished.",
             "itemtype": "method",
             "name": "extra",
             "return": {
@@ -9644,7 +9490,7 @@
         },
         {
             "file": "src/davinci-eight/slideshow/IAnimation.ts",
-            "line": 30,
+            "line": 34,
             "itemtype": "method",
             "name": "done",
             "return": {
@@ -9655,27 +9501,17 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/slideshow/IAnimationClock.ts",
-            "line": 5,
-            "itemtype": "property",
-            "name": "now",
-            "type": "{number}",
-            "readonly": "",
-            "class": "IAnimationClock",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/IProperties.ts",
+            "file": "src/davinci-eight/slideshow/IAnimationTarget.ts",
             "line": 8,
             "itemtype": "property",
             "name": "uuid",
             "type": "{string}",
             "readonly": "",
-            "class": "IProperties",
+            "class": "IAnimationTarget",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/slideshow/IProperties.ts",
+            "file": "src/davinci-eight/slideshow/IAnimationTarget.ts",
             "line": 14,
             "itemtype": "method",
             "name": "getProperty",
@@ -9690,11 +9526,11 @@
                 "description": "",
                 "type": "Number[]"
             },
-            "class": "IProperties",
+            "class": "IAnimationTarget",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/slideshow/IProperties.ts",
+            "file": "src/davinci-eight/slideshow/IAnimationTarget.ts",
             "line": 20,
             "itemtype": "method",
             "name": "setProperty",
@@ -9710,18 +9546,72 @@
                     "type": "Number[]"
                 }
             ],
-            "class": "IProperties",
+            "class": "IAnimationTarget",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/slideshow/ISlide.ts",
-            "line": 14,
-            "description": "The clock that provides the timing for slide animations.",
-            "itemtype": "property",
-            "name": "clock",
-            "type": "{IAnimationClock}",
-            "readonly": "",
-            "class": "ISlide",
+            "file": "src/davinci-eight/slideshow/Slide.ts",
+            "line": 15,
+            "description": "The objects that we are going to manipulate.",
+            "class": "AmbientLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Slide.ts",
+            "line": 19,
+            "description": "The companions to each target that maintain animation state.",
+            "class": "AmbientLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Slide.ts",
+            "line": 23,
+            "description": "The time standard for this Slide.",
+            "class": "AmbientLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Slide.ts",
+            "line": 77,
+            "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
+            "itemtype": "method",
+            "name": "advance",
+            "params": [
+                {
+                    "name": "interval",
+                    "description": "Advances the static Slide.now property.",
+                    "type": "Number"
+                }
+            ],
+            "class": "AmbientLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Slide.ts",
+            "line": 88,
+            "description": "`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
+            "class": "AmbientLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Slide.ts",
+            "line": 182,
+            "description": "The companion to a target: IAnimationTarget containing animation state.",
+            "class": "AmbientLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Slide.ts",
+            "line": 186,
+            "description": "A map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
+            "class": "AmbientLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Slide.ts",
+            "line": 203,
+            "description": "TODO: Maybe call this ensureAnimationLane or ensureLane",
+            "class": "AmbientLight",
             "module": "EIGHT"
         },
         {
@@ -10221,7 +10111,7 @@
         },
         {
             "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 75,
+            "line": 78,
             "itemtype": "method",
             "name": "putWeakReference",
             "params": [
@@ -10937,44 +10827,60 @@
             "line": " src/davinci-eight/shaders/ShareableWebGLShader.ts:8"
         },
         {
-            "message": "Missing item type\nAttach animator to an object.",
-            "line": " src/davinci-eight/slideshow/Animator.ts:44"
-        },
-        {
-            "message": "Missing item type\nHurry all animations on an object by speeding by a factor.",
-            "line": " src/davinci-eight/slideshow/Animator.ts:82"
-        },
-        {
-            "message": "Missing item type\nRemove current animation on an object attribute.",
-            "line": " src/davinci-eight/slideshow/Animator.ts:205"
-        },
-        {
             "message": "Missing item type\n(canvasId: number) => Canvas3D",
-            "line": " src/davinci-eight/slideshow/Director.ts:17"
-        },
-        {
-            "message": "Missing item type\n(sceneName: string) => Scene",
-            "line": " src/davinci-eight/slideshow/Director.ts:21"
-        },
-        {
-            "message": "Missing item type\n(name: string) => IUniform",
             "line": " src/davinci-eight/slideshow/Director.ts:25"
         },
         {
-            "message": "Missing item type\n(name: string) => IUniform",
+            "message": "Missing item type\n(sceneName: string) => Scene",
             "line": " src/davinci-eight/slideshow/Director.ts:29"
         },
         {
-            "message": "Missing item type\n(canvasId: number) => scene.name",
+            "message": "Missing item type\n(name: string) => IUniform",
             "line": " src/davinci-eight/slideshow/Director.ts:33"
         },
         {
+            "message": "Missing item type\n(name: string) => IUniform",
+            "line": " src/davinci-eight/slideshow/Director.ts:38"
+        },
+        {
+            "message": "Missing item type\n(canvasId: number) => scene.name",
+            "line": " src/davinci-eight/slideshow/Director.ts:42"
+        },
+        {
             "message": "Missing item type\n(canvasId: number) => ((uniform.name) => IFacet)",
-            "line": " src/davinci-eight/slideshow/Director.ts:37"
+            "line": " src/davinci-eight/slideshow/Director.ts:46"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/slideshow/Director.ts:140"
+            "line": " src/davinci-eight/slideshow/Director.ts:157"
+        },
+        {
+            "message": "Missing item type\nThe objects that we are going to manipulate.",
+            "line": " src/davinci-eight/slideshow/Slide.ts:15"
+        },
+        {
+            "message": "Missing item type\nThe companions to each target that maintain animation state.",
+            "line": " src/davinci-eight/slideshow/Slide.ts:19"
+        },
+        {
+            "message": "Missing item type\nThe time standard for this Slide.",
+            "line": " src/davinci-eight/slideshow/Slide.ts:23"
+        },
+        {
+            "message": "Missing item type\n`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
+            "line": " src/davinci-eight/slideshow/Slide.ts:88"
+        },
+        {
+            "message": "Missing item type\nThe companion to a target: IAnimationTarget containing animation state.",
+            "line": " src/davinci-eight/slideshow/Slide.ts:182"
+        },
+        {
+            "message": "Missing item type\nA map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
+            "line": " src/davinci-eight/slideshow/Slide.ts:186"
+        },
+        {
+            "message": "Missing item type\nTODO: Maybe call this ensureAnimationLane or ensureLane",
+            "line": " src/davinci-eight/slideshow/Slide.ts:203"
         },
         {
             "message": "Missing item type\nPoller for the ...? server.",

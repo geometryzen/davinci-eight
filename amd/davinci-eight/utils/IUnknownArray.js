@@ -176,6 +176,13 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             // No need to addRef because ownership is being transferred to caller.
             return this._elements.pop();
         };
+        IUnknownArray.prototype.unshift = function (element) {
+            element.addRef();
+            return this.unshiftWeakRef(element);
+        };
+        IUnknownArray.prototype.unshiftWeakRef = function (element) {
+            return this._elements.unshift(element);
+        };
         return IUnknownArray;
     })(Shareable);
     return IUnknownArray;

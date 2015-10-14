@@ -2,12 +2,12 @@ import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 import ColorRGB = require('../core/ColorRGB');
 import IFacetVisitor = require('../core/IFacetVisitor');
-import IProperties = require('../slideshow/IProperties');
+import IAnimationTarget = require('../slideshow/IAnimationTarget');
 import IUnknownExt = require('../core/IUnknownExt');
 /**
  * @class ColorFacet
  */
-declare class ColorFacet extends Shareable implements ColorRGB, IFacet, IProperties, IUnknownExt<ColorFacet> {
+declare class ColorFacet extends Shareable implements ColorRGB, IFacet, IAnimationTarget, IUnknownExt<ColorFacet> {
     /**
      * property PROP_RGB
      * @type {string}

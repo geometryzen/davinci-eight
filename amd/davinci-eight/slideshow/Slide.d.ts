@@ -1,23 +1,38 @@
 import IAnimation = require('../slideshow/IAnimation');
-import IAnimationClock = require('../slideshow/IAnimationClock');
-import IAnimateOptions = require('../slideshow/IAnimateOptions');
-import IProperties = require('../slideshow/IProperties');
-import ISlide = require('../slideshow/ISlide');
+import IAnimationTarget = require('../slideshow/IAnimationTarget');
 import ISlideHost = require('../slideshow/ISlideHost');
-import ISlideTask = require('../slideshow/ISlideTask');
+import ISlideCommand = require('../slideshow/ISlideCommand');
+import IUnknownArray = require('../utils/IUnknownArray');
 import Shareable = require('../utils/Shareable');
-declare class Slide extends Shareable implements ISlide {
-    private tasks;
-    private animator;
+declare class Slide extends Shareable {
+    prolog: IUnknownArray<ISlideCommand>;
+    epilog: IUnknownArray<ISlideCommand>;
+    /**
+     * The objects that we are going to manipulate.
+     */
+    private targets;
+    /**
+     * The companions to each target that maintain animation state.
+     */
+    private mirrors;
+    /**
+     * The time standard for this Slide.
+     */
+    private now;
     constructor();
     protected destructor(): void;
-    clock: IAnimationClock;
-    addTask<T extends ISlideTask>(task: T): T;
-    animate(object: IProperties, animations: {
-        [name: string]: IAnimation;
-    }, options?: IAnimateOptions): void;
-    update(speed: number): void;
-    exec(host: ISlideHost): void;
+    private ensureTarget(target);
+    private ensureMirror(target);
+    animate(target: IAnimationTarget, propName: string, animation: IAnimation, delay?: number, sustain?: number): void;
+    /**
+     * Update all currently running animations.
+     * Essentially calls `apply` on each IAnimation in the queues of active objects.
+     * @method advance
+     * @param interval {number} Advances the static Slide.now property.
+     */
+    advance(interval: number): void;
+    onEnter(host: ISlideHost): void;
+    onExit(host: ISlideHost): void;
     undo(host: ISlideHost): void;
 }
 export = Slide;

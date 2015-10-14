@@ -98,5 +98,7 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
      * @return {T}
      */
     pop(): T;
+    unshift(element: T): number;
+    unshiftWeakRef(element: T): number;
 }
 export = IUnknownArray;

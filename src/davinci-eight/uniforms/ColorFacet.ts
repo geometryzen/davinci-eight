@@ -8,13 +8,13 @@ import Symbolic = require('../core/Symbolic')
 import IFacet = require('../core/IFacet')
 import ColorRGB = require('../core/ColorRGB')
 import IFacetVisitor = require('../core/IFacetVisitor')
-import IProperties = require('../slideshow/IProperties')
+import IAnimationTarget = require('../slideshow/IAnimationTarget')
 import IUnknownExt = require('../core/IUnknownExt')
 import Vector3 = require('../math/Vector3')
 /**
  * @class ColorFacet
  */
-class ColorFacet extends Shareable implements ColorRGB, IFacet, IProperties, IUnknownExt<ColorFacet> {
+class ColorFacet extends Shareable implements ColorRGB, IFacet, IAnimationTarget, IUnknownExt<ColorFacet> {
   /**
    * property PROP_RGB
    * @type {string}

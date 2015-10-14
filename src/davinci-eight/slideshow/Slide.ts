@@ -1,57 +1,211 @@
-import Animator = require('../slideshow/Animator')
 import IAnimation = require('../slideshow/IAnimation')
-import IAnimationClock = require('../slideshow/IAnimationClock')
-import IAnimateOptions = require('../slideshow/IAnimateOptions')
-import IProperties = require('../slideshow/IProperties')
-import ISlide = require('../slideshow/ISlide')
+import IAnimationTarget = require('../slideshow/IAnimationTarget')
 import ISlideHost = require('../slideshow/ISlideHost')
-import ISlideTask = require('../slideshow/ISlideTask')
+import ISlideCommand = require('../slideshow/ISlideCommand')
+import IUnknown = require('../core/IUnknown')
 import IUnknownArray = require('../utils/IUnknownArray')
+import mustBeNumber = require('../checks/mustBeNumber')
 import Shareable = require('../utils/Shareable')
+import StringIUnknownMap = require('../utils/StringIUnknownMap')
+import WaitAnimation = require('../slideshow/animations/WaitAnimation')
 
-class Slide extends Shareable implements ISlide {
-  private tasks: IUnknownArray<ISlideTask>;
-  private animator: Animator;
+class Slide extends Shareable {
+  public prolog: IUnknownArray<ISlideCommand>;
+  public epilog: IUnknownArray<ISlideCommand>;
+  /**
+   * The objects that we are going to manipulate.
+   */
+  private targets: IUnknownArray<IAnimationTarget>;
+  /**
+   * The companions to each target that maintain animation state.
+   */
+  private mirrors: StringIUnknownMap<Mirror>;
+  /**
+   * The time standard for this Slide.
+   */
+  private now = 0;
+
   constructor() {
-    // The first thing we do is to call the constructor of the base class.
     super('Slide')
-    this.animator = new Animator()
-    this.tasks = new IUnknownArray<ISlideTask>([], 'Slide.tasks')
+    this.prolog = new IUnknownArray<ISlideCommand>([], 'Slide.prolog')
+    this.epilog = new IUnknownArray<ISlideCommand>([], 'Slide.epilog')
+    this.targets = new IUnknownArray<IAnimationTarget>([], 'Slide.targets')
+    this.mirrors = new StringIUnknownMap<Mirror>('Slide.mirrors')
   }
   protected destructor(): void {
-    this.animator.release()
-    this.animator = void 0
-    this.tasks.release()
-    this.tasks = void
-    // The last thing we do is to call the destructor of the base class.
+    this.prolog.release()
+    this.prolog = void 0
+    this.epilog.release()
+    this.epilog = void 0
+    this.targets.release()
+    this.targets = void 0
+    this.mirrors.release()
+    this.mirrors = void 0
+
     super.destructor()
   }
-  get clock(): IAnimationClock {
-    return this.animator.clock
+  private ensureTarget(target: IAnimationTarget) {
+    if (this.targets.indexOf(target) < 0) {
+      this.targets.push(target)
+    }
   }
-  addTask<T extends ISlideTask>(task: T): T {
-    this.tasks.push(task)
-    return task
+  private ensureMirror(target: IAnimationTarget) {
+    if (!this.mirrors.exists(target.uuid)) {
+      this.mirrors.putWeakRef(target.uuid, new Mirror())
+    }
   }
-  animate(object: IProperties, animations: { [name: string]: IAnimation }, options?: IAnimateOptions): void {
-    this.animator.animate(object, animations, options)
+  animate(target: IAnimationTarget, propName: string, animation: IAnimation, delay: number = 0, sustain: number = 0) {
+
+    this.ensureTarget(target)
+    this.ensureMirror(target)
+
+    var mirror = this.mirrors.getWeakRef(target.uuid)
+
+    mirror.ensureAnimationLane(propName)
+
+    if (delay) {
+      mirror.animationLanes.getWeakRef(propName).pushWeakRef(new WaitAnimation(delay))
+    }
+
+    mirror.animationLanes.getWeakRef(propName).push(animation)
+
+    if (sustain) {
+      mirror.animationLanes.getWeakRef(propName).pushWeakRef(new WaitAnimation(sustain))
+    }
   }
-  update(speed: number): void {
-    this.animator.update(speed)
+
+  /**
+   * Update all currently running animations.
+   * Essentially calls `apply` on each IAnimation in the queues of active objects.
+   * @method advance
+   * @param interval {number} Advances the static Slide.now property.
+   */
+  advance(interval: number): void {
+    this.now += interval
+
+    for (var i = 0; i < this.targets.length; i++) {
+      var target = this.targets.getWeakRef(i)
+      /**
+       * `offset` is variable used to keep things running on schedule.
+       * If an animation finishes before the interval, it reports the
+       * duration `extra` that brings the tome to `now`. Subsequent animations
+       * get a head start by considering their start time to be now - offset.
+       */
+      var offset = 0
+      var mirror = this.mirrors.getWeakRef(target.uuid)
+      var names = mirror.animationLanes.keys;
+      for (var j = 0; j < names.length; j++) {
+        var propName = names[j]
+        var animationLane = mirror.animationLanes.getWeakRef(propName)
+        offset = animationLane.apply(target, propName, this.now, offset)
+      }
+    }
   }
-  exec(host: ISlideHost): void {
-    var slide = this
-    // FIXME: Loop or functional constructor.
-    this.tasks.forEach(function(task) {
-      task.exec(slide, host)
+  onEnter(host: ISlideHost): void {
+    this.prolog.forEach(function(command) {
+      command.redo(host)
+    })
+  }
+  onExit(host: ISlideHost): void {
+    this.epilog.forEach(function(command) {
+      command.redo(host)
     })
   }
   undo(host: ISlideHost): void {
-    var slide = this
-    this.tasks.forEach(function(task) {
-      task.undo(slide, host)
-    })
+    for (var i = 0; i < this.targets.length; i++) {
+      var target = this.targets.getWeakRef(i)
+      var mirror = this.mirrors.getWeakRef(target.uuid)
+      var names = mirror.animationLanes.keys;
+      for (var j = 0; j < names.length; j++) {
+        var propName = names[j]
+        var animationLane = mirror.animationLanes.getWeakRef(propName)
+        animationLane.undo(target, propName)
+      }
+    }
   }
 }
 
 export = Slide
+
+class AnimationLane extends Shareable {
+  private completed: IUnknownArray<IAnimation>;
+  private remaining: IUnknownArray<IAnimation>;
+  constructor() {
+    super('AnimationLane')
+    this.completed = new IUnknownArray<IAnimation>([], 'AnimationLane.remaining')
+    this.remaining = new IUnknownArray<IAnimation>([], 'AnimationLane.remaining')
+  }
+  protected destructor(): void {
+    this.completed.release()
+    this.completed = void 0
+    this.remaining.release()
+    this.remaining = void 0
+    super.destructor()
+  }
+  push(animation: IAnimation): number {
+    return this.remaining.push(animation)
+  }
+  pushWeakRef(animation: IAnimation): number {
+    return this.remaining.pushWeakRef(animation)
+  }
+  apply(target: IAnimationTarget, propName: string, now: number, offset: number): number {
+    var done = false;
+    while(!done) {
+      if (this.remaining.length > 0) {
+        var animation = this.remaining.getWeakRef(0)
+        animation.apply(target, propName, now, offset)
+        if (animation.done(target, propName)) {
+          offset = animation.extra(now)
+          this.completed.push(this.remaining.shift())
+        }
+        else {
+          done = true;
+        }
+      }
+      else {
+        done = true;
+      }
+    }
+    return offset;
+  }
+  undo(target: IAnimationTarget, propName: string): void {
+    while(this.completed.length > 0) {
+      this.remaining.unshift(this.completed.pop())
+    }
+    for (var i = this.remaining.length - 1; i >= 0; i--) {
+      var animation = this.remaining.getWeakRef(i)
+      animation.undo(target, propName)
+    }
+  }
+}
+
+/**
+ * The companion to a target: IAnimationTarget containing animation state.
+ */
+class Mirror extends Shareable {
+  /**
+   * A map from property name to a list of properties of the property value.
+   * It should be possible to animate many properties of a target at once.
+   * However, a given property should only be animated in one way at a given time.
+   * For these reasons, we structure the data as map from property name to a queue of animations.
+   */
+  public animationLanes: StringIUnknownMap<AnimationLane>;
+  constructor() {
+    super('Mirror')
+    this.animationLanes = new StringIUnknownMap<AnimationLane>('Mirror.animationLanes')
+  }
+
+  protected destructor(): void {
+    this.animationLanes.release()
+    this.animationLanes = void 0
+    super.destructor()
+  }
+  /**
+   * TODO: Maybe call this ensureAnimationLane or ensureLane
+   */
+  ensureAnimationLane(key: string): void {
+    if (!this.animationLanes.exists(key)) {
+      this.animationLanes.putWeakRef(key, new AnimationLane())
+    }
+  }
+}

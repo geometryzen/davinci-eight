@@ -95,10 +95,10 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/rea
         ModelFacet.prototype.getProperty = function (name) {
             switch (name) {
                 case ModelFacet.PROP_ATTITUDE: {
-                    return this._attitude.data;
+                    return this._attitude.data.map(function (x) { return x; });
                 }
                 case ModelFacet.PROP_POSITION: {
-                    return this._position.data;
+                    return this._position.data.map(function (x) { return x; });
                 }
                 default: {
                     console.warn("ModelFacet.getProperty " + name);

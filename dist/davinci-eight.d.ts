@@ -1159,7 +1159,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLC
 /**
  * IFacet required for manipulating a rigid body.
  */
-class ModelFacet extends Shareable implements IFacet, IProperties, IUnknownExt<ModelFacet> {
+class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacet> {
   public position: Vector3;
   public attitude: Spinor3;
   public scaleXYZ: Vector3;
@@ -1757,7 +1757,7 @@ class AmbientLight extends Shareable implements IFacet {
 /**
  *
  */
-class ColorFacet extends Shareable implements IFacet, IProperties, IUnknownExt<ColorFacet> {
+class ColorFacet extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ColorFacet> {
   red: number;
   green: number;
   blue: number;
@@ -1918,38 +1918,19 @@ class WebGLEnable extends Shareable implements IContextCommand {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-interface IAnimateOptions {
-  delay?: number;
-  hold?: number;
-}
-
-interface IExchange {
-  [key: string]: number[]
-}
-
-interface IProperties extends IUnknown {
+interface IAnimationTarget extends IUnknown {
   uuid: string;
   getProperty(name: string): number[];
   setProperty(name: string, value: number[]): void;
 }
 
 interface IAnimation extends IUnknown {
-  apply(offset?: number): void;
-  skip(): void;
+  apply(target: IAnimationTarget, propName: string, now: number, offset?: number): void;
+  skip(target: IAnimationTarget, propName: string): void;
   hurry(factor: number): void;
-  extra(): number;
-  done(): boolean;
-}
-
-interface IAnimationClock {
-  now: number;
-}
-
-class Animator {
-  clock: IAnimationClock;
-  constructor();
-  animate(object: IProperties, animations: { [name: string]: IAnimation }, options?: IAnimateOptions);
-  update(speed: number): void;
+  extra(now: number): number;
+  done(target: IAnimationTarget, propName: string): boolean;
+  undo(target: IAnimationTarget, propName: string): void;
 }
 
 interface ISlideHost {
@@ -1973,21 +1954,16 @@ interface ISlideHost {
   addCanvasUniformLink(canvasId: number, name: string): void
 }
 
-interface ISlideTask extends IUnknown {
-  exec(slide: ISlide, host: ISlideHost): void
-  undo(slide: ISlide, host: ISlideHost): void
+interface ISlideCommand extends IUnknown {
+  redo(host: ISlideHost): void;
+  undo(host: ISlideHost): void;
 }
 
-interface ISlide extends IUnknown {
-  clock: IAnimationClock;
-  /**
-   * Adds the specified task to the slide.
-   * The task reference is returned in order to support chained calls.
-   * (The task reference returned does not receive an additional reference count).
-   */
-  addTask<T extends ISlideTask>(task: T): T;
-  animate(object: IProperties, animations: { [name: string]: IAnimation }, options?: IAnimateOptions): void;
-  update(speed: number): void;
+class Slide extends Shareable {
+  prolog: IUnknownArray<ISlideCommand>;
+  epilog: IUnknownArray<ISlideCommand>;
+  constructor();
+  animate(target: IAnimationTarget, propName: string, animation: IAnimation, delay?: number, sustain?: number): void
 }
 
 class Director extends Shareable {
@@ -2002,87 +1978,83 @@ class Director extends Shareable {
   // FIXME: Uniform => Facet
   addCanvasUniformLink(canvasId: number, uniformName: string): void;
   createScene(sceneName: string, canvasIds: number[]): void;
-  createSlide(): ISlide;
+  createSlide(): Slide;
   canForward(): boolean;
   forward(instant?: boolean, delay?: number): void;
   canBackward(): boolean;
   backward(instant?: boolean, delay?: number): void;
-  update(speed: number): void;
+  advance(interval: number): void;
   render(): void;
 }
 
-class Animation extends Shareable implements IAnimation {
-  constructor(host: IAnimationClock, object: IProperties, key: string, value: number[], duration: number, callback: () => void, ease: string);
-  apply(offset?: number): void;
+class DirectorKeyboardHandler extends Shareable implements IKeyboardHandler {
+  constructor(director: Director);
+  keyDown(event: KeyboardEvent): void;
+  keyUp(event: KeyboardEvent): void;
+}
+
+class ColorAnimation extends Shareable implements IAnimation {
+  constructor(value: ColorRGB, duration?: number, callback?: () => void, ease?: string);
+  apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
   hurry(factor: number): void;
-  skip(): void;
-  extra(): number;
-  done(): boolean;
+  skip(target: IAnimationTarget, propName: string): void;
+  extra(now: number): number;
+  done(target: IAnimationTarget, propName: string): boolean;
+  undo(target: IAnimationTarget, propName: string): void;
 }
 
-class ColorTo extends Shareable implements IAnimation {
-  constructor(host: IAnimationClock, object: IProperties, key: string, value: ColorRGB, duration?: number, callback?: () => void, ease?: string);
-  apply(offset?: number): void;
-  hurry(factor: number): void;
-  skip(): void;
-  extra(): number;
-  done(): boolean;
-}
-
-class MoveTo extends Shareable implements IAnimation {
-  constructor(host: IAnimationClock, object: IProperties, key: string, value: Cartesian3, duration?: number, callback?: () => void, ease?: string);
-  apply(offset?: number): void;
-  hurry(factor: number): void;
-  skip(): void;
-  extra(): number;
-  done(): boolean;
-}
-
- class SpinTo extends Shareable implements IAnimation {
-  constructor(host: IAnimationClock, object: IProperties, key: string, value: Spinor3Coords, duration?: number, callback?: () => void, ease?: string);
-  apply(offset?: number): void;
-  hurry(factor: number): void;
-  skip(): void;
-  extra(): number;
-  done(): boolean;
-}
-
-class ColorTask extends Shareable implements ISlideTask, IUnknownExt<ColorTask> {
-  constructor(name: string, color: ColorRGB, duration?: number);
-  incRef(): ColorTask;
-  decRef(): ColorTask;
-  exec(slide: ISlide, host: ISlideHost): void;
-  undo(slide: ISlide, host: ISlideHost): void;
-}
-
-class CubeTask extends Shareable implements ISlideTask {
-  constructor(name: string, sceneNames: string[]);
-  exec(slide: ISlide, host: ISlideHost): void
-  undo(slide: ISlide, host: ISlideHost): void
-}
-
-class MoveTask extends Shareable implements ISlideTask {
-  public position: Cartesian3;
+class WaitAnimation extends Shareable implements IAnimation {
+  public start: number;
   public duration: number;
-  public callback: () => void;
-  public ease: string;
-  public options: IAnimateOptions;
-  constructor(name: string, position: Cartesian3, duration?: number);
-  exec(slide: ISlide, host: ISlideHost): void
-  undo(slide: ISlide, host: ISlideHost): void
+  public fraction: number;
+  constructor(duration: number);
+  apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
+  skip(): void;
+  hurry(factor: number): void;
+  extra(now: number): number;
+  done(target: IAnimationTarget, propName: string): boolean;
+  undo(target: IAnimationTarget, propName: string): void;
 }
 
-class SpinTask extends Shareable implements ISlideTask {
-  attitude: Spinor3Coords;
-  duration: number;
-  callback: () => void;
-  ease: string;
-  options: IAnimateOptions;
-  constructor(name: string, attitude: Spinor3Coords, duration?: number);
-  exec(slide: ISlide, host: ISlideHost): void
-  undo(slide: ISlide, host: ISlideHost): void
+
+class Vector3Animation extends Shareable implements IAnimation {
+  constructor(value: Cartesian3, duration?: number, callback?: () => void, ease?: string);
+  apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
+  hurry(factor: number): void;
+  skip(target: IAnimationTarget, propName: string): void;
+  extra(now: number): number;
+  done(target: IAnimationTarget, propName: string): boolean;
+  undo(target: IAnimationTarget, propName: string): void;
 }
 
+class Spinor3Animation extends Shareable implements IAnimation {
+  constructor(value: Spinor3Coords, duration?: number, callback?: () => void, ease?: string);
+  apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
+  hurry(factor: number): void;
+  skip(target: IAnimationTarget, propName: string): void;
+  extra(now: number): number;
+  done(target: IAnimationTarget, propName: string): boolean;
+  undo(target: IAnimationTarget, propName: string): void;
+}
+
+class TestCommand extends Shareable implements ISlideCommand {
+  constructor(name: string);
+  redo(host: ISlideHost): void;
+  undo(host: ISlideHost): void;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+interface IKeyboardHandler extends IUnknown {
+  keyDown(event: KeyboardEvent): void;
+  keyUp(event: KeyboardEvent): void;
+}
+
+class Keyboard extends Shareable {
+  constructor(handler: IKeyboardHandler, document?: Document);
+  attach(handler: IKeyboardHandler, document?: Document, useCapture?: boolean): void;
+  detach(): void;
+}
 ///////////////////////////////////////////////////////////////////////////////
 }
 

@@ -3,16 +3,29 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '../utils/NumberIUnknownMap', '../scene/Scene', '../utils/Shareable', '../slideshow/Slide', '../utils/StringIUnknownMap'], function (require, exports, Canvas3D, IUnknownArray, NumberIUnknownMap, Scene, Shareable, Slide, StringIUnknownMap) {
+define(["require", "exports", '../slideshow/Slide', '../utils/IUnknownArray', '../utils/NumberIUnknownMap', '../utils/Shareable', '../utils/StringIUnknownMap'], function (require, exports, Slide, IUnknownArray, NumberIUnknownMap, Shareable, StringIUnknownMap) {
+    ///////////////////////////////////////////////////////////////////////////////
+    // Design Ideas:
+    // 1. Should be able to attach itself to an EIGHT program and drive it.
+    // 2. Should be able to create the elements of an EIGHT program.
+    //
+    /**
+     * @class Director
+     */
     var Director = (function (_super) {
         __extends(Director, _super);
+        /**
+         * @class Director
+         * @constructor
+         */
         function Director() {
             _super.call(this, 'Director');
             this.slides = new IUnknownArray([], 'Director.slides');
             this.step = -1; // Position before the first slide.
-            this.contexts = new NumberIUnknownMap();
+            // this.contexts = new NumberIUnknownMap<Canvas3D>()
             this.scenes = new StringIUnknownMap('Director.scenes');
             this.drawables = new StringIUnknownMap('Director.drawables');
+            this.geometries = new StringIUnknownMap('Director.geometries');
             this.uniforms = new StringIUnknownMap('Director.uniforms');
             this.sceneNamesByCanvasId = {};
             this.uniformsByCanvasId = new NumberIUnknownMap();
@@ -20,27 +33,21 @@ define(["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '..
         Director.prototype.destructor = function () {
             this.slides.release();
             this.slides = void 0;
-            this.contexts.forEach(function (canvasId, context) {
-                context.stop();
-            });
-            this.contexts.release();
-            this.contexts = void 0;
+            //this.contexts.forEach(function(canvasId, context) {
+            //context.stop()
+            //})
+            //this.contexts.release()
+            //this.contexts = void 0
             this.scenes.release();
             this.scenes = void 0;
             this.drawables.release();
             this.drawables = void 0;
+            this.geometries.release();
+            this.geometries = void 0;
             this.uniforms.release();
             this.uniforms = void 0;
             this.uniformsByCanvasId.release();
             this.uniformsByCanvasId = void 0;
-        };
-        Director.prototype.apply = function (slide, forward) {
-            if (forward) {
-                slide.exec(this);
-            }
-            else {
-                slide.undo(this);
-            }
         };
         Director.prototype.addCanvasSceneLink = function (canvasId, sceneName) {
             var names = this.sceneNamesByCanvasId[canvasId];
@@ -59,6 +66,15 @@ define(["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '..
         };
         Director.prototype.removeDrawable = function (name) {
             this.drawables.remove(name);
+        };
+        Director.prototype.addGeometry = function (name, geometry) {
+            this.geometries.put(name, geometry);
+        };
+        Director.prototype.removeGeometry = function (name) {
+            this.geometries.remove(name);
+        };
+        Director.prototype.getGeometry = function (name) {
+            return this.geometries.get(name);
         };
         Director.prototype.addToScene = function (drawableId, sceneId) {
             var drawable = this.drawables.get(drawableId);
@@ -104,24 +120,26 @@ define(["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '..
         /**
          *
          */
-        Director.prototype.createScene = function (sceneName, canvasIds) {
-            var contexts = this.contexts;
-            var monitors = canvasIds.map(function (canvasId) {
-                return contexts.getWeakReference(canvasId);
-            });
-            var scene = new Scene(monitors);
-            this.scenes.put(sceneName, scene);
-            scene.release();
-            var director = this;
-            canvasIds.forEach(function (canvasId) {
-                director.addCanvasSceneLink(canvasId, sceneName);
-            });
-        };
-        Director.prototype.deleteScene = function (name) {
-            if (this.scenes.exists(name)) {
-                this.scenes.remove(name);
-            }
-        };
+        /*
+        createScene(sceneName: string, canvasIds: number[]) {
+          //var contexts = this.contexts;
+          var monitors: Canvas3D[] = canvasIds.map(function(canvasId) {
+            return contexts.getWeakReference(canvasId)
+          })
+          var scene = new Scene(monitors)
+          this.scenes.put(sceneName, scene)
+          scene.release()
+          var director = this
+          canvasIds.forEach(function(canvasId) {
+            director.addCanvasSceneLink(canvasId, sceneName)
+          })
+        }
+        deleteScene(name: string) {
+          if (this.scenes.exists(name)) {
+            this.scenes.remove(name)
+          }
+        }
+        */
         Director.prototype.createSlide = function () {
             var slide = new Slide();
             this.slides.push(slide);
@@ -144,26 +162,25 @@ define(["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '..
             if (!this.canForward()) {
                 return;
             }
-            var slideIndex = this.step + 1;
-            var slide = this.slides.get(slideIndex);
-            try {
-                var self = this;
-                var apply = function () {
-                    self.apply(slide, true);
-                    self.step++;
-                };
-                if (delay) {
-                    setTimeout(apply, delay);
+            var slideLeaving = this.slides.getWeakRef(this.step);
+            var slideEntering = this.slides.getWeakRef(this.step + 1);
+            var self = this;
+            var apply = function () {
+                if (slideLeaving) {
+                    slideLeaving.onExit(self);
                 }
-                else {
-                    apply();
-                }
+                slideEntering.onEnter(self);
+                self.step++;
+            };
+            if (delay) {
+                setTimeout(apply, delay);
             }
-            finally {
-                slide.release();
+            else {
+                apply();
             }
         };
         Director.prototype.canForward = function () {
+            // The last slide index is (length - 1)
             return this.step < (this.slides.length - 1);
         };
         Director.prototype.backward = function (instant, delay) {
@@ -172,11 +189,15 @@ define(["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '..
             if (!this.canBackward()) {
                 return;
             }
-            var slideIndex = this.step - 1;
-            var slide = this.slides.get(slideIndex);
+            var slideLeaving = this.slides.getWeakRef(this.step);
+            var slideEntering = this.slides.getWeakRef(this.step - 1);
             var self = this;
             var apply = function () {
-                self.apply(slide, false);
+                slideLeaving.undo(self);
+                slideLeaving.onExit(self);
+                if (slideEntering) {
+                    slideEntering.onEnter(self);
+                }
                 self.step--;
             };
             if (delay) {
@@ -185,27 +206,29 @@ define(["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '..
             else {
                 apply();
             }
-            slide.release();
         };
         Director.prototype.canBackward = function () {
-            return this.step > 0;
+            // A step value of -1 positions us just before the 1st slide.
+            return this.step >= 0;
         };
         Director.prototype.pushSlide = function (slide) {
             return this.slides.push(slide);
         };
-        Director.prototype.addCanvas = function (canvas, canvasId) {
-            var c3d = new Canvas3D();
-            c3d.start(canvas, canvasId);
-            this.contexts.put(canvasId, c3d);
-            c3d.release();
-        };
-        Director.prototype.update = function (speed) {
+        /*
+        addCanvas(canvas: HTMLCanvasElement, canvasId: number): void {
+          var c3d = new Canvas3D()
+          c3d.start(canvas, canvasId)
+          this.contexts.put(canvasId, c3d)
+          c3d.release()
+        }
+        */
+        Director.prototype.advance = function (interval) {
             var slideIndex = this.step;
             if (slideIndex >= 0 && slideIndex < this.slides.length) {
                 var slide = this.slides.get(slideIndex);
                 if (slide) {
                     try {
-                        slide.update(speed);
+                        slide.advance(interval);
                     }
                     finally {
                         slide.release();
@@ -214,31 +237,6 @@ define(["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '..
                 else {
                     // This should never happen if we manage the index properly.
                     console.warn("No slide found at index " + this.step);
-                }
-            }
-        };
-        Director.prototype.render = function () {
-            var slideIndex = this.step;
-            if (slideIndex >= 0 && slideIndex < this.slides.length) {
-                var director = this;
-                var canvasIds = this.contexts.keys;
-                for (var i = 0, iLength = canvasIds.length; i < iLength; i++) {
-                    var canvasId = canvasIds[i];
-                    var c3d = this.contexts.get(canvasId);
-                    // prolog?
-                    c3d.release();
-                    var ambients = this.uniformsByCanvasId.get(canvasId);
-                    // FIXME: scenesByCanvasId
-                    var sceneNames = this.sceneNamesByCanvasId[canvasId];
-                    if (sceneNames) {
-                        for (var j = 0, jLength = sceneNames.length; j < jLength; j++) {
-                            var sceneName = sceneNames[j];
-                            var scene = this.scenes.get(sceneNames[j]);
-                            scene.draw(ambients.values, canvasId);
-                            scene.release();
-                        }
-                    }
-                    ambients.release();
                 }
             }
         };

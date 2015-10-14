@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.128.0</em>
+            <em>API Docs for: 2.129.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,7 +40,6 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
-                                <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -65,6 +64,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
@@ -84,7 +84,7 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IAnimation.html">IAnimation</a></li>
-                                <li><a href="../classes/IAnimationClock.html">IAnimationClock</a></li>
+                                <li><a href="../classes/IAnimationTarget.html">IAnimationTarget</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
@@ -93,14 +93,11 @@
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IExchange.html">IExchange</a></li>
                                 <li><a href="../classes/IFacet
                 extends IUnknown.html">IFacet
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
-                                <li><a href="../classes/IProperties.html">IProperties</a></li>
-                                <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
@@ -203,26 +200,34 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Geometry = require(&#x27;../geometries/Geometry&#x27;)
+import Slide = require(&#x27;../slideshow/Slide&#x27;)
 import Canvas3D = require(&#x27;../scene/Canvas3D&#x27;)
 import IDrawable = require(&#x27;../core/IDrawable&#x27;)
 import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
 import IFacet = require(&#x27;../core/IFacet&#x27;)
-import ISlide = require(&#x27;../slideshow/ISlide&#x27;)
 import ISlideHost = require(&#x27;../slideshow/ISlideHost&#x27;)
 import IUnknownArray = require(&#x27;../utils/IUnknownArray&#x27;)
 import NumberIUnknownMap = require(&#x27;../utils/NumberIUnknownMap&#x27;)
 import Scene = require(&#x27;../scene/Scene&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
-import Slide = require(&#x27;../slideshow/Slide&#x27;)
 import StringIUnknownMap = require(&#x27;../utils/StringIUnknownMap&#x27;)
+///////////////////////////////////////////////////////////////////////////////
+// Design Ideas:
+// 1. Should be able to attach itself to an EIGHT program and drive it.
+// 2. Should be able to create the elements of an EIGHT program.
+//
 
+/**
+ * @class Director
+ */
 class Director extends Shareable implements ISlideHost {
-  private slides: IUnknownArray&lt;ISlide&gt;;
+  private slides: IUnknownArray&lt;Slide&gt;;
   private step: number;
   /**
    * (canvasId: number) =&gt; Canvas3D
    */
-  private contexts: NumberIUnknownMap&lt;Canvas3D&gt;;
+  // private contexts: NumberIUnknownMap&lt;Canvas3D&gt;;
   /**
    * (sceneName: string) =&gt; Scene
    */
@@ -231,6 +236,7 @@ class Director extends Shareable implements ISlideHost {
    * (name: string) =&gt; IUniform
    */
   private drawables: StringIUnknownMap&lt;IDrawable&gt;;
+  private geometries: StringIUnknownMap&lt;Geometry&gt;;
   /**
    * (name: string) =&gt; IUniform
    */
@@ -243,13 +249,18 @@ class Director extends Shareable implements ISlideHost {
    * (canvasId: number) =&gt; ((uniform.name) =&gt; IFacet)
    */
   private uniformsByCanvasId: NumberIUnknownMap&lt;StringIUnknownMap&lt;IFacet&gt;&gt;;
+  /**
+   * @class Director
+   * @constructor
+   */
   constructor() {
     super(&#x27;Director&#x27;)
-    this.slides = new IUnknownArray&lt;ISlide&gt;([], &#x27;Director.slides&#x27;)
+    this.slides = new IUnknownArray&lt;Slide&gt;([], &#x27;Director.slides&#x27;)
     this.step = -1 // Position before the first slide.
-    this.contexts = new NumberIUnknownMap&lt;Canvas3D&gt;()
+    // this.contexts = new NumberIUnknownMap&lt;Canvas3D&gt;()
     this.scenes = new StringIUnknownMap&lt;IDrawList&gt;(&#x27;Director.scenes&#x27;)
     this.drawables = new StringIUnknownMap&lt;IDrawable&gt;(&#x27;Director.drawables&#x27;)
+    this.geometries = new StringIUnknownMap&lt;Geometry&gt;(&#x27;Director.geometries&#x27;)
     this.uniforms = new StringIUnknownMap&lt;IFacet&gt;(&#x27;Director.uniforms&#x27;)
     this.sceneNamesByCanvasId = {}
     this.uniformsByCanvasId = new NumberIUnknownMap&lt;StringIUnknownMap&lt;IFacet&gt;&gt;();
@@ -257,27 +268,21 @@ class Director extends Shareable implements ISlideHost {
   destructor(): void {
     this.slides.release()
     this.slides = void 0
-    this.contexts.forEach(function(canvasId, context) {
-      context.stop()
-    })
-    this.contexts.release()
-    this.contexts = void 0
+    //this.contexts.forEach(function(canvasId, context) {
+      //context.stop()
+    //})
+    //this.contexts.release()
+    //this.contexts = void 0
     this.scenes.release()
     this.scenes = void 0
     this.drawables.release()
     this.drawables = void 0
+    this.geometries.release()
+    this.geometries = void 0
     this.uniforms.release()
     this.uniforms = void 0
     this.uniformsByCanvasId.release()
     this.uniformsByCanvasId = void 0
-  }
-  apply(slide: ISlide, forward: boolean): void {
-    if (forward) {
-      slide.exec(this)
-    }
-    else {
-      slide.undo(this)
-    }
   }
   addCanvasSceneLink(canvasId: number, sceneName: string) {
     var names = this.sceneNamesByCanvasId[canvasId]
@@ -296,6 +301,15 @@ class Director extends Shareable implements ISlideHost {
   }
   removeDrawable(name: string): void {
     this.drawables.remove(name)
+  }
+  addGeometry(name: string, geometry: Geometry): void {
+    this.geometries.put(name, geometry)
+  }
+  removeGeometry(name: string): void {
+    this.geometries.remove(name)
+  }
+  getGeometry(name: string): Geometry {
+    return this.geometries.get(name)
   }
   addToScene(drawableId: string, sceneId: string): void {
     var drawable = this.drawables.get(drawableId)
@@ -345,8 +359,9 @@ class Director extends Shareable implements ISlideHost {
   /**
    *
    */
+  /*
   createScene(sceneName: string, canvasIds: number[]) {
-    var contexts = this.contexts;
+    //var contexts = this.contexts;
     var monitors: Canvas3D[] = canvasIds.map(function(canvasId) {
       return contexts.getWeakReference(canvasId)
     })
@@ -363,7 +378,8 @@ class Director extends Shareable implements ISlideHost {
       this.scenes.remove(name)
     }
   }
-  createSlide(): ISlide {
+  */
+  createSlide(): Slide {
     var slide = new Slide()
     this.slides.push(slide)
     return slide
@@ -381,37 +397,40 @@ class Director extends Shareable implements ISlideHost {
     if (!this.canForward()) {
       return
     }
-    var slideIndex = this.step + 1
-    var slide: ISlide = this.slides.get(slideIndex)
-    try {
-      var self = this;
-      var apply = function() {
-        self.apply(slide, true)
-        self.step++
+    var slideLeaving: Slide = this.slides.getWeakRef(this.step)
+    var slideEntering: Slide = this.slides.getWeakRef(this.step + 1)
+    var self = this;
+    var apply = function() {
+      if (slideLeaving) {
+        slideLeaving.onExit(self)
       }
-      if (delay) {
-        setTimeout(apply, delay)
-      }
-      else {
-        apply()
-      }
+      slideEntering.onEnter(self)
+      self.step++
     }
-    finally {
-      slide.release()
+    if (delay) {
+      setTimeout(apply, delay)
+    }
+    else {
+      apply()
     }
   }
   canForward(): boolean {
+    // The last slide index is (length - 1)
     return this.step &lt; (this.slides.length - 1)
   }
   backward(instant: boolean = true, delay: number = 0) {
     if (!this.canBackward()) {
       return
     }
-    var slideIndex = this.step - 1
-    var slide = this.slides.get(slideIndex)
+    var slideLeaving = this.slides.getWeakRef(this.step)
+    var slideEntering = this.slides.getWeakRef(this.step - 1)
     var self = this;
     var apply = function() {
-      self.apply(slide, false)
+      slideLeaving.undo(self)
+      slideLeaving.onExit(self)
+      if (slideEntering) {
+        slideEntering.onEnter(self)
+      }
       self.step--
     }
     if (delay) {
@@ -420,27 +439,29 @@ class Director extends Shareable implements ISlideHost {
     else {
       apply()
     }
-    slide.release()
   }
   canBackward(): boolean {
-    return this.step &gt; 0
+    // A step value of -1 positions us just before the 1st slide.
+    return this.step &gt;= 0
   }
-  pushSlide(slide: ISlide): number {
+  pushSlide(slide: Slide): number {
     return this.slides.push(slide)
   }
+  /*
   addCanvas(canvas: HTMLCanvasElement, canvasId: number): void {
     var c3d = new Canvas3D()
     c3d.start(canvas, canvasId)
     this.contexts.put(canvasId, c3d)
     c3d.release()
   }
-  update(speed: number): void {
+  */
+  advance(interval: number): void {
     var slideIndex = this.step
     if (slideIndex &gt;= 0 &amp;&amp; slideIndex &lt; this.slides.length) {
-      var slide: ISlide = this.slides.get(slideIndex)
+      var slide: Slide = this.slides.get(slideIndex)
       if (slide) {
         try {
-          slide.update(speed)
+          slide.advance(interval)
         }
         finally {
           slide.release()
@@ -452,6 +473,7 @@ class Director extends Shareable implements ISlideHost {
       }
     }
   }
+  /*
   render(): void {
     var slideIndex = this.step
     if (slideIndex &gt;= 0 &amp;&amp; slideIndex &lt; this.slides.length) {
@@ -477,6 +499,7 @@ class Director extends Shareable implements ISlideHost {
       }
     }
   }
+  */
 }
 
 export = Director

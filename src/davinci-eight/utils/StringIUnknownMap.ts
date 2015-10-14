@@ -40,7 +40,7 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     if (this._refCount === 0) {
       let self = this;
       this.forEach(function(key) {
-        self.putWeakReference(key, void 0);
+        self.putWeakRef(key, void 0);
       });
       this._elements = void 0;
     }
@@ -66,11 +66,14 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
       return void 0;
     }
   }
+  getWeakRef(key: string): V {
+    return this._elements[key];
+  }
   put(key: string, value: V): void {
     if (value) {
       value.addRef()
     }
-    this.putWeakReference(key, value)
+    this.putWeakRef(key, value)
   }
   /**
    * @method putWeakReference
@@ -79,7 +82,7 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
    * @return {void}
    * @private
    */
-  private putWeakReference(key: string, value: V): void {
+  public putWeakRef(key: string, value: V): void {
     var elements = this._elements
     var existing = elements[key]
     if (existing) {
