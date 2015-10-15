@@ -22,6 +22,13 @@ declare class Geometry extends Shareable {
      */
     meta: GeometryMeta;
     /**
+     * The dimensionality of the simplices in this geometry.
+     * @property _k
+     * @type {number}
+     * @private
+     */
+    private _k;
+    /**
      * <p>
      * A list of simplices (data) with information about dimensionality and vertex properties (meta).
      * This class should be used as an abstract base or concrete class when constructing
@@ -43,12 +50,24 @@ declare class Geometry extends Shareable {
      */
     protected destructor(): void;
     /**
-     * Used to recalculate the simplex data from geometry parameters.
+     * <p>
+     * The dimensionality of the simplices in this geometry.
+     * </p>
+     * <p>
+     * The <code>k</code> parameter affects geometry generation.
+     * </p>
+     * <code>k</code> must be an integer.
+     * @property k
+     * @type {number}
+     */
+    k: number;
+    /**
+     * Used to regenerate the simplex data from geometry parameters.
      * This method should be implemented by the derived geometry class.
-     * @method recalculate
+     * @method regenerate
      * @return {void}
      */
-    recalculate(): void;
+    regenerate(): void;
     /**
      * Used to determine whether the geometry must be recalculated.
      * The base implementation is pessimistic and returns <code>true</code>.
@@ -57,6 +76,15 @@ declare class Geometry extends Shareable {
      * @return {boolean} if the parameters defining the geometry have been modified.
      */
     isModified(): boolean;
+    /**
+     * Sets the modification state of <code>this</code> instance.
+     * Derived classes should override this method if they contain parameters which affect geometry calculation.
+     * @method setModified
+     * @param modified {boolean} The value that the modification state will be set to.
+     * @return {Geometry} `this` instance.
+     * @chainable
+     */
+    setModified(modified: boolean): Geometry;
     /**
      * <p>
      * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.

@@ -36,9 +36,9 @@ declare class ArrowGeometry extends RevolutionGeometry {
      */
     setModified(modified: boolean): ArrowGeometry;
     /**
-     * @method recalculate
+     * @method regenerate
      * @return {void}
      */
-    recalculate(): void;
+    regenerate(): void;
 }
 export = ArrowGeometry;

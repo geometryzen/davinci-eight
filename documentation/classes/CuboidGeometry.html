@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.130.0</em>
+            <em>API Docs for: 2.131.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,6 +71,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EmptyMaterial.html">EmptyMaterial</a></li>
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
@@ -123,6 +124,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
@@ -206,7 +208,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:57</code></a>
+            Defined in: <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:52</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -261,7 +263,7 @@ The default settings create a unit cube centered at the origin.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:57</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:52</code></a>
         </p>
 
 
@@ -402,14 +404,14 @@ The default settings create a unit cube centered at the origin.
 
                             </li>
                             <li class="index-item method inherited">
-                                <a href="#method_recalculate">recalculate</a>
+                                <a href="#method_regenerate">regenerate</a>
 
                             </li>
                             <li class="index-item method inherited inherited">
                                 <a href="#method_release">release</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_setModified">setModified</a>
 
                             </li>
@@ -444,8 +446,8 @@ The default settings create a unit cube centered at the origin.
                                 <a href="#property__isModified">_isModified</a>
 
                             </li>
-                            <li class="index-item property private">
-                                <a href="#property__k  The dimensionality of the simplices representing the cuboid.">_k  The dimensionality of the simplices representing the cuboid.</a>
+                            <li class="index-item property private inherited">
+                                <a href="#property__k">_k</a>
 
                             </li>
                             <li class="index-item property">
@@ -464,7 +466,7 @@ The default settings create a unit cube centered at the origin.
                                 <a href="#property_data">data</a>
 
                             </li>
-                            <li class="index-item property">
+                            <li class="index-item property inherited">
                                 <a href="#property_k">k</a>
 
                             </li>
@@ -555,7 +557,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_boundary">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:80</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l118"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:118</code></a>
         </p>
 
 
@@ -617,7 +619,7 @@ For example, triangles are converted to lines.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_check">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:100</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:138</code></a>
         </p>
 
 
@@ -661,7 +663,7 @@ For example, triangles are converted to lines.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:49</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:60</code></a>
         </p>
 
 
@@ -702,7 +704,7 @@ as the last call in the derived class destructor.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_isModified">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:68</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:96</code></a>
         </p>
 
 
@@ -752,7 +754,7 @@ This method should be implemented by the derived class to reduce frequent recalc
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_mergeVertices">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l144"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:144</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l182"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:182</code></a>
         </p>
 
 
@@ -790,8 +792,8 @@ This method should be implemented by the derived class to reduce frequent recalc
 
 
 </div>
-<div id="method_recalculate" class="method item">
-    <h3 class="name"><code>recalculate</code></h3>
+<div id="method_regenerate" class="method item">
+    <h3 class="name"><code>regenerate</code></h3>
 
         <span class="paren">()</span>
 
@@ -807,11 +809,11 @@ This method should be implemented by the derived class to reduce frequent recalc
 
     <div class="meta">
             <p>Inherited from
-            <a href="../classes/Geometry.html#method_recalculate">
+            <a href="../classes/Geometry.html#method_regenerate">
                 Geometry
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l182"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:182</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l166"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:166</code></a>
         </p>
 
 
@@ -819,7 +821,7 @@ This method should be implemented by the derived class to reduce frequent recalc
     </div>
 
     <div class="description">
-        <p>recalculate the geometry based upon the current parameters.</p>
+        <p>regenerate the geometry based upon the current parameters.</p>
 
     </div>
 
@@ -902,9 +904,12 @@ Notifies this instance that something is dereferencing it.
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:169</code></a>
+            <p>Inherited from
+            <a href="../classes/Geometry.html#method_setModified">
+                Geometry
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:153</code></a>
         </p>
 
 
@@ -969,7 +974,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_subdivide">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l112"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:112</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l150"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:150</code></a>
         </p>
 
 
@@ -1030,7 +1035,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_toGeometry">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:132</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:170</code></a>
         </p>
 
 
@@ -1147,7 +1152,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:50</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:45</code></a>
         </p>
 
 
@@ -1161,8 +1166,8 @@ The subdivide operation creates new simplices of the same dimension as the origi
 
 
 </div>
-<div id="property__k  The dimensionality of the simplices representing the cuboid." class="property item private">
-    <h3 class="name"><code>_k  The dimensionality of the simplices representing the cuboid.</code></h3>
+<div id="property__k" class="property item private inherited">
+    <h3 class="name"><code>_k</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
@@ -1171,16 +1176,16 @@ The subdivide operation creates new simplices of the same dimension as the origi
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:45</code></a>
+                <p>Inherited from
+                <a href="../classes/Geometry.html#property__k">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:31</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        The dimensionality of the simplices in this geometry.
     </div>
 
 
@@ -1197,7 +1202,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:92</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:87</code></a>
         </p>
 
 
@@ -1225,7 +1230,7 @@ Assignment is by reference making it possible for parameters to be shared refere
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l113"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:113</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:108</code></a>
         </p>
 
 
@@ -1253,7 +1258,7 @@ Assignment is by reference making it possible for parameters to be shared refere
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:134</code></a>
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:129</code></a>
         </p>
 
 
@@ -1281,7 +1286,7 @@ Assignment is by reference making it possible for parameters to be shared refere
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property_data">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:15</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:17</code></a>
         </p>
 
 
@@ -1295,7 +1300,7 @@ A simplex, in the context of WebGL, will usually represent a triangle, line or p
 
 
 </div>
-<div id="property_k" class="property item">
+<div id="property_k" class="property item inherited">
     <h3 class="name"><code>k</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
@@ -1304,16 +1309,22 @@ A simplex, in the context of WebGL, will usually represent a triangle, line or p
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:155</code></a>
+                <p>Inherited from
+                <a href="../classes/Geometry.html#property_k">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:70</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+The dimensionality of the simplices in this geometry.
+</p>
+<p>
+The <code>k</code> parameter affects geometry generation.
+</p>
+<code>k</code> must be an integer.
     </div>
 
 
@@ -1330,7 +1341,7 @@ A simplex, in the context of WebGL, will usually represent a triangle, line or p
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property_meta">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:22</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:24</code></a>
         </p>
 
 

@@ -45,10 +45,10 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '.
             return this;
         };
         /**
-         * @method recalculate
+         * @method regenerate
          * @return {void}
          */
-        VortexGeometry.prototype.recalculate = function () {
+        VortexGeometry.prototype.regenerate = function () {
             this.data = [];
             var radius = this.radius;
             var radiusCone = this.radiusCone;

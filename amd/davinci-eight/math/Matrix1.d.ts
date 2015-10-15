@@ -6,7 +6,7 @@ import Matrix = require('../math/Matrix');
  * @class Matrix1
  * @extends AbstractMatrix
  */
-declare class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElement<Matrix1, Matrix1, Matrix1, Cartesian1> {
+declare class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElement<Matrix1, Matrix1, Matrix1, Cartesian1, Matrix1> {
     /**
      * 1x1 (square) matrix of numbers.
      * Constructs a Matrix1 by wrapping a Float32Array.
@@ -41,6 +41,7 @@ declare class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, Geometr
     copy(m: Matrix1): Matrix1;
     determinant(): number;
     divideScalar(scalar: number): Matrix1;
+    dual(m: Matrix1): Matrix1;
     exp(): Matrix1;
     identity(): Matrix1;
     lerp(target: Matrix1, alpha: number): Matrix1;

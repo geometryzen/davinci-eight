@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.130.0</em>
+            <em>API Docs for: 2.131.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,6 +71,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EmptyMaterial.html">EmptyMaterial</a></li>
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
@@ -123,6 +124,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
@@ -205,11 +207,13 @@
 import GeometryData = require(&#x27;../geometries/GeometryData&#x27;)
 import GeometryElements = require(&#x27;../geometries/GeometryElements&#x27;)
 import GeometryMeta = require(&#x27;../geometries/GeometryMeta&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import toGeometryData = require(&#x27;../geometries/toGeometryData&#x27;)
 import toGeometryMeta = require(&#x27;../geometries/toGeometryMeta&#x27;)
+import Vector1 = require(&#x27;../math/Vector1&#x27;)
 
 /**
  * @class Geometry
@@ -230,6 +234,13 @@ class Geometry extends Shareable {
    * @type {GeometryMeta}
    */
   public meta: GeometryMeta;
+  /**
+   * The dimensionality of the simplices in this geometry.
+   * @property _k
+   * @type {number}
+   * @private
+   */
+  private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
 
   // public dynamic = true;
   // public verticesNeedUpdate = false;
@@ -249,6 +260,8 @@ class Geometry extends Shareable {
    */
   constructor(type: string = &#x27;Geometry&#x27;) {
     super(mustBeString(&#x27;type&#x27;, type))
+    // Force regenerate, even if derived classes don&#x27;t call setModified.
+    this._k.modified = true
   }
   /**
    * The destructor method should be implemented in derived classes and the super.destructor called
@@ -261,13 +274,30 @@ class Geometry extends Shareable {
     super.destructor()
   }
   /**
-   * Used to recalculate the simplex data from geometry parameters.
+   * &lt;p&gt;
+   * The dimensionality of the simplices in this geometry.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * The &lt;code&gt;k&lt;/code&gt; parameter affects geometry generation.
+   * &lt;/p&gt;
+   * &lt;code&gt;k&lt;/code&gt; must be an integer.
+   * @property k
+   * @type {number}
+   */
+  public get k(): number {
+    return this._k.x
+  }
+  public set k(k: number) {
+    this._k.x = mustBeInteger(&#x27;k&#x27;, k)
+  }
+  /**
+   * Used to regenerate the simplex data from geometry parameters.
    * This method should be implemented by the derived geometry class.
-   * @method recalculate
+   * @method regenerate
    * @return {void}
    */
-  public recalculate(): void {
-    console.warn(&quot;&#x60;public recalculate(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
+  public regenerate(): void {
+    console.warn(&quot;&#x60;public regenerate(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
   }
   /**
    * Used to determine whether the geometry must be recalculated.
@@ -277,9 +307,19 @@ class Geometry extends Shareable {
    * @return {boolean} if the parameters defining the geometry have been modified.
    */
   public isModified(): boolean {
-    // Assume that the Geometry parameters have been modified as the default.
-    // Derived classes can be more efficient.
-    return true
+    return this._k.modified
+  }
+  /**
+   * Sets the modification state of &lt;code&gt;this&lt;/code&gt; instance.
+   * Derived classes should override this method if they contain parameters which affect geometry calculation. 
+   * @method setModified
+   * @param modified {boolean} The value that the modification state will be set to.
+   * @return {Geometry} &#x60;this&#x60; instance.
+   * @chainable
+   */
+  public setModified(modified: boolean): Geometry {
+    this._k.modified = modified
+    return this
   }
   /**
    * &lt;p&gt;
@@ -296,7 +336,7 @@ class Geometry extends Shareable {
    */
   public boundary(times?: number): Geometry {
     if (this.isModified()) {
-      this.recalculate()
+      this.regenerate()
     }
     this.data = Simplex.boundary(this.data, times);
     return this.check();
@@ -327,7 +367,7 @@ class Geometry extends Shareable {
    */
   public subdivide(times?: number): Geometry {
     if (this.isModified()) {
-      this.recalculate()
+      this.regenerate()
     }
     this.data = Simplex.subdivide(this.data, times);
     this.check();
@@ -339,7 +379,7 @@ class Geometry extends Shareable {
    */
   public toElements(): GeometryElements {
     if (this.isModified()) {
-      this.recalculate()
+      this.regenerate()
     }
     this.check()
     let elements = toGeometryData(this.data, this.meta)

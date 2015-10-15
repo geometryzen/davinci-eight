@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometries/computeFaceNormals', '../feedback/feedback', '../geometries/Geometry', '../checks/mustBeInteger', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, cannotAssignTypeToProperty, computeFaceNormals, feedback, Geometry, mustBeInteger, quad, Simplex, Symbolic, Vector1, Vector3) {
+define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometries/computeFaceNormals', '../feedback/feedback', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, cannotAssignTypeToProperty, computeFaceNormals, feedback, Geometry, quad, Simplex, Symbolic, Vector1, Vector3) {
     /**
      * @class CuboidGeometry
      * @extends Geometry
@@ -40,11 +40,6 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
             if (boundary === void 0) { boundary = 0; }
             _super.call(this, 'CuboidGeometry');
             /**
-             * @property _k {number} The dimensionality of the simplices representing the cuboid.
-             * @private
-             */
-            this._k = new Vector1([Simplex.K_FOR_TRIANGLE]);
-            /**
              * Used to mark the parameters of this object dirty when they are possibly shared.
              * @property _isModified
              * @type {boolean}
@@ -57,7 +52,7 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
             this.k = k;
             this.subdivide(subdivide);
             this.boundary(boundary);
-            this.recalculate();
+            this.regenerate();
         }
         CuboidGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
@@ -137,22 +132,8 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CuboidGeometry.prototype, "k", {
-            /**
-             * @property k
-             * @type {number}
-             */
-            get: function () {
-                return this._k.x;
-            },
-            set: function (k) {
-                this._k.x = mustBeInteger('k', k);
-            },
-            enumerable: true,
-            configurable: true
-        });
         CuboidGeometry.prototype.isModified = function () {
-            return this._isModified || this._a.modified || this._b.modified || this._c.modified || this._k.modified;
+            return this._isModified || this._a.modified || this._b.modified || this._c.modified || _super.prototype.isModified.call(this);
         };
         /**
          * @method setModified
@@ -164,15 +145,15 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
             this._a.modified = modified;
             this._b.modified = modified;
             this._c.modified = modified;
-            this._k.modified = modified;
+            _super.prototype.setModified.call(this, modified);
             return this;
         };
         /**
-         * recalculate the geometry based upon the current parameters.
-         * @method recalculate
+         * regenerate the geometry based upon the current parameters.
+         * @method regenerate
          * @return {void}
          */
-        CuboidGeometry.prototype.recalculate = function () {
+        CuboidGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
             pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideScalar(2);

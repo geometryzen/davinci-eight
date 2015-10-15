@@ -1,11 +1,13 @@
 import GeometryData = require('../geometries/GeometryData')
 import GeometryElements = require('../geometries/GeometryElements')
 import GeometryMeta = require('../geometries/GeometryMeta')
+import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeString = require('../checks/mustBeString')
 import Shareable = require('../utils/Shareable')
 import Simplex = require('../geometries/Simplex')
 import toGeometryData = require('../geometries/toGeometryData')
 import toGeometryMeta = require('../geometries/toGeometryMeta')
+import Vector1 = require('../math/Vector1')
 
 /**
  * @class Geometry
@@ -26,6 +28,13 @@ class Geometry extends Shareable {
    * @type {GeometryMeta}
    */
   public meta: GeometryMeta;
+  /**
+   * The dimensionality of the simplices in this geometry.
+   * @property _k
+   * @type {number}
+   * @private
+   */
+  private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
 
   // public dynamic = true;
   // public verticesNeedUpdate = false;
@@ -45,6 +54,8 @@ class Geometry extends Shareable {
    */
   constructor(type: string = 'Geometry') {
     super(mustBeString('type', type))
+    // Force regenerate, even if derived classes don't call setModified.
+    this._k.modified = true
   }
   /**
    * The destructor method should be implemented in derived classes and the super.destructor called
@@ -57,13 +68,30 @@ class Geometry extends Shareable {
     super.destructor()
   }
   /**
-   * Used to recalculate the simplex data from geometry parameters.
+   * <p>
+   * The dimensionality of the simplices in this geometry.
+   * </p>
+   * <p>
+   * The <code>k</code> parameter affects geometry generation.
+   * </p>
+   * <code>k</code> must be an integer.
+   * @property k
+   * @type {number}
+   */
+  public get k(): number {
+    return this._k.x
+  }
+  public set k(k: number) {
+    this._k.x = mustBeInteger('k', k)
+  }
+  /**
+   * Used to regenerate the simplex data from geometry parameters.
    * This method should be implemented by the derived geometry class.
-   * @method recalculate
+   * @method regenerate
    * @return {void}
    */
-  public recalculate(): void {
-    console.warn("`public recalculate(): void` method should be implemented by `" + this._type + "`.")
+  public regenerate(): void {
+    console.warn("`public regenerate(): void` method should be implemented by `" + this._type + "`.")
   }
   /**
    * Used to determine whether the geometry must be recalculated.
@@ -73,9 +101,19 @@ class Geometry extends Shareable {
    * @return {boolean} if the parameters defining the geometry have been modified.
    */
   public isModified(): boolean {
-    // Assume that the Geometry parameters have been modified as the default.
-    // Derived classes can be more efficient.
-    return true
+    return this._k.modified
+  }
+  /**
+   * Sets the modification state of <code>this</code> instance.
+   * Derived classes should override this method if they contain parameters which affect geometry calculation. 
+   * @method setModified
+   * @param modified {boolean} The value that the modification state will be set to.
+   * @return {Geometry} `this` instance.
+   * @chainable
+   */
+  public setModified(modified: boolean): Geometry {
+    this._k.modified = modified
+    return this
   }
   /**
    * <p>
@@ -92,7 +130,7 @@ class Geometry extends Shareable {
    */
   public boundary(times?: number): Geometry {
     if (this.isModified()) {
-      this.recalculate()
+      this.regenerate()
     }
     this.data = Simplex.boundary(this.data, times);
     return this.check();
@@ -123,7 +161,7 @@ class Geometry extends Shareable {
    */
   public subdivide(times?: number): Geometry {
     if (this.isModified()) {
-      this.recalculate()
+      this.regenerate()
     }
     this.data = Simplex.subdivide(this.data, times);
     this.check();
@@ -135,7 +173,7 @@ class Geometry extends Shareable {
    */
   public toElements(): GeometryElements {
     if (this.isModified()) {
-      this.recalculate()
+      this.regenerate()
     }
     this.check()
     let elements = toGeometryData(this.data, this.meta)

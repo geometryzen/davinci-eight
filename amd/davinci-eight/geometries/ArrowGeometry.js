@@ -81,10 +81,10 @@ define(["require", "exports", '../geometries/RevolutionGeometry', '../math/Spino
             return this;
         };
         /**
-         * @method recalculate
+         * @method regenerate
          * @return {void}
          */
-        ArrowGeometry.prototype.recalculate = function () {
+        ArrowGeometry.prototype.regenerate = function () {
             var length = this.vector.magnitude();
             var lengthShaft = length - this.lengthCone;
             var halfLength = length / 2;

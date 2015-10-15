@@ -6,7 +6,7 @@ import Spinor3Coords = require('../math/Spinor3Coords');
 /**
  * @class Spinor3
  */
-declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3, Spinor3Coords, Cartesian3> {
+declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3, Spinor3Coords, Cartesian3, Cartesian3> {
     /**
      * @class Spinor3
      * @constructor
@@ -64,6 +64,14 @@ declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<
      */
     difference(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     divideScalar(scalar: number): Spinor3;
+    /**
+     * Sets this Spinor to the value of the dual of the vector, I * v.
+     * Notice that the dual of a vector is related to the spinor by the right-hand rule.
+     * @method dual
+     * @param v {Cartesian3} The vector whose dual will be used to set this spinor.
+     * @return {Spinor3}
+     */
+    dual(v: Cartesian3): Spinor3;
     exp(): Spinor3;
     inverse(): Spinor3;
     lerp(target: Spinor3Coords, alpha: number): Spinor3;
@@ -109,6 +117,7 @@ declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<
     sub(rhs: Spinor3Coords): Spinor3;
     sum(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     /**
+     * Sets this Spinor3 to the geometric product a * b of the vector arguments.
      * @method spinor
      * @param a {Cartesian3}
      * @param b {Cartesian3}

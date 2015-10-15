@@ -86,10 +86,10 @@ class ArrowGeometry extends RevolutionGeometry {
     return this
   }
   /**
-   * @method recalculate
+   * @method regenerate
    * @return {void}
    */
-  public recalculate(): void {
+  public regenerate(): void {
     var length = this.vector.magnitude()
     var lengthShaft = length - this.lengthCone
     var halfLength = length / 2;

@@ -8,6 +8,7 @@ import ISlide = require('../../slideshow/ISlide')
 import ISlideCommand = require('../../slideshow/ISlideCommand')
 import IMaterial = require('../../core/IMaterial')
 import IDirector = require('../../slideshow/IDirector')
+import EmptyMaterial = require('../../materials/EmptyMaterial')
 import PointMaterial = require('../../materials/PointMaterial')
 import LineMaterial = require('../../materials/LineMaterial')
 import MeshMaterial = require('../../materials/MeshMaterial')
@@ -20,20 +21,24 @@ function createMaterial(geometry: Geometry): IMaterial
 {
   switch(geometry.meta.k)
   {
-    case Simplex.K_FOR_POINT:
+    case Simplex.K_FOR_TRIANGLE:
     {
-      return new PointMaterial()
+      return new MeshMaterial()
     }
     case Simplex.K_FOR_LINE_SEGMENT:
     {
       return new LineMaterial()
     }
-    case Simplex.K_FOR_TRIANGLE:
+    case Simplex.K_FOR_POINT:
     {
-      return new MeshMaterial()
+      return new PointMaterial()
+    }
+    case Simplex.K_FOR_EMPTY:
+    {
+      return new EmptyMaterial()
     }
     default: {
-      throw new Error('Unexpected dimensions for simplex: ' + geometry.meta.k)
+      throw new Error('Unexpected dimensionality for simplex: ' + geometry.meta.k)
     }
   }
 }

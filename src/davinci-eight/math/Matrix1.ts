@@ -7,7 +7,7 @@ import Matrix = require('../math/Matrix')
  * @class Matrix1
  * @extends AbstractMatrix
  */
-class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElement<Matrix1, Matrix1, Matrix1, Cartesian1> {
+class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElement<Matrix1, Matrix1, Matrix1, Cartesian1, Matrix1> {
   /**
    * 1x1 (square) matrix of numbers.
    * Constructs a Matrix1 by wrapping a Float32Array.
@@ -62,6 +62,9 @@ class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElemen
     let data = this.data;
     data[0] /= scalar;
     return this;
+  }
+  dual(m: Matrix1): Matrix1 {
+    return this
   }
   exp() {
     return this;

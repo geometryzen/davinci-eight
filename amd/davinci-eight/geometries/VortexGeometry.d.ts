@@ -26,9 +26,9 @@ declare class VortexGeometry extends Geometry {
      */
     setModified(modified: boolean): VortexGeometry;
     /**
-     * @method recalculate
+     * @method regenerate
      * @return {void}
      */
-    recalculate(): void;
+    regenerate(): void;
 }
 export = VortexGeometry;

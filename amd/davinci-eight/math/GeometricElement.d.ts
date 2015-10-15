@@ -2,8 +2,9 @@ import LinearElement = require('../math/LinearElement');
 /**
  * A mutable element of a geometric space.
  */
-interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
+interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
     exp(): M;
+    dual(m: D): M;
     log(): M;
     magnitude(): number;
     multiply(rhs: I): M;

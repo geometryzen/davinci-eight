@@ -14,7 +14,7 @@ import wedgeZX = require('../math/wedgeZX')
 /**
  * @class Spinor3
  */
-class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3, Spinor3Coords, Cartesian3>
+class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3, Spinor3Coords, Cartesian3, Cartesian3>
 {
   /**
    * @class Spinor3
@@ -125,6 +125,21 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     this.xy /= scalar;
     this.w  /= scalar;
     return this;
+  }
+  /**
+   * Sets this Spinor to the value of the dual of the vector, I * v.
+   * Notice that the dual of a vector is related to the spinor by the right-hand rule.
+   * @method dual
+   * @param v {Cartesian3} The vector whose dual will be used to set this spinor.
+   * @return {Spinor3}
+   */
+  dual(v: Cartesian3): Spinor3
+  {
+    this.yz = v.x
+    this.zx = v.y
+    this.xy = v.z
+    this.w = 0
+    return this
   }
   exp(): Spinor3 {
     let w  = this.w;
@@ -250,6 +265,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     return this;
   }
   rotate(rotor: Spinor3Coords): Spinor3 {
+    console.warn("Spinor3.rotate is not implemented")
     return this;
   }
   /**
@@ -278,6 +294,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     return this;
   }
   /**
+   * Sets this Spinor3 to the geometric product a * b of the vector arguments. 
    * @method spinor
    * @param a {Cartesian3}
    * @param b {Cartesian3}

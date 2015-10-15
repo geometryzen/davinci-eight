@@ -67,7 +67,6 @@ import triangle                = require('davinci-eight/geometries/triangle')
 
 // scene
 import createDrawList          = require('davinci-eight/scene/createDrawList')
-import ICamera                 = require('davinci-eight/scene/ICamera')
 import IDrawList               = require('davinci-eight/scene/IDrawList')
 import Drawable                = require('davinci-eight/scene/Drawable')
 import PerspectiveCamera       = require('davinci-eight/scene/PerspectiveCamera')
@@ -75,7 +74,7 @@ import Scene                   = require('davinci-eight/scene/Scene')
 import Canvas3D                = require('davinci-eight/scene/Canvas3D')
 // geometries
 import GeometryElements        = require('davinci-eight/geometries/GeometryElements')
-import RingGeometry         = require('davinci-eight/geometries/RingGeometry')
+import RingGeometry            = require('davinci-eight/geometries/RingGeometry')
 import ArrowGeometry           = require('davinci-eight/geometries/ArrowGeometry')
 import BarnGeometry            = require('davinci-eight/geometries/BarnGeometry')
 import CuboidGeometry          = require('davinci-eight/geometries/CuboidGeometry')
@@ -93,6 +92,7 @@ import SphereGeometry          = require('davinci-eight/geometries/SphereGeometr
 import TetrahedronGeometry     = require('davinci-eight/geometries/TetrahedronGeometry')
 //import TubeGeometry          = require('davinci-eight/geometries/TubeGeometry')
 import VortexGeometry          = require('davinci-eight/geometries/VortexGeometry')
+import arc3                    = require('davinci-eight/geometries/arc3')
 // programs
 import createMaterial          = require('davinci-eight/programs/createMaterial')
 import smartProgram            = require('davinci-eight/programs/smartProgram')
@@ -170,6 +170,7 @@ import renderer                = require('davinci-eight/renderers/renderer')
 import AmbientLight            = require('davinci-eight/uniforms/AmbientLight')
 import ColorFacet              = require('davinci-eight/uniforms/ColorFacet')
 import DirectionalLight        = require('davinci-eight/uniforms/DirectionalLight')
+import PointSize               = require('davinci-eight/uniforms/PointSize')
 import Vector3Uniform          = require('davinci-eight/uniforms/Vector3Uniform')
 
 // utils
@@ -330,6 +331,7 @@ var eight = {
   get AmbientLight() { return AmbientLight },
   get ColorFacet() { return ColorFacet },
   get DirectionalLight() { return DirectionalLight },
+  get PointSize() { return PointSize },
   get Vector3Uniform() { return Vector3Uniform },
   // utils
   get IUnknownArray() { return IUnknownArray },

@@ -1,6 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3');
 import IContextProvider = require('../core/IContextProvider');
-import ICamera = require('../scene/ICamera');
 import IMaterial = require('../core/IMaterial');
 import Perspective = require('../cameras/Perspective');
 import Shareable = require('../utils/Shareable');
@@ -10,7 +9,7 @@ import Vector3 = require('../math/Vector3');
 /**
  * @class PerspectiveCamera
  */
-declare class PerspectiveCamera extends Shareable implements ICamera, Perspective, IFacet {
+declare class PerspectiveCamera extends Shareable implements Perspective, IFacet {
     position: Vector3;
     /**
      * @property material

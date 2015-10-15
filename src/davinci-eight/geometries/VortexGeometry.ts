@@ -51,10 +51,10 @@ class VortexGeometry extends Geometry {
     return this
   }
   /**
-   * @method recalculate
+   * @method regenerate
    * @return {void}
    */
-  recalculate(): void {
+  regenerate(): void {
 
     this.data = []
 

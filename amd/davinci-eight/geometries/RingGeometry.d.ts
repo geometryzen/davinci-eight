@@ -7,33 +7,51 @@ import Vector3 = require('../math/Vector3');
  */
 declare class RingGeometry extends Geometry {
     /**
-     * The outer radius.
-     * @property a
-     * @type {number}
-     */
-    a: number;
-    /**
      * The inner radius.
-     * @property b
+     * @property innerRadius
      * @type {number}
      */
-    b: number;
+    innerRadius: number;
     /**
-     * The axis of symmetry.
-     * @property e
+     * The outer radius.
+     * @property outerRadius
+     * @type {number}
+     */
+    outerRadius: number;
+    /**
+     * The axis of symmetry (unit vector) direction.
+     * @property normal
      * @type {Vector3}
      */
-    e: Vector3;
+    normal: Vector3;
+    /**
+     * The direction (perpendicular to normal) of the start or the arc.
+     * @property start
+     * @type {Vector3}
+     */
+    start: Vector3;
+    /**
+     * The angle subtended by the ring.
+     */
+    angle: number;
+    /**
+     * The number of segments in the radial direction.
+     */
     radialSegments: number;
+    /**
+     * The number of segments in the angular direction.
+     */
     thetaSegments: number;
-    thetaStart: number;
-    thetaLength: number;
     /**
      * Creates an annulus with a single hole.
      * @class RingGeometry
      * @constructor
+     * @param a [number = 1] The outer radius
+     * @param b [number = 0] The inner radius
+     * @param e [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
+     * @param
      */
-    constructor(a?: number, b?: number, e?: Cartesian3);
+    constructor(innerRadius?: number, outerRadius?: number, normal?: Cartesian3, start?: Cartesian3, angle?: number);
     /**
      * @method destructor
      * @return {void}
@@ -46,10 +64,10 @@ declare class RingGeometry extends Geometry {
      */
     isModified(): boolean;
     /**
-     * @method recalculate
+     * @method regenerate
      * @return {void}
      */
-    recalculate(): void;
+    regenerate(): void;
     /**
      * @method setModified
      * @param modified {boolean}

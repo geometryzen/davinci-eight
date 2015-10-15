@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.130.0</em>
+            <em>API Docs for: 2.131.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,6 +71,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EmptyMaterial.html">EmptyMaterial</a></li>
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
@@ -123,6 +124,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
@@ -247,11 +249,6 @@ class CuboidGeometry extends Geometry {
    */
   private _c: Vector3;
   /**
-   * @property _k {number} The dimensionality of the simplices representing the cuboid.
-   * @private
-   */
-  private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
-  /**
    * Used to mark the parameters of this object dirty when they are possibly shared.
    * @property _isModified
    * @type {boolean}
@@ -288,7 +285,7 @@ class CuboidGeometry extends Geometry {
     this.k = k
     this.subdivide(subdivide)
     this.boundary(boundary)
-    this.recalculate();
+    this.regenerate();
   }
   protected destructor(): void {
     super.destructor();
@@ -356,19 +353,8 @@ class CuboidGeometry extends Geometry {
       feedback.warn(cannotAssignTypeToProperty(typeof c, &#x27;c&#x27;))
     }
   }
-  /**
-   * @property k
-   * @type {number}
-   */
-  public get k(): number {
-    return this._k.x
-  }
-  public set k(k: number) {
-    this._k.x = mustBeInteger(&#x27;k&#x27;, k)
-  }
-
   public isModified() {
-    return this._isModified || this._a.modified || this._b.modified || this._c.modified || this._k.modified
+    return this._isModified || this._a.modified || this._b.modified || this._c.modified || super.isModified()
   }
   /**
    * @method setModified
@@ -380,15 +366,15 @@ class CuboidGeometry extends Geometry {
     this._a.modified  = modified
     this._b.modified  = modified
     this._c.modified  = modified
-    this._k.modified = modified
+    super.setModified(modified)
     return this
   }
   /**
-   * recalculate the geometry based upon the current parameters.
-   * @method recalculate
+   * regenerate the geometry based upon the current parameters.
+   * @method regenerate
    * @return {void}
    */
-  public recalculate(): void {
+  public regenerate(): void {
     this.setModified(false)
 
     var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})

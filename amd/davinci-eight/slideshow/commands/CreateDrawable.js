@@ -3,23 +3,27 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../uniforms/ColorFacet', '../../scene/Drawable', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex'], function (require, exports, ColorFacet, Drawable, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex) {
+define(["require", "exports", '../../uniforms/ColorFacet', '../../scene/Drawable', '../../materials/EmptyMaterial', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex'], function (require, exports, ColorFacet, Drawable, EmptyMaterial, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex) {
     function createMaterial(geometry) {
         switch (geometry.meta.k) {
-            case Simplex.K_FOR_POINT:
+            case Simplex.K_FOR_TRIANGLE:
                 {
-                    return new PointMaterial();
+                    return new MeshMaterial();
                 }
             case Simplex.K_FOR_LINE_SEGMENT:
                 {
                     return new LineMaterial();
                 }
-            case Simplex.K_FOR_TRIANGLE:
+            case Simplex.K_FOR_POINT:
                 {
-                    return new MeshMaterial();
+                    return new PointMaterial();
+                }
+            case Simplex.K_FOR_EMPTY:
+                {
+                    return new EmptyMaterial();
                 }
             default: {
-                throw new Error('Unexpected dimensions for simplex: ' + geometry.meta.k);
+                throw new Error('Unexpected dimensionality for simplex: ' + geometry.meta.k);
             }
         }
     }

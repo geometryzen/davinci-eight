@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/scene/ICamera.ts - davinci-eight</title>
+    <title>src/davinci-eight/uniforms/PointSize.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.130.0</em>
+            <em>API Docs for: 2.131.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,6 +71,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EmptyMaterial.html">EmptyMaterial</a></li>
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
@@ -123,6 +124,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
@@ -198,19 +200,52 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/scene/ICamera.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/uniforms/PointSize.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IDrawable = require(&#x27;../core/IDrawable&#x27;);
-/**
- * @interface ICamera
- */
-interface ICamera {
+import IFacet = require(&#x27;../core/IFacet&#x27;)
+import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
+import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import Symbolic = require(&#x27;../core/Symbolic&#x27;)
+import Vector3 = require(&#x27;../math/Vector3&#x27;)
+
+var LOGGING_NAME = &#x27;PointSize&#x27;
+
+function contextBuilder() {
+    return LOGGING_NAME
 }
 
-export = ICamera;
+/**
+ * @class PointSize
+ */
+class PointSize extends Shareable implements IFacet {
+    public pointSize: number;
+    /**
+     * @class PointSize
+     * @constructor
+     */
+    constructor(pointSize: number = 2) {
+        super(&#x27;PointSize&#x27;)
+        this.pointSize = mustBeInteger(&#x27;pointSize&#x27;, pointSize)
+    }
+    protected destructor(): void {
+        super.destructor()
+    }
+    getProperty(name: string): number[] {
+        return void 0;
+    }
+    setProperty(name: string, value: number[]): void {
+    }
+    setUniforms(visitor: IFacetVisitor, canvasId: number): void {
+        visitor.uniform1f(Symbolic.UNIFORM_POINT_SIZE, this.pointSize, canvasId)
+    }
+}
 
+export = PointSize
     </pre>
 </div>
                     </div>

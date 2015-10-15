@@ -65,6 +65,9 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             data[0] /= scalar;
             return this;
         };
+        Matrix1.prototype.dual = function (m) {
+            return this;
+        };
         Matrix1.prototype.exp = function () {
             return this;
         };

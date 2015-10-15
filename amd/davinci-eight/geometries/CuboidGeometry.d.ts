@@ -28,11 +28,6 @@ declare class CuboidGeometry extends Geometry {
      */
     private _c;
     /**
-     * @property _k {number} The dimensionality of the simplices representing the cuboid.
-     * @private
-     */
-    private _k;
-    /**
      * Used to mark the parameters of this object dirty when they are possibly shared.
      * @property _isModified
      * @type {boolean}
@@ -92,11 +87,6 @@ declare class CuboidGeometry extends Geometry {
      * @type {Vector3}
      */
     c: Vector3;
-    /**
-     * @property k
-     * @type {number}
-     */
-    k: number;
     isModified(): boolean;
     /**
      * @method setModified
@@ -105,10 +95,10 @@ declare class CuboidGeometry extends Geometry {
      */
     setModified(modified: boolean): CuboidGeometry;
     /**
-     * recalculate the geometry based upon the current parameters.
-     * @method recalculate
+     * regenerate the geometry based upon the current parameters.
+     * @method regenerate
      * @return {void}
      */
-    recalculate(): void;
+    regenerate(): void;
 }
 export = CuboidGeometry;

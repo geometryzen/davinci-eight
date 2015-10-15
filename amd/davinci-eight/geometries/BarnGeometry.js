@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../checks/mustBeInteger', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/Vector1', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, mustBeInteger, quad, Simplex, Symbolic, triangle, Vector1, Vector3) {
+define(["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, quad, Simplex, Symbolic, triangle, Vector3) {
     /**
      * @module EIGHT
      * @submodule geometries
@@ -25,29 +25,22 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../geometries
             this.a = Vector3.e1.clone();
             this.b = Vector3.e2.clone();
             this.c = Vector3.e3.clone();
-            this._k = new Vector1([Simplex.K_FOR_TRIANGLE]);
-            this.recalculate();
+            this.regenerate();
         }
-        Object.defineProperty(BarnGeometry.prototype, "k", {
-            get: function () {
-                return this._k.x;
-            },
-            set: function (k) {
-                this._k.x = mustBeInteger('k', k);
-            },
-            enumerable: true,
-            configurable: true
-        });
+        BarnGeometry.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
         BarnGeometry.prototype.isModified = function () {
-            return this.a.modified || this.b.modified || this.c.modified || this._k.modified;
+            return this.a.modified || this.b.modified || this.c.modified || _super.prototype.isModified.call(this);
         };
         BarnGeometry.prototype.setModified = function (modified) {
             this.a.modified = modified;
             this.b.modified = modified;
             this.c.modified = modified;
-            this._k.modified = modified;
+            _super.prototype.setModified.call(this, modified);
+            return this;
         };
-        BarnGeometry.prototype.recalculate = function () {
+        BarnGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
             points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideScalar(2);

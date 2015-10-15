@@ -43,11 +43,6 @@ class CuboidGeometry extends Geometry {
    */
   private _c: Vector3;
   /**
-   * @property _k {number} The dimensionality of the simplices representing the cuboid.
-   * @private
-   */
-  private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
-  /**
    * Used to mark the parameters of this object dirty when they are possibly shared.
    * @property _isModified
    * @type {boolean}
@@ -84,7 +79,7 @@ class CuboidGeometry extends Geometry {
     this.k = k
     this.subdivide(subdivide)
     this.boundary(boundary)
-    this.recalculate();
+    this.regenerate();
   }
   protected destructor(): void {
     super.destructor();
@@ -152,19 +147,8 @@ class CuboidGeometry extends Geometry {
       feedback.warn(cannotAssignTypeToProperty(typeof c, 'c'))
     }
   }
-  /**
-   * @property k
-   * @type {number}
-   */
-  public get k(): number {
-    return this._k.x
-  }
-  public set k(k: number) {
-    this._k.x = mustBeInteger('k', k)
-  }
-
   public isModified() {
-    return this._isModified || this._a.modified || this._b.modified || this._c.modified || this._k.modified
+    return this._isModified || this._a.modified || this._b.modified || this._c.modified || super.isModified()
   }
   /**
    * @method setModified
@@ -176,15 +160,15 @@ class CuboidGeometry extends Geometry {
     this._a.modified  = modified
     this._b.modified  = modified
     this._c.modified  = modified
-    this._k.modified = modified
+    super.setModified(modified)
     return this
   }
   /**
-   * recalculate the geometry based upon the current parameters.
-   * @method recalculate
+   * regenerate the geometry based upon the current parameters.
+   * @method regenerate
    * @return {void}
    */
-  public recalculate(): void {
+  public regenerate(): void {
     this.setModified(false)
 
     var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})

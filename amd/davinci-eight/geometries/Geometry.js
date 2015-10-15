@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/GeometryElements', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../geometries/toGeometryData', '../geometries/toGeometryMeta'], function (require, exports, GeometryElements, mustBeString, Shareable, Simplex, toGeometryData, toGeometryMeta) {
+define(["require", "exports", '../geometries/GeometryElements', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/Vector1'], function (require, exports, GeometryElements, mustBeInteger, mustBeString, Shareable, Simplex, toGeometryData, toGeometryMeta, Vector1) {
     /**
      * @class Geometry
      * @extends Shareable
@@ -36,6 +36,15 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
              * @type {Simplex[]}
              */
             this.data = [];
+            /**
+             * The dimensionality of the simplices in this geometry.
+             * @property _k
+             * @type {number}
+             * @private
+             */
+            this._k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+            // Force regenerate, even if derived classes don't call setModified.
+            this._k.modified = true;
         }
         /**
          * The destructor method should be implemented in derived classes and the super.destructor called
@@ -47,14 +56,35 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
         Geometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        Object.defineProperty(Geometry.prototype, "k", {
+            /**
+             * <p>
+             * The dimensionality of the simplices in this geometry.
+             * </p>
+             * <p>
+             * The <code>k</code> parameter affects geometry generation.
+             * </p>
+             * <code>k</code> must be an integer.
+             * @property k
+             * @type {number}
+             */
+            get: function () {
+                return this._k.x;
+            },
+            set: function (k) {
+                this._k.x = mustBeInteger('k', k);
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
-         * Used to recalculate the simplex data from geometry parameters.
+         * Used to regenerate the simplex data from geometry parameters.
          * This method should be implemented by the derived geometry class.
-         * @method recalculate
+         * @method regenerate
          * @return {void}
          */
-        Geometry.prototype.recalculate = function () {
-            console.warn("`public recalculate(): void` method should be implemented by `" + this._type + "`.");
+        Geometry.prototype.regenerate = function () {
+            console.warn("`public regenerate(): void` method should be implemented by `" + this._type + "`.");
         };
         /**
          * Used to determine whether the geometry must be recalculated.
@@ -64,9 +94,19 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
          * @return {boolean} if the parameters defining the geometry have been modified.
          */
         Geometry.prototype.isModified = function () {
-            // Assume that the Geometry parameters have been modified as the default.
-            // Derived classes can be more efficient.
-            return true;
+            return this._k.modified;
+        };
+        /**
+         * Sets the modification state of <code>this</code> instance.
+         * Derived classes should override this method if they contain parameters which affect geometry calculation.
+         * @method setModified
+         * @param modified {boolean} The value that the modification state will be set to.
+         * @return {Geometry} `this` instance.
+         * @chainable
+         */
+        Geometry.prototype.setModified = function (modified) {
+            this._k.modified = modified;
+            return this;
         };
         /**
          * <p>
@@ -83,7 +123,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
          */
         Geometry.prototype.boundary = function (times) {
             if (this.isModified()) {
-                this.recalculate();
+                this.regenerate();
             }
             this.data = Simplex.boundary(this.data, times);
             return this.check();
@@ -114,7 +154,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
          */
         Geometry.prototype.subdivide = function (times) {
             if (this.isModified()) {
-                this.recalculate();
+                this.regenerate();
             }
             this.data = Simplex.subdivide(this.data, times);
             this.check();
@@ -126,7 +166,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
          */
         Geometry.prototype.toElements = function () {
             if (this.isModified()) {
-                this.recalculate();
+                this.regenerate();
             }
             this.check();
             var elements = toGeometryData(this.data, this.meta);

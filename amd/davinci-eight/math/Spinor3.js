@@ -137,6 +137,20 @@ define(["require", "exports", '../math/VectorN', '../math/dotVector3', '../check
             this.w /= scalar;
             return this;
         };
+        /**
+         * Sets this Spinor to the value of the dual of the vector, I * v.
+         * Notice that the dual of a vector is related to the spinor by the right-hand rule.
+         * @method dual
+         * @param v {Cartesian3} The vector whose dual will be used to set this spinor.
+         * @return {Spinor3}
+         */
+        Spinor3.prototype.dual = function (v) {
+            this.yz = v.x;
+            this.zx = v.y;
+            this.xy = v.z;
+            this.w = 0;
+            return this;
+        };
         Spinor3.prototype.exp = function () {
             var w = this.w;
             var x = this.yz;
@@ -261,6 +275,7 @@ define(["require", "exports", '../math/VectorN', '../math/dotVector3', '../check
             return this;
         };
         Spinor3.prototype.rotate = function (rotor) {
+            console.warn("Spinor3.rotate is not implemented");
             return this;
         };
         /**
@@ -289,6 +304,7 @@ define(["require", "exports", '../math/VectorN', '../math/dotVector3', '../check
             return this;
         };
         /**
+         * Sets this Spinor3 to the geometric product a * b of the vector arguments.
          * @method spinor
          * @param a {Cartesian3}
          * @param b {Cartesian3}

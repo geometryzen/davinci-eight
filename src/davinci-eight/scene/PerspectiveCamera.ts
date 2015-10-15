@@ -1,6 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3')
 import IContextProvider = require('../core/IContextProvider')
-import ICamera = require('../scene/ICamera')
 import IMaterial = require('../core/IMaterial')
 import createPerspective = require('../cameras/createPerspective')
 import isDefined = require('../checks/isDefined')
@@ -25,7 +24,7 @@ let CLASS_NAME = 'PerspectiveCamera'
 /**
  * @class PerspectiveCamera
  */
-class PerspectiveCamera extends Shareable implements ICamera, Perspective, IFacet {
+class PerspectiveCamera extends Shareable implements Perspective, IFacet {
   // FIXME: Gotta go
   public position: Vector3 = new Vector3();
   /**

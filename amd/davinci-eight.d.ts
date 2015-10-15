@@ -83,6 +83,7 @@ import IContextRenderer = require('davinci-eight/renderers/IContextRenderer');
 import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ColorFacet = require('davinci-eight/uniforms/ColorFacet');
 import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
+import PointSize = require('davinci-eight/uniforms/PointSize');
 import Vector3Uniform = require('davinci-eight/uniforms/Vector3Uniform');
 import IUnknownArray = require('davinci-eight/collections/IUnknownArray');
 import NumberIUnknownMap = require('davinci-eight/collections/NumberIUnknownMap');
@@ -222,6 +223,7 @@ declare var eight: {
     AmbientLight: typeof AmbientLight;
     ColorFacet: typeof ColorFacet;
     DirectionalLight: typeof DirectionalLight;
+    PointSize: typeof PointSize;
     Vector3Uniform: typeof Vector3Uniform;
     IUnknownArray: typeof IUnknownArray;
     NumberIUnknownMap: typeof NumberIUnknownMap;
