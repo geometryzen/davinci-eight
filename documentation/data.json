@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.129.0",
+        "version": "2.130.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -53,6 +53,35 @@
             "modules": {},
             "classes": {
                 "createView": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/collections/IUnknownArray.ts": {
+            "name": "src/davinci-eight/collections/IUnknownArray.ts",
+            "modules": {},
+            "classes": {
+                "IUnknownArray<T extends IUnknown>": 1,
+                "IUnknownArray": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/collections/NumberIUnknownMap.ts": {
+            "name": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "modules": {},
+            "classes": {
+                "NumberIUnknownMap<V>": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/collections/StringIUnknownMap.ts": {
+            "name": "src/davinci-eight/collections/StringIUnknownMap.ts",
+            "modules": {},
+            "classes": {
+                "StringIUnknownMap<V extends IUnknown>": 1,
+                "StringIUnknownMap": 1
             },
             "fors": {},
             "namespaces": {}
@@ -259,7 +288,7 @@
             "name": "src/davinci-eight/core/IFacet.ts",
             "modules": {},
             "classes": {
-                "IFacet\nextends IUnknown": 1
+                "IFacet\nextends IAnimationTarget": 1
             },
             "fors": {},
             "namespaces": {}
@@ -353,7 +382,9 @@
         "src/davinci-eight/core/UniformMetaInfo.ts": {
             "name": "src/davinci-eight/core/UniformMetaInfo.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "UniformMetaInfo": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -549,6 +580,15 @@
             "modules": {},
             "classes": {
                 "RevolutionGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/RingGeometry.ts": {
+            "name": "src/davinci-eight/geometries/RingGeometry.ts",
+            "modules": {},
+            "classes": {
+                "RingGeometry": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1271,6 +1311,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts": {
+            "name": "src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/slideshow/Director.ts": {
             "name": "src/davinci-eight/slideshow/Director.ts",
             "modules": {},
@@ -1314,13 +1361,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/uniforms/CityTemperature.ts": {
-            "name": "src/davinci-eight/uniforms/CityTemperature.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/uniforms/ColorFacet.ts": {
             "name": "src/davinci-eight/uniforms/ColorFacet.ts",
             "modules": {},
@@ -1348,40 +1388,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/utils/IUnknownArray.ts": {
-            "name": "src/davinci-eight/utils/IUnknownArray.ts",
-            "modules": {},
-            "classes": {
-                "IUnknownArray<T extends IUnknown>": 1,
-                "IUnknownArray": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/utils/NumberIUnknownMap.ts": {
-            "name": "src/davinci-eight/utils/NumberIUnknownMap.ts",
-            "modules": {},
-            "classes": {
-                "NumberIUnknownMap<V>": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/utils/Shareable.ts": {
             "name": "src/davinci-eight/utils/Shareable.ts",
             "modules": {},
             "classes": {
                 "Shareable": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/utils/StringIUnknownMap.ts": {
-            "name": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "modules": {},
-            "classes": {
-                "StringIUnknownMap<V extends IUnknown>": 1,
-                "StringIUnknownMap": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1442,6 +1453,11 @@
                 "Perspective": 1,
                 "View": 1,
                 "createView": 1,
+                "IUnknownArray<T extends IUnknown>": 1,
+                "IUnknownArray": 1,
+                "NumberIUnknownMap<V>": 1,
+                "StringIUnknownMap<V extends IUnknown>": 1,
+                "StringIUnknownMap": 1,
                 "ContextAttributesLogger": 1,
                 "EIGHTLogger": 1,
                 "VersionLogger": 1,
@@ -1461,7 +1477,7 @@
                 "IContextMonitor": 1,
                 "IContextProvider": 1,
                 "IDrawable": 1,
-                "IFacet\nextends IUnknown": 1,
+                "IFacet\nextends IAnimationTarget": 1,
                 "IFacetVisitor": 1,
                 "IMaterial": 1,
                 "IUnknown": 1,
@@ -1470,6 +1486,7 @@
                 "ShaderVariableDecl": 1,
                 "Symbolic": 1,
                 "UniformLocation": 1,
+                "UniformMetaInfo": 1,
                 "ArrowGeometry": 1,
                 "BarnGeometry": 1,
                 "CuboidGeometry": 1,
@@ -1487,6 +1504,7 @@
                 "OctahedronGeometry": 1,
                 "PolyhedronGeometry": 1,
                 "RevolutionGeometry": 1,
+                "RingGeometry": 1,
                 "Simplex": 1,
                 "Simplex1Geometry": 1,
                 "SphereGeometry": 1,
@@ -1549,12 +1567,7 @@
                 "ColorFacet": 1,
                 "DirectionalLight": 1,
                 "Vector3Uniform": 1,
-                "IUnknownArray<T extends IUnknown>": 1,
-                "IUnknownArray": 1,
-                "NumberIUnknownMap<V>": 1,
                 "Shareable": 1,
-                "StringIUnknownMap<V extends IUnknown>": 1,
-                "StringIUnknownMap": 1,
                 "WindowAnimationRunner": 1
             },
             "fors": {},
@@ -1628,6 +1641,73 @@
             "module": "EIGHT",
             "file": "src/davinci-eight/cameras/createView.ts",
             "line": 14,
+            "is_constructor": 1
+        },
+        "IUnknownArray<T extends IUnknown>": {
+            "name": "IUnknownArray<T extends IUnknown>",
+            "shortname": "IUnknownArray<T extends IUnknown>",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 29,
+            "extends": "Shareable"
+        },
+        "IUnknownArray": {
+            "name": "IUnknownArray",
+            "shortname": "IUnknownArray",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 41,
+            "description": "Collection class for maintaining an array of types derived from IUnknown.\nProvides a safer way to maintain reference counts than a native array.",
+            "is_constructor": 1
+        },
+        "NumberIUnknownMap<V>": {
+            "name": "NumberIUnknownMap<V>",
+            "shortname": "NumberIUnknownMap<V>",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 13,
+            "is_constructor": 1
+        },
+        "StringIUnknownMap<V extends IUnknown>": {
+            "name": "StringIUnknownMap<V extends IUnknown>",
+            "shortname": "StringIUnknownMap<V extends IUnknown>",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/collections/StringIUnknownMap.ts",
+            "line": 12,
+            "extends": "IUnknown"
+        },
+        "StringIUnknownMap": {
+            "name": "StringIUnknownMap",
+            "shortname": "StringIUnknownMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/collections/StringIUnknownMap.ts",
+            "line": 22,
+            "description": "<p>\nA map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.\n</p>",
             "is_constructor": 1
         },
         "ContextAttributesLogger": {
@@ -1966,9 +2046,9 @@
             "description": "<p>\nThe Drawable interface indicates that the implementation can make a call\nto either drawArrays or drawElements on the WebGL rendering context.\nIt also contains other meta-data that may be used to optimize the rendering.\ne.g. transparency, visibility, bounding volumes, etc.\n</p>",
             "extends": "IResource"
         },
-        "IFacet\nextends IUnknown": {
-            "name": "IFacet\nextends IUnknown",
-            "shortname": "IFacet\nextends IUnknown",
+        "IFacet\nextends IAnimationTarget": {
+            "name": "IFacet\nextends IAnimationTarget",
+            "shortname": "IFacet\nextends IAnimationTarget",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2116,6 +2196,18 @@
                 }
             ]
         },
+        "UniformMetaInfo": {
+            "name": "UniformMetaInfo",
+            "shortname": "UniformMetaInfo",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/core/UniformMetaInfo.ts",
+            "line": 1
+        },
         "ArrowGeometry": {
             "name": "ArrowGeometry",
             "shortname": "ArrowGeometry",
@@ -2162,8 +2254,28 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "type",
-                    "description": "[string = 'CuboidGeometry']"
+                    "name": "a",
+                    "description": "[Cartesian3 = Vector3.e1]"
+                },
+                {
+                    "name": "b",
+                    "description": "[Cartesian3 = Vector3.e1]"
+                },
+                {
+                    "name": "c",
+                    "description": "[Cartesian3 = Vector3.e1]"
+                },
+                {
+                    "name": "k",
+                    "description": "[number = Simplex.K_FOR_TRIANGLE]"
+                },
+                {
+                    "name": "subdivide",
+                    "description": "[number = 0]"
+                },
+                {
+                    "name": "boundary",
+                    "description": "[number = 0]"
                 }
             ],
             "example": [
@@ -2254,7 +2366,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 32,
+            "line": 34,
             "extends": "Shareable",
             "description": "<p>\nA list of simplices (data) with information about dimensionality and vertex properties (meta). \nThis class should be used as an abstract base or concrete class when constructing\ngeometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).\nThe <code>Geometry</code> class implements IUnknown, as a convenience to implementations\nrequiring special de-allocation of resources, by extending <code>Shareable</code>.\n</p>",
             "is_constructor": 1,
@@ -2496,6 +2608,22 @@
             "namespace": "",
             "file": "src/davinci-eight/geometries/RevolutionGeometry.ts",
             "line": 13,
+            "is_constructor": 1
+        },
+        "RingGeometry": {
+            "name": "RingGeometry",
+            "shortname": "RingGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/RingGeometry.ts",
+            "line": 36,
+            "extends": "Geometry",
+            "description": "Creates an annulus with a single hole.",
             "is_constructor": 1
         },
         "Simplex": {
@@ -3653,8 +3781,8 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 9,
-            "extends": "IUnknown"
+            "line": 8,
+            "extends": "IContextConsumer"
         },
         "PerspectiveCamera": {
             "name": "PerspectiveCamera",
@@ -3737,7 +3865,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 50,
+            "line": 62,
             "is_constructor": 1
         },
         "IAnimation": {
@@ -3849,49 +3977,6 @@
                 }
             ]
         },
-        "IUnknownArray<T extends IUnknown>": {
-            "name": "IUnknownArray<T extends IUnknown>",
-            "shortname": "IUnknownArray<T extends IUnknown>",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 29,
-            "extends": "Shareable"
-        },
-        "IUnknownArray": {
-            "name": "IUnknownArray",
-            "shortname": "IUnknownArray",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 41,
-            "description": "Collection class for maintaining an array of types derived from IUnknown.\nProvides a safer way to maintain reference counts than a native array.",
-            "is_constructor": 1
-        },
-        "NumberIUnknownMap<V>": {
-            "name": "NumberIUnknownMap<V>",
-            "shortname": "NumberIUnknownMap<V>",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/utils/NumberIUnknownMap.ts",
-            "line": 13,
-            "is_constructor": 1
-        },
         "Shareable": {
             "name": "Shareable",
             "shortname": "Shareable",
@@ -3914,35 +3999,6 @@
                     "type": "String"
                 }
             ]
-        },
-        "StringIUnknownMap<V extends IUnknown>": {
-            "name": "StringIUnknownMap<V extends IUnknown>",
-            "shortname": "StringIUnknownMap<V extends IUnknown>",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 11,
-            "extends": "IUnknown"
-        },
-        "StringIUnknownMap": {
-            "name": "StringIUnknownMap",
-            "shortname": "StringIUnknownMap",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 21,
-            "description": "<p>\nA map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.\n</p>",
-            "is_constructor": 1
         },
         "WindowAnimationRunner": {
             "name": "WindowAnimationRunner",
@@ -4260,7 +4316,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/createFrustum.ts",
-            "line": 15,
+            "line": 12,
             "itemtype": "method",
             "name": "createFrustum",
             "is_constructor": 1,
@@ -4306,7 +4362,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/createView.ts",
-            "line": 47,
+            "line": 55,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -4321,6 +4377,272 @@
                 "type": "View"
             },
             "class": "createView"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 8,
+            "description": "Essentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
+            "class": "IUnknownArray<T extends IUnknown>"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 34,
+            "itemtype": "property",
+            "name": "_elements",
+            "type": "{T[]}",
+            "access": "private",
+            "tagname": "",
+            "class": "IUnknownArray<T extends IUnknown>"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 55,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 68,
+            "description": "Gets the element at the specified index, incrementing the reference count.",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "T"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 81,
+            "description": "Gets the element at the specified index, without incrementing the reference count.",
+            "itemtype": "method",
+            "name": "getWeakRef",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "T"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 90,
+            "itemtype": "method",
+            "name": "indexOf",
+            "params": [
+                {
+                    "name": "searchElement",
+                    "description": "",
+                    "type": "T"
+                },
+                {
+                    "name": "fromIndex",
+                    "description": "",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 99,
+            "itemtype": "property",
+            "name": "length",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 112,
+            "description": "The slice() method returns a shallow copy of a portion of an array into a new array object.\nIt does not remove elements from the original array.",
+            "itemtype": "method",
+            "name": "slice",
+            "params": [
+                {
+                    "name": "begin",
+                    "description": "[number]"
+                },
+                {
+                    "name": "end",
+                    "description": "[number]"
+                }
+            ],
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 122,
+            "description": "The splice() method changes the content of an array by removing existing elements and/or adding new elements.",
+            "itemtype": "method",
+            "name": "splice",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "deleteCount",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IUnkownArray<T>"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 133,
+            "itemtype": "method",
+            "name": "shift",
+            "return": {
+                "description": "",
+                "type": "T"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 141,
+            "description": "Traverse without Reference Counting",
+            "itemtype": "method",
+            "name": "forEach",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "(value: T, index: number)=>void"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 150,
+            "description": "Pushes an element onto the tail of the list and increments the element reference count.",
+            "itemtype": "method",
+            "name": "push",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "T"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 162,
+            "description": "Pushes an element onto the tail of the list without incrementing the element reference count.",
+            "itemtype": "method",
+            "name": "pushWeakRef",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "T"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/IUnknownArray.ts",
+            "line": 171,
+            "itemtype": "method",
+            "name": "pop",
+            "return": {
+                "description": "",
+                "type": "T"
+            },
+            "class": "IUnknownArray"
+        },
+        {
+            "file": "src/davinci-eight/collections/StringIUnknownMap.ts",
+            "line": 50,
+            "description": "Determines whether the key exists in the map with a defined value.",
+            "itemtype": "method",
+            "name": "exists",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "<p><code>true</code> if there is an element at the specified key.</p>",
+                "type": "Boolean"
+            },
+            "class": "StringIUnknownMap"
+        },
+        {
+            "file": "src/davinci-eight/collections/StringIUnknownMap.ts",
+            "line": 79,
+            "itemtype": "method",
+            "name": "putWeakRef",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "V"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "StringIUnknownMap"
         },
         {
             "file": "src/davinci-eight/commands/EIGHTLogger.ts",
@@ -4698,9 +5020,10 @@
         {
             "file": "src/davinci-eight/core/AttribMetaInfo.ts",
             "line": 5,
+            "description": "The type keyword as it appears in the GLSL shader program.\nThis property is used for program generation.",
             "itemtype": "property",
-            "name": "glslType  The type keyword as it appears in the GLSL shader program.!~YUIDOC_LINE~!This property is used for program generation.",
-            "type": "String",
+            "name": "glslType",
+            "type": "{string}",
             "class": "AttribMetaInfo"
         },
         {
@@ -5268,7 +5591,7 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "IFacet\nextends IUnknown"
+            "class": "IFacet\nextends IAnimationTarget"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
@@ -6264,25 +6587,21 @@
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
-            "line": 1,
-            "interface": "UniformMetaInfo",
-            "class": "ArrowGeometry"
-        },
-        {
-            "file": "src/davinci-eight/core/UniformMetaInfo.ts",
             "line": 5,
+            "description": "Specifies an optional override of the name used as a key.",
             "itemtype": "property",
-            "name": "name  Specifies an optional override of the name used as a key.",
-            "type": "String",
-            "class": "ArrowGeometry"
+            "name": "name",
+            "type": "[string]",
+            "class": "UniformMetaInfo"
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
-            "line": 9,
+            "line": 11,
+            "description": "The type keyword as it appears in the GLSL shader program.",
             "itemtype": "property",
-            "name": "glslType  The type keyword as it appears in the GLSL shader program.",
-            "type": "String",
-            "class": "ArrowGeometry"
+            "name": "glslType",
+            "type": "{string}",
+            "class": "UniformMetaInfo"
         },
         {
             "file": "src/davinci-eight/core/getAttribVarName.ts",
@@ -6467,7 +6786,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 80,
+            "line": 92,
             "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e1.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
             "itemtype": "property",
             "name": "a",
@@ -6477,7 +6796,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 101,
+            "line": 113,
             "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e2.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
             "itemtype": "property",
             "name": "b",
@@ -6487,7 +6806,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 122,
+            "line": 134,
             "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e3.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
             "itemtype": "property",
             "name": "c",
@@ -6497,7 +6816,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 143,
+            "line": 155,
             "itemtype": "property",
             "name": "k",
             "type": "{number}",
@@ -6506,7 +6825,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 157,
+            "line": 169,
             "itemtype": "method",
             "name": "setModified",
             "params": [
@@ -6525,7 +6844,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 170,
+            "line": 182,
             "description": "recalculate the geometry based upon the current parameters.",
             "itemtype": "method",
             "name": "recalculate",
@@ -6539,6 +6858,7 @@
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
             "line": 15,
+            "description": "The geometry as a list of simplices.\nA simplex, in the context of WebGL, will usually represent a triangle, line or point.",
             "itemtype": "property",
             "name": "data",
             "type": "{Simplex[]}",
@@ -6547,8 +6867,8 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 20,
-            "description": "Summary information on the simplices such as dimensionality and sizes for attributes.\nThis same data structure may be used to map vertex attribute names to program names.",
+            "line": 22,
+            "description": "Summary information on the simplices such as dimensionality and sizes for attributes.\nThis data structure may be used to map vertex attribute names to program names.",
             "itemtype": "property",
             "name": "meta",
             "type": "{GeometryMeta}",
@@ -6557,7 +6877,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 47,
+            "line": 49,
             "description": "The destructor method should be implemented in derived classes and the super.destructor called\nas the last call in the derived class destructor.",
             "itemtype": "method",
             "name": "destructor",
@@ -6572,8 +6892,34 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 65,
-            "description": "<p>\nApplies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.\n</p>",
+            "line": 59,
+            "description": "Used to recalculate the simplex data from geometry parameters.\nThis method should be implemented by the derived geometry class.",
+            "itemtype": "method",
+            "name": "recalculate",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Geometry.ts",
+            "line": 68,
+            "description": "Used to determine whether the geometry must be recalculated.\nThe base implementation is pessimistic and returns <code>true</code>.\nThis method should be implemented by the derived class to reduce frequent recalculation.",
+            "itemtype": "method",
+            "name": "isModified",
+            "return": {
+                "description": "if the parameters defining the geometry have been modified.",
+                "type": "Boolean"
+            },
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Geometry.ts",
+            "line": 80,
+            "description": "<p>\nApplies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe boundary operation converts simplices of dimension `n` to `n - 1`.\nFor example, triangles are converted to lines.\n</p>",
             "itemtype": "method",
             "name": "boundary",
             "params": [
@@ -6592,7 +6938,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 81,
+            "line": 100,
             "description": "Updates the meta property of this instance to match the data.",
             "itemtype": "method",
             "name": "check",
@@ -6600,13 +6946,14 @@
                 "description": "",
                 "type": "Geometry"
             },
+            "beta": 1,
             "class": "Geometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 92,
-            "description": "Applies the subdivide operation to each Simplex in this instance the specified number of times.",
+            "line": 112,
+            "description": "<p>\nApplies the subdivide operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe subdivide operation creates new simplices of the same dimension as the originals.\n</p>",
             "itemtype": "method",
             "name": "subdivide",
             "params": [
@@ -6625,7 +6972,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 107,
+            "line": 132,
             "itemtype": "method",
             "name": "toGeometry",
             "return": {
@@ -6637,7 +6984,22 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 119,
+            "line": 144,
+            "itemtype": "method",
+            "name": "mergeVertices",
+            "params": [
+                {
+                    "name": "precisionPonts",
+                    "description": "[number = 4]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "beta": 1,
             "class": "Geometry",
             "module": "EIGHT"
         },
@@ -6874,6 +7236,94 @@
             "line": 37,
             "description": "Temporary list of points.",
             "class": "RevolutionGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/RingGeometry.ts",
+            "line": 14,
+            "description": "The outer radius.",
+            "itemtype": "property",
+            "name": "a",
+            "type": "{number}",
+            "class": "RingGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/RingGeometry.ts",
+            "line": 20,
+            "description": "The inner radius.",
+            "itemtype": "property",
+            "name": "b",
+            "type": "{number}",
+            "class": "RingGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/RingGeometry.ts",
+            "line": 26,
+            "description": "The axis of symmetry.",
+            "itemtype": "property",
+            "name": "e",
+            "type": "{Vector3}",
+            "class": "RingGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/RingGeometry.ts",
+            "line": 52,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "RingGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/RingGeometry.ts",
+            "line": 61,
+            "itemtype": "method",
+            "name": "isModified",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "RingGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/RingGeometry.ts",
+            "line": 69,
+            "itemtype": "method",
+            "name": "recalculate",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "RingGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/RingGeometry.ts",
+            "line": 154,
+            "itemtype": "method",
+            "name": "setModified",
+            "params": [
+                {
+                    "name": "modified",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "RingGeometry"
+            },
+            "chainable": 1,
+            "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
@@ -8555,7 +9005,7 @@
         },
         {
             "file": "src/davinci-eight/models/EulerFacet.ts",
-            "line": 20,
+            "line": 28,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -8579,7 +9029,7 @@
         },
         {
             "file": "src/davinci-eight/models/EulerFacet.ts",
-            "line": 29,
+            "line": 37,
             "itemtype": "property",
             "name": "rotation",
             "type": "{Vector3}",
@@ -8965,13 +9415,50 @@
             "file": "src/davinci-eight/scene/ICamera.ts",
             "line": 2,
             "interface": "ICamera",
-            "extends": "IDrawable\n\nSupports IDrawable so that all cameras can be added to the scene graph.",
             "class": "IDrawList",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 16,
+            "line": 13,
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "drawable",
+                    "description": "",
+                    "type": "IDrawable"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IDrawList",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/IDrawList.ts",
+            "line": 19,
+            "itemtype": "method",
+            "name": "containsDrawable",
+            "params": [
+                {
+                    "name": "drawable",
+                    "description": "",
+                    "type": "IDrawable"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "IDrawList",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/IDrawList.ts",
+            "line": 25,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -8995,7 +9482,7 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 23,
+            "line": 32,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -9006,6 +9493,51 @@
                     "type": "String"
                 }
             ],
+            "retrurn": "{IUnknownArray<IDrawable>}",
+            "class": "IDrawList",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/IDrawList.ts",
+            "line": 39,
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "drawable",
+                    "description": "",
+                    "type": "IDrawable"
+                }
+            ],
+            "class": "IDrawList",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/IDrawList.ts",
+            "line": 44,
+            "itemtype": "method",
+            "name": "traverse",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "(drawable: IDrawable) => void"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "prolog",
+                    "description": "",
+                    "type": "(material: IMaterial => void)"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IDrawList",
             "module": "EIGHT"
         },
@@ -9080,7 +9612,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 104,
+            "line": 97,
             "description": "The aspect ratio (width / height) of the camera viewport.",
             "itemtype": "property",
             "name": "aspect",
@@ -9091,7 +9623,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 113,
+            "line": 106,
             "itemtype": "method",
             "name": "setAspect",
             "params": [
@@ -9111,7 +9643,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 123,
+            "line": 116,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "eye",
@@ -9122,7 +9654,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 132,
+            "line": 125,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -9142,7 +9674,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 142,
+            "line": 135,
             "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
             "itemtype": "property",
             "name": "fov",
@@ -9153,7 +9685,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 156,
+            "line": 149,
             "itemtype": "method",
             "name": "setFov",
             "params": [
@@ -9173,7 +9705,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 175,
+            "line": 168,
             "description": "The distance to the near plane.",
             "itemtype": "property",
             "name": "near",
@@ -9184,7 +9716,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 187,
+            "line": 180,
             "itemtype": "method",
             "name": "setNear",
             "params": [
@@ -9238,7 +9770,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 85,
+            "line": 88,
             "description": "<p>\nTraverses the collection of drawables, drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -9264,7 +9796,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 98,
+            "line": 101,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -9280,7 +9812,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 106,
+            "line": 109,
             "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -9300,7 +9832,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 120,
+            "line": 123,
             "description": "<p>\nTraverses the collection of drawables, calling the specified callback arguments.\n</p>",
             "itemtype": "method",
             "name": "traverse",
@@ -9351,21 +9883,21 @@
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 119,
+            "line": 122,
             "description": "Should look like a set of Drawable Groups. Maybe like a Scene!",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 123,
+            "line": 126,
             "description": "Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 252,
+            "line": 282,
             "description": "method contextGain",
             "class": "Director",
             "module": "EIGHT"
@@ -9378,50 +9910,90 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts",
+            "line": 11,
+            "description": "Enables us to restore the drawable in the event of undo.",
+            "class": "Director",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 25,
-            "description": "(canvasId: number) => Canvas3D",
+            "line": 21,
+            "description": "[0, slides.length] represents on a slide\nA value equal to -1 represents just before the first slide.\nA value equal to slides.length represents just after the last slide.",
+            "itemtype": "property",
+            "name": "step",
+            "type": "{number}",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
             "line": 29,
-            "description": "(sceneName: string) => Scene",
+            "itemtype": "property",
+            "name": "slides",
+            "type": "{IUnknownArray<Slide>}",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 33,
-            "description": "(name: string) => IUniform",
+            "line": 34,
+            "description": "(canvasId: number) => Canvas3D",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
             "line": 38,
-            "description": "(name: string) => IUniform",
+            "description": "(sceneName: string) => IDrawList",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
             "line": 42,
-            "description": "(canvasId: number) => scene.name",
+            "description": "(name: string) => IDrawable",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
             "line": 46,
-            "description": "(canvasId: number) => ((uniform.name) => IFacet)",
+            "description": "(name: string) => Geometry",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 157,
+            "line": 50,
+            "description": "(name: string) => IFacet",
+            "class": "Director",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 54,
+            "description": "(canvasId: number) => scene.name",
+            "class": "Director",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 58,
+            "description": "(canvasId: number) => ((facet.name) => IFacet)",
+            "class": "Director",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 233,
+            "description": "Creates a new Slide.",
+            "itemtype": "method",
+            "name": "createSlide",
+            "return": {
+                "description": "",
+                "type": "Slide"
+            },
             "class": "Director",
             "module": "EIGHT"
         },
@@ -9551,28 +10123,28 @@
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 15,
+            "line": 17,
             "description": "The objects that we are going to manipulate.",
             "class": "AmbientLight",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 19,
+            "line": 21,
             "description": "The companions to each target that maintain animation state.",
             "class": "AmbientLight",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 23,
+            "line": 25,
             "description": "The time standard for this Slide.",
             "class": "AmbientLight",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 77,
+            "line": 81,
             "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
             "itemtype": "method",
             "name": "advance",
@@ -9588,28 +10160,28 @@
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 88,
+            "line": 92,
             "description": "`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
             "class": "AmbientLight",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 182,
+            "line": 206,
             "description": "The companion to a target: IAnimationTarget containing animation state.",
             "class": "AmbientLight",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 186,
+            "line": 210,
             "description": "A map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
             "class": "AmbientLight",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 203,
+            "line": 227,
             "description": "TODO: Maybe call this ensureAnimationLane or ensureLane",
             "class": "AmbientLight",
             "module": "EIGHT"
@@ -9636,7 +10208,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/AmbientLight.ts",
-            "line": 47,
+            "line": 52,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -9656,13 +10228,6 @@
                 "type": "Void"
             },
             "class": "AmbientLight",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/uniforms/CityTemperature.ts",
-            "line": 4,
-            "description": "Poller for the ...? server.",
-            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
@@ -9780,7 +10345,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/DirectionalLight.ts",
-            "line": 49,
+            "line": 54,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -9800,242 +10365,6 @@
                 "type": "Void"
             },
             "class": "DirectionalLight",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 8,
-            "description": "Essentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
-            "class": "IUnknownArray<T extends IUnknown>",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 34,
-            "itemtype": "property",
-            "name": "_elements",
-            "type": "{T[]}",
-            "access": "private",
-            "tagname": "",
-            "class": "IUnknownArray<T extends IUnknown>",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 55,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 68,
-            "description": "Gets the element at the specified index, incrementing the reference count.",
-            "itemtype": "method",
-            "name": "get",
-            "params": [
-                {
-                    "name": "index",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "T"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 81,
-            "description": "Gets the element at the specified index, without incrementing the reference count.",
-            "itemtype": "method",
-            "name": "getWeakRef",
-            "params": [
-                {
-                    "name": "index",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "T"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 90,
-            "itemtype": "method",
-            "name": "indexOf",
-            "params": [
-                {
-                    "name": "searchElement",
-                    "description": "",
-                    "type": "T"
-                },
-                {
-                    "name": "fromIndex",
-                    "description": "",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 99,
-            "itemtype": "property",
-            "name": "length",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 112,
-            "description": "The slice() method returns a shallow copy of a portion of an array into a new array object.\nIt does not remove elements from the original array.",
-            "itemtype": "method",
-            "name": "slice",
-            "params": [
-                {
-                    "name": "begin",
-                    "description": "[number]"
-                },
-                {
-                    "name": "end",
-                    "description": "[number]"
-                }
-            ],
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 122,
-            "description": "The splice() method changes the content of an array by removing existing elements and/or adding new elements.",
-            "itemtype": "method",
-            "name": "splice",
-            "params": [
-                {
-                    "name": "index",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "deleteCount",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "IUnkownArray<T>"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 133,
-            "itemtype": "method",
-            "name": "shift",
-            "return": {
-                "description": "",
-                "type": "T"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 141,
-            "description": "Traverse without Reference Counting",
-            "itemtype": "method",
-            "name": "forEach",
-            "params": [
-                {
-                    "name": "callback",
-                    "description": "",
-                    "type": "(value: T, index: number)=>void"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 150,
-            "description": "Pushes an element onto the tail of the list and increments the element reference count.",
-            "itemtype": "method",
-            "name": "push",
-            "params": [
-                {
-                    "name": "element",
-                    "description": "",
-                    "type": "T"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 162,
-            "description": "Pushes an element onto the tail of the list without incrementing the element reference count.",
-            "itemtype": "method",
-            "name": "pushWeakRef",
-            "params": [
-                {
-                    "name": "element",
-                    "description": "",
-                    "type": "T"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 171,
-            "itemtype": "method",
-            "name": "pop",
-            "return": {
-                "description": "",
-                "type": "T"
-            },
-            "class": "IUnknownArray",
             "module": "EIGHT"
         },
         {
@@ -10087,52 +10416,6 @@
             "type": "{string}",
             "readonly": "",
             "class": "Shareable",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 49,
-            "description": "Determines whether the key exists in the map with a defined value.",
-            "itemtype": "method",
-            "name": "exists",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "<p><code>true</code> if there is an element at the specified key.</p>",
-                "type": "Boolean"
-            },
-            "class": "StringIUnknownMap",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 78,
-            "itemtype": "method",
-            "name": "putWeakReference",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "V"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "private",
-            "tagname": "",
-            "class": "StringIUnknownMap",
             "module": "EIGHT"
         },
         {
@@ -10344,7 +10627,7 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: function with method",
-            "line": " src/davinci-eight/cameras/createFrustum.ts:15"
+            "line": " src/davinci-eight/cameras/createFrustum.ts:12"
         },
         {
             "message": "replacing incorrect tag: function with method",
@@ -10361,6 +10644,14 @@
         {
             "message": "unknown tag: parameters",
             "line": " src/davinci-eight/materials/PointMaterial.ts:26"
+        },
+        {
+            "message": "unknown tag: retrurn",
+            "line": " src/davinci-eight/scene/IDrawList.ts:32"
+        },
+        {
+            "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
+            "line": " src/davinci-eight/collections/IUnknownArray.ts:8"
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
@@ -10427,10 +10718,6 @@
             "line": " src/davinci-eight/core/Symbolic.ts:74"
         },
         {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/UniformMetaInfo.ts:1"
-        },
-        {
             "message": "Missing item type\nPolicy for how an attribute variable name is determined.",
             "line": " src/davinci-eight/core/getAttribVarName.ts:4"
         },
@@ -10465,10 +10752,6 @@
         {
             "message": "Missing item type\nmixin will delegate all MicroEvent.js function in the destination object\n\n- require('MicroEvent').mixin(Foobar) will make Foobar able to use MicroEvent",
             "line": " src/davinci-eight/events/MicroEvent.ts:24"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/geometries/Geometry.ts:119"
         },
         {
             "message": "Missing item type\nThe values of the attribute.",
@@ -10812,79 +11095,79 @@
         },
         {
             "message": "Missing item type\nShould look like a set of Drawable Groups. Maybe like a Scene!",
-            "line": " src/davinci-eight/scene/createDrawList.ts:119"
+            "line": " src/davinci-eight/scene/createDrawList.ts:122"
         },
         {
             "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
-            "line": " src/davinci-eight/scene/createDrawList.ts:123"
+            "line": " src/davinci-eight/scene/createDrawList.ts:126"
         },
         {
             "message": "Missing item type\nmethod contextGain",
-            "line": " src/davinci-eight/scene/createDrawList.ts:252"
+            "line": " src/davinci-eight/scene/createDrawList.ts:282"
         },
         {
             "message": "Missing item type\nConstruction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",
             "line": " src/davinci-eight/shaders/ShareableWebGLShader.ts:8"
         },
         {
+            "message": "Missing item type\nEnables us to restore the drawable in the event of undo.",
+            "line": " src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts:11"
+        },
+        {
             "message": "Missing item type\n(canvasId: number) => Canvas3D",
-            "line": " src/davinci-eight/slideshow/Director.ts:25"
+            "line": " src/davinci-eight/slideshow/Director.ts:34"
         },
         {
-            "message": "Missing item type\n(sceneName: string) => Scene",
-            "line": " src/davinci-eight/slideshow/Director.ts:29"
-        },
-        {
-            "message": "Missing item type\n(name: string) => IUniform",
-            "line": " src/davinci-eight/slideshow/Director.ts:33"
-        },
-        {
-            "message": "Missing item type\n(name: string) => IUniform",
+            "message": "Missing item type\n(sceneName: string) => IDrawList",
             "line": " src/davinci-eight/slideshow/Director.ts:38"
         },
         {
-            "message": "Missing item type\n(canvasId: number) => scene.name",
+            "message": "Missing item type\n(name: string) => IDrawable",
             "line": " src/davinci-eight/slideshow/Director.ts:42"
         },
         {
-            "message": "Missing item type\n(canvasId: number) => ((uniform.name) => IFacet)",
+            "message": "Missing item type\n(name: string) => Geometry",
             "line": " src/davinci-eight/slideshow/Director.ts:46"
         },
         {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/slideshow/Director.ts:157"
+            "message": "Missing item type\n(name: string) => IFacet",
+            "line": " src/davinci-eight/slideshow/Director.ts:50"
+        },
+        {
+            "message": "Missing item type\n(canvasId: number) => scene.name",
+            "line": " src/davinci-eight/slideshow/Director.ts:54"
+        },
+        {
+            "message": "Missing item type\n(canvasId: number) => ((facet.name) => IFacet)",
+            "line": " src/davinci-eight/slideshow/Director.ts:58"
         },
         {
             "message": "Missing item type\nThe objects that we are going to manipulate.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:15"
+            "line": " src/davinci-eight/slideshow/Slide.ts:17"
         },
         {
             "message": "Missing item type\nThe companions to each target that maintain animation state.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:19"
+            "line": " src/davinci-eight/slideshow/Slide.ts:21"
         },
         {
             "message": "Missing item type\nThe time standard for this Slide.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:23"
+            "line": " src/davinci-eight/slideshow/Slide.ts:25"
         },
         {
             "message": "Missing item type\n`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:88"
+            "line": " src/davinci-eight/slideshow/Slide.ts:92"
         },
         {
             "message": "Missing item type\nThe companion to a target: IAnimationTarget containing animation state.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:182"
+            "line": " src/davinci-eight/slideshow/Slide.ts:206"
         },
         {
             "message": "Missing item type\nA map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:186"
+            "line": " src/davinci-eight/slideshow/Slide.ts:210"
         },
         {
             "message": "Missing item type\nTODO: Maybe call this ensureAnimationLane or ensureLane",
-            "line": " src/davinci-eight/slideshow/Slide.ts:203"
-        },
-        {
-            "message": "Missing item type\nPoller for the ...? server.",
-            "line": " src/davinci-eight/uniforms/CityTemperature.ts:4"
+            "line": " src/davinci-eight/slideshow/Slide.ts:227"
         },
         {
             "message": "Missing item type\nproperty PROP_RGB",
@@ -10893,10 +11176,6 @@
         {
             "message": "Missing item type\nproperty PROP_RED",
             "line": " src/davinci-eight/uniforms/ColorFacet.ts:24"
-        },
-        {
-            "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
-            "line": " src/davinci-eight/utils/IUnknownArray.ts:8"
         },
         {
             "message": "Missing item type\nThis could become an encapsulated call?\nclass GeometryDataCommand\nprivate",

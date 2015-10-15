@@ -33,24 +33,24 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             return element ? true : false;
         };
         NumberIUnknownMap.prototype.get = function (key) {
-            var element = this.getWeakReference(key);
+            var element = this.getWeakRef(key);
             if (element) {
                 element.addRef();
             }
             return element;
         };
         // FIXME
-        /*private*/ NumberIUnknownMap.prototype.getWeakReference = function (index) {
+        /*private*/ NumberIUnknownMap.prototype.getWeakRef = function (index) {
             return this._elements[index];
         };
         NumberIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
             }
-            this.putWeakReference(key, value);
+            this.putWeakRef(key, value);
         };
         // FIXME
-        /*private*/ NumberIUnknownMap.prototype.putWeakReference = function (key, value) {
+        /*private*/ NumberIUnknownMap.prototype.putWeakRef = function (key, value) {
             var elements = this._elements;
             var existing = elements[key];
             if (existing) {

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../utils/IUnknownArray', '../utils/Shareable', '../utils/StringIUnknownMap', '../slideshow/animations/WaitAnimation'], function (require, exports, IUnknownArray, Shareable, StringIUnknownMap, WaitAnimation) {
+define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareable', '../slideshow/SlideCommands', '../collections/StringIUnknownMap'], function (require, exports, IUnknownArray, Shareable, SlideCommands, StringIUnknownMap) {
     var Slide = (function (_super) {
         __extends(Slide, _super);
         function Slide() {
@@ -12,8 +12,8 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/Shareable', '.
              * The time standard for this Slide.
              */
             this.now = 0;
-            this.prolog = new IUnknownArray([], 'Slide.prolog');
-            this.epilog = new IUnknownArray([], 'Slide.epilog');
+            this.prolog = new SlideCommands('Slide.prolog');
+            this.epilog = new SlideCommands('Slide.epilog');
             this.targets = new IUnknownArray([], 'Slide.targets');
             this.mirrors = new StringIUnknownMap('Slide.mirrors');
         }
@@ -38,20 +38,18 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/Shareable', '.
                 this.mirrors.putWeakRef(target.uuid, new Mirror());
             }
         };
-        Slide.prototype.animate = function (target, propName, animation, delay, sustain) {
-            if (delay === void 0) { delay = 0; }
-            if (sustain === void 0) { sustain = 0; }
+        Slide.prototype.pushAnimation = function (target, propName, animation) {
             this.ensureTarget(target);
             this.ensureMirror(target);
             var mirror = this.mirrors.getWeakRef(target.uuid);
             mirror.ensureAnimationLane(propName);
-            if (delay) {
-                mirror.animationLanes.getWeakRef(propName).pushWeakRef(new WaitAnimation(delay));
-            }
-            mirror.animationLanes.getWeakRef(propName).push(animation);
-            if (sustain) {
-                mirror.animationLanes.getWeakRef(propName).pushWeakRef(new WaitAnimation(sustain));
-            }
+            var animationLane = mirror.animationLanes.getWeakRef(propName);
+            animationLane.push(animation);
+        };
+        Slide.prototype.popAnimation = function (target, propName) {
+            var mirror = this.mirrors.getWeakRef(target.uuid);
+            var animationLane = mirror.animationLanes.getWeakRef(propName);
+            return animationLane.pop();
         };
         /**
          * Update all currently running animations.
@@ -79,17 +77,23 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/Shareable', '.
                 }
             }
         };
-        Slide.prototype.onEnter = function (host) {
-            this.prolog.forEach(function (command) {
-                command.redo(host);
-            });
+        Slide.prototype.doProlog = function (director, forward) {
+            if (forward) {
+                this.prolog.redo(this, director);
+            }
+            else {
+                this.prolog.undo(this, director);
+            }
         };
-        Slide.prototype.onExit = function (host) {
-            this.epilog.forEach(function (command) {
-                command.redo(host);
-            });
+        Slide.prototype.doEpilog = function (director, forward) {
+            if (forward) {
+                this.epilog.redo(this, director);
+            }
+            else {
+                this.epilog.undo(this, director);
+            }
         };
-        Slide.prototype.undo = function (host) {
+        Slide.prototype.undo = function (director) {
             for (var i = 0; i < this.targets.length; i++) {
                 var target = this.targets.getWeakRef(i);
                 var mirror = this.mirrors.getWeakRef(target.uuid);
@@ -116,6 +120,14 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/Shareable', '.
             this.remaining.release();
             this.remaining = void 0;
             _super.prototype.destructor.call(this);
+        };
+        AnimationLane.prototype.pop = function () {
+            if (this.remaining.length > 0) {
+                return this.remaining.pop();
+            }
+            else {
+                return this.completed.pop();
+            }
         };
         AnimationLane.prototype.push = function (animation) {
             return this.remaining.push(animation);

@@ -8,13 +8,15 @@ import Simplex = require('../geometries/Simplex');
  */
 declare class Geometry extends Shareable {
     /**
+     * The geometry as a list of simplices.
+     * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
      * @property data
      * @type {Simplex[]}
      */
     data: Simplex[];
     /**
      * Summary information on the simplices such as dimensionality and sizes for attributes.
-     * This same data structure may be used to map vertex attribute names to program names.
+     * This data structure may be used to map vertex attribute names to program names.
      * @property meta
      * @type {GeometryMeta}
      */
@@ -40,11 +42,28 @@ declare class Geometry extends Shareable {
      * @protected
      */
     protected destructor(): void;
+    /**
+     * Used to recalculate the simplex data from geometry parameters.
+     * This method should be implemented by the derived geometry class.
+     * @method recalculate
+     * @return {void}
+     */
     recalculate(): void;
+    /**
+     * Used to determine whether the geometry must be recalculated.
+     * The base implementation is pessimistic and returns <code>true</code>.
+     * This method should be implemented by the derived class to reduce frequent recalculation.
+     * @method isModified
+     * @return {boolean} if the parameters defining the geometry have been modified.
+     */
     isModified(): boolean;
     /**
      * <p>
      * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
+     * </p>
+     * <p>
+     * The boundary operation converts simplices of dimension `n` to `n - 1`.
+     * For example, triangles are converted to lines.
      * </p>
      *
      * @method boundary
@@ -57,10 +76,16 @@ declare class Geometry extends Shareable {
      *
      * @method check
      * @return {Geometry}
+     * @beta
      */
     check(): Geometry;
     /**
+     * <p>
      * Applies the subdivide operation to each Simplex in this instance the specified number of times.
+     * </p>
+     * <p>
+     * The subdivide operation creates new simplices of the same dimension as the originals.
+     * </p>
      *
      * @method subdivide
      * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
@@ -73,7 +98,11 @@ declare class Geometry extends Shareable {
      */
     toElements(): GeometryElements;
     /**
-     *
+     * @method mergeVertices
+     * @param precisionPonts [number = 4]
+     * @return {void}
+     * @protected
+     * @beta
      */
     protected mergeVertices(precisionPoints?: number): void;
 }

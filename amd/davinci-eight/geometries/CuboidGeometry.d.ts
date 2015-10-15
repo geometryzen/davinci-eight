@@ -1,3 +1,4 @@
+import Cartesian3 = require('../math/Cartesian3');
 import Geometry = require('../geometries/Geometry');
 import Vector3 = require('../math/Vector3');
 /**
@@ -47,14 +48,20 @@ declare class CuboidGeometry extends Geometry {
      * </p>
      * @class CuboidGeometry
      * @constructor
-     * @param type [string = 'CuboidGeometry']
+     * @param a [Cartesian3 = Vector3.e1]
+     * @param b [Cartesian3 = Vector3.e1]
+     * @param c [Cartesian3 = Vector3.e1]
+     * @param k [number = Simplex.K_FOR_TRIANGLE]
+     * @param subdivide [number = 0]
+     * @param boundary [number = 0]
      * @example
          var geometry = new EIGHT.CuboidGeometry();
          var elements = geometry.toElements();
          var material = new EIGHT.LineMaterial();
          var cube = new EIGHT.Drawable(elements, material);
      */
-    constructor(type?: string);
+    constructor(a?: Cartesian3, b?: Cartesian3, c?: Cartesian3, k?: number, subdivide?: number, boundary?: number);
+    protected destructor(): void;
     /**
      * <p>
      * A vector parameterizing the shape of the cuboid.

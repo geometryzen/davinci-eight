@@ -31,6 +31,11 @@ class Vector3Uniform extends Shareable implements IFacet {
   protected destructor(): void {
     super.destructor()
   }
+  getProperty(name: string): number[] {
+    return void 0;
+  }
+  setProperty(name:string, value: number[]): void {
+  }
   setUniforms(visitor: IFacetVisitor, canvasId: number): void {
     visitor.uniformCartesian3(this._name, this._vector, canvasId)
   }

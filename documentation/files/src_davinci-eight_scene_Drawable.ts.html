@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.129.0</em>
+            <em>API Docs for: 2.130.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,8 +94,8 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IUnknown.html">IFacet
-                extends IUnknown</a></li>
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -141,6 +142,7 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -213,11 +215,11 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;)
 import IMaterial = require(&#x27;../core/IMaterial&#x27;)
 import Material = require(&#x27;../materials/Material&#x27;)
 import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
-import NumberIUnknownMap = require(&#x27;../utils/NumberIUnknownMap&#x27;)
+import NumberIUnknownMap = require(&#x27;../collections/NumberIUnknownMap&#x27;)
 import refChange = require(&#x27;../utils/refChange&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
-import StringIUnknownMap = require(&#x27;../utils/StringIUnknownMap&#x27;)
+import StringIUnknownMap = require(&#x27;../collections/StringIUnknownMap&#x27;)
 import toGeometryData = require(&#x27;../geometries/toGeometryData&#x27;)
 import IFacet = require(&#x27;../core/IFacet&#x27;)
 import uuid4 = require(&#x27;../utils/uuid4&#x27;)
@@ -336,7 +338,7 @@ class Drawable&lt;G extends GeometryElements, M extends IMaterial&gt; extends Sh
       mustBeDefined(&#x27;geometry.meta&#x27;, meta, contextBuilder)
 
       // FIXME: Why is the meta not being used?
-      this.buffersByCanvasid.putWeakReference(manager.canvasId, manager.createBufferGeometry(data))
+      this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(data))
     }
     else {
       console.warn(LOGGING_NAME + &quot; contextGain method has no elements, canvasId =&gt; &quot; + manager.canvasId)

@@ -1,4 +1,4 @@
-define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
+define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, refChange, uuid4) {
     function className(user) {
         var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
         return LOGGING_NAME_IUNKNOWN_MAP + ":" + user;
@@ -70,13 +70,14 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             this.putWeakRef(key, value);
         };
         /**
-         * @method putWeakReference
+         * @method putWeakRef
          * @param key {string}
          * @param value {V}
          * @return {void}
          * @private
          */
         StringIUnknownMap.prototype.putWeakRef = function (key, value) {
+            mustBeString('key', key);
             var elements = this._elements;
             var existing = elements[key];
             if (existing) {
@@ -115,10 +116,8 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
         });
         StringIUnknownMap.prototype.remove = function (key) {
             var value = this._elements[key];
-            if (value) {
-                value.release();
-            }
             delete this._elements[key];
+            return value;
         };
         return StringIUnknownMap;
     })();

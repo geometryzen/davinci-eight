@@ -6,7 +6,13 @@ import WaitAnimation           = require('davinci-eight/slideshow/animations/Wai
 import ColorAnimation          = require('davinci-eight/slideshow/animations/ColorAnimation')
 import Vector3Animation        = require('davinci-eight/slideshow/animations/Vector3Animation')
 import Spinor3Animation        = require('davinci-eight/slideshow/animations/Spinor3Animation')
-import TestCommand             = require('davinci-eight/slideshow/commands/TestCommand')
+
+import AnimateDrawableCommand           = require('davinci-eight/slideshow/commands/AnimateDrawableCommand')
+import CreateCuboidDrawable = require('davinci-eight/slideshow/commands/CreateCuboidDrawable')
+import DestroyDrawableCommand           = require('davinci-eight/slideshow/commands/DestroyDrawableCommand')
+import GeometryCommand                  = require('davinci-eight/slideshow/commands/TestCommand')
+import TestCommand                      = require('davinci-eight/slideshow/commands/TestCommand')
+import UseDrawableInSceneCommand        = require('davinci-eight/slideshow/commands/UseDrawableInSceneCommand')
 
 // cameras
 import createFrustum           = require('davinci-eight/cameras/createFrustum')
@@ -69,6 +75,7 @@ import Scene                   = require('davinci-eight/scene/Scene')
 import Canvas3D                = require('davinci-eight/scene/Canvas3D')
 // geometries
 import GeometryElements        = require('davinci-eight/geometries/GeometryElements')
+import RingGeometry         = require('davinci-eight/geometries/RingGeometry')
 import ArrowGeometry           = require('davinci-eight/geometries/ArrowGeometry')
 import BarnGeometry            = require('davinci-eight/geometries/BarnGeometry')
 import CuboidGeometry          = require('davinci-eight/geometries/CuboidGeometry')
@@ -163,21 +170,19 @@ import renderer                = require('davinci-eight/renderers/renderer')
 import AmbientLight            = require('davinci-eight/uniforms/AmbientLight')
 import ColorFacet              = require('davinci-eight/uniforms/ColorFacet')
 import DirectionalLight        = require('davinci-eight/uniforms/DirectionalLight')
-import SineWaveUniform         = require('davinci-eight/uniforms/SineWaveUniform')
-import StockTicker             = require('davinci-eight/uniforms/StockTicker')
 import Vector3Uniform          = require('davinci-eight/uniforms/Vector3Uniform')
 
 // utils
 import contextProxy            = require('davinci-eight/utils/contextProxy')
 import Framerate               = require('davinci-eight/utils/Framerate')
-import IUnknownArray           = require('davinci-eight/utils/IUnknownArray')
+import IUnknownArray           = require('davinci-eight/collections/IUnknownArray')
 import loadImageTexture        = require('davinci-eight/utils/loadImageTexture')
 import makeBox                 = require('davinci-eight/utils/makeBox')
 import makeSphere              = require('davinci-eight/utils/makeSphere')
-import NumberIUnknownMap       = require('davinci-eight/utils/NumberIUnknownMap')
+import NumberIUnknownMap       = require('davinci-eight/collections/NumberIUnknownMap')
 import refChange               = require('davinci-eight/utils/refChange')
 import Shareable               = require('davinci-eight/utils/Shareable')
-import StringIUnknownMap       = require('davinci-eight/utils/StringIUnknownMap')
+import StringIUnknownMap       = require('davinci-eight/collections/StringIUnknownMap')
 import workbench3D             = require('davinci-eight/utils/workbench3D')
 import WindowAnimationRunner   = require('davinci-eight/utils/WindowAnimationRunner')
 import windowAnimationRunner   = require('davinci-eight/utils/windowAnimationRunner')
@@ -215,7 +220,12 @@ var eight = {
   get WaitAnimation() { return WaitAnimation },
   get Vector3Animation() { return Vector3Animation },
   get Spinor3Animation() { return Spinor3Animation },
+  get AnimateDrawableCommand() { return AnimateDrawableCommand },
+  get CreateCuboidDrawable() { return CreateCuboidDrawable },
+  get DestroyDrawableCommand() { return DestroyDrawableCommand },
+  get GeometryCommand() { return GeometryCommand },
   get TestCommand() { return TestCommand },
+  get UseDrawableInSceneCommand() { return UseDrawableInSceneCommand },
 
   // devices
   get Keyboard() { return Keyboard },
@@ -268,6 +278,7 @@ var eight = {
   },
   get Color() { return Color },
   get CompatcGeometry() { return GeometryElements },
+  get RingGeometry() { return RingGeometry },
   get ArrowGeometry() { return ArrowGeometry },
   get BarnGeometry() { return BarnGeometry },
   get CuboidGeometry() { return CuboidGeometry },
@@ -315,11 +326,10 @@ var eight = {
   get programFromScripts() { return programFromScripts },
   get GeometryAttribute() { return GeometryAttribute },
   get GeometryElements() { return GeometryElements },
-  // uniforms
+  // facets
   get AmbientLight() { return AmbientLight },
   get ColorFacet() { return ColorFacet },
   get DirectionalLight() { return DirectionalLight },
-  get SineWaveUniform() { return SineWaveUniform },
   get Vector3Uniform() { return Vector3Uniform },
   // utils
   get IUnknownArray() { return IUnknownArray },

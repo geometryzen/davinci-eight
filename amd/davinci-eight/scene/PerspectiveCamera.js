@@ -65,17 +65,10 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
             // Do nothing.
         };
-        PerspectiveCamera.prototype.getFacet = function (name) {
-            // FIXME: This is a bit wierd.
-            if (name === this.name) {
-                return this;
-            }
-            else {
-                return void 0;
-            }
+        PerspectiveCamera.prototype.getProperty = function (name) {
+            return void 0;
         };
-        PerspectiveCamera.prototype.setFacet = function (name, value) {
-            throw new Error("WTF");
+        PerspectiveCamera.prototype.setProperty = function (name, value) {
         };
         Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
             /**

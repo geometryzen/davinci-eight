@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.129.0</em>
+            <em>API Docs for: 2.130.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,8 +94,8 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IUnknown.html">IFacet
-                extends IUnknown</a></li>
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -141,6 +142,7 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -205,7 +207,7 @@ import IContextMonitor = require(&#x27;../core/IContextMonitor&#x27;)
 import createDrawList = require(&#x27;../scene/createDrawList&#x27;)
 import IDrawable = require(&#x27;../core/IDrawable&#x27;)
 import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
-import IUnknownArray = require(&#x27;../utils/IUnknownArray&#x27;)
+import IUnknownArray = require(&#x27;../collections/IUnknownArray&#x27;)
 import IMaterial = require(&#x27;../core/IMaterial&#x27;)
 import Matrix1 = require(&#x27;../math/Matrix1&#x27;)
 import Matrix2 = require(&#x27;../math/Matrix2&#x27;)
@@ -282,7 +284,10 @@ class Scene extends Shareable implements IDrawList {
    * &lt;/p&gt;
    */
   add(drawable: IDrawable): void {
-    this.drawList.add(drawable)
+    return this.drawList.add(drawable)
+  }
+  containsDrawable(drawable: IDrawable): boolean {
+    return this.drawList.containsDrawable(drawable)
   }
   /**
    * &lt;p&gt;
@@ -295,7 +300,7 @@ class Scene extends Shareable implements IDrawList {
    * @beta
    */
   draw(ambients: IFacet[], canvasId: number): void {
-    this.drawList.draw(ambients, canvasId)
+    return this.drawList.draw(ambients, canvasId)
   }
   /**
    * Gets a collection of drawable elements by name.
@@ -317,7 +322,7 @@ class Scene extends Shareable implements IDrawList {
    * &lt;/p&gt;
    */
   remove(drawable: IDrawable): void {
-    this.drawList.remove(drawable)
+    return this.drawList.remove(drawable)
   }
   /**
    * &lt;p&gt;

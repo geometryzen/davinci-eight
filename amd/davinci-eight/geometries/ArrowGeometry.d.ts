@@ -17,7 +17,7 @@ declare class ArrowGeometry extends RevolutionGeometry {
      * @class ArrowGeometry
      * @constructor
      */
-    constructor(type?: string);
+    constructor();
     /**
      * @method destructor
      * @return {void}

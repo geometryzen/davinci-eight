@@ -28,8 +28,8 @@ class BarnGeometry extends Geometry {
    * @class BarnGeometry
    * @constructor
    */
-  constructor(type: string = 'BarnGeometry') {
-    super(type)
+  constructor() {
+    super('BarnGeometry')
     this.recalculate();
   }
   public get k() {

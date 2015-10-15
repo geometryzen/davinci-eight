@@ -12,6 +12,9 @@ declare class EulerFacet extends Shareable implements IFacet {
      * @constructor
      */
     constructor();
+    protected destructor(): void;
+    getProperty(name: string): number[];
+    setProperty(name: string, value: number[]): void;
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}

@@ -31,24 +31,24 @@ class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknow
     return element ? true : false;
   }
   get(key: number): V {
-    let element = this.getWeakReference(key)
+    let element = this.getWeakRef(key)
     if (element) {
       element.addRef()
     }
     return element;
   }
   // FIXME
-  /*private*/ getWeakReference(index: number): V {
+  /*private*/ getWeakRef(index: number): V {
     return this._elements[index]
   }
   put(key: number, value: V): void {
     if (value) {
       value.addRef()
     }
-    this.putWeakReference(key, value)
+    this.putWeakRef(key, value)
   }
   // FIXME
-  /*private*/ putWeakReference(key: number, value: V): void {
+  /*private*/ putWeakRef(key: number, value: V): void {
     var elements = this._elements
     var existing = elements[key]
     if (existing) {

@@ -1,4 +1,5 @@
 import IUnknown = require('../core/IUnknown')
+import mustBeString = require('../checks/mustBeString')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import uuid4 = require('../utils/uuid4')
@@ -76,13 +77,14 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     this.putWeakRef(key, value)
   }
   /**
-   * @method putWeakReference
+   * @method putWeakRef
    * @param key {string}
    * @param value {V}
    * @return {void}
    * @private
    */
   public putWeakRef(key: string, value: V): void {
+    mustBeString('key', key)
     var elements = this._elements
     var existing = elements[key]
     if (existing) {
@@ -111,12 +113,10 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     }
     return values
   }
-  remove(key: string): void {
+  remove(key: string): V {
     var value = this._elements[key]
-    if (value) {
-      value.release()
-    }
     delete this._elements[key]
+    return value
   }
 }
 

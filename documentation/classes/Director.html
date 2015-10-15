@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.129.0</em>
+            <em>API Docs for: 2.130.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,8 +94,8 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IUnknown.html">IFacet
-                extends IUnknown</a></li>
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -141,6 +142,7 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -201,7 +203,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_slideshow_Director.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;slideshow&#x2F;Director.ts:50</code></a>
+            Defined in: <a href="../files/src_davinci-eight_slideshow_Director.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;slideshow&#x2F;Director.ts:62</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -230,7 +232,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_slideshow_Director.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;slideshow&#x2F;Director.ts:50</code></a>
+        <a href="../files/src_davinci-eight_slideshow_Director.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;slideshow&#x2F;Director.ts:62</code></a>
         </p>
 
 
@@ -251,18 +253,144 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
 
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_createSlide">createSlide</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_slides">slides</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_step">step</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
+<div id="method_createSlide" class="method item">
+    <h3 class="name"><code>createSlide</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Slide</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_slideshow_Director.ts.html#l233"><code>src&#x2F;davinci-eight&#x2F;slideshow&#x2F;Director.ts:233</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates a new Slide.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Slide</span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_slides" class="property item">
+    <h3 class="name"><code>slides</code></h3>
+    <span class="type">IUnknownArray<Slide></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_slideshow_Director.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;slideshow&#x2F;Director.ts:29</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_step" class="property item">
+    <h3 class="name"><code>step</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_slideshow_Director.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;slideshow&#x2F;Director.ts:21</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>[0, slides.length] represents on a slide
+A value equal to -1 represents just before the first slide.
+A value equal to slides.length represents just after the last slide.</p>
+
+    </div>
+
+
+
+</div>
+            </div>
 
 
     </div>

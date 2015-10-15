@@ -1,7 +1,7 @@
 import IContextConsumer = require('../core/IContextConsumer');
 import IContextCommand = require('../core/IContextCommand');
 import IUnknown = require('../core/IUnknown');
-import IUnknownArray = require('../utils/IUnknownArray');
+import IUnknownArray = require('../collections/IUnknownArray');
 /**
  * This interface is to be implemented by classes associated with a single context.
  * This does mean that the commands are not shared.

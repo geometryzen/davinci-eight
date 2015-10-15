@@ -13,10 +13,10 @@ define(["require", "exports", '../../utils/Shareable'], function (require, expor
         TestCommand.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        TestCommand.prototype.redo = function (host) {
+        TestCommand.prototype.redo = function (slide, director) {
             console.log("redo => " + this.name);
         };
-        TestCommand.prototype.undo = function (host) {
+        TestCommand.prototype.undo = function (slide, director) {
             console.log("undo => " + this.name);
         };
         return TestCommand;

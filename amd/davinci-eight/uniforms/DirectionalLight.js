@@ -32,6 +32,11 @@ define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Sy
         DirectionalLight.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        DirectionalLight.prototype.getProperty = function (name) {
+            return void 0;
+        };
+        DirectionalLight.prototype.setProperty = function (name, value) {
+        };
         /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}

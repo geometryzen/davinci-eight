@@ -43,9 +43,8 @@ define(["require", "exports", '../geometries/RevolutionGeometry', '../math/Spino
          * @class ArrowGeometry
          * @constructor
          */
-        function ArrowGeometry(type) {
-            if (type === void 0) { type = 'ArrowGeometry'; }
-            _super.call(this, type);
+        function ArrowGeometry() {
+            _super.call(this, 'ArrowGeometry');
             this.lengthCone = 0.20;
             this.radiusCone = 0.08;
             this.radiusShaft = 0.01;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.129.0</em>
+            <em>API Docs for: 2.130.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,8 +94,8 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IUnknown.html">IFacet
-                extends IUnknown</a></li>
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -141,6 +142,7 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -202,18 +204,20 @@
     <pre class="code prettyprint linenums">
 import IAnimation = require(&#x27;../slideshow/IAnimation&#x27;)
 import IAnimationTarget = require(&#x27;../slideshow/IAnimationTarget&#x27;)
-import ISlideHost = require(&#x27;../slideshow/ISlideHost&#x27;)
+import IDirector = require(&#x27;../slideshow/IDirector&#x27;)
+import ISlide = require(&#x27;../slideshow/ISlide&#x27;)
 import ISlideCommand = require(&#x27;../slideshow/ISlideCommand&#x27;)
 import IUnknown = require(&#x27;../core/IUnknown&#x27;)
-import IUnknownArray = require(&#x27;../utils/IUnknownArray&#x27;)
+import IUnknownArray = require(&#x27;../collections/IUnknownArray&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
-import StringIUnknownMap = require(&#x27;../utils/StringIUnknownMap&#x27;)
+import SlideCommands = require(&#x27;../slideshow/SlideCommands&#x27;)
+import StringIUnknownMap = require(&#x27;../collections/StringIUnknownMap&#x27;)
 import WaitAnimation = require(&#x27;../slideshow/animations/WaitAnimation&#x27;)
 
-class Slide extends Shareable {
-  public prolog: IUnknownArray&lt;ISlideCommand&gt;;
-  public epilog: IUnknownArray&lt;ISlideCommand&gt;;
+class Slide extends Shareable implements ISlide {
+  public prolog: SlideCommands;
+  public epilog: SlideCommands;
   /**
    * The objects that we are going to manipulate.
    */
@@ -229,8 +233,8 @@ class Slide extends Shareable {
 
   constructor() {
     super(&#x27;Slide&#x27;)
-    this.prolog = new IUnknownArray&lt;ISlideCommand&gt;([], &#x27;Slide.prolog&#x27;)
-    this.epilog = new IUnknownArray&lt;ISlideCommand&gt;([], &#x27;Slide.epilog&#x27;)
+    this.prolog = new SlideCommands(&#x27;Slide.prolog&#x27;)
+    this.epilog = new SlideCommands(&#x27;Slide.epilog&#x27;)
     this.targets = new IUnknownArray&lt;IAnimationTarget&gt;([], &#x27;Slide.targets&#x27;)
     this.mirrors = new StringIUnknownMap&lt;Mirror&gt;(&#x27;Slide.mirrors&#x27;)
   }
@@ -256,8 +260,8 @@ class Slide extends Shareable {
       this.mirrors.putWeakRef(target.uuid, new Mirror())
     }
   }
-  animate(target: IAnimationTarget, propName: string, animation: IAnimation, delay: number = 0, sustain: number = 0) {
-
+  pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation)
+  {
     this.ensureTarget(target)
     this.ensureMirror(target)
 
@@ -265,15 +269,17 @@ class Slide extends Shareable {
 
     mirror.ensureAnimationLane(propName)
 
-    if (delay) {
-      mirror.animationLanes.getWeakRef(propName).pushWeakRef(new WaitAnimation(delay))
-    }
+    var animationLane = mirror.animationLanes.getWeakRef(propName)
 
-    mirror.animationLanes.getWeakRef(propName).push(animation)
+    animationLane.push(animation)
+  }
+  popAnimation(target: IAnimationTarget, propName: string): IAnimation {
 
-    if (sustain) {
-      mirror.animationLanes.getWeakRef(propName).pushWeakRef(new WaitAnimation(sustain))
-    }
+    var mirror = this.mirrors.getWeakRef(target.uuid)
+
+    var animationLane = mirror.animationLanes.getWeakRef(propName)
+
+    return animationLane.pop()
   }
 
   /**
@@ -303,17 +309,29 @@ class Slide extends Shareable {
       }
     }
   }
-  onEnter(host: ISlideHost): void {
-    this.prolog.forEach(function(command) {
-      command.redo(host)
-    })
+  doProlog(director: IDirector, forward: boolean): void
+  {
+    if (forward)
+    {
+      this.prolog.redo(this, director)
+    }
+    else
+    {
+      this.prolog.undo(this, director)
+    }
   }
-  onExit(host: ISlideHost): void {
-    this.epilog.forEach(function(command) {
-      command.redo(host)
-    })
+  doEpilog(director: IDirector, forward: boolean): void
+  {
+    if (forward)
+    {
+      this.epilog.redo(this, director)
+    }
+    else
+    {
+      this.epilog.undo(this, director)
+    }
   }
-  undo(host: ISlideHost): void {
+  undo(director: IDirector): void {
     for (var i = 0; i &lt; this.targets.length; i++) {
       var target = this.targets.getWeakRef(i)
       var mirror = this.mirrors.getWeakRef(target.uuid)
@@ -343,6 +361,14 @@ class AnimationLane extends Shareable {
     this.remaining.release()
     this.remaining = void 0
     super.destructor()
+  }
+  pop(): IAnimation {
+    if (this.remaining.length &gt; 0) {
+      return this.remaining.pop()
+    }
+    else {
+      return this.completed.pop()
+    }
   }
   push(animation: IAnimation): number {
     return this.remaining.push(animation)

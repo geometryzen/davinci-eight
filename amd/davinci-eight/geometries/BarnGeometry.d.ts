@@ -19,7 +19,7 @@ declare class BarnGeometry extends Geometry {
      * @class BarnGeometry
      * @constructor
      */
-    constructor(type?: string);
+    constructor();
     k: number;
     isModified(): boolean;
     setModified(modified: boolean): void;

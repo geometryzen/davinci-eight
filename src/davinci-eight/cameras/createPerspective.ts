@@ -48,6 +48,14 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
       refCount--
       return refCount;
     },
+    get uuid(): string {
+      return ""
+    },
+    getProperty(name: string): number[] {
+      return void 0
+    },
+    setProperty(name: string, value: number[]): void {
+    },
     // Delegate to the base camera.
     get eye(): Vector3 {
       return base.eye;

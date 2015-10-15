@@ -54,8 +54,8 @@ declare class PerspectiveCamera extends Shareable implements ICamera, Perspectiv
     contextGain(manager: IContextProvider): void;
     contextLost(): void;
     draw(canvasId: number): void;
-    getFacet(name: string): PerspectiveCamera;
-    setFacet(name: string, value: IFacet): void;
+    getProperty(name: string): number[];
+    setProperty(name: string, value: number[]): void;
     /**
      * The aspect ratio (width / height) of the camera viewport.
      * @property aspect

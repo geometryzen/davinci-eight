@@ -63,19 +63,31 @@ class CuboidGeometry extends Geometry {
    * </p>
    * @class CuboidGeometry
    * @constructor
-   * @param type [string = 'CuboidGeometry']
+   * @param a [Cartesian3 = Vector3.e1]
+   * @param b [Cartesian3 = Vector3.e1]
+   * @param c [Cartesian3 = Vector3.e1]
+   * @param k [number = Simplex.K_FOR_TRIANGLE]
+   * @param subdivide [number = 0]
+   * @param boundary [number = 0]
    * @example
        var geometry = new EIGHT.CuboidGeometry();
        var elements = geometry.toElements();
        var material = new EIGHT.LineMaterial();
        var cube = new EIGHT.Drawable(elements, material);
    */
-  constructor(type: string = 'CuboidGeometry') {
-    super(mustBeString('type',type))
-    this.a = Vector3.e1.clone()
-    this.b = Vector3.e2.clone()
-    this.c = Vector3.e3.clone()
+  constructor(a: Cartesian3 = Vector3.e1, b: Cartesian3 = Vector3.e2, c: Cartesian3 = Vector3.e3, k: number = Simplex.K_FOR_TRIANGLE, subdivide: number = 0, boundary: number = 0)
+  {
+    super('CuboidGeometry')
+    this.a = Vector3.copy(a)
+    this.b = Vector3.copy(b)
+    this.c = Vector3.copy(c)
+    this.k = k
+    this.subdivide(subdivide)
+    this.boundary(boundary)
     this.recalculate();
+  }
+  protected destructor(): void {
+    super.destructor();
   }
   /**
    * <p>

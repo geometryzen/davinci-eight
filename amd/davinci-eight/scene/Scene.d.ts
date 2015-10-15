@@ -2,7 +2,7 @@ import IContextProvider = require('../core/IContextProvider');
 import IContextMonitor = require('../core/IContextMonitor');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
-import IUnknownArray = require('../utils/IUnknownArray');
+import IUnknownArray = require('../collections/IUnknownArray');
 import IMaterial = require('../core/IMaterial');
 import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
@@ -43,6 +43,7 @@ declare class Scene extends Shareable implements IDrawList {
      * </p>
      */
     add(drawable: IDrawable): void;
+    containsDrawable(drawable: IDrawable): boolean;
     /**
      * <p>
      * Traverses the collection of drawables, drawing each one.

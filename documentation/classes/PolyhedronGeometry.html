@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.129.0</em>
+            <em>API Docs for: 2.130.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,8 +94,8 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IUnknown.html">IFacet
-                extends IUnknown</a></li>
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -141,6 +142,7 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -282,6 +284,18 @@
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_isModified">isModified</a>
+
+                            </li>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_mergeVertices">mergeVertices</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_recalculate">recalculate</a>
+
+                            </li>
                             <li class="index-item method inherited inherited">
                                 <a href="#method_release">release</a>
 
@@ -392,7 +406,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_boundary">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:65</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:80</code></a>
         </p>
 
 
@@ -402,6 +416,10 @@ Notifies this instance that something is dereferencing it.
     <div class="description">
         <p>
 Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
+</p>
+<p>
+The boundary operation converts simplices of dimension <code>n</code> to <code>n - 1</code>.
+For example, triangles are converted to lines.
 </p>
     </div>
 
@@ -451,7 +469,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_check">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:81</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:100</code></a>
         </p>
 
 
@@ -496,7 +514,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:47</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:49</code></a>
         </p>
 
 
@@ -506,6 +524,157 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
     <div class="description">
         <p>The destructor method should be implemented in derived classes and the super.destructor called
 as the last call in the derived class destructor.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_isModified" class="method item inherited">
+    <h3 class="name"><code>isModified</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#method_isModified">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:68</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Used to determine whether the geometry must be recalculated.
+The base implementation is pessimistic and returns <code>true</code>.
+This method should be implemented by the derived class to reduce frequent recalculation.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>:
+                    <p>if the parameters defining the geometry have been modified.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mergeVertices" class="method item protected inherited">
+    <h3 class="name"><code>mergeVertices</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>precisionPonts</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#method_mergeVertices">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l144"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:144</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">precisionPonts</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>[number = 4]</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_recalculate" class="method item inherited">
+    <h3 class="name"><code>recalculate</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#method_recalculate">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:59</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Used to recalculate the simplex data from geometry parameters.
+This method should be implemented by the derived geometry class.</p>
 
     </div>
 
@@ -590,7 +759,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_subdivide">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:92</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l112"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:112</code></a>
         </p>
 
 
@@ -598,8 +767,12 @@ Notifies this instance that something is dereferencing it.
     </div>
 
     <div class="description">
-        <p>Applies the subdivide operation to each Simplex in this instance the specified number of times.</p>
-
+        <p>
+Applies the subdivide operation to each Simplex in this instance the specified number of times.
+</p>
+<p>
+The subdivide operation creates new simplices of the same dimension as the originals.
+</p>
     </div>
 
         <div class="params">
@@ -648,7 +821,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_toGeometry">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:107</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:132</code></a>
         </p>
 
 
@@ -693,7 +866,9 @@ Notifies this instance that something is dereferencing it.
     </div>
 
     <div class="description">
-        
+        <p>The geometry as a list of simplices.
+A simplex, in the context of WebGL, will usually represent a triangle, line or point.</p>
+
     </div>
 
 
@@ -710,7 +885,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property_meta">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:20</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:22</code></a>
         </p>
 
 
@@ -718,7 +893,7 @@ Notifies this instance that something is dereferencing it.
 
     <div class="description">
         <p>Summary information on the simplices such as dimensionality and sizes for attributes.
-This same data structure may be used to map vertex attribute names to program names.</p>
+This data structure may be used to map vertex attribute names to program names.</p>
 
     </div>
 

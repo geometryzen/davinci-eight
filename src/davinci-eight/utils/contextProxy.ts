@@ -22,7 +22,7 @@ import RefCount = require('../utils/RefCount')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import Simplex = require('../geometries/Simplex')
-import StringIUnknownMap = require('../utils/StringIUnknownMap')
+import StringIUnknownMap = require('../collections/StringIUnknownMap')
 import Symbolic = require('../core/Symbolic')
 import TextureResource = require('../resources/TextureResource')
 import uuid4 = require('../utils/uuid4')
@@ -456,7 +456,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         refChange(uuid, LOGGING_NAME_MESH, -1)
         if (refCount === 0) {
           if (_blocks.exists(uuid)) {
-            _blocks.remove(uuid)
+            _blocks.remove(uuid).release()
           }
           else {
             console.warn("[System Error] " + messageUnrecognizedMesh(uuid));

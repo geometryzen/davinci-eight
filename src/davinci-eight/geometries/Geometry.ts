@@ -13,13 +13,15 @@ import toGeometryMeta = require('../geometries/toGeometryMeta')
  */
 class Geometry extends Shareable {
   /**
+   * The geometry as a list of simplices.
+   * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
    * @property data
    * @type {Simplex[]}
    */
   public data: Simplex[] = [];
   /**
    * Summary information on the simplices such as dimensionality and sizes for attributes.
-   * This same data structure may be used to map vertex attribute names to program names.
+   * This data structure may be used to map vertex attribute names to program names.
    * @property meta
    * @type {GeometryMeta}
    */
@@ -54,9 +56,22 @@ class Geometry extends Shareable {
   protected destructor(): void {
     super.destructor()
   }
+  /**
+   * Used to recalculate the simplex data from geometry parameters.
+   * This method should be implemented by the derived geometry class.
+   * @method recalculate
+   * @return {void}
+   */
   public recalculate(): void {
     console.warn("`public recalculate(): void` method should be implemented by `" + this._type + "`.")
   }
+  /**
+   * Used to determine whether the geometry must be recalculated.
+   * The base implementation is pessimistic and returns <code>true</code>.
+   * This method should be implemented by the derived class to reduce frequent recalculation.
+   * @method isModified
+   * @return {boolean} if the parameters defining the geometry have been modified.
+   */
   public isModified(): boolean {
     // Assume that the Geometry parameters have been modified as the default.
     // Derived classes can be more efficient.
@@ -65,6 +80,10 @@ class Geometry extends Shareable {
   /**
    * <p>
    * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
+   * </p>
+   * <p>
+   * The boundary operation converts simplices of dimension `n` to `n - 1`.
+   * For example, triangles are converted to lines.
    * </p>
    *
    * @method boundary
@@ -83,6 +102,7 @@ class Geometry extends Shareable {
    *
    * @method check
    * @return {Geometry}
+   * @beta
    */
   // FIXME: Rename to something more suggestive.
   public check(): Geometry {
@@ -90,7 +110,12 @@ class Geometry extends Shareable {
     return this;
   }
   /**
+   * <p>
    * Applies the subdivide operation to each Simplex in this instance the specified number of times.
+   * </p>
+   * <p>
+   * The subdivide operation creates new simplices of the same dimension as the originals.
+   * </p>
    *
    * @method subdivide
    * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
@@ -117,9 +142,13 @@ class Geometry extends Shareable {
     return new GeometryElements(elements, this.meta)
   }
   /**
-   *
+   * @method mergeVertices
+   * @param precisionPonts [number = 4]
+   * @return {void}
+   * @protected
+   * @beta
    */
-  protected mergeVertices(precisionPoints: number = 4) {
+  protected mergeVertices(precisionPoints: number = 4): void {
     // console.warn("Geometry.mergeVertices not yet implemented");
   }
 }

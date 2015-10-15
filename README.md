@@ -230,6 +230,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.127.0: 2015-10-12 AmbientLight
 * 2.128.0: 2015-10-13 Blending
 * 2.129.0: 2015-10-14 IAnimationTarget
+* 2.130.0: 2015-10-15 RingGeometry
 
 ## License
 Copyright (c) 2014-2015 David Holmes

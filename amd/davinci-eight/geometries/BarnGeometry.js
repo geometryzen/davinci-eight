@@ -20,9 +20,8 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../geometries
          * @class BarnGeometry
          * @constructor
          */
-        function BarnGeometry(type) {
-            if (type === void 0) { type = 'BarnGeometry'; }
-            _super.call(this, type);
+        function BarnGeometry() {
+            _super.call(this, 'BarnGeometry');
             this.a = Vector3.e1.clone();
             this.b = Vector3.e2.clone();
             this.c = Vector3.e3.clone();

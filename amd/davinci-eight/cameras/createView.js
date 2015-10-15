@@ -23,6 +23,14 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../checks/m
                 refCount--;
                 return refCount;
             },
+            get uuid() {
+                return "";
+            },
+            getProperty: function (name) {
+                return void 0;
+            },
+            setProperty: function (name, value) {
+            },
             get eye() {
                 return eye;
             },

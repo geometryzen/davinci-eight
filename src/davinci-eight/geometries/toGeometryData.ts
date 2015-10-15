@@ -47,7 +47,11 @@ function concat(a: number[], b: number[]): number[] {
 }
 
 function toGeometryData(simplices: Simplex[], geometryMeta?: GeometryMeta): GeometryData {
-  expectArg('simplices', simplices).toBeObject();
+  expectArg('simplices', simplices).toBeObject()
+  // TODO: For now, we special case here. Would be nice to make this part of the mainline.
+  if (simplices.length === 0) {
+    return new GeometryData(Simplex.K_FOR_EMPTY, new VectorN<number>([]), {})
+  }
 
   var actuals: GeometryMeta = toGeometryMeta(simplices);
 

@@ -44,6 +44,11 @@ class AmbientLight extends Shareable implements IFacet {
   protected destructor(): void {
     super.destructor()
   }
+  getProperty(name: string): number[] {
+    return void 0;
+  }
+  setProperty(name:string, value: number[]): void {
+  }
   /**
    * @method setUniforms
    * @param visitor {IFacetVisitor}

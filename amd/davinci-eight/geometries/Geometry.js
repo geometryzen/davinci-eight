@@ -30,6 +30,8 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
             if (type === void 0) { type = 'Geometry'; }
             _super.call(this, mustBeString('type', type));
             /**
+             * The geometry as a list of simplices.
+             * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
              * @property data
              * @type {Simplex[]}
              */
@@ -45,9 +47,22 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
         Geometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        /**
+         * Used to recalculate the simplex data from geometry parameters.
+         * This method should be implemented by the derived geometry class.
+         * @method recalculate
+         * @return {void}
+         */
         Geometry.prototype.recalculate = function () {
             console.warn("`public recalculate(): void` method should be implemented by `" + this._type + "`.");
         };
+        /**
+         * Used to determine whether the geometry must be recalculated.
+         * The base implementation is pessimistic and returns <code>true</code>.
+         * This method should be implemented by the derived class to reduce frequent recalculation.
+         * @method isModified
+         * @return {boolean} if the parameters defining the geometry have been modified.
+         */
         Geometry.prototype.isModified = function () {
             // Assume that the Geometry parameters have been modified as the default.
             // Derived classes can be more efficient.
@@ -56,6 +71,10 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
         /**
          * <p>
          * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
+         * </p>
+         * <p>
+         * The boundary operation converts simplices of dimension `n` to `n - 1`.
+         * For example, triangles are converted to lines.
          * </p>
          *
          * @method boundary
@@ -74,6 +93,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
          *
          * @method check
          * @return {Geometry}
+         * @beta
          */
         // FIXME: Rename to something more suggestive.
         Geometry.prototype.check = function () {
@@ -81,7 +101,12 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
             return this;
         };
         /**
+         * <p>
          * Applies the subdivide operation to each Simplex in this instance the specified number of times.
+         * </p>
+         * <p>
+         * The subdivide operation creates new simplices of the same dimension as the originals.
+         * </p>
          *
          * @method subdivide
          * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
@@ -108,7 +133,11 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
             return new GeometryElements(elements, this.meta);
         };
         /**
-         *
+         * @method mergeVertices
+         * @param precisionPonts [number = 4]
+         * @return {void}
+         * @protected
+         * @beta
          */
         Geometry.prototype.mergeVertices = function (precisionPoints) {
             if (precisionPoints === void 0) { precisionPoints = 4; }

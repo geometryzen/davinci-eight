@@ -1,6 +1,3 @@
-//
-// createFrustum.ts
-//
 import IFacetVisitor = require('../core/IFacetVisitor');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import View = require('davinci-eight/cameras/View');
@@ -44,6 +41,14 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
     release(): number {
       refCount--
       return refCount;
+    },
+    get uuid(): string {
+      return ""
+    },
+    getProperty(name: string): number[] {
+      return void 0
+    },
+    setProperty(name: string, value: number[]): void {
     },
     // Delegate to the base camera.
     get eye(): Vector3 {

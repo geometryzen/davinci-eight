@@ -1,12 +1,12 @@
 import IAnimation = require('../slideshow/IAnimation');
 import IAnimationTarget = require('../slideshow/IAnimationTarget');
-import ISlideHost = require('../slideshow/ISlideHost');
-import ISlideCommand = require('../slideshow/ISlideCommand');
-import IUnknownArray = require('../utils/IUnknownArray');
+import IDirector = require('../slideshow/IDirector');
+import ISlide = require('../slideshow/ISlide');
 import Shareable = require('../utils/Shareable');
-declare class Slide extends Shareable {
-    prolog: IUnknownArray<ISlideCommand>;
-    epilog: IUnknownArray<ISlideCommand>;
+import SlideCommands = require('../slideshow/SlideCommands');
+declare class Slide extends Shareable implements ISlide {
+    prolog: SlideCommands;
+    epilog: SlideCommands;
     /**
      * The objects that we are going to manipulate.
      */
@@ -23,7 +23,8 @@ declare class Slide extends Shareable {
     protected destructor(): void;
     private ensureTarget(target);
     private ensureMirror(target);
-    animate(target: IAnimationTarget, propName: string, animation: IAnimation, delay?: number, sustain?: number): void;
+    pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation): void;
+    popAnimation(target: IAnimationTarget, propName: string): IAnimation;
     /**
      * Update all currently running animations.
      * Essentially calls `apply` on each IAnimation in the queues of active objects.
@@ -31,8 +32,8 @@ declare class Slide extends Shareable {
      * @param interval {number} Advances the static Slide.now property.
      */
     advance(interval: number): void;
-    onEnter(host: ISlideHost): void;
-    onExit(host: ISlideHost): void;
-    undo(host: ISlideHost): void;
+    doProlog(director: IDirector, forward: boolean): void;
+    doEpilog(director: IDirector, forward: boolean): void;
+    undo(director: IDirector): void;
 }
 export = Slide;

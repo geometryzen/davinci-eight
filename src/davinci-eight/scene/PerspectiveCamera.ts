@@ -89,17 +89,10 @@ class PerspectiveCamera extends Shareable implements ICamera, Perspective, IFace
     console.warn(CLASS_NAME + ".draw(" + canvasId + ")")
     // Do nothing.
   }
-  getFacet(name: string) {
-    // FIXME: This is a bit wierd.
-    if (name === this.name) {
-      return this
-    }
-    else {
-      return void 0
-    }
+  getProperty(name: string): number[] {
+    return void 0;
   }
-  setFacet(name: string, value: IFacet): void {
-    throw new Error("WTF")
+  setProperty(name: string, value: number[]): void {
   }
   /**
    * The aspect ratio (width / height) of the camera viewport.

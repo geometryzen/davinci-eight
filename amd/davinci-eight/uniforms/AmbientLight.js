@@ -35,6 +35,11 @@ define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Sy
         AmbientLight.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        AmbientLight.prototype.getProperty = function (name) {
+            return void 0;
+        };
+        AmbientLight.prototype.setProperty = function (name, value) {
+        };
         /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}

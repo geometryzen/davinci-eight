@@ -2,7 +2,7 @@ import IContextConsumer = require('../core/IContextConsumer')
 import IContextCommand = require('../core/IContextCommand')
 import IDrawList = require('../scene/IDrawList')
 import IUnknown = require('../core/IUnknown')
-import IUnknownArray = require('../utils/IUnknownArray')
+import IUnknownArray = require('../collections/IUnknownArray')
 import IFacet = require('../core/IFacet') 
 /**
  * This interface is to be implemented by classes associated with a single context.

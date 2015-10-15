@@ -12,7 +12,7 @@ import Matrix2 = require('../math/Matrix2')
 import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
 import MonitorList = require('../scene/MonitorList')
-import NumberIUnknownMap = require('../utils/NumberIUnknownMap')
+import NumberIUnknownMap = require('../collections/NumberIUnknownMap')
 import expectArg = require('../checks/expectArg')
 import isDefined = require('../checks/isDefined')
 import mustBeDefined = require('../checks/mustBeDefined')
@@ -68,14 +68,14 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     },
     attributes(canvasId: number): { [name: string]: AttribLocation } {
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         return program.attributes;
       }
     },
     uniforms(canvasId: number): { [name: string]: UniformLocation } {
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         return program.uniforms;
       }
@@ -96,7 +96,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     },
     contextFree(canvasId: number) {
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         program.contextFree(canvasId)
         programsByCanvasId.remove(canvasId)
@@ -108,16 +108,16 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
       canvasId = manager.canvasId
       if (!programsByCanvasId.exists(canvasId)) {
         sprog = new SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs)
-        programsByCanvasId.putWeakReference(canvasId, sprog)
+        programsByCanvasId.putWeakRef(canvasId, sprog)
       }
       else {
-        sprog = programsByCanvasId.getWeakReference(canvasId)
+        sprog = programsByCanvasId.getWeakRef(canvasId)
       }
       sprog.contextGain(manager)
     },
     contextLost(canvasId: number) {
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         program.contextLost(canvasId)
         programsByCanvasId.remove(canvasId)
@@ -128,7 +128,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     },
     use(canvasId: number): void {
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         program.use()
       }
@@ -139,7 +139,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     enableAttrib(name: string, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let attribLoc = program.attributes[name]
         if (attribLoc) {
@@ -154,7 +154,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     disableAttrib(name: string, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let attribLoc = program.attributes[name]
         if (attribLoc) {
@@ -169,7 +169,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniform1f(name: string, x: number, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -186,7 +186,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniform2f(name: string, x: number, y: number, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -197,7 +197,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniform3f(name: string, x: number, y: number, z: number, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -208,7 +208,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -219,7 +219,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -230,7 +230,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -241,7 +241,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -252,7 +252,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -268,7 +268,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniformCartesian1(name: string, vector: Cartesian1, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -279,7 +279,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniformCartesian2(name: string, vector: Cartesian2, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -290,7 +290,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniformCartesian3(name: string, vector: Cartesian3, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -301,7 +301,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     uniformCartesian4(name: string, vector: Cartesian4, canvasId: number): void {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -312,7 +312,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     vector1(name: string, data: number[], canvasId: number): void {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -323,7 +323,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     vector2(name: string, data: number[], canvasId: number): void {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -334,7 +334,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     vector3(name: string, data: number[], canvasId: number): void {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
@@ -345,7 +345,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
     vector4(name: string, data: number[], canvasId: number): void {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakReference(canvasId)
+      let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {

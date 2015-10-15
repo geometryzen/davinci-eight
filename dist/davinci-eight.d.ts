@@ -62,9 +62,9 @@ class NumberIUnknownMap<V extends IUnknown> extends Shareable {
   destructor(): void
   exists(key: number): boolean
   get(key: number): V
-  getWeakReference(key: number): V
+  getWeakRef(key: number): V
   put(key: number, value: V): void
-  putWeakReference(key: number, value: V): void
+  putWeakRef(key: number, value: V): void
   forEach(callback: (key: number, value: V) => void)
   remove(key: number): void
 }
@@ -921,7 +921,7 @@ interface Perspective extends View {
 /**
  * A geometry holds a list of simplices.
  */
-class Geometry {
+class Geometry extends Shareable {
   public data: Simplex[];
   /**
    * Summary information on the simplices such as dimensionality and sizes for attributes.
@@ -1070,7 +1070,6 @@ function createMaterial(contexts: IContextMonitor[], vertexShader: string, fragm
 interface AttribMetaInfo {
   /**
    * The type keyword as it appears in the GLSL shader program.
-   * This property is used for program generation.
    */
   glslType: string,
 }
@@ -1511,6 +1510,26 @@ class VortexGeometry extends Geometry {
 /**
  *
  */
+class RingGeometry extends Geometry
+{
+  a: number;
+  b: number;
+  e: Vector3;
+  radialSegments: number;
+  thetaSegments: number;
+  thetaStart: number;
+  thetaLength: number;
+  /**
+   * a The outer radius
+   * b The inner radius
+   * e The axis of symmetry.
+   */
+  constructor(a?: number, b?: number, e?: Cartesian3);
+}
+
+/**
+ *
+ */
 class BarnGeometry extends Geometry {
   a: Vector3;
   b: Vector3;
@@ -1527,7 +1546,7 @@ class CuboidGeometry extends Geometry {
   b: Vector3;
   c: Vector3;
   k: number;
-  constructor(type?: string);
+  constructor(a?: Cartesian3, b?: Cartesian3, c?: Cartesian3, k?: number, subdivide?: number, boundary?: number);
 }
 
 class CylinderGeometry extends Geometry {
@@ -1933,52 +1952,102 @@ interface IAnimation extends IUnknown {
   undo(target: IAnimationTarget, propName: string): void;
 }
 
-interface ISlideHost {
-  // FIXME: addScene would be better to allow own impls
-  createScene(name: string, canvasNames: number[]): void
-  deleteScene(name: string): void
-  // FIXME: rename IDrawableList
-  getScene(name: string): IDrawList
+interface IDirector {
+  addCanvas3D(context: Canvas3D): void;
+  getCanvas3D(canvasId: number): Canvas3D;
+  removeCanvas3D(canvasId: number): void;
 
-  addDrawable(name: string, drawable: IDrawable): void
-  getDrawable(name: string): IDrawable
-  removeDrawable(name: string): void
+  addDrawable(drawable: IDrawable, drawableName): void;
+  getDrawable(drawableName: string): IDrawable;
+  removeDrawable(drawableName: string): void;
 
-  addToScene(drawableName: string, sceneName: string): void
-  removeFromScene(drawableName: string, sceneName: string): void
+  addFacet(facet: IFacet, facetName: string): void;
+  getFacet(facetName: string): IFacet;
+  removeFacet(facetName: string): void;
 
-  addFacet(name: string, uniform: IFacet): void
-  removeFacet(name: string): void
+  addGeometry(name: string, geometry: Geometry): void;
+  getGeometry(name: string): Geometry;
+  removeGeometry(name: string): void;
 
-  addCanvasSceneLink(canvasId: number, sceneName: string): void
-  addCanvasUniformLink(canvasId: number, name: string): void
+  addScene(scene: IDrawList, sceneName: string): void;
+  getScene(sceneName: string): IDrawList;
+  removeScene(sceneName: string): void;
+
+  useDrawableInScene(drawableName: string, sceneName: string, confirm: boolean): void
+  useSceneOnCanvas(sceneName: string, canvasId: number, confirm: boolean): void
+  useFacetOnCanvas(facetName: string, canvasId: number, confirm: boolean): void
+}
+
+interface ISlide {
+  pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation): void;
+  popAnimation(target: IAnimationTarget, propName: string): IAnimation;
 }
 
 interface ISlideCommand extends IUnknown {
-  redo(host: ISlideHost): void;
-  undo(host: ISlideHost): void;
+  redo(slide: ISlide, director: IDirector): void;
+  undo(slide: ISlide, director: IDirector): void;
 }
 
-class Slide extends Shareable {
-  prolog: IUnknownArray<ISlideCommand>;
-  epilog: IUnknownArray<ISlideCommand>;
-  constructor();
-  animate(target: IAnimationTarget, propName: string, animation: IAnimation, delay?: number, sustain?: number): void
+class AbstractSlideCommand extends Shareable implements ISlideCommand
+{
+  redo(slide: ISlide, director: IDirector): void;
+  undo(slide: ISlide, director: IDirector): void;
 }
 
-class Director extends Shareable {
+class SlideCommands extends AbstractSlideCommand {
+  constructor(userName: string);
+  pushWeakRef(command: ISlideCommand): number;
+  animateDrawable(drawableName: string, facetName: string, propName: string, animation: IAnimation): number;
+  attitude(drawableName: string, attitude: Spinor3Coords, duration?: number, callback?: () => any): number;
+  color(drawableName: string, color: ColorRGB, duration?: number, callback?: () => any): number;
+  createDrawable(drawableName: string, geometry: Geometry): number;
+  cuboid(drawableName: string, a?: Cartesian3, b?: Cartesian3, c?: Cartesian3, k?: number, subdivide?: number, boundary?: number): number;
+  destroyDrawable(drawableName: string): number;
+  position(drawableName: string, position: Cartesian3, duration?: number, callback?: () => any): number;
+  useDrawableInScene(drawableName: string, sceneName: string, confirm: boolean): number;
+}
+
+class Slide extends Shareable implements ISlide
+{
+  prolog: SlideCommands;
+  epilog: SlideCommands;
   constructor();
-  addCanvas(canvas: HTMLCanvasElement, canvasId: number): void;
-  addFacet(name: string, uniform: IFacet): void;
+  pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation): void
+  popAnimation(target: IAnimationTarget, propName: string): IAnimation
+}
 
-  addDrawable(name: string, drawable: IDrawable): void
-  getDrawable(name: string): IDrawable
-  removeDrawable(name: string): void
+class Director extends Shareable implements IDirector
+{
+  slides: IUnknownArray<Slide>;
 
-  // FIXME: Uniform => Facet
-  addCanvasUniformLink(canvasId: number, uniformName: string): void;
-  createScene(sceneName: string, canvasIds: number[]): void;
+  constructor();
+
+  addCanvas3D(context: Canvas3D): void;
+  getCanvas3D(canvasId: number): Canvas3D;
+  removeCanvas3D(canvasId: number): void;
+
+  addDrawable(drawable: IDrawable, drawableName: string): void;
+  getDrawable(drawableName: string): IDrawable;
+  removeDrawable(drawableName: string): void;
+
+  addFacet(facet: IFacet, facetName: string): void;
+  getFacet(facetName: string): IFacet
+  removeFacet(facetName: string): void;
+
+  addGeometry(name: string, geometry: Geometry): void;
+  getGeometry(name: string): Geometry;
+  removeGeometry(name: string): void;
+
+  addScene(scene: IDrawList, sceneName: string): void;
+  getScene(sceneName: string): IDrawList;
+  removeScene(sceneName: string): void;
+
+  useDrawableInScene(drawableName: string, sceneName: string, confirm: boolean): void
+  useSceneOnCanvas(sceneName: string, canvasId: number, confirm: boolean): void
+  useFacetOnCanvas(facetName: string, canvasId: number, confirm: boolean): void
+
   createSlide(): Slide;
+
   canForward(): boolean;
   forward(instant?: boolean, delay?: number): void;
   canBackward(): boolean;
@@ -2037,12 +2106,31 @@ class Spinor3Animation extends Shareable implements IAnimation {
   undo(target: IAnimationTarget, propName: string): void;
 }
 
-class TestCommand extends Shareable implements ISlideCommand {
-  constructor(name: string);
-  redo(host: ISlideHost): void;
-  undo(host: ISlideHost): void;
+class AnimateDrawableCommand extends AbstractSlideCommand {
+  constructor(drawableName: string, facetName: string, propName: string, animation: IAnimation);
 }
 
+
+class CreateCuboidDrawable extends AbstractSlideCommand {
+  constructor(name: string, a?: Cartesian3, b?: Cartesian3, c?: Cartesian3);
+}
+
+class DestroyDrawableCommand extends AbstractSlideCommand
+{
+  constructor(name: string);
+}
+
+class GeometryCommand extends AbstractSlideCommand {
+  constructor(name: string, geometry: Geometry);
+}
+
+class TestCommand extends AbstractSlideCommand {
+  constructor(name: string);
+}
+
+class UseDrawableInSceneCommand extends AbstractSlideCommand {
+  constructor(drawableName: string, sceneName: string, confirm: boolean);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 interface IKeyboardHandler extends IUnknown {

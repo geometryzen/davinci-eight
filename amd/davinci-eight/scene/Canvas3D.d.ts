@@ -9,7 +9,7 @@ import IContextCommand = require('../core/IContextCommand');
 import IBufferGeometry = require('../geometries/IBufferGeometry');
 import ITexture2D = require('../core/ITexture2D');
 import ITextureCubeMap = require('../core/ITextureCubeMap');
-import IUnknownArray = require('../utils/IUnknownArray');
+import IUnknownArray = require('../collections/IUnknownArray');
 import Shareable = require('../utils/Shareable');
 /**
  * @class Canvas3D

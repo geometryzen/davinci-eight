@@ -5,7 +5,11 @@ import WaitAnimation = require('davinci-eight/slideshow/animations/WaitAnimation
 import ColorAnimation = require('davinci-eight/slideshow/animations/ColorAnimation');
 import Vector3Animation = require('davinci-eight/slideshow/animations/Vector3Animation');
 import Spinor3Animation = require('davinci-eight/slideshow/animations/Spinor3Animation');
-import TestCommand = require('davinci-eight/slideshow/commands/TestCommand');
+import AnimateDrawableCommand = require('davinci-eight/slideshow/commands/AnimateDrawableCommand');
+import CreateCuboidDrawable = require('davinci-eight/slideshow/commands/CreateCuboidDrawable');
+import DestroyDrawableCommand = require('davinci-eight/slideshow/commands/DestroyDrawableCommand');
+import GeometryCommand = require('davinci-eight/slideshow/commands/TestCommand');
+import UseDrawableInSceneCommand = require('davinci-eight/slideshow/commands/UseDrawableInSceneCommand');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
@@ -35,6 +39,7 @@ import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
 import Scene = require('davinci-eight/scene/Scene');
 import Canvas3D = require('davinci-eight/scene/Canvas3D');
 import GeometryElements = require('davinci-eight/geometries/GeometryElements');
+import RingGeometry = require('davinci-eight/geometries/RingGeometry');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry');
@@ -78,12 +83,11 @@ import IContextRenderer = require('davinci-eight/renderers/IContextRenderer');
 import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ColorFacet = require('davinci-eight/uniforms/ColorFacet');
 import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
-import SineWaveUniform = require('davinci-eight/uniforms/SineWaveUniform');
 import Vector3Uniform = require('davinci-eight/uniforms/Vector3Uniform');
-import IUnknownArray = require('davinci-eight/utils/IUnknownArray');
-import NumberIUnknownMap = require('davinci-eight/utils/NumberIUnknownMap');
+import IUnknownArray = require('davinci-eight/collections/IUnknownArray');
+import NumberIUnknownMap = require('davinci-eight/collections/NumberIUnknownMap');
 import Shareable = require('davinci-eight/utils/Shareable');
-import StringIUnknownMap = require('davinci-eight/utils/StringIUnknownMap');
+import StringIUnknownMap = require('davinci-eight/collections/StringIUnknownMap');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
  * @module EIGHT
@@ -99,7 +103,12 @@ declare var eight: {
     WaitAnimation: typeof WaitAnimation;
     Vector3Animation: typeof Vector3Animation;
     Spinor3Animation: typeof Spinor3Animation;
-    TestCommand: typeof TestCommand;
+    AnimateDrawableCommand: typeof AnimateDrawableCommand;
+    CreateCuboidDrawable: typeof CreateCuboidDrawable;
+    DestroyDrawableCommand: typeof DestroyDrawableCommand;
+    GeometryCommand: typeof GeometryCommand;
+    TestCommand: typeof GeometryCommand;
+    UseDrawableInSceneCommand: typeof UseDrawableInSceneCommand;
     Keyboard: typeof Keyboard;
     HTMLScriptsMaterial: typeof HTMLScriptsMaterial;
     Material: typeof Material;
@@ -162,6 +171,7 @@ declare var eight: {
     }[], bindings: string[]) => IMaterial;
     Color: typeof Color;
     CompatcGeometry: typeof GeometryElements;
+    RingGeometry: typeof RingGeometry;
     ArrowGeometry: typeof ArrowGeometry;
     BarnGeometry: typeof BarnGeometry;
     CuboidGeometry: typeof CuboidGeometry;
@@ -212,7 +222,6 @@ declare var eight: {
     AmbientLight: typeof AmbientLight;
     ColorFacet: typeof ColorFacet;
     DirectionalLight: typeof DirectionalLight;
-    SineWaveUniform: typeof SineWaveUniform;
     Vector3Uniform: typeof Vector3Uniform;
     IUnknownArray: typeof IUnknownArray;
     NumberIUnknownMap: typeof NumberIUnknownMap;

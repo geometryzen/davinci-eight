@@ -11,11 +11,11 @@ import isDefined = require('../checks/isDefined')
 import IMaterial = require('../core/IMaterial')
 import Material = require('../materials/Material')
 import mustBeDefined = require('../checks/mustBeDefined')
-import NumberIUnknownMap = require('../utils/NumberIUnknownMap')
+import NumberIUnknownMap = require('../collections/NumberIUnknownMap')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import Simplex = require('../geometries/Simplex')
-import StringIUnknownMap = require('../utils/StringIUnknownMap')
+import StringIUnknownMap = require('../collections/StringIUnknownMap')
 import toGeometryData = require('../geometries/toGeometryData')
 import IFacet = require('../core/IFacet')
 import uuid4 = require('../utils/uuid4')
@@ -134,7 +134,7 @@ class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareabl
       mustBeDefined('geometry.meta', meta, contextBuilder)
 
       // FIXME: Why is the meta not being used?
-      this.buffersByCanvasid.putWeakReference(manager.canvasId, manager.createBufferGeometry(data))
+      this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(data))
     }
     else {
       console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId)

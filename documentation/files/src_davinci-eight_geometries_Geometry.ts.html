@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.129.0</em>
+            <em>API Docs for: 2.130.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,8 +94,8 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IUnknown.html">IFacet
-                extends IUnknown</a></li>
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -141,6 +142,7 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -215,13 +217,15 @@ import toGeometryMeta = require(&#x27;../geometries/toGeometryMeta&#x27;)
  */
 class Geometry extends Shareable {
   /**
+   * The geometry as a list of simplices.
+   * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
    * @property data
    * @type {Simplex[]}
    */
   public data: Simplex[] = [];
   /**
    * Summary information on the simplices such as dimensionality and sizes for attributes.
-   * This same data structure may be used to map vertex attribute names to program names.
+   * This data structure may be used to map vertex attribute names to program names.
    * @property meta
    * @type {GeometryMeta}
    */
@@ -256,9 +260,22 @@ class Geometry extends Shareable {
   protected destructor(): void {
     super.destructor()
   }
+  /**
+   * Used to recalculate the simplex data from geometry parameters.
+   * This method should be implemented by the derived geometry class.
+   * @method recalculate
+   * @return {void}
+   */
   public recalculate(): void {
     console.warn(&quot;&#x60;public recalculate(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
   }
+  /**
+   * Used to determine whether the geometry must be recalculated.
+   * The base implementation is pessimistic and returns &lt;code&gt;true&lt;/code&gt;.
+   * This method should be implemented by the derived class to reduce frequent recalculation.
+   * @method isModified
+   * @return {boolean} if the parameters defining the geometry have been modified.
+   */
   public isModified(): boolean {
     // Assume that the Geometry parameters have been modified as the default.
     // Derived classes can be more efficient.
@@ -267,6 +284,10 @@ class Geometry extends Shareable {
   /**
    * &lt;p&gt;
    * Applies the &lt;em&gt;boundary&lt;/em&gt; operation to each Simplex in this instance the specified number of times.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * The boundary operation converts simplices of dimension &#x60;n&#x60; to &#x60;n - 1&#x60;.
+   * For example, triangles are converted to lines.
    * &lt;/p&gt;
    *
    * @method boundary
@@ -285,6 +306,7 @@ class Geometry extends Shareable {
    *
    * @method check
    * @return {Geometry}
+   * @beta
    */
   // FIXME: Rename to something more suggestive.
   public check(): Geometry {
@@ -292,7 +314,12 @@ class Geometry extends Shareable {
     return this;
   }
   /**
+   * &lt;p&gt;
    * Applies the subdivide operation to each Simplex in this instance the specified number of times.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * The subdivide operation creates new simplices of the same dimension as the originals.
+   * &lt;/p&gt;
    *
    * @method subdivide
    * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
@@ -319,9 +346,13 @@ class Geometry extends Shareable {
     return new GeometryElements(elements, this.meta)
   }
   /**
-   *
+   * @method mergeVertices
+   * @param precisionPonts [number = 4]
+   * @return {void}
+   * @protected
+   * @beta
    */
-  protected mergeVertices(precisionPoints: number = 4) {
+  protected mergeVertices(precisionPoints: number = 4): void {
     // console.warn(&quot;Geometry.mergeVertices not yet implemented&quot;);
   }
 }

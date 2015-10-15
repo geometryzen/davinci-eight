@@ -1,5 +1,6 @@
+import ISlide = require('../slideshow/ISlide')
 import ISlideCommand = require('../../slideshow/ISlideCommand')
-import ISlideHost = require('../../slideshow/ISlideHost')
+import IDirector = require('../../slideshow/IDirector')
 import Shareable = require('../../utils/Shareable')
 
 class TestCommand extends Shareable implements ISlideCommand {
@@ -11,10 +12,10 @@ class TestCommand extends Shareable implements ISlideCommand {
   protected destructor(): void {
     super.destructor();
   }
-  redo(host: ISlideHost): void {
+  redo(slide: ISlide, director: IDirector): void {
     console.log("redo => " + this.name)
   }
-  undo(host: ISlideHost): void {
+  undo(slide: ISlide, director: IDirector): void {
     console.log("undo => " + this.name)
   }
 }

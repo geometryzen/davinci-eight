@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/Shareable', '../utils/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, uuid4) {
+define(["require", "exports", '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, uuid4) {
     var CLASS_NAME_DRAWLIST = "createDrawList";
     var CLASS_NAME_GROUP = "DrawableGroup";
     var CLASS_NAME_ALL = "DrawableGroups";
@@ -63,6 +63,9 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             enumerable: true,
             configurable: true
         });
+        DrawableGroup.prototype.containsDrawable = function (drawable) {
+            return this._drawables.indexOf(drawable) >= 0;
+        };
         DrawableGroup.prototype.push = function (drawable) {
             this._drawables.push(drawable);
         };
@@ -120,13 +123,15 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             if (program) {
                 try {
                     var programId = program.programId;
-                    var programInfo = this._groups.get(programId);
-                    if (!programInfo) {
-                        programInfo = new DrawableGroup(program);
-                        this._groups.put(programId, programInfo);
+                    var group = this._groups.get(programId);
+                    if (!group) {
+                        group = new DrawableGroup(program);
+                        this._groups.put(programId, group);
                     }
-                    programInfo.push(drawable);
-                    programInfo.release();
+                    if (!group.containsDrawable(drawable)) {
+                        group.push(drawable);
+                    }
+                    group.release();
                 }
                 finally {
                     program.release();
@@ -135,25 +140,48 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             else {
             }
         };
-        DrawableGroups.prototype.remove = function (drawable) {
-            var program = drawable.material;
-            if (program) {
+        DrawableGroups.prototype.containsDrawable = function (drawable) {
+            var material = drawable.material;
+            if (material) {
                 try {
-                    var programId = program.programId;
-                    if (this._groups.exists(programId)) {
-                        var group = this._groups.get(programId);
-                        group.remove(drawable);
-                        if (group.length === 0) {
-                            delete this._groups.remove(programId);
-                        }
-                        group.release();
+                    var group = this._groups.getWeakRef(material.programId);
+                    if (group) {
+                        return group.containsDrawable(drawable);
                     }
                     else {
-                        throw new Error("drawable not found?!");
+                        return false;
                     }
                 }
                 finally {
-                    program.release();
+                    material.release();
+                }
+            }
+            else {
+                return false;
+            }
+        };
+        DrawableGroups.prototype.remove = function (drawable) {
+            var material = drawable.material;
+            if (material) {
+                try {
+                    var programId = material.programId;
+                    if (this._groups.exists(programId)) {
+                        var group = this._groups.get(programId);
+                        try {
+                            group.remove(drawable);
+                            if (group.length === 0) {
+                                this._groups.remove(programId).release();
+                            }
+                        }
+                        finally {
+                            group.release();
+                        }
+                    }
+                    else {
+                    }
+                }
+                finally {
+                    material.release();
                 }
             }
         };
@@ -256,6 +284,9 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                     drawable.contextGain(manager);
                 });
                 drawableGroups.add(drawable);
+            },
+            containsDrawable: function (drawable) {
+                return drawableGroups.containsDrawable(drawable);
             },
             draw: function (ambients, canvasId) {
                 drawableGroups.draw(ambients, canvasId);

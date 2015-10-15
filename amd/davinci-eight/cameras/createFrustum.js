@@ -28,6 +28,14 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
                 refCount--;
                 return refCount;
             },
+            get uuid() {
+                return "";
+            },
+            getProperty: function (name) {
+                return void 0;
+            },
+            setProperty: function (name, value) {
+            },
             // Delegate to the base camera.
             get eye() {
                 return base.eye;

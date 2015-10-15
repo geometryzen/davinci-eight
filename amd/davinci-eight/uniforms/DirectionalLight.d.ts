@@ -30,6 +30,8 @@ declare class DirectionalLight extends Shareable implements IFacet {
      * @protected
      */
     protected destructor(): void;
+    getProperty(name: string): number[];
+    setProperty(name: string, value: number[]): void;
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}

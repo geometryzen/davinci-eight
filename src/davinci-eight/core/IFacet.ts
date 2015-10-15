@@ -1,11 +1,11 @@
-import IUnknown = require('../core/IUnknown')
+import IAnimationTarget = require('../slideshow/IAnimationTarget')
 import IFacetVisitor = require('../core/IFacetVisitor')
 
 /**
  * @class IFacet
- * extends IUnknown
+ * extends IAnimationTarget
  */
-interface IFacet extends IUnknown {
+interface IFacet extends IAnimationTarget {
   /**
    * @method setUniforms
    * @param visitor {IFacetVisitor}

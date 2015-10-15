@@ -17,6 +17,14 @@ define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math
             _super.call(this, 'EulerFacet');
             this._rotation = new Vector3();
         }
+        EulerFacet.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        EulerFacet.prototype.getProperty = function (name) {
+            return void 0;
+        };
+        EulerFacet.prototype.setProperty = function (name, value) {
+        };
         /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}

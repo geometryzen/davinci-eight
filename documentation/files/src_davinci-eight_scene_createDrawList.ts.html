@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.129.0</em>
+            <em>API Docs for: 2.130.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,8 +94,8 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IUnknown.html">IFacet
-                extends IUnknown</a></li>
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -141,6 +142,7 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -211,11 +213,11 @@ import IDrawable = require(&#x27;../core/IDrawable&#x27;);
 import IDrawList = require(&#x27;../scene/IDrawList&#x27;);
 import IMaterial = require(&#x27;../core/IMaterial&#x27;);
 import IUnknown = require(&#x27;../core/IUnknown&#x27;);
-import IUnknownArray = require(&#x27;../utils/IUnknownArray&#x27;);
-import NumberIUnknownMap = require(&#x27;../utils/NumberIUnknownMap&#x27;);
+import IUnknownArray = require(&#x27;../collections/IUnknownArray&#x27;);
+import NumberIUnknownMap = require(&#x27;../collections/NumberIUnknownMap&#x27;);
 import refChange = require(&#x27;../utils/refChange&#x27;);
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
-import StringIUnknownMap = require(&#x27;../utils/StringIUnknownMap&#x27;);
+import StringIUnknownMap = require(&#x27;../collections/StringIUnknownMap&#x27;);
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 import IFacet = require(&#x27;../core/IFacet&#x27;);
 import Vector1 = require(&#x27;../math/Vector1&#x27;);
@@ -280,6 +282,9 @@ class DrawableGroup implements IUnknown {
   get length() {
     return this._drawables.length;
   }
+  containsDrawable(drawable: IDrawable) {
+    return this._drawables.indexOf(drawable) &gt;= 0;
+  }
   push(drawable: IDrawable) { 
     this._drawables.push(drawable);
   }
@@ -340,13 +345,15 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
     if (program) {
       try {
         let programId: string = program.programId
-        let programInfo = this._groups.get(programId)
-        if (!programInfo) {
-          programInfo = new DrawableGroup(program)
-          this._groups.put(programId, programInfo)
+        let group = this._groups.get(programId)
+        if (!group) {
+          group = new DrawableGroup(program)
+          this._groups.put(programId, group)
         }
-        programInfo.push(drawable)
-        programInfo.release()
+        if (!group.containsDrawable(drawable)) {
+          group.push(drawable)
+        }
+        group.release()
       }
       finally {
         program.release()
@@ -357,25 +364,50 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
       // it does not have a program. Do we need to track it elsewhere?
     }
   }
-  remove(drawable: IDrawable) {
-    let program: IMaterial = drawable.material
-    if (program) {
+  containsDrawable(drawable: IDrawable): boolean {
+
+    var material = drawable.material
+    if (material) {
       try {
-        let programId: string = program.programId
-        if (this._groups.exists(programId)) {
-          let group = this._groups.get(programId)
-          group.remove(drawable);
-          if (group.length === 0) {
-            delete this._groups.remove(programId)
-          }
-          group.release()
+        var group = this._groups.getWeakRef(material.programId)
+        if (group) {
+          return group.containsDrawable(drawable)
         }
         else {
-          throw new Error(&quot;drawable not found?!&quot;)
+          return false
         }
       }
       finally {
-        program.release()
+        material.release()
+      }
+    }
+    else {
+      return false
+    }
+  }
+  remove(drawable: IDrawable) {
+    let material: IMaterial = drawable.material
+    if (material) {
+      try {
+        let programId: string = material.programId
+        if (this._groups.exists(programId)) {
+          let group: DrawableGroup = this._groups.get(programId)
+          try {
+            group.remove(drawable);
+            if (group.length === 0) {
+              this._groups.remove(programId).release()
+            }
+          }
+          finally {
+            group.release()
+          }
+        }
+        else {
+
+        }
+      }
+      finally {
+        material.release()
       }
     }
   }
@@ -482,16 +514,19 @@ let createDrawList = function(): IDrawList {
         canvasIdToManager.remove(canvasId)
       }
     },
-    add(drawable: IDrawable) {
+    add(drawable: IDrawable): void {
       // If we have canvasIdToManager povide them to the drawable before asking for the program.
       // FIXME: Do we have to be careful about whether the manager has a context?
       canvasIdToManager.forEach(function(id, manager) {
-        drawable.contextGain(manager);
+        drawable.contextGain(manager)
       });
-      drawableGroups.add(drawable);
+      drawableGroups.add(drawable)
+    },
+    containsDrawable(drawable: IDrawable): boolean {
+      return drawableGroups.containsDrawable(drawable)
     },
     draw(ambients: IFacet[], canvasId: number): void {
-      drawableGroups.draw(ambients, canvasId);
+      drawableGroups.draw(ambients, canvasId)
     },
     getDrawablesByName(name: string): IUnknownArray&lt;IDrawable&gt; {
       var result = new IUnknownArray&lt;IDrawable&gt;([], &#x27;getDrawablesByName&#x27;)

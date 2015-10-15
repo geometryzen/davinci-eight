@@ -57,8 +57,8 @@ class ArrowGeometry extends RevolutionGeometry {
    * @class ArrowGeometry
    * @constructor
    */
-  constructor(type: string = 'ArrowGeometry') {
-    super(type)
+  constructor() {
+    super('ArrowGeometry')
     this.setModified(true)
   }
   /**

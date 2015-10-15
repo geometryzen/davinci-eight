@@ -59,7 +59,10 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
          * </p>
          */
         Scene.prototype.add = function (drawable) {
-            this.drawList.add(drawable);
+            return this.drawList.add(drawable);
+        };
+        Scene.prototype.containsDrawable = function (drawable) {
+            return this.drawList.containsDrawable(drawable);
         };
         /**
          * <p>
@@ -72,7 +75,7 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
          * @beta
          */
         Scene.prototype.draw = function (ambients, canvasId) {
-            this.drawList.draw(ambients, canvasId);
+            return this.drawList.draw(ambients, canvasId);
         };
         /**
          * Gets a collection of drawable elements by name.
@@ -94,7 +97,7 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
          * </p>
          */
         Scene.prototype.remove = function (drawable) {
-            this.drawList.remove(drawable);
+            return this.drawList.remove(drawable);
         };
         /**
          * <p>

@@ -37,6 +37,10 @@ define(["require", "exports", '../geometries/toGeometryMeta', '../geometries/com
     }
     function toGeometryData(simplices, geometryMeta) {
         expectArg('simplices', simplices).toBeObject();
+        // TODO: For now, we special case here. Would be nice to make this part of the mainline.
+        if (simplices.length === 0) {
+            return new GeometryData(Simplex.K_FOR_EMPTY, new VectorN([]), {});
+        }
         var actuals = toGeometryMeta(simplices);
         if (geometryMeta) {
             expectArg('geometryMeta', geometryMeta).toBeObject();

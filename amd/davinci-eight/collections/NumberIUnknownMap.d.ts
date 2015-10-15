@@ -13,9 +13,9 @@ declare class NumberIUnknownMap<V extends IUnknown> extends Shareable implements
     protected destructor(): void;
     exists(key: number): boolean;
     get(key: number): V;
-    getWeakReference(index: number): V;
+    getWeakRef(index: number): V;
     put(key: number, value: V): void;
-    putWeakReference(key: number, value: V): void;
+    putWeakRef(key: number, value: V): void;
     forEach(callback: (key: number, value: V) => void): void;
     keys: number[];
     remove(key: number): void;

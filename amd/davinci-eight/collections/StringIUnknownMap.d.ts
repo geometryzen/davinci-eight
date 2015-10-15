@@ -29,7 +29,7 @@ declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     getWeakRef(key: string): V;
     put(key: string, value: V): void;
     /**
-     * @method putWeakReference
+     * @method putWeakRef
      * @param key {string}
      * @param value {V}
      * @return {void}
@@ -39,6 +39,6 @@ declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     forEach(callback: (key: string, value: V) => void): void;
     keys: string[];
     values: V[];
-    remove(key: string): void;
+    remove(key: string): V;
 }
 export = StringIUnknownMap;

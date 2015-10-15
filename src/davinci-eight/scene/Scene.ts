@@ -3,7 +3,7 @@ import IContextMonitor = require('../core/IContextMonitor')
 import createDrawList = require('../scene/createDrawList')
 import IDrawable = require('../core/IDrawable')
 import IDrawList = require('../scene/IDrawList')
-import IUnknownArray = require('../utils/IUnknownArray')
+import IUnknownArray = require('../collections/IUnknownArray')
 import IMaterial = require('../core/IMaterial')
 import Matrix1 = require('../math/Matrix1')
 import Matrix2 = require('../math/Matrix2')
@@ -80,7 +80,10 @@ class Scene extends Shareable implements IDrawList {
    * </p>
    */
   add(drawable: IDrawable): void {
-    this.drawList.add(drawable)
+    return this.drawList.add(drawable)
+  }
+  containsDrawable(drawable: IDrawable): boolean {
+    return this.drawList.containsDrawable(drawable)
   }
   /**
    * <p>
@@ -93,7 +96,7 @@ class Scene extends Shareable implements IDrawList {
    * @beta
    */
   draw(ambients: IFacet[], canvasId: number): void {
-    this.drawList.draw(ambients, canvasId)
+    return this.drawList.draw(ambients, canvasId)
   }
   /**
    * Gets a collection of drawable elements by name.
@@ -115,7 +118,7 @@ class Scene extends Shareable implements IDrawList {
    * </p>
    */
   remove(drawable: IDrawable): void {
-    this.drawList.remove(drawable)
+    return this.drawList.remove(drawable)
   }
   /**
    * <p>

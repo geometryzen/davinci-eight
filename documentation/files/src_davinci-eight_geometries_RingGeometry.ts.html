@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/uniforms/CityTemperature.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/RingGeometry.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.129.0</em>
+            <em>API Docs for: 2.130.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,8 +94,8 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IUnknown.html">IFacet
-                extends IUnknown</a></li>
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -141,6 +142,7 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -196,30 +198,176 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/uniforms/CityTemperature.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/RingGeometry.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IFacet = require(&#x27;../core/IFacet&#x27;);
-import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;);
-import Shareable = require(&#x27;../utils/Shareable&#x27;);
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
+import Geometry = require(&#x27;../geometries/Geometry&#x27;)
+import Simplex = require(&#x27;../geometries/Simplex&#x27;)
+import Symbolic = require(&#x27;../core/Symbolic&#x27;)
+import Vector2 = require(&#x27;../math/Vector2&#x27;)
+import Vector3 = require(&#x27;../math/Vector3&#x27;)
+
 /**
- * Poller for the ...? server.
+ * @class RingGeometry
+ * @extends Geometry
  */
-class CityTemperature extends Shareable implements IFacet {
-  public temperature: number;
-  private _uName;
-  constructor(uName: string) {
-    super(&#x27;CityTemperature&#x27;)
-    this.temperature = Math.E;
-    this._uName = uName;
+class RingGeometry extends Geometry
+{
+  /**
+   * The outer radius.
+   * @property a
+   * @type {number}
+   */
+  public a: number;
+  /**
+   * The inner radius.
+   * @property b
+   * @type {number}
+   */
+  public b: number;
+  /**
+   * The axis of symmetry.
+   * @property e
+   * @type {Vector3}
+   */
+  public e: Vector3;
+  public radialSegments: number;
+  public thetaSegments: number;
+  public thetaStart: number;
+  public thetaLength: number;
+  /**
+   * Creates an annulus with a single hole.
+   * @class RingGeometry
+   * @constructor
+   */
+  constructor(a: number = 1, b: number = 0, e: Cartesian3 = Vector3.e3)
+  {
+    super(&#x27;RingGeometry&#x27;)
+    this.a = a
+    this.b = b
+    this.e = Vector3.copy(e)
+    this.radialSegments = 8
+    this.thetaSegments = 8
+    this.thetaStart = 0
+    this.thetaLength = 2 * Math.PI
   }
-  setUniforms(visitor: IFacetVisitor, canvasId): void {
-    visitor.uniform1f(this._uName, this.temperature, canvasId);
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void
+  {
+    super.destructor()
+  }
+  /**
+   * @method isModified
+   * @return {boolean}
+   */
+  public isModified(): boolean
+  {
+    return super.isModified();
+  }
+  /**
+   * @method recalculate
+   * @return {void}
+   */
+  public recalculate(): void
+  {
+    this.data = []
+
+    var radialSegments = this.radialSegments
+    var thetaSegments = this.thetaSegments
+    var thetaStart = this.thetaStart
+    var thetaLength = this.thetaLength
+    var a = this.a
+    var b = this.b
+
+    var vertices: Vector3[] = []
+    var uvs: Vector2[] = []
+
+    var radius = this.b
+    var radiusStep = (a - b) / radialSegments
+
+    for (var i = 0; i &lt; radialSegments + 1; i++)
+    {
+      for (var j = 0; j &lt; thetaSegments + 1; j++)
+      {
+        var vertex = new Vector3()
+        var theta = thetaStart + j / thetaSegments * thetaLength
+        vertex.x = radius * Math.cos(theta)
+        vertex.y = radius * Math.sin(theta)
+        vertices.push(vertex)
+        uvs.push(new Vector2([(vertex.x / a + 1) / 2, (vertex.y / a + 1) / 2]))
+      }
+      radius += radiusStep;
+    }
+
+    var n = Vector3.e3.clone()
+
+    for ( i = 0; i &lt; radialSegments; i ++ ) {
+
+      var thetaSegment = i * ( thetaSegments + 1 );
+
+      for ( j = 0; j &lt; thetaSegments ; j++ ) {
+        // number of segments per circle
+
+        var segment = j + thetaSegment;
+
+        var v1 = segment;
+        var v2 = segment + thetaSegments + 1;
+        var v3 = segment + thetaSegments + 2;
+
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v1]
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v1].clone()
+
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v2]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v2].clone()
+        
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v3]
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v3].clone()
+        this.data.push(simplex)
+
+        v1 = segment;
+        v2 = segment + thetaSegments + 2;
+        v3 = segment + 1;
+
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v1]
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v1].clone()
+
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v2]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v2].clone()
+        
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v3]
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v3].clone()
+        this.data.push(simplex)
+      }
+    }
+    this.setModified(false)
+  }
+  /**
+   * @method setModified
+   * @param modified {boolean}
+   * @return {RingGeometry}
+   * @chainable
+   */
+  public setModified(modified: boolean): RingGeometry
+  {
+    return this;
   }
 }
 
-export = CityTemperature;
+export = RingGeometry
     </pre>
 </div>
                     </div>

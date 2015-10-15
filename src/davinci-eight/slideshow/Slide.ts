@@ -1,17 +1,19 @@
 import IAnimation = require('../slideshow/IAnimation')
 import IAnimationTarget = require('../slideshow/IAnimationTarget')
-import ISlideHost = require('../slideshow/ISlideHost')
+import IDirector = require('../slideshow/IDirector')
+import ISlide = require('../slideshow/ISlide')
 import ISlideCommand = require('../slideshow/ISlideCommand')
 import IUnknown = require('../core/IUnknown')
-import IUnknownArray = require('../utils/IUnknownArray')
+import IUnknownArray = require('../collections/IUnknownArray')
 import mustBeNumber = require('../checks/mustBeNumber')
 import Shareable = require('../utils/Shareable')
-import StringIUnknownMap = require('../utils/StringIUnknownMap')
+import SlideCommands = require('../slideshow/SlideCommands')
+import StringIUnknownMap = require('../collections/StringIUnknownMap')
 import WaitAnimation = require('../slideshow/animations/WaitAnimation')
 
-class Slide extends Shareable {
-  public prolog: IUnknownArray<ISlideCommand>;
-  public epilog: IUnknownArray<ISlideCommand>;
+class Slide extends Shareable implements ISlide {
+  public prolog: SlideCommands;
+  public epilog: SlideCommands;
   /**
    * The objects that we are going to manipulate.
    */
@@ -27,8 +29,8 @@ class Slide extends Shareable {
 
   constructor() {
     super('Slide')
-    this.prolog = new IUnknownArray<ISlideCommand>([], 'Slide.prolog')
-    this.epilog = new IUnknownArray<ISlideCommand>([], 'Slide.epilog')
+    this.prolog = new SlideCommands('Slide.prolog')
+    this.epilog = new SlideCommands('Slide.epilog')
     this.targets = new IUnknownArray<IAnimationTarget>([], 'Slide.targets')
     this.mirrors = new StringIUnknownMap<Mirror>('Slide.mirrors')
   }
@@ -54,8 +56,8 @@ class Slide extends Shareable {
       this.mirrors.putWeakRef(target.uuid, new Mirror())
     }
   }
-  animate(target: IAnimationTarget, propName: string, animation: IAnimation, delay: number = 0, sustain: number = 0) {
-
+  pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation)
+  {
     this.ensureTarget(target)
     this.ensureMirror(target)
 
@@ -63,15 +65,17 @@ class Slide extends Shareable {
 
     mirror.ensureAnimationLane(propName)
 
-    if (delay) {
-      mirror.animationLanes.getWeakRef(propName).pushWeakRef(new WaitAnimation(delay))
-    }
+    var animationLane = mirror.animationLanes.getWeakRef(propName)
 
-    mirror.animationLanes.getWeakRef(propName).push(animation)
+    animationLane.push(animation)
+  }
+  popAnimation(target: IAnimationTarget, propName: string): IAnimation {
 
-    if (sustain) {
-      mirror.animationLanes.getWeakRef(propName).pushWeakRef(new WaitAnimation(sustain))
-    }
+    var mirror = this.mirrors.getWeakRef(target.uuid)
+
+    var animationLane = mirror.animationLanes.getWeakRef(propName)
+
+    return animationLane.pop()
   }
 
   /**
@@ -101,17 +105,29 @@ class Slide extends Shareable {
       }
     }
   }
-  onEnter(host: ISlideHost): void {
-    this.prolog.forEach(function(command) {
-      command.redo(host)
-    })
+  doProlog(director: IDirector, forward: boolean): void
+  {
+    if (forward)
+    {
+      this.prolog.redo(this, director)
+    }
+    else
+    {
+      this.prolog.undo(this, director)
+    }
   }
-  onExit(host: ISlideHost): void {
-    this.epilog.forEach(function(command) {
-      command.redo(host)
-    })
+  doEpilog(director: IDirector, forward: boolean): void
+  {
+    if (forward)
+    {
+      this.epilog.redo(this, director)
+    }
+    else
+    {
+      this.epilog.undo(this, director)
+    }
   }
-  undo(host: ISlideHost): void {
+  undo(director: IDirector): void {
     for (var i = 0; i < this.targets.length; i++) {
       var target = this.targets.getWeakRef(i)
       var mirror = this.mirrors.getWeakRef(target.uuid)
@@ -141,6 +157,14 @@ class AnimationLane extends Shareable {
     this.remaining.release()
     this.remaining = void 0
     super.destructor()
+  }
+  pop(): IAnimation {
+    if (this.remaining.length > 0) {
+      return this.remaining.pop()
+    }
+    else {
+      return this.completed.pop()
+    }
   }
   push(animation: IAnimation): number {
     return this.remaining.push(animation)

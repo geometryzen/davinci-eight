@@ -17,6 +17,14 @@ class EulerFacet extends Shareable implements IFacet {
     super('EulerFacet')
     this._rotation = new Vector3();
   }
+  protected destructor(): void {
+    super.destructor()
+  }
+  getProperty(name: string): number[] {
+    return void 0
+  }
+  setProperty(name: string, value: number[]): void {
+  }
   /**
    * @method setUniforms
    * @param visitor {IFacetVisitor}

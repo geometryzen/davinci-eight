@@ -9,11 +9,11 @@ import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
 import IMaterial = require('../core/IMaterial');
 import IUnknown = require('../core/IUnknown');
-import IUnknownArray = require('../utils/IUnknownArray');
-import NumberIUnknownMap = require('../utils/NumberIUnknownMap');
+import IUnknownArray = require('../collections/IUnknownArray');
+import NumberIUnknownMap = require('../collections/NumberIUnknownMap');
 import refChange = require('../utils/refChange');
 import Shareable = require('../utils/Shareable')
-import StringIUnknownMap = require('../utils/StringIUnknownMap');
+import StringIUnknownMap = require('../collections/StringIUnknownMap');
 import uuid4 = require('../utils/uuid4');
 import IFacet = require('../core/IFacet');
 import Vector1 = require('../math/Vector1');
@@ -78,6 +78,9 @@ class DrawableGroup implements IUnknown {
   get length() {
     return this._drawables.length;
   }
+  containsDrawable(drawable: IDrawable) {
+    return this._drawables.indexOf(drawable) >= 0;
+  }
   push(drawable: IDrawable) { 
     this._drawables.push(drawable);
   }
@@ -138,13 +141,15 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
     if (program) {
       try {
         let programId: string = program.programId
-        let programInfo = this._groups.get(programId)
-        if (!programInfo) {
-          programInfo = new DrawableGroup(program)
-          this._groups.put(programId, programInfo)
+        let group = this._groups.get(programId)
+        if (!group) {
+          group = new DrawableGroup(program)
+          this._groups.put(programId, group)
         }
-        programInfo.push(drawable)
-        programInfo.release()
+        if (!group.containsDrawable(drawable)) {
+          group.push(drawable)
+        }
+        group.release()
       }
       finally {
         program.release()
@@ -155,25 +160,50 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
       // it does not have a program. Do we need to track it elsewhere?
     }
   }
-  remove(drawable: IDrawable) {
-    let program: IMaterial = drawable.material
-    if (program) {
+  containsDrawable(drawable: IDrawable): boolean {
+
+    var material = drawable.material
+    if (material) {
       try {
-        let programId: string = program.programId
-        if (this._groups.exists(programId)) {
-          let group = this._groups.get(programId)
-          group.remove(drawable);
-          if (group.length === 0) {
-            delete this._groups.remove(programId)
-          }
-          group.release()
+        var group = this._groups.getWeakRef(material.programId)
+        if (group) {
+          return group.containsDrawable(drawable)
         }
         else {
-          throw new Error("drawable not found?!")
+          return false
         }
       }
       finally {
-        program.release()
+        material.release()
+      }
+    }
+    else {
+      return false
+    }
+  }
+  remove(drawable: IDrawable) {
+    let material: IMaterial = drawable.material
+    if (material) {
+      try {
+        let programId: string = material.programId
+        if (this._groups.exists(programId)) {
+          let group: DrawableGroup = this._groups.get(programId)
+          try {
+            group.remove(drawable);
+            if (group.length === 0) {
+              this._groups.remove(programId).release()
+            }
+          }
+          finally {
+            group.release()
+          }
+        }
+        else {
+
+        }
+      }
+      finally {
+        material.release()
       }
     }
   }
@@ -280,16 +310,19 @@ let createDrawList = function(): IDrawList {
         canvasIdToManager.remove(canvasId)
       }
     },
-    add(drawable: IDrawable) {
+    add(drawable: IDrawable): void {
       // If we have canvasIdToManager povide them to the drawable before asking for the program.
       // FIXME: Do we have to be careful about whether the manager has a context?
       canvasIdToManager.forEach(function(id, manager) {
-        drawable.contextGain(manager);
+        drawable.contextGain(manager)
       });
-      drawableGroups.add(drawable);
+      drawableGroups.add(drawable)
+    },
+    containsDrawable(drawable: IDrawable): boolean {
+      return drawableGroups.containsDrawable(drawable)
     },
     draw(ambients: IFacet[], canvasId: number): void {
-      drawableGroups.draw(ambients, canvasId);
+      drawableGroups.draw(ambients, canvasId)
     },
     getDrawablesByName(name: string): IUnknownArray<IDrawable> {
       var result = new IUnknownArray<IDrawable>([], 'getDrawablesByName')

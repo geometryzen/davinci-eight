@@ -1,4 +1,4 @@
-define(["require", "exports", '../utils/IUnknownArray', '../utils/refChange', '../utils/uuid4'], function (require, exports, IUnknownArray, refChange, uuid4) {
+define(["require", "exports", '../collections/IUnknownArray', '../utils/refChange', '../utils/uuid4'], function (require, exports, IUnknownArray, refChange, uuid4) {
     var CLASS_NAME = "CanonicalIContextRenderer";
     /**
      * We need to know the canvasId so that we can tell drawables where to draw.

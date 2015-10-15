@@ -27,6 +27,11 @@ define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'
         Vector3Uniform.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        Vector3Uniform.prototype.getProperty = function (name) {
+            return void 0;
+        };
+        Vector3Uniform.prototype.setProperty = function (name, value) {
+        };
         Vector3Uniform.prototype.setUniforms = function (visitor, canvasId) {
             visitor.uniformCartesian3(this._name, this._vector, canvasId);
         };

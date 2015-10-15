@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometries/computeFaceNormals', '../feedback/feedback', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, cannotAssignTypeToProperty, computeFaceNormals, feedback, Geometry, mustBeInteger, mustBeString, quad, Simplex, Symbolic, Vector1, Vector3) {
+define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometries/computeFaceNormals', '../feedback/feedback', '../geometries/Geometry', '../checks/mustBeInteger', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, cannotAssignTypeToProperty, computeFaceNormals, feedback, Geometry, mustBeInteger, quad, Simplex, Symbolic, Vector1, Vector3) {
     /**
      * @class CuboidGeometry
      * @extends Geometry
@@ -19,16 +19,26 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
          * </p>
          * @class CuboidGeometry
          * @constructor
-         * @param type [string = 'CuboidGeometry']
+         * @param a [Cartesian3 = Vector3.e1]
+         * @param b [Cartesian3 = Vector3.e1]
+         * @param c [Cartesian3 = Vector3.e1]
+         * @param k [number = Simplex.K_FOR_TRIANGLE]
+         * @param subdivide [number = 0]
+         * @param boundary [number = 0]
          * @example
              var geometry = new EIGHT.CuboidGeometry();
              var elements = geometry.toElements();
              var material = new EIGHT.LineMaterial();
              var cube = new EIGHT.Drawable(elements, material);
          */
-        function CuboidGeometry(type) {
-            if (type === void 0) { type = 'CuboidGeometry'; }
-            _super.call(this, mustBeString('type', type));
+        function CuboidGeometry(a, b, c, k, subdivide, boundary) {
+            if (a === void 0) { a = Vector3.e1; }
+            if (b === void 0) { b = Vector3.e2; }
+            if (c === void 0) { c = Vector3.e3; }
+            if (k === void 0) { k = Simplex.K_FOR_TRIANGLE; }
+            if (subdivide === void 0) { subdivide = 0; }
+            if (boundary === void 0) { boundary = 0; }
+            _super.call(this, 'CuboidGeometry');
             /**
              * @property _k {number} The dimensionality of the simplices representing the cuboid.
              * @private
@@ -41,11 +51,17 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
              * @private
              */
             this._isModified = true;
-            this.a = Vector3.e1.clone();
-            this.b = Vector3.e2.clone();
-            this.c = Vector3.e3.clone();
+            this.a = Vector3.copy(a);
+            this.b = Vector3.copy(b);
+            this.c = Vector3.copy(c);
+            this.k = k;
+            this.subdivide(subdivide);
+            this.boundary(boundary);
             this.recalculate();
         }
+        CuboidGeometry.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
         Object.defineProperty(CuboidGeometry.prototype, "a", {
             /**
              * <p>

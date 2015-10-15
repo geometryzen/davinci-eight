@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/utils/IUnknownArray.ts - davinci-eight</title>
+    <title>UniformMetaInfo - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.129.0</em>
+            <em>API Docs for: 2.130.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,8 +94,8 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IUnknown.html">IFacet
-                extends IUnknown</a></li>
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -126,6 +126,7 @@
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -141,6 +142,7 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -196,199 +198,112 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/utils/IUnknownArray.ts</h1>
+<h1>UniformMetaInfo Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import IUnknown = require(&#x27;../core/IUnknown&#x27;)
-import Shareable = require(&#x27;../utils/Shareable&#x27;)
 
-function className(userName: string): string {
-  return &#x27;IUnknownArray:&#x27; + userName
-}
+        <div class="foundat">
+            Defined in: <a href="../files/src_davinci-eight_core_UniformMetaInfo.ts.html#l1"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformMetaInfo.ts:1</code></a>
+        </div>
 
-/**
- * Essentially constructs the IUnknownArray without incrementing the
- * reference count of the elements, and without creating zombies.
- */
-function transferOwnership&lt;T extends IUnknown&gt;(data: T[], userName: string): IUnknownArray&lt;T&gt; {
-  if (data) {
-    var result = new IUnknownArray&lt;T&gt;(data, userName)
-    // The result has now taken ownership of the elements, so we can release.
-    for (var i = 0, iLength = data.length; i &lt; iLength; i++) {
-      var element = data[i]
-      if (element) {
-        element.release()
-      }
-    }
-    return result
-  }
-  else {
-    return void 0
-  }
-}
+            Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
-/**
- * @class IUnknownArray&lt;T extends IUnknown&gt;
- * @extends Shareable
- */
-class IUnknownArray&lt;T extends IUnknown&gt; extends Shareable {
-  /**
-   * @property _elements
-   * @type {T[]}
-   * @private
-   */
-  private _elements: T[];
-  private userName: string;
-  /**
-   * Collection class for maintaining an array of types derived from IUnknown.
-   * Provides a safer way to maintain reference counts than a native array.
-   * @class IUnknownArray
-   * @constructor
-   */
-  constructor(elements: T[] = [], userName: string) {
-   super(className(userName))
-   this._elements = elements
-    for (var i = 0, l = this._elements.length; i &lt; l; i++) {
-      this._elements[i].addRef()
-    }
-    this.userName = userName;
-  }
-  /**
-   * @method destructor
-   * @return {void}
-   * @protected
-   */
-  protected destructor(): void {
-    for (var i = 0, l = this._elements.length; i &lt; l; i++) {
-      this._elements[i].release()
-    }
-    this._elements = void 0
-    // Don&#x27;t set the userName property to undefined so that we can report zombie calls.
-    super.destructor()
-  }
-  /**
-   * Gets the element at the specified index, incrementing the reference count.
-   * @method get
-   * @param index {number}
-   * @return {T}
-   */
-  get(index: number): T {
-    var element = this.getWeakRef(index)
-    if (element) {
-      element.addRef()
-    }
-    return element
-  }
-  /**
-   * Gets the element at the specified index, without incrementing the reference count.
-   * @method getWeakRef
-   * @param index {number}
-   * @return {T}
-   */
-  getWeakRef(index: number): T {
-    return this._elements[index]
-  }
-  /**
-   * @method indexOf
-   * @param searchElement {T}
-   * @param [fromIndex]
-   * @return {number}
-   */
-  indexOf(searchElement: T, fromIndex?: number): number {
-    return this._elements.indexOf(searchElement, fromIndex);
-  }
-  /**
-   * @property length
-   * @return {number}
-   */
-  get length(): number {
-    if (this._elements) {
-      return this._elements.length;
-    }
-    else {
-      console.warn(className(this.userName) + &quot; is now a zombie, length is undefined&quot;)
-      return void 0
-    }
-  }
-  /**
-   * The slice() method returns a shallow copy of a portion of an array into a new array object.
-   * It does not remove elements from the original array.
-   * @method slice
-   * @param begin [number]
-   * @param end [number]
-   */
-  slice(begin?: number, end?: number): IUnknownArray&lt;T&gt; {
-    return new IUnknownArray&lt;T&gt;(this._elements.slice(begin, end), &#x27;IUnknownArray.slice()&#x27;)
-  }
-  /**
-   * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
-   * @method splice
-   * @param index {number}
-   * @param deleteCount {number}
-   * @return {IUnkownArray&lt;T&gt;}
-   */
-  splice(index: number, deleteCount: number): IUnknownArray&lt;T&gt; {
-    // The release burdon is on the caller now.
-    return transferOwnership(this._elements.splice(index, deleteCount), &#x27;IUnknownArray.slice()&#x27;)
-  }
-  /**
-   * @method shift
-   * @return {T}
-   */
-  shift(): T {
-    // No need to addRef because ownership is being transferred to caller.
-    return this._elements.shift()
-  }
-  /**
-   * Traverse without Reference Counting
-   * @method forEach
-   * @param callback {(value: T, index: number)=&gt;void}
-   * @return {void}
-   */
-  forEach(callback: (value: T, index: number) =&gt; void): void {
-    return this._elements.forEach(callback);
-  }
-  /**
-   * Pushes an element onto the tail of the list and increments the element reference count.
-   * @method push
-   * @param element {T}
-   * @return {number}
-   */
-  push(element: T): number {
-    if (element) {
-      element.addRef()
-    }
-    return this.pushWeakRef(element)
-  }
-  /**
-   * Pushes an element onto the tail of the list without incrementing the element reference count.
-   * @method pushWeakRef
-   * @param element {T}
-   * @return {number}
-   */
-  pushWeakRef(element: T): number {
-    return this._elements.push(element)
-  }
-  /**
-   * @method pop
-   * @return {T}
-   */
-  pop(): T {
-    // No need to addRef because ownership is being transferred to caller.
-    return this._elements.pop()
-  }
-  unshift(element: T): number {
-    element.addRef()
-    return this.unshiftWeakRef(element)
-  }
-  unshiftWeakRef(element: T): number {
-    return this._elements.unshift(element)
-  }
-}
+</div>
 
-export = IUnknownArray;
-    </pre>
+
+<div class="box intro">
+    
+</div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_glslType">glslType</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_name">name</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_glslType" class="property item">
+    <h3 class="name"><code>glslType</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_UniformMetaInfo.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformMetaInfo.ts:11</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The type keyword as it appears in the GLSL shader program.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_name" class="property item">
+    <h3 class="name"><code>name</code></h3>
+    <span class="type">string</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_UniformMetaInfo.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformMetaInfo.ts:5</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Specifies an optional override of the name used as a key.</p>
+
+    </div>
+
+
+
+</div>
+            </div>
+
+
+    </div>
 </div>
                     </div>
                 </div>

@@ -16,6 +16,8 @@ declare class Vector3Uniform extends Shareable implements IFacet {
      */
     constructor(name: string, vector: Vector3);
     protected destructor(): void;
+    getProperty(name: string): number[];
+    setProperty(name: string, value: number[]): void;
     setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
 export = Vector3Uniform;
