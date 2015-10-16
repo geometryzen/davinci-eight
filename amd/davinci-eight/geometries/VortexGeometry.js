@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../geometries/Simplex', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Euclidean3, Geometry, mustBeInteger, mustBeString, Simplex, Spinor3, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, Euclidean3, Geometry, mustBeInteger, mustBeString, Spinor3, Vector2, Vector3) {
     function perpendicular(to) {
         var random = new Vector3([Math.random(), Math.random(), Math.random()]);
         random.cross(to).normalize();
@@ -116,28 +116,8 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '.
                     var b = (circleSegments + 1) * (j - 1) + i - 1;
                     var c = (circleSegments + 1) * (j - 1) + i;
                     var d = (circleSegments + 1) * j + i;
-                    var face = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[a];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[a].clone();
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[b];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[b].clone();
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[d].clone();
-                    this.data.push(face);
-                    var face = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[b];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[b].clone();
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[c];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[c].clone();
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[d].clone();
-                    this.data.push(face);
+                    this.triangle([points[a], points[b], points[d]], [normals[a], normals[b], normals[d]], [uvs[a], uvs[b], uvs[d]]);
+                    this.triangle([points[b], points[c], points[d]], [normals[b], normals[c], normals[d]], [uvs[b], uvs[c], uvs[d]]);
                 }
             }
             this.setModified(false);

@@ -3733,7 +3733,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries/GeometryElements', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/Vector1'], function (require, exports, GeometryElements, mustBeInteger, mustBeString, Shareable, Simplex, toGeometryData, toGeometryMeta, Vector1) {
+define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries/GeometryElements', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/Vector1'], function (require, exports, GeometryElements, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, toGeometryData, toGeometryMeta, Vector1) {
     /**
      * @class Geometry
      * @extends Shareable
@@ -3773,6 +3773,12 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries
              * @private
              */
             this._k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+            /**
+             * @property orientationColors
+             * @type {boolean}
+             * @private
+             */
+            this.orientationColors = false;
             // Force regenerate, even if derived classes don't call setModified.
             this._k.modified = true;
         }
@@ -3913,6 +3919,30 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries
             if (precisionPoints === void 0) { precisionPoints = 4; }
             // console.warn("Geometry.mergeVertices not yet implemented");
         };
+        /**
+         * Convenience method for pushing attribute data as a triangular simplex
+         * @method triangle
+         * @param positions {Vector3[]}
+         * @param normals {Vector3[]}
+         * @param uvs {Vector2[]}
+         * @return {number}
+         * @beta
+         */
+        Geometry.prototype.triangle = function (positions, normals, uvs) {
+            var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1];
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[2];
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1];
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[2];
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2];
+            if (this.orientationColors) {
+            }
+            return this.data.push(simplex);
+        };
         return Geometry;
     })(Shareable);
     return Geometry;
@@ -3927,8 +3957,11 @@ define('davinci-eight/geometries/triangle',["require", "exports", '../geometries
         expectArg('b', c).toSatisfy(a instanceof VectorN, "a must be a VectorN");
         var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
+        // simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
+        // simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2
         simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = c;
+        // simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e3
         computeFaceNormals(simplex, Symbolic.ATTRIBUTE_POSITION, Symbolic.ATTRIBUTE_NORMAL);
         Simplex.setAttributeValues(attributes, simplex);
         triangles.push(simplex);
@@ -6361,7 +6394,6 @@ define('davinci-eight/materials/PointMaterial',["require", "exports", '../materi
         PointMaterial.prototype.createMaterial = function () {
             var smb = new SmartMaterialBuilder();
             smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
             smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
             smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
             smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
@@ -6408,7 +6440,6 @@ define('davinci-eight/materials/LineMaterial',["require", "exports", '../materia
         LineMaterial.prototype.createMaterial = function () {
             var smb = new SmartMaterialBuilder();
             smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
             smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
             smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
             smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
@@ -6466,7 +6497,6 @@ define('davinci-eight/materials/MeshMaterial',["require", "exports", '../materia
             var smb = new SmartMaterialBuilder();
             smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
             smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3);
-            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
             smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
             smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
             smb.uniform(Symbolic.UNIFORM_NORMAL_MATRIX, 'mat3');
@@ -7372,7 +7402,6 @@ define('davinci-eight/materials/EmptyMaterial',["require", "exports", '../materi
         EmptyMaterial.prototype.createMaterial = function () {
             var smb = new SmartMaterialBuilder();
             smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
             smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
             smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
             smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
@@ -11350,36 +11379,37 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
     /**
      *
      */
-    function computeVertices(a, b, n, s, angle, generator, radialSegments, thetaSegments, vertices, uvs) {
+    function computeVertices(a, b, axis, start, angle, generator, radialSegments, thetaSegments, vertices, uvs) {
         /**
          * `t` is the vector perpendicular to s in the plane of the ring.
          * We could use the generator an PI / 4 to calculate this or the cross product as here.
          */
-        var t = Vector3.copy(n).cross(s);
+        var perp = Vector3.copy(axis).cross(start);
         /**
          * The distance of the vertex from the origin and center.
          */
         var radius = b;
         var radiusStep = (a - b) / radialSegments;
         for (var i = 0; i < radialSegments + 1; i++) {
-            var begin = Vector3.copy(s).scale(radius);
+            var begin = Vector3.copy(start).scale(radius);
             var arcPoints = arc3(begin, angle, generator, thetaSegments);
             for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
                 var arcPoint = arcPoints[j];
                 vertices.push(arcPoint);
                 // The coordinates vary between -a and +a, which we map to 0 and 1.
-                uvs.push(new Vector2([(arcPoint.dot(s) / a + 1) / 2, (arcPoint.dot(t) / a + 1) / 2]));
+                uvs.push(new Vector2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]));
             }
             radius += radiusStep;
         }
     }
     /**
      * Our traversal will generate the following mapping into the vertices and uvs arrays.
+     * This is standard for two looping variables.
      */
     function vertexIndex(i, j, thetaSegments) {
         return i * (thetaSegments + 1) + j;
     }
-    function makeTriangles(vertices, uvs, normal, radialSegments, thetaSegments, data) {
+    function makeTriangles(vertices, uvs, axis, radialSegments, thetaSegments, geometry) {
         for (var i = 0; i < radialSegments; i++) {
             // Our traversal has resulted in the following formula for the index
             // into the vertices or uvs array
@@ -11397,31 +11427,11 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
                 var v0 = quadIndex;
                 var v1 = quadIndex + thetaSegments + 1; // Move outwards one segment.
                 var v2 = quadIndex + thetaSegments + 2; // Then move one segment along the radius.
-                var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v0];
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v0].clone();
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v1];
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v1].clone();
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v2];
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v2].clone();
-                data.push(simplex);
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
                 v0 = quadIndex; // Start at the same corner
                 v1 = quadIndex + thetaSegments + 2; // Move diagonally outwards and along radial
                 v2 = quadIndex + 1; // Then move radially inwards
-                var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v0];
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v0].clone();
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v1];
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v1].clone();
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v2];
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v2].clone();
-                data.push(simplex);
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
             }
         }
     }
@@ -11480,19 +11490,20 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
          * @constructor
          * @param a [number = 1] The outer radius
          * @param b [number = 0] The inner radius
-         * @param e [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
-         * @param
+         * @param axis [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
+         * @param start [Cartesian3 = Vector3.e1] The direction of the start.
+         * @param angle [number = 2 * Math.PI] The angle.
          */
-        function RingGeometry(innerRadius, outerRadius, normal, start, angle) {
+        function RingGeometry(innerRadius, outerRadius, axis, start, angle) {
             if (innerRadius === void 0) { innerRadius = 0; }
             if (outerRadius === void 0) { outerRadius = 1; }
-            if (normal === void 0) { normal = Vector3.e3; }
+            if (axis === void 0) { axis = Vector3.e3; }
             if (start === void 0) { start = Vector3.e1; }
             if (angle === void 0) { angle = 2 * Math.PI; }
             _super.call(this, 'RingGeometry');
             this.innerRadius = innerRadius;
             this.outerRadius = outerRadius;
-            this.normal = Vector3.copy(normal).normalize();
+            this.axis = Vector3.copy(axis).normalize();
             this.start = Vector3.copy(start).normalize();
             this.angle = mustBeNumber('angle', angle);
             this.radialSegments = 1;
@@ -11521,10 +11532,10 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
             this.data = [];
             var radialSegments = this.radialSegments;
             var thetaSegments = this.thetaSegments;
-            var generator = new Spinor3().dual(this.normal);
+            var generator = new Spinor3().dual(this.axis);
             var vertices = [];
             var uvs = [];
-            computeVertices(this.outerRadius, this.innerRadius, this.normal, this.start, this.angle, generator, radialSegments, thetaSegments, vertices, uvs);
+            computeVertices(this.outerRadius, this.innerRadius, this.axis, this.start, this.angle, generator, radialSegments, thetaSegments, vertices, uvs);
             switch (this.k) {
                 case Simplex.K_FOR_EMPTY:
                     {
@@ -11543,7 +11554,7 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
                     break;
                 case Simplex.K_FOR_TRIANGLE:
                     {
-                        makeTriangles(vertices, uvs, this.normal, radialSegments, thetaSegments, this.data);
+                        makeTriangles(vertices, uvs, this.axis, radialSegments, thetaSegments, this);
                     }
                     break;
                 default: {
@@ -11572,7 +11583,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../math/Spinor3', '../core/Symbolic', '../math/Vector2'], function (require, exports, Geometry, Simplex, Spinor3, Symbolic, Vector2) {
+define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../geometries/Geometry', '../math/Spinor3', '../math/Vector2'], function (require, exports, Geometry, Spinor3, Vector2) {
     /**
      * @class RevolutionGeometry
      */
@@ -11648,22 +11659,8 @@ define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../
                     var v0 = j * inversePointLength;
                     var u1 = u0 + inverseSegments;
                     var v1 = v0 + inversePointLength;
-                    var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[d];
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u0, v0]);
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[b];
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u1, v0]);
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[a];
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u0, v1]);
-                    this.data.push(simplex);
-                    var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[d];
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u1, v0]);
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[c];
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u1, v1]);
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[b];
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u0, v1]);
-                    this.data.push(simplex);
+                    this.triangle([vertices[d], vertices[b], vertices[a]], [], [new Vector2([u0, v0]), new Vector2([u1, v0]), new Vector2([u0, v1])]);
+                    this.triangle([vertices[d], vertices[c], vertices[b]], [], [new Vector2([u1, v0]), new Vector2([u1, v1]), new Vector2([u0, v1])]);
                 }
             }
             //    this.computeFaceNormals();
@@ -11915,49 +11912,58 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector2, Vector3) {
-    function face(pt0, pt1, pt2, normals, uvs) {
-        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = pt0;
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = pt1;
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = pt2;
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1];
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[2];
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2];
-        return simplex;
-    }
+define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Vector2, Vector3) {
     /**
-     * @class CylinderGeometry
+     * @class ConeGeometry
      */
-    var CylinderGeometry = (function (_super) {
-        __extends(CylinderGeometry, _super);
+    var ConeGeometry = (function (_super) {
+        __extends(ConeGeometry, _super);
         /**
-         * @class CylinderGeometry
+         * @class ConeGeometry
          * @constructor
-         * @param radiusTop [number = 1]
-         * @param radiusBottom [number = 1]
+         * @param radiusTop [number = 0.5]
+         * @param radiusBottom [number = 0.5]
          * @param height [number = 1]
          * @param radialSegments [number = 16]
          * @param heightSegments [number = 1]
-         * @param openEnded [boolean = false]
+         * @param openTop [boolean = false]
+         * @param openBottom [boolean = false]
          * @param thetaStart [number = 0]
          * @param thetaLength [number = 2 * Math.PI]
          */
-        function CylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
-            if (radiusTop === void 0) { radiusTop = 1; }
-            if (radiusBottom === void 0) { radiusBottom = 1; }
+        function ConeGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openTop, openBottom, thetaStart, thetaLength) {
+            if (radiusTop === void 0) { radiusTop = 0.5; }
+            if (radiusBottom === void 0) { radiusBottom = 0.5; }
             if (height === void 0) { height = 1; }
             if (radialSegments === void 0) { radialSegments = 16; }
             if (heightSegments === void 0) { heightSegments = 1; }
-            if (openEnded === void 0) { openEnded = false; }
+            if (openTop === void 0) { openTop = false; }
+            if (openBottom === void 0) { openBottom = false; }
             if (thetaStart === void 0) { thetaStart = 0; }
             if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
             radialSegments = Math.max(radialSegments, 3);
             heightSegments = Math.max(heightSegments, 1);
-            _super.call(this);
+            _super.call(this, 'ConeGeometry');
+            this.radiusTop = radiusTop;
+            this.radiusBottom = radiusBottom;
+            this.height = height;
+            this.radialSegments = radialSegments;
+            this.heightSegments = heightSegments;
+            this.openTop = openTop;
+            this.openBottom = openBottom;
+            this.thetaStart = thetaStart;
+            this.thetaLength = thetaLength;
+        }
+        ConeGeometry.prototype.regenerate = function () {
+            var radiusBottom = this.radiusBottom;
+            var radiusTop = this.radiusTop;
+            var height = this.height;
+            var heightSegments = this.heightSegments;
+            var radialSegments = this.radialSegments;
+            var openTop = this.openTop;
+            var openBottom = this.openBottom;
+            var thetaStart = this.thetaStart;
+            var thetaLength = this.thetaLength;
             var heightHalf = height / 2;
             var x;
             var y;
@@ -12009,12 +12015,12 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
                     var uv2 = uvs[y + 1][x].clone();
                     var uv3 = uvs[y + 1][x + 1].clone();
                     var uv4 = uvs[y][x + 1].clone();
-                    this.data.push(face(points[v1], points[v2], points[v4], [n1, n2, n4], [uv1, uv2, uv4]));
-                    this.data.push(face(points[v2], points[v3], points[v4], [n2.clone(), n3, n4.clone()], [uv2.clone(), uv3, uv4.clone()]));
+                    this.triangle([points[v1], points[v2], points[v4]], [n1, n2, n4], [uv1, uv2, uv4]);
+                    this.triangle([points[v2], points[v3], points[v4]], [n2.clone(), n3, n4.clone()], [uv2.clone(), uv3, uv4.clone()]);
                 }
             }
             // top cap
-            if (!openEnded && radiusTop > 0) {
+            if (!openTop && radiusTop > 0) {
                 points.push(Vector3.e2.clone().scale(heightHalf));
                 for (x = 0; x < radialSegments; x++) {
                     var v1 = vertices[0][x];
@@ -12026,11 +12032,11 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
                     var uv1 = uvs[0][x].clone();
                     var uv2 = uvs[0][x + 1].clone();
                     var uv3 = new Vector2([uv2.x, 0]);
-                    this.data.push(face(points[v1], points[v2], points[v3], [n1, n2, n3], [uv1, uv2, uv3]));
+                    this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                 }
             }
             // bottom cap
-            if (!openEnded && radiusBottom > 0) {
+            if (!openBottom && radiusBottom > 0) {
                 points.push(Vector3.e2.clone().scale(-heightHalf));
                 for (x = 0; x < radialSegments; x++) {
                     var v1 = vertices[heightSegments][x + 1];
@@ -12042,12 +12048,201 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
                     var uv1 = uvs[heightSegments][x + 1].clone();
                     var uv2 = uvs[heightSegments][x].clone();
                     var uv3 = new Vector2([uv2.x, 1]);
-                    this.data.push(face(points[v1], points[v2], points[v3], [n1, n2, n3], [uv1, uv2, uv3]));
+                    this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                 }
             }
             //    this.computeFaceNormals();
             //    this.computeVertexNormals();
+        };
+        return ConeGeometry;
+    })(Geometry);
+    return ConeGeometry;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../geometries/arc3', '../geometries/Geometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Geometry, Spinor3, Vector2, Vector3) {
+    // TODO: The caps don't have radial segments!
+    function computeVertices(radius, height, axis, start, angle, generator, heightSegments, thetaSegments, points, vertices, uvs) {
+        var begin = Vector3.copy(start).scale(radius);
+        var halfHeight = Vector3.copy(axis).scale(0.5 * height);
+        /**
+         * A displacement in the direction of axis that we must move for each height step.
+         */
+        var stepH = Vector3.copy(axis).normalize().scale(height / heightSegments);
+        for (var i = 0; i <= heightSegments; i++) {
+            /**
+             * The displacement to the current level.
+             */
+            var dispH = Vector3.copy(stepH).scale(i).sub(halfHeight);
+            var verticesRow = [];
+            var uvsRow = [];
+            /**
+             * Interesting that the v coordinate is 1 at the base and 0 at the top!
+             * This is because i originally went from top to bottom.
+             */
+            var v = (heightSegments - i) / heightSegments;
+            /**
+             * arcPoints.length => thetaSegments + 1
+             */
+            var arcPoints = arc3(begin, angle, generator, thetaSegments);
+            /**
+             * j < arcPoints.length => j <= thetaSegments
+             */
+            for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
+                var point = arcPoints[j].add(dispH);
+                /**
+                 * u will vary from 0 to 1, because j goes from 0 to thetaSegments
+                 */
+                var u = j / thetaSegments;
+                points.push(point);
+                verticesRow.push(points.length - 1);
+                uvsRow.push(new Vector2([u, v]));
+            }
+            vertices.push(verticesRow);
+            uvs.push(uvsRow);
         }
+    }
+    /*
+    * * @class CylinderGeometry
+     */
+    var CylinderGeometry = (function (_super) {
+        __extends(CylinderGeometry, _super);
+        /**
+         * @class CylinderGeometry
+         * @constructor
+         * @param radius [number = 1]
+         * @param height [number = 1]
+         * @param axis [Cartesian3 = Vector3.e2]
+         * @param start [Cartesian3 = Vector3.e1]
+         * @param angle [number = 2 * Math.PI]
+         * @param thetaSegments [number = 16]
+         * @param heightSegments [number = 1]
+         * @param openTop [boolean = false]
+         * @param openBottom [boolean = false]
+         */
+        function CylinderGeometry(radius, height, axis, start, angle, thetaSegments, heightSegments, openTop, openBottom) {
+            if (radius === void 0) { radius = 1; }
+            if (height === void 0) { height = 1; }
+            if (axis === void 0) { axis = Vector3.e2; }
+            if (start === void 0) { start = Vector3.e1; }
+            if (angle === void 0) { angle = 2 * Math.PI; }
+            if (thetaSegments === void 0) { thetaSegments = 16; }
+            if (heightSegments === void 0) { heightSegments = 1; }
+            if (openTop === void 0) { openTop = false; }
+            if (openBottom === void 0) { openBottom = false; }
+            thetaSegments = Math.max(thetaSegments, 3);
+            heightSegments = Math.max(heightSegments, 1);
+            _super.call(this, 'CylinderGeometry');
+            this.radius = radius;
+            this.height = height;
+            this.axis = Vector3.copy(axis).normalize();
+            this.start = Vector3.copy(start).normalize();
+            this.angle = angle;
+            this.thetaSegments = thetaSegments;
+            this.heightSegments = heightSegments;
+            this.openTop = openTop;
+            this.openBottom = openBottom;
+            this.setModified(true);
+        }
+        CylinderGeometry.prototype.regenerate = function () {
+            this.data = [];
+            var radius = this.radius;
+            //let height = this.height
+            var heightSegments = this.heightSegments;
+            var thetaSegments = this.thetaSegments;
+            var generator = new Spinor3().dual(this.axis);
+            var heightHalf = this.height / 2;
+            var points = [];
+            // The double array allows us to manage the i,j indexing more naturally.
+            // The alternative is to use an indexing function.
+            var vertices = [];
+            var uvs = [];
+            computeVertices(radius, this.height, this.axis, this.start, this.angle, generator, heightSegments, thetaSegments, points, vertices, uvs);
+            var na;
+            var nb;
+            // sides
+            for (var j = 0; j < thetaSegments; j++) {
+                if (radius !== 0) {
+                    na = Vector3.copy(points[vertices[0][j]]);
+                    nb = Vector3.copy(points[vertices[0][j + 1]]);
+                }
+                else {
+                    na = Vector3.copy(points[vertices[1][j]]);
+                    nb = Vector3.copy(points[vertices[1][j + 1]]);
+                }
+                // FIXME: This isn't geometric.
+                na.setY(0).normalize();
+                nb.setY(0).normalize();
+                for (var i = 0; i < heightSegments; i++) {
+                    /**
+                     *  2-------3
+                     *  |       |
+                     *  |       |
+                     *  |       |
+                     *  1-------4
+                     */
+                    var v1 = vertices[i][j];
+                    var v2 = vertices[i + 1][j];
+                    var v3 = vertices[i + 1][j + 1];
+                    var v4 = vertices[i][j + 1];
+                    // The normals for 1 and 2 are the same.
+                    // The normals for 3 and 4 are the same.
+                    var n1 = na.clone();
+                    var n2 = na.clone();
+                    var n3 = nb.clone();
+                    var n4 = nb.clone();
+                    var uv1 = uvs[i][j].clone();
+                    var uv2 = uvs[i + 1][j].clone();
+                    var uv3 = uvs[i + 1][j + 1].clone();
+                    var uv4 = uvs[i][j + 1].clone();
+                    this.triangle([points[v2], points[v1], points[v3]], [n2, n1, n3], [uv2, uv1, uv3]);
+                    this.triangle([points[v4], points[v3], points[v1]], [n4, n3.clone(), n1.clone()], [uv4, uv3.clone(), uv1.clone()]);
+                }
+            }
+            // top cap
+            if (!this.openTop && radius > 0) {
+                // Push an extra point for the center of the top.
+                points.push(this.axis.clone().scale(heightHalf));
+                for (var j = 0; j < thetaSegments; j++) {
+                    var v1 = vertices[heightSegments][j + 1];
+                    var v2 = points.length - 1;
+                    var v3 = vertices[heightSegments][j];
+                    var n1 = this.axis.clone();
+                    var n2 = this.axis.clone();
+                    var n3 = this.axis.clone();
+                    var uv1 = uvs[heightSegments][j + 1].clone();
+                    // Check this
+                    var uv2 = new Vector2([uv1.x, 1]);
+                    var uv3 = uvs[heightSegments][j].clone();
+                    this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
+                }
+            }
+            // bottom cap
+            if (!this.openBottom && radius > 0) {
+                // Push an extra point for the center of the bottom.
+                points.push(this.axis.clone().scale(-heightHalf));
+                for (var j = 0; j < thetaSegments; j++) {
+                    var v1 = vertices[0][j];
+                    var v2 = points.length - 1;
+                    var v3 = vertices[0][j + 1];
+                    var n1 = this.axis.clone().scale(-1);
+                    var n2 = this.axis.clone().scale(-1);
+                    var n3 = this.axis.clone().scale(-1);
+                    var uv1 = uvs[0][j].clone();
+                    // TODO: Check this
+                    var uv2 = new Vector2([uv1.x, 1]);
+                    var uv3 = uvs[0][j + 1].clone();
+                    this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
+                }
+            }
+            //    this.computeFaceNormals();
+            //    this.computeVertexNormals();
+            this.setModified(false);
+        };
         return CylinderGeometry;
     })(Geometry);
     return CylinderGeometry;
@@ -12593,7 +12788,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector2, Vector3) {
+define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Vector2, Vector3) {
     /**
      * @class SphereGeometry
      * @extends Geometry
@@ -12670,56 +12865,16 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../geom
                     // Special case the north and south poles by only creating one triangle.
                     if (Math.abs(points[v1].y) === radius) {
                         uv1.x = (uv1.x + uv2.x) / 2;
-                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1];
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1;
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3];
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4];
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4;
-                        this.data.push(simplex);
+                        this.triangle([points[v1], points[v3], points[v4]], [n1, n3, n4], [uv1, uv3, uv4]);
                     }
                     else if (Math.abs(points[v3].y) === radius) {
                         uv3.x = (uv3.x + uv4.x) / 2;
-                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1];
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1;
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2];
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3];
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
-                        this.data.push(simplex);
+                        this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                     }
                     else {
                         // The other patches create two triangles.
-                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1];
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1;
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2];
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4];
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4;
-                        this.data.push(simplex);
-                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2];
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2.clone();
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2.clone();
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3];
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4];
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4.clone();
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4.clone();
-                        this.data.push(simplex);
+                        this.triangle([points[v1], points[v2], points[v4]], [n1, n2, n4], [uv1, uv2, uv4]);
+                        this.triangle([points[v2], points[v3], points[v4]], [n2, n3, n4], [uv2, uv3, uv4]);
                     }
                 }
             }
@@ -14793,7 +14948,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../geometries/Simplex', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Euclidean3, Geometry, mustBeInteger, mustBeString, Simplex, Spinor3, Symbolic, Vector2, Vector3) {
+define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, Euclidean3, Geometry, mustBeInteger, mustBeString, Spinor3, Vector2, Vector3) {
     function perpendicular(to) {
         var random = new Vector3([Math.random(), Math.random(), Math.random()]);
         random.cross(to).normalize();
@@ -14906,28 +15061,8 @@ define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../math
                     var b = (circleSegments + 1) * (j - 1) + i - 1;
                     var c = (circleSegments + 1) * (j - 1) + i;
                     var d = (circleSegments + 1) * j + i;
-                    var face = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[a];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[a].clone();
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[b];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[b].clone();
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[d].clone();
-                    this.data.push(face);
-                    var face = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[b];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[b].clone();
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[c];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[c].clone();
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[d].clone();
-                    this.data.push(face);
+                    this.triangle([points[a], points[b], points[d]], [normals[a], normals[b], normals[d]], [uvs[a], uvs[b], uvs[d]]);
+                    this.triangle([points[b], points[c], points[d]], [normals[b], normals[c], normals[d]], [uvs[b], uvs[c], uvs[d]]);
                 }
             }
             this.setModified(false);
@@ -16127,7 +16262,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, RingGeometry, ArrowGeometry, BarnGeometry, CuboidGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, Simplex1Geometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, VortexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, RingGeometry, ArrowGeometry, BarnGeometry, ConeGeometry, CuboidGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, Simplex1Geometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, VortexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -16216,6 +16351,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get RingGeometry() { return RingGeometry; },
         get ArrowGeometry() { return ArrowGeometry; },
         get BarnGeometry() { return BarnGeometry; },
+        get ConeGeometry() { return ConeGeometry; },
         get CuboidGeometry() { return CuboidGeometry; },
         get CylinderGeometry() { return CylinderGeometry; },
         get DodecahedronGeometry() { return DodecahedronGeometry; },

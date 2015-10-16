@@ -55,6 +55,7 @@
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
+                                <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
@@ -205,7 +206,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:29</code></a>
+            Defined in: <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:71</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -225,28 +226,31 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>radiusTop</code>
-                </li>
-                <li class="arg">
-                        <code>radiusBottom</code>
+                        <code>radius</code>
                 </li>
                 <li class="arg">
                         <code>height</code>
                 </li>
                 <li class="arg">
-                        <code>radialSegments</code>
+                        <code>axis</code>
+                </li>
+                <li class="arg">
+                        <code>start</code>
+                </li>
+                <li class="arg">
+                        <code>angle</code>
+                </li>
+                <li class="arg">
+                        <code>thetaSegments</code>
                 </li>
                 <li class="arg">
                         <code>heightSegments</code>
                 </li>
                 <li class="arg">
-                        <code>openEnded</code>
+                        <code>openTop</code>
                 </li>
                 <li class="arg">
-                        <code>thetaStart</code>
-                </li>
-                <li class="arg">
-                        <code>thetaLength</code>
+                        <code>openBottom</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -261,7 +265,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:29</code></a>
+        <a href="../files/src_davinci-eight_geometries_CylinderGeometry.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CylinderGeometry.ts:71</code></a>
         </p>
 
 
@@ -277,18 +281,7 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">radiusTop</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-                    <div class="param-description">
-                        <p>[number = 1]</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">radiusBottom</code>
+                        <code class="param-name">radius</code>
                         <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
@@ -310,7 +303,40 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">radialSegments</code>
+                        <code class="param-name">axis</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>[Cartesian3 = Vector3.e2]</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">start</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>[Cartesian3 = Vector3.e1]</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">angle</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>[number = 2 * Math.PI]</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">thetaSegments</code>
                         <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
@@ -332,7 +358,7 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">openEnded</code>
+                        <code class="param-name">openTop</code>
                         <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
@@ -343,23 +369,12 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">thetaStart</code>
+                        <code class="param-name">openBottom</code>
                         <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
                     <div class="param-description">
-                        <p>[number = 0]</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">thetaLength</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-                    <div class="param-description">
-                        <p>[number = 2 * Math.PI]</p>
+                        <p>[boolean = false]</p>
 
                     </div>
 

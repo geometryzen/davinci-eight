@@ -55,6 +55,7 @@
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
+                                <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
@@ -211,190 +212,228 @@ import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
+import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 import toGeometryData = require(&#x27;../geometries/toGeometryData&#x27;)
 import toGeometryMeta = require(&#x27;../geometries/toGeometryMeta&#x27;)
 import Vector1 = require(&#x27;../math/Vector1&#x27;)
+import Vector2 = require(&#x27;../math/Vector2&#x27;)
+import Vector3 = require(&#x27;../math/Vector3&#x27;)
 
 /**
  * @class Geometry
  * @extends Shareable
  */
 class Geometry extends Shareable {
-  /**
-   * The geometry as a list of simplices.
-   * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
-   * @property data
-   * @type {Simplex[]}
-   */
-  public data: Simplex[] = [];
-  /**
-   * Summary information on the simplices such as dimensionality and sizes for attributes.
-   * This data structure may be used to map vertex attribute names to program names.
-   * @property meta
-   * @type {GeometryMeta}
-   */
-  public meta: GeometryMeta;
-  /**
-   * The dimensionality of the simplices in this geometry.
-   * @property _k
-   * @type {number}
-   * @private
-   */
-  private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+    /**
+     * The geometry as a list of simplices.
+     * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
+     * @property data
+     * @type {Simplex[]}
+     */
+    public data: Simplex[] = [];
+    /**
+     * Summary information on the simplices such as dimensionality and sizes for attributes.
+     * This data structure may be used to map vertex attribute names to program names.
+     * @property meta
+     * @type {GeometryMeta}
+     */
+    public meta: GeometryMeta;
+    /**
+     * The dimensionality of the simplices in this geometry.
+     * @property _k
+     * @type {number}
+     * @private
+     */
+    private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+    /**
+     * @property orientationColors
+     * @type {boolean}
+     * @private
+     */
+    private orientationColors: boolean = false;
 
-  // public dynamic = true;
-  // public verticesNeedUpdate = false;
-  // public elementsNeedUpdate = false;
-  // public uvsNeedUpdate = false;
-  /**
-   * &lt;p&gt;
-   * A list of simplices (data) with information about dimensionality and vertex properties (meta). 
-   * This class should be used as an abstract base or concrete class when constructing
-   * geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
-   * The &lt;code&gt;Geometry&lt;/code&gt; class implements IUnknown, as a convenience to implementations
-   * requiring special de-allocation of resources, by extending &lt;code&gt;Shareable&lt;/code&gt;.
-   * &lt;/p&gt;
-   * @class Geometry
-   * @constructor
-   * @param type [string = &#x27;Geometry&#x27;]
-   */
-  constructor(type: string = &#x27;Geometry&#x27;) {
-    super(mustBeString(&#x27;type&#x27;, type))
-    // Force regenerate, even if derived classes don&#x27;t call setModified.
-    this._k.modified = true
-  }
-  /**
-   * The destructor method should be implemented in derived classes and the super.destructor called
-   * as the last call in the derived class destructor.
-   * @method destructor
-   * @return {void}
-   * @protected
-   */
-  protected destructor(): void {
-    super.destructor()
-  }
-  /**
-   * &lt;p&gt;
-   * The dimensionality of the simplices in this geometry.
-   * &lt;/p&gt;
-   * &lt;p&gt;
-   * The &lt;code&gt;k&lt;/code&gt; parameter affects geometry generation.
-   * &lt;/p&gt;
-   * &lt;code&gt;k&lt;/code&gt; must be an integer.
-   * @property k
-   * @type {number}
-   */
-  public get k(): number {
-    return this._k.x
-  }
-  public set k(k: number) {
-    this._k.x = mustBeInteger(&#x27;k&#x27;, k)
-  }
-  /**
-   * Used to regenerate the simplex data from geometry parameters.
-   * This method should be implemented by the derived geometry class.
-   * @method regenerate
-   * @return {void}
-   */
-  public regenerate(): void {
-    console.warn(&quot;&#x60;public regenerate(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
-  }
-  /**
-   * Used to determine whether the geometry must be recalculated.
-   * The base implementation is pessimistic and returns &lt;code&gt;true&lt;/code&gt;.
-   * This method should be implemented by the derived class to reduce frequent recalculation.
-   * @method isModified
-   * @return {boolean} if the parameters defining the geometry have been modified.
-   */
-  public isModified(): boolean {
-    return this._k.modified
-  }
-  /**
-   * Sets the modification state of &lt;code&gt;this&lt;/code&gt; instance.
-   * Derived classes should override this method if they contain parameters which affect geometry calculation. 
-   * @method setModified
-   * @param modified {boolean} The value that the modification state will be set to.
-   * @return {Geometry} &#x60;this&#x60; instance.
-   * @chainable
-   */
-  public setModified(modified: boolean): Geometry {
-    this._k.modified = modified
-    return this
-  }
-  /**
-   * &lt;p&gt;
-   * Applies the &lt;em&gt;boundary&lt;/em&gt; operation to each Simplex in this instance the specified number of times.
-   * &lt;/p&gt;
-   * &lt;p&gt;
-   * The boundary operation converts simplices of dimension &#x60;n&#x60; to &#x60;n - 1&#x60;.
-   * For example, triangles are converted to lines.
-   * &lt;/p&gt;
-   *
-   * @method boundary
-   * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-   * @return {Geometry}
-   */
-  public boundary(times?: number): Geometry {
-    if (this.isModified()) {
-      this.regenerate()
+    // public dynamic = true;
+    // public verticesNeedUpdate = false;
+    // public elementsNeedUpdate = false;
+    // public uvsNeedUpdate = false;
+    /**
+     * &lt;p&gt;
+     * A list of simplices (data) with information about dimensionality and vertex properties (meta). 
+     * This class should be used as an abstract base or concrete class when constructing
+     * geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
+     * The &lt;code&gt;Geometry&lt;/code&gt; class implements IUnknown, as a convenience to implementations
+     * requiring special de-allocation of resources, by extending &lt;code&gt;Shareable&lt;/code&gt;.
+     * &lt;/p&gt;
+     * @class Geometry
+     * @constructor
+     * @param type [string = &#x27;Geometry&#x27;]
+     */
+    constructor(type: string = &#x27;Geometry&#x27;) {
+        super(mustBeString(&#x27;type&#x27;, type))
+        // Force regenerate, even if derived classes don&#x27;t call setModified.
+        this._k.modified = true
     }
-    this.data = Simplex.boundary(this.data, times);
-    return this.check();
-  }
-  /**
-   * Updates the meta property of this instance to match the data.
-   *
-   * @method check
-   * @return {Geometry}
-   * @beta
-   */
-  // FIXME: Rename to something more suggestive.
-  public check(): Geometry {
-    this.meta = toGeometryMeta(this.data);
-    return this;
-  }
-  /**
-   * &lt;p&gt;
-   * Applies the subdivide operation to each Simplex in this instance the specified number of times.
-   * &lt;/p&gt;
-   * &lt;p&gt;
-   * The subdivide operation creates new simplices of the same dimension as the originals.
-   * &lt;/p&gt;
-   *
-   * @method subdivide
-   * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-   * @return {Geometry}
-   */
-  public subdivide(times?: number): Geometry {
-    if (this.isModified()) {
-      this.regenerate()
+    /**
+     * The destructor method should be implemented in derived classes and the super.destructor called
+     * as the last call in the derived class destructor.
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        super.destructor()
     }
-    this.data = Simplex.subdivide(this.data, times);
-    this.check();
-    return this;
-  }
-  /**
-   * @method toGeometry
-   * @return {GeometryElements}
-   */
-  public toElements(): GeometryElements {
-    if (this.isModified()) {
-      this.regenerate()
+    /**
+     * &lt;p&gt;
+     * The dimensionality of the simplices in this geometry.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The &lt;code&gt;k&lt;/code&gt; parameter affects geometry generation.
+     * &lt;/p&gt;
+     * &lt;code&gt;k&lt;/code&gt; must be an integer.
+     * @property k
+     * @type {number}
+     */
+    public get k(): number {
+        return this._k.x
     }
-    this.check()
-    let elements = toGeometryData(this.data, this.meta)
-    return new GeometryElements(elements, this.meta)
-  }
-  /**
-   * @method mergeVertices
-   * @param precisionPonts [number = 4]
-   * @return {void}
-   * @protected
-   * @beta
-   */
-  protected mergeVertices(precisionPoints: number = 4): void {
-    // console.warn(&quot;Geometry.mergeVertices not yet implemented&quot;);
-  }
+    public set k(k: number) {
+        this._k.x = mustBeInteger(&#x27;k&#x27;, k)
+    }
+    /**
+     * Used to regenerate the simplex data from geometry parameters.
+     * This method should be implemented by the derived geometry class.
+     * @method regenerate
+     * @return {void}
+     */
+    public regenerate(): void {
+        console.warn(&quot;&#x60;public regenerate(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
+    }
+    /**
+     * Used to determine whether the geometry must be recalculated.
+     * The base implementation is pessimistic and returns &lt;code&gt;true&lt;/code&gt;.
+     * This method should be implemented by the derived class to reduce frequent recalculation.
+     * @method isModified
+     * @return {boolean} if the parameters defining the geometry have been modified.
+     */
+    public isModified(): boolean {
+        return this._k.modified
+    }
+    /**
+     * Sets the modification state of &lt;code&gt;this&lt;/code&gt; instance.
+     * Derived classes should override this method if they contain parameters which affect geometry calculation. 
+     * @method setModified
+     * @param modified {boolean} The value that the modification state will be set to.
+     * @return {Geometry} &#x60;this&#x60; instance.
+     * @chainable
+     */
+    public setModified(modified: boolean): Geometry {
+        this._k.modified = modified
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * Applies the &lt;em&gt;boundary&lt;/em&gt; operation to each Simplex in this instance the specified number of times.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The boundary operation converts simplices of dimension &#x60;n&#x60; to &#x60;n - 1&#x60;.
+     * For example, triangles are converted to lines.
+     * &lt;/p&gt;
+     *
+     * @method boundary
+     * @param times {number} Determines the number of times the boundary operation is applied to this instance.
+     * @return {Geometry}
+     */
+    public boundary(times?: number): Geometry {
+        if (this.isModified()) {
+            this.regenerate()
+        }
+        this.data = Simplex.boundary(this.data, times);
+        return this.check();
+    }
+    /**
+     * Updates the meta property of this instance to match the data.
+     *
+     * @method check
+     * @return {Geometry}
+     * @beta
+     */
+    // FIXME: Rename to something more suggestive.
+    public check(): Geometry {
+        this.meta = toGeometryMeta(this.data);
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * Applies the subdivide operation to each Simplex in this instance the specified number of times.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The subdivide operation creates new simplices of the same dimension as the originals.
+     * &lt;/p&gt;
+     *
+     * @method subdivide
+     * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
+     * @return {Geometry}
+     */
+    public subdivide(times?: number): Geometry {
+        if (this.isModified()) {
+            this.regenerate()
+        }
+        this.data = Simplex.subdivide(this.data, times);
+        this.check();
+        return this;
+    }
+    /**
+     * @method toGeometry
+     * @return {GeometryElements}
+     */
+    public toElements(): GeometryElements {
+        if (this.isModified()) {
+            this.regenerate()
+        }
+        this.check()
+        let elements = toGeometryData(this.data, this.meta)
+        return new GeometryElements(elements, this.meta)
+    }
+    /**
+     * @method mergeVertices
+     * @param precisionPonts [number = 4]
+     * @return {void}
+     * @protected
+     * @beta
+     */
+    protected mergeVertices(precisionPoints: number = 4): void {
+        // console.warn(&quot;Geometry.mergeVertices not yet implemented&quot;);
+    }
+    /**
+     * Convenience method for pushing attribute data as a triangular simplex
+     * @method triangle
+     * @param positions {Vector3[]}
+     * @param normals {Vector3[]}
+     * @param uvs {Vector2[]}
+     * @return {number}
+     * @beta
+     */
+    public triangle(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1]
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[2]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1]
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[2]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1]
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2]
+        if (this.orientationColors) {
+            // simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
+            // simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone()
+            // simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e3.clone()
+        }
+        return this.data.push(simplex)
+    }
 }
 
 export = Geometry;

@@ -55,6 +55,7 @@
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
+                                <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
@@ -281,6 +282,10 @@
                                 <a href="#method_toGeometry">toGeometry</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_triangle">triangle</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -302,6 +307,10 @@
                             </li>
                             <li class="index-item property inherited">
                                 <a href="#property_meta">meta</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property_orientationColors">orientationColors</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -387,7 +396,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_boundary">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l118"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:118</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:127</code></a>
         </p>
 
 
@@ -450,7 +459,7 @@ For example, triangles are converted to lines.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_check">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:138</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:147</code></a>
         </p>
 
 
@@ -495,7 +504,7 @@ For example, triangles are converted to lines.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:60</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:69</code></a>
         </p>
 
 
@@ -537,7 +546,7 @@ as the last call in the derived class destructor.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_isModified">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:96</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:105</code></a>
         </p>
 
 
@@ -589,7 +598,7 @@ This method should be implemented by the derived class to reduce frequent recalc
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_mergeVertices">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l182"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:182</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l191"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:191</code></a>
         </p>
 
 
@@ -646,7 +655,7 @@ This method should be implemented by the derived class to reduce frequent recalc
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_regenerate">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:87</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:96</code></a>
         </p>
 
 
@@ -741,7 +750,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_setModified">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:106</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:115</code></a>
         </p>
 
 
@@ -808,7 +817,7 @@ Derived classes should override this method if they contain parameters which aff
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_subdivide">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l150"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:150</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:159</code></a>
         </p>
 
 
@@ -870,7 +879,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_toGeometry">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:170</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l179"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:179</code></a>
         </p>
 
 
@@ -887,6 +896,95 @@ The subdivide operation creates new simplices of the same dimension as the origi
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/GeometryElements.html" class="crosslink">GeometryElements</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_triangle" class="method item inherited">
+    <h3 class="name"><code>triangle</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>positions</code>
+                </li>
+                <li class="arg">
+                        <code>normals</code>
+                </li>
+                <li class="arg">
+                        <code>uvs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#method_triangle">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:201</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Convenience method for pushing attribute data as a triangular simplex</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">positions</code>
+                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">normals</code>
+                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">uvs</code>
+                        <span class="type"><a href="../classes/Vector2.html" class="crosslink">Vector2[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
             </div>
         </div>
 
@@ -909,7 +1007,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property__k">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:31</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:34</code></a>
         </p>
 
 
@@ -934,7 +1032,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property_data">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:17</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:20</code></a>
         </p>
 
 
@@ -960,7 +1058,7 @@ A simplex, in the context of WebGL, will usually represent a triangle, line or p
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property_k">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:70</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:79</code></a>
         </p>
 
 
@@ -990,7 +1088,7 @@ The <code>k</code> parameter affects geometry generation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property_meta">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:24</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:27</code></a>
         </p>
 
 
@@ -1000,6 +1098,31 @@ The <code>k</code> parameter affects geometry generation.
         <p>Summary information on the simplices such as dimensionality and sizes for attributes.
 This data structure may be used to map vertex attribute names to program names.</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_orientationColors" class="property item private inherited">
+    <h3 class="name"><code>orientationColors</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#property_orientationColors">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:41</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 

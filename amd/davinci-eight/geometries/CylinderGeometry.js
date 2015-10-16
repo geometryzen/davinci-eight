@@ -3,139 +3,185 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector2, Vector3) {
-    function face(pt0, pt1, pt2, normals, uvs) {
-        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = pt0;
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = pt1;
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = pt2;
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1];
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[2];
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2];
-        return simplex;
+define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Geometry, Spinor3, Vector2, Vector3) {
+    // TODO: The caps don't have radial segments!
+    function computeVertices(radius, height, axis, start, angle, generator, heightSegments, thetaSegments, points, vertices, uvs) {
+        var begin = Vector3.copy(start).scale(radius);
+        var halfHeight = Vector3.copy(axis).scale(0.5 * height);
+        /**
+         * A displacement in the direction of axis that we must move for each height step.
+         */
+        var stepH = Vector3.copy(axis).normalize().scale(height / heightSegments);
+        for (var i = 0; i <= heightSegments; i++) {
+            /**
+             * The displacement to the current level.
+             */
+            var dispH = Vector3.copy(stepH).scale(i).sub(halfHeight);
+            var verticesRow = [];
+            var uvsRow = [];
+            /**
+             * Interesting that the v coordinate is 1 at the base and 0 at the top!
+             * This is because i originally went from top to bottom.
+             */
+            var v = (heightSegments - i) / heightSegments;
+            /**
+             * arcPoints.length => thetaSegments + 1
+             */
+            var arcPoints = arc3(begin, angle, generator, thetaSegments);
+            /**
+             * j < arcPoints.length => j <= thetaSegments
+             */
+            for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
+                var point = arcPoints[j].add(dispH);
+                /**
+                 * u will vary from 0 to 1, because j goes from 0 to thetaSegments
+                 */
+                var u = j / thetaSegments;
+                points.push(point);
+                verticesRow.push(points.length - 1);
+                uvsRow.push(new Vector2([u, v]));
+            }
+            vertices.push(verticesRow);
+            uvs.push(uvsRow);
+        }
     }
-    /**
-     * @class CylinderGeometry
+    /*
+    * * @class CylinderGeometry
      */
     var CylinderGeometry = (function (_super) {
         __extends(CylinderGeometry, _super);
         /**
          * @class CylinderGeometry
          * @constructor
-         * @param radiusTop [number = 1]
-         * @param radiusBottom [number = 1]
+         * @param radius [number = 1]
          * @param height [number = 1]
-         * @param radialSegments [number = 16]
+         * @param axis [Cartesian3 = Vector3.e2]
+         * @param start [Cartesian3 = Vector3.e1]
+         * @param angle [number = 2 * Math.PI]
+         * @param thetaSegments [number = 16]
          * @param heightSegments [number = 1]
-         * @param openEnded [boolean = false]
-         * @param thetaStart [number = 0]
-         * @param thetaLength [number = 2 * Math.PI]
+         * @param openTop [boolean = false]
+         * @param openBottom [boolean = false]
          */
-        function CylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
-            if (radiusTop === void 0) { radiusTop = 1; }
-            if (radiusBottom === void 0) { radiusBottom = 1; }
+        function CylinderGeometry(radius, height, axis, start, angle, thetaSegments, heightSegments, openTop, openBottom) {
+            if (radius === void 0) { radius = 1; }
             if (height === void 0) { height = 1; }
-            if (radialSegments === void 0) { radialSegments = 16; }
+            if (axis === void 0) { axis = Vector3.e2; }
+            if (start === void 0) { start = Vector3.e1; }
+            if (angle === void 0) { angle = 2 * Math.PI; }
+            if (thetaSegments === void 0) { thetaSegments = 16; }
             if (heightSegments === void 0) { heightSegments = 1; }
-            if (openEnded === void 0) { openEnded = false; }
-            if (thetaStart === void 0) { thetaStart = 0; }
-            if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
-            radialSegments = Math.max(radialSegments, 3);
+            if (openTop === void 0) { openTop = false; }
+            if (openBottom === void 0) { openBottom = false; }
+            thetaSegments = Math.max(thetaSegments, 3);
             heightSegments = Math.max(heightSegments, 1);
-            _super.call(this);
-            var heightHalf = height / 2;
-            var x;
-            var y;
+            _super.call(this, 'CylinderGeometry');
+            this.radius = radius;
+            this.height = height;
+            this.axis = Vector3.copy(axis).normalize();
+            this.start = Vector3.copy(start).normalize();
+            this.angle = angle;
+            this.thetaSegments = thetaSegments;
+            this.heightSegments = heightSegments;
+            this.openTop = openTop;
+            this.openBottom = openBottom;
+            this.setModified(true);
+        }
+        CylinderGeometry.prototype.regenerate = function () {
+            this.data = [];
+            var radius = this.radius;
+            //let height = this.height
+            var heightSegments = this.heightSegments;
+            var thetaSegments = this.thetaSegments;
+            var generator = new Spinor3().dual(this.axis);
+            var heightHalf = this.height / 2;
             var points = [];
+            // The double array allows us to manage the i,j indexing more naturally.
+            // The alternative is to use an indexing function.
             var vertices = [];
             var uvs = [];
-            for (y = 0; y <= heightSegments; y++) {
-                var verticesRow = [];
-                var uvsRow = [];
-                var v = y / heightSegments;
-                var radius = v * (radiusBottom - radiusTop) + radiusTop;
-                for (x = 0; x <= radialSegments; x++) {
-                    var u = x / radialSegments;
-                    var vertex = new Vector3();
-                    vertex.x = radius * Math.sin(u * thetaLength + thetaStart);
-                    vertex.y = -v * height + heightHalf;
-                    vertex.z = radius * Math.cos(u * thetaLength + thetaStart);
-                    points.push(vertex);
-                    verticesRow.push(points.length - 1);
-                    uvsRow.push(new Vector2([u, 1 - v]));
-                }
-                vertices.push(verticesRow);
-                uvs.push(uvsRow);
-            }
-            var tanTheta = (radiusBottom - radiusTop) / height;
+            computeVertices(radius, this.height, this.axis, this.start, this.angle, generator, heightSegments, thetaSegments, points, vertices, uvs);
             var na;
             var nb;
-            for (x = 0; x < radialSegments; x++) {
-                if (radiusTop !== 0) {
-                    na = Vector3.copy(points[vertices[0][x]]);
-                    nb = Vector3.copy(points[vertices[0][x + 1]]);
+            // sides
+            for (var j = 0; j < thetaSegments; j++) {
+                if (radius !== 0) {
+                    na = Vector3.copy(points[vertices[0][j]]);
+                    nb = Vector3.copy(points[vertices[0][j + 1]]);
                 }
                 else {
-                    na = Vector3.copy(points[vertices[1][x]]);
-                    nb = Vector3.copy(points[vertices[1][x + 1]]);
+                    na = Vector3.copy(points[vertices[1][j]]);
+                    nb = Vector3.copy(points[vertices[1][j + 1]]);
                 }
-                na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
-                nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
-                for (y = 0; y < heightSegments; y++) {
-                    var v1 = vertices[y][x];
-                    var v2 = vertices[y + 1][x];
-                    var v3 = vertices[y + 1][x + 1];
-                    var v4 = vertices[y][x + 1];
+                // FIXME: This isn't geometric.
+                na.setY(0).normalize();
+                nb.setY(0).normalize();
+                for (var i = 0; i < heightSegments; i++) {
+                    /**
+                     *  2-------3
+                     *  |       |
+                     *  |       |
+                     *  |       |
+                     *  1-------4
+                     */
+                    var v1 = vertices[i][j];
+                    var v2 = vertices[i + 1][j];
+                    var v3 = vertices[i + 1][j + 1];
+                    var v4 = vertices[i][j + 1];
+                    // The normals for 1 and 2 are the same.
+                    // The normals for 3 and 4 are the same.
                     var n1 = na.clone();
                     var n2 = na.clone();
                     var n3 = nb.clone();
                     var n4 = nb.clone();
-                    var uv1 = uvs[y][x].clone();
-                    var uv2 = uvs[y + 1][x].clone();
-                    var uv3 = uvs[y + 1][x + 1].clone();
-                    var uv4 = uvs[y][x + 1].clone();
-                    this.data.push(face(points[v1], points[v2], points[v4], [n1, n2, n4], [uv1, uv2, uv4]));
-                    this.data.push(face(points[v2], points[v3], points[v4], [n2.clone(), n3, n4.clone()], [uv2.clone(), uv3, uv4.clone()]));
+                    var uv1 = uvs[i][j].clone();
+                    var uv2 = uvs[i + 1][j].clone();
+                    var uv3 = uvs[i + 1][j + 1].clone();
+                    var uv4 = uvs[i][j + 1].clone();
+                    this.triangle([points[v2], points[v1], points[v3]], [n2, n1, n3], [uv2, uv1, uv3]);
+                    this.triangle([points[v4], points[v3], points[v1]], [n4, n3.clone(), n1.clone()], [uv4, uv3.clone(), uv1.clone()]);
                 }
             }
             // top cap
-            if (!openEnded && radiusTop > 0) {
-                points.push(Vector3.e2.clone().scale(heightHalf));
-                for (x = 0; x < radialSegments; x++) {
-                    var v1 = vertices[0][x];
-                    var v2 = vertices[0][x + 1];
-                    var v3 = points.length - 1;
-                    var n1 = Vector3.e2.clone();
-                    var n2 = Vector3.e2.clone();
-                    var n3 = Vector3.e2.clone();
-                    var uv1 = uvs[0][x].clone();
-                    var uv2 = uvs[0][x + 1].clone();
-                    var uv3 = new Vector2([uv2.x, 0]);
-                    this.data.push(face(points[v1], points[v2], points[v3], [n1, n2, n3], [uv1, uv2, uv3]));
+            if (!this.openTop && radius > 0) {
+                // Push an extra point for the center of the top.
+                points.push(this.axis.clone().scale(heightHalf));
+                for (var j = 0; j < thetaSegments; j++) {
+                    var v1 = vertices[heightSegments][j + 1];
+                    var v2 = points.length - 1;
+                    var v3 = vertices[heightSegments][j];
+                    var n1 = this.axis.clone();
+                    var n2 = this.axis.clone();
+                    var n3 = this.axis.clone();
+                    var uv1 = uvs[heightSegments][j + 1].clone();
+                    // Check this
+                    var uv2 = new Vector2([uv1.x, 1]);
+                    var uv3 = uvs[heightSegments][j].clone();
+                    this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                 }
             }
             // bottom cap
-            if (!openEnded && radiusBottom > 0) {
-                points.push(Vector3.e2.clone().scale(-heightHalf));
-                for (x = 0; x < radialSegments; x++) {
-                    var v1 = vertices[heightSegments][x + 1];
-                    var v2 = vertices[heightSegments][x];
-                    var v3 = points.length - 1;
-                    var n1 = Vector3.e2.clone().scale(-1);
-                    var n2 = Vector3.e2.clone().scale(-1);
-                    var n3 = Vector3.e2.clone().scale(-1);
-                    var uv1 = uvs[heightSegments][x + 1].clone();
-                    var uv2 = uvs[heightSegments][x].clone();
-                    var uv3 = new Vector2([uv2.x, 1]);
-                    this.data.push(face(points[v1], points[v2], points[v3], [n1, n2, n3], [uv1, uv2, uv3]));
+            if (!this.openBottom && radius > 0) {
+                // Push an extra point for the center of the bottom.
+                points.push(this.axis.clone().scale(-heightHalf));
+                for (var j = 0; j < thetaSegments; j++) {
+                    var v1 = vertices[0][j];
+                    var v2 = points.length - 1;
+                    var v3 = vertices[0][j + 1];
+                    var n1 = this.axis.clone().scale(-1);
+                    var n2 = this.axis.clone().scale(-1);
+                    var n3 = this.axis.clone().scale(-1);
+                    var uv1 = uvs[0][j].clone();
+                    // TODO: Check this
+                    var uv2 = new Vector2([uv1.x, 1]);
+                    var uv3 = uvs[0][j + 1].clone();
+                    this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                 }
             }
             //    this.computeFaceNormals();
             //    this.computeVertexNormals();
-        }
+            this.setModified(false);
+        };
         return CylinderGeometry;
     })(Geometry);
     return CylinderGeometry;

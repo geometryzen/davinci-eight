@@ -10,36 +10,37 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
     /**
      *
      */
-    function computeVertices(a, b, n, s, angle, generator, radialSegments, thetaSegments, vertices, uvs) {
+    function computeVertices(a, b, axis, start, angle, generator, radialSegments, thetaSegments, vertices, uvs) {
         /**
          * `t` is the vector perpendicular to s in the plane of the ring.
          * We could use the generator an PI / 4 to calculate this or the cross product as here.
          */
-        var t = Vector3.copy(n).cross(s);
+        var perp = Vector3.copy(axis).cross(start);
         /**
          * The distance of the vertex from the origin and center.
          */
         var radius = b;
         var radiusStep = (a - b) / radialSegments;
         for (var i = 0; i < radialSegments + 1; i++) {
-            var begin = Vector3.copy(s).scale(radius);
+            var begin = Vector3.copy(start).scale(radius);
             var arcPoints = arc3(begin, angle, generator, thetaSegments);
             for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
                 var arcPoint = arcPoints[j];
                 vertices.push(arcPoint);
                 // The coordinates vary between -a and +a, which we map to 0 and 1.
-                uvs.push(new Vector2([(arcPoint.dot(s) / a + 1) / 2, (arcPoint.dot(t) / a + 1) / 2]));
+                uvs.push(new Vector2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]));
             }
             radius += radiusStep;
         }
     }
     /**
      * Our traversal will generate the following mapping into the vertices and uvs arrays.
+     * This is standard for two looping variables.
      */
     function vertexIndex(i, j, thetaSegments) {
         return i * (thetaSegments + 1) + j;
     }
-    function makeTriangles(vertices, uvs, normal, radialSegments, thetaSegments, data) {
+    function makeTriangles(vertices, uvs, axis, radialSegments, thetaSegments, geometry) {
         for (var i = 0; i < radialSegments; i++) {
             // Our traversal has resulted in the following formula for the index
             // into the vertices or uvs array
@@ -57,31 +58,11 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
                 var v0 = quadIndex;
                 var v1 = quadIndex + thetaSegments + 1; // Move outwards one segment.
                 var v2 = quadIndex + thetaSegments + 2; // Then move one segment along the radius.
-                var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v0];
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v0].clone();
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v1];
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v1].clone();
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v2];
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v2].clone();
-                data.push(simplex);
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
                 v0 = quadIndex; // Start at the same corner
                 v1 = quadIndex + thetaSegments + 2; // Move diagonally outwards and along radial
                 v2 = quadIndex + 1; // Then move radially inwards
-                var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v0];
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v0].clone();
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v1];
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v1].clone();
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[v2];
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[v2].clone();
-                data.push(simplex);
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
             }
         }
     }
@@ -140,19 +121,20 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
          * @constructor
          * @param a [number = 1] The outer radius
          * @param b [number = 0] The inner radius
-         * @param e [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
-         * @param
+         * @param axis [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
+         * @param start [Cartesian3 = Vector3.e1] The direction of the start.
+         * @param angle [number = 2 * Math.PI] The angle.
          */
-        function RingGeometry(innerRadius, outerRadius, normal, start, angle) {
+        function RingGeometry(innerRadius, outerRadius, axis, start, angle) {
             if (innerRadius === void 0) { innerRadius = 0; }
             if (outerRadius === void 0) { outerRadius = 1; }
-            if (normal === void 0) { normal = Vector3.e3; }
+            if (axis === void 0) { axis = Vector3.e3; }
             if (start === void 0) { start = Vector3.e1; }
             if (angle === void 0) { angle = 2 * Math.PI; }
             _super.call(this, 'RingGeometry');
             this.innerRadius = innerRadius;
             this.outerRadius = outerRadius;
-            this.normal = Vector3.copy(normal).normalize();
+            this.axis = Vector3.copy(axis).normalize();
             this.start = Vector3.copy(start).normalize();
             this.angle = mustBeNumber('angle', angle);
             this.radialSegments = 1;
@@ -181,10 +163,10 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
             this.data = [];
             var radialSegments = this.radialSegments;
             var thetaSegments = this.thetaSegments;
-            var generator = new Spinor3().dual(this.normal);
+            var generator = new Spinor3().dual(this.axis);
             var vertices = [];
             var uvs = [];
-            computeVertices(this.outerRadius, this.innerRadius, this.normal, this.start, this.angle, generator, radialSegments, thetaSegments, vertices, uvs);
+            computeVertices(this.outerRadius, this.innerRadius, this.axis, this.start, this.angle, generator, radialSegments, thetaSegments, vertices, uvs);
             switch (this.k) {
                 case Simplex.K_FOR_EMPTY:
                     {
@@ -203,7 +185,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
                     break;
                 case Simplex.K_FOR_TRIANGLE:
                     {
-                        makeTriangles(vertices, uvs, this.normal, radialSegments, thetaSegments, this.data);
+                        makeTriangles(vertices, uvs, this.axis, radialSegments, thetaSegments, this);
                     }
                     break;
                 default: {

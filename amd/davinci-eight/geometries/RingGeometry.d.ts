@@ -20,12 +20,12 @@ declare class RingGeometry extends Geometry {
     outerRadius: number;
     /**
      * The axis of symmetry (unit vector) direction.
-     * @property normal
+     * @property axis
      * @type {Vector3}
      */
-    normal: Vector3;
+    axis: Vector3;
     /**
-     * The direction (perpendicular to normal) of the start or the arc.
+     * The direction (perpendicular to axis) of the start or the arc.
      * @property start
      * @type {Vector3}
      */
@@ -48,10 +48,11 @@ declare class RingGeometry extends Geometry {
      * @constructor
      * @param a [number = 1] The outer radius
      * @param b [number = 0] The inner radius
-     * @param e [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
-     * @param
+     * @param axis [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
+     * @param start [Cartesian3 = Vector3.e1] The direction of the start.
+     * @param angle [number = 2 * Math.PI] The angle.
      */
-    constructor(innerRadius?: number, outerRadius?: number, normal?: Cartesian3, start?: Cartesian3, angle?: number);
+    constructor(innerRadius?: number, outerRadius?: number, axis?: Cartesian3, start?: Cartesian3, angle?: number);
     /**
      * @method destructor
      * @return {void}

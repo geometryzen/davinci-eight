@@ -443,6 +443,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/ConeGeometry.ts": {
+            "name": "src/davinci-eight/geometries/ConeGeometry.ts",
+            "modules": {},
+            "classes": {
+                "ConeGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/CuboidGeometry.ts": {
             "name": "src/davinci-eight/geometries/CuboidGeometry.ts",
             "modules": {},
@@ -1507,6 +1516,7 @@
                 "UniformMetaInfo": 1,
                 "ArrowGeometry": 1,
                 "BarnGeometry": 1,
+                "ConeGeometry": 1,
                 "CuboidGeometry": 1,
                 "CylinderGeometry": 1,
                 "DodecahedronGeometry": 1,
@@ -2257,6 +2267,58 @@
             "description": "The basic barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly.\nTen (10) vertices are used to define the barn.\nThe floor vertices are lablled 0, 1, 6, 5.\nThe corresponding ceiling vertices are labelled 4, 2, 7, 9.\nThe roof peak vertices are labelled 3, 8.",
             "is_constructor": 1
         },
+        "ConeGeometry": {
+            "name": "ConeGeometry",
+            "shortname": "ConeGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/ConeGeometry.ts",
+            "line": 20,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "radiusTop",
+                    "description": "[number = 0.5]"
+                },
+                {
+                    "name": "radiusBottom",
+                    "description": "[number = 0.5]"
+                },
+                {
+                    "name": "height",
+                    "description": "[number = 1]"
+                },
+                {
+                    "name": "radialSegments",
+                    "description": "[number = 16]"
+                },
+                {
+                    "name": "heightSegments",
+                    "description": "[number = 1]"
+                },
+                {
+                    "name": "openTop",
+                    "description": "[boolean = false]"
+                },
+                {
+                    "name": "openBottom",
+                    "description": "[boolean = false]"
+                },
+                {
+                    "name": "thetaStart",
+                    "description": "[number = 0]"
+                },
+                {
+                    "name": "thetaLength",
+                    "description": "[number = 2 * Math.PI]"
+                }
+            ]
+        },
         "CuboidGeometry": {
             "name": "CuboidGeometry",
             "shortname": "CuboidGeometry",
@@ -2313,15 +2375,11 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 29,
+            "line": 71,
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "radiusTop",
-                    "description": "[number = 1]"
-                },
-                {
-                    "name": "radiusBottom",
+                    "name": "radius",
                     "description": "[number = 1]"
                 },
                 {
@@ -2329,7 +2387,19 @@
                     "description": "[number = 1]"
                 },
                 {
-                    "name": "radialSegments",
+                    "name": "axis",
+                    "description": "[Cartesian3 = Vector3.e2]"
+                },
+                {
+                    "name": "start",
+                    "description": "[Cartesian3 = Vector3.e1]"
+                },
+                {
+                    "name": "angle",
+                    "description": "[number = 2 * Math.PI]"
+                },
+                {
+                    "name": "thetaSegments",
                     "description": "[number = 16]"
                 },
                 {
@@ -2337,16 +2407,12 @@
                     "description": "[number = 1]"
                 },
                 {
-                    "name": "openEnded",
+                    "name": "openTop",
                     "description": "[boolean = false]"
                 },
                 {
-                    "name": "thetaStart",
-                    "description": "[number = 0]"
-                },
-                {
-                    "name": "thetaLength",
-                    "description": "[number = 2 * Math.PI]"
+                    "name": "openBottom",
+                    "description": "[boolean = false]"
                 }
             ]
         },
@@ -2386,7 +2452,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 43,
+            "line": 52,
             "extends": "Shareable",
             "description": "<p>\nA list of simplices (data) with information about dimensionality and vertex properties (meta). \nThis class should be used as an abstract base or concrete class when constructing\ngeometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).\nThe <code>Geometry</code> class implements IUnknown, as a convenience to implementations\nrequiring special de-allocation of resources, by extending <code>Shareable</code>.\n</p>",
             "is_constructor": 1,
@@ -2641,7 +2707,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 195,
+            "line": 172,
             "extends": "Geometry",
             "description": "Creates an annulus with a single hole.",
             "is_constructor": 1,
@@ -2655,8 +2721,16 @@
                     "description": "[number = 0] The inner radius"
                 },
                 {
-                    "name": "e",
+                    "name": "axis",
                     "description": "[Cartesian3 = Vector3.e3] The symmetry axis unit vector."
+                },
+                {
+                    "name": "start",
+                    "description": "[Cartesian3 = Vector3.e1] The direction of the start."
+                },
+                {
+                    "name": "angle",
+                    "description": "[number = 2 * Math.PI] The angle."
                 }
             ]
         },
@@ -6907,8 +6981,57 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 18,
+            "description": "A displacement in the direction of axis that we must move for each height step.",
+            "class": "CylinderGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 24,
+            "description": "The displacement to the current level.",
+            "class": "CylinderGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 30,
+            "description": "Interesting that the v coordinate is 1 at the base and 0 at the top!\nThis is because i originally went from top to bottom.",
+            "class": "CylinderGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 35,
+            "description": "arcPoints.length => thetaSegments + 1",
+            "class": "CylinderGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 39,
+            "description": "j < arcPoints.length => j <= thetaSegments",
+            "class": "CylinderGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 44,
+            "description": "u will vary from 0 to 1, because j goes from 0 to thetaSegments",
+            "class": "CylinderGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 145,
+            "description": "2-------3\n|       | \n|       |\n|       |\n1-------4",
+            "class": "CylinderGeometry",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 17,
+            "line": 20,
             "description": "The geometry as a list of simplices.\nA simplex, in the context of WebGL, will usually represent a triangle, line or point.",
             "itemtype": "property",
             "name": "data",
@@ -6918,7 +7041,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 24,
+            "line": 27,
             "description": "Summary information on the simplices such as dimensionality and sizes for attributes.\nThis data structure may be used to map vertex attribute names to program names.",
             "itemtype": "property",
             "name": "meta",
@@ -6928,7 +7051,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 31,
+            "line": 34,
             "description": "The dimensionality of the simplices in this geometry.",
             "itemtype": "property",
             "name": "_k",
@@ -6940,7 +7063,18 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 60,
+            "line": 41,
+            "itemtype": "property",
+            "name": "orientationColors",
+            "type": "{boolean}",
+            "access": "private",
+            "tagname": "",
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Geometry.ts",
+            "line": 69,
             "description": "The destructor method should be implemented in derived classes and the super.destructor called\nas the last call in the derived class destructor.",
             "itemtype": "method",
             "name": "destructor",
@@ -6955,7 +7089,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 70,
+            "line": 79,
             "description": "<p>\nThe dimensionality of the simplices in this geometry.\n</p>\n<p>\nThe <code>k</code> parameter affects geometry generation.\n</p>\n<code>k</code> must be an integer.",
             "itemtype": "property",
             "name": "k",
@@ -6965,7 +7099,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 87,
+            "line": 96,
             "description": "Used to regenerate the simplex data from geometry parameters.\nThis method should be implemented by the derived geometry class.",
             "itemtype": "method",
             "name": "regenerate",
@@ -6978,7 +7112,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 96,
+            "line": 105,
             "description": "Used to determine whether the geometry must be recalculated.\nThe base implementation is pessimistic and returns <code>true</code>.\nThis method should be implemented by the derived class to reduce frequent recalculation.",
             "itemtype": "method",
             "name": "isModified",
@@ -6991,7 +7125,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 106,
+            "line": 115,
             "description": "Sets the modification state of <code>this</code> instance.\nDerived classes should override this method if they contain parameters which affect geometry calculation.",
             "itemtype": "method",
             "name": "setModified",
@@ -7012,7 +7146,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 118,
+            "line": 127,
             "description": "<p>\nApplies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe boundary operation converts simplices of dimension `n` to `n - 1`.\nFor example, triangles are converted to lines.\n</p>",
             "itemtype": "method",
             "name": "boundary",
@@ -7032,7 +7166,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 138,
+            "line": 147,
             "description": "Updates the meta property of this instance to match the data.",
             "itemtype": "method",
             "name": "check",
@@ -7046,7 +7180,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 150,
+            "line": 159,
             "description": "<p>\nApplies the subdivide operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe subdivide operation creates new simplices of the same dimension as the originals.\n</p>",
             "itemtype": "method",
             "name": "subdivide",
@@ -7066,7 +7200,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 170,
+            "line": 179,
             "itemtype": "method",
             "name": "toGeometry",
             "return": {
@@ -7078,7 +7212,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 182,
+            "line": 191,
             "itemtype": "method",
             "name": "mergeVertices",
             "params": [
@@ -7093,6 +7227,37 @@
             },
             "access": "protected",
             "tagname": "",
+            "beta": 1,
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Geometry.ts",
+            "line": 201,
+            "description": "Convenience method for pushing attribute data as a triangular simplex",
+            "itemtype": "method",
+            "name": "triangle",
+            "params": [
+                {
+                    "name": "positions",
+                    "description": "",
+                    "type": "Vector3[]"
+                },
+                {
+                    "name": "normals",
+                    "description": "",
+                    "type": "Vector3[]"
+                },
+                {
+                    "name": "uvs",
+                    "description": "",
+                    "type": "Vector2[]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "beta": 1,
             "class": "Geometry",
             "module": "EIGHT"
@@ -7355,27 +7520,27 @@
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
             "line": 44,
-            "description": "Our traversal will generate the following mapping into the vertices and uvs arrays.",
+            "description": "Our traversal will generate the following mapping into the vertices and uvs arrays.\nThis is standard for two looping variables.",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 56,
+            "line": 57,
             "description": "The index along the start radial line where j = 0. This is just index(i,0)",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 62,
+            "line": 63,
             "description": "The index of the corner of the quadrilateral with the lowest value of i and j.\nThis corresponds to the smallest radius and smallest angle counterclockwise.",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 159,
+            "line": 136,
             "description": "The inner radius.",
             "itemtype": "property",
             "name": "innerRadius",
@@ -7385,7 +7550,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 165,
+            "line": 142,
             "description": "The outer radius.",
             "itemtype": "property",
             "name": "outerRadius",
@@ -7395,18 +7560,18 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 171,
+            "line": 148,
             "description": "The axis of symmetry (unit vector) direction.",
             "itemtype": "property",
-            "name": "normal",
+            "name": "axis",
             "type": "{Vector3}",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 177,
-            "description": "The direction (perpendicular to normal) of the start or the arc.",
+            "line": 154,
+            "description": "The direction (perpendicular to axis) of the start or the arc.",
             "itemtype": "property",
             "name": "start",
             "type": "{Vector3}",
@@ -7415,28 +7580,28 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 183,
+            "line": 160,
             "description": "The angle subtended by the ring.",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 187,
+            "line": 164,
             "description": "The number of segments in the radial direction.",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 191,
+            "line": 168,
             "description": "The number of segments in the angular direction.",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 214,
+            "line": 192,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7450,7 +7615,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 222,
+            "line": 200,
             "itemtype": "method",
             "name": "isModified",
             "return": {
@@ -7462,7 +7627,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 229,
+            "line": 207,
             "itemtype": "method",
             "name": "regenerate",
             "return": {
@@ -7474,7 +7639,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 268,
+            "line": 246,
             "itemtype": "method",
             "name": "setModified",
             "params": [
@@ -10849,10 +11014,6 @@
             "line": " src/davinci-eight/cameras/createPerspective.ts:19"
         },
         {
-            "message": "param name/type/descript missing",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:195"
-        },
-        {
             "message": "unknown tag: parameters",
             "line": " src/davinci-eight/materials/EmptyMaterial.ts:24"
         },
@@ -10977,6 +11138,34 @@
             "line": " src/davinci-eight/events/MicroEvent.ts:24"
         },
         {
+            "message": "Missing item type\nA displacement in the direction of axis that we must move for each height step.",
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:18"
+        },
+        {
+            "message": "Missing item type\nThe displacement to the current level.",
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:24"
+        },
+        {
+            "message": "Missing item type\nInteresting that the v coordinate is 1 at the base and 0 at the top!\nThis is because i originally went from top to bottom.",
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:30"
+        },
+        {
+            "message": "Missing item type\narcPoints.length => thetaSegments + 1",
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:35"
+        },
+        {
+            "message": "Missing item type\nj < arcPoints.length => j <= thetaSegments",
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:39"
+        },
+        {
+            "message": "Missing item type\nu will vary from 0 to 1, because j goes from 0 to thetaSegments",
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:44"
+        },
+        {
+            "message": "Missing item type\n2-------3\n|       | \n|       |\n|       |\n1-------4",
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:145"
+        },
+        {
             "message": "Missing item type\nThe values of the attribute.",
             "line": " src/davinci-eight/geometries/GeometryAttribute.ts:43"
         },
@@ -11037,28 +11226,28 @@
             "line": " src/davinci-eight/geometries/RingGeometry.ts:25"
         },
         {
-            "message": "Missing item type\nOur traversal will generate the following mapping into the vertices and uvs arrays.",
+            "message": "Missing item type\nOur traversal will generate the following mapping into the vertices and uvs arrays.\nThis is standard for two looping variables.",
             "line": " src/davinci-eight/geometries/RingGeometry.ts:44"
         },
         {
             "message": "Missing item type\nThe index along the start radial line where j = 0. This is just index(i,0)",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:56"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:57"
         },
         {
             "message": "Missing item type\nThe index of the corner of the quadrilateral with the lowest value of i and j.\nThis corresponds to the smallest radius and smallest angle counterclockwise.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:62"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:63"
         },
         {
             "message": "Missing item type\nThe angle subtended by the ring.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:183"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:160"
         },
         {
             "message": "Missing item type\nThe number of segments in the radial direction.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:187"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:164"
         },
         {
             "message": "Missing item type\nThe number of segments in the angular direction.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:191"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:168"
         },
         {
             "message": "Missing item type",

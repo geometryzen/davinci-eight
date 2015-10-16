@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/GeometryElements', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/Vector1'], function (require, exports, GeometryElements, mustBeInteger, mustBeString, Shareable, Simplex, toGeometryData, toGeometryMeta, Vector1) {
+define(["require", "exports", '../geometries/GeometryElements', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/Vector1'], function (require, exports, GeometryElements, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, toGeometryData, toGeometryMeta, Vector1) {
     /**
      * @class Geometry
      * @extends Shareable
@@ -43,6 +43,12 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
              * @private
              */
             this._k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+            /**
+             * @property orientationColors
+             * @type {boolean}
+             * @private
+             */
+            this.orientationColors = false;
             // Force regenerate, even if derived classes don't call setModified.
             this._k.modified = true;
         }
@@ -182,6 +188,30 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
         Geometry.prototype.mergeVertices = function (precisionPoints) {
             if (precisionPoints === void 0) { precisionPoints = 4; }
             // console.warn("Geometry.mergeVertices not yet implemented");
+        };
+        /**
+         * Convenience method for pushing attribute data as a triangular simplex
+         * @method triangle
+         * @param positions {Vector3[]}
+         * @param normals {Vector3[]}
+         * @param uvs {Vector2[]}
+         * @return {number}
+         * @beta
+         */
+        Geometry.prototype.triangle = function (positions, normals, uvs) {
+            var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1];
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[2];
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1];
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[2];
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2];
+            if (this.orientationColors) {
+            }
+            return this.data.push(simplex);
         };
         return Geometry;
     })(Shareable);

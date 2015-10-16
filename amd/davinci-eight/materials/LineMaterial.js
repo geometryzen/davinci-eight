@@ -32,7 +32,6 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
         LineMaterial.prototype.createMaterial = function () {
             var smb = new SmartMaterialBuilder();
             smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
             smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
             smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
             smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');

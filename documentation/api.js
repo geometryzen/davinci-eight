@@ -18,6 +18,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ColorFacet",
         "ColorRGB",
         "Complex",
+        "ConeGeometry",
         "ContextAttributesLogger",
         "ContextController",
         "CuboidGeometry",

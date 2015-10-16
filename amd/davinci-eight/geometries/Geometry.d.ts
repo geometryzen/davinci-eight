@@ -2,6 +2,8 @@ import GeometryElements = require('../geometries/GeometryElements');
 import GeometryMeta = require('../geometries/GeometryMeta');
 import Shareable = require('../utils/Shareable');
 import Simplex = require('../geometries/Simplex');
+import Vector2 = require('../math/Vector2');
+import Vector3 = require('../math/Vector3');
 /**
  * @class Geometry
  * @extends Shareable
@@ -28,6 +30,12 @@ declare class Geometry extends Shareable {
      * @private
      */
     private _k;
+    /**
+     * @property orientationColors
+     * @type {boolean}
+     * @private
+     */
+    private orientationColors;
     /**
      * <p>
      * A list of simplices (data) with information about dimensionality and vertex properties (meta).
@@ -133,5 +141,15 @@ declare class Geometry extends Shareable {
      * @beta
      */
     protected mergeVertices(precisionPoints?: number): void;
+    /**
+     * Convenience method for pushing attribute data as a triangular simplex
+     * @method triangle
+     * @param positions {Vector3[]}
+     * @param normals {Vector3[]}
+     * @param uvs {Vector2[]}
+     * @return {number}
+     * @beta
+     */
+    triangle(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number;
 }
 export = Geometry;

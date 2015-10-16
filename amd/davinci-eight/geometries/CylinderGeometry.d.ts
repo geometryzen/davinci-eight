@@ -1,20 +1,30 @@
+import Cartesian3 = require('../math/Cartesian3');
 import Geometry = require('../geometries/Geometry');
-/**
- * @class CylinderGeometry
- */
+import Vector3 = require('../math/Vector3');
 declare class CylinderGeometry extends Geometry {
+    radius: number;
+    height: number;
+    axis: Vector3;
+    start: Vector3;
+    angle: number;
+    thetaSegments: number;
+    heightSegments: number;
+    openTop: boolean;
+    openBottom: boolean;
     /**
      * @class CylinderGeometry
      * @constructor
-     * @param radiusTop [number = 1]
-     * @param radiusBottom [number = 1]
+     * @param radius [number = 1]
      * @param height [number = 1]
-     * @param radialSegments [number = 16]
+     * @param axis [Cartesian3 = Vector3.e2]
+     * @param start [Cartesian3 = Vector3.e1]
+     * @param angle [number = 2 * Math.PI]
+     * @param thetaSegments [number = 16]
      * @param heightSegments [number = 1]
-     * @param openEnded [boolean = false]
-     * @param thetaStart [number = 0]
-     * @param thetaLength [number = 2 * Math.PI]
+     * @param openTop [boolean = false]
+     * @param openBottom [boolean = false]
      */
-    constructor(radiusTop?: number, radiusBottom?: number, height?: number, radialSegments?: number, heightSegments?: number, openEnded?: boolean, thetaStart?: number, thetaLength?: number);
+    constructor(radius?: number, height?: number, axis?: Cartesian3, start?: Cartesian3, angle?: number, thetaSegments?: number, heightSegments?: number, openTop?: boolean, openBottom?: boolean);
+    regenerate(): void;
 }
 export = CylinderGeometry;

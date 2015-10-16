@@ -48,7 +48,6 @@ class MeshMaterial extends Material {
 
     smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
     smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3);
-    // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
 
     smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
     smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');

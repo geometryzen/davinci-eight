@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Vector2, Vector3) {
     /**
      * @class SphereGeometry
      * @extends Geometry
@@ -80,56 +80,16 @@ define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex',
                     // Special case the north and south poles by only creating one triangle.
                     if (Math.abs(points[v1].y) === radius) {
                         uv1.x = (uv1.x + uv2.x) / 2;
-                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1];
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1;
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3];
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4];
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4;
-                        this.data.push(simplex);
+                        this.triangle([points[v1], points[v3], points[v4]], [n1, n3, n4], [uv1, uv3, uv4]);
                     }
                     else if (Math.abs(points[v3].y) === radius) {
                         uv3.x = (uv3.x + uv4.x) / 2;
-                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1];
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1;
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2];
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3];
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
-                        this.data.push(simplex);
+                        this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                     }
                     else {
                         // The other patches create two triangles.
-                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1];
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1;
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2];
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4];
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4;
-                        this.data.push(simplex);
-                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2];
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2.clone();
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2.clone();
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3];
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3;
-                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4];
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4.clone();
-                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4.clone();
-                        this.data.push(simplex);
+                        this.triangle([points[v1], points[v2], points[v4]], [n1, n2, n4], [uv1, uv2, uv4]);
+                        this.triangle([points[v2], points[v3], points[v4]], [n2, n3, n4], [uv2, uv3, uv4]);
                     }
                 }
             }

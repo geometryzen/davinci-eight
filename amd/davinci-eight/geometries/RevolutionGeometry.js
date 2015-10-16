@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../math/Spinor3', '../core/Symbolic', '../math/Vector2'], function (require, exports, Geometry, Simplex, Spinor3, Symbolic, Vector2) {
+define(["require", "exports", '../geometries/Geometry', '../math/Spinor3', '../math/Vector2'], function (require, exports, Geometry, Spinor3, Vector2) {
     /**
      * @class RevolutionGeometry
      */
@@ -79,22 +79,8 @@ define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex',
                     var v0 = j * inversePointLength;
                     var u1 = u0 + inverseSegments;
                     var v1 = v0 + inversePointLength;
-                    var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[d];
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u0, v0]);
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[b];
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u1, v0]);
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[a];
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u0, v1]);
-                    this.data.push(simplex);
-                    var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[d];
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u1, v0]);
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[c];
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u1, v1]);
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[b];
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u0, v1]);
-                    this.data.push(simplex);
+                    this.triangle([vertices[d], vertices[b], vertices[a]], [], [new Vector2([u0, v0]), new Vector2([u1, v0]), new Vector2([u0, v1])]);
+                    this.triangle([vertices[d], vertices[c], vertices[b]], [], [new Vector2([u1, v0]), new Vector2([u1, v1]), new Vector2([u0, v1])]);
                 }
             }
             //    this.computeFaceNormals();

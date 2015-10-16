@@ -42,6 +42,7 @@ import GeometryElements = require('davinci-eight/geometries/GeometryElements');
 import RingGeometry = require('davinci-eight/geometries/RingGeometry');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
+import ConeGeometry = require('davinci-eight/geometries/ConeGeometry');
 import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry');
 import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
@@ -175,6 +176,7 @@ declare var eight: {
     RingGeometry: typeof RingGeometry;
     ArrowGeometry: typeof ArrowGeometry;
     BarnGeometry: typeof BarnGeometry;
+    ConeGeometry: typeof ConeGeometry;
     CuboidGeometry: typeof CuboidGeometry;
     CylinderGeometry: typeof CylinderGeometry;
     DodecahedronGeometry: typeof DodecahedronGeometry;

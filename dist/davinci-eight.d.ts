@@ -1515,12 +1515,12 @@ declare module EIGHT {
     class RingGeometry extends Geometry {
         innerRadius: number;
         outerRadius: number;
-        normal: Vector3;
+        axis: Vector3;
         start: Vector3;
         angle: number;
         radialSegments: number;
         thetaSegments: number;
-        constructor(innerRadius?: number, outerRadius?: number, normal?: Cartesian3, start?: Cartesian3, angle?: number);
+        constructor(innerRadius?: number, outerRadius?: number, axis?: Cartesian3, start?: Cartesian3, angle?: number);
     }
 
     /**
@@ -1537,6 +1537,13 @@ declare module EIGHT {
     /**
      *
      */
+    class ConeGeometry extends Geometry {
+        constructor();
+    }
+
+    /**
+     *
+     */
     class CuboidGeometry extends Geometry {
         a: Vector3;
         b: Vector3;
@@ -1546,15 +1553,25 @@ declare module EIGHT {
     }
 
     class CylinderGeometry extends Geometry {
+        radius: number;
+        height: number;
+        axis: Vector3;
+        start: Vector3;
+        angle: number;
+        thetaSegments: number;
+        heightSegments: number;
+        openTop: boolean;
+        openBottom: boolean;
         constructor(
-            radiusTop?: number,
-            radiusBottom?: number,
+            radius?: number,
             height?: number,
-            radialSegments?: number,
+            axis?: Cartesian3,
+            start?: Cartesian3,
+            angle?: number,
+            thetaSegments?: number,
             heightSegments?: number,
-            openEnded?: boolean,
-            thetaStart?: number,
-            thetaLength?: number
+            openTop?: boolean,
+            openBottom?: boolean
         )
     }
 
