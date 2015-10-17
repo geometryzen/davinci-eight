@@ -2,9 +2,10 @@ import arc3 = require('../geometries/arc3')
 import Cartesian3 = require('../math/Cartesian3')
 import Geometry = require('../geometries/Geometry')
 import Simplex = require('../geometries/Simplex')
-import Symbolic = require('../core/Symbolic')
+import SliceGeometry = require('../geometries/SliceGeometry');
 import Spinor3 = require('../math/Spinor3')
 import Spinor3Coords = require('../math/Spinor3Coords')
+import Symbolic = require('../core/Symbolic')
 import Vector2 = require('../math/Vector2')
 import Vector3 = require('../math/Vector3')
 
@@ -55,29 +56,27 @@ function computeVertices(radius: number, height: number, axis: Cartesian3, start
 
 }
 
-/*
-* * @class CylinderGeometry
+/**
+ * @class CylinderGeometry
+ * @extends SliceGeometry
  */
-class CylinderGeometry extends Geometry {
+class CylinderGeometry extends SliceGeometry {
     public radius: number;
     public height: number;
-    public axis: Vector3;
-    public start: Vector3;
-    public angle: number;
-    public thetaSegments: number;
-    public heightSegments: number;
     public openTop: boolean;
     public openBottom: boolean;
     /**
+     * <p>
+     * Constructs a Cylindrical Shell.
+     * </p>
+     * <p>
+     * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
+     * </p>
      * @class CylinderGeometry
      * @constructor
      * @param radius [number = 1]
      * @param height [number = 1]
      * @param axis [Cartesian3 = Vector3.e2]
-     * @param start [Cartesian3 = Vector3.e1]
-     * @param angle [number = 2 * Math.PI]
-     * @param thetaSegments [number = 16]
-     * @param heightSegments [number = 1]
      * @param openTop [boolean = false]
      * @param openBottom [boolean = false]
      */
@@ -85,25 +84,12 @@ class CylinderGeometry extends Geometry {
         radius: number = 1,
         height: number = 1,
         axis: Cartesian3 = Vector3.e2,
-        start: Cartesian3 = Vector3.e1,
-        angle: number = 2 * Math.PI,
-        thetaSegments: number = 16,
-        heightSegments: number = 1,
         openTop: boolean = false,
         openBottom: boolean = false
     ) {
-
-        thetaSegments = Math.max(thetaSegments, 3);
-        heightSegments = Math.max(heightSegments, 1);
-
-        super('CylinderGeometry')
+        super('CylinderGeometry', axis, void 0, void 0)
         this.radius = radius
         this.height = height
-        this.axis = Vector3.copy(axis).normalize()
-        this.start = Vector3.copy(start).normalize()
-        this.angle = angle
-        this.thetaSegments = thetaSegments
-        this.heightSegments = heightSegments
         this.openTop = openTop
         this.openBottom = openBottom
         this.setModified(true)
@@ -112,8 +98,8 @@ class CylinderGeometry extends Geometry {
         this.data = []
         let radius = this.radius
         //let height = this.height
-        let heightSegments = this.heightSegments
-        let thetaSegments = this.thetaSegments
+        let heightSegments = this.flatSegments
+        let thetaSegments = this.curvedSegments
         var generator: Spinor3Coords = new Spinor3().dual(this.axis)
 
         let heightHalf = this.height / 2;
@@ -124,7 +110,7 @@ class CylinderGeometry extends Geometry {
         let vertices: number[][] = [];
         let uvs: Vector2[][] = [];
 
-        computeVertices(radius, this.height, this.axis, this.start, this.angle, generator, heightSegments, thetaSegments, points, vertices, uvs)
+        computeVertices(radius, this.height, this.axis, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs)
 
         var na: Vector3;
         var nb: Vector3;

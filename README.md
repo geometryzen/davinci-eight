@@ -232,6 +232,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.129.0: 2015-10-14 IAnimationTarget
 * 2.130.0: 2015-10-15 RingGeometry
 * 2.131.0: 2015-10-15 RingGeometry
+* 2.132.0: 2015-10-16 SphericalPolarGeometry
 
 ## License
 Copyright (c) 2014-2015 David Holmes

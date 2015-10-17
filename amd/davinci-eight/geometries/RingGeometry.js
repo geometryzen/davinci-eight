@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '../checks/mustBeNumber', '../geometries/Simplex', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Geometry, mustBeNumber, Simplex, Spinor3, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceGeometry', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Simplex, SliceGeometry, Spinor3, Symbolic, Vector2, Vector3) {
     // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
     // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
     // TODO: May be more efficient to calculate points for the outer circle then scale them inwards.
@@ -111,34 +111,31 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
     }
     /**
      * @class RingGeometry
-     * @extends Geometry
+     * @extends SliceGeometry
      */
     var RingGeometry = (function (_super) {
         __extends(RingGeometry, _super);
         /**
+         * <p>
          * Creates an annulus with a single hole.
+         * </p>
+         * <p>
+         * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
+         * </p>
          * @class RingGeometry
          * @constructor
          * @param a [number = 1] The outer radius
          * @param b [number = 0] The inner radius
-         * @param axis [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
-         * @param start [Cartesian3 = Vector3.e1] The direction of the start.
-         * @param angle [number = 2 * Math.PI] The angle.
+         * @param axis [Cartesian3] The <code>axis</code> property.
+         * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
+         * @param sliceAngle [number] The <code>sliceAngle</code> property.
          */
-        function RingGeometry(innerRadius, outerRadius, axis, start, angle) {
-            if (innerRadius === void 0) { innerRadius = 0; }
-            if (outerRadius === void 0) { outerRadius = 1; }
-            if (axis === void 0) { axis = Vector3.e3; }
-            if (start === void 0) { start = Vector3.e1; }
-            if (angle === void 0) { angle = 2 * Math.PI; }
-            _super.call(this, 'RingGeometry');
-            this.innerRadius = innerRadius;
-            this.outerRadius = outerRadius;
-            this.axis = Vector3.copy(axis).normalize();
-            this.start = Vector3.copy(start).normalize();
-            this.angle = mustBeNumber('angle', angle);
-            this.radialSegments = 1;
-            this.thetaSegments = 32;
+        function RingGeometry(a, b, axis, sliceStart, sliceAngle) {
+            if (a === void 0) { a = 1; }
+            if (b === void 0) { b = 0; }
+            _super.call(this, 'RingGeometry', axis, sliceStart, sliceAngle);
+            this.a = a;
+            this.b = b;
         }
         /**
          * @method destructor
@@ -161,12 +158,12 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
          */
         RingGeometry.prototype.regenerate = function () {
             this.data = [];
-            var radialSegments = this.radialSegments;
-            var thetaSegments = this.thetaSegments;
+            var radialSegments = this.flatSegments;
+            var thetaSegments = this.curvedSegments;
             var generator = new Spinor3().dual(this.axis);
             var vertices = [];
             var uvs = [];
-            computeVertices(this.outerRadius, this.innerRadius, this.axis, this.start, this.angle, generator, radialSegments, thetaSegments, vertices, uvs);
+            computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);
             switch (this.k) {
                 case Simplex.K_FOR_EMPTY:
                     {
@@ -205,6 +202,6 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
             return this;
         };
         return RingGeometry;
-    })(Geometry);
+    })(SliceGeometry);
     return RingGeometry;
 });

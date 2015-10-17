@@ -62,9 +62,6 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             uniform4f: function (name, x, y, z, w, canvasId) {
                 return innerProgram.uniform4f(name, x, y, z, w, canvasId);
             },
-            uniformMatrix1: function (name, transpose, matrix, canvasId) {
-                return innerProgram.uniformMatrix1(name, transpose, matrix, canvasId);
-            },
             uniformMatrix2: function (name, transpose, matrix, canvasId) {
                 return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
             },
@@ -74,9 +71,6 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             uniformMatrix4: function (name, transpose, matrix, canvasId) {
                 return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
             },
-            uniformCartesian1: function (name, vector, canvasId) {
-                return innerProgram.uniformCartesian1(name, vector, canvasId);
-            },
             uniformCartesian2: function (name, vector, canvasId) {
                 return innerProgram.uniformCartesian2(name, vector, canvasId);
             },
@@ -85,9 +79,6 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             },
             uniformCartesian4: function (name, vector, canvasId) {
                 return innerProgram.uniformCartesian4(name, vector, canvasId);
-            },
-            vector1: function (name, data, canvasId) {
-                return innerProgram.vector1(name, data, canvasId);
             },
             vector2: function (name, data, canvasId) {
                 return innerProgram.vector2(name, data, canvasId);

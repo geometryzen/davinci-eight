@@ -7,7 +7,7 @@ import IContextProvider = require('../core/IContextProvider')
 import IContextMonitor = require('../core/IContextMonitor')
 import core = require('../core')
 import IMaterial = require('../core/IMaterial')
-import Matrix1 = require('../math/Matrix1')
+import MutableNumber = require('../math/MutableNumber')
 import Matrix2 = require('../math/Matrix2')
 import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
@@ -21,7 +21,6 @@ import mustBeString = require('../checks/mustBeString')
 import uuid4 = require('../utils/uuid4')
 import UniformLocation = require('../core/UniformLocation')
 import UniformMetaInfo = require('../core/UniformMetaInfo')
-import Vector1 = require('../math/Vector1')
 import Vector2 = require('../math/Vector2')
 import Vector3 = require('../math/Vector3')
 import Vector4 = require('../math/Vector4')
@@ -216,17 +215,6 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
         }
       }
     },
-    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number) {
-      mustBeString('name', name)
-      mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.matrix1(transpose, matrix)
-        }
-      }
-    },
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
@@ -265,17 +253,6 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
         }
       }
     },
-    uniformCartesian1(name: string, vector: Cartesian1, canvasId: number) {
-      mustBeString('name', name)
-      mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.cartesian1(vector)
-        }
-      }
-    },
     uniformCartesian2(name: string, vector: Cartesian2, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
@@ -306,17 +283,6 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
           uniformLoc.cartesian4(vector)
-        }
-      }
-    },
-    vector1(name: string, data: number[], canvasId: number): void {
-      mustBeString('name', name)
-      mustBeInteger('canvasId', canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.vector1(data)
         }
       }
     },

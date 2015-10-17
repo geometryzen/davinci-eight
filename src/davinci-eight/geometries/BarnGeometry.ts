@@ -5,7 +5,7 @@ import quad = require('../geometries/quadrilateral')
 import Simplex = require('../geometries/Simplex')
 import Symbolic = require('../core/Symbolic')
 import triangle = require('../geometries/triangle')
-import Vector1 = require('../math/Vector1')
+import MutableNumber = require('../math/MutableNumber')
 import Vector3 = require('../math/Vector3')
 import VectorN = require('../math/VectorN')
 

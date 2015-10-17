@@ -8,7 +8,7 @@ import Simplex = require('../geometries/Simplex')
 import Symbolic = require('../core/Symbolic')
 import toGeometryData = require('../geometries/toGeometryData')
 import toGeometryMeta = require('../geometries/toGeometryMeta')
-import Vector1 = require('../math/Vector1')
+import MutableNumber = require('../math/MutableNumber')
 import Vector2 = require('../math/Vector2')
 import Vector3 = require('../math/Vector3')
 
@@ -37,13 +37,28 @@ class Geometry extends Shareable {
      * @type {number}
      * @private
      */
-    private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+    private _k = new MutableNumber([Simplex.K_FOR_TRIANGLE]);
     /**
+     * Specifies the number of segments to use in curved directions.
+     * @property curvedSegments
+     * @type {number}
+     */
+    public curvedSegments: number = 16;
+    /**
+     * Specifies the number of segments to use on flat surfaces.
+     * @property flatSegments
+     * @type {number}
+     */
+    public flatSegments: number = 1;
+    /**
+     * <p>
+     * Specifies that the geometry should set colors on vertex attributes
+     * for visualizing orientation of triangles
+     * </p>
      * @property orientationColors
      * @type {boolean}
-     * @private
      */
-    private orientationColors: boolean = false;
+    public orientationColors: boolean = false;
 
     // public dynamic = true;
     // public verticesNeedUpdate = false;
@@ -221,10 +236,42 @@ class Geometry extends Shareable {
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1]
         simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2]
         if (this.orientationColors) {
-            // simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
-            // simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone()
-            // simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e3.clone()
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone()
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e3.clone()
         }
+        return this.data.push(simplex)
+    }
+    public lineSegment(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+        var simplex = new Simplex(Simplex.K_FOR_LINE_SEGMENT)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1]
+        if (this.orientationColors) {
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone()
+        }
+        return this.data.push(simplex)
+    }
+    public point(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+        var simplex = new Simplex(Simplex.K_FOR_POINT)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0]
+        if (this.orientationColors) {
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
+        }
+        return this.data.push(simplex)
+    }
+    public empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+        var simplex = new Simplex(Simplex.K_FOR_EMPTY)
         return this.data.push(simplex)
     }
 }

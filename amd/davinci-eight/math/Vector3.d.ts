@@ -97,9 +97,25 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
     __mul__(rhs: number): Vector3;
     /**
      * @method copy
-     * Copy constructor.
+     * @param vector {Cartesian}
+     * @return {Vector3}
+     * @static
      */
     static copy(vector: Cartesian3): Vector3;
+    /**
+     * <code>a + alpha * (b - a)</code>
+     * @method lerp
+     * @param a {Cartesian3}
+     * @param b {Cartesian3}
+     * @param alpha {number}
+     * @return {Vector3}
+     */
     static lerp(a: Cartesian3, b: Cartesian3, alpha: number): Vector3;
+    /**
+     * @method random
+     * @return {Vector3}
+     * @static
+     */
+    static random(): Vector3;
 }
 export = Vector3;

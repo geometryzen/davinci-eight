@@ -1,58 +1,38 @@
 import Cartesian3 = require('../math/Cartesian3');
-import Geometry = require('../geometries/Geometry');
-import Vector3 = require('../math/Vector3');
+import SliceGeometry = require('../geometries/SliceGeometry');
 /**
  * @class RingGeometry
- * @extends Geometry
+ * @extends SliceGeometry
  */
-declare class RingGeometry extends Geometry {
-    /**
-     * The inner radius.
-     * @property innerRadius
-     * @type {number}
-     */
-    innerRadius: number;
+declare class RingGeometry extends SliceGeometry {
     /**
      * The outer radius.
-     * @property outerRadius
+     * @property a
      * @type {number}
      */
-    outerRadius: number;
+    a: number;
     /**
-     * The axis of symmetry (unit vector) direction.
-     * @property axis
-     * @type {Vector3}
+     * The inner radius.
+     * @property b
+     * @type {number}
      */
-    axis: Vector3;
+    b: number;
     /**
-     * The direction (perpendicular to axis) of the start or the arc.
-     * @property start
-     * @type {Vector3}
-     */
-    start: Vector3;
-    /**
-     * The angle subtended by the ring.
-     */
-    angle: number;
-    /**
-     * The number of segments in the radial direction.
-     */
-    radialSegments: number;
-    /**
-     * The number of segments in the angular direction.
-     */
-    thetaSegments: number;
-    /**
+     * <p>
      * Creates an annulus with a single hole.
+     * </p>
+     * <p>
+     * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
+     * </p>
      * @class RingGeometry
      * @constructor
      * @param a [number = 1] The outer radius
      * @param b [number = 0] The inner radius
-     * @param axis [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
-     * @param start [Cartesian3 = Vector3.e1] The direction of the start.
-     * @param angle [number = 2 * Math.PI] The angle.
+     * @param axis [Cartesian3] The <code>axis</code> property.
+     * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
+     * @param sliceAngle [number] The <code>sliceAngle</code> property.
      */
-    constructor(innerRadius?: number, outerRadius?: number, axis?: Cartesian3, start?: Cartesian3, angle?: number);
+    constructor(a?: number, b?: number, axis?: Cartesian3, sliceStart?: Cartesian3, sliceAngle?: number);
     /**
      * @method destructor
      * @return {void}

@@ -1,6 +1,6 @@
 import Simplex = require('../geometries/Simplex');
 import Symbolic = require('../core/Symbolic');
-import Vector1 = require('../math/Vector1');
+import MutableNumber = require('../math/MutableNumber');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
@@ -16,7 +16,7 @@ function buildPlane(
   widthSegments: number,
   heightSegments: number,
   depthSegments: number,
-  geometryIndex: Vector1,
+  geometryIndex: MutableNumber,
   points: Vector3[],
   faces: Simplex[]) {
 

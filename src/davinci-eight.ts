@@ -73,6 +73,7 @@ import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera')
 import Scene = require('davinci-eight/scene/Scene')
 import Canvas3D = require('davinci-eight/scene/Canvas3D')
 // geometries
+import AxialGeometry = require('davinci-eight/geometries/AxialGeometry')
 import GeometryElements = require('davinci-eight/geometries/GeometryElements')
 import RingGeometry = require('davinci-eight/geometries/RingGeometry')
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
@@ -86,10 +87,11 @@ import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeomet
 import Simplex1Geometry = require('davinci-eight/geometries/Simplex1Geometry')
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry')
 import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry')
+import SliceGeometry = require('davinci-eight/geometries/SliceGeometry')
 import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry')
 import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry')
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry')
-import SphereGeometry = require('davinci-eight/geometries/SphereGeometry')
+import SphericalPolarGeometry = require('davinci-eight/geometries/SphericalPolarGeometry')
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry')
 //import TubeGeometry          = require('davinci-eight/geometries/TubeGeometry')
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry')
@@ -129,7 +131,7 @@ import Euler = require('davinci-eight/math/Euler')
 import GeometricElement = require('davinci-eight/math/GeometricElement')
 import LinearElement = require('davinci-eight/math/LinearElement')
 import mathcore = require('davinci-eight/math/mathcore')
-import Matrix1 = require('davinci-eight/math/Matrix1')
+import MutableNumber = require('davinci-eight/math/MutableNumber')
 import Matrix2 = require('davinci-eight/math/Matrix2')
 import Matrix3 = require('davinci-eight/math/Matrix3')
 import Matrix4 = require('davinci-eight/math/Matrix4')
@@ -144,7 +146,6 @@ import Spinor3 = require('davinci-eight/math/Spinor3')
 import Spinor3Coords = require('davinci-eight/math/Spinor3Coords')
 import Unit = require('davinci-eight/math/Unit')
 import UnitError = require('davinci-eight/math/UnitError')
-import Vector1 = require('davinci-eight/math/Vector1')
 import Vector2 = require('davinci-eight/math/Vector2')
 import Vector3 = require('davinci-eight/math/Vector3')
 import Vector4 = require('davinci-eight/math/Vector4')
@@ -281,6 +282,7 @@ var eight = {
     get Color() { return Color },
     get CompatcGeometry() { return GeometryElements },
     get RingGeometry() { return RingGeometry },
+    get AxialGeometry() { return AxialGeometry },
     get ArrowGeometry() { return ArrowGeometry },
     get BarnGeometry() { return BarnGeometry },
     get ConeGeometry() { return ConeGeometry },
@@ -295,7 +297,8 @@ var eight = {
     get SurfaceGeometry() { return SurfaceGeometry },
     get PolyhedronGeometry() { return PolyhedronGeometry },
     get RevolutionGeometry() { return RevolutionGeometry },
-    get SphereGeometry() { return SphereGeometry },
+    get SliceGeometry() { return SliceGeometry },
+    get SphericalPolarGeometry() { return SphericalPolarGeometry },
     get TetrahedronGeometry() { return TetrahedronGeometry },
     //  get TubeGeometry() { return TubeGeometry },
     get VortexGeometry() { return VortexGeometry },
@@ -303,7 +306,7 @@ var eight = {
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
     get Spinor3() { return Spinor3 },
-    get Vector1() { return Vector1 },
+    get MutableNumber() { return MutableNumber },
     get Vector2() { return Vector2 },
     get Vector3() { return Vector3 },
     get Vector4() { return Vector4 },

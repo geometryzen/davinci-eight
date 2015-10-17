@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.131.0",
+        "version": "2.132.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -432,6 +432,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/AxialGeometry.ts": {
+            "name": "src/davinci-eight/geometries/AxialGeometry.ts",
+            "modules": {},
+            "classes": {
+                "AxialGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/BarnGeometry.ts": {
             "name": "src/davinci-eight/geometries/BarnGeometry.ts",
             "modules": {
@@ -620,11 +629,20 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/SphereGeometry.ts": {
-            "name": "src/davinci-eight/geometries/SphereGeometry.ts",
+        "src/davinci-eight/geometries/SliceGeometry.ts": {
+            "name": "src/davinci-eight/geometries/SliceGeometry.ts",
             "modules": {},
             "classes": {
-                "SphereGeometry": 1
+                "SliceGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/SphericalPolarGeometry.ts": {
+            "name": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "modules": {},
+            "classes": {
+                "SphericalPolarGeometry": 1
             },
             "fors": {},
             "namespaces": {}
@@ -947,15 +965,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/Matrix1.ts": {
-            "name": "src/davinci-eight/math/Matrix1.ts",
-            "modules": {},
-            "classes": {
-                "Matrix1": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/math/Matrix2.ts": {
             "name": "src/davinci-eight/math/Matrix2.ts",
             "modules": {},
@@ -992,6 +1001,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/math/MutableNumber.ts": {
+            "name": "src/davinci-eight/math/MutableNumber.ts",
+            "modules": {},
+            "classes": {
+                "MutableNumber": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/math/Quaternion.ts": {
             "name": "src/davinci-eight/math/Quaternion.ts",
             "modules": {},
@@ -1022,15 +1040,6 @@
             "modules": {},
             "classes": {
                 "Unit": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/math/Vector1.ts": {
-            "name": "src/davinci-eight/math/Vector1.ts",
-            "modules": {},
-            "classes": {
-                "Vector1": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1515,6 +1524,7 @@
                 "UniformLocation": 1,
                 "UniformMetaInfo": 1,
                 "ArrowGeometry": 1,
+                "AxialGeometry": 1,
                 "BarnGeometry": 1,
                 "ConeGeometry": 1,
                 "CuboidGeometry": 1,
@@ -1535,7 +1545,8 @@
                 "RingGeometry": 1,
                 "Simplex": 1,
                 "Simplex1Geometry": 1,
-                "SphereGeometry": 1,
+                "SliceGeometry": 1,
+                "SphericalPolarGeometry": 1,
                 "SurfaceGeometry": 1,
                 "TetrahedronGeometry": 1,
                 "VertexAttributeMap": 1,
@@ -1562,15 +1573,14 @@
                 "Euclidean3": 1,
                 "LinearElement<I, M, S>": 1,
                 "Matrix<M>": 1,
-                "Matrix1": 1,
                 "Matrix2": 1,
                 "Matrix3": 1,
                 "Matrix4": 1,
                 "Mutable": 1,
+                "MutableNumber": 1,
                 "Rational": 1,
                 "Spinor3": 1,
                 "Unit": 1,
-                "Vector1": 1,
                 "Vector2": 1,
                 "Vector3": 1,
                 "Vector4": 1,
@@ -2210,7 +2220,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 27,
+            "line": 26,
             "description": "Utility class for managing a shader uniform variable.",
             "is_constructor": 1,
             "params": [
@@ -2251,6 +2261,33 @@
             "line": 56,
             "is_constructor": 1
         },
+        "AxialGeometry": {
+            "name": "AxialGeometry",
+            "shortname": "AxialGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/geometries/AxialGeometry.ts",
+            "line": 16,
+            "extends": "Geometry",
+            "description": "<p>\nA geometry which has axial symmetry, giving it an <code>axis</code> property.\n</p>\n<p>\nCalls the base class constructor.\nProvides the <code>type</code> to the <code>Geometry</code> base class.\nMakes a copy of the axis, normalizes the copy and initializes the <code>axis</axis> property.\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "Used for reference count tracking.",
+                    "type": "String"
+                },
+                {
+                    "name": "axis",
+                    "description": "The <b>axis</b> property.",
+                    "type": "Cartesian3"
+                }
+            ]
+        },
         "BarnGeometry": {
             "name": "BarnGeometry",
             "shortname": "BarnGeometry",
@@ -2279,6 +2316,7 @@
             "namespace": "",
             "file": "src/davinci-eight/geometries/ConeGeometry.ts",
             "line": 20,
+            "extends": "SliceGeometry",
             "is_constructor": 1,
             "params": [
                 {
@@ -2286,19 +2324,11 @@
                     "description": "[number = 0.5]"
                 },
                 {
-                    "name": "radiusBottom",
+                    "name": "radius",
                     "description": "[number = 0.5]"
                 },
                 {
                     "name": "height",
-                    "description": "[number = 1]"
-                },
-                {
-                    "name": "radialSegments",
-                    "description": "[number = 16]"
-                },
-                {
-                    "name": "heightSegments",
                     "description": "[number = 1]"
                 },
                 {
@@ -2312,10 +2342,6 @@
                 {
                     "name": "thetaStart",
                     "description": "[number = 0]"
-                },
-                {
-                    "name": "thetaLength",
-                    "description": "[number = 2 * Math.PI]"
                 }
             ]
         },
@@ -2375,7 +2401,9 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 71,
+            "line": 68,
+            "extends": "SliceGeometry",
+            "description": "<p>\nConstructs a Cylindrical Shell.\n</p>\n<p>\nSets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.\n</p>",
             "is_constructor": 1,
             "params": [
                 {
@@ -2389,22 +2417,6 @@
                 {
                     "name": "axis",
                     "description": "[Cartesian3 = Vector3.e2]"
-                },
-                {
-                    "name": "start",
-                    "description": "[Cartesian3 = Vector3.e1]"
-                },
-                {
-                    "name": "angle",
-                    "description": "[number = 2 * Math.PI]"
-                },
-                {
-                    "name": "thetaSegments",
-                    "description": "[number = 16]"
-                },
-                {
-                    "name": "heightSegments",
-                    "description": "[number = 1]"
                 },
                 {
                     "name": "openTop",
@@ -2452,7 +2464,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 52,
+            "line": 67,
             "extends": "Shareable",
             "description": "<p>\nA list of simplices (data) with information about dimensionality and vertex properties (meta). \nThis class should be used as an abstract base or concrete class when constructing\ngeometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).\nThe <code>Geometry</code> class implements IUnknown, as a convenience to implementations\nrequiring special de-allocation of resources, by extending <code>Shareable</code>.\n</p>",
             "is_constructor": 1,
@@ -2707,9 +2719,9 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 172,
-            "extends": "Geometry",
-            "description": "Creates an annulus with a single hole.",
+            "line": 149,
+            "extends": "SliceGeometry",
+            "description": "<p>\nCreates an annulus with a single hole.\n</p>\n<p>\nSets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.\n</p>",
             "is_constructor": 1,
             "params": [
                 {
@@ -2722,15 +2734,15 @@
                 },
                 {
                     "name": "axis",
-                    "description": "[Cartesian3 = Vector3.e3] The symmetry axis unit vector."
+                    "description": "[Cartesian3] The <code>axis</code> property."
                 },
                 {
-                    "name": "start",
-                    "description": "[Cartesian3 = Vector3.e1] The direction of the start."
+                    "name": "sliceStart",
+                    "description": "[Cartesian3] The <code>sliceStart</code> property."
                 },
                 {
-                    "name": "angle",
-                    "description": "[number = 2 * Math.PI] The angle."
+                    "name": "sliceAngle",
+                    "description": "[number] The <code>sliceAngle</code> property."
                 }
             ]
         },
@@ -2770,9 +2782,9 @@
             "line": 13,
             "is_constructor": 1
         },
-        "SphereGeometry": {
-            "name": "SphereGeometry",
-            "shortname": "SphereGeometry",
+        "SliceGeometry": {
+            "name": "SliceGeometry",
+            "shortname": "SliceGeometry",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2780,9 +2792,44 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/geometries/SphereGeometry.ts",
-            "line": 13,
-            "extends": "Geometry",
+            "file": "src/davinci-eight/geometries/SliceGeometry.ts",
+            "line": 33,
+            "extends": "AxialGeometry",
+            "description": "<p>\nCalls the base class constructor.\n</p>\n<p>\nProvides the <code>axis</code> to the <code>AxialGeometry</code> base class.\n</p>\n<p>\nProvides the <code>type</code> to the <code>AxialGeometry</code> base class.\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "Implementations must provide a type name used for reference count tracking.",
+                    "type": "String"
+                },
+                {
+                    "name": "axis",
+                    "description": "[Cartesian3 = Vector3.e3] The <code>axis</code> property."
+                },
+                {
+                    "name": "sliceStart",
+                    "description": "[Cartesian3] The <code>sliceStart</code> property."
+                },
+                {
+                    "name": "sliceAngle",
+                    "description": "[number = 2 * Math.PI] The <code>sliceAngle</code> property."
+                }
+            ]
+        },
+        "SphericalPolarGeometry": {
+            "name": "SphericalPolarGeometry",
+            "shortname": "SphericalPolarGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 202,
+            "extends": "SliceGeometry",
             "description": "Constructs a geometry consisting of triangular simplices based on spherical coordinates.",
             "is_constructor": 1,
             "params": [
@@ -2791,16 +2838,12 @@
                     "description": "[number = 1]"
                 },
                 {
-                    "name": "widthSegments",
-                    "description": "[number = 16]"
-                },
-                {
-                    "name": "heightSegments",
-                    "description": "[number = 12]"
+                    "name": "axis",
+                    "description": "[Cartesian3]"
                 },
                 {
                     "name": "phiStart",
-                    "description": "[number = 0]"
+                    "description": "[Cartesian]"
                 },
                 {
                     "name": "phiLength",
@@ -2808,11 +2851,11 @@
                 },
                 {
                     "name": "thetaStart",
-                    "description": "[number = 0]"
+                    "description": "[number]"
                 },
                 {
                     "name": "thetaLength",
-                    "description": "[number = Math.PI]"
+                    "description": "[number]"
                 }
             ]
         },
@@ -3007,7 +3050,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 44,
+            "line": 43,
             "extends": "IMaterial",
             "is_constructor": 1,
             "params": [
@@ -3404,22 +3447,6 @@
             "file": "src/davinci-eight/math/Matrix.ts",
             "line": 1
         },
-        "Matrix1": {
-            "name": "Matrix1",
-            "shortname": "Matrix1",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/math/Matrix1.ts",
-            "line": 11,
-            "extends": "AbstractMatrix",
-            "description": "1x1 (square) matrix of numbers.\nConstructs a Matrix1 by wrapping a Float32Array.",
-            "is_constructor": 1
-        },
         "Matrix2": {
             "name": "Matrix2",
             "shortname": "Matrix2",
@@ -3480,6 +3507,32 @@
             "namespace": "",
             "file": "src/davinci-eight/math/Mutable.ts",
             "line": 1
+        },
+        "MutableNumber": {
+            "name": "MutableNumber",
+            "shortname": "MutableNumber",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/MutableNumber.ts",
+            "line": 10,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Default is [0].",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "modified",
+                    "description": "Default is false.",
+                    "type": "Boolean"
+                }
+            ]
         },
         "Rational": {
             "name": "Rational",
@@ -3561,32 +3614,6 @@
                     "name": "labels",
                     "description": "The label strings to use for each dimension.",
                     "type": "String[]"
-                }
-            ]
-        },
-        "Vector1": {
-            "name": "Vector1",
-            "shortname": "Vector1",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/math/Vector1.ts",
-            "line": 10,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "data",
-                    "description": "Default is [0].",
-                    "type": "Number[]"
-                },
-                {
-                    "name": "modified",
-                    "description": "Default is false.",
-                    "type": "Boolean"
                 }
             ]
         },
@@ -3974,7 +4001,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 39,
+            "line": 38,
             "extends": "IDrawList",
             "description": "<p>\nA <code>Scene</code> is a collection of drawable instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
@@ -5868,35 +5895,6 @@
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
             "line": 49,
             "itemtype": "method",
-            "name": "uniformMatrix1",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "transpose",
-                    "description": "",
-                    "type": "Boolean"
-                },
-                {
-                    "name": "matrix",
-                    "description": "",
-                    "type": "Matrix1"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "IFacetVisitor"
-        },
-        {
-            "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 57,
-            "itemtype": "method",
             "name": "uniformMatrix2",
             "params": [
                 {
@@ -5924,7 +5922,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 65,
+            "line": 57,
             "itemtype": "method",
             "name": "uniformMatrix3",
             "params": [
@@ -5953,7 +5951,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 73,
+            "line": 65,
             "itemtype": "method",
             "name": "uniformMatrix4",
             "params": [
@@ -5982,31 +5980,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 81,
-            "itemtype": "method",
-            "name": "uniformCartesian1",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "vector",
-                    "description": "",
-                    "type": "Cartesian1"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "IFacetVisitor"
-        },
-        {
-            "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 88,
+            "line": 73,
             "itemtype": "method",
             "name": "uniformCartesian2",
             "params": [
@@ -6030,7 +6004,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 96,
+            "line": 81,
             "itemtype": "method",
             "name": "uniformCartesian3",
             "params": [
@@ -6054,7 +6028,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 103,
+            "line": 88,
             "itemtype": "method",
             "name": "uniformCartesian4",
             "params": [
@@ -6078,31 +6052,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 110,
-            "itemtype": "method",
-            "name": "vector1",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "data",
-                    "description": "",
-                    "type": "Number[]"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "IFacetVisitor"
-        },
-        {
-            "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 117,
+            "line": 95,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -6126,7 +6076,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 124,
+            "line": 102,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -6150,7 +6100,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 131,
+            "line": 109,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -6418,14 +6368,14 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 37,
+            "line": 36,
             "itemtype": "method",
             "name": "contextFree",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 43,
+            "line": 42,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -6444,14 +6394,14 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 56,
+            "line": 55,
             "itemtype": "method",
             "name": "contextLost",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 64,
+            "line": 63,
             "itemtype": "method",
             "name": "cartesian1",
             "params": [
@@ -6465,7 +6415,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 72,
+            "line": 71,
             "itemtype": "method",
             "name": "cartesian2",
             "params": [
@@ -6479,7 +6429,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 80,
+            "line": 79,
             "itemtype": "method",
             "name": "cartesian3",
             "params": [
@@ -6493,7 +6443,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 90,
+            "line": 89,
             "itemtype": "method",
             "name": "cartesian4",
             "params": [
@@ -6507,7 +6457,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 98,
+            "line": 97,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -6521,7 +6471,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 106,
+            "line": 105,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -6540,7 +6490,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 115,
+            "line": 114,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -6564,7 +6514,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 125,
+            "line": 124,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -6593,7 +6543,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 136,
+            "line": 135,
             "itemtype": "method",
             "name": "matrix1",
             "params": [
@@ -6605,14 +6555,14 @@
                 {
                     "name": "matrix",
                     "description": "",
-                    "type": "Matrix1"
+                    "type": "MutableNumber"
                 }
             ],
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 145,
+            "line": 144,
             "itemtype": "method",
             "name": "matrix2",
             "params": [
@@ -6631,7 +6581,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 154,
+            "line": 153,
             "itemtype": "method",
             "name": "matrix3",
             "params": [
@@ -6650,7 +6600,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 163,
+            "line": 162,
             "itemtype": "method",
             "name": "matrix4",
             "params": [
@@ -6669,21 +6619,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 174,
-            "itemtype": "method",
-            "name": "vector1",
-            "params": [
-                {
-                    "name": "data",
-                    "description": "",
-                    "type": "Number[]"
-                }
-            ],
-            "class": "UniformLocation"
-        },
-        {
-            "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 182,
+            "line": 173,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -6697,7 +6633,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 190,
+            "line": 181,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -6711,7 +6647,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 198,
+            "line": 189,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -6725,7 +6661,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 206,
+            "line": 197,
             "itemtype": "method",
             "name": "toString",
             "class": "UniformLocation"
@@ -6871,6 +6807,29 @@
             "class": "ArrowGeometry"
         },
         {
+            "file": "src/davinci-eight/geometries/AxialGeometry.ts",
+            "line": 10,
+            "description": "The symmetry axis used for geometry generation.",
+            "itemtype": "property",
+            "name": "axis",
+            "type": "{Vector3}",
+            "class": "AxialGeometry"
+        },
+        {
+            "file": "src/davinci-eight/geometries/AxialGeometry.ts",
+            "line": 34,
+            "description": "<p>\nSets the <code>axis</code> property to <code>void 0</code>.\nCalls the base class destructor method.\n</p>",
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "AxialGeometry"
+        },
+        {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
             "line": 24,
             "description": "Parameter is private so that we can detect assignments.",
@@ -6982,49 +6941,49 @@
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 18,
+            "line": 19,
             "description": "A displacement in the direction of axis that we must move for each height step.",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 24,
+            "line": 25,
             "description": "The displacement to the current level.",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 30,
+            "line": 31,
             "description": "Interesting that the v coordinate is 1 at the base and 0 at the top!\nThis is because i originally went from top to bottom.",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 35,
+            "line": 36,
             "description": "arcPoints.length => thetaSegments + 1",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 39,
+            "line": 40,
             "description": "j < arcPoints.length => j <= thetaSegments",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 44,
+            "line": 45,
             "description": "u will vary from 0 to 1, because j goes from 0 to thetaSegments",
             "class": "CylinderGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
-            "line": 145,
+            "line": 131,
             "description": "2-------3\n|       | \n|       |\n|       |\n1-------4",
             "class": "CylinderGeometry",
             "module": "EIGHT"
@@ -7064,17 +7023,36 @@
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
             "line": 41,
+            "description": "Specifies the number of segments to use in curved directions.",
             "itemtype": "property",
-            "name": "orientationColors",
-            "type": "{boolean}",
-            "access": "private",
-            "tagname": "",
+            "name": "curvedSegments",
+            "type": "{number}",
             "class": "Geometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 69,
+            "line": 47,
+            "description": "Specifies the number of segments to use on flat surfaces.",
+            "itemtype": "property",
+            "name": "flatSegments",
+            "type": "{number}",
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Geometry.ts",
+            "line": 53,
+            "description": "<p>\nSpecifies that the geometry should set colors on vertex attributes\nfor visualizing orientation of triangles\n</p>",
+            "itemtype": "property",
+            "name": "orientationColors",
+            "type": "{boolean}",
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Geometry.ts",
+            "line": 84,
             "description": "The destructor method should be implemented in derived classes and the super.destructor called\nas the last call in the derived class destructor.",
             "itemtype": "method",
             "name": "destructor",
@@ -7089,7 +7067,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 79,
+            "line": 94,
             "description": "<p>\nThe dimensionality of the simplices in this geometry.\n</p>\n<p>\nThe <code>k</code> parameter affects geometry generation.\n</p>\n<code>k</code> must be an integer.",
             "itemtype": "property",
             "name": "k",
@@ -7099,7 +7077,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 96,
+            "line": 111,
             "description": "Used to regenerate the simplex data from geometry parameters.\nThis method should be implemented by the derived geometry class.",
             "itemtype": "method",
             "name": "regenerate",
@@ -7112,7 +7090,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 105,
+            "line": 120,
             "description": "Used to determine whether the geometry must be recalculated.\nThe base implementation is pessimistic and returns <code>true</code>.\nThis method should be implemented by the derived class to reduce frequent recalculation.",
             "itemtype": "method",
             "name": "isModified",
@@ -7125,7 +7103,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 115,
+            "line": 130,
             "description": "Sets the modification state of <code>this</code> instance.\nDerived classes should override this method if they contain parameters which affect geometry calculation.",
             "itemtype": "method",
             "name": "setModified",
@@ -7146,7 +7124,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 127,
+            "line": 142,
             "description": "<p>\nApplies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe boundary operation converts simplices of dimension `n` to `n - 1`.\nFor example, triangles are converted to lines.\n</p>",
             "itemtype": "method",
             "name": "boundary",
@@ -7166,7 +7144,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 147,
+            "line": 162,
             "description": "Updates the meta property of this instance to match the data.",
             "itemtype": "method",
             "name": "check",
@@ -7180,7 +7158,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 159,
+            "line": 174,
             "description": "<p>\nApplies the subdivide operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe subdivide operation creates new simplices of the same dimension as the originals.\n</p>",
             "itemtype": "method",
             "name": "subdivide",
@@ -7200,7 +7178,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 179,
+            "line": 194,
             "itemtype": "method",
             "name": "toGeometry",
             "return": {
@@ -7212,7 +7190,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 191,
+            "line": 206,
             "itemtype": "method",
             "name": "mergeVertices",
             "params": [
@@ -7233,7 +7211,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 201,
+            "line": 216,
             "description": "Convenience method for pushing attribute data as a triangular simplex",
             "itemtype": "method",
             "name": "triangle",
@@ -7499,109 +7477,68 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 16,
+            "line": 17,
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 20,
+            "line": 21,
             "description": "`t` is the vector perpendicular to s in the plane of the ring.\nWe could use the generator an PI / 4 to calculate this or the cross product as here.",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 25,
+            "line": 26,
             "description": "The distance of the vertex from the origin and center.",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 44,
+            "line": 45,
             "description": "Our traversal will generate the following mapping into the vertices and uvs arrays.\nThis is standard for two looping variables.",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 57,
+            "line": 58,
             "description": "The index along the start radial line where j = 0. This is just index(i,0)",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 63,
+            "line": 64,
             "description": "The index of the corner of the quadrilateral with the lowest value of i and j.\nThis corresponds to the smallest radius and smallest angle counterclockwise.",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 136,
-            "description": "The inner radius.",
-            "itemtype": "property",
-            "name": "innerRadius",
-            "type": "{number}",
-            "class": "RingGeometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 142,
+            "line": 137,
             "description": "The outer radius.",
             "itemtype": "property",
-            "name": "outerRadius",
+            "name": "a",
             "type": "{number}",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 148,
-            "description": "The axis of symmetry (unit vector) direction.",
+            "line": 143,
+            "description": "The inner radius.",
             "itemtype": "property",
-            "name": "axis",
-            "type": "{Vector3}",
+            "name": "b",
+            "type": "{number}",
             "class": "RingGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 154,
-            "description": "The direction (perpendicular to axis) of the start or the arc.",
-            "itemtype": "property",
-            "name": "start",
-            "type": "{Vector3}",
-            "class": "RingGeometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 160,
-            "description": "The angle subtended by the ring.",
-            "class": "RingGeometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 164,
-            "description": "The number of segments in the radial direction.",
-            "class": "RingGeometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 168,
-            "description": "The number of segments in the angular direction.",
-            "class": "RingGeometry",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 192,
+            "line": 169,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7615,7 +7552,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 200,
+            "line": 177,
             "itemtype": "method",
             "name": "isModified",
             "return": {
@@ -7627,7 +7564,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 207,
+            "line": 184,
             "itemtype": "method",
             "name": "regenerate",
             "return": {
@@ -7639,7 +7576,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/RingGeometry.ts",
-            "line": 246,
+            "line": 223,
             "itemtype": "method",
             "name": "setModified",
             "params": [
@@ -7824,17 +7761,161 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/SphereGeometry.ts",
-            "line": 38,
-            "description": "Temporary storage for the 2D uv coordinates",
-            "class": "SphereGeometry",
+            "file": "src/davinci-eight/geometries/SliceGeometry.ts",
+            "line": 17,
+            "description": "<p>\nThe angle of the slice, measured in radians.\n</p>",
+            "itemtype": "property",
+            "name": "sliceAngle",
+            "type": "{number}",
+            "class": "SliceGeometry",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/SphereGeometry.ts",
-            "line": 42,
-            "description": "Temporary storage for the 3D cartesian coordinates.",
-            "class": "SphereGeometry",
+            "file": "src/davinci-eight/geometries/SliceGeometry.ts",
+            "line": 25,
+            "description": "<p>\nThe (unit vector) direction of the start of the slice.\n</p>",
+            "itemtype": "property",
+            "name": "sliceStart",
+            "type": "{Vector3}",
+            "class": "SliceGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SliceGeometry.ts",
+            "line": 61,
+            "description": "<p>\nCalls the base class destructor method.\n</p>",
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "SliceGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 29,
+            "description": "Displacement that we need to add to each arc point to get the\ndistance position parallel to the axis correct.",
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 185,
+            "itemtype": "property",
+            "name": "_radius",
+            "type": "{MutableNumber}",
+            "access": "private",
+            "tagname": "",
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 191,
+            "itemtype": "property",
+            "name": "thetaLength",
+            "type": "{number}",
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 196,
+            "description": "Defines a start angle relative to the <code>axis</code> property.",
+            "itemtype": "property",
+            "name": "thetaStart",
+            "type": "{number}",
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 229,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 238,
+            "itemtype": "property",
+            "name": "radius",
+            "type": "{number}",
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 248,
+            "itemtype": "property",
+            "name": "phiLength",
+            "type": "{number}",
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 258,
+            "description": "Defines a start half-plane relative to the <code>axis</code> property.",
+            "itemtype": "property",
+            "name": "phiStart",
+            "type": "{Vector3}",
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 269,
+            "itemtype": "method",
+            "name": "isModified",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 276,
+            "itemtype": "method",
+            "name": "setModified",
+            "params": [
+                {
+                    "name": "modified",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "SphericalPolarGeometry"
+            },
+            "chainable": 1,
+            "class": "SphericalPolarGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphericalPolarGeometry.ts",
+            "line": 287,
+            "itemtype": "method",
+            "name": "regenerate",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "SphericalPolarGeometry",
             "module": "EIGHT"
         },
         {
@@ -8067,7 +8148,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 57,
+            "line": 56,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -8081,7 +8162,7 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 78,
+            "line": 77,
             "itemtype": "property",
             "name": "monitors",
             "type": "{IContextMonitor[]}",
@@ -8601,40 +8682,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Matrix1.ts",
-            "line": 20,
-            "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
-            "itemtype": "method",
-            "name": "identity",
-            "return": {
-                "description": "",
-                "type": "Matrix1"
-            },
-            "static": 1,
-            "class": "Matrix1",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Matrix1.ts",
-            "line": 31,
-            "description": "<p>\nCreates a new matrix with all elements zero.\n</p>",
-            "itemtype": "method",
-            "name": "zero",
-            "return": {
-                "description": "",
-                "type": "Matrix1"
-            },
-            "static": 1,
-            "class": "Matrix1",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Matrix1.ts",
-            "line": 42,
-            "class": "Matrix1",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/math/Matrix2.ts",
             "line": 20,
             "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
@@ -8817,6 +8864,15 @@
             "name": "callback",
             "type": "() => T",
             "class": "Mutable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableNumber.ts",
+            "line": 19,
+            "itemtype": "property",
+            "name": "x",
+            "type": "Number",
+            "class": "MutableNumber",
             "module": "EIGHT"
         },
         {
@@ -9143,15 +9199,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Vector1.ts",
-            "line": 19,
-            "itemtype": "property",
-            "name": "x",
-            "type": "Number",
-            "class": "Vector1",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/math/Vector2.ts",
             "line": 20,
             "itemtype": "property",
@@ -9282,7 +9329,62 @@
             "file": "src/davinci-eight/math/Vector3.ts",
             "line": 313,
             "itemtype": "method",
-            "name": "copy\nCopy constructor.",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "Cartesian"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Vector3"
+            },
+            "static": 1,
+            "class": "Vector3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Vector3.ts",
+            "line": 322,
+            "description": "<code>a + alpha * (b - a)</code>",
+            "itemtype": "method",
+            "name": "lerp",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Cartesian3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Cartesian3"
+                },
+                {
+                    "name": "alpha",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Vector3"
+            },
+            "class": "Vector3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Vector3.ts",
+            "line": 333,
+            "itemtype": "method",
+            "name": "random",
+            "return": {
+                "description": "",
+                "type": "Vector3"
+            },
+            "static": 1,
             "class": "Vector3",
             "module": "EIGHT"
         },
@@ -9538,21 +9640,21 @@
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 32,
+            "line": 31,
             "description": "Name used for reference count monitoring and logging.",
             "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 37,
+            "line": 36,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 55,
+            "line": 54,
             "description": "Because we are multi-canvas aware, programs are tracked by the canvas id.",
             "class": "IContextRenderer",
             "module": "EIGHT"
@@ -9602,7 +9704,7 @@
         },
         {
             "file": "src/davinci-eight/programs/smartProgram.ts",
-            "line": 26,
+            "line": 25,
             "class": "IContextRenderer",
             "module": "EIGHT"
         },
@@ -10116,7 +10218,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 58,
+            "line": 57,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -10130,7 +10232,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 71,
+            "line": 70,
             "description": "<p>\nAdds the <code>drawable</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -10150,7 +10252,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 88,
+            "line": 87,
             "description": "<p>\nTraverses the collection of drawables, drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -10176,7 +10278,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 101,
+            "line": 100,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -10192,7 +10294,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 109,
+            "line": 108,
             "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -10212,7 +10314,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 123,
+            "line": 122,
             "description": "<p>\nTraverses the collection of drawables, calling the specified callback arguments.\n</p>",
             "itemtype": "method",
             "name": "traverse",
@@ -10242,42 +10344,42 @@
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 30,
+            "line": 29,
             "description": "A grouping of IDrawable, by IMaterial.",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 35,
+            "line": 34,
             "description": "I can't see this being used; it's all about the drawables!",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 72,
+            "line": 71,
             "description": "accept provides a way to push out the IMaterial without bumping the reference count.",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 122,
+            "line": 121,
             "description": "Should look like a set of Drawable Groups. Maybe like a Scene!",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 126,
+            "line": 125,
             "description": "Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 282,
+            "line": 281,
             "description": "method contextGain",
             "class": "Director",
             "module": "EIGHT"
@@ -11139,31 +11241,31 @@
         },
         {
             "message": "Missing item type\nA displacement in the direction of axis that we must move for each height step.",
-            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:18"
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:19"
         },
         {
             "message": "Missing item type\nThe displacement to the current level.",
-            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:24"
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:25"
         },
         {
             "message": "Missing item type\nInteresting that the v coordinate is 1 at the base and 0 at the top!\nThis is because i originally went from top to bottom.",
-            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:30"
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:31"
         },
         {
             "message": "Missing item type\narcPoints.length => thetaSegments + 1",
-            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:35"
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:36"
         },
         {
             "message": "Missing item type\nj < arcPoints.length => j <= thetaSegments",
-            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:39"
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:40"
         },
         {
             "message": "Missing item type\nu will vary from 0 to 1, because j goes from 0 to thetaSegments",
-            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:44"
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:45"
         },
         {
             "message": "Missing item type\n2-------3\n|       | \n|       |\n|       |\n1-------4",
-            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:145"
+            "line": " src/davinci-eight/geometries/CylinderGeometry.ts:131"
         },
         {
             "message": "Missing item type\nThe values of the attribute.",
@@ -11215,51 +11317,35 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:16"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:17"
         },
         {
             "message": "Missing item type\n`t` is the vector perpendicular to s in the plane of the ring.\nWe could use the generator an PI / 4 to calculate this or the cross product as here.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:20"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:21"
         },
         {
             "message": "Missing item type\nThe distance of the vertex from the origin and center.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:25"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:26"
         },
         {
             "message": "Missing item type\nOur traversal will generate the following mapping into the vertices and uvs arrays.\nThis is standard for two looping variables.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:44"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:45"
         },
         {
             "message": "Missing item type\nThe index along the start radial line where j = 0. This is just index(i,0)",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:57"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:58"
         },
         {
             "message": "Missing item type\nThe index of the corner of the quadrilateral with the lowest value of i and j.\nThis corresponds to the smallest radius and smallest angle counterclockwise.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:63"
-        },
-        {
-            "message": "Missing item type\nThe angle subtended by the ring.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:160"
-        },
-        {
-            "message": "Missing item type\nThe number of segments in the radial direction.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:164"
-        },
-        {
-            "message": "Missing item type\nThe number of segments in the angular direction.",
-            "line": " src/davinci-eight/geometries/RingGeometry.ts:168"
+            "line": " src/davinci-eight/geometries/RingGeometry.ts:64"
         },
         {
             "message": "Missing item type",
             "line": " src/davinci-eight/geometries/Simplex.ts:144"
         },
         {
-            "message": "Missing item type\nTemporary storage for the 2D uv coordinates",
-            "line": " src/davinci-eight/geometries/SphereGeometry.ts:38"
-        },
-        {
-            "message": "Missing item type\nTemporary storage for the 3D cartesian coordinates.",
-            "line": " src/davinci-eight/geometries/SphereGeometry.ts:42"
+            "message": "Missing item type\nDisplacement that we need to add to each arc point to get the\ndistance position parallel to the axis correct.",
+            "line": " src/davinci-eight/geometries/SphericalPolarGeometry.ts:29"
         },
         {
             "message": "Missing item type\nTemporary array of points.",
@@ -11439,10 +11525,6 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/math/Matrix1.ts:42"
-        },
-        {
-            "message": "Missing item type",
             "line": " src/davinci-eight/math/Matrix4.ts:188"
         },
         {
@@ -11475,15 +11557,15 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:32"
+            "line": " src/davinci-eight/programs/createMaterial.ts:31"
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:37"
+            "line": " src/davinci-eight/programs/createMaterial.ts:36"
         },
         {
             "message": "Missing item type\nBecause we are multi-canvas aware, programs are tracked by the canvas id.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:55"
+            "line": " src/davinci-eight/programs/createMaterial.ts:54"
         },
         {
             "message": "Missing item type\nGenerates a fragment shader",
@@ -11495,7 +11577,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/programs/smartProgram.ts:26"
+            "line": " src/davinci-eight/programs/smartProgram.ts:25"
         },
         {
             "message": "Missing item type\nGenerates a vertex shader.",
@@ -11547,27 +11629,27 @@
         },
         {
             "message": "Missing item type\nA grouping of IDrawable, by IMaterial.",
-            "line": " src/davinci-eight/scene/createDrawList.ts:30"
+            "line": " src/davinci-eight/scene/createDrawList.ts:29"
         },
         {
             "message": "Missing item type\nI can't see this being used; it's all about the drawables!",
-            "line": " src/davinci-eight/scene/createDrawList.ts:35"
+            "line": " src/davinci-eight/scene/createDrawList.ts:34"
         },
         {
             "message": "Missing item type\naccept provides a way to push out the IMaterial without bumping the reference count.",
-            "line": " src/davinci-eight/scene/createDrawList.ts:72"
+            "line": " src/davinci-eight/scene/createDrawList.ts:71"
         },
         {
             "message": "Missing item type\nShould look like a set of Drawable Groups. Maybe like a Scene!",
-            "line": " src/davinci-eight/scene/createDrawList.ts:122"
+            "line": " src/davinci-eight/scene/createDrawList.ts:121"
         },
         {
             "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
-            "line": " src/davinci-eight/scene/createDrawList.ts:126"
+            "line": " src/davinci-eight/scene/createDrawList.ts:125"
         },
         {
             "message": "Missing item type\nmethod contextGain",
-            "line": " src/davinci-eight/scene/createDrawList.ts:282"
+            "line": " src/davinci-eight/scene/createDrawList.ts:281"
         },
         {
             "message": "Missing item type\nConstruction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",

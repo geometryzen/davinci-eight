@@ -4,13 +4,12 @@ import Cartesian3 = require('../math/Cartesian3')
 import Cartesian4 = require('../math/Cartesian4')
 import expectArg = require('../checks/expectArg')
 import feedback = require('../feedback/feedback')
-import Matrix1 = require('../math/Matrix1')
+import MutableNumber = require('../math/MutableNumber')
 import Matrix2 = require('../math/Matrix2')
 import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
 import IContextProgramConsumer = require('../core/IContextProgramConsumer')
 import IContextProvider = require('../core/IContextProvider')
-import Vector1 = require('../math/Vector1')
 import Vector2 = require('../math/Vector2')
 import Vector3 = require('../math/Vector3')
 import Vector4 = require('../math/Vector4')
@@ -136,9 +135,9 @@ class UniformLocation implements IContextProgramConsumer {
   /**
    * @method matrix1
    * @param transpose {boolean}
-   * @param matrix {Matrix1}
+   * @param matrix {MutableNumber}
    */
-  matrix1(transpose: boolean, matrix: Matrix1): void {
+  matrix1(transpose: boolean, matrix: MutableNumber): void {
     this._context.useProgram(this._program);
     this._context.uniform1fv(this._location, matrix.data);
   }
@@ -170,14 +169,6 @@ class UniformLocation implements IContextProgramConsumer {
       this._context.useProgram(this._program)
       this._context.uniformMatrix4fv(this._location, transpose, matrix.data)
     }
-  }
-  /**
-   * @method vector1
-   * @param data {number[]}
-   */
-  vector1(data: number[]): void {
-    this._context.useProgram(this._program);
-    this._context.uniform1fv(this._location, data);
   }
   /**
    * @method vector2

@@ -8,7 +8,7 @@ var EPS = 0.000001;
  * Quaternion is retained for reference only.
  * Quaternion should not be exposed.
  */
-class Quaternion implements GeometricElement<Quaternion, Quaternion, Quaternion, Cartesian3> {
+class Quaternion implements GeometricElement<Quaternion, Quaternion, Quaternion, Cartesian3, Cartesian3> {
   private _x: number;
   private _y: number;
   private _z: number;

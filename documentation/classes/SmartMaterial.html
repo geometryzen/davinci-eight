@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.131.0</em>
+            <em>API Docs for: 2.132.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
@@ -109,7 +110,6 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -118,6 +118,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronGeometry.html">OctahedronGeometry</a></li>
@@ -135,9 +136,10 @@
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
+                                <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
-                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
+                                <li><a href="../classes/SphericalPolarGeometry.html">SphericalPolarGeometry</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
@@ -147,7 +149,6 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
@@ -336,10 +337,6 @@ The default configuration is produces minimal shaders.
 
                             </li>
                             <li class="index-item method inherited">
-                                <a href="#method_uniformCartesian1">uniformCartesian1</a>
-
-                            </li>
-                            <li class="index-item method inherited">
                                 <a href="#method_uniformCartesian2">uniformCartesian2</a>
 
                             </li>
@@ -349,10 +346,6 @@ The default configuration is produces minimal shaders.
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_uniformCartesian4">uniformCartesian4</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_uniformMatrix1">uniformMatrix1</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -369,10 +362,6 @@ The default configuration is produces minimal shaders.
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_use">use</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_vector1">vector1</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -446,7 +435,7 @@ The default configuration is produces minimal shaders.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Material.html#method_destructor">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:57</code></a>
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:56</code></a>
         </p>
 
 
@@ -854,84 +843,6 @@ Enables an attribute location of a WebGLProgram.
 
 
 </div>
-<div id="method_uniformCartesian1" class="method item inherited">
-    <h3 class="name"><code>uniformCartesian1</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>vector</code>
-                </li>
-                <li class="arg">
-                        <code>canvasId</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/IFacetVisitor.html#method_uniformCartesian1">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:81</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/Cartesian1.html" class="crosslink">Cartesian1</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">canvasId</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
 <div id="method_uniformCartesian2" class="method item inherited">
     <h3 class="name"><code>uniformCartesian2</code></h3>
 
@@ -959,7 +870,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformCartesian2">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:88</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:73</code></a>
         </p>
 
 
@@ -1037,7 +948,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformCartesian3">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:96</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:81</code></a>
         </p>
 
 
@@ -1115,7 +1026,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformCartesian4">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:103</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:88</code></a>
         </p>
 
 
@@ -1143,97 +1054,6 @@ Enables an attribute location of a WebGLProgram.
                 <li class="param">
                         <code class="param-name">vector</code>
                         <span class="type"><a href="../classes/Cartesian4.html" class="crosslink">Cartesian4</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">canvasId</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-<div id="method_uniformMatrix1" class="method item inherited">
-    <h3 class="name"><code>uniformMatrix1</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>transpose</code>
-                </li>
-                <li class="arg">
-                        <code>matrix</code>
-                </li>
-                <li class="arg">
-                        <code>canvasId</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/IFacetVisitor.html#method_uniformMatrix1">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:49</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix1.html" class="crosslink">Matrix1</a></span>
 
 
                     <div class="param-description">
@@ -1287,7 +1107,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformMatrix2">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:57</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:49</code></a>
         </p>
 
 
@@ -1378,7 +1198,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformMatrix3">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:65</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:57</code></a>
         </p>
 
 
@@ -1469,7 +1289,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformMatrix4">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:73</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:65</code></a>
         </p>
 
 
@@ -1594,84 +1414,6 @@ Enables an attribute location of a WebGLProgram.
 
 
 </div>
-<div id="method_vector1" class="method item inherited">
-    <h3 class="name"><code>vector1</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>data</code>
-                </li>
-                <li class="arg">
-                        <code>canvasId</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/IFacetVisitor.html#method_vector1">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l110"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:110</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">data</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number[]</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">canvasId</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
 <div id="method_vector2" class="method item inherited">
     <h3 class="name"><code>vector2</code></h3>
 
@@ -1699,7 +1441,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_vector2">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:117</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:95</code></a>
         </p>
 
 
@@ -1777,7 +1519,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_vector3">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l124"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:124</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:102</code></a>
         </p>
 
 
@@ -1855,7 +1597,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_vector4">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:131</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l109"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:109</code></a>
         </p>
 
 
@@ -1970,7 +1712,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Material.html#property_monitors">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:78</code></a>
+        <a href="../files/src_davinci-eight_materials_Material.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:77</code></a>
         </p>
 
 

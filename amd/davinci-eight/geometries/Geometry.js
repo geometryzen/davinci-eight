@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/GeometryElements', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/Vector1'], function (require, exports, GeometryElements, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, toGeometryData, toGeometryMeta, Vector1) {
+define(["require", "exports", '../geometries/GeometryElements', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/MutableNumber', '../math/Vector3'], function (require, exports, GeometryElements, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, toGeometryData, toGeometryMeta, MutableNumber, Vector3) {
     /**
      * @class Geometry
      * @extends Shareable
@@ -42,11 +42,26 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
              * @type {number}
              * @private
              */
-            this._k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+            this._k = new MutableNumber([Simplex.K_FOR_TRIANGLE]);
             /**
+             * Specifies the number of segments to use in curved directions.
+             * @property curvedSegments
+             * @type {number}
+             */
+            this.curvedSegments = 16;
+            /**
+             * Specifies the number of segments to use on flat surfaces.
+             * @property flatSegments
+             * @type {number}
+             */
+            this.flatSegments = 1;
+            /**
+             * <p>
+             * Specifies that the geometry should set colors on vertex attributes
+             * for visualizing orientation of triangles
+             * </p>
              * @property orientationColors
              * @type {boolean}
-             * @private
              */
             this.orientationColors = false;
             // Force regenerate, even if derived classes don't call setModified.
@@ -210,7 +225,38 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
             simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2];
             if (this.orientationColors) {
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone();
+                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone();
+                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e3.clone();
             }
+            return this.data.push(simplex);
+        };
+        Geometry.prototype.lineSegment = function (positions, normals, uvs) {
+            var simplex = new Simplex(Simplex.K_FOR_LINE_SEGMENT);
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1];
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1];
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
+            if (this.orientationColors) {
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone();
+                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone();
+            }
+            return this.data.push(simplex);
+        };
+        Geometry.prototype.point = function (positions, normals, uvs) {
+            var simplex = new Simplex(Simplex.K_FOR_POINT);
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
+            if (this.orientationColors) {
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone();
+            }
+            return this.data.push(simplex);
+        };
+        Geometry.prototype.empty = function (positions, normals, uvs) {
+            var simplex = new Simplex(Simplex.K_FOR_EMPTY);
             return this.data.push(simplex);
         };
         return Geometry;

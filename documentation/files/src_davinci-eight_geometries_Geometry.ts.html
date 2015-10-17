@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.131.0</em>
+            <em>API Docs for: 2.132.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
@@ -109,7 +110,6 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -118,6 +118,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronGeometry.html">OctahedronGeometry</a></li>
@@ -135,9 +136,10 @@
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
+                                <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
-                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
+                                <li><a href="../classes/SphericalPolarGeometry.html">SphericalPolarGeometry</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
@@ -147,7 +149,6 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
@@ -215,7 +216,7 @@ import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 import toGeometryData = require(&#x27;../geometries/toGeometryData&#x27;)
 import toGeometryMeta = require(&#x27;../geometries/toGeometryMeta&#x27;)
-import Vector1 = require(&#x27;../math/Vector1&#x27;)
+import MutableNumber = require(&#x27;../math/MutableNumber&#x27;)
 import Vector2 = require(&#x27;../math/Vector2&#x27;)
 import Vector3 = require(&#x27;../math/Vector3&#x27;)
 
@@ -244,13 +245,28 @@ class Geometry extends Shareable {
      * @type {number}
      * @private
      */
-    private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+    private _k = new MutableNumber([Simplex.K_FOR_TRIANGLE]);
     /**
+     * Specifies the number of segments to use in curved directions.
+     * @property curvedSegments
+     * @type {number}
+     */
+    public curvedSegments: number = 16;
+    /**
+     * Specifies the number of segments to use on flat surfaces.
+     * @property flatSegments
+     * @type {number}
+     */
+    public flatSegments: number = 1;
+    /**
+     * &lt;p&gt;
+     * Specifies that the geometry should set colors on vertex attributes
+     * for visualizing orientation of triangles
+     * &lt;/p&gt;
      * @property orientationColors
      * @type {boolean}
-     * @private
      */
-    private orientationColors: boolean = false;
+    public orientationColors: boolean = false;
 
     // public dynamic = true;
     // public verticesNeedUpdate = false;
@@ -428,10 +444,42 @@ class Geometry extends Shareable {
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1]
         simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2]
         if (this.orientationColors) {
-            // simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
-            // simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone()
-            // simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e3.clone()
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone()
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e3.clone()
         }
+        return this.data.push(simplex)
+    }
+    public lineSegment(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+        var simplex = new Simplex(Simplex.K_FOR_LINE_SEGMENT)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1]
+        if (this.orientationColors) {
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone()
+        }
+        return this.data.push(simplex)
+    }
+    public point(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+        var simplex = new Simplex(Simplex.K_FOR_POINT)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0]
+
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0]
+        if (this.orientationColors) {
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
+        }
+        return this.data.push(simplex)
+    }
+    public empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+        var simplex = new Simplex(Simplex.K_FOR_EMPTY)
         return this.data.push(simplex)
     }
 }

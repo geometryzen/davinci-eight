@@ -361,11 +361,10 @@ declare module EIGHT {
         uniform2f(x: number, y: number): void;
         uniform3f(x: number, y: number, z: number): void;
         uniform4f(x: number, y: number, z: number, w: number): void;
-        matrix1(transpose: boolean, matrix: Matrix1): void;
+        matrix1(transpose: boolean, matrix: MutableNumber): void;
         matrix2(transpose: boolean, matrix: Matrix2): void;
         matrix3(transpose: boolean, matrix: Matrix3): void;
         matrix4(transpose: boolean, matrix: Matrix4): void;
-        vector1(vector: Vector1): void;
         vector2(vector: Vector2): void;
         vector3(vector: Vector3): void;
         vector4(vector: Vector4): void;
@@ -506,7 +505,7 @@ declare module EIGHT {
     /**
      *
      */
-    class Matrix1 extends AbstractMatrix {
+    class MutableNumber extends AbstractMatrix {
         constructor(data: Float32Array);
     }
 
@@ -624,7 +623,7 @@ declare module EIGHT {
     /**
      *
      */
-    class Vector1 extends VectorN<number> implements Cartesian1 {
+    class MutableNumber extends VectorN<number> implements Cartesian1 {
         public x: number;
         constructor(data?: number[], modified?: boolean);
     }
@@ -781,15 +780,12 @@ declare module EIGHT {
         uniform2f(name: string, x: number, y: number, canvasId: number): void;
         uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
         uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
-        uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number): void;
         uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
         uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;
         uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void;
-        uniformCartesian1(name: string, vector: Vector1, canvasId: number): void;
         uniformCartesian2(name: string, vector: Vector2, canvasId: number): void;
         uniformCartesian3(name: string, vector: Vector3, canvasId: number): void;
         uniformCartesian4(name: string, vector: Vector4, canvasId: number): void;
-        vector1(name: string, data: number[], canvasId: number): void;
         vector2(name: string, data: number[], canvasId: number): void;
         vector3(name: string, data: number[], canvasId: number): void;
         vector4(name: string, data: number[], canvasId: number): void;
@@ -938,6 +934,21 @@ declare module EIGHT {
          * The dimesionality of the simplices to be generated.
          */
         k: number;
+        /**
+         *
+         */
+        curvedSegments: number;
+        /**
+         *
+         */
+        flatSegments: number;
+        /**
+         *
+         */
+        orientationColors: boolean;
+        /**
+         *
+         */
         constructor(type?: string);
         destructor(): void;
         regenerate(): void;
@@ -1499,6 +1510,15 @@ declare module EIGHT {
         stop(): void;
     }
 
+    class AxialGeometry extends Geometry {
+        axis: Vector3;
+        constructor(axis: Cartesian3, type: string)
+    }
+
+    class SliceGeometry extends AxialGeometry {
+        constructor(axis: Cartesian3, type: string)
+    }
+
     class ArrowGeometry extends Geometry {
         vector: Vector3;
         constructor(type?: string)
@@ -1512,15 +1532,14 @@ declare module EIGHT {
     /**
      *
      */
-    class RingGeometry extends Geometry {
+    class RingGeometry extends SliceGeometry {
         innerRadius: number;
         outerRadius: number;
         axis: Vector3;
         start: Vector3;
-        angle: number;
         radialSegments: number;
         thetaSegments: number;
-        constructor(innerRadius?: number, outerRadius?: number, axis?: Cartesian3, start?: Cartesian3, angle?: number);
+        constructor(innerRadius?: number, outerRadius?: number, axis?: Cartesian3, start?: Cartesian3);
     }
 
     /**
@@ -1537,8 +1556,23 @@ declare module EIGHT {
     /**
      *
      */
-    class ConeGeometry extends Geometry {
-        constructor();
+    class ConeGeometry extends SliceGeometry {
+        public radiusTop: number;
+        public radius: number;
+        public height: number;
+        public openTop: boolean;
+        public openBottom: boolean;
+        public thetaStart: number;
+        public thetaLength: number;
+        constructor(
+            radius: number,
+            height: number,
+            axis: Cartesian3,
+            radiusTop?: number,
+            openTop?: boolean,
+            openBottom?: boolean,
+            thetaStart?: number,
+            thetaLength?: number);
     }
 
     /**
@@ -1552,14 +1586,10 @@ declare module EIGHT {
         constructor(a?: Cartesian3, b?: Cartesian3, c?: Cartesian3, k?: number, subdivide?: number, boundary?: number);
     }
 
-    class CylinderGeometry extends Geometry {
+    class CylinderGeometry extends SliceGeometry {
         radius: number;
         height: number;
-        axis: Vector3;
         start: Vector3;
-        angle: number;
-        thetaSegments: number;
-        heightSegments: number;
         openTop: boolean;
         openBottom: boolean;
         constructor(
@@ -1567,9 +1597,6 @@ declare module EIGHT {
             height?: number,
             axis?: Cartesian3,
             start?: Cartesian3,
-            angle?: number,
-            thetaSegments?: number,
-            heightSegments?: number,
             openTop?: boolean,
             openBottom?: boolean
         )
@@ -1605,12 +1632,16 @@ declare module EIGHT {
     /**
      *
      */
-    class SphereGeometry extends Geometry {
+    class SphericalPolarGeometry extends SliceGeometry {
+        radius: number;
+        phiLength: number;
+        phiStart: Vector3;
+        thetaLength: number;
+        thetaStart: number;
         constructor(
             radius?: number,
-            widthSegments?: number,
-            heightSegments?: number,
-            phiStart?: number,
+            axis?: Cartesian3,
+            phiStart?: Cartesian3,
             phiLength?: number,
             thetaStart?: number,
             thetaLength?: number);
@@ -1658,15 +1689,12 @@ declare module EIGHT {
         uniform2f(name: string, x: number, y: number, canvasId: number): void;
         uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
         uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
-        uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number): void;
         uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
         uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;
         uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void;
-        uniformCartesian1(name: string, vector: Vector1, canvasId: number): void;
         uniformCartesian2(name: string, vector: Vector2, canvasId: number): void;
         uniformCartesian3(name: string, vector: Vector3, canvasId: number): void;
         uniformCartesian4(name: string, vector: Vector4, canvasId: number): void;
-        vector1(name: string, data: number[], canvasId: number): void;
         vector2(name: string, data: number[], canvasId: number): void;
         vector3(name: string, data: number[], canvasId: number): void;
         vector4(name: string, data: number[], canvasId: number): void;

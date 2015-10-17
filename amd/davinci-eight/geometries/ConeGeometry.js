@@ -3,9 +3,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Vector2, Vector3) {
+define(["require", "exports", '../geometries/SliceGeometry', '../math/Vector2', '../math/Vector3'], function (require, exports, SliceGeometry, Vector2, Vector3) {
     /**
      * @class ConeGeometry
+     * @extends SliceGeometry
      */
     var ConeGeometry = (function (_super) {
         __extends(ConeGeometry, _super);
@@ -13,48 +14,37 @@ define(["require", "exports", '../geometries/Geometry', '../math/Vector2', '../m
          * @class ConeGeometry
          * @constructor
          * @param radiusTop [number = 0.5]
-         * @param radiusBottom [number = 0.5]
+         * @param radius [number = 0.5]
          * @param height [number = 1]
-         * @param radialSegments [number = 16]
-         * @param heightSegments [number = 1]
          * @param openTop [boolean = false]
          * @param openBottom [boolean = false]
          * @param thetaStart [number = 0]
-         * @param thetaLength [number = 2 * Math.PI]
          */
-        function ConeGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openTop, openBottom, thetaStart, thetaLength) {
-            if (radiusTop === void 0) { radiusTop = 0.5; }
-            if (radiusBottom === void 0) { radiusBottom = 0.5; }
+        function ConeGeometry(radius, height, axis, radiusTop, openTop, openBottom, thetaStart) {
+            if (radius === void 0) { radius = 0.5; }
             if (height === void 0) { height = 1; }
-            if (radialSegments === void 0) { radialSegments = 16; }
-            if (heightSegments === void 0) { heightSegments = 1; }
+            if (radiusTop === void 0) { radiusTop = 0.0; }
             if (openTop === void 0) { openTop = false; }
             if (openBottom === void 0) { openBottom = false; }
             if (thetaStart === void 0) { thetaStart = 0; }
-            if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
-            radialSegments = Math.max(radialSegments, 3);
-            heightSegments = Math.max(heightSegments, 1);
-            _super.call(this, 'ConeGeometry');
+            _super.call(this, 'ConeGeometry', axis, void 0, void 0);
             this.radiusTop = radiusTop;
-            this.radiusBottom = radiusBottom;
+            this.radius = radius;
             this.height = height;
-            this.radialSegments = radialSegments;
-            this.heightSegments = heightSegments;
             this.openTop = openTop;
             this.openBottom = openBottom;
             this.thetaStart = thetaStart;
-            this.thetaLength = thetaLength;
         }
         ConeGeometry.prototype.regenerate = function () {
-            var radiusBottom = this.radiusBottom;
+            var radiusBottom = this.radius;
             var radiusTop = this.radiusTop;
             var height = this.height;
-            var heightSegments = this.heightSegments;
-            var radialSegments = this.radialSegments;
+            var heightSegments = this.flatSegments;
+            var radialSegments = this.curvedSegments;
             var openTop = this.openTop;
             var openBottom = this.openBottom;
             var thetaStart = this.thetaStart;
-            var thetaLength = this.thetaLength;
+            var sliceAngle = this.sliceAngle;
             var heightHalf = height / 2;
             var x;
             var y;
@@ -69,9 +59,9 @@ define(["require", "exports", '../geometries/Geometry', '../math/Vector2', '../m
                 for (x = 0; x <= radialSegments; x++) {
                     var u = x / radialSegments;
                     var vertex = new Vector3();
-                    vertex.x = radius * Math.sin(u * thetaLength + thetaStart);
+                    vertex.x = radius * Math.sin(u * sliceAngle + thetaStart);
                     vertex.y = -v * height + heightHalf;
-                    vertex.z = radius * Math.cos(u * thetaLength + thetaStart);
+                    vertex.z = radius * Math.cos(u * sliceAngle + thetaStart);
                     points.push(vertex);
                     verticesRow.push(points.length - 1);
                     uvsRow.push(new Vector2([u, 1 - v]));
@@ -146,6 +136,6 @@ define(["require", "exports", '../geometries/Geometry', '../math/Vector2', '../m
             //    this.computeVertexNormals();
         };
         return ConeGeometry;
-    })(Geometry);
+    })(SliceGeometry);
     return ConeGeometry;
 });

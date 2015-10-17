@@ -1,4 +1,4 @@
-define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Matrix4', '../math/Vector1'], function (require, exports, createView, Matrix4, Vector1) {
+define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Matrix4', '../math/MutableNumber'], function (require, exports, createView, Matrix4, MutableNumber) {
     /**
      * @function createFrustum
      * @constructor
@@ -7,12 +7,12 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
     var createFrustum = function (viewMatrixName, projectionMatrixName) {
         var refCount = 1;
         var base = createView(viewMatrixName);
-        var left = new Vector1();
-        var right = new Vector1();
-        var bottom = new Vector1();
-        var top = new Vector1();
-        var near = new Vector1();
-        var far = new Vector1();
+        var left = new MutableNumber();
+        var right = new MutableNumber();
+        var bottom = new MutableNumber();
+        var top = new MutableNumber();
+        var near = new MutableNumber();
+        var far = new MutableNumber();
         // TODO: We should immediately create with a frustum static constructor?
         var projectionMatrix = Matrix4.identity();
         function updateProjectionMatrix() {

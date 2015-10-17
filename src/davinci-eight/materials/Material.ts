@@ -6,7 +6,7 @@ import isDefined = require('../checks/isDefined')
 import isUndefined = require('../checks/isUndefined')
 import MonitorList = require('../scene/MonitorList')
 import IMaterial = require('../core/IMaterial')
-import Matrix1 = require('../math/Matrix1')
+import MutableNumber = require('../math/MutableNumber')
 import Matrix2 = require('../math/Matrix2')
 import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
@@ -16,7 +16,6 @@ import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import UniformLocation = require('../core/UniformLocation')
 import uuid4 = require('../utils/uuid4')
-import Vector1 = require('../math/Vector1')
 import Vector2 = require('../math/Vector2')
 import Vector3 = require('../math/Vector3')
 import Vector4 = require('../math/Vector4')
@@ -263,24 +262,6 @@ class Material extends Shareable implements IMaterial {
       }
     }
   }
-  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number): void {
-    if (this.inner) {
-      this.inner.uniformMatrix1(name, transpose, matrix, canvasId)
-    }
-    else {
-      let async = false
-      let readyPending = this.readyPending
-      this.makeReady(async)
-      if (this.inner) {
-        this.inner.uniformMatrix1(name, transpose, matrix, canvasId)
-      }
-      else {
-        if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Matrix1', name, canvasId)
-        }
-      }
-    }
-  }
   uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void {
     if (this.inner) {
       this.inner.uniformMatrix2(name, transpose, matrix, canvasId)
@@ -337,24 +318,6 @@ class Material extends Shareable implements IMaterial {
       }
     }
   }
-  uniformCartesian1(name: string, vector: Vector1, canvasId: number): void {
-    if (this.inner) {
-      this.inner.uniformCartesian1(name, vector, canvasId)
-    }
-    else {
-      let async = false
-      let readyPending = this.readyPending
-      this.makeReady(async)
-      if (this.inner) {
-        this.inner.uniformCartesian1(name, vector, canvasId)
-      }
-      else {
-        if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Vector1', name, canvasId)
-        }
-      }
-    }
-  }
   uniformCartesian2(name: string, vector: Vector2, canvasId: number): void {
     if (this.inner) {
       this.inner.uniformCartesian2(name, vector, canvasId)
@@ -405,24 +368,6 @@ class Material extends Shareable implements IMaterial {
       else {
         if (!readyPending) {
           consoleWarnDroppedUniform(this.type, 'Vector4', name, canvasId)
-        }
-      }
-    }
-  }
-  vector1(name: string, data: number[], canvasId: number): void {
-    if (this.inner) {
-      this.inner.vector1(name, data, canvasId)
-    }
-      else {
-      let async = false
-      let readyPending = this.readyPending
-      this.makeReady(async)
-      if (this.inner) {
-        this.inner.vector1(name, data, canvasId)
-      }
-      else {
-        if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'vector1', name, canvasId)
         }
       }
     }

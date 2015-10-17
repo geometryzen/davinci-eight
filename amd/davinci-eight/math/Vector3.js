@@ -303,13 +303,31 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
         };
         /**
          * @method copy
-         * Copy constructor.
+         * @param vector {Cartesian}
+         * @return {Vector3}
+         * @static
          */
         Vector3.copy = function (vector) {
             return new Vector3([vector.x, vector.y, vector.z]);
         };
+        /**
+         * <code>a + alpha * (b - a)</code>
+         * @method lerp
+         * @param a {Cartesian3}
+         * @param b {Cartesian3}
+         * @param alpha {number}
+         * @return {Vector3}
+         */
         Vector3.lerp = function (a, b, alpha) {
             return Vector3.copy(b).sub(a).scale(alpha).add(a);
+        };
+        /**
+         * @method random
+         * @return {Vector3}
+         * @static
+         */
+        Vector3.random = function () {
+            return new Vector3([Math.random(), Math.random(), Math.random()]);
         };
         Vector3.e1 = new Vector3([1, 0, 0]);
         Vector3.e2 = new Vector3([0, 1, 0]);

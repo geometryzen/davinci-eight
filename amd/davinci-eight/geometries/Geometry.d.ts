@@ -31,11 +31,26 @@ declare class Geometry extends Shareable {
      */
     private _k;
     /**
+     * Specifies the number of segments to use in curved directions.
+     * @property curvedSegments
+     * @type {number}
+     */
+    curvedSegments: number;
+    /**
+     * Specifies the number of segments to use on flat surfaces.
+     * @property flatSegments
+     * @type {number}
+     */
+    flatSegments: number;
+    /**
+     * <p>
+     * Specifies that the geometry should set colors on vertex attributes
+     * for visualizing orientation of triangles
+     * </p>
      * @property orientationColors
      * @type {boolean}
-     * @private
      */
-    private orientationColors;
+    orientationColors: boolean;
     /**
      * <p>
      * A list of simplices (data) with information about dimensionality and vertex properties (meta).
@@ -151,5 +166,8 @@ declare class Geometry extends Shareable {
      * @beta
      */
     triangle(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number;
+    lineSegment(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number;
+    point(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number;
+    empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number;
 }
 export = Geometry;

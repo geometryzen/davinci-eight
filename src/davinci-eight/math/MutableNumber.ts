@@ -4,11 +4,11 @@ import LinearElement = require('../math/LinearElement');
 import Spinor1Coords = require('../math/Spinor1Coords');
 import VectorN = require('../math/VectorN');
 /**
- * @class Vector1
+ * @class MutableNumber
  */
-class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, Vector1, Spinor1Coords, Cartesian1> {
+class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, MutableNumber, Spinor1Coords, Cartesian1> {
   /**
-   * @class Vector1
+   * @class MutableNumber
    * @constructor
    * @param data {number[]} Default is [0].
    * @param modified {boolean} Default is false.
@@ -27,7 +27,7 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     this.modified = this.modified || this.x !== value;
     this.data[0] = value;
   }
-  set(x: number): Vector1 {
+  set(x: number): MutableNumber {
     this.x = x;
     return this;
   }
@@ -140,11 +140,11 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     let dx = this.x - position.x;
     return dx * dx;
   }
-  reflect(n: Cartesian1): Vector1 {
+  reflect(n: Cartesian1): MutableNumber {
     // FIXME: TODO
     return this;
   }
-  rotate(rotor: Spinor1Coords): Vector1 {
+  rotate(rotor: Spinor1Coords): MutableNumber {
     return this;
   }
   setMagnitude(l: number) {
@@ -158,7 +158,7 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     this.x += ( v.x - this.x ) * alpha;
     return this;
   }
-  lerpVectors(v1: Vector1, v2: Vector1, alpha: number) {
+  lerpVectors(v1: MutableNumber, v2: MutableNumber, alpha: number) {
     this.difference(v2, v1).scale(alpha).add(v1);
     return this;
   }
@@ -179,8 +179,8 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     return this;
   }
   clone() {
-    return new Vector1([this.x]);
+    return new MutableNumber([this.x]);
   }
 }
 
-export = Vector1;
+export = MutableNumber;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Matrix1 - davinci-eight</title>
+    <title>src/davinci-eight/math/MutableNumber.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.131.0</em>
+            <em>API Docs for: 2.132.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
@@ -109,7 +110,6 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -118,6 +118,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronGeometry.html">OctahedronGeometry</a></li>
@@ -135,9 +136,10 @@
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
+                                <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
-                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
+                                <li><a href="../classes/SphericalPolarGeometry.html">SphericalPolarGeometry</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
@@ -147,7 +149,6 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
@@ -201,283 +202,198 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Matrix1 Class</h1>
-<div class="box meta">
-
-        <div class="extends">
-            Extends <a href="../classes/AbstractMatrix.html" class="crosslink">AbstractMatrix</a>
-        </div>
-
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Matrix1.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix1.ts:11</code></a>
-        </div>
-
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
-
-</div>
-
-
-<div class="box intro">
-    <p>1x1 (square) matrix of numbers.
-Constructs a Matrix1 by wrapping a Float32Array.</p>
-
-</div>
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_Matrix1" class="method item">
-    <h3 class="name"><code>Matrix1</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Matrix1.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix1.ts:11</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods extends">
-                            <li class="index-item method">
-                                <a href="#method_identity">identity</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_zero">zero</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property inherited">
-                                <a href="#property_callback">callback</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_data">data</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_dimensions">dimensions</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_identity" class="method item">
-    <h3 class="name"><code>identity</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix1.html" class="crosslink">Matrix1</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Matrix1.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix1.ts:20</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix1.html" class="crosslink">Matrix1</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_zero" class="method item">
-    <h3 class="name"><code>zero</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix1.html" class="crosslink">Matrix1</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Matrix1.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix1.ts:31</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Creates a new matrix with all elements zero.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix1.html" class="crosslink">Matrix1</a></span>:
-            </div>
-        </div>
-
-
-</div>
-            </div>
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_callback" class="property item inherited">
-    <h3 class="name"><code>callback</code></h3>
-    <span class="type">() => Float32Array</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/AbstractMatrix.html#property_callback">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:49</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_data" class="property item inherited">
-    <h3 class="name"><code>data</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array" class="crosslink external" target="_blank">Float32Array</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/AbstractMatrix.html#property_data">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:27</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_dimensions" class="property item inherited">
-    <h3 class="name"><code>dimensions</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/AbstractMatrix.html#property_dimensions">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:60</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: src/davinci-eight/math/MutableNumber.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Cartesian1 = require(&#x27;../math/Cartesian1&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import LinearElement = require(&#x27;../math/LinearElement&#x27;);
+import Spinor1Coords = require(&#x27;../math/Spinor1Coords&#x27;);
+import VectorN = require(&#x27;../math/VectorN&#x27;);
+/**
+ * @class MutableNumber
+ */
+class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearElement&lt;Cartesian1, MutableNumber, Spinor1Coords, Cartesian1&gt; {
+  /**
+   * @class MutableNumber
+   * @constructor
+   * @param data {number[]} Default is [0].
+   * @param modified {boolean} Default is false.
+   */
+  constructor(data = [0], modified = false) {
+    super(data, modified, 1);
+  }
+  /**
+   * @property x
+   * @type Number
+   */
+  get x(): number {
+    return this.data[0];
+  }
+  set x(value: number) {
+    this.modified = this.modified || this.x !== value;
+    this.data[0] = value;
+  }
+  set(x: number): MutableNumber {
+    this.x = x;
+    return this;
+  }
+  setX(x: number) {
+    this.x = x;
+    return this;
+  }
+  copy(v: Cartesian1) {
+    this.x = v.x;
+    return this;
+  }
+  add(v: Cartesian1) {
+    this.x += v.x;
+    return this;
+  }
+  addScalar(s: number) {
+    this.x += s;
+    return this;
+  }
+  sum(a: Cartesian1, b: Cartesian1) {
+    this.x = a.x + b.x;
+    return this;
+  }
+  exp() {
+    this.x = Math.exp(this.x);
+    return this;
+  }
+  sub(v: Cartesian1) {
+    this.x -= v.x;
+    return this;
+  }
+  subScalar(s: number) {
+    this.x -= s;
+    return this;
+  }
+  difference(a: Cartesian1, b: Cartesian1) {
+    this.x = a.x - b.x;
+    return this;
+  }
+  multiply(v: Cartesian1) {
+    this.x *= v.x;
+    return this;
+  }
+  scale(scalar: number) {
+    this.x *= scalar;
+    return this;
+  }
+  divide(v: Cartesian1) {
+    this.x /= v.x;
+    return this;
+  }
+  divideScalar(scalar: number) {
+    if ( scalar !== 0 ) {
+      var invScalar = 1 / scalar;
+      this.x *= invScalar;
+    }
+    else {
+      this.x = 0;
+    }
+    return this;
+  }
+  min(v: Cartesian1) {
+    if ( this.x &gt; v.x ) {
+      this.x = v.x;
+    }
+    return this;
+  }
+  max(v: Cartesian1) {
+    if ( this.x &lt; v.x ) {
+      this.x = v.x;
+    }
+    return this;
+  }
+  floor() {
+    this.x = Math.floor( this.x );
+    return this;
+  }
+  ceil() {
+    this.x = Math.ceil( this.x );
+    return this;
+  }
+  round() {
+    this.x = Math.round( this.x );
+    return this;
+  }
+  roundToZero() {
+    this.x = ( this.x &lt; 0 ) ? Math.ceil( this.x ) : Math.floor( this.x );
+    return this;
+  }
+  negate() {
+    this.x = - this.x;
+    return this;
+  }
+  distanceTo(position: Cartesian1) {
+    return Math.sqrt( this.quadranceTo(position));
+  }
+  dot(v: Cartesian1) {
+    return this.x * v.x;
+  }
+  magnitude(): number {
+    return Math.sqrt(this.quaditude());
+  }
+  normalize() {
+    return this.divideScalar(this.magnitude());
+  }
+  quaditude(): number {
+    return this.x * this.x;
+  }
+  quadranceTo(position: Cartesian1) {
+    let dx = this.x - position.x;
+    return dx * dx;
+  }
+  reflect(n: Cartesian1): MutableNumber {
+    // FIXME: TODO
+    return this;
+  }
+  rotate(rotor: Spinor1Coords): MutableNumber {
+    return this;
+  }
+  setMagnitude(l: number) {
+    var oldLength = this.magnitude();
+    if ( oldLength !== 0 &amp;&amp; l !== oldLength ) {
+      this.scale( l / oldLength );
+    }
+    return this;
+  }
+  lerp(v: Cartesian1, alpha: number) {
+    this.x += ( v.x - this.x ) * alpha;
+    return this;
+  }
+  lerpVectors(v1: MutableNumber, v2: MutableNumber, alpha: number) {
+    this.difference(v2, v1).scale(alpha).add(v1);
+    return this;
+  }
+  equals(v: Cartesian1) {
+    return v.x === this.x;
+  }
+  fromArray(array: number[], offset: number = 0) {
+    this.x = array[ offset ];
+    return this;
+  }
+  toArray(array: number[] = [], offset: number = 0) {
+    array[ offset ] = this.x;
+    return array;
+  }
+  fromAttribute(attribute: {itemSize: number, array: number[]}, index: number, offset: number = 0) {
+    index = index * attribute.itemSize + offset;
+    this.x = attribute.array[ index ];
+    return this;
+  }
+  clone() {
+    return new MutableNumber([this.x]);
+  }
+}
+
+export = MutableNumber;
+
+    </pre>
 </div>
                     </div>
                 </div>

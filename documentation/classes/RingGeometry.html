@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.131.0</em>
+            <em>API Docs for: 2.132.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
@@ -109,7 +110,6 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
-                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -118,6 +118,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronGeometry.html">OctahedronGeometry</a></li>
@@ -135,9 +136,10 @@
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
+                                <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
-                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
+                                <li><a href="../classes/SphericalPolarGeometry.html">SphericalPolarGeometry</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
@@ -147,7 +149,6 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
@@ -205,11 +206,11 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/Geometry.html" class="crosslink">Geometry</a>
+            Extends <a href="../classes/SliceGeometry.html" class="crosslink">SliceGeometry</a>
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:172</code></a>
+            Defined in: <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l149"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:149</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -218,8 +219,12 @@
 
 
 <div class="box intro">
-    <p>Creates an annulus with a single hole.</p>
-
+    <p>
+Creates an annulus with a single hole.
+</p>
+<p>
+Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
+</p>
 </div>
 
     <div class="constructor">
@@ -239,10 +244,10 @@
                         <code>axis</code>
                 </li>
                 <li class="arg">
-                        <code>start</code>
+                        <code>sliceStart</code>
                 </li>
                 <li class="arg">
-                        <code>angle</code>
+                        <code>sliceAngle</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -257,7 +262,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:172</code></a>
+        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l149"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:149</code></a>
         </p>
 
 
@@ -300,29 +305,29 @@
 
 
                     <div class="param-description">
-                        <p>[Cartesian3 = Vector3.e3] The symmetry axis unit vector.</p>
+                        <p>[Cartesian3] The <code>axis</code> property.</p>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name">start</code>
+                        <code class="param-name">sliceStart</code>
                         <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
                     <div class="param-description">
-                        <p>[Cartesian3 = Vector3.e1] The direction of the start.</p>
+                        <p>[Cartesian3] The <code>sliceStart</code> property.</p>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name">angle</code>
+                        <code class="param-name">sliceAngle</code>
                         <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
 
 
                     <div class="param-description">
-                        <p>[number = 2 * Math.PI] The angle.</p>
+                        <p>[number] The <code>sliceAngle</code> property.</p>
 
                     </div>
 
@@ -411,15 +416,27 @@
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_a">a</a>
+
+                            </li>
+                            <li class="index-item property inherited">
                                 <a href="#property_axis">axis</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_b">b</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_curvedSegments">curvedSegments</a>
 
                             </li>
                             <li class="index-item property inherited">
                                 <a href="#property_data">data</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_innerRadius">innerRadius</a>
+                            <li class="index-item property inherited">
+                                <a href="#property_flatSegments">flatSegments</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -430,16 +447,16 @@
                                 <a href="#property_meta">meta</a>
 
                             </li>
-                            <li class="index-item property private inherited">
+                            <li class="index-item property inherited">
                                 <a href="#property_orientationColors">orientationColors</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_outerRadius">outerRadius</a>
+                            <li class="index-item property inherited">
+                                <a href="#property_sliceAngle">sliceAngle</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_start">start</a>
+                            <li class="index-item property inherited">
+                                <a href="#property_sliceStart">sliceStart</a>
 
                             </li>
                             <li class="index-item property inherited">
@@ -525,7 +542,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_boundary">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:127</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:142</code></a>
         </p>
 
 
@@ -588,7 +605,7 @@ For example, triangles are converted to lines.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_check">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:147</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l162"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:162</code></a>
         </p>
 
 
@@ -633,7 +650,7 @@ For example, triangles are converted to lines.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:192</code></a>
+        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:169</code></a>
         </p>
 
 
@@ -676,7 +693,7 @@ For example, triangles are converted to lines.
                 Geometry
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l200"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:200</code></a>
+        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l177"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:177</code></a>
         </p>
 
 
@@ -723,7 +740,7 @@ For example, triangles are converted to lines.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_mergeVertices">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l191"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:191</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:206</code></a>
         </p>
 
 
@@ -783,7 +800,7 @@ For example, triangles are converted to lines.
                 Geometry
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l207"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:207</code></a>
+        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l184"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:184</code></a>
         </p>
 
 
@@ -879,7 +896,7 @@ Notifies this instance that something is dereferencing it.
                 Geometry
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l246"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:246</code></a>
+        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l223"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:223</code></a>
         </p>
 
 
@@ -941,7 +958,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_subdivide">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:159</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:174</code></a>
         </p>
 
 
@@ -1003,7 +1020,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_toGeometry">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l179"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:179</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l194"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:194</code></a>
         </p>
 
 
@@ -1055,7 +1072,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#method_triangle">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:201</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l216"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:216</code></a>
         </p>
 
 
@@ -1145,9 +1162,9 @@ The subdivide operation creates new simplices of the same dimension as the origi
 
 
 </div>
-<div id="property_axis" class="property item">
-    <h3 class="name"><code>axis</code></h3>
-    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+<div id="property_a" class="property item">
+    <h3 class="name"><code>a</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
 
@@ -1156,14 +1173,89 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:148</code></a>
+        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:137</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The axis of symmetry (unit vector) direction.</p>
+        <p>The outer radius.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_axis" class="property item inherited">
+    <h3 class="name"><code>axis</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AxialGeometry.html#property_axis">AxialGeometry</a>:
+        <a href="../files/src_davinci-eight_geometries_AxialGeometry.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;AxialGeometry.ts:10</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The symmetry axis used for geometry generation.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_b" class="property item">
+    <h3 class="name"><code>b</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:143</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The inner radius.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_curvedSegments" class="property item inherited">
+    <h3 class="name"><code>curvedSegments</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#property_curvedSegments">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:41</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Specifies the number of segments to use in curved directions.</p>
 
     </div>
 
@@ -1196,8 +1288,8 @@ A simplex, in the context of WebGL, will usually represent a triangle, line or p
 
 
 </div>
-<div id="property_innerRadius" class="property item">
-    <h3 class="name"><code>innerRadius</code></h3>
+<div id="property_flatSegments" class="property item inherited">
+    <h3 class="name"><code>flatSegments</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
@@ -1205,16 +1297,16 @@ A simplex, in the context of WebGL, will usually represent a triangle, line or p
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l136"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:136</code></a>
+                <p>Inherited from
+                <a href="../classes/Geometry.html#property_flatSegments">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:47</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The inner radius.</p>
+        <p>Specifies the number of segments to use on flat surfaces.</p>
 
     </div>
 
@@ -1232,7 +1324,7 @@ A simplex, in the context of WebGL, will usually represent a triangle, line or p
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property_k">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:79</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:94</code></a>
         </p>
 
 
@@ -1277,33 +1369,35 @@ This data structure may be used to map vertex attribute names to program names.<
 
 
 </div>
-<div id="property_orientationColors" class="property item private inherited">
+<div id="property_orientationColors" class="property item inherited">
     <h3 class="name"><code>orientationColors</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
-        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Geometry.html#property_orientationColors">Geometry</a>:
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:41</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:53</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+Specifies that the geometry should set colors on vertex attributes
+for visualizing orientation of triangles
+</p>
     </div>
 
 
 
 </div>
-<div id="property_outerRadius" class="property item">
-    <h3 class="name"><code>outerRadius</code></h3>
+<div id="property_sliceAngle" class="property item inherited">
+    <h3 class="name"><code>sliceAngle</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
@@ -1311,24 +1405,25 @@ This data structure may be used to map vertex attribute names to program names.<
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:142</code></a>
+                <p>Inherited from
+                <a href="../classes/SliceGeometry.html#property_sliceAngle">SliceGeometry</a>:
+        <a href="../files/src_davinci-eight_geometries_SliceGeometry.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SliceGeometry.ts:17</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The outer radius.</p>
-
+        <p>
+The angle of the slice, measured in radians.
+</p>
     </div>
 
 
 
 </div>
-<div id="property_start" class="property item">
-    <h3 class="name"><code>start</code></h3>
+<div id="property_sliceStart" class="property item inherited">
+    <h3 class="name"><code>sliceStart</code></h3>
     <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
 
@@ -1336,17 +1431,18 @@ This data structure may be used to map vertex attribute names to program names.<
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_geometries_RingGeometry.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;RingGeometry.ts:154</code></a>
+                <p>Inherited from
+                <a href="../classes/SliceGeometry.html#property_sliceStart">SliceGeometry</a>:
+        <a href="../files/src_davinci-eight_geometries_SliceGeometry.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SliceGeometry.ts:25</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The direction (perpendicular to axis) of the start or the arc.</p>
-
+        <p>
+The (unit vector) direction of the start of the slice.
+</p>
     </div>
 
 

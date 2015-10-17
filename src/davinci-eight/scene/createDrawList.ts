@@ -1,7 +1,7 @@
 import IContextProvider = require('../core/IContextProvider');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
-import Matrix1 = require('../math/Matrix1');
+import MutableNumber = require('../math/MutableNumber');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
@@ -16,7 +16,6 @@ import Shareable = require('../utils/Shareable')
 import StringIUnknownMap = require('../collections/StringIUnknownMap');
 import uuid4 = require('../utils/uuid4');
 import IFacet = require('../core/IFacet');
-import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');

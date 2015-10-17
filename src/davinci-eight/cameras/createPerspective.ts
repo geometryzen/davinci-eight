@@ -9,7 +9,7 @@ import Matrix4            = require('../math/Matrix4');
 import Spinor3            = require('../math/Spinor3');
 import Symbolic           = require('../core/Symbolic');
 import Cartesian3         = require('../math/Cartesian3');
-import Vector1            = require('../math/Vector1');
+import MutableNumber            = require('../math/MutableNumber');
 import Vector3            = require('../math/Vector3');
 import isDefined          = require('../checks/isDefined');
 import isUndefined        = require('../checks/isUndefined');
@@ -28,10 +28,10 @@ import computePerspectiveMatrix = require('../cameras/perspectiveMatrix');
 let createPerspective = function(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string;}): Perspective {
 
   options = options || {};
-  let fov: Vector1 = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-  let aspect: Vector1 = new Vector1([isUndefined(options.aspect) ? 1 : options.aspect]);
-  let near: Vector1 = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
-  let far: Vector1 = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
+  let fov: MutableNumber = new MutableNumber([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+  let aspect: MutableNumber = new MutableNumber([isUndefined(options.aspect) ? 1 : options.aspect]);
+  let near: MutableNumber = new MutableNumber([isUndefined(options.near) ? 0.1 : options.near]);
+  let far: MutableNumber = new MutableNumber([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
   let projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
   var refCount = 1

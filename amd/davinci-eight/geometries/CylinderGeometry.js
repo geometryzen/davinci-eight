@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Geometry, Spinor3, Vector2, Vector3) {
+define(["require", "exports", '../geometries/arc3', '../geometries/SliceGeometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, SliceGeometry, Spinor3, Vector2, Vector3) {
     // TODO: The caps don't have radial segments!
     function computeVertices(radius, height, axis, start, angle, generator, heightSegments, thetaSegments, points, vertices, uvs) {
         var begin = Vector3.copy(start).scale(radius);
@@ -45,44 +45,36 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
             uvs.push(uvsRow);
         }
     }
-    /*
-    * * @class CylinderGeometry
+    /**
+     * @class CylinderGeometry
+     * @extends SliceGeometry
      */
     var CylinderGeometry = (function (_super) {
         __extends(CylinderGeometry, _super);
         /**
+         * <p>
+         * Constructs a Cylindrical Shell.
+         * </p>
+         * <p>
+         * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
+         * </p>
          * @class CylinderGeometry
          * @constructor
          * @param radius [number = 1]
          * @param height [number = 1]
          * @param axis [Cartesian3 = Vector3.e2]
-         * @param start [Cartesian3 = Vector3.e1]
-         * @param angle [number = 2 * Math.PI]
-         * @param thetaSegments [number = 16]
-         * @param heightSegments [number = 1]
          * @param openTop [boolean = false]
          * @param openBottom [boolean = false]
          */
-        function CylinderGeometry(radius, height, axis, start, angle, thetaSegments, heightSegments, openTop, openBottom) {
+        function CylinderGeometry(radius, height, axis, openTop, openBottom) {
             if (radius === void 0) { radius = 1; }
             if (height === void 0) { height = 1; }
             if (axis === void 0) { axis = Vector3.e2; }
-            if (start === void 0) { start = Vector3.e1; }
-            if (angle === void 0) { angle = 2 * Math.PI; }
-            if (thetaSegments === void 0) { thetaSegments = 16; }
-            if (heightSegments === void 0) { heightSegments = 1; }
             if (openTop === void 0) { openTop = false; }
             if (openBottom === void 0) { openBottom = false; }
-            thetaSegments = Math.max(thetaSegments, 3);
-            heightSegments = Math.max(heightSegments, 1);
-            _super.call(this, 'CylinderGeometry');
+            _super.call(this, 'CylinderGeometry', axis, void 0, void 0);
             this.radius = radius;
             this.height = height;
-            this.axis = Vector3.copy(axis).normalize();
-            this.start = Vector3.copy(start).normalize();
-            this.angle = angle;
-            this.thetaSegments = thetaSegments;
-            this.heightSegments = heightSegments;
             this.openTop = openTop;
             this.openBottom = openBottom;
             this.setModified(true);
@@ -91,8 +83,8 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
             this.data = [];
             var radius = this.radius;
             //let height = this.height
-            var heightSegments = this.heightSegments;
-            var thetaSegments = this.thetaSegments;
+            var heightSegments = this.flatSegments;
+            var thetaSegments = this.curvedSegments;
             var generator = new Spinor3().dual(this.axis);
             var heightHalf = this.height / 2;
             var points = [];
@@ -100,7 +92,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
             // The alternative is to use an indexing function.
             var vertices = [];
             var uvs = [];
-            computeVertices(radius, this.height, this.axis, this.start, this.angle, generator, heightSegments, thetaSegments, points, vertices, uvs);
+            computeVertices(radius, this.height, this.axis, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs);
             var na;
             var nb;
             // sides
@@ -183,6 +175,6 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Geometry', '.
             this.setModified(false);
         };
         return CylinderGeometry;
-    })(Geometry);
+    })(SliceGeometry);
     return CylinderGeometry;
 });

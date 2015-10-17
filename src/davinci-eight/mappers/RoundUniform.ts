@@ -1,9 +1,8 @@
-import Matrix1 = require('../math/Matrix1');
+import MutableNumber = require('../math/MutableNumber');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import IFacetVisitor = require('../core/IFacetVisitor');
-import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
@@ -34,9 +33,6 @@ class RoundUniform implements IFacetVisitor {
   uniform4f(name: string, x: number, y: number, z: number, w: number): void {
     console.warn("uniform");
   }
-  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1): void {
-    console.warn("uniform");
-  }
   uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2): void {
     console.warn("uniform");
   }
@@ -44,9 +40,6 @@ class RoundUniform implements IFacetVisitor {
     console.warn("uniform");
   }
   uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4): void {
-    console.warn("uniform");
-  }
-  uniformCartesian1(name: string, vector: Vector1): void {
     console.warn("uniform");
   }
   uniformCartesian2(name: string, vector: Vector2): void {
@@ -57,9 +50,6 @@ class RoundUniform implements IFacetVisitor {
   }
   uniformCartesian4(name: string, vector: Vector4): void {
     console.warn("uniform");
-  }
-  vector1( name:string, data: number[], canvasId: number): void {
-    this._next.vector1(name, data, canvasId)
   }
   vector2( name:string, data: number[], canvasId: number): void {
     this._next.vector2(name, data, canvasId)

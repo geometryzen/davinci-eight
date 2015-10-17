@@ -5,7 +5,7 @@ import MonitorList = require('../scene/MonitorList');
 import expectArg = require('../checks/expectArg');
 import fragmentShader = require('../programs/fragmentShader');
 import isDefined = require('../checks/isDefined');
-import Matrix1 = require('../math/Matrix1');
+import MutableNumber = require('../math/MutableNumber');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
@@ -16,7 +16,6 @@ import IMaterial = require('../core/IMaterial');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import vColorRequired = require('../programs/vColorRequired');
-import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
@@ -90,9 +89,6 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
     uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
       return innerProgram.uniform4f(name, x, y, z, w, canvasId);
     },
-    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number) {
-      return innerProgram.uniformMatrix1(name, transpose, matrix, canvasId);
-    },
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number) {
       return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
     },
@@ -102,9 +98,6 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
       return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
     },
-    uniformCartesian1(name: string, vector: Vector1, canvasId: number) {
-      return innerProgram.uniformCartesian1(name, vector, canvasId);
-    },
     uniformCartesian2(name: string, vector: Vector2, canvasId: number) {
       return innerProgram.uniformCartesian2(name, vector, canvasId);
     },
@@ -113,9 +106,6 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
     },
     uniformCartesian4(name: string, vector: Vector4, canvasId: number) {
       return innerProgram.uniformCartesian4(name, vector, canvasId);
-    },
-    vector1(name: string, data: number[], canvasId: number): void {
-      return innerProgram.vector1(name, data, canvasId);
     },
     vector2(name: string, data: number[], canvasId: number): void {
       return innerProgram.vector2(name, data, canvasId);

@@ -116,7 +116,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         /**
          * @method matrix1
          * @param transpose {boolean}
-         * @param matrix {Matrix1}
+         * @param matrix {MutableNumber}
          */
         UniformLocation.prototype.matrix1 = function (transpose, matrix) {
             this._context.useProgram(this._program);
@@ -150,14 +150,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
                 this._context.useProgram(this._program);
                 this._context.uniformMatrix4fv(this._location, transpose, matrix.data);
             }
-        };
-        /**
-         * @method vector1
-         * @param data {number[]}
-         */
-        UniformLocation.prototype.vector1 = function (data) {
-            this._context.useProgram(this._program);
-            this._context.uniform1fv(this._location, data);
         };
         /**
          * @method vector2

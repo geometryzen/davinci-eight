@@ -2,7 +2,7 @@ import Cartesian3 = require('../math/Cartesian3');
 import mustBeNumber = require('../checks/mustBeNumber');
 import RevolutionGeometry = require('../geometries/RevolutionGeometry');
 import Spinor3 = require('../math/Spinor3');
-import Vector1 = require('../math/Vector1');
+import MutableNumber = require('../math/MutableNumber');
 import Vector3 = require('../math/Vector3');
 
 function signum(x:  number): number {

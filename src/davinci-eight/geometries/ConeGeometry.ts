@@ -1,71 +1,59 @@
-import Geometry = require('../geometries/Geometry');
-import Simplex = require('../geometries/Simplex');
-import Symbolic = require('../core/Symbolic');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
+import Cartesian3 = require('../math/Cartesian3')
+import Geometry = require('../geometries/Geometry')
+import Simplex = require('../geometries/Simplex')
+import SliceGeometry = require('../geometries/SliceGeometry')
+import Symbolic = require('../core/Symbolic')
+import Vector2 = require('../math/Vector2')
+import Vector3 = require('../math/Vector3')
 
 /**
  * @class ConeGeometry
+ * @extends SliceGeometry
  */
-class ConeGeometry extends Geometry {
+class ConeGeometry extends SliceGeometry {
     public radiusTop: number;
-    public radiusBottom: number;
+    public radius: number;
     public height: number;
-    public heightSegments: number;
-    public radialSegments: number;
     public openTop: boolean;
     public openBottom: boolean;
     public thetaStart: number;
-    public thetaLength: number;
     /**
      * @class ConeGeometry
      * @constructor
      * @param radiusTop [number = 0.5]
-     * @param radiusBottom [number = 0.5]
+     * @param radius [number = 0.5]
      * @param height [number = 1]
-     * @param radialSegments [number = 16]
-     * @param heightSegments [number = 1]
      * @param openTop [boolean = false]
      * @param openBottom [boolean = false]
      * @param thetaStart [number = 0]
-     * @param thetaLength [number = 2 * Math.PI]
      */
     constructor(
-        radiusTop: number = 0.5,
-        radiusBottom: number = 0.5,
+        radius: number = 0.5,
         height: number = 1,
-        radialSegments: number = 16,
-        heightSegments: number = 1,
+        axis: Cartesian3,
+        radiusTop: number = 0.0,
         openTop: boolean = false,
         openBottom: boolean = false,
-        thetaStart: number = 0,
-        thetaLength: number = 2 * Math.PI) {
+        thetaStart: number = 0) {
 
-        radialSegments = Math.max(radialSegments, 3);
-        heightSegments = Math.max(heightSegments, 1);
-
-        super('ConeGeometry')
+        super('ConeGeometry', axis, void 0, void 0)
         this.radiusTop = radiusTop
-        this.radiusBottom = radiusBottom
+        this.radius = radius
         this.height = height
-        this.radialSegments = radialSegments
-        this.heightSegments = heightSegments
         this.openTop = openTop
         this.openBottom = openBottom
         this.thetaStart = thetaStart
-        this.thetaLength = thetaLength
     }
     public regenerate(): void {
-        let radiusBottom = this.radiusBottom
+        let radiusBottom = this.radius
         let radiusTop = this.radiusTop
         let height = this.height
-        let heightSegments = this.heightSegments
-        let radialSegments = this.radialSegments
+        let heightSegments = this.flatSegments
+        let radialSegments = this.curvedSegments
         let openTop = this.openTop
         let openBottom = this.openBottom
         let thetaStart = this.thetaStart
-        let thetaLength = this.thetaLength
-
+        let sliceAngle = this.sliceAngle
 
         let heightHalf = height / 2;
 
@@ -83,9 +71,9 @@ class ConeGeometry extends Geometry {
             for (x = 0; x <= radialSegments; x++) {
                 let u = x / radialSegments;
                 let vertex = new Vector3();
-                vertex.x = radius * Math.sin(u * thetaLength + thetaStart);
+                vertex.x = radius * Math.sin(u * sliceAngle + thetaStart);
                 vertex.y = - v * height + heightHalf;
-                vertex.z = radius * Math.cos(u * thetaLength + thetaStart);
+                vertex.z = radius * Math.cos(u * sliceAngle + thetaStart);
                 points.push(vertex);
                 verticesRow.push(points.length - 1);
                 uvsRow.push(new Vector2([u, 1 - v]));

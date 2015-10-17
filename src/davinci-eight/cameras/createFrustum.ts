@@ -6,7 +6,7 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
-import Vector1 = require('../math/Vector1');
+import MutableNumber = require('../math/MutableNumber');
 import Vector3 = require('../math/Vector3');
 
 /**
@@ -18,12 +18,12 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
 
   let refCount = 1;
   let base: View = createView(viewMatrixName);
-  let left: Vector1 = new Vector1();
-  let right: Vector1 = new Vector1();
-  let bottom: Vector1 = new Vector1();
-  let top: Vector1 = new Vector1();
-  let near: Vector1 = new Vector1();
-  let far: Vector1 = new Vector1();
+  let left: MutableNumber = new MutableNumber();
+  let right: MutableNumber = new MutableNumber();
+  let bottom: MutableNumber = new MutableNumber();
+  let top: MutableNumber = new MutableNumber();
+  let near: MutableNumber = new MutableNumber();
+  let far: MutableNumber = new MutableNumber();
   // TODO: We should immediately create with a frustum static constructor?
   let projectionMatrix: Matrix4 = Matrix4.identity();
 

@@ -3,6 +3,7 @@ import Cartesian3 = require('../math/Cartesian3')
 import Geometry = require('../geometries/Geometry')
 import mustBeNumber = require('../checks/mustBeNumber')
 import Simplex = require('../geometries/Simplex')
+import SliceGeometry = require('../geometries/SliceGeometry')
 import Spinor3 = require('../math/Spinor3')
 import Spinor3Coords = require('../math/Spinor3Coords')
 import Symbolic = require('../core/Symbolic')
@@ -130,64 +131,40 @@ function makeEmpty(vertices: Vector3[], radialSegments: number, thetaSegments: n
 
 /**
  * @class RingGeometry
- * @extends Geometry
+ * @extends SliceGeometry
  */
-class RingGeometry extends Geometry {
-    /**
-     * The inner radius.
-     * @property innerRadius
-     * @type {number}
-     */
-    public innerRadius: number;
+class RingGeometry extends SliceGeometry {
     /**
      * The outer radius.
-     * @property outerRadius
+     * @property a
      * @type {number}
      */
-    public outerRadius: number;
+    public a: number;
     /**
-     * The axis of symmetry (unit vector) direction.
-     * @property axis
-     * @type {Vector3}
+     * The inner radius.
+     * @property b
+     * @type {number}
      */
-    public axis: Vector3;
+    public b: number;
     /**
-     * The direction (perpendicular to axis) of the start or the arc.
-     * @property start
-     * @type {Vector3}
-     */
-    public start: Vector3;
-    /**
-     * The angle subtended by the ring.
-     */
-    public angle: number;
-    /**
-     * The number of segments in the radial direction.
-     */
-    public radialSegments: number;
-    /**
-     * The number of segments in the angular direction.
-     */
-    public thetaSegments: number;
-    /**
+     * <p>
      * Creates an annulus with a single hole.
+     * </p>
+     * <p>
+     * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
+     * </p>
      * @class RingGeometry
      * @constructor
      * @param a [number = 1] The outer radius
      * @param b [number = 0] The inner radius
-     * @param axis [Cartesian3 = Vector3.e3] The symmetry axis unit vector.
-     * @param start [Cartesian3 = Vector3.e1] The direction of the start.
-     * @param angle [number = 2 * Math.PI] The angle.
+     * @param axis [Cartesian3] The <code>axis</code> property.
+     * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
+     * @param sliceAngle [number] The <code>sliceAngle</code> property.
      */
-    constructor(innerRadius: number = 0, outerRadius: number = 1, axis: Cartesian3 = Vector3.e3, start: Cartesian3 = Vector3.e1, angle: number = 2 * Math.PI) {
-        super('RingGeometry')
-        this.innerRadius = innerRadius
-        this.outerRadius = outerRadius
-        this.axis = Vector3.copy(axis).normalize()
-        this.start = Vector3.copy(start).normalize()
-        this.angle = mustBeNumber('angle', angle)
-        this.radialSegments = 1
-        this.thetaSegments = 32
+    constructor(a: number = 1, b: number = 0, axis?: Cartesian3, sliceStart?: Cartesian3, sliceAngle?: number) {
+        super('RingGeometry', axis, sliceStart, sliceAngle)
+        this.a = a
+        this.b = b
     }
     /**
      * @method destructor
@@ -211,14 +188,14 @@ class RingGeometry extends Geometry {
     public regenerate(): void {
         this.data = []
 
-        var radialSegments = this.radialSegments
-        var thetaSegments = this.thetaSegments
+        var radialSegments = this.flatSegments
+        var thetaSegments = this.curvedSegments
         var generator: Spinor3Coords = new Spinor3().dual(this.axis)
 
         var vertices: Vector3[] = []
         var uvs: Vector2[] = []
 
-        computeVertices(this.outerRadius, this.innerRadius, this.axis, this.start, this.angle, generator, radialSegments, thetaSegments, vertices, uvs)
+        computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs)
         switch (this.k) {
             case Simplex.K_FOR_EMPTY: {
                 makeEmpty(vertices, radialSegments, thetaSegments, this.data)

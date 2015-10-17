@@ -12,7 +12,7 @@ import readOnly = require('../i18n/readOnly')
 import Simplex = require('../geometries/Simplex')
 import Symbolic = require('../core/Symbolic')
 import triangle = require('../geometries/triangle')
-import Vector1 = require('../math/Vector1')
+import MutableNumber = require('../math/MutableNumber')
 import Vector3 = require('../math/Vector3')
 import VectorN = require('../math/VectorN')
 
@@ -185,7 +185,7 @@ class CuboidGeometry extends Geometry {
       let simplex = new Simplex(indices.length - 1)
       for (var i = 0; i < indices.length; i++) {
         simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]]
-        simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = new Vector1([i])
+        simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = new MutableNumber([i])
       }
       return simplex
     }

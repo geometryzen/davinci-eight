@@ -2,7 +2,7 @@ import Cartesian1 = require('../math/Cartesian1');
 import Cartesian2 = require('../math/Cartesian2');
 import Cartesian3 = require('../math/Cartesian3');
 import Cartesian4 = require('../math/Cartesian4');
-import Matrix1 = require('../math/Matrix1');
+import MutableNumber = require('../math/MutableNumber');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
@@ -87,9 +87,9 @@ declare class UniformLocation implements IContextProgramConsumer {
     /**
      * @method matrix1
      * @param transpose {boolean}
-     * @param matrix {Matrix1}
+     * @param matrix {MutableNumber}
      */
-    matrix1(transpose: boolean, matrix: Matrix1): void;
+    matrix1(transpose: boolean, matrix: MutableNumber): void;
     /**
      * @method matrix2
      * @param transpose {boolean}
@@ -108,11 +108,6 @@ declare class UniformLocation implements IContextProgramConsumer {
      * @param matrix {Matrix4}
      */
     matrix4(transpose: boolean, matrix: Matrix4): void;
-    /**
-     * @method vector1
-     * @param data {number[]}
-     */
-    vector1(data: number[]): void;
     /**
      * @method vector2
      * @param data {number[]}
