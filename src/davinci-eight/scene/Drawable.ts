@@ -2,7 +2,6 @@ import toGeometryMeta = require('../geometries/toGeometryMeta')
 import IContextProvider = require('../core/IContextProvider')
 import IContextMonitor = require('../core/IContextMonitor')
 import core = require('../core');
-import GeometryData = require('../geometries/GeometryData')
 import GeometryElements = require('../geometries/GeometryElements')
 import GeometryMeta = require('../geometries/GeometryMeta')
 import IDrawable = require('../core/IDrawable')
@@ -127,14 +126,7 @@ class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareabl
   contextGain(manager: IContextProvider): void {
     // 1. Replace the existing buffer geometry if we have geometry. 
     if (this.geometry) {
-      let data = this.geometry.data
-      let meta = this.geometry.meta
-
-      mustBeDefined('geometry.data', data, contextBuilder)
-      mustBeDefined('geometry.meta', meta, contextBuilder)
-
-      // FIXME: Why is the meta not being used?
-      this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(data))
+      this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(this.geometry))
     }
     else {
       console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId)

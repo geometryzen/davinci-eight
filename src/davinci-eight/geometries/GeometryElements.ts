@@ -1,38 +1,41 @@
-import GeometryData = require('../geometries/GeometryData');
-import GeometryMeta = require('../geometries/GeometryMeta');
+import DrawMode = require('../core/DrawMode')
+import GeometryAttribute = require('../geometries/GeometryAttribute')
+import mustBeInteger = require('../checks/mustBeInteger')
+import VectorN = require('../math/VectorN')
 
 /**
- * <p>
- * A geometry holds the elements or arrays sent to the GLSL pipeline.
- * </p>
- * <p>
- * These instructions are in a compact form suitable for populating WebGLBuffer(s).
- * </p>
- *
  * @class GeometryElements
  */
 class GeometryElements {
-  /**
-   * @property data
-   * @type {GeometryElements}
-   */
-  public data: GeometryData;
-  /**
-   * @property meta
-   * @type {GeometryMeta}
-   */
-  // FIXME: GeometryMeta vanishes in the API docs because it is an interface.
-  public meta: GeometryMeta;
-  /**
-   * @class GeometryElements
-   * @constructor
-   * @param data {GeometryData} The instructions for drawing the geometry.
-   * @param meta {GeometryMeta} 
-   */
-  constructor(data: GeometryData, meta: GeometryMeta) {
-    this.data = data;
-    this.meta = meta;
-  }
+    /**
+     * @property mode
+     * @type {DrawMode}
+     */
+    public mode: DrawMode;
+    /**
+     * @property indices
+     * @type {number[]}
+     */
+    public indices: number[];
+    // TODO: Looks like a DrawAttributeMap here (implementation only)
+    /**
+     * @property attributes
+     * @type {{[name:string]: GeometryAttribute}}
+     */
+    public attributes: { [name: string]: GeometryAttribute } = {};
+    /**
+     * @class GeometryElements
+     * @constructor
+     * @param mode {DrawMode} <p>The geometric primitive type.</p>
+     * @param indices {number[]} <p>A list of index into the attributes</p>
+     * @param attributes {{[name:string]: GeometryAttribute}}
+     */
+    constructor(mode: DrawMode, indices: number[], attributes: { [name: string]: GeometryAttribute }) {
+        mustBeInteger('mode', mode)
+        this.mode = mode
+        this.indices = indices
+        this.attributes = attributes
+    }
 }
 
 export = GeometryElements;

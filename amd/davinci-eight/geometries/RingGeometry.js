@@ -69,24 +69,24 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
     function makeLineSegments(vertices, radialSegments, thetaSegments, data) {
         for (var i = 0; i < radialSegments; i++) {
             for (var j = 0; j < thetaSegments; j++) {
-                var simplex = new Simplex(Simplex.K_FOR_LINE_SEGMENT);
+                var simplex = new Simplex(Simplex.LINE);
                 simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
                 simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)];
                 data.push(simplex);
-                var simplex = new Simplex(Simplex.K_FOR_LINE_SEGMENT);
+                var simplex = new Simplex(Simplex.LINE);
                 simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
                 simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)];
                 data.push(simplex);
             }
             // TODO: We probably don't need these lines when the thing is closed 
-            var simplex = new Simplex(Simplex.K_FOR_LINE_SEGMENT);
+            var simplex = new Simplex(Simplex.LINE);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)];
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)];
             data.push(simplex);
         }
         // Lines for the outermost circle.
         for (var j = 0; j < thetaSegments; j++) {
-            var simplex = new Simplex(Simplex.K_FOR_LINE_SEGMENT);
+            var simplex = new Simplex(Simplex.LINE);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j, thetaSegments)];
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j + 1, thetaSegments)];
             data.push(simplex);
@@ -95,7 +95,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
     function makePoints(vertices, radialSegments, thetaSegments, data) {
         for (var i = 0; i <= radialSegments; i++) {
             for (var j = 0; j <= thetaSegments; j++) {
-                var simplex = new Simplex(Simplex.K_FOR_POINT);
+                var simplex = new Simplex(Simplex.POINT);
                 simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
                 data.push(simplex);
             }
@@ -104,7 +104,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
     function makeEmpty(vertices, radialSegments, thetaSegments, data) {
         for (var i = 0; i <= radialSegments; i++) {
             for (var j = 0; j <= thetaSegments; j++) {
-                var simplex = new Simplex(Simplex.K_FOR_EMPTY);
+                var simplex = new Simplex(Simplex.EMPTY);
                 data.push(simplex);
             }
         }
@@ -165,22 +165,22 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
             var uvs = [];
             computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);
             switch (this.k) {
-                case Simplex.K_FOR_EMPTY:
+                case Simplex.EMPTY:
                     {
                         makeEmpty(vertices, radialSegments, thetaSegments, this.data);
                     }
                     break;
-                case Simplex.K_FOR_POINT:
+                case Simplex.POINT:
                     {
                         makePoints(vertices, radialSegments, thetaSegments, this.data);
                     }
                     break;
-                case Simplex.K_FOR_LINE_SEGMENT:
+                case Simplex.LINE:
                     {
                         makeLineSegments(vertices, radialSegments, thetaSegments, this.data);
                     }
                     break;
-                case Simplex.K_FOR_TRIANGLE:
+                case Simplex.TRIANGLE:
                     {
                         makeTriangles(vertices, uvs, this.axis, radialSegments, thetaSegments, this);
                     }

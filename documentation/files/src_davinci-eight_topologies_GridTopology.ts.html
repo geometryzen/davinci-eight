@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>GeometryData - davinci-eight</title>
+    <title>src/davinci-eight/topologies/GridTopology.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.132.0</em>
+            <em>API Docs for: 2.133.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -69,10 +69,10 @@
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
+                                <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
-                                <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/EmptyMaterial.html">EmptyMaterial</a></li>
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
@@ -82,9 +82,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAttribute.html">GeometryAttribute</a></li>
-                                <li><a href="../classes/GeometryData.html">GeometryData</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
+                                <li><a href="../classes/GridTopology.html">GridTopology</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IAnimation.html">IAnimation</a></li>
                                 <li><a href="../classes/IAnimationTarget.html">IAnimationTarget</a></li>
@@ -108,6 +108,7 @@
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
+                                <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
@@ -116,6 +117,7 @@
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
@@ -127,6 +129,7 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
@@ -137,6 +140,7 @@
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
                                 <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
+                                <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarGeometry.html">SphericalPolarGeometry</a></li>
@@ -146,6 +150,7 @@
                                 <li><a href="../classes/SurfaceGeometry.html">SurfaceGeometry</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/Topology.html">Topology</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -202,192 +207,137 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>GeometryData Class</h1>
-<div class="box meta">
-
-
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_GeometryData.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GeometryData.ts:25</code></a>
-        </div>
-
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
-
-</div>
-
-
-<div class="box intro">
-    
-</div>
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_GeometryData" class="method item">
-    <h3 class="name"><code>GeometryData</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>k</code>
-                </li>
-                <li class="arg">
-                        <code>indices</code>
-                </li>
-                <li class="arg">
-                        <code>attributes</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_geometries_GeometryData.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GeometryData.ts:25</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">k</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-                    <div class="param-description">
-                        <p>The dimensionality of the primitives.</p>
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">indices</code>
-                        <span class="type"><a href="../classes/VectorN.html" class="crosslink">VectorN</a></span>
-
-
-                    <div class="param-description">
-                        <p>A list of index into the attributes</p>
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">attributes</code>
-                        <span class="type">name:string: GeometryAttribute</span>
-
-
-                    <div class="param-description">
-                        <p>}</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_attributes">attributes</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_indices">indices</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_attributes" class="property item">
-    <h3 class="name"><code>attributes</code></h3>
-    <span class="type">name:string: GeometryAttribute</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_geometries_GeometryData.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GeometryData.ts:20</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_indices" class="property item">
-    <h3 class="name"><code>indices</code></h3>
-    <span class="type"><a href="../classes/VectorN.html" class="crosslink">VectorN</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_geometries_GeometryData.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;GeometryData.ts:14</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: src/davinci-eight/topologies/GridTopology.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import DrawMode = require(&#x27;../core/DrawMode&#x27;)
+import isDefined = require(&#x27;../checks/isDefined&#x27;)
+import MeshTopology = require(&#x27;../topologies/MeshTopology&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import Vertex = require(&#x27;../geometries/Vertex&#x27;)
+
+function numPostsForFence(segmentCount: number): number {
+    return segmentCount + 1
+}
+
+function dimensionsForGrid(segmentCounts: number[]): number[] {
+    return segmentCounts.map(numPostsForFence)
+}
+
+function numVerticesForGrid(segmentCounts: number[]): number {
+    return dimensionsForGrid(segmentCounts).reduce((a, b) =&gt; { return a * b }, 1)
+}
+
+/**
+ * Computes the triangleStripForGrid traversal for a grid.
+ * param iLength The number of points in the i direction, iLength = iSegments + 1
+ * param jLength The number of points in the j direction, jLength = jSegments + 1
+ * param elements Optional 
+ * return The traversal result.
+ */
+function triangleStripForGrid(iLength: number, jLength: number, elements?: number[]): number[] {
+    // Make sure that we have somewhere valid to store the result.
+    elements = isDefined(elements) ? elements : []
+
+    let jSegments = jLength - 1
+    /**
+     * The number of elements needed if we executed a strip per row segment.
+     * Remark Notice the asymmetry. Could be a performance impact.
+     */
+    var RCvertices = 2 * iLength * jSegments
+    /**
+     * The number of elements including the duplicate elements needed to create
+     * the degenerate triangles for a single strip call.
+     */
+    var eLength = RCvertices + 2 * (jLength - 2)
+    /**
+     * Index for triangle strip array.
+     */
+    var j = 0;
+    // FIXME: Loop 0 &lt;= i &lt; RCvertices (Edsger W. Dijksta)
+    // For this algorithm, imagine a little vertical loop containing two dots.
+    // The uppermost dot we shall call the &#x60;top&#x60; and the lowermost the &#x60;bottom&#x60;.
+    // Advancing i by two each time corresponds to advancing this loop one place to the right.
+    for (var i = 1; i &lt;= RCvertices; i += 2) {
+        // top element
+        elements[j] = (i - 1) / 2;
+        // bottom element
+        elements[j + 1] = (iLength * 2 + i + 1 - 2) / 2;
+        // check for end of column
+        if ((elements[j + 1] + 1) % iLength === 0) {
+            // skip first and last row
+            if ((elements[j + 1] + 1) != iLength &amp;&amp; (elements[j + 1] + 1) != iLength * jLength) {
+                // additional vertex degenerate triangle
+                // The next point is the same as the one before
+                elements[j + 2] = elements[j + 1];
+                // additional vertex degenerate triangle
+                // 
+                elements[j + 3] = (1 + i) / 2;
+                // Increment j for the two duplicate vertices
+                j += 2;
+            }
+        }
+        // Increment j for this step.
+        j += 2;
+    }
+    return elements
+}
+
+/**
+ * @class GridTopology
+ * @extends MeshTopology
+ */
+class GridTopology extends MeshTopology {
+    /**
+     * &lt;p&gt;
+     * The number of points for each dimension (dimensions&lt;sub&gt;i&lt;/sub&gt; = segmentCounts&lt;sub&gt;i&lt;/sub&gt; + 1).
+     * &lt;/p&gt;
+     * @property dimensions
+     * @type {number[]}
+     */
+    public dimensions: number[];
+    /**
+     * &lt;p&gt;
+     * Constructs a grid that is open on all sides and rendered using &lt;code&gt;TRIANGLE_STRIP&lt;/code&gt;.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * The grid orientation is such that when the first dimension is aligned to east,
+     * and the second dimension is aligned to north,
+     * the orientation is positive (counterclockwise) when viewed from above.
+     * &lt;/p&gt;
+     * @class GridTopology
+     * @constructor
+     * @param segmentCounts {number[]} The number of segments for each dimension.
+     * @example
+         // Create a new topology with 5 segments in the first dimension, and 3 segments in the second dimension.
+         var topo = new EIGHT.GridTopology([5, 3]);
+         // Set attributes on each vertex ...
+         // Compute the elements required for drawing
+         var elements: EIGHT.GeometryElements = topo.toElements()
+     */
+    constructor(segmentCounts: number[]) {
+        super(DrawMode.TRIANGLE_STRIP, numVerticesForGrid(segmentCounts))
+        this.dimensions = dimensionsForGrid(segmentCounts)
+        this.elements = triangleStripForGrid(this.dimensions[0], this.dimensions[1])
+    }
+    /**
+     * Provides access to each vertex so that attributes may be set.
+     * @method vertex
+     * @param coordinates {number[]} The integral coordinates of the vertex required.
+     * @return {Vertex} The vertex corresponding to the specified coordinates.
+     * @example
+         var topo = new EIGHT.GridTopology([1, 1])
+         topo.vertex([i, j]).attributes(&#x27;aPosition&#x27;) = new Vector3([i - 0.5, j - 0.5, 0])
+     */
+    vertex(coordinates: number[]): Vertex {
+        var index = this.dimensions[0] * coordinates[1] + coordinates[0]
+        return this.vertices[index]
+    }
+}
+
+export = GridTopology
+    </pre>
 </div>
                     </div>
                 </div>

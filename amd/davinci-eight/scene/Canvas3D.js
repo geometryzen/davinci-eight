@@ -98,8 +98,8 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         Canvas3D.prototype.createArrayBuffer = function () {
             return this._kahuna.createArrayBuffer();
         };
-        Canvas3D.prototype.createBufferGeometry = function (elements, mode, usage) {
-            return this._kahuna.createBufferGeometry(elements, mode, usage);
+        Canvas3D.prototype.createBufferGeometry = function (elements, usage) {
+            return this._kahuna.createBufferGeometry(elements, usage);
         };
         Canvas3D.prototype.createElementArrayBuffer = function () {
             return this._kahuna.createElementArrayBuffer();

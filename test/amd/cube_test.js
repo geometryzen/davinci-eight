@@ -23,10 +23,10 @@ function(Simplex, Vertex, Vector3, toGeometryData, toGeometryMeta, cube, Symboli
       var simplices = cube(2); // Simplex[]
       var geometryMeta = toGeometryMeta(simplices);
       var geometryData = toGeometryData(simplices, geometryMeta);
-      var indices = geometryData.indices.data; // Vector<number>
-      var positions = geometryData.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
-      var normals = geometryData.attributes[Symbolic.ATTRIBUTE_NORMAL].values.data;
-      var coords = geometryData.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS].values.data;
+      var indices = geometryData.indices;
+      var positions = geometryData.attributes[Symbolic.ATTRIBUTE_POSITION].values;
+      var normals = geometryData.attributes[Symbolic.ATTRIBUTE_NORMAL].values;
+      var coords = geometryData.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS].values;
       it("indices.length", function() {
         expect(indices.length).toBe(SQUARES_PER_CUBE * TRIANGLES_PER_SQUARE * VERTICES_PER_TRIANGLE);
         expect(indices.length).toBe(simplices.length * VERTICES_PER_TRIANGLE);

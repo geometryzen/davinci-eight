@@ -11,7 +11,7 @@ function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, at
   expectArg('b', b).toSatisfy(a instanceof VectorN, "a must be a VectorN");
   expectArg('b', c).toSatisfy(a instanceof VectorN, "a must be a VectorN");
 
-  let simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
+  let simplex = new Simplex(Simplex.TRIANGLE);
 
   simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
   // simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1

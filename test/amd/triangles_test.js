@@ -34,8 +34,8 @@ function(Simplex, Vertex, Vector3, triangle, toGeometryData, Symbolic, toGeometr
       var c = geometry[0].vertices[2];
       var geoInfo = toGeometryMeta(geometry);
       var elements = toGeometryData(geometry, geoInfo);
-      var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
+      var indices = elements.indices;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values;
       it("indices.length", function() {
         expect(indices.length).toBe(geometry.length * 3);
       });
@@ -91,8 +91,8 @@ function(Simplex, Vertex, Vector3, triangle, toGeometryData, Symbolic, toGeometr
       geometry.push(f023);
       var geoInfo = toGeometryMeta(geometry);
       var elements = toGeometryData(geometry, geoInfo);
-      var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
+      var indices = elements.indices;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values;
       it("indices.length", function() {
         expect(indices.length).toBe(geometry.length * 3);
       });
@@ -171,8 +171,8 @@ function(Simplex, Vertex, Vector3, triangle, toGeometryData, Symbolic, toGeometr
       geometry.push(f021);
       var geoInfo = toGeometryMeta(geometry);
       var elements = toGeometryData(geometry, geoInfo);
-      var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
+      var indices = elements.indices;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values;
       it("indices.length", function() {
         expect(indices.length).toBe(geometry.length * 3);
       });

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.132.0</em>
+            <em>API Docs for: 2.133.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -69,10 +69,10 @@
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
+                                <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
-                                <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/EmptyMaterial.html">EmptyMaterial</a></li>
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
@@ -82,9 +82,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAttribute.html">GeometryAttribute</a></li>
-                                <li><a href="../classes/GeometryData.html">GeometryData</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
+                                <li><a href="../classes/GridTopology.html">GridTopology</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IAnimation.html">IAnimation</a></li>
                                 <li><a href="../classes/IAnimationTarget.html">IAnimationTarget</a></li>
@@ -108,6 +108,7 @@
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
+                                <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
@@ -116,6 +117,7 @@
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
@@ -127,6 +129,7 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
@@ -137,6 +140,7 @@
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
                                 <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
+                                <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarGeometry.html">SphericalPolarGeometry</a></li>
@@ -146,6 +150,7 @@
                                 <li><a href="../classes/SurfaceGeometry.html">SurfaceGeometry</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/Topology.html">Topology</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -210,7 +215,6 @@ import toGeometryMeta = require(&#x27;../geometries/toGeometryMeta&#x27;)
 import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
 import IContextMonitor = require(&#x27;../core/IContextMonitor&#x27;)
 import core = require(&#x27;../core&#x27;);
-import GeometryData = require(&#x27;../geometries/GeometryData&#x27;)
 import GeometryElements = require(&#x27;../geometries/GeometryElements&#x27;)
 import GeometryMeta = require(&#x27;../geometries/GeometryMeta&#x27;)
 import IDrawable = require(&#x27;../core/IDrawable&#x27;)
@@ -335,14 +339,7 @@ class Drawable&lt;G extends GeometryElements, M extends IMaterial&gt; extends Sh
   contextGain(manager: IContextProvider): void {
     // 1. Replace the existing buffer geometry if we have geometry. 
     if (this.geometry) {
-      let data = this.geometry.data
-      let meta = this.geometry.meta
-
-      mustBeDefined(&#x27;geometry.data&#x27;, data, contextBuilder)
-      mustBeDefined(&#x27;geometry.meta&#x27;, meta, contextBuilder)
-
-      // FIXME: Why is the meta not being used?
-      this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(data))
+      this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(this.geometry))
     }
     else {
       console.warn(LOGGING_NAME + &quot; contextGain method has no elements, canvasId =&gt; &quot; + manager.canvasId)

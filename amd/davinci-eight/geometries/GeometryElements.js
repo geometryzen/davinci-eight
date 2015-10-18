@@ -1,24 +1,26 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger) {
     /**
-     * <p>
-     * A geometry holds the elements or arrays sent to the GLSL pipeline.
-     * </p>
-     * <p>
-     * These instructions are in a compact form suitable for populating WebGLBuffer(s).
-     * </p>
-     *
      * @class GeometryElements
      */
     var GeometryElements = (function () {
         /**
          * @class GeometryElements
          * @constructor
-         * @param data {GeometryData} The instructions for drawing the geometry.
-         * @param meta {GeometryMeta}
+         * @param mode {DrawMode} <p>The geometric primitive type.</p>
+         * @param indices {number[]} <p>A list of index into the attributes</p>
+         * @param attributes {{[name:string]: GeometryAttribute}}
          */
-        function GeometryElements(data, meta) {
-            this.data = data;
-            this.meta = meta;
+        function GeometryElements(mode, indices, attributes) {
+            // TODO: Looks like a DrawAttributeMap here (implementation only)
+            /**
+             * @property attributes
+             * @type {{[name:string]: GeometryAttribute}}
+             */
+            this.attributes = {};
+            mustBeInteger('mode', mode);
+            this.mode = mode;
+            this.indices = indices;
+            this.attributes = attributes;
         }
         return GeometryElements;
     })();

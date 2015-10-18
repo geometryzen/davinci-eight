@@ -1,12 +1,13 @@
-import Cartesian1 = require('../math/Cartesian1');
-import expectArg = require('../checks/expectArg');
-import LinearElement = require('../math/LinearElement');
-import Spinor1Coords = require('../math/Spinor1Coords');
-import VectorN = require('../math/VectorN');
+import Cartesian1 = require('../math/Cartesian1')
+import expectArg = require('../checks/expectArg')
+import LinearElement = require('../math/LinearElement')
+import Matrix = require('../math/Matrix')
+import Spinor1Coords = require('../math/Spinor1Coords')
+import VectorN = require('../math/VectorN')
 /**
  * @class MutableNumber
  */
-class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, MutableNumber, Spinor1Coords, Cartesian1> {
+class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, MutableNumber, Spinor1Coords, Cartesian1>, Matrix<MutableNumber> {
   /**
    * @class MutableNumber
    * @constructor
@@ -47,6 +48,9 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
     this.x += s;
     return this;
   }
+  determinant(): number {
+    return this.x
+  }
   sum(a: Cartesian1, b: Cartesian1) {
     this.x = a.x + b.x;
     return this;
@@ -66,6 +70,10 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
   difference(a: Cartesian1, b: Cartesian1) {
     this.x = a.x - b.x;
     return this;
+  }
+  identity() {
+    this.x = 1
+    return this
   }
   multiply(v: Cartesian1) {
     this.x *= v.x;
@@ -132,6 +140,9 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
   }
   normalize() {
     return this.divideScalar(this.magnitude());
+  }
+  product(a: Cartesian1, b: Cartesian1) {
+    return this
   }
   quaditude(): number {
     return this.x * this.x;

@@ -4,6 +4,9 @@ import IDirector = require('../slideshow/IDirector');
 import ISlide = require('../slideshow/ISlide');
 import Shareable = require('../utils/Shareable');
 import SlideCommands = require('../slideshow/SlideCommands');
+/**
+ * @class Slide
+ */
 declare class Slide extends Shareable implements ISlide {
     prolog: SlideCommands;
     epilog: SlideCommands;
@@ -19,6 +22,10 @@ declare class Slide extends Shareable implements ISlide {
      * The time standard for this Slide.
      */
     private now;
+    /**
+     * @class Slide
+     * @constructor
+     */
     constructor();
     protected destructor(): void;
     private ensureTarget(target);

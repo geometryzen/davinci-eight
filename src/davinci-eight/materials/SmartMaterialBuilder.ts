@@ -42,47 +42,56 @@ function updateUniformMeta(uniforms: {[key: string]: UniformMetaInfo}[]) {
  * @class SmartMaterialBuilder
  */
 class SmartMaterialBuilder {
-  private aMeta: { [key: string]: { size: number; name?: string } } = {};
+  private aMeta: { [key: string]: { size: number; } } = {};
   private uParams: { [key: string]: { glslType: string; name?: string } } = {};
   /**
    * @class SmartMaterialBuilder
    * @constructor
-   * @param elements {Geometry} Optional.
+   * @param elements [GeometryElements]
    */
   constructor(elements?: GeometryElements) {
     if (elements) {
-      let attributes = elements.meta.attributes;
+      let attributes = elements.attributes;
       let keys = Object.keys(attributes);
       let keysLength = keys.length;
       for (var i = 0; i < keysLength; i++) {
         let key = keys[i];
         let attribute = attributes[key];
-        this.attribute(key, attribute.size, attribute.name);
+        this.attribute(key, attribute.size);
       }
     }
   }
-  public attribute(key: string, size: number, name?: string): SmartMaterialBuilder {
-    mustBeString('key', key);
+  /**
+   * Declares that the material should have an `attribute` with the specified name and size.
+   * @method attribute
+   * @param name {string}
+   * @param size {number}
+   */
+  public attribute(name: string, size: number): SmartMaterialBuilder {
+    mustBeString('name', name);
     mustBeInteger('size', size);
 
-    this.aMeta[key] = { size: size };
-    if (name) {
-      mustBeString('name', name);
-      this.aMeta[key].name = name;
-    }
+    this.aMeta[name] = { size: size };
     return this;
   }
-  public uniform(key: string, type: string, name?: string): SmartMaterialBuilder {
-    mustBeString('key', key);
+  /**
+   * Declares that the material should have a `uniform` with the specified name and type.
+   * @method uniform
+   * @param name {string}
+   * @param type {string} The GLSL type. e.g. 'float', 'vec3', 'mat2'
+   */
+  public uniform(name: string, type: string): SmartMaterialBuilder {
+    mustBeString('name', name);
     mustBeString('type', type);  // Must also be a valid GLSL type.
 
-    this.uParams[key] = { glslType: type };
-    if (name) {
-      mustBeString('name', name);
-      this.uParams[key].name = name;
-    }
+    this.uParams[name] = { glslType: type };
     return this;
   }
+  /**
+   * @method build
+   * @param contexts {IContextMonitor[]}
+   * @return {Material}
+   */
   public build(contexts: IContextMonitor[]): Material {
     // FIXME: Push this calculation down into the functions.
     // Then the data structures are based on size.

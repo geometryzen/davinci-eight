@@ -17,7 +17,6 @@ define(["require", "exports"], function (require, exports) {
     }
     var Vertex = (function () {
         function Vertex() {
-            this.opposing = [];
             this.attributes = {};
         }
         Vertex.prototype.toString = function () {

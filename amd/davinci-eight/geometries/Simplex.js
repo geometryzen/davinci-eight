@@ -67,10 +67,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             for (var i = 0; i < numVertices; i++) {
                 this.vertices.push(new Vertex());
             }
-            var parent = this;
-            this.vertices.forEach(function (vertex) {
-                vertex.parent = parent;
-            });
         }
         Object.defineProperty(Simplex.prototype, "k", {
             /**
@@ -102,38 +98,30 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
         Simplex.boundaryMap = function (simplex) {
             var vertices = simplex.vertices;
             var k = simplex.k;
-            if (k === Simplex.K_FOR_TRIANGLE) {
+            if (k === Simplex.TRIANGLE) {
                 var line01 = new Simplex(k - 1);
-                line01.vertices[0].parent = line01;
                 line01.vertices[0].attributes = simplex.vertices[0].attributes;
-                line01.vertices[1].parent = line01;
                 line01.vertices[1].attributes = simplex.vertices[1].attributes;
                 var line12 = new Simplex(k - 1);
-                line12.vertices[0].parent = line12;
                 line12.vertices[0].attributes = simplex.vertices[1].attributes;
-                line12.vertices[1].parent = line12;
                 line12.vertices[1].attributes = simplex.vertices[2].attributes;
                 var line20 = new Simplex(k - 1);
-                line20.vertices[0].parent = line20;
                 line20.vertices[0].attributes = simplex.vertices[2].attributes;
-                line20.vertices[1].parent = line20;
                 line20.vertices[1].attributes = simplex.vertices[0].attributes;
                 return [line01, line12, line20];
             }
-            else if (k === Simplex.K_FOR_LINE_SEGMENT) {
+            else if (k === Simplex.LINE) {
                 var point0 = new Simplex(k - 1);
-                point0.vertices[0].parent = point0;
                 point0.vertices[0].attributes = simplex.vertices[0].attributes;
                 var point1 = new Simplex(k - 1);
-                point1.vertices[0].parent = point1;
                 point1.vertices[0].attributes = simplex.vertices[1].attributes;
                 return [point0, point1];
             }
-            else if (k === Simplex.K_FOR_POINT) {
+            else if (k === Simplex.POINT) {
                 // For consistency, we get one empty simplex rather than an empty list.
                 return [new Simplex(k - 1)];
             }
-            else if (k === Simplex.K_FOR_EMPTY) {
+            else if (k === Simplex.EMPTY) {
                 return [];
             }
             else {
@@ -146,7 +134,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             var divs = [];
             var vertices = simplex.vertices;
             var k = simplex.k;
-            if (k === Simplex.K_FOR_TRIANGLE) {
+            if (k === Simplex.TRIANGLE) {
                 var a = vertices[0].attributes;
                 var b = vertices[1].attributes;
                 var c = vertices[2].attributes;
@@ -174,7 +162,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
                 divs.push(face3);
                 divs.push(face4);
             }
-            else if (k === Simplex.K_FOR_LINE_SEGMENT) {
+            else if (k === Simplex.LINE) {
                 var a = vertices[0].attributes;
                 var b = vertices[1].attributes;
                 var m = lerpVertexAttributeMap(a, b, 0.5);
@@ -187,10 +175,10 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
                 divs.push(line1);
                 divs.push(line2);
             }
-            else if (k === Simplex.K_FOR_POINT) {
+            else if (k === Simplex.POINT) {
                 divs.push(simplex);
             }
-            else if (k === Simplex.K_FOR_EMPTY) {
+            else if (k === Simplex.EMPTY) {
             }
             else {
                 throw new Error(k + "-simplex is not supported");
@@ -247,46 +235,46 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
         // The number of vertices in a k-simplex is k + 1.
         /**
          * An empty set can be consired to be a -1 simplex (algebraic topology).
-         * @property K_FOR_EMPTY
+         * @property EMPTY
          * @type {number}
          * @static
          */
-        Simplex.K_FOR_EMPTY = -1;
+        Simplex.EMPTY = -1;
         /**
          * A single point may be considered a 0-simplex.
-         * @property K_FOR_POINT
+         * @property POINT
          * @type {number}
          * @static
          */
-        Simplex.K_FOR_POINT = 0;
+        Simplex.POINT = 0;
         /**
          * A line segment may be considered a 1-simplex.
-         * @property K_FOR_LINE_SEGMENT
+         * @property LINE
          * @type {number}
          * @static
          */
-        Simplex.K_FOR_LINE_SEGMENT = 1;
+        Simplex.LINE = 1;
         /**
          * A 2-simplex is a triangle.
-         * @property K_FOR_TRIANGLE
+         * @property TRIANGLE
          * @type {number}
          * @static
          */
-        Simplex.K_FOR_TRIANGLE = 2;
+        Simplex.TRIANGLE = 2;
         /**
          * A 3-simplex is a tetrahedron.
-         * @property K_FOR_TETRAHEDRON
+         * @property TETRAHEDRON
          * @type {number}
          * @static
          */
-        Simplex.K_FOR_TETRAHEDRON = 3;
+        Simplex.TETRAHEDRON = 3;
         /**
          * A 4-simplex is a 5-cell.
-         * @property K_FOR_FIVE_CELL
+         * @property FIVE_CELL
          * @type {number}
          * @static
          */
-        Simplex.K_FOR_FIVE_CELL = 4;
+        Simplex.FIVE_CELL = 4;
         return Simplex;
     })();
     return Simplex;

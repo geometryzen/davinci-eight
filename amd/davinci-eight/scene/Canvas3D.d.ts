@@ -3,7 +3,7 @@ import IContextProvider = require('../core/IContextProvider');
 import IContextMonitor = require('../core/IContextMonitor');
 import IContextConsumer = require('../core/IContextConsumer');
 import IContextRenderer = require('../renderers/IContextRenderer');
-import GeometryData = require('../geometries/GeometryData');
+import GeometryElements = require('../geometries/GeometryElements');
 import IBuffer = require('../core/IBuffer');
 import IContextCommand = require('../core/IContextCommand');
 import IBufferGeometry = require('../geometries/IBufferGeometry');
@@ -45,7 +45,7 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
     contextGain(manager: IContextProvider): void;
     contextLost(canvasId: number): void;
     createArrayBuffer(): IBuffer;
-    createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+    createBufferGeometry(elements: GeometryElements, usage?: number): IBufferGeometry;
     createElementArrayBuffer(): IBuffer;
     createTextureCubeMap(): ITextureCubeMap;
     createTexture2D(): ITexture2D;

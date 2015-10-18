@@ -31,22 +31,6 @@ function tetrahedron(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>,
   triangle(points[3], points[1], points[0], triatts, triangles);
   faces.push(triangles[triangles.length - 1]);
 
-  faces[3].vertices[0].opposing.push(faces[0]);
-  faces[3].vertices[1].opposing.push(faces[1]);
-  faces[3].vertices[2].opposing.push(faces[2]);
-
-  faces[0].vertices[0].opposing.push(faces[1]);
-  faces[0].vertices[1].opposing.push(faces[3]);
-  faces[0].vertices[2].opposing.push(faces[2]);
-
-  faces[1].vertices[0].opposing.push(faces[2]);
-  faces[1].vertices[1].opposing.push(faces[3]);
-  faces[1].vertices[2].opposing.push(faces[0]);
-
-  faces[2].vertices[0].opposing.push(faces[3]);
-  faces[2].vertices[1].opposing.push(faces[1]);
-  faces[2].vertices[2].opposing.push(faces[0]);
-
   return triangles;
 }
 

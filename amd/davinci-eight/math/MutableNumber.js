@@ -55,6 +55,9 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x += s;
             return this;
         };
+        MutableNumber.prototype.determinant = function () {
+            return this.x;
+        };
         MutableNumber.prototype.sum = function (a, b) {
             this.x = a.x + b.x;
             return this;
@@ -73,6 +76,10 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         };
         MutableNumber.prototype.difference = function (a, b) {
             this.x = a.x - b.x;
+            return this;
+        };
+        MutableNumber.prototype.identity = function () {
+            this.x = 1;
             return this;
         };
         MutableNumber.prototype.multiply = function (v) {
@@ -140,6 +147,9 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         };
         MutableNumber.prototype.normalize = function () {
             return this.divideScalar(this.magnitude());
+        };
+        MutableNumber.prototype.product = function (a, b) {
+            return this;
         };
         MutableNumber.prototype.quaditude = function () {
             return this.x * this.x;

@@ -1,10 +1,10 @@
-define(["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+define(["require", "exports"], function (require, exports) {
     function isVectorN(values) {
-        return values instanceof VectorN;
+        return true;
     }
     function checkValues(values) {
         if (!isVectorN(values)) {
-            throw new Error("values must be a VectorN");
+            throw new Error("values must be a number[]");
         }
         return values;
     }
@@ -37,7 +37,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         /**
          * @class GeometryAttribute
          * @constructor
-         * @param values {VectorN<number>}
+         * @param values {number[]}
          * @param size {number}
          */
         function GeometryAttribute(values, size) {

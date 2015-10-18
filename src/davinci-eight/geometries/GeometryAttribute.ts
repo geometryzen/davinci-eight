@@ -1,31 +1,28 @@
-import expectArg = require('../checks/expectArg');
-import VectorN = require('../math/VectorN');
-
-function isVectorN(values: VectorN<number>): boolean {
-  return values instanceof VectorN;
+function isVectorN(values: number[]): boolean {
+    return true
 }
 
-function checkValues(values: VectorN<number>): VectorN<number> {
-  if (!isVectorN(values)) {
-    throw new Error("values must be a VectorN");
-  }
-  return values;
+function checkValues(values: number[]): number[] {
+    if (!isVectorN(values)) {
+        throw new Error("values must be a number[]")
+    }
+    return values
 }
 
 function isExactMultipleOf(numer: number, denom: number): boolean {
-  return numer % denom === 0;
+    return numer % denom === 0
 }
 
-function checkSize(size: number, values: VectorN<number>): number {
-  if (typeof size === 'number') {
-    if (!isExactMultipleOf(values.length, size)) {
-      throw new Error("values.length must be an exact multiple of size");
+function checkSize(size: number, values: number[]): number {
+    if (typeof size === 'number') {
+        if (!isExactMultipleOf(values.length, size)) {
+            throw new Error("values.length must be an exact multiple of size")
+        }
     }
-  }
-  else {
-    throw new Error("size must be a number");
-  }
-  return size;
+    else {
+        throw new Error("size must be a number")
+    }
+    return size
 }
 
 /**
@@ -40,26 +37,30 @@ function checkSize(size: number, values: VectorN<number>): number {
  * @class GeometryAttribute
  */
 class GeometryAttribute {
-  /**
-   *
-   * The values of the attribute.
-   */
-  public values: VectorN<number>;
-  /**
-   * The chunking size of the attribute.
-   * This is distinct from the size in the `GeometryMeta`.
-   * The chunking size is invariant given the values and is used to describe the vertex attribute pointer.
-   */
-  public size: number;
-  /**
-   * @class GeometryAttribute
-   * @constructor
-   * @param values {VectorN<number>}
-   * @param size {number}
-   */
-  constructor(values: VectorN<number>, size: number) {
-    this.values = checkValues(values);
-    this.size = checkSize(size, values);
-  }
+    /**
+     * The values of the attribute.
+     * @property values
+     * @type {number[]}
+     */
+    public values: number[];
+    /**
+     * The chunking size of the attribute.
+     * This is distinct from the size in the `GeometryMeta`.
+     * The chunking size is invariant given the values and is used to describe the vertex attribute pointer.
+     * @property size
+     * @type {number}
+     */
+    // FIXME: rename to chunkSize.
+    public size: number;
+    /**
+     * @class GeometryAttribute
+     * @constructor
+     * @param values {number[]}
+     * @param size {number}
+     */
+    constructor(values: number[], size: number) {
+        this.values = checkValues(values)
+        this.size = checkSize(size, values)
+    }
 }
 export = GeometryAttribute;

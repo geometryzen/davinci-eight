@@ -73,7 +73,7 @@ class PolyhedronGeometry extends Geometry {
 
       // FIXME: Using some modifications of the data structures given.
       // TODO: Optimize vector copies.
-      var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+      var simplex = new Simplex(Simplex.TRIANGLE)
       simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = v1
       simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v1)
       simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = v2
@@ -152,7 +152,7 @@ class PolyhedronGeometry extends Geometry {
       var uv2 = correctUV(something2['uv'], v2, azi);
       var uv3 = correctUV(something3['uv'], v3, azi);
 
-      var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+      var simplex = new Simplex(Simplex.TRIANGLE)
       simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(v1)
       simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v1)
       simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1

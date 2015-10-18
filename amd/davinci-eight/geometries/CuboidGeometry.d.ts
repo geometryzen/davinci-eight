@@ -46,7 +46,7 @@ declare class CuboidGeometry extends Geometry {
      * @param a [Cartesian3 = Vector3.e1]
      * @param b [Cartesian3 = Vector3.e1]
      * @param c [Cartesian3 = Vector3.e1]
-     * @param k [number = Simplex.K_FOR_TRIANGLE]
+     * @param k [number = Simplex.TRIANGLE]
      * @param subdivide [number = 0]
      * @param boundary [number = 0]
      * @example

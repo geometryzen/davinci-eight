@@ -39,14 +39,9 @@ function quadrilateral(a: VectorN<number>, b: VectorN<number>, c: VectorN<number
 
   setAttributes([1, 2, 0], attributes, triatts);
   triangle(b, c, a, triatts, triangles);
-  let face1 = triangles[triangles.length - 1];
 
   setAttributes([3, 0, 2], attributes, triatts);
   triangle(d, a, c, triatts, triangles);
-  let face2 = triangles[triangles.length - 1];
-
-  face1.vertices[0].opposing.push(face2);
-  face2.vertices[0].opposing.push(face1);
 
   return triangles;
 }

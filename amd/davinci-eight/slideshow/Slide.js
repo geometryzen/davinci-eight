@@ -4,8 +4,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareable', '../slideshow/SlideCommands', '../collections/StringIUnknownMap'], function (require, exports, IUnknownArray, Shareable, SlideCommands, StringIUnknownMap) {
+    /**
+     * @class Slide
+     */
     var Slide = (function (_super) {
         __extends(Slide, _super);
+        /**
+         * @class Slide
+         * @constructor
+         */
         function Slide() {
             _super.call(this, 'Slide');
             /**

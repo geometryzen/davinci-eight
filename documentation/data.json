@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.132.0",
+        "version": "2.133.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -219,6 +219,15 @@
             "name": "src/davinci-eight/core/DrawContext.ts",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/DrawMode.ts": {
+            "name": "src/davinci-eight/core/DrawMode.ts",
+            "modules": {},
+            "classes": {
+                "DrawMode": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -502,15 +511,6 @@
             "modules": {},
             "classes": {
                 "GeometryAttribute": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/geometries/GeometryData.ts": {
-            "name": "src/davinci-eight/geometries/GeometryData.ts",
-            "modules": {},
-            "classes": {
-                "GeometryData": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1145,22 +1145,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/mesh/EllipsoidMesh.ts": {
-            "name": "src/davinci-eight/mesh/EllipsoidMesh.ts",
-            "modules": {},
-            "classes": {
-                "EllipsoidMesh": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/mesh/prism.ts": {
-            "name": "src/davinci-eight/mesh/prism.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/models/EulerFacet.ts": {
             "name": "src/davinci-eight/models/EulerFacet.ts",
             "modules": {},
@@ -1375,7 +1359,54 @@
         "src/davinci-eight/slideshow/Slide.ts": {
             "name": "src/davinci-eight/slideshow/Slide.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "Slide": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/topologies/GridTopology.ts": {
+            "name": "src/davinci-eight/topologies/GridTopology.ts",
+            "modules": {},
+            "classes": {
+                "GridTopology": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/topologies/LineTopology.ts": {
+            "name": "src/davinci-eight/topologies/LineTopology.ts",
+            "modules": {},
+            "classes": {
+                "LineTopology": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/topologies/MeshTopology.ts": {
+            "name": "src/davinci-eight/topologies/MeshTopology.ts",
+            "modules": {},
+            "classes": {
+                "MeshTopology": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/topologies/PointTopology.ts": {
+            "name": "src/davinci-eight/topologies/PointTopology.ts",
+            "modules": {},
+            "classes": {
+                "PointTopology": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/topologies/Topology.ts": {
+            "name": "src/davinci-eight/topologies/Topology.ts",
+            "modules": {},
+            "classes": {
+                "Topology": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1506,6 +1537,7 @@
                 "Color": 1,
                 "ColorRGB": 1,
                 "ContextController": 1,
+                "DrawMode": 1,
                 "ElementBuffer": 1,
                 "ElementArray": 1,
                 "Face3": 1,
@@ -1532,7 +1564,6 @@
                 "DodecahedronGeometry": 1,
                 "Geometry": 1,
                 "GeometryAttribute": 1,
-                "GeometryData": 1,
                 "GeometryElements": 1,
                 "GeometryMeta": 1,
                 "IBufferGeometry": 1,
@@ -1590,7 +1621,6 @@
                 "BoxMesh": 1,
                 "CuboidMesh": 1,
                 "CylinderArgs": 1,
-                "EllipsoidMesh": 1,
                 "EulerFacet": 1,
                 "ModelFacet": 1,
                 "IContextRenderer": 1,
@@ -1602,6 +1632,12 @@
                 "Director": 1,
                 "IAnimation": 1,
                 "IAnimationTarget": 1,
+                "Slide": 1,
+                "GridTopology": 1,
+                "LineTopology": 1,
+                "MeshTopology": 1,
+                "PointTopology": 1,
+                "Topology": 1,
                 "AmbientLight": 1,
                 "ColorFacet": 1,
                 "DirectionalLight": 1,
@@ -1969,6 +2005,18 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/ContextController.ts",
+            "line": 1
+        },
+        "DrawMode": {
+            "name": "DrawMode",
+            "shortname": "DrawMode",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/core/DrawMode.ts",
             "line": 1
         },
         "ElementBuffer": {
@@ -2375,7 +2423,7 @@
                 },
                 {
                     "name": "k",
-                    "description": "[number = Simplex.K_FOR_TRIANGLE]"
+                    "description": "[number = Simplex.TRIANGLE]"
                 },
                 {
                     "name": "subdivide",
@@ -2464,7 +2512,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 67,
+            "line": 66,
             "extends": "Shareable",
             "description": "<p>\nA list of simplices (data) with information about dimensionality and vertex properties (meta). \nThis class should be used as an abstract base or concrete class when constructing\ngeometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).\nThe <code>Geometry</code> class implements IUnknown, as a convenience to implementations\nrequiring special de-allocation of resources, by extending <code>Shareable</code>.\n</p>",
             "is_constructor": 1,
@@ -2486,50 +2534,19 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/GeometryAttribute.ts",
-            "line": 54,
+            "line": 55,
             "description": "<p>\nHolds all the values of a particular attribute.\nThe size property describes how to break up the values.\nThe length of the values should be an integer multiple of the size.\n</p>\n\n var x = 3;",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "values",
                     "description": "",
-                    "type": "VectorN<number>"
+                    "type": "Number[]"
                 },
                 {
                     "name": "size",
                     "description": "",
                     "type": "Number"
-                }
-            ]
-        },
-        "GeometryData": {
-            "name": "GeometryData",
-            "shortname": "GeometryData",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/geometries/GeometryData.ts",
-            "line": 25,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "k",
-                    "description": "<p>The dimensionality of the primitives.</p>",
-                    "type": "Number"
-                },
-                {
-                    "name": "indices",
-                    "description": "<p>A list of index into the attributes</p>",
-                    "type": "VectorN"
-                },
-                {
-                    "name": "attributes",
-                    "description": "}",
-                    "type": "[name:string]: GeometryAttribute"
                 }
             ]
         },
@@ -2545,18 +2562,22 @@
             "namespace": "",
             "file": "src/davinci-eight/geometries/GeometryElements.ts",
             "line": 26,
-            "description": "<p>\nA geometry holds the elements or arrays sent to the GLSL pipeline.\n</p>\n<p>\nThese instructions are in a compact form suitable for populating WebGLBuffer(s).\n</p>",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "data",
-                    "description": "The instructions for drawing the geometry.",
-                    "type": "GeometryData"
+                    "name": "mode",
+                    "description": "<p>The geometric primitive type.</p>",
+                    "type": "DrawMode"
                 },
                 {
-                    "name": "meta",
-                    "description": "",
-                    "type": "GeometryMeta"
+                    "name": "indices",
+                    "description": "<p>A list of index into the attributes</p>",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "attributes",
+                    "description": "}",
+                    "type": "[name:string]: GeometryAttribute"
                 }
             ]
         },
@@ -3175,8 +3196,7 @@
             "params": [
                 {
                     "name": "elements",
-                    "description": "Optional.",
-                    "type": "Geometry"
+                    "description": "[GeometryElements]"
                 }
             ]
         },
@@ -3519,7 +3539,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/MutableNumber.ts",
-            "line": 10,
+            "line": 11,
             "is_constructor": 1,
             "params": [
                 {
@@ -3809,19 +3829,6 @@
             "file": "src/davinci-eight/mesh/CylinderArgs.ts",
             "line": 8
         },
-        "EllipsoidMesh": {
-            "name": "EllipsoidMesh",
-            "shortname": "EllipsoidMesh",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/mesh/EllipsoidMesh.ts",
-            "line": 3
-        },
         "EulerFacet": {
             "name": "EulerFacet",
             "shortname": "EulerFacet",
@@ -3907,7 +3914,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 73,
+            "line": 72,
             "implements": "IDrawable",
             "is_constructor": 1,
             "params": [
@@ -4054,6 +4061,150 @@
             "file": "src/davinci-eight/slideshow/IAnimationTarget.ts",
             "line": 3,
             "extends": "IUnknown"
+        },
+        "Slide": {
+            "name": "Slide",
+            "shortname": "Slide",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/slideshow/Slide.ts",
+            "line": 32,
+            "is_constructor": 1
+        },
+        "GridTopology": {
+            "name": "GridTopology",
+            "shortname": "GridTopology",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/topologies/GridTopology.ts",
+            "line": 87,
+            "extends": "MeshTopology",
+            "description": "<p>\nConstructs a grid that is open on all sides and rendered using <code>TRIANGLE_STRIP</code>.\n</p>\n<p>\nThe grid orientation is such that when the first dimension is aligned to east,\nand the second dimension is aligned to north,\nthe orientation is positive (counterclockwise) when viewed from above.\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "segmentCounts",
+                    "description": "The number of segments for each dimension.",
+                    "type": "Number[]"
+                }
+            ],
+            "example": [
+                "\n        // Create a new topology with 5 segments in the first dimension, and 3 segments in the second dimension.\n        var topo = new EIGHT.GridTopology([5, 3]);\n        // Set attributes on each vertex ...\n        // Compute the elements required for drawing\n        var elements: EIGHT.GeometryElements = topo.toElements()"
+            ]
+        },
+        "LineTopology": {
+            "name": "LineTopology",
+            "shortname": "LineTopology",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/topologies/LineTopology.ts",
+            "line": 8,
+            "description": "Abstract base class for geometric primitives LINES, LINE_STRIP and LINE_LOOP.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "",
+                    "type": "DrawMode"
+                },
+                {
+                    "name": "numVertices",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "MeshTopology": {
+            "name": "MeshTopology",
+            "shortname": "MeshTopology",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/topologies/MeshTopology.ts",
+            "line": 9,
+            "extends": "Topology",
+            "description": "Abstract base class for topologies rendered using TRIANGLES, TRIANGLE_STRIP and TRIANGLE_FAN.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "",
+                    "type": "DrawMode"
+                },
+                {
+                    "name": "numVertices",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "PointTopology": {
+            "name": "PointTopology",
+            "shortname": "PointTopology",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/topologies/PointTopology.ts",
+            "line": 8,
+            "description": "Abstract base class for geometric primitives POINTS.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "numVertices",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "Topology": {
+            "name": "Topology",
+            "shortname": "Topology",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/topologies/Topology.ts",
+            "line": 55,
+            "description": "Abstract base class for all geometric primitive types",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "",
+                    "type": "DrawMode"
+                },
+                {
+                    "name": "numVertices",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
         },
         "AmbientLight": {
             "name": "AmbientLight",
@@ -5376,31 +5527,39 @@
             "line": 5,
             "interface": "ContextKahuna",
             "extends": "ContextUnique",
-            "class": "ElementBuffer"
+            "class": "DrawMode"
         },
         {
             "file": "src/davinci-eight/core/ContextUnique.ts",
             "line": 1,
             "interface": "ContextUnique",
-            "class": "ElementBuffer"
+            "class": "DrawMode"
         },
         {
             "file": "src/davinci-eight/core/ContextUnique.ts",
             "line": 5,
             "description": "The identifier of a canvas must be unique and stable.\nFor speed we assume a low cardinality number.",
-            "class": "ElementBuffer"
+            "class": "DrawMode"
         },
         {
             "file": "src/davinci-eight/core/DrawContext.ts",
             "line": 1,
             "description": "A DrawContext is the argument for the Drawable draw() method.",
-            "class": "ElementBuffer"
+            "class": "DrawMode"
         },
         {
             "file": "src/davinci-eight/core/DrawContext.ts",
             "line": 5,
             "description": "The time of the current animation frame.",
-            "class": "ElementBuffer"
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/davinci-eight/core/DrawMode.ts",
+            "line": 5,
+            "itemtype": "property",
+            "name": "POINTS",
+            "type": "{DrawMode}",
+            "class": "DrawMode"
         },
         {
             "file": "src/davinci-eight/core/ElementBuffer.ts",
@@ -5580,11 +5739,7 @@
                 {
                     "name": "elements",
                     "description": "",
-                    "type": "GeometryData"
-                },
-                {
-                    "name": "mode",
-                    "description": "[number]"
+                    "type": "GeometryElements"
                 },
                 {
                     "name": "usage",
@@ -5599,7 +5754,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 50,
+            "line": 49,
             "itemtype": "method",
             "name": "createElementArrayBuffer",
             "return": {
@@ -5610,7 +5765,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 55,
+            "line": 54,
             "itemtype": "method",
             "name": "createTexture2D",
             "return": {
@@ -5621,7 +5776,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 60,
+            "line": 59,
             "itemtype": "method",
             "name": "createTextureCubeMap",
             "return": {
@@ -5632,7 +5787,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 65,
+            "line": 64,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -5650,7 +5805,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 71,
+            "line": 70,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -6990,7 +7145,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 20,
+            "line": 19,
             "description": "The geometry as a list of simplices.\nA simplex, in the context of WebGL, will usually represent a triangle, line or point.",
             "itemtype": "property",
             "name": "data",
@@ -7000,7 +7155,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 27,
+            "line": 26,
             "description": "Summary information on the simplices such as dimensionality and sizes for attributes.\nThis data structure may be used to map vertex attribute names to program names.",
             "itemtype": "property",
             "name": "meta",
@@ -7010,7 +7165,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 34,
+            "line": 33,
             "description": "The dimensionality of the simplices in this geometry.",
             "itemtype": "property",
             "name": "_k",
@@ -7022,7 +7177,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 41,
+            "line": 40,
             "description": "Specifies the number of segments to use in curved directions.",
             "itemtype": "property",
             "name": "curvedSegments",
@@ -7032,7 +7187,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 47,
+            "line": 46,
             "description": "Specifies the number of segments to use on flat surfaces.",
             "itemtype": "property",
             "name": "flatSegments",
@@ -7042,7 +7197,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 53,
+            "line": 52,
             "description": "<p>\nSpecifies that the geometry should set colors on vertex attributes\nfor visualizing orientation of triangles\n</p>",
             "itemtype": "property",
             "name": "orientationColors",
@@ -7052,7 +7207,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 84,
+            "line": 83,
             "description": "The destructor method should be implemented in derived classes and the super.destructor called\nas the last call in the derived class destructor.",
             "itemtype": "method",
             "name": "destructor",
@@ -7067,7 +7222,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 94,
+            "line": 93,
             "description": "<p>\nThe dimensionality of the simplices in this geometry.\n</p>\n<p>\nThe <code>k</code> parameter affects geometry generation.\n</p>\n<code>k</code> must be an integer.",
             "itemtype": "property",
             "name": "k",
@@ -7077,7 +7232,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 111,
+            "line": 110,
             "description": "Used to regenerate the simplex data from geometry parameters.\nThis method should be implemented by the derived geometry class.",
             "itemtype": "method",
             "name": "regenerate",
@@ -7090,7 +7245,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 120,
+            "line": 119,
             "description": "Used to determine whether the geometry must be recalculated.\nThe base implementation is pessimistic and returns <code>true</code>.\nThis method should be implemented by the derived class to reduce frequent recalculation.",
             "itemtype": "method",
             "name": "isModified",
@@ -7103,7 +7258,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 130,
+            "line": 129,
             "description": "Sets the modification state of <code>this</code> instance.\nDerived classes should override this method if they contain parameters which affect geometry calculation.",
             "itemtype": "method",
             "name": "setModified",
@@ -7124,7 +7279,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 142,
+            "line": 141,
             "description": "<p>\nApplies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe boundary operation converts simplices of dimension `n` to `n - 1`.\nFor example, triangles are converted to lines.\n</p>",
             "itemtype": "method",
             "name": "boundary",
@@ -7144,7 +7299,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 162,
+            "line": 161,
             "description": "Updates the meta property of this instance to match the data.",
             "itemtype": "method",
             "name": "check",
@@ -7158,7 +7313,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 174,
+            "line": 173,
             "description": "<p>\nApplies the subdivide operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe subdivide operation creates new simplices of the same dimension as the originals.\n</p>",
             "itemtype": "method",
             "name": "subdivide",
@@ -7178,7 +7333,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 194,
+            "line": 193,
             "itemtype": "method",
             "name": "toGeometry",
             "return": {
@@ -7190,7 +7345,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 206,
+            "line": 204,
             "itemtype": "method",
             "name": "mergeVertices",
             "params": [
@@ -7211,7 +7366,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 216,
+            "line": 214,
             "description": "Convenience method for pushing attribute data as a triangular simplex",
             "itemtype": "method",
             "name": "triangle",
@@ -7242,58 +7397,48 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryAttribute.ts",
-            "line": 43,
+            "line": 40,
             "description": "The values of the attribute.",
+            "itemtype": "property",
+            "name": "values",
+            "type": "{number[]}",
             "class": "GeometryAttribute",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/GeometryAttribute.ts",
-            "line": 48,
+            "line": 46,
             "description": "The chunking size of the attribute.\nThis is distinct from the size in the `GeometryMeta`.\nThe chunking size is invariant given the values and is used to describe the vertex attribute pointer.",
+            "itemtype": "property",
+            "name": "size",
+            "type": "{number}",
             "class": "GeometryAttribute",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/geometries/GeometryData.ts",
-            "line": 9,
-            "description": "0 => POINTS, 1 => LINES, 2 => TRIANGLES",
-            "class": "GeometryData",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/GeometryData.ts",
-            "line": 14,
+            "file": "src/davinci-eight/geometries/GeometryElements.ts",
+            "line": 10,
             "itemtype": "property",
-            "name": "indices",
-            "type": "{VectorN}",
-            "class": "GeometryData",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/GeometryData.ts",
-            "line": 20,
-            "itemtype": "property",
-            "name": "attributes",
-            "type": "{{[name:string]: GeometryAttribute}}",
-            "class": "GeometryData",
+            "name": "mode",
+            "type": "{DrawMode}",
+            "class": "GeometryElements",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/GeometryElements.ts",
             "line": 15,
             "itemtype": "property",
-            "name": "data",
-            "type": "{GeometryElements}",
+            "name": "indices",
+            "type": "{number[]}",
             "class": "GeometryElements",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/GeometryElements.ts",
-            "line": 20,
+            "line": 21,
             "itemtype": "property",
-            "name": "meta",
-            "type": "{GeometryMeta}",
+            "name": "attributes",
+            "type": "{{[name:string]: GeometryAttribute}}",
             "class": "GeometryElements",
             "module": "EIGHT"
         },
@@ -7606,7 +7751,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 87,
+            "line": 83,
             "description": "The dimensionality of the simplex.",
             "itemtype": "property",
             "name": "k",
@@ -7617,10 +7762,10 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 99,
+            "line": 95,
             "description": "An empty set can be consired to be a -1 simplex (algebraic topology).",
             "itemtype": "property",
-            "name": "K_FOR_EMPTY",
+            "name": "EMPTY",
             "type": "{number}",
             "static": 1,
             "class": "Simplex",
@@ -7628,10 +7773,10 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 107,
+            "line": 103,
             "description": "A single point may be considered a 0-simplex.",
             "itemtype": "property",
-            "name": "K_FOR_POINT",
+            "name": "POINT",
             "type": "{number}",
             "static": 1,
             "class": "Simplex",
@@ -7639,10 +7784,10 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 115,
+            "line": 111,
             "description": "A line segment may be considered a 1-simplex.",
             "itemtype": "property",
-            "name": "K_FOR_LINE_SEGMENT",
+            "name": "LINE",
             "type": "{number}",
             "static": 1,
             "class": "Simplex",
@@ -7650,10 +7795,10 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 122,
+            "line": 118,
             "description": "A 2-simplex is a triangle.",
             "itemtype": "property",
-            "name": "K_FOR_TRIANGLE",
+            "name": "TRIANGLE",
             "type": "{number}",
             "static": 1,
             "class": "Simplex",
@@ -7661,10 +7806,10 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 129,
+            "line": 125,
             "description": "A 3-simplex is a tetrahedron.",
             "itemtype": "property",
-            "name": "K_FOR_TETRAHEDRON",
+            "name": "TETRAHEDRON",
             "type": "{number}",
             "static": 1,
             "class": "Simplex",
@@ -7672,10 +7817,10 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 136,
+            "line": 132,
             "description": "A 4-simplex is a 5-cell.",
             "itemtype": "property",
-            "name": "K_FOR_FIVE_CELL",
+            "name": "FIVE_CELL",
             "type": "{number}",
             "static": 1,
             "class": "Simplex",
@@ -7683,14 +7828,14 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 144,
+            "line": 140,
             "deprecated": true,
             "class": "Simplex",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 151,
+            "line": 147,
             "description": "Computes the boundary of the simplex.",
             "itemtype": "method",
             "name": "boundaryMap",
@@ -7712,7 +7857,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 267,
+            "line": 255,
             "description": "Computes the result of the boundary operation performed `count` times.",
             "itemtype": "method",
             "name": "boundary",
@@ -7737,7 +7882,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Simplex.ts",
-            "line": 281,
+            "line": 269,
             "description": "Computes the result of the subdivide operation performed `count` times.",
             "itemtype": "method",
             "name": "subdivide",
@@ -7934,7 +8079,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Vertex.ts",
-            "line": 27,
+            "line": 25,
             "description": "The index property is used when computing elements.",
             "deprecated": true,
             "class": "VertexAttributeMap",
@@ -8223,6 +8368,67 @@
             "line": 21,
             "description": "Name used for reference count monitoring and logging.",
             "class": "SmartMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/SmartMaterialBuilder.ts",
+            "line": 64,
+            "description": "Declares that the material should have an `attribute` with the specified name and size.",
+            "itemtype": "method",
+            "name": "attribute",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "size",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "SmartMaterialBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/SmartMaterialBuilder.ts",
+            "line": 77,
+            "description": "Declares that the material should have a `uniform` with the specified name and type.",
+            "itemtype": "method",
+            "name": "uniform",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "The GLSL type. e.g. 'float', 'vec3', 'mat2'",
+                    "type": "String"
+                }
+            ],
+            "class": "SmartMaterialBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/SmartMaterialBuilder.ts",
+            "line": 90,
+            "itemtype": "method",
+            "name": "build",
+            "params": [
+                {
+                    "name": "contexts",
+                    "description": "",
+                    "type": "IContextMonitor[]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Material"
+            },
+            "class": "SmartMaterialBuilder",
             "module": "EIGHT"
         },
         {
@@ -8682,6 +8888,73 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/math/Matrix.ts",
+            "line": 5,
+            "itemtype": "method",
+            "name": "determinant",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Matrix<M>",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix.ts",
+            "line": 10,
+            "itemtype": "method",
+            "name": "identity",
+            "return": {
+                "description": "",
+                "type": "M"
+            },
+            "class": "Matrix<M>",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix.ts",
+            "line": 15,
+            "itemtype": "method",
+            "name": "multiply",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "M"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "M"
+            },
+            "class": "Matrix<M>",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix.ts",
+            "line": 21,
+            "itemtype": "method",
+            "name": "product",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "M"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "M"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "M"
+            },
+            "class": "Matrix<M>",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/math/Matrix2.ts",
             "line": 20,
             "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
@@ -8868,7 +9141,7 @@
         },
         {
             "file": "src/davinci-eight/math/MutableNumber.ts",
-            "line": 19,
+            "line": 20,
             "itemtype": "property",
             "name": "x",
             "type": "Number",
@@ -9486,13 +9759,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/mesh/prism.ts",
-            "line": 68,
-            "description": "Constructs and returns a prism mesh.",
-            "class": "EulerFacet",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/models/EulerFacet.ts",
             "line": 28,
             "itemtype": "method",
@@ -9809,14 +10075,14 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 23,
+            "line": 22,
             "description": "Name used for reference count monitoring and logging.",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 37,
+            "line": 36,
             "itemtype": "property",
             "name": "geometry",
             "type": "{G}",
@@ -9825,7 +10091,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 42,
+            "line": 41,
             "itemtype": "property",
             "name": "_material",
             "type": "{M}",
@@ -9836,7 +10102,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 48,
+            "line": 47,
             "itemtype": "property",
             "name": "name",
             "type": "[string]",
@@ -9845,14 +10111,14 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 53,
+            "line": 52,
             "description": "FIXME This is a bad name because it is not just a collection of buffersByCanvasid.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lokup",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 59,
+            "line": 58,
             "itemtype": "property",
             "name": "uniforms",
             "type": "{StringIUnknownMap<IFacet>}",
@@ -9863,7 +10129,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 65,
+            "line": 64,
             "itemtype": "property",
             "name": "mode",
             "type": "{number}",
@@ -9874,7 +10140,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 148,
+            "line": 140,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -9893,7 +10159,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 160,
+            "line": 152,
             "itemtype": "property",
             "name": "material",
             "type": "{M}\n\nProvides a reference counted reference to the material.",
@@ -10605,28 +10871,28 @@
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 17,
+            "line": 20,
             "description": "The objects that we are going to manipulate.",
-            "class": "AmbientLight",
+            "class": "Slide",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 21,
+            "line": 24,
             "description": "The companions to each target that maintain animation state.",
-            "class": "AmbientLight",
+            "class": "Slide",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 25,
+            "line": 28,
             "description": "The time standard for this Slide.",
-            "class": "AmbientLight",
+            "class": "Slide",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 81,
+            "line": 86,
             "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
             "itemtype": "method",
             "name": "advance",
@@ -10637,35 +10903,142 @@
                     "type": "Number"
                 }
             ],
-            "class": "AmbientLight",
+            "class": "Slide",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 92,
+            "line": 97,
             "description": "`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
-            "class": "AmbientLight",
+            "class": "Slide",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 206,
+            "line": 205,
             "description": "The companion to a target: IAnimationTarget containing animation state.",
-            "class": "AmbientLight",
+            "class": "Slide",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 210,
+            "line": 209,
             "description": "A map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
-            "class": "AmbientLight",
+            "class": "Slide",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 227,
+            "line": 226,
             "description": "TODO: Maybe call this ensureAnimationLane or ensureLane",
-            "class": "AmbientLight",
+            "class": "Slide",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/GridTopology.ts",
+            "line": 19,
+            "description": "Computes the triangleStripForGrid traversal for a grid.\nparam iLength The number of points in the i direction, iLength = iSegments + 1\nparam jLength The number of points in the j direction, jLength = jSegments + 1\nparam elements Optional \nreturn The traversal result.",
+            "class": "GridTopology",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/GridTopology.ts",
+            "line": 31,
+            "description": "The number of elements needed if we executed a strip per row segment.\nRemark Notice the asymmetry. Could be a performance impact.",
+            "class": "GridTopology",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/GridTopology.ts",
+            "line": 36,
+            "description": "The number of elements including the duplicate elements needed to create\nthe degenerate triangles for a single strip call.",
+            "class": "GridTopology",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/GridTopology.ts",
+            "line": 41,
+            "description": "Index for triangle strip array.",
+            "class": "GridTopology",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/GridTopology.ts",
+            "line": 79,
+            "description": "<p>\nThe number of points for each dimension (dimensions<sub>i</sub> = segmentCounts<sub>i</sub> + 1).\n</p>",
+            "itemtype": "property",
+            "name": "dimensions",
+            "type": "{number[]}",
+            "class": "GridTopology",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/GridTopology.ts",
+            "line": 111,
+            "description": "Provides access to each vertex so that attributes may be set.",
+            "itemtype": "method",
+            "name": "vertex",
+            "params": [
+                {
+                    "name": "coordinates",
+                    "description": "The integral coordinates of the vertex required.",
+                    "type": "Number[]"
+                }
+            ],
+            "return": {
+                "description": "The vertex corresponding to the specified coordinates.",
+                "type": "Vertex"
+            },
+            "example": [
+                "\n        var topo = new EIGHT.GridTopology([1, 1])\n        topo.vertex([i, j]).attributes('aPosition') = new Vector3([i - 0.5, j - 0.5, 0])"
+            ],
+            "class": "GridTopology",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/Topology.ts",
+            "line": 37,
+            "itemtype": "property",
+            "name": "mode",
+            "type": "{DrawMode}",
+            "access": "private",
+            "tagname": "",
+            "class": "Topology",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/Topology.ts",
+            "line": 43,
+            "itemtype": "property",
+            "name": "elements",
+            "type": "{number[]}",
+            "access": "protected",
+            "tagname": "",
+            "class": "Topology",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/Topology.ts",
+            "line": 49,
+            "itemtype": "property",
+            "name": "vertices",
+            "type": "{Vertex[]}",
+            "access": "protected",
+            "tagname": "",
+            "class": "Topology",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/topologies/Topology.ts",
+            "line": 70,
+            "description": "Creates the elements in a format required for WebGL.\nThis may involve creating some redundancy in order to get WebGL efficiency.\nThus, we should regard the topology as normalized",
+            "itemtype": "method",
+            "name": "toElements",
+            "return": {
+                "description": "",
+                "type": "GeometryElements"
+            },
+            "class": "Topology",
             "module": "EIGHT"
         },
         {
@@ -10984,97 +11357,97 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 53,
+            "line": 54,
             "description": "This could become an encapsulated call?\nclass GeometryDataCommand\nprivate",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 59,
-            "description": "property mode\ntype {number}\nprivate",
+            "line": 60,
+            "description": "property mode\ntype {DrawMode}\nprivate",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 68,
+            "line": 69,
             "description": "class GeometryDataCommand\nconstructor",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 78,
+            "line": 83,
             "description": "Executes the drawElements command using the instance state.\nmethod execute\nparam gl {WebGLRenderingContext}",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 93,
+            "line": 130,
             "description": "class ElementsBlock",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 99,
+            "line": 136,
             "description": "Mapping from attribute name to a data structure describing and containing a buffer.\nproperty _attributes\ntype {StringIUnknownMap<ElementBlockAttrib>}\nprivate",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 106,
+            "line": 143,
             "description": "The buffer containing element indices used in the drawElements command.\nproperty _indexBuffer\ntype {IBuffer}\nprivate",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 113,
+            "line": 150,
             "description": "An executable command. May be a call to drawElements or drawArrays.\nproperty drawCommand\ntype {GeometryDataCommand}",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 119,
+            "line": 156,
             "description": "class ElementsBlock\nconstructor",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 244,
+            "line": 241,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 306,
+            "line": 303,
             "description": "Implementation of IBufferGeometry coupled to the 'blocks' implementation.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 408,
+            "line": 405,
             "description": "Implementation of removeContextListener for the kahuna.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 535,
+            "line": 532,
             "description": "We must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 570,
+            "line": 567,
             "class": "",
             "module": "EIGHT"
         },
@@ -11268,18 +11641,6 @@
             "line": " src/davinci-eight/geometries/CylinderGeometry.ts:131"
         },
         {
-            "message": "Missing item type\nThe values of the attribute.",
-            "line": " src/davinci-eight/geometries/GeometryAttribute.ts:43"
-        },
-        {
-            "message": "Missing item type\nThe chunking size of the attribute.\nThis is distinct from the size in the `GeometryMeta`.\nThe chunking size is invariant given the values and is used to describe the vertex attribute pointer.",
-            "line": " src/davinci-eight/geometries/GeometryAttribute.ts:48"
-        },
-        {
-            "message": "Missing item type\n0 => POINTS, 1 => LINES, 2 => TRIANGLES",
-            "line": " src/davinci-eight/geometries/GeometryData.ts:9"
-        },
-        {
             "message": "Missing item type\nThe properties of the attributes.\nThe size refers to the size of the GLSL type, not the chunking size.\nThe name is an override of the key that produces the variable name.",
             "line": " src/davinci-eight/geometries/GeometryMeta.ts:11"
         },
@@ -11341,7 +11702,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/geometries/Simplex.ts:144"
+            "line": " src/davinci-eight/geometries/Simplex.ts:140"
         },
         {
             "message": "Missing item type\nDisplacement that we need to add to each arc point to get the\ndistance position parallel to the axis correct.",
@@ -11357,7 +11718,7 @@
         },
         {
             "message": "Missing item type\nThe index property is used when computing elements.",
-            "line": " src/davinci-eight/geometries/Vertex.ts:27"
+            "line": " src/davinci-eight/geometries/Vertex.ts:25"
         },
         {
             "message": "Missing item type\nComputes a list of points corresponding to an arc centered on the origin.\nparam begin {Cartesian3} The begin position.\nparam angle: {number} The angle of the rotation.\nparam generator {Spinor3Coords} The generator of the rotation.\nparam segments {number} The number of segments.",
@@ -11548,10 +11909,6 @@
             "line": " src/davinci-eight/math/wedgeZX.ts:1"
         },
         {
-            "message": "Missing item type\nConstructs and returns a prism mesh.",
-            "line": " src/davinci-eight/mesh/prism.ts:68"
-        },
-        {
             "message": "Missing item type\nThis class is \"simple because\" it assumes exactly one vertex shader and on fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the manager in the constructor enables it to enforce this invariant.",
             "line": " src/davinci-eight/programs/SimpleWebGLProgram.ts:8"
         },
@@ -11605,11 +11962,11 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/scene/Drawable.ts:23"
+            "line": " src/davinci-eight/scene/Drawable.ts:22"
         },
         {
             "message": "Missing item type\nFIXME This is a bad name because it is not just a collection of buffersByCanvasid.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lokup",
-            "line": " src/davinci-eight/scene/Drawable.ts:53"
+            "line": " src/davinci-eight/scene/Drawable.ts:52"
         },
         {
             "message": "Missing item type\nImplementation Only.",
@@ -11689,31 +12046,47 @@
         },
         {
             "message": "Missing item type\nThe objects that we are going to manipulate.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:17"
+            "line": " src/davinci-eight/slideshow/Slide.ts:20"
         },
         {
             "message": "Missing item type\nThe companions to each target that maintain animation state.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:21"
+            "line": " src/davinci-eight/slideshow/Slide.ts:24"
         },
         {
             "message": "Missing item type\nThe time standard for this Slide.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:25"
+            "line": " src/davinci-eight/slideshow/Slide.ts:28"
         },
         {
             "message": "Missing item type\n`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:92"
+            "line": " src/davinci-eight/slideshow/Slide.ts:97"
         },
         {
             "message": "Missing item type\nThe companion to a target: IAnimationTarget containing animation state.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:206"
+            "line": " src/davinci-eight/slideshow/Slide.ts:205"
         },
         {
             "message": "Missing item type\nA map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:210"
+            "line": " src/davinci-eight/slideshow/Slide.ts:209"
         },
         {
             "message": "Missing item type\nTODO: Maybe call this ensureAnimationLane or ensureLane",
-            "line": " src/davinci-eight/slideshow/Slide.ts:227"
+            "line": " src/davinci-eight/slideshow/Slide.ts:226"
+        },
+        {
+            "message": "Missing item type\nComputes the triangleStripForGrid traversal for a grid.\nparam iLength The number of points in the i direction, iLength = iSegments + 1\nparam jLength The number of points in the j direction, jLength = jSegments + 1\nparam elements Optional \nreturn The traversal result.",
+            "line": " src/davinci-eight/topologies/GridTopology.ts:19"
+        },
+        {
+            "message": "Missing item type\nThe number of elements needed if we executed a strip per row segment.\nRemark Notice the asymmetry. Could be a performance impact.",
+            "line": " src/davinci-eight/topologies/GridTopology.ts:31"
+        },
+        {
+            "message": "Missing item type\nThe number of elements including the duplicate elements needed to create\nthe degenerate triangles for a single strip call.",
+            "line": " src/davinci-eight/topologies/GridTopology.ts:36"
+        },
+        {
+            "message": "Missing item type\nIndex for triangle strip array.",
+            "line": " src/davinci-eight/topologies/GridTopology.ts:41"
         },
         {
             "message": "Missing item type\nproperty PROP_RGB",
@@ -11725,59 +12098,59 @@
         },
         {
             "message": "Missing item type\nThis could become an encapsulated call?\nclass GeometryDataCommand\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:53"
+            "line": " src/davinci-eight/utils/contextProxy.ts:54"
         },
         {
-            "message": "Missing item type\nproperty mode\ntype {number}\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:59"
+            "message": "Missing item type\nproperty mode\ntype {DrawMode}\nprivate",
+            "line": " src/davinci-eight/utils/contextProxy.ts:60"
         },
         {
             "message": "Missing item type\nclass GeometryDataCommand\nconstructor",
-            "line": " src/davinci-eight/utils/contextProxy.ts:68"
+            "line": " src/davinci-eight/utils/contextProxy.ts:69"
         },
         {
             "message": "Missing item type\nExecutes the drawElements command using the instance state.\nmethod execute\nparam gl {WebGLRenderingContext}",
-            "line": " src/davinci-eight/utils/contextProxy.ts:78"
+            "line": " src/davinci-eight/utils/contextProxy.ts:83"
         },
         {
             "message": "Missing item type\nclass ElementsBlock",
-            "line": " src/davinci-eight/utils/contextProxy.ts:93"
+            "line": " src/davinci-eight/utils/contextProxy.ts:130"
         },
         {
             "message": "Missing item type\nMapping from attribute name to a data structure describing and containing a buffer.\nproperty _attributes\ntype {StringIUnknownMap<ElementBlockAttrib>}\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:99"
+            "line": " src/davinci-eight/utils/contextProxy.ts:136"
         },
         {
             "message": "Missing item type\nThe buffer containing element indices used in the drawElements command.\nproperty _indexBuffer\ntype {IBuffer}\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:106"
+            "line": " src/davinci-eight/utils/contextProxy.ts:143"
         },
         {
             "message": "Missing item type\nAn executable command. May be a call to drawElements or drawArrays.\nproperty drawCommand\ntype {GeometryDataCommand}",
-            "line": " src/davinci-eight/utils/contextProxy.ts:113"
+            "line": " src/davinci-eight/utils/contextProxy.ts:150"
         },
         {
             "message": "Missing item type\nclass ElementsBlock\nconstructor",
-            "line": " src/davinci-eight/utils/contextProxy.ts:119"
+            "line": " src/davinci-eight/utils/contextProxy.ts:156"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:244"
+            "line": " src/davinci-eight/utils/contextProxy.ts:241"
         },
         {
             "message": "Missing item type\nImplementation of IBufferGeometry coupled to the 'blocks' implementation.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:306"
+            "line": " src/davinci-eight/utils/contextProxy.ts:303"
         },
         {
             "message": "Missing item type\nImplementation of removeContextListener for the kahuna.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:408"
+            "line": " src/davinci-eight/utils/contextProxy.ts:405"
         },
         {
             "message": "Missing item type\nWe must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:535"
+            "line": " src/davinci-eight/utils/contextProxy.ts:532"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:570"
+            "line": " src/davinci-eight/utils/contextProxy.ts:567"
         },
         {
             "message": "Missing item type\nInitially used to give me a canvasId.\nUsing the big-enough space principle to avoid collisions.",

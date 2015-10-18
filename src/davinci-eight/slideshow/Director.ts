@@ -300,14 +300,6 @@ class Director extends Shareable implements IDirector {
   pushSlide(slide: Slide): number {
     return this.slides.push(slide)
   }
-  /*
-  addCanvas(canvas: HTMLCanvasElement, canvasId: number): void {
-    var c3d = new Canvas3D()
-    c3d.start(canvas, canvasId)
-    this.contexts.put(canvasId, c3d)
-    c3d.release()
-  }
-  */
   advance(interval: number): void {
     var slideIndex = this.step
     if (slideIndex >= 0 && slideIndex < this.slides.length) {

@@ -21,19 +21,19 @@ function createMaterial(geometry: Geometry): IMaterial
 {
   switch(geometry.meta.k)
   {
-    case Simplex.K_FOR_TRIANGLE:
+    case Simplex.TRIANGLE:
     {
       return new MeshMaterial()
     }
-    case Simplex.K_FOR_LINE_SEGMENT:
+    case Simplex.LINE:
     {
       return new LineMaterial()
     }
-    case Simplex.K_FOR_POINT:
+    case Simplex.POINT:
     {
       return new PointMaterial()
     }
-    case Simplex.K_FOR_EMPTY:
+    case Simplex.EMPTY:
     {
       return new EmptyMaterial()
     }

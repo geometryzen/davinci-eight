@@ -6,15 +6,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 define(["require", "exports", '../../uniforms/ColorFacet', '../../geometries/CuboidGeometry', '../../scene/Drawable', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex', '../../math/Vector3'], function (require, exports, ColorFacet, CuboidGeometry, Drawable, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex, Vector3) {
     function createMaterial(geometry) {
         switch (geometry.meta.k) {
-            case Simplex.K_FOR_POINT:
+            case Simplex.POINT:
                 {
                     return new PointMaterial();
                 }
-            case Simplex.K_FOR_LINE_SEGMENT:
+            case Simplex.LINE:
                 {
                     return new LineMaterial();
                 }
-            case Simplex.K_FOR_TRIANGLE:
+            case Simplex.TRIANGLE:
                 {
                     return new MeshMaterial();
                 }
@@ -29,7 +29,7 @@ define(["require", "exports", '../../uniforms/ColorFacet', '../../geometries/Cub
             if (a === void 0) { a = Vector3.e1; }
             if (b === void 0) { b = Vector3.e2; }
             if (c === void 0) { c = Vector3.e3; }
-            if (k === void 0) { k = Simplex.K_FOR_TRIANGLE; }
+            if (k === void 0) { k = Simplex.TRIANGLE; }
             if (subdivide === void 0) { subdivide = 0; }
             if (boundary === void 0) { boundary = 0; }
             _super.call(this, 'CreateCuboidDrawable');

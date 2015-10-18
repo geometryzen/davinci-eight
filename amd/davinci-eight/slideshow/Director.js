@@ -246,14 +246,6 @@ define(["require", "exports", '../slideshow/Slide', '../checks/isDefined', '../c
         Director.prototype.pushSlide = function (slide) {
             return this.slides.push(slide);
         };
-        /*
-        addCanvas(canvas: HTMLCanvasElement, canvasId: number): void {
-          var c3d = new Canvas3D()
-          c3d.start(canvas, canvasId)
-          this.contexts.put(canvasId, c3d)
-          c3d.release()
-        }
-        */
         Director.prototype.advance = function (interval) {
             var slideIndex = this.step;
             if (slideIndex >= 0 && slideIndex < this.slides.length) {

@@ -71,7 +71,7 @@ class SurfaceGeometry extends Geometry {
         uvc = new Vector2([(j + 1) / uSegments, (i + 1) / vSegments]);
         uvd = new Vector2([j / uSegments, (i + 1) / vSegments]);
 
-        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        var simplex = new Simplex(Simplex.TRIANGLE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a]
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b]
@@ -80,7 +80,7 @@ class SurfaceGeometry extends Geometry {
         simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd
         this.data.push(simplex)
 
-        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        var simplex = new Simplex(Simplex.TRIANGLE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b]
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c]

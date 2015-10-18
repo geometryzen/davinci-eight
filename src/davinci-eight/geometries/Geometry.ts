@@ -1,4 +1,3 @@
-import GeometryData = require('../geometries/GeometryData')
 import GeometryElements = require('../geometries/GeometryElements')
 import GeometryMeta = require('../geometries/GeometryMeta')
 import mustBeInteger = require('../checks/mustBeInteger')
@@ -37,7 +36,7 @@ class Geometry extends Shareable {
      * @type {number}
      * @private
      */
-    private _k = new MutableNumber([Simplex.K_FOR_TRIANGLE]);
+    private _k = new MutableNumber([Simplex.TRIANGLE]);
     /**
      * Specifies the number of segments to use in curved directions.
      * @property curvedSegments
@@ -200,8 +199,7 @@ class Geometry extends Shareable {
             this.regenerate()
         }
         this.check()
-        let elements = toGeometryData(this.data, this.meta)
-        return new GeometryElements(elements, this.meta)
+        return toGeometryData(this.data, this.meta)
     }
     /**
      * @method mergeVertices
@@ -223,7 +221,7 @@ class Geometry extends Shareable {
      * @beta
      */
     public triangle(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
-        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        var simplex = new Simplex(Simplex.TRIANGLE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1]
         simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[2]
@@ -243,7 +241,7 @@ class Geometry extends Shareable {
         return this.data.push(simplex)
     }
     public lineSegment(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
-        var simplex = new Simplex(Simplex.K_FOR_LINE_SEGMENT)
+        var simplex = new Simplex(Simplex.LINE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1]
 
@@ -259,7 +257,7 @@ class Geometry extends Shareable {
         return this.data.push(simplex)
     }
     public point(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
-        var simplex = new Simplex(Simplex.K_FOR_POINT)
+        var simplex = new Simplex(Simplex.POINT)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
 
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0]
@@ -271,7 +269,7 @@ class Geometry extends Shareable {
         return this.data.push(simplex)
     }
     public empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
-        var simplex = new Simplex(Simplex.K_FOR_EMPTY)
+        var simplex = new Simplex(Simplex.EMPTY)
         return this.data.push(simplex)
     }
 }

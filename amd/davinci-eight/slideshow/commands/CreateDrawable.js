@@ -6,19 +6,19 @@ var __extends = (this && this.__extends) || function (d, b) {
 define(["require", "exports", '../../uniforms/ColorFacet', '../../scene/Drawable', '../../materials/EmptyMaterial', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex'], function (require, exports, ColorFacet, Drawable, EmptyMaterial, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex) {
     function createMaterial(geometry) {
         switch (geometry.meta.k) {
-            case Simplex.K_FOR_TRIANGLE:
+            case Simplex.TRIANGLE:
                 {
                     return new MeshMaterial();
                 }
-            case Simplex.K_FOR_LINE_SEGMENT:
+            case Simplex.LINE:
                 {
                     return new LineMaterial();
                 }
-            case Simplex.K_FOR_POINT:
+            case Simplex.POINT:
                 {
                     return new PointMaterial();
                 }
-            case Simplex.K_FOR_EMPTY:
+            case Simplex.EMPTY:
                 {
                     return new EmptyMaterial();
                 }

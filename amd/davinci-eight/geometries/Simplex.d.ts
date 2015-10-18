@@ -27,46 +27,46 @@ declare class Simplex {
     k: number;
     /**
      * An empty set can be consired to be a -1 simplex (algebraic topology).
-     * @property K_FOR_EMPTY
+     * @property EMPTY
      * @type {number}
      * @static
      */
-    static K_FOR_EMPTY: number;
+    static EMPTY: number;
     /**
      * A single point may be considered a 0-simplex.
-     * @property K_FOR_POINT
+     * @property POINT
      * @type {number}
      * @static
      */
-    static K_FOR_POINT: number;
+    static POINT: number;
     /**
      * A line segment may be considered a 1-simplex.
-     * @property K_FOR_LINE_SEGMENT
+     * @property LINE
      * @type {number}
      * @static
      */
-    static K_FOR_LINE_SEGMENT: number;
+    static LINE: number;
     /**
      * A 2-simplex is a triangle.
-     * @property K_FOR_TRIANGLE
+     * @property TRIANGLE
      * @type {number}
      * @static
      */
-    static K_FOR_TRIANGLE: number;
+    static TRIANGLE: number;
     /**
      * A 3-simplex is a tetrahedron.
-     * @property K_FOR_TETRAHEDRON
+     * @property TETRAHEDRON
      * @type {number}
      * @static
      */
-    static K_FOR_TETRAHEDRON: number;
+    static TETRAHEDRON: number;
     /**
      * A 4-simplex is a 5-cell.
-     * @property K_FOR_FIVE_CELL
+     * @property FIVE_CELL
      * @type {number}
      * @static
      */
-    static K_FOR_FIVE_CELL: number;
+    static FIVE_CELL: number;
     /**
      * @deprecated
      */

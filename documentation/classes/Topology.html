@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/mesh/prism.ts - davinci-eight</title>
+    <title>Topology - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.132.0</em>
+            <em>API Docs for: 2.133.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -69,10 +69,10 @@
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
+                                <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
-                                <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/EmptyMaterial.html">EmptyMaterial</a></li>
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
@@ -82,9 +82,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAttribute.html">GeometryAttribute</a></li>
-                                <li><a href="../classes/GeometryData.html">GeometryData</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
+                                <li><a href="../classes/GridTopology.html">GridTopology</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IAnimation.html">IAnimation</a></li>
                                 <li><a href="../classes/IAnimationTarget.html">IAnimationTarget</a></li>
@@ -108,6 +108,7 @@
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
+                                <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
@@ -116,6 +117,7 @@
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
@@ -127,6 +129,7 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
@@ -137,6 +140,7 @@
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
                                 <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
+                                <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarGeometry.html">SphericalPolarGeometry</a></li>
@@ -146,6 +150,7 @@
                                 <li><a href="../classes/SurfaceGeometry.html">SurfaceGeometry</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/Topology.html">Topology</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -202,134 +207,268 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/mesh/prism.ts</h1>
+<h1>Topology Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-//
-// prism.ts
-//
-/// &lt;reference path=&quot;../../../vendor/davinci-blade/dist/davinci-blade.d.ts&quot; /&gt;
-import vectorE3 = require(&#x27;davinci-eight/math/e3ga/vectorE3&#x27;);
 
-// The numbering of the front face, seen from the front is
-//   5
-//  3 4
-// 0 1 2 
-// The numbering of the back face, seen from the front is
-//   B
-//  9 A
-// 6 7 8 
-// There are 12 vertices in total.
-var vertexList: blade.Euclidean3[] =
-    [
-        // front face
-        vectorE3(-1.0, 0.0, +0.5),
-        vectorE3(0.0, 0.0, +0.5),
-        vectorE3(1.0, 0.0, +0.5),
-        vectorE3(-0.5, 1.0, +0.5),
-        vectorE3(0.5, 1.0, +0.5),
-        vectorE3(0.0, 2.0, +0.5),
+        <div class="foundat">
+            Defined in: <a href="../files/src_davinci-eight_topologies_Topology.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;topologies&#x2F;Topology.ts:55</code></a>
+        </div>
 
-        // rear face
-        vectorE3(-1.0, 0.0, -0.5),
-        vectorE3(0.0, 0.0, -0.5),
-        vectorE3(1.0, 0.0, -0.5),
-        vectorE3(-0.5, 1.0, -0.5),
-        vectorE3(0.5, 1.0, -0.5),
-        vectorE3(0.0, 2.0, -0.5)
-    ];
+            Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
-// I&#x27;m not sure why the left and right side have 4 faces, but the botton only 2.
-// Symmetry would suggest making them the same.
-// There are 18 faces in total.
-var triangles =
-    [
-        //front face
-        [0, 1, 3],
-        [1, 4, 3],
-        [1, 2, 4],
-        [3, 4, 5],
+</div>
 
-        //rear face
-        [6, 9, 7],
-        [7, 9, 10],
-        [7, 10, 8],
-        [9, 11, 10],
 
-        //left side
-        [0, 3, 6],
-        [3, 9, 6],
-        [3, 5, 9],
-        [5, 11, 9],
+<div class="box intro">
+    <p>Abstract base class for all geometric primitive types</p>
 
-        //right side
-        [2, 8, 4],
-        [4, 8, 10],
-        [4, 10, 5],
-        [5, 10, 11],
-        //bottom faces
-        [0, 6, 8],
-        [0, 8, 2]
-    ];
+</div>
 
-/**
- * Constructs and returns a prism mesh.
- */
-var prism = function(spec?) {
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_Topology" class="method item">
+    <h3 class="name"><code>Topology</code></h3>
 
-  var elements: number[] = [];
-  var vertices: number[] = [];
-  var normals: number[] = [];
-  var colors: number[] = [];
-  var drawMode: number = 2;
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>mode</code>
+                </li>
+                <li class="arg">
+                        <code>numVertices</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
-  triangles.forEach(function(triangle: number[], index: number) {
 
-    elements.push(triangle[0]);
-    elements.push(triangle[1]);
-    elements.push(triangle[2]);
 
-    // Normals will be the same for each vertex of a triangle.
-    var v0: blade.Euclidean3 = vertexList[triangle[0]];
-    var v1: blade.Euclidean3 = vertexList[triangle[1]];
-    var v2: blade.Euclidean3 = vertexList[triangle[2]];
 
-    var perp: blade.Euclidean3 = v1.sub(v0).cross(v2.sub(v0));
-    var normal: blade.Euclidean3 = perp.div(perp.norm());
 
-    for (var j = 0; j &lt; 3; j++) {
-        vertices.push(vertexList[triangle[j]].x);
-        vertices.push(vertexList[triangle[j]].y);
-        vertices.push(vertexList[triangle[j]].z);
 
-        normals.push(normal.x);
-        normals.push(normal.y);
-        normals.push(normal.z);
 
-        colors.push(1.0);
-        colors.push(0.0);
-        colors.push(0.0);
-    }
-  });
 
-  var publicAPI = {
-    draw(context: WebGLRenderingContext) {
-      context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
-    },
-    get drawMode(): number {
-      return drawMode;
-    },
-    get dynamic(): boolean {return false;},
-    update(): void {
-    }
-  };
-  return publicAPI;
-};
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_topologies_Topology.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;topologies&#x2F;Topology.ts:55</code></a>
+        </p>
 
-export = prism;
 
-    </pre>
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">mode</code>
+                        <span class="type"><a href="../classes/DrawMode.html" class="crosslink">DrawMode</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">numVertices</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_toElements">toElements</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property protected">
+                                <a href="#property_elements">elements</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_mode">mode</a>
+
+                            </li>
+                            <li class="index-item property protected">
+                                <a href="#property_vertices">vertices</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_toElements" class="method item">
+    <h3 class="name"><code>toElements</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/GeometryElements.html" class="crosslink">GeometryElements</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_topologies_Topology.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;topologies&#x2F;Topology.ts:70</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates the elements in a format required for WebGL.
+This may involve creating some redundancy in order to get WebGL efficiency.
+Thus, we should regard the topology as normalized</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/GeometryElements.html" class="crosslink">GeometryElements</a></span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_elements" class="property item protected">
+    <h3 class="name"><code>elements</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number[]</a></span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_topologies_Topology.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;topologies&#x2F;Topology.ts:43</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_mode" class="property item private">
+    <h3 class="name"><code>mode</code></h3>
+    <span class="type"><a href="../classes/DrawMode.html" class="crosslink">DrawMode</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_topologies_Topology.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;topologies&#x2F;Topology.ts:37</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_vertices" class="property item protected">
+    <h3 class="name"><code>vertices</code></h3>
+    <span class="type">Vertex</span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_topologies_Topology.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;topologies&#x2F;Topology.ts:49</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+            </div>
+
+
+    </div>
 </div>
                     </div>
                 </div>

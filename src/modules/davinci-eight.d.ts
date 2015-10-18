@@ -154,7 +154,7 @@ declare module EIGHT {
     /**
      *
      */
-    class GeometryData {
+    class GeometryElements {
         public k: number;
         public indices: VectorN<number>;
         public attributes: { [name: string]: GeometryAttribute };
@@ -183,27 +183,27 @@ declare module EIGHT {
         /**
          * An empty set can be consired to be a -1 simplex (algebraic topology).
          */
-        public static K_FOR_EMPTY: number;
+        public static EMPTY: number;
         /**
          * A single point may be considered a 0-simplex.
          */
-        public static K_FOR_POINT: number;
+        public static POINT: number;
         /**
          * A line segment may be considered a 1-simplex.
          */
-        public static K_FOR_LINE_SEGMENT: number;
+        public static LINE: number;
         /**
          * A 2-simplex is a triangle.
          */
-        public static K_FOR_TRIANGLE: number;
+        public static TRIANGLE: number;
         /**
          * A 3-simplex is a tetrahedron.
          */
-        public static K_FOR_TETRAHEDRON: number;
+        public static TETRAHEDRON: number;
         /**
          * A 4-simplex is a 5-cell.
          */
-        public static K_FOR_FIVE_CELL: number;
+        public static FIVE_CELL: number;
         public static computeFaceNormals(simplex: Simplex, name: string);
         public static indices(simplex: Simplex): number[];
         /**
@@ -309,7 +309,7 @@ declare module EIGHT {
     /**
      * geometry to GeometryElements conversion.
      */
-    function toGeometryData(simplices: Simplex[], geometryMeta?: GeometryMeta): GeometryData;
+    function toGeometryData(simplices: Simplex[], geometryMeta?: GeometryMeta): GeometryElements;
 
     /**
      *
@@ -1159,7 +1159,7 @@ declare module EIGHT {
     interface IContextProvider extends ContextUnique, IUnknown {
         createArrayBuffer(): IBuffer;
         createElementArrayBuffer(): IBuffer;
-        createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+        createBufferGeometry(elements: GeometryElements, usage?: number): IBufferGeometry;
         createTexture2D(): ITexture2D;
         createTextureCubeMap(): ITextureCubeMap;
         gl: WebGLRenderingContext;
@@ -1495,7 +1495,7 @@ declare module EIGHT {
         contextGain(manager: IContextProvider): void;
         contextLost(canvasId: number): void;
         createArrayBuffer(): IBuffer;
-        createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+        createBufferGeometry(elements: GeometryElements, usage?: number): IBufferGeometry;
         createElementArrayBuffer(): IBuffer;
         createTexture2D(): ITexture2D;
         createTextureCubeMap(): ITextureCubeMap;
@@ -1698,27 +1698,6 @@ declare module EIGHT {
         vector2(name: string, data: number[], canvasId: number): void;
         vector3(name: string, data: number[], canvasId: number): void;
         vector4(name: string, data: number[], canvasId: number): void;
-    }
-
-    /**
-     * <p>
-     * A geometry holds the instructions for rendering a 3D mesh. (d.ts)
-     * </p>
-     */
-    class GeometryElements {
-        /**
-         *
-         */
-        public data: GeometryData;
-        /**
-         *
-         */
-        public meta: GeometryMeta;
-        /**
-         * data:
-         * meta:
-         */
-        constructor(data: GeometryData, meta: GeometryMeta);
     }
 
     /**
@@ -2142,6 +2121,29 @@ declare module EIGHT {
 
     class UseDrawableInSceneCommand extends AbstractSlideCommand {
         constructor(drawableName: string, sceneName: string, confirm: boolean);
+    }
+    ///////////////////////////////////////////////////////////////////////////////
+    class Topology {
+        constructor(numVertices: number);
+        toElements(): GeometryElements;
+    }
+
+    class PointTopology extends Topology {
+        constructor(numVertices: number);
+    }
+
+    class LineTopology extends Topology {
+        constructor(numVertices: number);
+    }
+
+    class MeshTopology extends Topology {
+        constructor(numVertices: number);
+    }
+
+    class GridTopology extends MeshTopology {
+        dimensions: number[];
+        constructor(segmentCounts: number[]);
+        vertex(coordinates: number[]): Vertex;
     }
 
     ///////////////////////////////////////////////////////////////////////////////

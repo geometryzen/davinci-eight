@@ -1,4 +1,4 @@
-define(["require", "exports", '../geometries/toGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/GeometryData', '../geometries/GeometryAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, toGeometryMeta, computeUniqueVertices, GeometryData, GeometryAttribute, expectArg, Simplex, VectorN) {
+define(["require", "exports", '../core/DrawMode', '../geometries/toGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/GeometryElements', '../geometries/GeometryAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, DrawMode, toGeometryMeta, computeUniqueVertices, GeometryElements, GeometryAttribute, expectArg, Simplex, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {
@@ -37,10 +37,6 @@ define(["require", "exports", '../geometries/toGeometryMeta', '../geometries/com
     }
     function toGeometryData(simplices, geometryMeta) {
         expectArg('simplices', simplices).toBeObject();
-        // TODO: For now, we special case here. Would be nice to make this part of the mainline.
-        if (simplices.length === 0) {
-            return new GeometryData(Simplex.K_FOR_EMPTY, new VectorN([]), {});
-        }
         var actuals = toGeometryMeta(simplices);
         if (geometryMeta) {
             expectArg('geometryMeta', geometryMeta).toBeObject();
@@ -61,7 +57,7 @@ define(["require", "exports", '../geometries/toGeometryMeta', '../geometries/com
         // This is why we need the Vertex to have an temporary index property.
         var indices = simplices.map(Simplex.indices).reduce(concat, []);
         // Create intermediate data structures for output and to cache dimensions and name.
-        // For performance an an array will be used whose index is the key index.
+        // For performance an array will be used whose index is the key index.
         var outputs = [];
         for (k = 0; k < keysLen; k++) {
             var key = keys[k];
@@ -91,10 +87,26 @@ define(["require", "exports", '../geometries/toGeometryMeta', '../geometries/com
         for (k = 0; k < keysLen; k++) {
             var output = outputs[k];
             var data = output.data;
-            var vector = new VectorN(data, false, data.length);
-            attributes[output.name] = new GeometryAttribute(vector, output.dimensions);
+            attributes[output.name] = new GeometryAttribute(data, output.dimensions);
         }
-        return new GeometryData(geometryMeta.k, new VectorN(indices, false, indices.length), attributes);
+        switch (geometryMeta.k) {
+            case Simplex.TRIANGLE: {
+                return new GeometryElements(DrawMode.TRIANGLES, indices, attributes);
+            }
+            case Simplex.LINE: {
+                return new GeometryElements(DrawMode.LINES, indices, attributes);
+            }
+            case Simplex.POINT: {
+                return new GeometryElements(DrawMode.POINTS, indices, attributes);
+            }
+            case Simplex.EMPTY: {
+                // It should be possible to no-op render an EMPTY simplex.
+                return new GeometryElements(DrawMode.POINTS, indices, attributes);
+            }
+            default: {
+                throw new Error("k => " + geometryMeta.k);
+            }
+        }
     }
     return toGeometryData;
 });

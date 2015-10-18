@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../collections/NumberIUnknownMap', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, Shareable, StringIUnknownMap) {
+define(["require", "exports", '../checks/isDefined', '../collections/NumberIUnknownMap', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, NumberIUnknownMap, Shareable, StringIUnknownMap) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -69,12 +69,7 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
         Drawable.prototype.contextGain = function (manager) {
             // 1. Replace the existing buffer geometry if we have geometry. 
             if (this.geometry) {
-                var data = this.geometry.data;
-                var meta = this.geometry.meta;
-                mustBeDefined('geometry.data', data, contextBuilder);
-                mustBeDefined('geometry.meta', meta, contextBuilder);
-                // FIXME: Why is the meta not being used?
-                this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(data));
+                this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(this.geometry));
             }
             else {
                 console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId);

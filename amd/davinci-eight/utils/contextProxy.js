@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/BufferResource', '../core', '../geometries/GeometryData', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../geometries/Simplex', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, core, GeometryData, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, Simplex, StringIUnknownMap, TextureResource, uuid4) {
+define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/GeometryElements', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, GeometryElements, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Drawable';
@@ -31,6 +31,10 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
          * constructor
          */
         function GeometryDataCommand(mode, count, type, offset) {
+            mustBeInteger('mode', mode);
+            mustBeInteger('count', count);
+            mustBeInteger('type', type);
+            mustBeInteger('offset', offset);
             this.mode = mode;
             this.count = count;
             this.type = type;
@@ -43,7 +47,46 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
          */
         GeometryDataCommand.prototype.execute = function (gl) {
             if (isDefined(gl)) {
-                gl.drawElements(this.mode, this.count, this.type, this.offset);
+                switch (this.mode) {
+                    case DrawMode.TRIANGLE_STRIP:
+                        {
+                            gl.drawElements(gl.TRIANGLE_STRIP, this.count, this.type, this.offset);
+                        }
+                        break;
+                    case DrawMode.TRIANGLE_FAN:
+                        {
+                            gl.drawElements(gl.TRIANGLE_FAN, this.count, this.type, this.offset);
+                        }
+                        break;
+                    case DrawMode.TRIANGLES:
+                        {
+                            gl.drawElements(gl.TRIANGLES, this.count, this.type, this.offset);
+                        }
+                        break;
+                    case DrawMode.LINE_STRIP:
+                        {
+                            gl.drawElements(gl.LINE_STRIP, this.count, this.type, this.offset);
+                        }
+                        break;
+                    case DrawMode.LINE_LOOP:
+                        {
+                            gl.drawElements(gl.LINE_LOOP, this.count, this.type, this.offset);
+                        }
+                        break;
+                    case DrawMode.LINES:
+                        {
+                            gl.drawElements(gl.LINES, this.count, this.type, this.offset);
+                        }
+                        break;
+                    case DrawMode.POINTS:
+                        {
+                            gl.drawElements(gl.POINTS, this.count, this.type, this.offset);
+                        }
+                        break;
+                    default: {
+                        throw new Error("mode: " + this.mode);
+                    }
+                }
             }
             else {
                 console.warn("HFW: Er, like hey dude! You're asking me to draw something without a context. That's not cool, but I won't complain.");
@@ -122,44 +165,6 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
         });
         return ElementsBlockAttrib;
     })(Shareable);
-    // TODO: If mode provided, check consistent with elements.k.
-    // expectArg('mode', mode).toSatisfy(isDrawMode(mode, gl), "mode must be one of TRIANGLES, ...");
-    function drawMode(k, mode) {
-        switch (k) {
-            case Simplex.K_FOR_TRIANGLE: {
-                return mustBeNumber('TRIANGLES', WebGLRenderingContext.TRIANGLES);
-            }
-            case Simplex.K_FOR_LINE_SEGMENT: {
-                return mustBeNumber('LINES', WebGLRenderingContext.LINES);
-            }
-            case Simplex.K_FOR_POINT: {
-                return mustBeNumber('POINTS', WebGLRenderingContext.POINTS);
-            }
-            case Simplex.K_FOR_EMPTY: {
-                return void 0;
-            }
-            default: {
-                throw new Error("Unexpected k-simplex dimension, k => " + k);
-            }
-        }
-    }
-    function isDrawMode(mode) {
-        mustBeNumber('mode', mode);
-        switch (mode) {
-            case WebGLRenderingContext.TRIANGLES: {
-                return true;
-            }
-            case WebGLRenderingContext.LINES: {
-                return true;
-            }
-            case WebGLRenderingContext.POINTS: {
-                return true;
-            }
-            default: {
-                return false;
-            }
-        }
-    }
     function isBufferUsage(usage) {
         mustBeNumber('usage', usage);
         switch (usage) {
@@ -492,15 +497,8 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
             /**
              *
              */
-            createBufferGeometry: function (elements, mode, usage) {
-                expectArg('elements', elements).toSatisfy(elements instanceof GeometryData, "elements must be an instance of GeometryElements");
-                mode = drawMode(elements.k, mode);
-                if (!isDefined(mode)) {
-                    // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
-                    // something that can't be drawn (no mode) and it is invisible anyway.
-                    // In such a case we choose not to allocate any buffers. What would be the usage?
-                    return void 0;
-                }
+            createBufferGeometry: function (elements, usage) {
+                expectArg('elements', elements).toSatisfy(elements instanceof GeometryElements, "elements must be an instance of GeometryElements");
                 if (isDefined(usage)) {
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
                 }
@@ -521,7 +519,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 if (isDefined(gl)) {
-                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices), usage);
                 }
                 else {
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
@@ -536,7 +534,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                     var buffer = kahuna.createArrayBuffer();
                     buffer.bind();
                     var vertexAttrib = elements.attributes[name_1];
-                    var data = vertexAttrib.values.data;
+                    var data = vertexAttrib.values;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
                     var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
                     attributes.put(name_1, attribute);
@@ -546,9 +544,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                 }
                 // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
                 // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-                switch (elements.k) {
-                }
-                var drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
+                var drawCommand = new GeometryDataCommand(elements.mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
                 _blocks.put(mesh.uuid, block);
                 block.release();

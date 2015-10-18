@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/GeometryElements', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/MutableNumber', '../math/Vector3'], function (require, exports, GeometryElements, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, toGeometryData, toGeometryMeta, MutableNumber, Vector3) {
+define(["require", "exports", '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/MutableNumber', '../math/Vector3'], function (require, exports, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, toGeometryData, toGeometryMeta, MutableNumber, Vector3) {
     /**
      * @class Geometry
      * @extends Shareable
@@ -42,7 +42,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
              * @type {number}
              * @private
              */
-            this._k = new MutableNumber([Simplex.K_FOR_TRIANGLE]);
+            this._k = new MutableNumber([Simplex.TRIANGLE]);
             /**
              * Specifies the number of segments to use in curved directions.
              * @property curvedSegments
@@ -190,8 +190,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
                 this.regenerate();
             }
             this.check();
-            var elements = toGeometryData(this.data, this.meta);
-            return new GeometryElements(elements, this.meta);
+            return toGeometryData(this.data, this.meta);
         };
         /**
          * @method mergeVertices
@@ -214,7 +213,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
          * @beta
          */
         Geometry.prototype.triangle = function (positions, normals, uvs) {
-            var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
+            var simplex = new Simplex(Simplex.TRIANGLE);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1];
             simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[2];
@@ -232,7 +231,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
             return this.data.push(simplex);
         };
         Geometry.prototype.lineSegment = function (positions, normals, uvs) {
-            var simplex = new Simplex(Simplex.K_FOR_LINE_SEGMENT);
+            var simplex = new Simplex(Simplex.LINE);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1];
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
@@ -246,7 +245,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
             return this.data.push(simplex);
         };
         Geometry.prototype.point = function (positions, normals, uvs) {
-            var simplex = new Simplex(Simplex.K_FOR_POINT);
+            var simplex = new Simplex(Simplex.POINT);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
@@ -256,7 +255,7 @@ define(["require", "exports", '../geometries/GeometryElements', '../checks/mustB
             return this.data.push(simplex);
         };
         Geometry.prototype.empty = function (positions, normals, uvs) {
-            var simplex = new Simplex(Simplex.K_FOR_EMPTY);
+            var simplex = new Simplex(Simplex.EMPTY);
             return this.data.push(simplex);
         };
         return Geometry;

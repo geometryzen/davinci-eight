@@ -87,7 +87,7 @@ function buildPlane(
       var uvc = new Vector2([( ix + 1 ) / gridX, 1 - ( iy + 1 ) / gridY]);
       var uvd = new Vector2([( ix + 1 ) / gridX, 1 - iy / gridY]);
 
-      var face = new Simplex(Simplex.K_FOR_TRIANGLE);
+      var face = new Simplex(Simplex.TRIANGLE);
       
       face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a + offset];
       face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
@@ -106,7 +106,7 @@ function buildPlane(
 
       faces.push( face );
 
-      face = new Simplex(Simplex.K_FOR_TRIANGLE);
+      face = new Simplex(Simplex.TRIANGLE);
 
       face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
       face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;

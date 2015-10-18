@@ -31,42 +31,51 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         /**
          * @class SmartMaterialBuilder
          * @constructor
-         * @param elements {Geometry} Optional.
+         * @param elements [GeometryElements]
          */
         function SmartMaterialBuilder(elements) {
             this.aMeta = {};
             this.uParams = {};
             if (elements) {
-                var attributes = elements.meta.attributes;
+                var attributes = elements.attributes;
                 var keys = Object.keys(attributes);
                 var keysLength = keys.length;
                 for (var i = 0; i < keysLength; i++) {
                     var key = keys[i];
                     var attribute = attributes[key];
-                    this.attribute(key, attribute.size, attribute.name);
+                    this.attribute(key, attribute.size);
                 }
             }
         }
-        SmartMaterialBuilder.prototype.attribute = function (key, size, name) {
-            mustBeString('key', key);
+        /**
+         * Declares that the material should have an `attribute` with the specified name and size.
+         * @method attribute
+         * @param name {string}
+         * @param size {number}
+         */
+        SmartMaterialBuilder.prototype.attribute = function (name, size) {
+            mustBeString('name', name);
             mustBeInteger('size', size);
-            this.aMeta[key] = { size: size };
-            if (name) {
-                mustBeString('name', name);
-                this.aMeta[key].name = name;
-            }
+            this.aMeta[name] = { size: size };
             return this;
         };
-        SmartMaterialBuilder.prototype.uniform = function (key, type, name) {
-            mustBeString('key', key);
+        /**
+         * Declares that the material should have a `uniform` with the specified name and type.
+         * @method uniform
+         * @param name {string}
+         * @param type {string} The GLSL type. e.g. 'float', 'vec3', 'mat2'
+         */
+        SmartMaterialBuilder.prototype.uniform = function (name, type) {
+            mustBeString('name', name);
             mustBeString('type', type); // Must also be a valid GLSL type.
-            this.uParams[key] = { glslType: type };
-            if (name) {
-                mustBeString('name', name);
-                this.uParams[key].name = name;
-            }
+            this.uParams[name] = { glslType: type };
             return this;
         };
+        /**
+         * @method build
+         * @param contexts {IContextMonitor[]}
+         * @return {Material}
+         */
         SmartMaterialBuilder.prototype.build = function (contexts) {
             // FIXME: Push this calculation down into the functions.
             // Then the data structures are based on size.

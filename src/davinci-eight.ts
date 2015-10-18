@@ -52,7 +52,7 @@ import Curve = require('davinci-eight/curves/Curve')
 import Keyboard = require('davinci-eight/devices/Keyboard')
 // geometries
 import GeometryAttribute = require('davinci-eight/geometries/GeometryAttribute')
-import GeometryData = require('davinci-eight/geometries/GeometryData')
+import GeometryElements = require('davinci-eight/geometries/GeometryElements')
 import Simplex = require('davinci-eight/geometries/Simplex')
 import Vertex = require('davinci-eight/geometries/Vertex')
 import toGeometryMeta = require('davinci-eight/geometries/toGeometryMeta')
@@ -64,7 +64,12 @@ import square = require('davinci-eight/geometries/square')
 import tetrahedron = require('davinci-eight/geometries/tetrahedron')
 import toGeometryData = require('davinci-eight/geometries/toGeometryData')
 import triangle = require('davinci-eight/geometries/triangle')
-
+// topologies
+import Topology = require('davinci-eight/topologies/Topology')
+import PointTopology = require('davinci-eight/topologies/PointTopology')
+import LineTopology = require('davinci-eight/topologies/LineTopology')
+import MeshTopology = require('davinci-eight/topologies/MeshTopology')
+import GridTopology = require('davinci-eight/topologies/GridTopology')
 // scene
 import createDrawList = require('davinci-eight/scene/createDrawList')
 import IDrawList = require('davinci-eight/scene/IDrawList')
@@ -74,7 +79,6 @@ import Scene = require('davinci-eight/scene/Scene')
 import Canvas3D = require('davinci-eight/scene/Canvas3D')
 // geometries
 import AxialGeometry = require('davinci-eight/geometries/AxialGeometry')
-import GeometryElements = require('davinci-eight/geometries/GeometryElements')
 import RingGeometry = require('davinci-eight/geometries/RingGeometry')
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
 import BarnGeometry = require('davinci-eight/geometries/BarnGeometry')
@@ -280,7 +284,6 @@ var eight = {
         return smartProgram
     },
     get Color() { return Color },
-    get CompatcGeometry() { return GeometryElements },
     get RingGeometry() { return RingGeometry },
     get AxialGeometry() { return AxialGeometry },
     get ArrowGeometry() { return ArrowGeometry },
@@ -302,6 +305,12 @@ var eight = {
     get TetrahedronGeometry() { return TetrahedronGeometry },
     //  get TubeGeometry() { return TubeGeometry },
     get VortexGeometry() { return VortexGeometry },
+    get Topology() { return Topology },
+    get PointTopology() { return PointTopology },
+    get LineTopology() { return LineTopology },
+    get MeshTopology() { return MeshTopology },
+    get GridTopology() { return GridTopology },
+
     get Euclidean3() { return Euclidean3 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },

@@ -20,15 +20,15 @@ function createMaterial(geometry: Geometry): IMaterial
 {
   switch(geometry.meta.k)
   {
-    case Simplex.K_FOR_POINT:
+    case Simplex.POINT:
     {
       return new PointMaterial()
     }
-    case Simplex.K_FOR_LINE_SEGMENT:
+    case Simplex.LINE:
     {
       return new LineMaterial()
     }
-    case Simplex.K_FOR_TRIANGLE:
+    case Simplex.TRIANGLE:
     {
       return new MeshMaterial()
     }
@@ -47,7 +47,7 @@ class CreateCuboidDrawable extends Shareable implements ISlideCommand
   private k: number;
   private subdivide: number;
   private boundary: number;
-  constructor(name: string, a: Cartesian3 = Vector3.e1, b: Cartesian3 = Vector3.e2, c: Cartesian3 = Vector3.e3, k: number = Simplex.K_FOR_TRIANGLE, subdivide: number = 0, boundary: number = 0)
+  constructor(name: string, a: Cartesian3 = Vector3.e1, b: Cartesian3 = Vector3.e2, c: Cartesian3 = Vector3.e3, k: number = Simplex.TRIANGLE, subdivide: number = 0, boundary: number = 0)
   {
     super('CreateCuboidDrawable')
     this.name = name

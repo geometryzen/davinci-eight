@@ -1,32 +1,35 @@
-import GeometryData = require('../geometries/GeometryData');
-import GeometryMeta = require('../geometries/GeometryMeta');
+import DrawMode = require('../core/DrawMode');
+import GeometryAttribute = require('../geometries/GeometryAttribute');
 /**
- * <p>
- * A geometry holds the elements or arrays sent to the GLSL pipeline.
- * </p>
- * <p>
- * These instructions are in a compact form suitable for populating WebGLBuffer(s).
- * </p>
- *
  * @class GeometryElements
  */
 declare class GeometryElements {
     /**
-     * @property data
-     * @type {GeometryElements}
+     * @property mode
+     * @type {DrawMode}
      */
-    data: GeometryData;
+    mode: DrawMode;
     /**
-     * @property meta
-     * @type {GeometryMeta}
+     * @property indices
+     * @type {number[]}
      */
-    meta: GeometryMeta;
+    indices: number[];
+    /**
+     * @property attributes
+     * @type {{[name:string]: GeometryAttribute}}
+     */
+    attributes: {
+        [name: string]: GeometryAttribute;
+    };
     /**
      * @class GeometryElements
      * @constructor
-     * @param data {GeometryData} The instructions for drawing the geometry.
-     * @param meta {GeometryMeta}
+     * @param mode {DrawMode} <p>The geometric primitive type.</p>
+     * @param indices {number[]} <p>A list of index into the attributes</p>
+     * @param attributes {{[name:string]: GeometryAttribute}}
      */
-    constructor(data: GeometryData, meta: GeometryMeta);
+    constructor(mode: DrawMode, indices: number[], attributes: {
+        [name: string]: GeometryAttribute;
+    });
 }
 export = GeometryElements;

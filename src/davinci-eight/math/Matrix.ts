@@ -1,12 +1,30 @@
 /**
  * @class Matrix<M>
  */
-// FIXME: Shouldn't the parameter be the element type?
 interface Matrix<M> {
-  determinant(): number;
-  identity(): M;
-  multiply(rhs: M): M;
-  product(a: M, b: M): M;
+    /**
+     * @method determinant
+     * @return {number}
+     */
+    determinant(): number;
+    /**
+     * @method identity
+     * @return {M}
+     */
+    identity(): M;
+    /**
+     * @method multiply
+     * @param rhs {M}
+     * @return {M}
+     */
+    multiply(rhs: M): M;
+    /**
+     * @method product
+     * @param a {M}
+     * @param b {M}
+     * @return {M}
+     */
+    product(a: M, b: M): M;
 }
 
 export = Matrix;

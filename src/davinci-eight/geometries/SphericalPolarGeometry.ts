@@ -300,19 +300,19 @@ class SphericalPolarGeometry extends SliceGeometry {
         computeVertices(this.radius, this.axis, this.phiStart, this.phiLength, this.thetaStart, this.thetaLength, heightSegments, widthSegments, points, uvs)
 
         switch (this.k) {
-            case Simplex.K_FOR_EMPTY: {
+            case Simplex.EMPTY: {
               makeTriangles(points, uvs, this.radius, heightSegments, widthSegments, this)
             }
                 break
-            case Simplex.K_FOR_POINT: {
+            case Simplex.POINT: {
               makePoints(points, uvs, this.radius, heightSegments, widthSegments, this)
             }
                 break
-            case Simplex.K_FOR_LINE_SEGMENT: {
+            case Simplex.LINE: {
               makeLineSegments(points, uvs, this.radius, heightSegments, widthSegments, this)
             }
                 break
-            case Simplex.K_FOR_TRIANGLE: {
+            case Simplex.TRIANGLE: {
               makeTriangles(points, uvs, this.radius, heightSegments, widthSegments, this)
             }
                 break

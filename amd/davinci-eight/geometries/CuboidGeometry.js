@@ -22,7 +22,7 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
          * @param a [Cartesian3 = Vector3.e1]
          * @param b [Cartesian3 = Vector3.e1]
          * @param c [Cartesian3 = Vector3.e1]
-         * @param k [number = Simplex.K_FOR_TRIANGLE]
+         * @param k [number = Simplex.TRIANGLE]
          * @param subdivide [number = 0]
          * @param boundary [number = 0]
          * @example
@@ -35,7 +35,7 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
             if (a === void 0) { a = Vector3.e1; }
             if (b === void 0) { b = Vector3.e2; }
             if (c === void 0) { c = Vector3.e3; }
-            if (k === void 0) { k = Simplex.K_FOR_TRIANGLE; }
+            if (k === void 0) { k = Simplex.TRIANGLE; }
             if (subdivide === void 0) { subdivide = 0; }
             if (boundary === void 0) { boundary = 0; }
             _super.call(this, 'CuboidGeometry');

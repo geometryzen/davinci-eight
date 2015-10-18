@@ -1,4 +1,3 @@
-import VectorN = require('../math/VectorN');
 /**
  * <p>
  * Holds all the values of a particular attribute.
@@ -12,22 +11,25 @@ import VectorN = require('../math/VectorN');
  */
 declare class GeometryAttribute {
     /**
-     *
      * The values of the attribute.
+     * @property values
+     * @type {number[]}
      */
-    values: VectorN<number>;
+    values: number[];
     /**
      * The chunking size of the attribute.
      * This is distinct from the size in the `GeometryMeta`.
      * The chunking size is invariant given the values and is used to describe the vertex attribute pointer.
+     * @property size
+     * @type {number}
      */
     size: number;
     /**
      * @class GeometryAttribute
      * @constructor
-     * @param values {VectorN<number>}
+     * @param values {number[]}
      * @param size {number}
      */
-    constructor(values: VectorN<number>, size: number);
+    constructor(values: number[], size: number);
 }
 export = GeometryAttribute;

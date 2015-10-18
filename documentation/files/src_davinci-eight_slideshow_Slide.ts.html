@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.132.0</em>
+            <em>API Docs for: 2.133.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -69,10 +69,10 @@
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
+                                <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
-                                <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/EmptyMaterial.html">EmptyMaterial</a></li>
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
@@ -82,9 +82,9 @@
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAttribute.html">GeometryAttribute</a></li>
-                                <li><a href="../classes/GeometryData.html">GeometryData</a></li>
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
+                                <li><a href="../classes/GridTopology.html">GridTopology</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IAnimation.html">IAnimation</a></li>
                                 <li><a href="../classes/IAnimationTarget.html">IAnimationTarget</a></li>
@@ -108,6 +108,7 @@
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
+                                <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
@@ -116,6 +117,7 @@
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
@@ -127,6 +129,7 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionGeometry.html">RevolutionGeometry</a></li>
@@ -137,6 +140,7 @@
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
                                 <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
+                                <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarGeometry.html">SphericalPolarGeometry</a></li>
@@ -146,6 +150,7 @@
                                 <li><a href="../classes/SurfaceGeometry.html">SurfaceGeometry</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/Topology.html">Topology</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -219,227 +224,226 @@ import SlideCommands = require(&#x27;../slideshow/SlideCommands&#x27;)
 import StringIUnknownMap = require(&#x27;../collections/StringIUnknownMap&#x27;)
 import WaitAnimation = require(&#x27;../slideshow/animations/WaitAnimation&#x27;)
 
+/**
+ * @class Slide
+ */
 class Slide extends Shareable implements ISlide {
-  public prolog: SlideCommands;
-  public epilog: SlideCommands;
-  /**
-   * The objects that we are going to manipulate.
-   */
-  private targets: IUnknownArray&lt;IAnimationTarget&gt;;
-  /**
-   * The companions to each target that maintain animation state.
-   */
-  private mirrors: StringIUnknownMap&lt;Mirror&gt;;
-  /**
-   * The time standard for this Slide.
-   */
-  private now = 0;
-
-  constructor() {
-    super(&#x27;Slide&#x27;)
-    this.prolog = new SlideCommands(&#x27;Slide.prolog&#x27;)
-    this.epilog = new SlideCommands(&#x27;Slide.epilog&#x27;)
-    this.targets = new IUnknownArray&lt;IAnimationTarget&gt;([], &#x27;Slide.targets&#x27;)
-    this.mirrors = new StringIUnknownMap&lt;Mirror&gt;(&#x27;Slide.mirrors&#x27;)
-  }
-  protected destructor(): void {
-    this.prolog.release()
-    this.prolog = void 0
-    this.epilog.release()
-    this.epilog = void 0
-    this.targets.release()
-    this.targets = void 0
-    this.mirrors.release()
-    this.mirrors = void 0
-
-    super.destructor()
-  }
-  private ensureTarget(target: IAnimationTarget) {
-    if (this.targets.indexOf(target) &lt; 0) {
-      this.targets.push(target)
+    public prolog: SlideCommands;
+    public epilog: SlideCommands;
+    /**
+     * The objects that we are going to manipulate.
+     */
+    private targets: IUnknownArray&lt;IAnimationTarget&gt;;
+    /**
+     * The companions to each target that maintain animation state.
+     */
+    private mirrors: StringIUnknownMap&lt;Mirror&gt;;
+    /**
+     * The time standard for this Slide.
+     */
+    private now = 0;
+    /**
+     * @class Slide
+     * @constructor
+     */
+    constructor() {
+        super(&#x27;Slide&#x27;)
+        this.prolog = new SlideCommands(&#x27;Slide.prolog&#x27;)
+        this.epilog = new SlideCommands(&#x27;Slide.epilog&#x27;)
+        this.targets = new IUnknownArray&lt;IAnimationTarget&gt;([], &#x27;Slide.targets&#x27;)
+        this.mirrors = new StringIUnknownMap&lt;Mirror&gt;(&#x27;Slide.mirrors&#x27;)
     }
-  }
-  private ensureMirror(target: IAnimationTarget) {
-    if (!this.mirrors.exists(target.uuid)) {
-      this.mirrors.putWeakRef(target.uuid, new Mirror())
+    protected destructor(): void {
+        this.prolog.release()
+        this.prolog = void 0
+        this.epilog.release()
+        this.epilog = void 0
+        this.targets.release()
+        this.targets = void 0
+        this.mirrors.release()
+        this.mirrors = void 0
+
+        super.destructor()
     }
-  }
-  pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation)
-  {
-    this.ensureTarget(target)
-    this.ensureMirror(target)
+    private ensureTarget(target: IAnimationTarget) {
+        if (this.targets.indexOf(target) &lt; 0) {
+            this.targets.push(target)
+        }
+    }
+    private ensureMirror(target: IAnimationTarget) {
+        if (!this.mirrors.exists(target.uuid)) {
+            this.mirrors.putWeakRef(target.uuid, new Mirror())
+        }
+    }
+    pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation) {
+        this.ensureTarget(target)
+        this.ensureMirror(target)
 
-    var mirror = this.mirrors.getWeakRef(target.uuid)
+        var mirror = this.mirrors.getWeakRef(target.uuid)
 
-    mirror.ensureAnimationLane(propName)
+        mirror.ensureAnimationLane(propName)
 
-    var animationLane = mirror.animationLanes.getWeakRef(propName)
-
-    animationLane.push(animation)
-  }
-  popAnimation(target: IAnimationTarget, propName: string): IAnimation {
-
-    var mirror = this.mirrors.getWeakRef(target.uuid)
-
-    var animationLane = mirror.animationLanes.getWeakRef(propName)
-
-    return animationLane.pop()
-  }
-
-  /**
-   * Update all currently running animations.
-   * Essentially calls &#x60;apply&#x60; on each IAnimation in the queues of active objects.
-   * @method advance
-   * @param interval {number} Advances the static Slide.now property.
-   */
-  advance(interval: number): void {
-    this.now += interval
-
-    for (var i = 0; i &lt; this.targets.length; i++) {
-      var target = this.targets.getWeakRef(i)
-      /**
-       * &#x60;offset&#x60; is variable used to keep things running on schedule.
-       * If an animation finishes before the interval, it reports the
-       * duration &#x60;extra&#x60; that brings the tome to &#x60;now&#x60;. Subsequent animations
-       * get a head start by considering their start time to be now - offset.
-       */
-      var offset = 0
-      var mirror = this.mirrors.getWeakRef(target.uuid)
-      var names = mirror.animationLanes.keys;
-      for (var j = 0; j &lt; names.length; j++) {
-        var propName = names[j]
         var animationLane = mirror.animationLanes.getWeakRef(propName)
-        offset = animationLane.apply(target, propName, this.now, offset)
-      }
+
+        animationLane.push(animation)
     }
-  }
-  doProlog(director: IDirector, forward: boolean): void
-  {
-    if (forward)
-    {
-      this.prolog.redo(this, director)
-    }
-    else
-    {
-      this.prolog.undo(this, director)
-    }
-  }
-  doEpilog(director: IDirector, forward: boolean): void
-  {
-    if (forward)
-    {
-      this.epilog.redo(this, director)
-    }
-    else
-    {
-      this.epilog.undo(this, director)
-    }
-  }
-  undo(director: IDirector): void {
-    for (var i = 0; i &lt; this.targets.length; i++) {
-      var target = this.targets.getWeakRef(i)
-      var mirror = this.mirrors.getWeakRef(target.uuid)
-      var names = mirror.animationLanes.keys;
-      for (var j = 0; j &lt; names.length; j++) {
-        var propName = names[j]
+    popAnimation(target: IAnimationTarget, propName: string): IAnimation {
+
+        var mirror = this.mirrors.getWeakRef(target.uuid)
+
         var animationLane = mirror.animationLanes.getWeakRef(propName)
-        animationLane.undo(target, propName)
-      }
+
+        return animationLane.pop()
     }
-  }
+
+    /**
+     * Update all currently running animations.
+     * Essentially calls &#x60;apply&#x60; on each IAnimation in the queues of active objects.
+     * @method advance
+     * @param interval {number} Advances the static Slide.now property.
+     */
+    advance(interval: number): void {
+        this.now += interval
+
+        for (var i = 0; i &lt; this.targets.length; i++) {
+            var target = this.targets.getWeakRef(i)
+            /**
+             * &#x60;offset&#x60; is variable used to keep things running on schedule.
+             * If an animation finishes before the interval, it reports the
+             * duration &#x60;extra&#x60; that brings the tome to &#x60;now&#x60;. Subsequent animations
+             * get a head start by considering their start time to be now - offset.
+             */
+            var offset = 0
+            var mirror = this.mirrors.getWeakRef(target.uuid)
+            var names = mirror.animationLanes.keys;
+            for (var j = 0; j &lt; names.length; j++) {
+                var propName = names[j]
+                var animationLane = mirror.animationLanes.getWeakRef(propName)
+                offset = animationLane.apply(target, propName, this.now, offset)
+            }
+        }
+    }
+    doProlog(director: IDirector, forward: boolean): void {
+        if (forward) {
+            this.prolog.redo(this, director)
+        }
+        else {
+            this.prolog.undo(this, director)
+        }
+    }
+    doEpilog(director: IDirector, forward: boolean): void {
+        if (forward) {
+            this.epilog.redo(this, director)
+        }
+        else {
+            this.epilog.undo(this, director)
+        }
+    }
+    undo(director: IDirector): void {
+        for (var i = 0; i &lt; this.targets.length; i++) {
+            var target = this.targets.getWeakRef(i)
+            var mirror = this.mirrors.getWeakRef(target.uuid)
+            var names = mirror.animationLanes.keys;
+            for (var j = 0; j &lt; names.length; j++) {
+                var propName = names[j]
+                var animationLane = mirror.animationLanes.getWeakRef(propName)
+                animationLane.undo(target, propName)
+            }
+        }
+    }
 }
 
 export = Slide
 
 class AnimationLane extends Shareable {
-  private completed: IUnknownArray&lt;IAnimation&gt;;
-  private remaining: IUnknownArray&lt;IAnimation&gt;;
-  constructor() {
-    super(&#x27;AnimationLane&#x27;)
-    this.completed = new IUnknownArray&lt;IAnimation&gt;([], &#x27;AnimationLane.remaining&#x27;)
-    this.remaining = new IUnknownArray&lt;IAnimation&gt;([], &#x27;AnimationLane.remaining&#x27;)
-  }
-  protected destructor(): void {
-    this.completed.release()
-    this.completed = void 0
-    this.remaining.release()
-    this.remaining = void 0
-    super.destructor()
-  }
-  pop(): IAnimation {
-    if (this.remaining.length &gt; 0) {
-      return this.remaining.pop()
+    private completed: IUnknownArray&lt;IAnimation&gt;;
+    private remaining: IUnknownArray&lt;IAnimation&gt;;
+    constructor() {
+        super(&#x27;AnimationLane&#x27;)
+        this.completed = new IUnknownArray&lt;IAnimation&gt;([], &#x27;AnimationLane.remaining&#x27;)
+        this.remaining = new IUnknownArray&lt;IAnimation&gt;([], &#x27;AnimationLane.remaining&#x27;)
     }
-    else {
-      return this.completed.pop()
+    protected destructor(): void {
+        this.completed.release()
+        this.completed = void 0
+        this.remaining.release()
+        this.remaining = void 0
+        super.destructor()
     }
-  }
-  push(animation: IAnimation): number {
-    return this.remaining.push(animation)
-  }
-  pushWeakRef(animation: IAnimation): number {
-    return this.remaining.pushWeakRef(animation)
-  }
-  apply(target: IAnimationTarget, propName: string, now: number, offset: number): number {
-    var done = false;
-    while(!done) {
-      if (this.remaining.length &gt; 0) {
-        var animation = this.remaining.getWeakRef(0)
-        animation.apply(target, propName, now, offset)
-        if (animation.done(target, propName)) {
-          offset = animation.extra(now)
-          this.completed.push(this.remaining.shift())
+    pop(): IAnimation {
+        if (this.remaining.length &gt; 0) {
+            return this.remaining.pop()
         }
         else {
-          done = true;
+            return this.completed.pop()
         }
-      }
-      else {
-        done = true;
-      }
     }
-    return offset;
-  }
-  undo(target: IAnimationTarget, propName: string): void {
-    while(this.completed.length &gt; 0) {
-      this.remaining.unshift(this.completed.pop())
+    push(animation: IAnimation): number {
+        return this.remaining.push(animation)
     }
-    for (var i = this.remaining.length - 1; i &gt;= 0; i--) {
-      var animation = this.remaining.getWeakRef(i)
-      animation.undo(target, propName)
+    pushWeakRef(animation: IAnimation): number {
+        return this.remaining.pushWeakRef(animation)
     }
-  }
+    apply(target: IAnimationTarget, propName: string, now: number, offset: number): number {
+        var done = false;
+        while (!done) {
+            if (this.remaining.length &gt; 0) {
+                var animation = this.remaining.getWeakRef(0)
+                animation.apply(target, propName, now, offset)
+                if (animation.done(target, propName)) {
+                    offset = animation.extra(now)
+                    this.completed.push(this.remaining.shift())
+                }
+                else {
+                    done = true;
+                }
+            }
+            else {
+                done = true;
+            }
+        }
+        return offset;
+    }
+    undo(target: IAnimationTarget, propName: string): void {
+        while (this.completed.length &gt; 0) {
+            this.remaining.unshift(this.completed.pop())
+        }
+        for (var i = this.remaining.length - 1; i &gt;= 0; i--) {
+            var animation = this.remaining.getWeakRef(i)
+            animation.undo(target, propName)
+        }
+    }
 }
 
 /**
  * The companion to a target: IAnimationTarget containing animation state.
  */
 class Mirror extends Shareable {
-  /**
-   * A map from property name to a list of properties of the property value.
-   * It should be possible to animate many properties of a target at once.
-   * However, a given property should only be animated in one way at a given time.
-   * For these reasons, we structure the data as map from property name to a queue of animations.
-   */
-  public animationLanes: StringIUnknownMap&lt;AnimationLane&gt;;
-  constructor() {
-    super(&#x27;Mirror&#x27;)
-    this.animationLanes = new StringIUnknownMap&lt;AnimationLane&gt;(&#x27;Mirror.animationLanes&#x27;)
-  }
-
-  protected destructor(): void {
-    this.animationLanes.release()
-    this.animationLanes = void 0
-    super.destructor()
-  }
-  /**
-   * TODO: Maybe call this ensureAnimationLane or ensureLane
-   */
-  ensureAnimationLane(key: string): void {
-    if (!this.animationLanes.exists(key)) {
-      this.animationLanes.putWeakRef(key, new AnimationLane())
+    /**
+     * A map from property name to a list of properties of the property value.
+     * It should be possible to animate many properties of a target at once.
+     * However, a given property should only be animated in one way at a given time.
+     * For these reasons, we structure the data as map from property name to a queue of animations.
+     */
+    public animationLanes: StringIUnknownMap&lt;AnimationLane&gt;;
+    constructor() {
+        super(&#x27;Mirror&#x27;)
+        this.animationLanes = new StringIUnknownMap&lt;AnimationLane&gt;(&#x27;Mirror.animationLanes&#x27;)
     }
-  }
+
+    protected destructor(): void {
+        this.animationLanes.release()
+        this.animationLanes = void 0
+        super.destructor()
+    }
+    /**
+     * TODO: Maybe call this ensureAnimationLane or ensureLane
+     */
+    ensureAnimationLane(key: string): void {
+        if (!this.animationLanes.exists(key)) {
+            this.animationLanes.putWeakRef(key, new AnimationLane())
+        }
+    }
 }
 
     </pre>
