@@ -21,7 +21,7 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
   face.vertexNormals.push(normal);
 }
 
-class Geometry {
+class SimplexGeometry {
   // faces and vertices will be combined into Simplex[]
   public faces: Face3[] = [];
   public vertices: Cartesian3[] = [];
@@ -203,4 +203,4 @@ class Geometry {
   }
 }
 
-export = Geometry;
+export = SimplexGeometry;

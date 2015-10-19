@@ -154,17 +154,17 @@ declare module EIGHT {
     /**
      *
      */
-    class GeometryElements {
+    class DrawPrimitive {
         public k: number;
         public indices: VectorN<number>;
-        public attributes: { [name: string]: GeometryAttribute };
-        constructor(k: number, indices: VectorN<number>, attributes: { [name: string]: GeometryAttribute });
+        public attributes: { [name: string]: DrawAttribute };
+        constructor(k: number, indices: VectorN<number>, attributes: { [name: string]: DrawAttribute });
     }
 
     /**
      *
      */
-    class GeometryAttribute {
+    class DrawAttribute {
         public values: VectorN<number>;
         public size: number;
         constructor(values: VectorN<number>, size: number);
@@ -229,8 +229,6 @@ declare module EIGHT {
      */
     class Vertex {
         public attributes: { [name: string]: VectorN<number> };
-        public opposing: Simplex[];
-        public parent: Simplex;
         constructor();
     }
 
@@ -245,9 +243,9 @@ declare module EIGHT {
     /**
      * Computes the mapping from attribute name to size.
      * Reports inconsistencies in the geometry by throwing exceptions.
-     * When used with toElements(), allows names and sizes to be mapped.
+     * When used with toDrawPrimitive(), allows names and sizes to be mapped.
      */
-    function toGeometryMeta(geometry: Simplex[]): GeometryMeta;
+    function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta;
 
     /**
      *
@@ -307,9 +305,9 @@ declare module EIGHT {
     function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
 
     /**
-     * geometry to GeometryElements conversion.
+     * geometry to DrawPrimitive conversion.
      */
-    function toGeometryData(simplices: Simplex[], geometryMeta?: GeometryMeta): GeometryElements;
+    function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): DrawPrimitive;
 
     /**
      *
@@ -406,7 +404,7 @@ declare module EIGHT {
      *
      */
     interface LinearElement<I, M, S, V> {
-        add(rhs: I): M;
+        add(rhs: I, alpha?: number): M;
         clone(): M;
         copy(source: I): M;
         difference(a: I, b: I): M;
@@ -721,15 +719,18 @@ declare module EIGHT {
      *
      */
     class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords, Vector3> {
-        public x: number;
-        public y: number;
-        public z: number;
-        public static e1: Vector3;
-        public static e2: Vector3;
-        public static e3: Vector3;
-        public static copy(vector: Cartesian3): Vector3;
+        x: number;
+        y: number;
+        z: number;
+        static e1: Vector3;
+        static e2: Vector3;
+        static e3: Vector3;
+        static copy(vector: Cartesian3): Vector3;
         constructor(data?: number[], modified?: boolean);
-        add(rhs: Cartesian3): Vector3;
+        /**
+         * this += alpha * vector
+         */
+        add(vector: Cartesian3, alpha?: number): Vector3;
         clone(): Vector3;
         copy(v: Cartesian3): Vector3;
         cross(v: Cartesian3): Vector3;
@@ -749,6 +750,9 @@ declare module EIGHT {
         setMagnitude(magnitude: number): Vector3;
         sub(rhs: Cartesian3): Vector3;
         sum(a: Cartesian3, b: Cartesian3): Vector3;
+        static copy(vector: Cartesian3): Vector3;
+        static lerp(a: Cartesian3, b: Cartesian3, alpha: number): Vector3;
+        static random(): Vector3;
     }
 
     /**
@@ -916,11 +920,17 @@ declare module EIGHT {
         constructor(center?: Cartesian3, radius?: number);
         setFromPoints(points: Cartesian3[]);
     }
-
+    /**
+     *
+     */
+    interface IGeometry {
+      regenerate(): void;
+      toPrimitives(): DrawPrimitive[];
+    }
     /**
      * A geometry holds a list of simplices.
      */
-    class Geometry extends Shareable {
+    class SimplexGeometry extends Shareable implements IGeometry {
         /**
          * The geometry as a list of simplices. These may be triangles, lines or points.
          */
@@ -953,7 +963,7 @@ declare module EIGHT {
         destructor(): void;
         regenerate(): void;
         isModified(): boolean;
-        setModified(modified): Geometry;
+        setModified(modified): SimplexGeometry;
         /**
          * Applies the boundary operation to the geometry.
          * Under the boundary operation, each k-simplex becomes several simplices of dimension k - 1.
@@ -969,20 +979,20 @@ declare module EIGHT {
          * 
          * times: The number of times to apply the boundary operation. Default is one (1).
          */
-        public boundary(times?: number): Geometry;
+        public boundary(times?: number): SimplexGeometry;
         /**
          * Updates the `meta` property by scanning the vertices.
          */
-        public check(): Geometry;
+        public check(): SimplexGeometry;
         /**
          * Subdivides the simplices of the geometry to produce finer detail.
          * times: The number of times to subdivide. Default is one (1).
          */
-        public subdivide(times?: number): Geometry;
+        public subdivide(times?: number): SimplexGeometry;
         /**
-         * Computes and returns the arrays used to draw in WebGL.
+         * Computes and returns the primitives used to draw in WebGL.
          */
-        public toElements(): GeometryElements;
+        public toPrimitives(): DrawPrimitive[];
     }
 
     /**
@@ -1159,7 +1169,7 @@ declare module EIGHT {
     interface IContextProvider extends ContextUnique, IUnknown {
         createArrayBuffer(): IBuffer;
         createElementArrayBuffer(): IBuffer;
-        createBufferGeometry(elements: GeometryElements, usage?: number): IBufferGeometry;
+        createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry;
         createTexture2D(): ITexture2D;
         createTextureCubeMap(): ITextureCubeMap;
         gl: WebGLRenderingContext;
@@ -1495,7 +1505,7 @@ declare module EIGHT {
         contextGain(manager: IContextProvider): void;
         contextLost(canvasId: number): void;
         createArrayBuffer(): IBuffer;
-        createBufferGeometry(elements: GeometryElements, usage?: number): IBufferGeometry;
+        createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry;
         createElementArrayBuffer(): IBuffer;
         createTexture2D(): ITexture2D;
         createTextureCubeMap(): ITextureCubeMap;
@@ -1510,21 +1520,21 @@ declare module EIGHT {
         stop(): void;
     }
 
-    class AxialGeometry extends Geometry {
+    class AxialSimplexGeometry extends SimplexGeometry {
         axis: Vector3;
         constructor(axis: Cartesian3, type: string)
     }
 
-    class SliceGeometry extends AxialGeometry {
+    class SliceSimplexGeometry extends AxialSimplexGeometry {
         constructor(axis: Cartesian3, type: string)
     }
 
-    class ArrowGeometry extends Geometry {
+    class ArrowSimplexGeometry extends SimplexGeometry {
         vector: Vector3;
         constructor(type?: string)
     }
 
-    class VortexGeometry extends Geometry {
+    class VortexSimplexGeometry extends SimplexGeometry {
         generator: Spinor3;
         constructor(type?: string)
     }
@@ -1532,7 +1542,7 @@ declare module EIGHT {
     /**
      *
      */
-    class RingGeometry extends SliceGeometry {
+    class RingSimplexGeometry extends SliceSimplexGeometry {
         innerRadius: number;
         outerRadius: number;
         axis: Vector3;
@@ -1545,7 +1555,7 @@ declare module EIGHT {
     /**
      *
      */
-    class BarnGeometry extends Geometry {
+    class BarnSimplexGeometry extends SimplexGeometry {
         a: Vector3;
         b: Vector3;
         c: Vector3;
@@ -1556,7 +1566,19 @@ declare module EIGHT {
     /**
      *
      */
-    class ConeGeometry extends SliceGeometry {
+    class ConeGeometry implements IGeometry {
+        public radius: number;
+        public height: number;
+        public axis: Vector3;
+        constructor(radius: number, height: number, axis: Cartesian3);
+        regenerate(): void
+        toPrimitives(): DrawPrimitive[]
+    }
+
+    /**
+     *
+     */
+    class ConeSimplexGeometry extends SliceSimplexGeometry {
         public radiusTop: number;
         public radius: number;
         public height: number;
@@ -1574,11 +1596,18 @@ declare module EIGHT {
             thetaStart?: number,
             thetaLength?: number);
     }
-
     /**
      *
      */
-    class CuboidGeometry extends Geometry {
+    class CuboidGeometry implements IGeometry {
+        constructor();
+        regenerate(): void;
+        toPrimitives(): DrawPrimitive[];
+    }
+    /**
+     *
+     */
+    class CuboidSimplexGeometry extends SimplexGeometry {
         a: Vector3;
         b: Vector3;
         c: Vector3;
@@ -1586,7 +1615,7 @@ declare module EIGHT {
         constructor(a?: Cartesian3, b?: Cartesian3, c?: Cartesian3, k?: number, subdivide?: number, boundary?: number);
     }
 
-    class CylinderGeometry extends SliceGeometry {
+    class CylinderSimplexGeometry extends SliceSimplexGeometry {
         radius: number;
         height: number;
         start: Vector3;
@@ -1602,27 +1631,27 @@ declare module EIGHT {
         )
     }
 
-    class DodecahedronGeometry extends PolyhedronGeometry {
+    class DodecahedronSimplexGeometry extends PolyhedronSimplexGeometry {
         constructor(radius?: number, detail?: number);
     }
 
-    class OctahedronGeometry extends PolyhedronGeometry {
+    class OctahedronSimplexGeometry extends PolyhedronSimplexGeometry {
         constructor(radius?: number, detail?: number);
     }
 
-    class IcosahedronGeometry extends PolyhedronGeometry {
+    class IcosahedronSimplexGeometry extends PolyhedronSimplexGeometry {
         constructor(radius?: number, detail?: number);
     }
 
-    class PolyhedronGeometry extends Geometry {
+    class PolyhedronSimplexGeometry extends SimplexGeometry {
         constructor(vertices: number[], indices: number[], radius?: number, detail?: number);
     }
 
-    class RevolutionGeometry extends Geometry {
+    class RevolutionSimplexGeometry extends SimplexGeometry {
         constructor(points: Vector3[], generator: Spinor3, segments: number, phiStart: number, phiLength: number, attitude: Spinor3)
     }
 
-    class Simplex1Geometry extends Geometry {
+    class Simplex1Geometry extends SimplexGeometry {
         head: Vector3;
         tail: Vector3;
         constructor();
@@ -1632,7 +1661,7 @@ declare module EIGHT {
     /**
      *
      */
-    class SphericalPolarGeometry extends SliceGeometry {
+    class SphericalPolarSimplexGeometry extends SliceSimplexGeometry {
         radius: number;
         phiLength: number;
         phiStart: Vector3;
@@ -1650,19 +1679,19 @@ declare module EIGHT {
     /**
      *
      */
-    class SurfaceGeometry extends Geometry {
+    class GridSimplexGeometry extends SimplexGeometry {
         constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number)
     }
 
-    class TetrahedronGeometry extends PolyhedronGeometry {
+    class TetrahedronSimplexGeometry extends PolyhedronSimplexGeometry {
         constructor(radius?: number, detail?: number)
     }
 
-    class KleinBottleGeometry extends SurfaceGeometry {
+    class KleinBottleSimplexGeometry extends GridSimplexGeometry {
         constructor(uSegments: number, vSegments: number)
     }
 
-    class MobiusStripGeometry extends SurfaceGeometry {
+    class MobiusStripSimplexGeometry extends GridSimplexGeometry {
         constructor(uSegments: number, vSegments: number)
     }
 
@@ -1703,11 +1732,11 @@ declare module EIGHT {
     /**
      *
      */
-    class Drawable<G extends GeometryElements, M extends IMaterial> implements IDrawable {
-        geometry: G;
+    class Drawable<M extends IMaterial> implements IDrawable {
+        primitives: DrawPrimitive[];
         material: M;
         name: string;
-        constructor(geometry: G, material: M);
+        constructor(primitives: DrawPrimitive[], material: M);
         addRef(): number;
         release(): number;
         draw(canvasId: number): void;
@@ -1780,7 +1809,7 @@ declare module EIGHT {
     }
 
     class SmartMaterialBuilder {
-        constructor(elements?: GeometryElements);
+        constructor(elements?: DrawPrimitive);
         public attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
         public uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
         public build(contexts: IContextMonitor[]): Material;
@@ -1960,8 +1989,8 @@ declare module EIGHT {
         getFacet(facetName: string): IFacet;
         removeFacet(facetName: string): void;
 
-        addGeometry(name: string, geometry: Geometry): void;
-        getGeometry(name: string): Geometry;
+        addGeometry(name: string, geometry: SimplexGeometry): void;
+        getGeometry(name: string): SimplexGeometry;
         removeGeometry(name: string): void;
 
         addScene(scene: IDrawList, sceneName: string): void;
@@ -1994,7 +2023,7 @@ declare module EIGHT {
         animateDrawable(drawableName: string, facetName: string, propName: string, animation: IAnimation): number;
         attitude(drawableName: string, attitude: Spinor3Coords, duration?: number, callback?: () => any): number;
         color(drawableName: string, color: ColorRGB, duration?: number, callback?: () => any): number;
-        createDrawable(drawableName: string, geometry: Geometry): number;
+        createDrawable(drawableName: string, geometry: SimplexGeometry): number;
         cuboid(drawableName: string, a?: Cartesian3, b?: Cartesian3, c?: Cartesian3, k?: number, subdivide?: number, boundary?: number): number;
         destroyDrawable(drawableName: string): number;
         position(drawableName: string, position: Cartesian3, duration?: number, callback?: () => any): number;
@@ -2026,8 +2055,8 @@ declare module EIGHT {
         getFacet(facetName: string): IFacet
         removeFacet(facetName: string): void;
 
-        addGeometry(name: string, geometry: Geometry): void;
-        getGeometry(name: string): Geometry;
+        addGeometry(name: string, geometry: SimplexGeometry): void;
+        getGeometry(name: string): SimplexGeometry;
         removeGeometry(name: string): void;
 
         addScene(scene: IDrawList, sceneName: string): void;
@@ -2112,7 +2141,7 @@ declare module EIGHT {
     }
 
     class GeometryCommand extends AbstractSlideCommand {
-        constructor(name: string, geometry: Geometry);
+        constructor(name: string, geometry: SimplexGeometry);
     }
 
     class TestCommand extends AbstractSlideCommand {
@@ -2125,7 +2154,7 @@ declare module EIGHT {
     ///////////////////////////////////////////////////////////////////////////////
     class Topology {
         constructor(numVertices: number);
-        toElements(): GeometryElements;
+        toDrawPrimitive(): DrawPrimitive;
     }
 
     class PointTopology extends Topology {
@@ -2141,9 +2170,12 @@ declare module EIGHT {
     }
 
     class GridTopology extends MeshTopology {
-        dimensions: number[];
-        constructor(segmentCounts: number[]);
-        vertex(coordinates: number[]): Vertex;
+        uLength: number;
+        uSegments: number;
+        vLength: number;
+        vSegments: number;
+        constructor(uSegments: number, vSegments: number);
+        vertex(uIndex: number, vIndex: number): Vertex;
     }
 
     ///////////////////////////////////////////////////////////////////////////////

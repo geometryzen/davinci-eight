@@ -1,5 +1,5 @@
 import DrawMode = require('../core/DrawMode');
-import GeometryElements = require('../geometries/GeometryElements');
+import DrawPrimitive = require('../geometries/DrawPrimitive');
 import Vertex = require('../geometries/Vertex');
 /**
  * @class Topology
@@ -35,9 +35,9 @@ declare class Topology {
      * Creates the elements in a format required for WebGL.
      * This may involve creating some redundancy in order to get WebGL efficiency.
      * Thus, we should regard the topology as normalized
-     * @method toElements
-     * @return {GeometryElements}
+     * @method toDrawPrimitive
+     * @return {DrawPrimitive}
      */
-    toElements(): GeometryElements;
+    toDrawPrimitive(): DrawPrimitive;
 }
 export = Topology;

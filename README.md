@@ -234,6 +234,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.131.0: 2015-10-15 RingGeometry
 * 2.132.0: 2015-10-16 SphericalPolarGeometry
 * 2.133.0: 2015-10-18 Topology
+* 2.134.0: 2015-10-19 GridTopology
 
 ## License
 Copyright (c) 2014-2015 David Holmes

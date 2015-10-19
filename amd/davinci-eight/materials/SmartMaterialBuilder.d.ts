@@ -1,5 +1,5 @@
 import IContextMonitor = require('../core/IContextMonitor');
-import GeometryElements = require('../geometries/GeometryElements');
+import DrawPrimitive = require('../geometries/DrawPrimitive');
 import Material = require('../materials/Material');
 /**
  * @class SmartMaterialBuilder
@@ -10,16 +10,16 @@ declare class SmartMaterialBuilder {
     /**
      * @class SmartMaterialBuilder
      * @constructor
-     * @param elements [GeometryElements]
+     * @param primitive [DrawPrimitive]
      */
-    constructor(elements?: GeometryElements);
+    constructor(primitive?: DrawPrimitive);
     /**
-     * Declares that the material should have an `attribute` with the specified name and size.
+     * Declares that the material should have an `attribute` with the specified name and chunkSize.
      * @method attribute
      * @param name {string}
-     * @param size {number}
+     * @param chunkSize {number}
      */
-    attribute(name: string, size: number): SmartMaterialBuilder;
+    attribute(name: string, chunkSize: number): SmartMaterialBuilder;
     /**
      * Declares that the material should have a `uniform` with the specified name and type.
      * @method uniform

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../uniforms/ColorFacet', '../../geometries/CuboidGeometry', '../../scene/Drawable', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex', '../../math/Vector3'], function (require, exports, ColorFacet, CuboidGeometry, Drawable, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex, Vector3) {
+define(["require", "exports", '../../uniforms/ColorFacet', '../../geometries/CuboidSimplexGeometry', '../../scene/Drawable', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex', '../../math/Vector3'], function (require, exports, ColorFacet, CuboidSimplexGeometry, Drawable, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex, Vector3) {
     function createMaterial(geometry) {
         switch (geometry.meta.k) {
             case Simplex.POINT:
@@ -45,16 +45,16 @@ define(["require", "exports", '../../uniforms/ColorFacet', '../../geometries/Cub
             _super.prototype.destructor.call(this);
         };
         CreateCuboidDrawable.prototype.redo = function (slide, director) {
-            var geometry = new CuboidGeometry();
+            var geometry = new CuboidSimplexGeometry();
             geometry.a.copy(this.a);
             geometry.b.copy(this.b);
             geometry.c.copy(this.c);
             geometry.k = this.k;
             geometry.subdivide(this.subdivide);
             geometry.boundary(this.boundary);
-            var elements = geometry.toElements();
+            var primitives = geometry.toPrimitives();
             var material = createMaterial(geometry);
-            var drawable = new Drawable(elements, material);
+            var drawable = new Drawable(primitives, material);
             drawable.setFacet('model', new ModelFacet()).decRef();
             drawable.setFacet('color', new ColorFacet()).decRef().setRGB(1, 1, 1);
             director.addDrawable(drawable, this.name);

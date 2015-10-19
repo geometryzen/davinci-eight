@@ -27,7 +27,7 @@ declare class Vector2 extends VectorN<number> implements Cartesian2, LinearEleme
     setX(x: number): Vector2;
     setY(y: number): Vector2;
     copy(v: Cartesian2): Vector2;
-    add(v: Cartesian2): Vector2;
+    add(v: Cartesian2, alpha?: number): Vector2;
     addScalar(s: number): Vector2;
     sum(a: Cartesian2, b: Cartesian2): Vector2;
     sub(v: Cartesian2): Vector2;

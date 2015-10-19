@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/GeometryElements', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, GeometryElements, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
+define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/DrawPrimitive', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, DrawPrimitive, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Drawable';
@@ -497,8 +497,8 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             /**
              *
              */
-            createBufferGeometry: function (elements, usage) {
-                expectArg('elements', elements).toSatisfy(elements instanceof GeometryElements, "elements must be an instance of GeometryElements");
+            createBufferGeometry: function (primitive, usage) {
+                expectArg('primitive', primitive).toSatisfy(primitive instanceof DrawPrimitive, "primitive must be an instance of DrawPrimitive");
                 if (isDefined(usage)) {
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
                 }
@@ -519,24 +519,24 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 if (isDefined(gl)) {
-                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices), usage);
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
                 }
                 else {
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
                 }
                 indexBuffer.unbind();
                 var attributes = new StringIUnknownMap('createBufferGeometry');
-                var names = Object.keys(elements.attributes);
+                var names = Object.keys(primitive.attributes);
                 var namesLength = names.length;
                 var i;
                 for (i = 0; i < namesLength; i++) {
                     var name_1 = names[i];
                     var buffer = kahuna.createArrayBuffer();
                     buffer.bind();
-                    var vertexAttrib = elements.attributes[name_1];
+                    var vertexAttrib = primitive.attributes[name_1];
                     var data = vertexAttrib.values;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
-                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.chunkSize, false, 0, 0);
                     attributes.put(name_1, attribute);
                     attribute.release();
                     buffer.unbind();
@@ -544,7 +544,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                 }
                 // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
                 // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-                var drawCommand = new GeometryDataCommand(elements.mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
+                var drawCommand = new GeometryDataCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
                 _blocks.put(mesh.uuid, block);
                 block.release();

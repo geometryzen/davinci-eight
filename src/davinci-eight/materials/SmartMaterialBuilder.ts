@@ -1,6 +1,6 @@
 import IContextMonitor = require('../core/IContextMonitor');
 import getAttribVarName = require('../core/getAttribVarName');
-import GeometryElements = require('../geometries/GeometryElements');
+import DrawPrimitive = require('../geometries/DrawPrimitive');
 import getUniformVarName = require('../core/getUniformVarName');
 import glslAttribType = require('../programs/glslAttribType');
 import Material = require('../materials/Material');
@@ -11,16 +11,16 @@ import UniformMetaInfo = require('../core/UniformMetaInfo');
 import vColorRequired = require('../programs/vColorRequired');
 import vLightRequired = require('../programs/vLightRequired');
 
-function computeAttribParams(values: { [key: string]: { size: number, name?: string}}) {
+function computeAttribParams(values: { [key: string]: { chunkSize: number, name?: string}}) {
   var result: { [key: string]: { glslType: string, name?: string}} = {}
   let keys = Object.keys(values);
   let keysLength = keys.length;
   for (var i = 0; i < keysLength;i++) {
     let key = keys[i];
     let attribute = values[key];
-    let size = mustBeInteger('size', attribute.size);
+    let chunkSize = mustBeInteger('chunkSize', attribute.chunkSize);
     let varName = getAttribVarName(attribute, key);
-    result[varName] = {glslType: glslAttribType(key, size)};
+    result[varName] = {glslType: glslAttribType(key, chunkSize)};
   }
   return result;
 }
@@ -42,36 +42,36 @@ function updateUniformMeta(uniforms: {[key: string]: UniformMetaInfo}[]) {
  * @class SmartMaterialBuilder
  */
 class SmartMaterialBuilder {
-  private aMeta: { [key: string]: { size: number; } } = {};
+  private aMeta: { [key: string]: { chunkSize: number; } } = {};
   private uParams: { [key: string]: { glslType: string; name?: string } } = {};
   /**
    * @class SmartMaterialBuilder
    * @constructor
-   * @param elements [GeometryElements]
+   * @param primitive [DrawPrimitive]
    */
-  constructor(elements?: GeometryElements) {
-    if (elements) {
-      let attributes = elements.attributes;
+  constructor(primitive?: DrawPrimitive) {
+    if (primitive) {
+      let attributes = primitive.attributes;
       let keys = Object.keys(attributes);
       let keysLength = keys.length;
       for (var i = 0; i < keysLength; i++) {
         let key = keys[i];
         let attribute = attributes[key];
-        this.attribute(key, attribute.size);
+        this.attribute(key, attribute.chunkSize);
       }
     }
   }
   /**
-   * Declares that the material should have an `attribute` with the specified name and size.
+   * Declares that the material should have an `attribute` with the specified name and chunkSize.
    * @method attribute
    * @param name {string}
-   * @param size {number}
+   * @param chunkSize {number}
    */
-  public attribute(name: string, size: number): SmartMaterialBuilder {
+  public attribute(name: string, chunkSize: number): SmartMaterialBuilder {
     mustBeString('name', name);
-    mustBeInteger('size', size);
+    mustBeInteger('chunkSize', chunkSize);
 
-    this.aMeta[name] = { size: size };
+    this.aMeta[name] = { chunkSize: chunkSize };
     return this;
   }
   /**
@@ -94,7 +94,7 @@ class SmartMaterialBuilder {
    */
   public build(contexts: IContextMonitor[]): Material {
     // FIXME: Push this calculation down into the functions.
-    // Then the data structures are based on size.
+    // Then the data structures are based on chunkSize.
     // uniforms based on numeric type?
     let aParams = computeAttribParams(this.aMeta);
     let vColor = vColorRequired(aParams, this.uParams);

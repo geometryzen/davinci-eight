@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/isDefined', '../collections/NumberIUnknownMap', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, NumberIUnknownMap, Shareable, StringIUnknownMap) {
+define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, IUnknownArray, NumberIUnknownMap, Shareable, StringIUnknownMap) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -13,7 +13,8 @@ define(["require", "exports", '../checks/isDefined', '../collections/NumberIUnkn
     }
     /**
      * @class Drawable
-     * @implements IDrawable
+     * @extends Shareable
+     * @extends IDrawable
      */
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
@@ -22,22 +23,22 @@ define(["require", "exports", '../checks/isDefined', '../collections/NumberIUnkn
         /**
          * @class Drawable
          * @constructor
-         * @param geometry {G}
+         * @param primitives {DrawPrimitive[]}
          * @param material {M}
          * @param model {U}
          */
-        function Drawable(geometry, material) {
+        function Drawable(primitives, material) {
             _super.call(this, LOGGING_NAME);
-            this.geometry = geometry;
+            this.primitives = primitives;
             this._material = material;
             this._material.addRef();
-            this.buffersByCanvasid = new NumberIUnknownMap();
+            this.buffersByCanvasId = new NumberIUnknownMap();
             this.uniforms = new StringIUnknownMap(LOGGING_NAME);
         }
         Drawable.prototype.destructor = function () {
-            this.geometry = void 0;
-            this.buffersByCanvasid.release();
-            this.buffersByCanvasid = void 0;
+            this.primitives = void 0;
+            this.buffersByCanvasId.release();
+            this.buffersByCanvasId = void 0;
             this._material.release();
             this._material = void 0;
             this.uniforms.release();
@@ -48,7 +49,7 @@ define(["require", "exports", '../checks/isDefined', '../collections/NumberIUnkn
             // So we may as well test that condition now.
             if (isDefined(canvasId)) {
                 var material = this._material;
-                var buffers = this.buffersByCanvasid.get(canvasId);
+                var buffers = this.buffersByCanvasId.getWeakRef(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
                     // FIXME: The name is unused. Think we should just have a list
@@ -56,10 +57,12 @@ define(["require", "exports", '../checks/isDefined', '../collections/NumberIUnkn
                     this.uniforms.forEach(function (name, uniform) {
                         uniform.setUniforms(material, canvasId);
                     });
-                    buffers.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API?
-                    buffers.draw();
-                    buffers.unbind();
-                    buffers.release();
+                    for (var i = 0; i < buffers.length; i++) {
+                        var buffer = buffers.getWeakRef(i);
+                        buffer.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API?
+                        buffer.draw();
+                        buffer.unbind();
+                    }
                 }
             }
         };
@@ -68,8 +71,15 @@ define(["require", "exports", '../checks/isDefined', '../collections/NumberIUnkn
         };
         Drawable.prototype.contextGain = function (manager) {
             // 1. Replace the existing buffer geometry if we have geometry. 
-            if (this.geometry) {
-                this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(this.geometry));
+            if (this.primitives) {
+                for (var i = 0; i < this.primitives.length; i++) {
+                    var primitive = this.primitives[i];
+                    if (!this.buffersByCanvasId.exists(manager.canvasId)) {
+                        this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray([], 'Drawable.buffers'));
+                    }
+                    var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId);
+                    buffers.pushWeakRef(manager.createBufferGeometry(primitive));
+                }
             }
             else {
                 console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId);

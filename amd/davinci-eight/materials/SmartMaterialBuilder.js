@@ -6,9 +6,9 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         for (var i = 0; i < keysLength; i++) {
             var key = keys[i];
             var attribute = values[key];
-            var size = mustBeInteger('size', attribute.size);
+            var chunkSize = mustBeInteger('chunkSize', attribute.chunkSize);
             var varName = getAttribVarName(attribute, key);
-            result[varName] = { glslType: glslAttribType(key, size) };
+            result[varName] = { glslType: glslAttribType(key, chunkSize) };
         }
         return result;
     }
@@ -31,32 +31,32 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         /**
          * @class SmartMaterialBuilder
          * @constructor
-         * @param elements [GeometryElements]
+         * @param primitive [DrawPrimitive]
          */
-        function SmartMaterialBuilder(elements) {
+        function SmartMaterialBuilder(primitive) {
             this.aMeta = {};
             this.uParams = {};
-            if (elements) {
-                var attributes = elements.attributes;
+            if (primitive) {
+                var attributes = primitive.attributes;
                 var keys = Object.keys(attributes);
                 var keysLength = keys.length;
                 for (var i = 0; i < keysLength; i++) {
                     var key = keys[i];
                     var attribute = attributes[key];
-                    this.attribute(key, attribute.size);
+                    this.attribute(key, attribute.chunkSize);
                 }
             }
         }
         /**
-         * Declares that the material should have an `attribute` with the specified name and size.
+         * Declares that the material should have an `attribute` with the specified name and chunkSize.
          * @method attribute
          * @param name {string}
-         * @param size {number}
+         * @param chunkSize {number}
          */
-        SmartMaterialBuilder.prototype.attribute = function (name, size) {
+        SmartMaterialBuilder.prototype.attribute = function (name, chunkSize) {
             mustBeString('name', name);
-            mustBeInteger('size', size);
-            this.aMeta[name] = { size: size };
+            mustBeInteger('chunkSize', chunkSize);
+            this.aMeta[name] = { chunkSize: chunkSize };
             return this;
         };
         /**
@@ -78,7 +78,7 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
          */
         SmartMaterialBuilder.prototype.build = function (contexts) {
             // FIXME: Push this calculation down into the functions.
-            // Then the data structures are based on size.
+            // Then the data structures are based on chunkSize.
             // uniforms based on numeric type?
             var aParams = computeAttribParams(this.aMeta);
             var vColor = vColorRequired(aParams, this.uParams);

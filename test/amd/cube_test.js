@@ -3,12 +3,12 @@ define(
   'davinci-eight/geometries/Simplex',
   'davinci-eight/geometries/Vertex',
   'davinci-eight/math/Vector3',
-  'davinci-eight/geometries/toGeometryData',
-  'davinci-eight/geometries/toGeometryMeta',
+  'davinci-eight/geometries/simplicesToDrawPrimitive',
+  'davinci-eight/geometries/simplicesToGeometryMeta',
   'davinci-eight/geometries/cube',
   'davinci-eight/core/Symbolic'
 ],
-function(Simplex, Vertex, Vector3, toGeometryData, toGeometryMeta, cube, Symbolic)
+function(Simplex, Vertex, Vector3, simplicesToDrawPrimitive, simplicesToGeometryMeta, cube, Symbolic)
 {
   var SQUARES_PER_CUBE = 6;
   var TRIANGLES_PER_SQUARE = 2;
@@ -21,8 +21,8 @@ function(Simplex, Vertex, Vector3, toGeometryData, toGeometryMeta, cube, Symboli
   describe("cube", function() {
     describe("everyting", function() {
       var simplices = cube(2); // Simplex[]
-      var geometryMeta = toGeometryMeta(simplices);
-      var geometryData = toGeometryData(simplices, geometryMeta);
+      var geometryMeta = simplicesToGeometryMeta(simplices);
+      var geometryData = simplicesToDrawPrimitive(simplices, geometryMeta);
       var indices = geometryData.indices;
       var positions = geometryData.attributes[Symbolic.ATTRIBUTE_POSITION].values;
       var normals = geometryData.attributes[Symbolic.ATTRIBUTE_NORMAL].values;

@@ -1,5 +1,5 @@
 import Canvas3D = require('../scene/Canvas3D');
-import Geometry = require('../geometries/Geometry');
+import SimplexGeometry = require('../geometries/SimplexGeometry');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
 import IFacet = require('../core/IFacet');
@@ -13,9 +13,9 @@ interface IDirector {
     addFacet(facet: IFacet, facetName: string): void;
     getFacet(facetName: string): IFacet;
     removeFacet(facetName: string): IFacet;
-    addGeometry(name: string, geometry: Geometry): void;
-    getGeometry(name: string): Geometry;
-    removeGeometry(name: string): Geometry;
+    addGeometry(name: string, geometry: SimplexGeometry): void;
+    getGeometry(name: string): SimplexGeometry;
+    removeGeometry(name: string): SimplexGeometry;
     addScene(scene: IDrawList, sceneName: string): void;
     getScene(sceneName: string): IDrawList;
     removeScene(sceneName: string): IDrawList;

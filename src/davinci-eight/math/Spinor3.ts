@@ -75,11 +75,16 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   }
   /**
    * @method add
-   * @param rhs {Spinor3Coords}
+   * @param spinor {Spinor3Coords}
+   * @param alpha {number}
    * @return {Spinor3}
    */
-  add(rhs: Spinor3Coords): Spinor3 {
-    return this;
+  add(spinor: Spinor3Coords, alpha: number = 1): Spinor3 {
+    this.yz += spinor.yz * alpha
+    this.zx += spinor.zx * alpha
+    this.xy += spinor.xy * alpha
+    this.w  += spinor.w  * alpha
+    return this
   }
   /**
    * @method clone

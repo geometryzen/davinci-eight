@@ -1,4 +1,4 @@
-import Geometry = require('../geometries/Geometry');
+import SimplexGeometry = require('../geometries/SimplexGeometry');
 import IAnimation = require('../slideshow/IAnimation');
 import IDirector = require('../slideshow/IDirector');
 import ISlide = require('../slideshow/ISlide');
@@ -14,7 +14,7 @@ declare class SlideCommands extends Shareable implements ISlideCommand {
     animateDrawable(drawableName: string, facetName: string, propName: string, animation: IAnimation): number;
     attitude(drawableName: string, attitude: Spinor3Coords, duration?: number, callback?: () => any): number;
     color(drawableName: string, color: ColorRGB, duration?: number, callback?: () => any): number;
-    createDrawable(drawableName: string, geometry: Geometry): number;
+    createDrawable(drawableName: string, geometry: SimplexGeometry): number;
     cuboid(drawableName: string, a?: Cartesian3, b?: Cartesian3, c?: Cartesian3, k?: number, subdivide?: number, boundary?: number): number;
     destroyDrawable(drawableName: string): number;
     position(drawableName: string, position: Cartesian3, duration?: number, callback?: () => any): number;

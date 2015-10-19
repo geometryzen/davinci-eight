@@ -1,9 +1,9 @@
 import Cartesian3 = require('../../math/Cartesian3')
 
 import ColorFacet = require('../../uniforms/ColorFacet')
-import CuboidGeometry = require('../../geometries/CuboidGeometry')
+import CuboidSimplexGeometry = require('../../geometries/CuboidSimplexGeometry')
 import Drawable = require('../../scene/Drawable')
-import Geometry = require('../../geometries/Geometry')
+import SimplexGeometry = require('../../geometries/SimplexGeometry')
 import ISlide = require('../../slideshow/ISlide')
 import ISlideCommand = require('../../slideshow/ISlideCommand')
 import IMaterial = require('../../core/IMaterial')
@@ -16,7 +16,7 @@ import Shareable = require('../../utils/Shareable')
 import Simplex = require('../../geometries/Simplex')
 import Vector3 = require('../../math/Vector3')
 
-function createMaterial(geometry: Geometry): IMaterial
+function createMaterial(geometry: SimplexGeometry): IMaterial
 {
   switch(geometry.meta.k)
   {
@@ -64,16 +64,16 @@ class CreateCuboidDrawable extends Shareable implements ISlideCommand
   }
   redo(slide: ISlide, director: IDirector)
   {
-    var geometry = new CuboidGeometry()
+    var geometry = new CuboidSimplexGeometry()
     geometry.a.copy(this.a)
     geometry.b.copy(this.b)
     geometry.c.copy(this.c)
     geometry.k = this.k
     geometry.subdivide(this.subdivide)
     geometry.boundary(this.boundary)
-    var elements = geometry.toElements()
+    var primitives = geometry.toPrimitives()
     var material = createMaterial(geometry)
-    var drawable = new Drawable(elements, material)
+    var drawable = new Drawable(primitives, material)
     drawable.setFacet('model', new ModelFacet()).decRef()
     drawable.setFacet('color', new ColorFacet()).decRef().setRGB(1, 1, 1)
     director.addDrawable(drawable, this.name)

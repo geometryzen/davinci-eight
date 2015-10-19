@@ -1,4 +1,4 @@
-import Geometry = require('../geometries/Geometry')
+import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Slide = require('../slideshow/Slide')
 import Canvas3D = require('../scene/Canvas3D')
 import IDrawable = require('../core/IDrawable')
@@ -44,9 +44,9 @@ class Director extends Shareable implements IDirector {
    */
   private drawables: StringIUnknownMap<IDrawable>;
   /**
-   * (name: string) => Geometry
+   * (name: string) => SimplexGeometry
    */
-  private geometries: StringIUnknownMap<Geometry>;
+  private geometries: StringIUnknownMap<SimplexGeometry>;
   /**
    * (name: string) => IFacet
    */
@@ -70,7 +70,7 @@ class Director extends Shareable implements IDirector {
     this.contexts = new NumberIUnknownMap<Canvas3D>()
     this.scenes = new StringIUnknownMap<IDrawList>('Director.scenes')
     this.drawables = new StringIUnknownMap<IDrawable>('Director.drawables')
-    this.geometries = new StringIUnknownMap<Geometry>('Director.geometries')
+    this.geometries = new StringIUnknownMap<SimplexGeometry>('Director.geometries')
     this.facets = new StringIUnknownMap<IFacet>('Director.facets')
     this.sceneNamesByCanvasId = {}
     this.facetsByCanvasId = new NumberIUnknownMap<StringIUnknownMap<IFacet>>();
@@ -127,13 +127,13 @@ class Director extends Shareable implements IDirector {
   removeFacet(facetName: string): IFacet {
     return this.facets.remove(facetName)
   }
-  addGeometry(name: string, geometry: Geometry): void {
+  addGeometry(name: string, geometry: SimplexGeometry): void {
     this.geometries.put(name, geometry)
   }
-  removeGeometry(name: string): Geometry {
+  removeGeometry(name: string): SimplexGeometry {
     return this.geometries.remove(name)
   }
-  getGeometry(name: string): Geometry {
+  getGeometry(name: string): SimplexGeometry {
     return this.geometries.get(name)
   }
   addScene(scene: IDrawList, sceneName: string): void {

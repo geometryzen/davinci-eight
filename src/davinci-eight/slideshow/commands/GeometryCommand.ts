@@ -1,4 +1,4 @@
-import Geometry = require('../geometries/Geometry')
+import SimplexGeometry = require('../geometries/SimplexGeometry')
 import ISlide = require('../slideshow/ISlide')
 import ISlideCommand = require('../slideshow/ISlideCommand')
 import IDirector = require('../slideshow/IDirector')
@@ -6,8 +6,8 @@ import Shareable = require('../utils/Shareable')
 
 class GeometryCommand extends Shareable implements ISlideCommand {
   private name: string;
-  private geometry: Geometry;
-  constructor(name: string, geometry: Geometry) {
+  private geometry: SimplexGeometry;
+  constructor(name: string, geometry: SimplexGeometry) {
     super('GeometryCommand')
     this.name = name
     this.geometry = geometry

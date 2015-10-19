@@ -4,23 +4,23 @@ define(
   'davinci-eight/geometries/Vertex',
   'davinci-eight/math/Vector3',
   'davinci-eight/geometries/triangle',
-  'davinci-eight/geometries/toGeometryData',
+  'davinci-eight/geometries/simplicesToDrawPrimitive',
   'davinci-eight/core/Symbolic',
-  'davinci-eight/geometries/toGeometryMeta',
+  'davinci-eight/geometries/simplicesToGeometryMeta',
   'davinci-eight/geometries/computeFaceNormals'
 ],
-function(Simplex, Vertex, Vector3, triangle, toGeometryData, Symbolic, toGeometryMeta, computeFaceNormals)
+function(Simplex, Vertex, Vector3, triangle, simplicesToDrawPrimitive, Symbolic, simplicesToGeometryMeta, computeFaceNormals)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
   var COORDS_PER_NORMAL = 3;
   var COORDS_PER_TEXTURE = 2;
 
-  describe("toGeometryData", function() {
+  describe("simplicesToDrawPrimitive", function() {
     describe("zero triangles", function() {
       it("should create empty arrays", function() {
         var geometry = [];
-        var geoInfo = toGeometryMeta(geometry);
+        var geoInfo = simplicesToGeometryMeta(geometry);
         expect(typeof geoInfo).toBe('undefined');
       });
     });
@@ -32,8 +32,8 @@ function(Simplex, Vertex, Vector3, triangle, toGeometryData, Symbolic, toGeometr
       var a = geometry[0].vertices[0];
       var b = geometry[0].vertices[1];
       var c = geometry[0].vertices[2];
-      var geoInfo = toGeometryMeta(geometry);
-      var elements = toGeometryData(geometry, geoInfo);
+      var geoInfo = simplicesToGeometryMeta(geometry);
+      var elements = simplicesToDrawPrimitive(geometry, geoInfo);
       var indices = elements.indices;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values;
       it("indices.length", function() {
@@ -89,8 +89,8 @@ function(Simplex, Vertex, Vector3, triangle, toGeometryData, Symbolic, toGeometr
       var geometry = [];
       geometry.push(f012);
       geometry.push(f023);
-      var geoInfo = toGeometryMeta(geometry);
-      var elements = toGeometryData(geometry, geoInfo);
+      var geoInfo = simplicesToGeometryMeta(geometry);
+      var elements = simplicesToDrawPrimitive(geometry, geoInfo);
       var indices = elements.indices;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values;
       it("indices.length", function() {
@@ -169,8 +169,8 @@ function(Simplex, Vertex, Vector3, triangle, toGeometryData, Symbolic, toGeometr
       geometry.push(f013);
       geometry.push(f032);
       geometry.push(f021);
-      var geoInfo = toGeometryMeta(geometry);
-      var elements = toGeometryData(geometry, geoInfo);
+      var geoInfo = simplicesToGeometryMeta(geometry);
+      var elements = simplicesToDrawPrimitive(geometry, geoInfo);
       var indices = elements.indices;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values;
       it("indices.length", function() {

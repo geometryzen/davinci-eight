@@ -1,6 +1,6 @@
 import IContextConsumer = require('../core/IContextConsumer');
 import IContextMonitor = require('../core/IContextMonitor');
-import GeometryElements = require('../geometries/GeometryElements');
+import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IBuffer = require('../core/IBuffer');
 import IBufferGeometry = require('../geometries/IBufferGeometry');
 import ITexture2D = require('../core/ITexture2D');
@@ -35,11 +35,11 @@ interface IContextProvider extends IContextMonitor {
     createArrayBuffer(): IBuffer;
     /**
      * @method createBufferGeometry
-     * @param elements {GeometryElements}
+     * @param primitive {DrawPrimitive}
      * @param usage [number]
      * @return {IBufferGeometry}
      */
-    createBufferGeometry(elements: GeometryElements, usage?: number): IBufferGeometry;
+    createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry;
     /**
      * @method createElementArrayBuffer
      * @return {IBuffer}

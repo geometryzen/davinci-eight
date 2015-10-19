@@ -63,13 +63,20 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
         this.data[2] = value;
     }
     /**
-     * Performs in-place addition of vectors.
+     * <p>
+     * Adds <code>alpha * vector</code> to this <code>Vector3</code>.
+     * </p>
      *
      * @method add
-     * @param v {Vector3} The vector to add to this vector.
+     * @param vector {Vector3} The vector to add to this vector.
+     * @param alpha [number = 1] The
+     * @return {Vector3} 
      */
-    add(v: Cartesian3): Vector3 {
-        return this.sum(this, v);
+    add(vector: Cartesian3, alpha: number = 1): Vector3 {
+        this.x += vector.x * alpha
+        this.y += vector.y * alpha
+        this.z += vector.z * alpha
+        return this
     }
     sum(a: Cartesian3, b: Cartesian3): Vector3 {
         this.x = a.x + b.x;
@@ -95,7 +102,7 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
      * The result is applied to this vector.
      * Strictly speaking, this method does not make much sense because the dimensions
      * of the square matrix and column vector don't match.
-     * TODO: Used by TubeGeometry.
+     * TODO: Used by TubeSimplexGeometry.
      * @method applyMatrix
      * @param m The 4x4 matrix that pre-multiplies this column vector.
      */
@@ -288,7 +295,7 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
      */
     __add__(rhs: Vector3): Vector3 {
         if (rhs instanceof Vector3) {
-            return this.clone().add(rhs);
+            return this.clone().add(rhs, 1.0);
         }
         else {
             return void 0;
@@ -328,7 +335,7 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
      * @return {Vector3}
      */
     static lerp(a: Cartesian3, b: Cartesian3, alpha: number): Vector3 {
-        return Vector3.copy(b).sub(a).scale(alpha).add(a)
+        return Vector3.copy(b).sub(a).scale(alpha).add(a, 1.0)
     }
     /**
      * @method random

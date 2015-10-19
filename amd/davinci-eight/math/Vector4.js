@@ -96,7 +96,12 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.w = w;
             return this;
         };
-        Vector4.prototype.add = function (rhs) {
+        Vector4.prototype.add = function (vector, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.x += vector.x * alpha;
+            this.y += vector.y * alpha;
+            this.z += vector.z * alpha;
+            this.w += vector.w * alpha;
             return this;
         };
         Vector4.prototype.sum = function (a, b) {

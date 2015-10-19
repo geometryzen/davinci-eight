@@ -7,7 +7,7 @@ import IContextConsumer = require('../core/IContextConsumer')
 import contextProxy = require('../utils/contextProxy')
 import IContextRenderer = require('../renderers/IContextRenderer')
 import core = require('../core')
-import GeometryElements = require('../geometries/GeometryElements')
+import DrawPrimitive = require('../geometries/DrawPrimitive')
 import IBuffer = require('../core/IBuffer')
 import IContextCommand = require('../core/IContextCommand')
 import IDrawList = require('../scene/IDrawList')
@@ -110,8 +110,8 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   createArrayBuffer(): IBuffer {
     return this._kahuna.createArrayBuffer()
   }
-  createBufferGeometry(elements: GeometryElements, usage?: number): IBufferGeometry {
-    return this._kahuna.createBufferGeometry(elements, usage)
+  createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry {
+    return this._kahuna.createBufferGeometry(primitive, usage)
   }
   createElementArrayBuffer(): IBuffer {
     return this._kahuna.createElementArrayBuffer()

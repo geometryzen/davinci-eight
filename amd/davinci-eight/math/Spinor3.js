@@ -86,10 +86,16 @@ define(["require", "exports", '../math/VectorN', '../math/dotVector3', '../check
         });
         /**
          * @method add
-         * @param rhs {Spinor3Coords}
+         * @param spinor {Spinor3Coords}
+         * @param alpha {number}
          * @return {Spinor3}
          */
-        Spinor3.prototype.add = function (rhs) {
+        Spinor3.prototype.add = function (spinor, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.yz += spinor.yz * alpha;
+            this.zx += spinor.zx * alpha;
+            this.xy += spinor.xy * alpha;
+            this.w += spinor.w * alpha;
             return this;
         };
         /**

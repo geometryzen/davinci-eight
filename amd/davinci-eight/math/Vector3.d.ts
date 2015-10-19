@@ -35,12 +35,16 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
      */
     z: number;
     /**
-     * Performs in-place addition of vectors.
+     * <p>
+     * Adds <code>alpha * vector</code> to this <code>Vector3</code>.
+     * </p>
      *
      * @method add
-     * @param v {Vector3} The vector to add to this vector.
+     * @param vector {Vector3} The vector to add to this vector.
+     * @param alpha [number = 1] The
+     * @return {Vector3}
      */
-    add(v: Cartesian3): Vector3;
+    add(vector: Cartesian3, alpha?: number): Vector3;
     sum(a: Cartesian3, b: Cartesian3): Vector3;
     applyMatrix3(m: Matrix3): Vector3;
     /**
@@ -48,7 +52,7 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
      * The result is applied to this vector.
      * Strictly speaking, this method does not make much sense because the dimensions
      * of the square matrix and column vector don't match.
-     * TODO: Used by TubeGeometry.
+     * TODO: Used by TubeSimplexGeometry.
      * @method applyMatrix
      * @param m The 4x4 matrix that pre-multiplies this column vector.
      */

@@ -1,4 +1,4 @@
-import Geometry = require('../geometries/Geometry');
+import SimplexGeometry = require('../geometries/SimplexGeometry');
 import Slide = require('../slideshow/Slide');
 import Canvas3D = require('../scene/Canvas3D');
 import IDrawable = require('../core/IDrawable');
@@ -37,7 +37,7 @@ declare class Director extends Shareable implements IDirector {
      */
     private drawables;
     /**
-     * (name: string) => Geometry
+     * (name: string) => SimplexGeometry
      */
     private geometries;
     /**
@@ -67,9 +67,9 @@ declare class Director extends Shareable implements IDirector {
     addFacet(facet: IFacet, facetName: string): void;
     getFacet(facetName: string): IFacet;
     removeFacet(facetName: string): IFacet;
-    addGeometry(name: string, geometry: Geometry): void;
-    removeGeometry(name: string): Geometry;
-    getGeometry(name: string): Geometry;
+    addGeometry(name: string, geometry: SimplexGeometry): void;
+    removeGeometry(name: string): SimplexGeometry;
+    getGeometry(name: string): SimplexGeometry;
     addScene(scene: IDrawList, sceneName: string): void;
     getScene(sceneName: string): IDrawList;
     removeScene(sceneName: string): IDrawList;

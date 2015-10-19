@@ -1693,13 +1693,21 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
             configurable: true
         });
         /**
-         * Performs in-place addition of vectors.
+         * <p>
+         * Adds <code>alpha * vector</code> to this <code>Vector3</code>.
+         * </p>
          *
          * @method add
-         * @param v {Vector3} The vector to add to this vector.
+         * @param vector {Vector3} The vector to add to this vector.
+         * @param alpha [number = 1] The
+         * @return {Vector3}
          */
-        Vector3.prototype.add = function (v) {
-            return this.sum(this, v);
+        Vector3.prototype.add = function (vector, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.x += vector.x * alpha;
+            this.y += vector.y * alpha;
+            this.z += vector.z * alpha;
+            return this;
         };
         Vector3.prototype.sum = function (a, b) {
             this.x = a.x + b.x;
@@ -1722,7 +1730,7 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
          * The result is applied to this vector.
          * Strictly speaking, this method does not make much sense because the dimensions
          * of the square matrix and column vector don't match.
-         * TODO: Used by TubeGeometry.
+         * TODO: Used by TubeSimplexGeometry.
          * @method applyMatrix
          * @param m The 4x4 matrix that pre-multiplies this column vector.
          */
@@ -1903,7 +1911,7 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
          */
         Vector3.prototype.__add__ = function (rhs) {
             if (rhs instanceof Vector3) {
-                return this.clone().add(rhs);
+                return this.clone().add(rhs, 1.0);
             }
             else {
                 return void 0;
@@ -1943,7 +1951,7 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
          * @return {Vector3}
          */
         Vector3.lerp = function (a, b, alpha) {
-            return Vector3.copy(b).sub(a).scale(alpha).add(a);
+            return Vector3.copy(b).sub(a).scale(alpha).add(a, 1.0);
         };
         /**
          * @method random
@@ -2166,10 +2174,16 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
         });
         /**
          * @method add
-         * @param rhs {Spinor3Coords}
+         * @param spinor {Spinor3Coords}
+         * @param alpha {number}
          * @return {Spinor3}
          */
-        Spinor3.prototype.add = function (rhs) {
+        Spinor3.prototype.add = function (spinor, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.yz += spinor.yz * alpha;
+            this.zx += spinor.zx * alpha;
+            this.xy += spinor.xy * alpha;
+            this.w += spinor.w * alpha;
             return this;
         };
         /**
@@ -2874,10 +2888,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-10-18',
+        LAST_MODIFIED: '2015-10-19',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.133.0'
+        VERSION: '2.134.0'
     };
     return core;
 });
@@ -3248,7 +3262,7 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
     return DrawMode;
 });
 
-define('davinci-eight/geometries/toGeometryMeta',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../geometries/Simplex'], function (require, exports, expectArg, isDefined, Simplex) {
+define('davinci-eight/geometries/simplicesToGeometryMeta',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../geometries/Simplex'], function (require, exports, expectArg, isDefined, Simplex) {
     function stringify(thing, space) {
         var cache = [];
         return JSON.stringify(thing, function (key, value) {
@@ -3267,14 +3281,14 @@ define('davinci-eight/geometries/toGeometryMeta',["require", "exports", '../chec
     /**
      * Returns undefined (void 0) for an empty geometry.
      */
-    function toGeometryMeta(geometry) {
+    function simplicesToGeometryMeta(geometry) {
         var kValueOfSimplex = void 0;
         var knowns = {};
         var geometryLen = geometry.length;
         for (var i = 0; i < geometryLen; i++) {
             var simplex = geometry[i];
             if (!(simplex instanceof Simplex)) {
-                expectArg('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ toGeometryMeta(). Found " + stringify(simplex, 2));
+                expectArg('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ simplicesToGeometryMeta(). Found " + stringify(simplex, 2));
             }
             var vertices = simplex.vertices;
             // TODO: Check consistency of k-values.
@@ -3315,7 +3329,7 @@ define('davinci-eight/geometries/toGeometryMeta',["require", "exports", '../chec
             return void 0;
         }
     }
-    return toGeometryMeta;
+    return simplicesToGeometryMeta;
 });
 
 define('davinci-eight/geometries/computeUniqueVertices',["require", "exports"], function (require, exports) {
@@ -3345,23 +3359,23 @@ define('davinci-eight/geometries/computeUniqueVertices',["require", "exports"], 
     return computeUniqueVertices;
 });
 
-define('davinci-eight/geometries/GeometryElements',["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger) {
+define('davinci-eight/geometries/DrawPrimitive',["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger) {
     /**
-     * @class GeometryElements
+     * @class DrawPrimitive
      */
-    var GeometryElements = (function () {
+    var DrawPrimitive = (function () {
         /**
-         * @class GeometryElements
+         * @class DrawPrimitive
          * @constructor
          * @param mode {DrawMode} <p>The geometric primitive type.</p>
          * @param indices {number[]} <p>A list of index into the attributes</p>
-         * @param attributes {{[name:string]: GeometryAttribute}}
+         * @param attributes {{[name:string]: DrawAttribute}}
          */
-        function GeometryElements(mode, indices, attributes) {
+        function DrawPrimitive(mode, indices, attributes) {
             // TODO: Looks like a DrawAttributeMap here (implementation only)
             /**
              * @property attributes
-             * @type {{[name:string]: GeometryAttribute}}
+             * @type {{[name:string]: DrawAttribute}}
              */
             this.attributes = {};
             mustBeInteger('mode', mode);
@@ -3369,12 +3383,12 @@ define('davinci-eight/geometries/GeometryElements',["require", "exports", '../ch
             this.indices = indices;
             this.attributes = attributes;
         }
-        return GeometryElements;
+        return DrawPrimitive;
     })();
-    return GeometryElements;
+    return DrawPrimitive;
 });
 
-define('davinci-eight/geometries/GeometryAttribute',["require", "exports"], function (require, exports) {
+define('davinci-eight/geometries/DrawAttribute',["require", "exports"], function (require, exports) {
     function isVectorN(values) {
         return true;
     }
@@ -3387,45 +3401,39 @@ define('davinci-eight/geometries/GeometryAttribute',["require", "exports"], func
     function isExactMultipleOf(numer, denom) {
         return numer % denom === 0;
     }
-    function checkSize(size, values) {
-        if (typeof size === 'number') {
-            if (!isExactMultipleOf(values.length, size)) {
-                throw new Error("values.length must be an exact multiple of size");
+    function checkSize(chunkSize, values) {
+        if (typeof chunkSize === 'number') {
+            if (!isExactMultipleOf(values.length, chunkSize)) {
+                throw new Error("values.length must be an exact multiple of chunkSize");
             }
         }
         else {
-            throw new Error("size must be a number");
+            throw new Error("chunkSize must be a number");
         }
-        return size;
+        return chunkSize;
     }
     /**
-     * <p>
-     * Holds all the values of a particular attribute.
-     * The size property describes how to break up the values.
-     * The length of the values should be an integer multiple of the size.
-     * </p>
-    
-      var x = 3;
-    
-     * @class GeometryAttribute
+     * @class DrawAttribute
      */
-    var GeometryAttribute = (function () {
+    var DrawAttribute = (function () {
         /**
-         * @class GeometryAttribute
+         * @class DrawAttribute
          * @constructor
          * @param values {number[]}
-         * @param size {number}
+         * @param chunkSize {number}
          */
-        function GeometryAttribute(values, size) {
+        function DrawAttribute(values, chunkSize) {
+            // mustBeArray('values', values)
+            // mustBeInteger('chunkSize', chunkSize)
             this.values = checkValues(values);
-            this.size = checkSize(size, values);
+            this.chunkSize = checkSize(chunkSize, values);
         }
-        return GeometryAttribute;
+        return DrawAttribute;
     })();
-    return GeometryAttribute;
+    return DrawAttribute;
 });
 
-define('davinci-eight/geometries/toGeometryData',["require", "exports", '../core/DrawMode', '../geometries/toGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/GeometryElements', '../geometries/GeometryAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, DrawMode, toGeometryMeta, computeUniqueVertices, GeometryElements, GeometryAttribute, expectArg, Simplex, VectorN) {
+define('davinci-eight/geometries/simplicesToDrawPrimitive',["require", "exports", '../core/DrawMode', '../geometries/simplicesToGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/DrawPrimitive', '../geometries/DrawAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, DrawMode, simplicesToGeometryMeta, computeUniqueVertices, DrawPrimitive, DrawAttribute, expectArg, Simplex, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {
@@ -3462,9 +3470,9 @@ define('davinci-eight/geometries/toGeometryData',["require", "exports", '../core
     function concat(a, b) {
         return a.concat(b);
     }
-    function toGeometryData(simplices, geometryMeta) {
+    function simplicesToDrawPrimitive(simplices, geometryMeta) {
         expectArg('simplices', simplices).toBeObject();
-        var actuals = toGeometryMeta(simplices);
+        var actuals = simplicesToGeometryMeta(simplices);
         if (geometryMeta) {
             expectArg('geometryMeta', geometryMeta).toBeObject();
         }
@@ -3514,28 +3522,28 @@ define('davinci-eight/geometries/toGeometryData',["require", "exports", '../core
         for (k = 0; k < keysLen; k++) {
             var output = outputs[k];
             var data = output.data;
-            attributes[output.name] = new GeometryAttribute(data, output.dimensions);
+            attributes[output.name] = new DrawAttribute(data, output.dimensions);
         }
         switch (geometryMeta.k) {
             case Simplex.TRIANGLE: {
-                return new GeometryElements(DrawMode.TRIANGLES, indices, attributes);
+                return new DrawPrimitive(DrawMode.TRIANGLES, indices, attributes);
             }
             case Simplex.LINE: {
-                return new GeometryElements(DrawMode.LINES, indices, attributes);
+                return new DrawPrimitive(DrawMode.LINES, indices, attributes);
             }
             case Simplex.POINT: {
-                return new GeometryElements(DrawMode.POINTS, indices, attributes);
+                return new DrawPrimitive(DrawMode.POINTS, indices, attributes);
             }
             case Simplex.EMPTY: {
                 // It should be possible to no-op render an EMPTY simplex.
-                return new GeometryElements(DrawMode.POINTS, indices, attributes);
+                return new DrawPrimitive(DrawMode.POINTS, indices, attributes);
             }
             default: {
                 throw new Error("k => " + geometryMeta.k);
             }
         }
     }
-    return toGeometryData;
+    return simplicesToDrawPrimitive;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -3587,8 +3595,9 @@ define('davinci-eight/math/MutableNumber',["require", "exports", '../math/Vector
             this.x = v.x;
             return this;
         };
-        MutableNumber.prototype.add = function (v) {
-            this.x += v.x;
+        MutableNumber.prototype.add = function (vector, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.x += vector.x * alpha;
             return this;
         };
         MutableNumber.prototype.addScalar = function (s) {
@@ -3717,7 +3726,7 @@ define('davinci-eight/math/MutableNumber',["require", "exports", '../math/Vector
             return this;
         };
         MutableNumber.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).scale(alpha).add(v1);
+            this.difference(v2, v1).scale(alpha).add(v1, 1.0);
             return this;
         };
         MutableNumber.prototype.equals = function (v) {
@@ -3753,13 +3762,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/toGeometryData', '../geometries/toGeometryMeta', '../math/MutableNumber', '../math/Vector3'], function (require, exports, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, toGeometryData, toGeometryMeta, MutableNumber, Vector3) {
+define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/MutableNumber', '../math/Vector3'], function (require, exports, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, MutableNumber, Vector3) {
     /**
-     * @class Geometry
+     * @class SimplexGeometry
      * @extends Shareable
      */
-    var Geometry = (function (_super) {
-        __extends(Geometry, _super);
+    var SimplexGeometry = (function (_super) {
+        __extends(SimplexGeometry, _super);
         // public dynamic = true;
         // public verticesNeedUpdate = false;
         // public elementsNeedUpdate = false;
@@ -3769,15 +3778,15 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          * A list of simplices (data) with information about dimensionality and vertex properties (meta).
          * This class should be used as an abstract base or concrete class when constructing
          * geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
-         * The <code>Geometry</code> class implements IUnknown, as a convenience to implementations
+         * The <code>SimplexGeometry</code> class implements IUnknown, as a convenience to implementations
          * requiring special de-allocation of resources, by extending <code>Shareable</code>.
          * </p>
-         * @class Geometry
+         * @class SimplexGeometry
          * @constructor
-         * @param type [string = 'Geometry']
+         * @param type [string = 'SimplexGeometry']
          */
-        function Geometry(type) {
-            if (type === void 0) { type = 'Geometry'; }
+        function SimplexGeometry(type) {
+            if (type === void 0) { type = 'SimplexGeometry'; }
             _super.call(this, mustBeString('type', type));
             /**
              * The geometry as a list of simplices.
@@ -3824,10 +3833,10 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          * @return {void}
          * @protected
          */
-        Geometry.prototype.destructor = function () {
+        SimplexGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(Geometry.prototype, "k", {
+        Object.defineProperty(SimplexGeometry.prototype, "k", {
             /**
              * <p>
              * The dimensionality of the simplices in this geometry.
@@ -3854,7 +3863,7 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          * @method regenerate
          * @return {void}
          */
-        Geometry.prototype.regenerate = function () {
+        SimplexGeometry.prototype.regenerate = function () {
             console.warn("`public regenerate(): void` method should be implemented by `" + this._type + "`.");
         };
         /**
@@ -3864,7 +3873,7 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          * @method isModified
          * @return {boolean} if the parameters defining the geometry have been modified.
          */
-        Geometry.prototype.isModified = function () {
+        SimplexGeometry.prototype.isModified = function () {
             return this._k.modified;
         };
         /**
@@ -3872,10 +3881,10 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          * Derived classes should override this method if they contain parameters which affect geometry calculation.
          * @method setModified
          * @param modified {boolean} The value that the modification state will be set to.
-         * @return {Geometry} `this` instance.
+         * @return {SimplexGeometry} `this` instance.
          * @chainable
          */
-        Geometry.prototype.setModified = function (modified) {
+        SimplexGeometry.prototype.setModified = function (modified) {
             this._k.modified = modified;
             return this;
         };
@@ -3890,9 +3899,9 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          *
          * @method boundary
          * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-         * @return {Geometry}
+         * @return {SimplexGeometry}
          */
-        Geometry.prototype.boundary = function (times) {
+        SimplexGeometry.prototype.boundary = function (times) {
             if (this.isModified()) {
                 this.regenerate();
             }
@@ -3903,12 +3912,12 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          * Updates the meta property of this instance to match the data.
          *
          * @method check
-         * @return {Geometry}
+         * @return {SimplexGeometry}
          * @beta
          */
         // FIXME: Rename to something more suggestive.
-        Geometry.prototype.check = function () {
-            this.meta = toGeometryMeta(this.data);
+        SimplexGeometry.prototype.check = function () {
+            this.meta = simplicesToGeometryMeta(this.data);
             return this;
         };
         /**
@@ -3921,9 +3930,9 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          *
          * @method subdivide
          * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-         * @return {Geometry}
+         * @return {SimplexGeometry}
          */
-        Geometry.prototype.subdivide = function (times) {
+        SimplexGeometry.prototype.subdivide = function (times) {
             if (this.isModified()) {
                 this.regenerate();
             }
@@ -3932,15 +3941,15 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
             return this;
         };
         /**
-         * @method toGeometry
-         * @return {GeometryElements}
+         * @method toPrimitives
+         * @return {DrawPrimitive[]}
          */
-        Geometry.prototype.toElements = function () {
+        SimplexGeometry.prototype.toPrimitives = function () {
             if (this.isModified()) {
                 this.regenerate();
             }
             this.check();
-            return toGeometryData(this.data, this.meta);
+            return [simplicesToDrawPrimitive(this.data, this.meta)];
         };
         /**
          * @method mergeVertices
@@ -3949,9 +3958,9 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          * @protected
          * @beta
          */
-        Geometry.prototype.mergeVertices = function (precisionPoints) {
+        SimplexGeometry.prototype.mergeVertices = function (precisionPoints) {
             if (precisionPoints === void 0) { precisionPoints = 4; }
-            // console.warn("Geometry.mergeVertices not yet implemented");
+            // console.warn("SimplexGeometry.mergeVertices not yet implemented");
         };
         /**
          * Convenience method for pushing attribute data as a triangular simplex
@@ -3962,7 +3971,7 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
          * @return {number}
          * @beta
          */
-        Geometry.prototype.triangle = function (positions, normals, uvs) {
+        SimplexGeometry.prototype.triangle = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.TRIANGLE);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1];
@@ -3980,7 +3989,7 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
             }
             return this.data.push(simplex);
         };
-        Geometry.prototype.lineSegment = function (positions, normals, uvs) {
+        SimplexGeometry.prototype.lineSegment = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.LINE);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1];
@@ -3994,7 +4003,7 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
             }
             return this.data.push(simplex);
         };
-        Geometry.prototype.point = function (positions, normals, uvs) {
+        SimplexGeometry.prototype.point = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.POINT);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
@@ -4004,13 +4013,13 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
             }
             return this.data.push(simplex);
         };
-        Geometry.prototype.empty = function (positions, normals, uvs) {
+        SimplexGeometry.prototype.empty = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.EMPTY);
             return this.data.push(simplex);
         };
-        return Geometry;
+        return SimplexGeometry;
     })(Shareable);
-    return Geometry;
+    return SimplexGeometry;
 });
 
 define('davinci-eight/geometries/triangle',["require", "exports", '../geometries/computeFaceNormals', '../checks/expectArg', '../geometries/Simplex', '../core/Symbolic', '../math/VectorN'], function (require, exports, computeFaceNormals, expectArg, Simplex, Symbolic, VectorN) {
@@ -4082,21 +4091,21 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometries/computeFaceNormals', '../feedback/feedback', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/MutableNumber', '../math/Vector3'], function (require, exports, cannotAssignTypeToProperty, computeFaceNormals, feedback, Geometry, quad, Simplex, Symbolic, MutableNumber, Vector3) {
+define('davinci-eight/geometries/CuboidSimplexGeometry',["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometries/computeFaceNormals', '../feedback/feedback', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/MutableNumber', '../math/Vector3'], function (require, exports, cannotAssignTypeToProperty, computeFaceNormals, feedback, SimplexGeometry, quad, Simplex, Symbolic, MutableNumber, Vector3) {
     /**
-     * @class CuboidGeometry
-     * @extends Geometry
+     * @class CuboidSimplexGeometry
+     * @extends SimplexGeometry
      */
-    var CuboidGeometry = (function (_super) {
-        __extends(CuboidGeometry, _super);
+    var CuboidSimplexGeometry = (function (_super) {
+        __extends(CuboidSimplexGeometry, _super);
         /**
          * <p>
-         * The <code>CuboidGeometry</code> generates simplices representing a cuboid, or more precisely a parallelepiped.
+         * The <code>CuboidSimplexGeometry</code> generates simplices representing a cuboid, or more precisely a parallelepiped.
          * The parallelepiped is parameterized by the three vectors <b>a</b>, <b>b</b>, and <b>c</b>.
          * The property <code>k</code> represents the dimensionality of the vertices.
          * The default settings create a unit cube centered at the origin.
          * </p>
-         * @class CuboidGeometry
+         * @class CuboidSimplexGeometry
          * @constructor
          * @param a [Cartesian3 = Vector3.e1]
          * @param b [Cartesian3 = Vector3.e1]
@@ -4105,19 +4114,19 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../i18n
          * @param subdivide [number = 0]
          * @param boundary [number = 0]
          * @example
-             var geometry = new EIGHT.CuboidGeometry();
-             var elements = geometry.toElements();
-             var material = new EIGHT.LineMaterial();
-             var cube = new EIGHT.Drawable(elements, material);
+             var geometry = new EIGHT.CuboidSimplexGeometry();
+             var primitive = geometry.toDrawPrimitive();
+             var material = new EIGHT.MeshMaterial();
+             var cube = new EIGHT.Drawable([primitive], material);
          */
-        function CuboidGeometry(a, b, c, k, subdivide, boundary) {
+        function CuboidSimplexGeometry(a, b, c, k, subdivide, boundary) {
             if (a === void 0) { a = Vector3.e1; }
             if (b === void 0) { b = Vector3.e2; }
             if (c === void 0) { c = Vector3.e3; }
             if (k === void 0) { k = Simplex.TRIANGLE; }
             if (subdivide === void 0) { subdivide = 0; }
             if (boundary === void 0) { boundary = 0; }
-            _super.call(this, 'CuboidGeometry');
+            _super.call(this, 'CuboidSimplexGeometry');
             /**
              * Used to mark the parameters of this object dirty when they are possibly shared.
              * @property _isModified
@@ -4133,10 +4142,10 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../i18n
             this.boundary(boundary);
             this.regenerate();
         }
-        CuboidGeometry.prototype.destructor = function () {
+        CuboidSimplexGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(CuboidGeometry.prototype, "a", {
+        Object.defineProperty(CuboidSimplexGeometry.prototype, "a", {
             /**
              * <p>
              * A vector parameterizing the shape of the cuboid.
@@ -4161,7 +4170,7 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../i18n
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CuboidGeometry.prototype, "b", {
+        Object.defineProperty(CuboidSimplexGeometry.prototype, "b", {
             /**
              * <p>
              * A vector parameterizing the shape of the cuboid.
@@ -4186,7 +4195,7 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../i18n
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CuboidGeometry.prototype, "c", {
+        Object.defineProperty(CuboidSimplexGeometry.prototype, "c", {
             /**
              * <p>
              * A vector parameterizing the shape of the cuboid.
@@ -4211,15 +4220,15 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../i18n
             enumerable: true,
             configurable: true
         });
-        CuboidGeometry.prototype.isModified = function () {
+        CuboidSimplexGeometry.prototype.isModified = function () {
             return this._isModified || this._a.modified || this._b.modified || this._c.modified || _super.prototype.isModified.call(this);
         };
         /**
          * @method setModified
          * @param modified {boolean} The value that the modification state will be set to.
-         * @return {CuboidGeometry} `this` instance.
+         * @return {CuboidSimplexGeometry} `this` instance.
          */
-        CuboidGeometry.prototype.setModified = function (modified) {
+        CuboidSimplexGeometry.prototype.setModified = function (modified) {
             this._isModified = modified;
             this._a.modified = modified;
             this._b.modified = modified;
@@ -4232,7 +4241,7 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../i18n
          * @method regenerate
          * @return {void}
          */
-        CuboidGeometry.prototype.regenerate = function () {
+        CuboidSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
             pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideScalar(2);
@@ -4285,9 +4294,9 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../i18n
             // Compute the meta data.
             this.check();
         };
-        return CuboidGeometry;
-    })(Geometry);
-    return CuboidGeometry;
+        return CuboidSimplexGeometry;
+    })(SimplexGeometry);
+    return CuboidSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -4509,7 +4518,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefined', '../collections/NumberIUnknownMap', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, NumberIUnknownMap, Shareable, StringIUnknownMap) {
+define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, IUnknownArray, NumberIUnknownMap, Shareable, StringIUnknownMap) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -4519,7 +4528,8 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
     }
     /**
      * @class Drawable
-     * @implements IDrawable
+     * @extends Shareable
+     * @extends IDrawable
      */
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
@@ -4528,22 +4538,22 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
         /**
          * @class Drawable
          * @constructor
-         * @param geometry {G}
+         * @param primitives {DrawPrimitive[]}
          * @param material {M}
          * @param model {U}
          */
-        function Drawable(geometry, material) {
+        function Drawable(primitives, material) {
             _super.call(this, LOGGING_NAME);
-            this.geometry = geometry;
+            this.primitives = primitives;
             this._material = material;
             this._material.addRef();
-            this.buffersByCanvasid = new NumberIUnknownMap();
+            this.buffersByCanvasId = new NumberIUnknownMap();
             this.uniforms = new StringIUnknownMap(LOGGING_NAME);
         }
         Drawable.prototype.destructor = function () {
-            this.geometry = void 0;
-            this.buffersByCanvasid.release();
-            this.buffersByCanvasid = void 0;
+            this.primitives = void 0;
+            this.buffersByCanvasId.release();
+            this.buffersByCanvasId = void 0;
             this._material.release();
             this._material = void 0;
             this.uniforms.release();
@@ -4554,7 +4564,7 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
             // So we may as well test that condition now.
             if (isDefined(canvasId)) {
                 var material = this._material;
-                var buffers = this.buffersByCanvasid.get(canvasId);
+                var buffers = this.buffersByCanvasId.getWeakRef(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
                     // FIXME: The name is unused. Think we should just have a list
@@ -4562,10 +4572,12 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
                     this.uniforms.forEach(function (name, uniform) {
                         uniform.setUniforms(material, canvasId);
                     });
-                    buffers.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API?
-                    buffers.draw();
-                    buffers.unbind();
-                    buffers.release();
+                    for (var i = 0; i < buffers.length; i++) {
+                        var buffer = buffers.getWeakRef(i);
+                        buffer.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API?
+                        buffer.draw();
+                        buffer.unbind();
+                    }
                 }
             }
         };
@@ -4574,8 +4586,15 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
         };
         Drawable.prototype.contextGain = function (manager) {
             // 1. Replace the existing buffer geometry if we have geometry. 
-            if (this.geometry) {
-                this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(this.geometry));
+            if (this.primitives) {
+                for (var i = 0; i < this.primitives.length; i++) {
+                    var primitive = this.primitives[i];
+                    if (!this.buffersByCanvasId.exists(manager.canvasId)) {
+                        this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray([], 'Drawable.buffers'));
+                    }
+                    var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId);
+                    buffers.pushWeakRef(manager.createBufferGeometry(primitive));
+                }
             }
             else {
                 console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId);
@@ -6246,9 +6265,9 @@ define('davinci-eight/materials/SmartMaterialBuilder',["require", "exports", '..
         for (var i = 0; i < keysLength; i++) {
             var key = keys[i];
             var attribute = values[key];
-            var size = mustBeInteger('size', attribute.size);
+            var chunkSize = mustBeInteger('chunkSize', attribute.chunkSize);
             var varName = getAttribVarName(attribute, key);
-            result[varName] = { glslType: glslAttribType(key, size) };
+            result[varName] = { glslType: glslAttribType(key, chunkSize) };
         }
         return result;
     }
@@ -6271,32 +6290,32 @@ define('davinci-eight/materials/SmartMaterialBuilder',["require", "exports", '..
         /**
          * @class SmartMaterialBuilder
          * @constructor
-         * @param elements [GeometryElements]
+         * @param primitive [DrawPrimitive]
          */
-        function SmartMaterialBuilder(elements) {
+        function SmartMaterialBuilder(primitive) {
             this.aMeta = {};
             this.uParams = {};
-            if (elements) {
-                var attributes = elements.attributes;
+            if (primitive) {
+                var attributes = primitive.attributes;
                 var keys = Object.keys(attributes);
                 var keysLength = keys.length;
                 for (var i = 0; i < keysLength; i++) {
                     var key = keys[i];
                     var attribute = attributes[key];
-                    this.attribute(key, attribute.size);
+                    this.attribute(key, attribute.chunkSize);
                 }
             }
         }
         /**
-         * Declares that the material should have an `attribute` with the specified name and size.
+         * Declares that the material should have an `attribute` with the specified name and chunkSize.
          * @method attribute
          * @param name {string}
-         * @param size {number}
+         * @param chunkSize {number}
          */
-        SmartMaterialBuilder.prototype.attribute = function (name, size) {
+        SmartMaterialBuilder.prototype.attribute = function (name, chunkSize) {
             mustBeString('name', name);
-            mustBeInteger('size', size);
-            this.aMeta[name] = { size: size };
+            mustBeInteger('chunkSize', chunkSize);
+            this.aMeta[name] = { chunkSize: chunkSize };
             return this;
         };
         /**
@@ -6318,7 +6337,7 @@ define('davinci-eight/materials/SmartMaterialBuilder',["require", "exports", '..
          */
         SmartMaterialBuilder.prototype.build = function (contexts) {
             // FIXME: Push this calculation down into the functions.
-            // Then the data structures are based on size.
+            // Then the data structures are based on chunkSize.
             // uniforms based on numeric type?
             var aParams = computeAttribParams(this.aMeta);
             var vColor = vColorRequired(aParams, this.uParams);
@@ -7276,7 +7295,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/slideshow/commands/CreateCuboidDrawable',["require", "exports", '../../uniforms/ColorFacet', '../../geometries/CuboidGeometry', '../../scene/Drawable', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex', '../../math/Vector3'], function (require, exports, ColorFacet, CuboidGeometry, Drawable, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex, Vector3) {
+define('davinci-eight/slideshow/commands/CreateCuboidDrawable',["require", "exports", '../../uniforms/ColorFacet', '../../geometries/CuboidSimplexGeometry', '../../scene/Drawable', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex', '../../math/Vector3'], function (require, exports, ColorFacet, CuboidSimplexGeometry, Drawable, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex, Vector3) {
     function createMaterial(geometry) {
         switch (geometry.meta.k) {
             case Simplex.POINT:
@@ -7318,16 +7337,16 @@ define('davinci-eight/slideshow/commands/CreateCuboidDrawable',["require", "expo
             _super.prototype.destructor.call(this);
         };
         CreateCuboidDrawable.prototype.redo = function (slide, director) {
-            var geometry = new CuboidGeometry();
+            var geometry = new CuboidSimplexGeometry();
             geometry.a.copy(this.a);
             geometry.b.copy(this.b);
             geometry.c.copy(this.c);
             geometry.k = this.k;
             geometry.subdivide(this.subdivide);
             geometry.boundary(this.boundary);
-            var elements = geometry.toElements();
+            var primitives = geometry.toPrimitives();
             var material = createMaterial(geometry);
-            var drawable = new Drawable(elements, material);
+            var drawable = new Drawable(primitives, material);
             drawable.setFacet('model', new ModelFacet()).decRef();
             drawable.setFacet('color', new ColorFacet()).decRef().setRGB(1, 1, 1);
             director.addDrawable(drawable, this.name);
@@ -7428,9 +7447,9 @@ define('davinci-eight/slideshow/commands/CreateDrawable',["require", "exports", 
             _super.prototype.destructor.call(this);
         };
         CreateDrawable.prototype.redo = function (slide, director) {
-            var elements = this.geometry.toElements();
+            var primitives = this.geometry.toPrimitives();
             var material = createMaterial(this.geometry);
-            var drawable = new Drawable(elements, material);
+            var drawable = new Drawable(primitives, material);
             drawable.setFacet('model', new ModelFacet()).decRef();
             drawable.setFacet('color', new ColorFacet()).decRef().setRGB(1, 1, 1);
             director.addDrawable(drawable, this.name);
@@ -9235,9 +9254,10 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], f
             this.y = v.y;
             return this;
         };
-        Vector2.prototype.add = function (v) {
-            this.x += v.x;
-            this.y += v.y;
+        Vector2.prototype.add = function (v, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.x += v.x * alpha;
+            this.y += v.y * alpha;
             return this;
         };
         Vector2.prototype.addScalar = function (s) {
@@ -9375,7 +9395,7 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], f
             return this;
         };
         Vector2.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).scale(alpha).add(v1);
+            this.difference(v2, v1).scale(alpha).add(v1, 1.0);
             return this;
         };
         Vector2.prototype.equals = function (v) {
@@ -9505,7 +9525,7 @@ define('davinci-eight/geometries/tetrahedron',["require", "exports", '../checks/
     return tetrahedron;
 });
 
-define('davinci-eight/topologies/Topology',["require", "exports", '../geometries/GeometryAttribute', '../geometries/GeometryElements', '../checks/mustBeInteger', '../geometries/Vertex'], function (require, exports, GeometryAttribute, GeometryElements, mustBeInteger, Vertex) {
+define('davinci-eight/topologies/Topology',["require", "exports", '../geometries/DrawAttribute', '../geometries/DrawPrimitive', '../checks/mustBeInteger', '../geometries/Vertex'], function (require, exports, DrawAttribute, DrawPrimitive, mustBeInteger, Vertex) {
     function attributes(elements, vertices) {
         var attribs = {};
         for (var vertexIndex = 0; vertexIndex < vertices.length; vertexIndex++) {
@@ -9517,7 +9537,7 @@ define('davinci-eight/topologies/Topology',["require", "exports", '../geometries
                 var chunkSize = data.length;
                 var attrib = attribs[name];
                 if (!attrib) {
-                    attrib = attribs[name] = new GeometryAttribute([], chunkSize);
+                    attrib = attribs[name] = new DrawAttribute([], chunkSize);
                 }
                 for (var coordIndex = 0; coordIndex < chunkSize; coordIndex++) {
                     attrib.values.push(data[coordIndex]);
@@ -9549,11 +9569,11 @@ define('davinci-eight/topologies/Topology',["require", "exports", '../geometries
          * Creates the elements in a format required for WebGL.
          * This may involve creating some redundancy in order to get WebGL efficiency.
          * Thus, we should regard the topology as normalized
-         * @method toElements
-         * @return {GeometryElements}
+         * @method toDrawPrimitive
+         * @return {DrawPrimitive}
          */
-        Topology.prototype.toElements = function () {
-            return new GeometryElements(this.mode, this.elements, attributes(this.elements, this.vertices));
+        Topology.prototype.toDrawPrimitive = function () {
+            return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices));
         };
         return Topology;
     })();
@@ -9638,59 +9658,73 @@ define('davinci-eight/topologies/MeshTopology',["require", "exports", '../topolo
     return MeshTopology;
 });
 
+define('davinci-eight/checks/isArray',["require", "exports"], function (require, exports) {
+    function isArray(x) {
+        return Object.prototype.toString.call(x) === '[object Array]';
+    }
+    return isArray;
+});
+
+define('davinci-eight/checks/mustBeArray',["require", "exports", '../checks/mustSatisfy', '../checks/isArray'], function (require, exports, mustSatisfy, isArray) {
+    function beAnArray() {
+        return "be an array";
+    }
+    function mustBeArray(name, value, contextBuilder) {
+        mustSatisfy(name, isArray(value), beAnArray, contextBuilder);
+        return value;
+    }
+    return mustBeArray;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/topologies/GridTopology',["require", "exports", '../core/DrawMode', '../checks/isDefined', '../topologies/MeshTopology'], function (require, exports, DrawMode, isDefined, MeshTopology) {
+define('davinci-eight/topologies/GridTopology',["require", "exports", '../core/DrawMode', '../checks/isDefined', '../topologies/MeshTopology', '../checks/mustBeArray', '../checks/mustBeInteger', '../i18n/readOnly'], function (require, exports, DrawMode, isDefined, MeshTopology, mustBeArray, mustBeInteger, readOnly) {
     function numPostsForFence(segmentCount) {
+        mustBeInteger('segmentCount', segmentCount);
         return segmentCount + 1;
     }
     function dimensionsForGrid(segmentCounts) {
+        mustBeArray('segmentCounts', segmentCounts);
         return segmentCounts.map(numPostsForFence);
     }
-    function numVerticesForGrid(segmentCounts) {
-        return dimensionsForGrid(segmentCounts).reduce(function (a, b) { return a * b; }, 1);
+    function numVerticesForGrid(uSegments, vSegments) {
+        mustBeInteger('uSegments', uSegments);
+        mustBeInteger('vSegments', vSegments);
+        return dimensionsForGrid([uSegments, vSegments]).reduce(function (a, b) { return a * b; }, 1);
     }
-    /**
-     * Computes the triangleStripForGrid traversal for a grid.
-     * param iLength The number of points in the i direction, iLength = iSegments + 1
-     * param jLength The number of points in the j direction, jLength = jSegments + 1
-     * param elements Optional
-     * return The traversal result.
-     */
-    function triangleStripForGrid(iLength, jLength, elements) {
+    function triangleStripForGrid(uSegments, vSegments, elements) {
         // Make sure that we have somewhere valid to store the result.
-        elements = isDefined(elements) ? elements : [];
-        var jSegments = jLength - 1;
+        elements = isDefined(elements) ? mustBeArray('elements', elements) : [];
+        var uLength = numPostsForFence(uSegments);
+        var lastVertex = uSegments + uLength * vSegments;
         /**
-         * The number of elements needed if we executed a strip per row segment.
+         * The number of elements needed if we executed a strip per row.
          * Remark Notice the asymmetry. Could be a performance impact.
          */
-        var RCvertices = 2 * iLength * jSegments;
-        /**
-         * The number of elements including the duplicate elements needed to create
-         * the degenerate triangles for a single strip call.
-         */
-        var eLength = RCvertices + 2 * (jLength - 2);
+        var eSimple = 2 * uLength * vSegments;
         /**
          * Index for triangle strip array.
          */
         var j = 0;
-        // FIXME: Loop 0 <= i < RCvertices (Edsger W. Dijksta)
+        // FIXME: Loop 0 <= i < eSimple (Edsger W. Dijksta)
         // For this algorithm, imagine a little vertical loop containing two dots.
         // The uppermost dot we shall call the `top` and the lowermost the `bottom`.
         // Advancing i by two each time corresponds to advancing this loop one place to the right.
-        for (var i = 1; i <= RCvertices; i += 2) {
+        for (var i = 1; i <= eSimple; i += 2) {
+            var k = (i - 1) / 2; // etc
             // top element
             elements[j] = (i - 1) / 2;
             // bottom element
-            elements[j + 1] = (iLength * 2 + i + 1 - 2) / 2;
+            elements[j + 1] = elements[j] + uLength;
             // check for end of column
-            if ((elements[j + 1] + 1) % iLength === 0) {
-                // skip first and last row
-                if ((elements[j + 1] + 1) != iLength && (elements[j + 1] + 1) != iLength * jLength) {
+            if (elements[j + 1] % uLength === uSegments) {
+                // Don't add degenerate triangles if we are on either
+                // 1. the last vertex of the first row
+                // 2. the last vertex of the last row.
+                if (elements[j + 1] !== uSegments && elements[j + 1] !== lastVertex) {
                     // additional vertex degenerate triangle
                     // The next point is the same as the one before
                     elements[j + 2] = elements[j + 1];
@@ -9712,42 +9746,69 @@ define('davinci-eight/topologies/GridTopology',["require", "exports", '../core/D
      */
     var GridTopology = (function (_super) {
         __extends(GridTopology, _super);
-        /**
-         * <p>
-         * Constructs a grid that is open on all sides and rendered using <code>TRIANGLE_STRIP</code>.
-         * </p>
-         * <p>
-         * The grid orientation is such that when the first dimension is aligned to east,
-         * and the second dimension is aligned to north,
-         * the orientation is positive (counterclockwise) when viewed from above.
-         * </p>
-         * @class GridTopology
-         * @constructor
-         * @param segmentCounts {number[]} The number of segments for each dimension.
-         * @example
-             // Create a new topology with 5 segments in the first dimension, and 3 segments in the second dimension.
-             var topo = new EIGHT.GridTopology([5, 3]);
-             // Set attributes on each vertex ...
-             // Compute the elements required for drawing
-             var elements: EIGHT.GeometryElements = topo.toElements()
-         */
-        function GridTopology(segmentCounts) {
-            _super.call(this, DrawMode.TRIANGLE_STRIP, numVerticesForGrid(segmentCounts));
-            this.dimensions = dimensionsForGrid(segmentCounts);
-            this.elements = triangleStripForGrid(this.dimensions[0], this.dimensions[1]);
+        function GridTopology(uSegments, vSegments) {
+            _super.call(this, DrawMode.TRIANGLE_STRIP, numVerticesForGrid(uSegments, vSegments));
+            this.elements = triangleStripForGrid(uSegments, vSegments);
+            this._uSegments = uSegments;
+            this._vSegments = vSegments;
         }
+        Object.defineProperty(GridTopology.prototype, "uSegments", {
+            get: function () {
+                return this._uSegments;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('uSegments').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(GridTopology.prototype, "uLength", {
+            get: function () {
+                return numPostsForFence(this._uSegments);
+            },
+            set: function (unused) {
+                throw new Error(readOnly('uLength').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(GridTopology.prototype, "vSegments", {
+            get: function () {
+                return this._vSegments;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('vSegments').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(GridTopology.prototype, "vLength", {
+            get: function () {
+                return numPostsForFence(this._vSegments);
+            },
+            set: function (unused) {
+                throw new Error(readOnly('vLength').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
+         * <p>
          * Provides access to each vertex so that attributes may be set.
+         * The indices
+         * </p>
          * @method vertex
-         * @param coordinates {number[]} The integral coordinates of the vertex required.
+         * @param uIndex {number} The zero-based `horizontal` index.
+         * @param vIndex {number} The zero-based 'vertical` index.
          * @return {Vertex} The vertex corresponding to the specified coordinates.
          * @example
-             var topo = new EIGHT.GridTopology([1, 1])
-             topo.vertex([i, j]).attributes('aPosition') = new Vector3([i - 0.5, j - 0.5, 0])
+             var topo = new EIGHT.GridTopology(1, 1)
+             topo.vertex(uIndex, vIndex).attributes('aPosition') = new Vector3([i - 0.5, j - 0.5, 0])
          */
-        GridTopology.prototype.vertex = function (coordinates) {
-            var index = this.dimensions[0] * coordinates[1] + coordinates[0];
-            return this.vertices[index];
+        GridTopology.prototype.vertex = function (uIndex, vIndex) {
+            mustBeInteger('uIndex', uIndex);
+            mustBeInteger('vIndex', vIndex);
+            return this.vertices[(this._vSegments - vIndex) * this.uLength + uIndex];
         };
         return GridTopology;
     })(MeshTopology);
@@ -10707,7 +10768,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/GeometryElements', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, GeometryElements, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
+define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/DrawPrimitive', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, DrawPrimitive, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Drawable';
@@ -11201,8 +11262,8 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             /**
              *
              */
-            createBufferGeometry: function (elements, usage) {
-                expectArg('elements', elements).toSatisfy(elements instanceof GeometryElements, "elements must be an instance of GeometryElements");
+            createBufferGeometry: function (primitive, usage) {
+                expectArg('primitive', primitive).toSatisfy(primitive instanceof DrawPrimitive, "primitive must be an instance of DrawPrimitive");
                 if (isDefined(usage)) {
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
                 }
@@ -11223,24 +11284,24 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 if (isDefined(gl)) {
-                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices), usage);
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
                 }
                 else {
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
                 }
                 indexBuffer.unbind();
                 var attributes = new StringIUnknownMap('createBufferGeometry');
-                var names = Object.keys(elements.attributes);
+                var names = Object.keys(primitive.attributes);
                 var namesLength = names.length;
                 var i;
                 for (i = 0; i < namesLength; i++) {
                     var name_1 = names[i];
                     var buffer = kahuna.createArrayBuffer();
                     buffer.bind();
-                    var vertexAttrib = elements.attributes[name_1];
+                    var vertexAttrib = primitive.attributes[name_1];
                     var data = vertexAttrib.values;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
-                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.chunkSize, false, 0, 0);
                     attributes.put(name_1, attribute);
                     attribute.release();
                     buffer.unbind();
@@ -11248,7 +11309,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 }
                 // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
                 // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-                var drawCommand = new GeometryDataCommand(elements.mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
+                var drawCommand = new GeometryDataCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
                 _blocks.put(mesh.uuid, block);
                 block.release();
@@ -11472,8 +11533,8 @@ define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/rende
         Canvas3D.prototype.createArrayBuffer = function () {
             return this._kahuna.createArrayBuffer();
         };
-        Canvas3D.prototype.createBufferGeometry = function (elements, usage) {
-            return this._kahuna.createBufferGeometry(elements, usage);
+        Canvas3D.prototype.createBufferGeometry = function (primitive, usage) {
+            return this._kahuna.createBufferGeometry(primitive, usage);
         };
         Canvas3D.prototype.createElementArrayBuffer = function () {
             return this._kahuna.createElementArrayBuffer();
@@ -11530,28 +11591,28 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/AxialGeometry',["require", "exports", '../geometries/Geometry', '../math/Vector3'], function (require, exports, Geometry, Vector3) {
+define('davinci-eight/geometries/AxialSimplexGeometry',["require", "exports", '../geometries/SimplexGeometry', '../math/Vector3'], function (require, exports, SimplexGeometry, Vector3) {
     /**
-     * @class AxialGeometry
-     * @extends Geometry
+     * @class AxialSimplexGeometry
+     * @extends SimplexGeometry
      */
-    var AxialGeometry = (function (_super) {
-        __extends(AxialGeometry, _super);
+    var AxialSimplexGeometry = (function (_super) {
+        __extends(AxialSimplexGeometry, _super);
         /**
          * <p>
          * A geometry which has axial symmetry, giving it an <code>axis</code> property.
          * </p>
          * <p>
          * Calls the base class constructor.
-         * Provides the <code>type</code> to the <code>Geometry</code> base class.
+         * Provides the <code>type</code> to the <code>SimplexGeometry</code> base class.
          * Makes a copy of the axis, normalizes the copy and initializes the <code>axis</axis> property.
          * </p>
-         * @class AxialGeometry
+         * @class AxialSimplexGeometry
          * @constructor
          * @param type {string} Used for reference count tracking.
          * @param axis {Cartesian3} The <b>axis</b> property.
          */
-        function AxialGeometry(type, axis) {
+        function AxialSimplexGeometry(type, axis) {
             _super.call(this, type);
             this.axis = Vector3.copy(axis).normalize();
         }
@@ -11564,12 +11625,12 @@ define('davinci-eight/geometries/AxialGeometry',["require", "exports", '../geome
          * @return {void}
          * @protected
          */
-        AxialGeometry.prototype.destructor = function () {
+        AxialSimplexGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        return AxialGeometry;
-    })(Geometry);
-    return AxialGeometry;
+        return AxialSimplexGeometry;
+    })(SimplexGeometry);
+    return AxialSimplexGeometry;
 });
 
 define('davinci-eight/geometries/arc3',["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeDefined, mustBeInteger, mustBeNumber, Spinor3, Vector3) {
@@ -11612,34 +11673,34 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/SliceGeometry',["require", "exports", '../geometries/AxialGeometry', '../checks/isDefined', '../checks/mustBeNumber', '../math/Vector3'], function (require, exports, AxialGeometry, isDefined, mustBeNumber, Vector3) {
+define('davinci-eight/geometries/SliceSimplexGeometry',["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/isDefined', '../checks/mustBeNumber', '../math/Vector3'], function (require, exports, AxialSimplexGeometry, isDefined, mustBeNumber, Vector3) {
     function perpendicular(axis) {
         return Vector3.random().cross(axis).normalize();
     }
     /**
-     * @class SliceGeometry
-     * @extends AxialGeometry
+     * @class SliceSimplexGeometry
+     * @extends AxialSimplexGeometry
      */
-    var SliceGeometry = (function (_super) {
-        __extends(SliceGeometry, _super);
+    var SliceSimplexGeometry = (function (_super) {
+        __extends(SliceSimplexGeometry, _super);
         /**
          * <p>
          * Calls the base class constructor.
          * </p>
          * <p>
-         * Provides the <code>axis</code> to the <code>AxialGeometry</code> base class.
+         * Provides the <code>axis</code> to the <code>AxialSimplexGeometry</code> base class.
          * </p>
          * <p>
-         * Provides the <code>type</code> to the <code>AxialGeometry</code> base class.
+         * Provides the <code>type</code> to the <code>AxialSimplexGeometry</code> base class.
          * </p>
-         * @class SliceGeometry
+         * @class SliceSimplexGeometry
          * @constructor
          * @param type {string} Implementations must provide a type name used for reference count tracking.
          * @param axis [Cartesian3 = Vector3.e3] The <code>axis</code> property.
          * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
          * @param sliceAngle [number = 2 * Math.PI] The <code>sliceAngle</code> property.
          */
-        function SliceGeometry(type, axis, sliceStart, sliceAngle) {
+        function SliceSimplexGeometry(type, axis, sliceStart, sliceAngle) {
             if (axis === void 0) { axis = Vector3.e3; }
             if (sliceAngle === void 0) { sliceAngle = 2 * Math.PI; }
             _super.call(this, type, axis);
@@ -11668,12 +11729,12 @@ define('davinci-eight/geometries/SliceGeometry',["require", "exports", '../geome
          * @return {void}
          * @protected
          */
-        SliceGeometry.prototype.destructor = function () {
+        SliceSimplexGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        return SliceGeometry;
-    })(AxialGeometry);
-    return SliceGeometry;
+        return SliceSimplexGeometry;
+    })(AxialSimplexGeometry);
+    return SliceSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -11681,7 +11742,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceGeometry', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Simplex, SliceGeometry, Spinor3, Symbolic, Vector2, Vector3) {
+define('davinci-eight/geometries/RingSimplexGeometry',["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Simplex, SliceSimplexGeometry, Spinor3, Symbolic, Vector2, Vector3) {
     // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
     // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
     // TODO: May be more efficient to calculate points for the outer circle then scale them inwards.
@@ -11788,11 +11849,11 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
         }
     }
     /**
-     * @class RingGeometry
-     * @extends SliceGeometry
+     * @class RingSimplexGeometry
+     * @extends SliceSimplexGeometry
      */
-    var RingGeometry = (function (_super) {
-        __extends(RingGeometry, _super);
+    var RingSimplexGeometry = (function (_super) {
+        __extends(RingSimplexGeometry, _super);
         /**
          * <p>
          * Creates an annulus with a single hole.
@@ -11800,7 +11861,7 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
          * <p>
          * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
          * </p>
-         * @class RingGeometry
+         * @class RingSimplexGeometry
          * @constructor
          * @param a [number = 1] The outer radius
          * @param b [number = 0] The inner radius
@@ -11808,10 +11869,10 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
          * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
          * @param sliceAngle [number] The <code>sliceAngle</code> property.
          */
-        function RingGeometry(a, b, axis, sliceStart, sliceAngle) {
+        function RingSimplexGeometry(a, b, axis, sliceStart, sliceAngle) {
             if (a === void 0) { a = 1; }
             if (b === void 0) { b = 0; }
-            _super.call(this, 'RingGeometry', axis, sliceStart, sliceAngle);
+            _super.call(this, 'RingSimplexGeometry', axis, sliceStart, sliceAngle);
             this.a = a;
             this.b = b;
         }
@@ -11820,21 +11881,21 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
          * @return {void}
          * @protected
          */
-        RingGeometry.prototype.destructor = function () {
+        RingSimplexGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
         /**
          * @method isModified
          * @return {boolean}
          */
-        RingGeometry.prototype.isModified = function () {
+        RingSimplexGeometry.prototype.isModified = function () {
             return _super.prototype.isModified.call(this);
         };
         /**
          * @method regenerate
          * @return {void}
          */
-        RingGeometry.prototype.regenerate = function () {
+        RingSimplexGeometry.prototype.regenerate = function () {
             this.data = [];
             var radialSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
@@ -11872,16 +11933,16 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../geomet
         /**
          * @method setModified
          * @param modified {boolean}
-         * @return {RingGeometry}
+         * @return {RingSimplexGeometry}
          * @chainable
          */
-        RingGeometry.prototype.setModified = function (modified) {
+        RingSimplexGeometry.prototype.setModified = function (modified) {
             _super.prototype.setModified.call(this, modified);
             return this;
         };
-        return RingGeometry;
-    })(SliceGeometry);
-    return RingGeometry;
+        return RingSimplexGeometry;
+    })(SliceSimplexGeometry);
+    return RingSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -11889,18 +11950,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../geometries/Geometry', '../math/Spinor3', '../math/Vector2'], function (require, exports, Geometry, Spinor3, Vector2) {
+define('davinci-eight/geometries/RevolutionSimplexGeometry',["require", "exports", '../geometries/SimplexGeometry', '../math/Spinor3', '../math/Vector2'], function (require, exports, SimplexGeometry, Spinor3, Vector2) {
     /**
-     * @class RevolutionGeometry
+     * @class RevolutionSimplexGeometry
      */
-    var RevolutionGeometry = (function (_super) {
-        __extends(RevolutionGeometry, _super);
+    var RevolutionSimplexGeometry = (function (_super) {
+        __extends(RevolutionSimplexGeometry, _super);
         /**
-         * @class RevolutionGeometry
+         * @class RevolutionSimplexGeometry
          * @constructor
          */
-        function RevolutionGeometry(type) {
-            if (type === void 0) { type = 'RevolutionGeometry'; }
+        function RevolutionSimplexGeometry(type) {
+            if (type === void 0) { type = 'RevolutionSimplexGeometry'; }
             _super.call(this, type);
         }
         /**
@@ -11912,7 +11973,7 @@ define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../
          * @param phiLength {number}
          * @param attitude {Spinor3}
          */
-        RevolutionGeometry.prototype.revolve = function (points, generator, segments, phiStart, phiLength, attitude) {
+        RevolutionSimplexGeometry.prototype.revolve = function (points, generator, segments, phiStart, phiLength, attitude) {
             if (segments === void 0) { segments = 12; }
             if (phiStart === void 0) { phiStart = 0; }
             if (phiLength === void 0) { phiLength = 2 * Math.PI; }
@@ -11972,9 +12033,9 @@ define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../
             //    this.computeFaceNormals();
             //    this.computeVertexNormals();
         };
-        return RevolutionGeometry;
-    })(Geometry);
-    return RevolutionGeometry;
+        return RevolutionSimplexGeometry;
+    })(SimplexGeometry);
+    return RevolutionSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -11982,7 +12043,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geometries/RevolutionGeometry', '../math/Spinor3', '../math/Vector3'], function (require, exports, RevolutionGeometry, Spinor3, Vector3) {
+define('davinci-eight/geometries/ArrowSimplexGeometry',["require", "exports", '../geometries/RevolutionSimplexGeometry', '../math/Spinor3', '../math/Vector3'], function (require, exports, RevolutionSimplexGeometry, Spinor3, Vector3) {
     function signum(x) {
         return x >= 0 ? +1 : -1;
     }
@@ -12014,16 +12075,16 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
         return Vector3.copy(direction);
     }
     /**
-     * @class ArrowGeometry
+     * @class ArrowSimplexGeometry
      */
-    var ArrowGeometry = (function (_super) {
-        __extends(ArrowGeometry, _super);
+    var ArrowSimplexGeometry = (function (_super) {
+        __extends(ArrowSimplexGeometry, _super);
         /**
-         * @class ArrowGeometry
+         * @class ArrowSimplexGeometry
          * @constructor
          */
-        function ArrowGeometry() {
-            _super.call(this, 'ArrowGeometry');
+        function ArrowSimplexGeometry() {
+            _super.call(this, 'ArrowSimplexGeometry');
             this.lengthCone = 0.20;
             this.radiusCone = 0.08;
             this.radiusShaft = 0.01;
@@ -12040,22 +12101,22 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
          * @return {void}
          * @protected
          */
-        ArrowGeometry.prototype.destructor = function () {
+        ArrowSimplexGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
         /**
          * @method isModified
          * @return {boolean}
          */
-        ArrowGeometry.prototype.isModified = function () {
+        ArrowSimplexGeometry.prototype.isModified = function () {
             return this.vector.modified;
         };
         /**
          * @method setModified
          * @param modified {boolean}
-         * @return {ArrowGeometry}
+         * @return {ArrowSimplexGeometry}
          */
-        ArrowGeometry.prototype.setModified = function (modified) {
+        ArrowSimplexGeometry.prototype.setModified = function (modified) {
             this.vector.modified = modified;
             return this;
         };
@@ -12063,7 +12124,7 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
          * @method regenerate
          * @return {void}
          */
-        ArrowGeometry.prototype.regenerate = function () {
+        ArrowSimplexGeometry.prototype.regenerate = function () {
             var length = this.vector.magnitude();
             var lengthShaft = length - this.lengthCone;
             var halfLength = length / 2;
@@ -12100,9 +12161,9 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
             _super.prototype.revolve.call(this, arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R);
             this.setModified(false);
         };
-        return ArrowGeometry;
-    })(RevolutionGeometry);
-    return ArrowGeometry;
+        return ArrowSimplexGeometry;
+    })(RevolutionSimplexGeometry);
+    return ArrowSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12110,44 +12171,44 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/BarnGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, quad, Simplex, Symbolic, triangle, Vector3) {
+define('davinci-eight/geometries/BarnSimplexGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/Vector3'], function (require, exports, computeFaceNormals, SimplexGeometry, quad, Simplex, Symbolic, triangle, Vector3) {
     /**
      * @module EIGHT
      * @submodule geometries
-     * @class BarnGeometry
+     * @class BarnSimplexGeometry
      */
-    var BarnGeometry = (function (_super) {
-        __extends(BarnGeometry, _super);
+    var BarnSimplexGeometry = (function (_super) {
+        __extends(BarnSimplexGeometry, _super);
         /**
          * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
          * Ten (10) vertices are used to define the barn.
          * The floor vertices are lablled 0, 1, 6, 5.
          * The corresponding ceiling vertices are labelled 4, 2, 7, 9.
          * The roof peak vertices are labelled 3, 8.
-         * @class BarnGeometry
+         * @class BarnSimplexGeometry
          * @constructor
          */
-        function BarnGeometry() {
-            _super.call(this, 'BarnGeometry');
+        function BarnSimplexGeometry() {
+            _super.call(this, 'BarnSimplexGeometry');
             this.a = Vector3.e1.clone();
             this.b = Vector3.e2.clone();
             this.c = Vector3.e3.clone();
             this.regenerate();
         }
-        BarnGeometry.prototype.destructor = function () {
+        BarnSimplexGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        BarnGeometry.prototype.isModified = function () {
+        BarnSimplexGeometry.prototype.isModified = function () {
             return this.a.modified || this.b.modified || this.c.modified || _super.prototype.isModified.call(this);
         };
-        BarnGeometry.prototype.setModified = function (modified) {
+        BarnSimplexGeometry.prototype.setModified = function (modified) {
             this.a.modified = modified;
             this.b.modified = modified;
             this.c.modified = modified;
             _super.prototype.setModified.call(this, modified);
             return this;
         };
-        BarnGeometry.prototype.regenerate = function () {
+        BarnSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
             points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideScalar(2);
@@ -12208,9 +12269,66 @@ define('davinci-eight/geometries/BarnGeometry',["require", "exports", '../geomet
             // Compute the meta data.
             this.check();
         };
-        return BarnGeometry;
-    })(Geometry);
-    return BarnGeometry;
+        return BarnSimplexGeometry;
+    })(SimplexGeometry);
+    return BarnSimplexGeometry;
+});
+
+define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../topologies/GridTopology', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Symbolic, Vector2, Vector3) {
+    /**
+     * @class ConeGeometry
+     */
+    var ConeGeometry = (function () {
+        /**
+         * @class ConeGeometry
+         * @constructor
+         * @param radius {number}
+         * @param height {number}
+         * @param axis {Cartesian3}
+         */
+        function ConeGeometry(radius, height, axis) {
+            this.radius = radius;
+            this.height = height;
+            this.axis = Vector3.copy(axis).normalize();
+        }
+        ConeGeometry.prototype.regenerate = function () {
+            this.topo = new GridTopology(16, 1);
+            var uLength = this.topo.uLength;
+            var uSegments = uLength - 1;
+            var vLength = this.topo.vLength;
+            var vSegments = vLength - 1;
+            var a = Vector3.random().cross(this.axis).normalize().scale(this.radius);
+            var b = new Vector3().crossVectors(a, this.axis).normalize().scale(this.radius);
+            var h = Vector3.copy(this.axis).scale(this.height);
+            for (var uIndex = 0; uIndex < uLength; uIndex++) {
+                var u = uIndex / uSegments;
+                var theta = 2 * Math.PI * u;
+                var cosTheta = Math.cos(theta);
+                var sinTheta = Math.sin(theta);
+                for (var vIndex = 0; vIndex < vLength; vIndex++) {
+                    var v = vIndex / vSegments;
+                    var position = new Vector3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
+                    var peak = Vector3.copy(h).sub(position);
+                    var normal = new Vector3().crossVectors(peak, position).cross(peak).normalize();
+                    var vertex = this.topo.vertex(uIndex, vIndex);
+                    vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position;
+                    vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v]);
+                }
+            }
+        };
+        /**
+         * @method toPrimitives
+         * @return {DrawPrimitive[]}
+         */
+        ConeGeometry.prototype.toPrimitives = function () {
+            this.regenerate();
+            // FIXME: Rename toPrimitive
+            return [this.topo.toDrawPrimitive()];
+        };
+        return ConeGeometry;
+    })();
+    return ConeGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12218,15 +12336,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geometries/SliceGeometry', '../math/Vector2', '../math/Vector3'], function (require, exports, SliceGeometry, Vector2, Vector3) {
+define('davinci-eight/geometries/ConeSimplexGeometry',["require", "exports", '../geometries/SliceSimplexGeometry', '../math/Vector2', '../math/Vector3'], function (require, exports, SliceSimplexGeometry, Vector2, Vector3) {
     /**
-     * @class ConeGeometry
-     * @extends SliceGeometry
+     * @class ConeSimplexGeometry
+     * @extends SliceSimplexGeometry
      */
-    var ConeGeometry = (function (_super) {
-        __extends(ConeGeometry, _super);
+    var ConeSimplexGeometry = (function (_super) {
+        __extends(ConeSimplexGeometry, _super);
         /**
-         * @class ConeGeometry
+         * @class ConeSimplexGeometry
          * @constructor
          * @param radiusTop [number = 0.5]
          * @param radius [number = 0.5]
@@ -12235,14 +12353,14 @@ define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geomet
          * @param openBottom [boolean = false]
          * @param thetaStart [number = 0]
          */
-        function ConeGeometry(radius, height, axis, radiusTop, openTop, openBottom, thetaStart) {
+        function ConeSimplexGeometry(radius, height, axis, radiusTop, openTop, openBottom, thetaStart) {
             if (radius === void 0) { radius = 0.5; }
             if (height === void 0) { height = 1; }
             if (radiusTop === void 0) { radiusTop = 0.0; }
             if (openTop === void 0) { openTop = false; }
             if (openBottom === void 0) { openBottom = false; }
             if (thetaStart === void 0) { thetaStart = 0; }
-            _super.call(this, 'ConeGeometry', axis, void 0, void 0);
+            _super.call(this, 'ConeSimplexGeometry', axis, void 0, void 0);
             this.radiusTop = radiusTop;
             this.radius = radius;
             this.height = height;
@@ -12250,7 +12368,7 @@ define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geomet
             this.openBottom = openBottom;
             this.thetaStart = thetaStart;
         }
-        ConeGeometry.prototype.regenerate = function () {
+        ConeSimplexGeometry.prototype.regenerate = function () {
             var radiusBottom = this.radius;
             var radiusTop = this.radiusTop;
             var height = this.height;
@@ -12350,9 +12468,65 @@ define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geomet
             //    this.computeFaceNormals();
             //    this.computeVertexNormals();
         };
-        return ConeGeometry;
-    })(SliceGeometry);
-    return ConeGeometry;
+        return ConeSimplexGeometry;
+    })(SliceSimplexGeometry);
+    return ConeSimplexGeometry;
+});
+
+define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topologies/GridTopology', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Symbolic, Vector2, Vector3) {
+    function side(basis, uSegments, vSegments) {
+        var normal = Vector3.copy(basis[0]).cross(basis[1]).normalize();
+        var aNeg = Vector3.copy(basis[0]).scale(-0.5);
+        var aPos = Vector3.copy(basis[0]).scale(+0.5);
+        var bNeg = Vector3.copy(basis[1]).scale(-0.5);
+        var bPos = Vector3.copy(basis[1]).scale(+0.5);
+        var cPos = Vector3.copy(basis[2]).scale(+0.5);
+        var side = new GridTopology(uSegments, vSegments);
+        for (var uIndex = 0; uIndex < side.uLength; uIndex++) {
+            for (var vIndex = 0; vIndex < side.vLength; vIndex++) {
+                var u = uIndex / uSegments;
+                var v = vIndex / vSegments;
+                var a = Vector3.copy(aNeg).lerp(aPos, u);
+                var b = Vector3.copy(bNeg).lerp(bPos, v);
+                var vertex = side.vertex(uIndex, vIndex);
+                vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(a).add(b).add(cPos);
+                vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v]);
+            }
+        }
+        return side;
+    }
+    var CuboidGeometry = (function () {
+        function CuboidGeometry() {
+            this.iSegments = 1;
+            this.jSegments = 1;
+            this.kSegments = 1;
+            this._a = Vector3.e1;
+            this._b = Vector3.e2;
+            this._c = Vector3.e3;
+            this.sides = [];
+        }
+        CuboidGeometry.prototype.regenerate = function () {
+            this.sides = [];
+            // front
+            this.sides.push(side([this._a, this._b, this._c], this.iSegments, this.jSegments));
+            // right
+            this.sides.push(side([Vector3.copy(this._c).scale(-1), this._b, this._a], this.kSegments, this.jSegments));
+            // left
+            this.sides.push(side([this._c, this._b, Vector3.copy(this._a).scale(-1)], this.kSegments, this.jSegments));
+            // back
+            this.sides.push(side([Vector3.copy(this._a).scale(-1), this._b, Vector3.copy(this._c).scale(-1)], this.iSegments, this.jSegments));
+            // top
+            this.sides.push(side([this._a, Vector3.copy(this._c).scale(-1), this._b], this.iSegments, this.kSegments));
+            // bottom
+            this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments));
+        };
+        CuboidGeometry.prototype.toPrimitives = function () {
+            return this.sides.map(function (side) { return side.toDrawPrimitive(); });
+        };
+        return CuboidGeometry;
+    })();
+    return CuboidGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12360,7 +12534,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../geometries/arc3', '../geometries/SliceGeometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, SliceGeometry, Spinor3, Vector2, Vector3) {
+define('davinci-eight/geometries/CylinderSimplexGeometry',["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexGeometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, SliceSimplexGeometry, Spinor3, Vector2, Vector3) {
     // TODO: The caps don't have radial segments!
     function computeVertices(radius, height, axis, start, angle, generator, heightSegments, thetaSegments, points, vertices, uvs) {
         var begin = Vector3.copy(start).scale(radius);
@@ -12403,11 +12577,11 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
         }
     }
     /**
-     * @class CylinderGeometry
-     * @extends SliceGeometry
+     * @class CylinderSimplexGeometry
+     * @extends SliceSimplexGeometry
      */
-    var CylinderGeometry = (function (_super) {
-        __extends(CylinderGeometry, _super);
+    var CylinderSimplexGeometry = (function (_super) {
+        __extends(CylinderSimplexGeometry, _super);
         /**
          * <p>
          * Constructs a Cylindrical Shell.
@@ -12415,7 +12589,7 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
          * <p>
          * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
          * </p>
-         * @class CylinderGeometry
+         * @class CylinderSimplexGeometry
          * @constructor
          * @param radius [number = 1]
          * @param height [number = 1]
@@ -12423,20 +12597,20 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
          * @param openTop [boolean = false]
          * @param openBottom [boolean = false]
          */
-        function CylinderGeometry(radius, height, axis, openTop, openBottom) {
+        function CylinderSimplexGeometry(radius, height, axis, openTop, openBottom) {
             if (radius === void 0) { radius = 1; }
             if (height === void 0) { height = 1; }
             if (axis === void 0) { axis = Vector3.e2; }
             if (openTop === void 0) { openTop = false; }
             if (openBottom === void 0) { openBottom = false; }
-            _super.call(this, 'CylinderGeometry', axis, void 0, void 0);
+            _super.call(this, 'CylinderSimplexGeometry', axis, void 0, void 0);
             this.radius = radius;
             this.height = height;
             this.openTop = openTop;
             this.openBottom = openBottom;
             this.setModified(true);
         }
-        CylinderGeometry.prototype.regenerate = function () {
+        CylinderSimplexGeometry.prototype.regenerate = function () {
             this.data = [];
             var radius = this.radius;
             //let height = this.height
@@ -12531,9 +12705,9 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
             //    this.computeVertexNormals();
             this.setModified(false);
         };
-        return CylinderGeometry;
-    })(SliceGeometry);
-    return CylinderGeometry;
+        return CylinderSimplexGeometry;
+    })(SliceSimplexGeometry);
+    return CylinderSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12541,7 +12715,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector2, Vector3) {
+define('davinci-eight/geometries/PolyhedronSimplexGeometry',["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, SimplexGeometry, Simplex, Symbolic, Vector2, Vector3) {
     // Angle around the Y axis, counter-clockwise when looking from above.
     function azimuth(vector) {
         return Math.atan2(vector.z, -vector.x);
@@ -12576,17 +12750,17 @@ define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../
         return uv.clone();
     }
     /**
-     * @class PolyhedronGeometry
-     * @extends Geometry
+     * @class PolyhedronSimplexGeometry
+     * @extends SimplexGeometry
      */
-    var PolyhedronGeometry = (function (_super) {
-        __extends(PolyhedronGeometry, _super);
+    var PolyhedronSimplexGeometry = (function (_super) {
+        __extends(PolyhedronSimplexGeometry, _super);
         /**
-         * @class PolyhedronGeometry
+         * @class PolyhedronSimplexGeometry
          * @constructor
          *
          */
-        function PolyhedronGeometry(vertices, indices, radius, detail) {
+        function PolyhedronSimplexGeometry(vertices, indices, radius, detail) {
             if (radius === void 0) { radius = 1; }
             if (detail === void 0) { detail = 0; }
             _super.call(this);
@@ -12710,9 +12884,9 @@ define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../
                 }
             }
         }
-        return PolyhedronGeometry;
-    })(Geometry);
-    return PolyhedronGeometry;
+        return PolyhedronSimplexGeometry;
+    })(SimplexGeometry);
+    return PolyhedronSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12720,7 +12894,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/DodecahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
+define('davinci-eight/geometries/DodecahedronSimplexGeometry',["require", "exports", '../geometries/PolyhedronSimplexGeometry'], function (require, exports, PolyhedronSimplexGeometry) {
     var t = (1 + Math.sqrt(5)) / 2;
     var r = 1 / t;
     var vertices = [
@@ -12754,23 +12928,23 @@ define('davinci-eight/geometries/DodecahedronGeometry',["require", "exports", '.
         1, 12, 14, 1, 14, 5, 1, 5, 9
     ];
     /**
-     * @class DodecahedronGeometry
-     * @extends PolyhedronGeometry
+     * @class DodecahedronSimplexGeometry
+     * @extends PolyhedronSimplexGeometry
      */
-    var DodecahedronGeometry = (function (_super) {
-        __extends(DodecahedronGeometry, _super);
+    var DodecahedronSimplexGeometry = (function (_super) {
+        __extends(DodecahedronSimplexGeometry, _super);
         /**
-         * @class DodecahedronGeometry
+         * @class DodecahedronSimplexGeometry
          * @constructor
          * @param radius [number]
          * @param detail [number]
          */
-        function DodecahedronGeometry(radius, detail) {
+        function DodecahedronSimplexGeometry(radius, detail) {
             _super.call(this, vertices, indices, radius, detail);
         }
-        return DodecahedronGeometry;
-    })(PolyhedronGeometry);
-    return DodecahedronGeometry;
+        return DodecahedronSimplexGeometry;
+    })(PolyhedronSimplexGeometry);
+    return DodecahedronSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12778,7 +12952,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/IcosahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
+define('davinci-eight/geometries/IcosahedronSimplexGeometry',["require", "exports", '../geometries/PolyhedronSimplexGeometry'], function (require, exports, PolyhedronSimplexGeometry) {
     var t = (1 + Math.sqrt(5)) / 2;
     var vertices = [
         -1, t, 0, 1, t, 0, -1, -t, 0, 1, -t, 0,
@@ -12792,23 +12966,23 @@ define('davinci-eight/geometries/IcosahedronGeometry',["require", "exports", '..
         4, 9, 5, 2, 4, 11, 6, 2, 10, 8, 6, 7, 9, 8, 1
     ];
     /**
-     * @class IcosahedronGeometry
-     * @extends PolyhedronGeometry
+     * @class IcosahedronSimplexGeometry
+     * @extends PolyhedronSimplexGeometry
      */
-    var IcosahedronGeometry = (function (_super) {
-        __extends(IcosahedronGeometry, _super);
+    var IcosahedronSimplexGeometry = (function (_super) {
+        __extends(IcosahedronSimplexGeometry, _super);
         /**
          * @class OcosahedronGeometry
          * @constructor
          * @param radius [number]
          * @param detail [number]
          */
-        function IcosahedronGeometry(radius, detail) {
+        function IcosahedronSimplexGeometry(radius, detail) {
             _super.call(this, vertices, indices, radius, detail);
         }
-        return IcosahedronGeometry;
-    })(PolyhedronGeometry);
-    return IcosahedronGeometry;
+        return IcosahedronSimplexGeometry;
+    })(PolyhedronSimplexGeometry);
+    return IcosahedronSimplexGeometry;
 });
 
 define('davinci-eight/checks/isFunction',["require", "exports"], function (require, exports) {
@@ -12834,20 +13008,20 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/SurfaceGeometry',["require", "exports", '../geometries/Simplex', '../geometries/Geometry', '../core/Symbolic', '../math/Vector2', '../math/Vector3', '../checks/mustBeFunction', '../checks/mustBeInteger'], function (require, exports, Simplex, Geometry, Symbolic, Vector2, Vector3, mustBeFunction, mustBeInteger) {
+define('davinci-eight/geometries/GridSimplexGeometry',["require", "exports", '../geometries/Simplex', '../geometries/SimplexGeometry', '../core/Symbolic', '../math/Vector2', '../math/Vector3', '../checks/mustBeFunction', '../checks/mustBeInteger'], function (require, exports, Simplex, SimplexGeometry, Symbolic, Vector2, Vector3, mustBeFunction, mustBeInteger) {
     /**
-     * @class SurfaceGeometry
+     * @class GridSimplexGeometry
      */
-    var SurfaceGeometry = (function (_super) {
-        __extends(SurfaceGeometry, _super);
+    var GridSimplexGeometry = (function (_super) {
+        __extends(GridSimplexGeometry, _super);
         /**
-         * @class SurfaceGeometry
+         * @class GridSimplexGeometry
          * @constructor
          * @param parametricFunction {(u: number, v: number) => Cartesian3}
          * @param uSegments {number}
          * @param vSegments {number}
          */
-        function SurfaceGeometry(parametricFunction, uSegments, vSegments) {
+        function GridSimplexGeometry(parametricFunction, uSegments, vSegments) {
             _super.call(this);
             mustBeFunction('parametricFunction', parametricFunction);
             mustBeInteger('uSegments', uSegments);
@@ -12907,9 +13081,9 @@ define('davinci-eight/geometries/SurfaceGeometry',["require", "exports", '../geo
             //    this.computeFaceNormals();
             //    this.computeVertexNormals();
         }
-        return SurfaceGeometry;
-    })(Geometry);
-    return SurfaceGeometry;
+        return GridSimplexGeometry;
+    })(SimplexGeometry);
+    return GridSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12917,7 +13091,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/KleinBottleGeometry',["require", "exports", '../geometries/SurfaceGeometry', '../math/Vector3'], function (require, exports, SurfaceGeometry, Vector3) {
+define('davinci-eight/geometries/KleinBottleSimplexGeometry',["require", "exports", '../geometries/GridSimplexGeometry', '../math/Vector3'], function (require, exports, GridSimplexGeometry, Vector3) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
@@ -12939,23 +13113,23 @@ define('davinci-eight/geometries/KleinBottleGeometry',["require", "exports", '..
     /**
      * By connecting the edge of a Mobius Strip we get a Klein Bottle.
      * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
-     * @class KleinBottleGeometry
-     * @extends SurfaceGeometry
+     * @class KleinBottleSimplexGeometry
+     * @extends GridSimplexGeometry
      */
-    var KleinBottleGeometry = (function (_super) {
-        __extends(KleinBottleGeometry, _super);
+    var KleinBottleSimplexGeometry = (function (_super) {
+        __extends(KleinBottleSimplexGeometry, _super);
         /**
-         * @class KleinBottleGeometry
+         * @class KleinBottleSimplexGeometry
          * @constructor
          * @param uSegments {number}
          * @param vSegments {number}
          */
-        function KleinBottleGeometry(uSegments, vSegments) {
+        function KleinBottleSimplexGeometry(uSegments, vSegments) {
             _super.call(this, klein, uSegments, vSegments);
         }
-        return KleinBottleGeometry;
-    })(SurfaceGeometry);
-    return KleinBottleGeometry;
+        return KleinBottleSimplexGeometry;
+    })(GridSimplexGeometry);
+    return KleinBottleSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12963,7 +13137,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/Simplex1Geometry',["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector3) {
+define('davinci-eight/geometries/Simplex1Geometry',["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector3'], function (require, exports, SimplexGeometry, Simplex, Symbolic, Vector3) {
     //import VectorN = require('../math/VectorN')
     /**
      * @class Simplex1Geometry
@@ -12996,7 +13170,7 @@ define('davinci-eight/geometries/Simplex1Geometry',["require", "exports", '../ge
             this.check();
         };
         return Simplex1Geometry;
-    })(Geometry);
+    })(SimplexGeometry);
     return Simplex1Geometry;
 });
 
@@ -13005,7 +13179,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/MobiusStripGeometry',["require", "exports", '../geometries/SurfaceGeometry', '../math/Vector3'], function (require, exports, SurfaceGeometry, Vector3) {
+define('davinci-eight/geometries/MobiusStripSimplexGeometry',["require", "exports", '../geometries/GridSimplexGeometry', '../math/Vector3'], function (require, exports, GridSimplexGeometry, Vector3) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
@@ -13029,14 +13203,14 @@ define('davinci-eight/geometries/MobiusStripGeometry',["require", "exports", '..
     /**
      * http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html
      */
-    var MobiusStripGeometry = (function (_super) {
-        __extends(MobiusStripGeometry, _super);
-        function MobiusStripGeometry(uSegments, vSegments) {
+    var MobiusStripSimplexGeometry = (function (_super) {
+        __extends(MobiusStripSimplexGeometry, _super);
+        function MobiusStripSimplexGeometry(uSegments, vSegments) {
             _super.call(this, mobius, uSegments, vSegments);
         }
-        return MobiusStripGeometry;
-    })(SurfaceGeometry);
-    return MobiusStripGeometry;
+        return MobiusStripSimplexGeometry;
+    })(GridSimplexGeometry);
+    return MobiusStripSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -13044,7 +13218,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/OctahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
+define('davinci-eight/geometries/OctahedronSimplexGeometry',["require", "exports", '../geometries/PolyhedronSimplexGeometry'], function (require, exports, PolyhedronSimplexGeometry) {
     var vertices = [
         1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1
     ];
@@ -13052,23 +13226,23 @@ define('davinci-eight/geometries/OctahedronGeometry',["require", "exports", '../
         0, 2, 4, 0, 4, 3, 0, 3, 5, 0, 5, 2, 1, 2, 5, 1, 5, 3, 1, 3, 4, 1, 4, 2
     ];
     /**
-     * @class OctahedronGeometry
-     * @extends PolyhedronGeometry
+     * @class OctahedronSimplexGeometry
+     * @extends PolyhedronSimplexGeometry
      */
-    var OctahedronGeometry = (function (_super) {
-        __extends(OctahedronGeometry, _super);
+    var OctahedronSimplexGeometry = (function (_super) {
+        __extends(OctahedronSimplexGeometry, _super);
         /**
-         * @class OctahedronGeometry
+         * @class OctahedronSimplexGeometry
          * @constructor
          * @param radius [number]
          * @param detail [number]
          */
-        function OctahedronGeometry(radius, detail) {
+        function OctahedronSimplexGeometry(radius, detail) {
             _super.call(this, vertices, indices, radius, detail);
         }
-        return OctahedronGeometry;
-    })(PolyhedronGeometry);
-    return OctahedronGeometry;
+        return OctahedronSimplexGeometry;
+    })(PolyhedronSimplexGeometry);
+    return OctahedronSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -13076,25 +13250,25 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/SphericalPolarGeometry',["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '../math/MutableNumber', '../geometries/Simplex', '../geometries/SliceGeometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, mustBeNumber, MutableNumber, Simplex, SliceGeometry, Spinor3, Vector2, Vector3) {
+define('davinci-eight/geometries/SphericalPolarSimplexGeometry',["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '../math/MutableNumber', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, mustBeNumber, MutableNumber, Simplex, SliceSimplexGeometry, Spinor3, Vector2, Vector3) {
     function computeVertices(radius, axis, phiStart, phiLength, thetaStart, thetaLength, heightSegments, widthSegments, points, uvs) {
         var generator = new Spinor3().dual(axis);
         var iLength = heightSegments + 1;
         var jLength = widthSegments + 1;
         for (var i = 0; i < iLength; i++) {
             var v = i / heightSegments;
-            var theta = thetaStart + v * thetaLength;
-            var arcRadius = radius * Math.sin(theta);
+            var θ = thetaStart + v * thetaLength;
+            var arcRadius = radius * Math.sin(θ);
             var begin = Vector3.copy(phiStart).scale(arcRadius);
             var arcPoints = arc3(begin, phiLength, generator, widthSegments);
             /**
              * Displacement that we need to add to each arc point to get the
              * distance position parallel to the axis correct.
              */
-            var dispH = Vector3.copy(axis).scale(Math.cos(theta));
+            var cosθ = Math.cos(θ);
             for (var j = 0; j < jLength; j++) {
                 var u = j / widthSegments;
-                var point = arcPoints[j].add(dispH);
+                var point = arcPoints[j].add(axis, cosθ);
                 points.push(point);
                 uvs.push(new Vector2([u, 1 - v]));
             }
@@ -13223,14 +13397,14 @@ define('davinci-eight/geometries/SphericalPolarGeometry',["require", "exports", 
         }
     }
     /**
-     * @class SphericalPolarGeometry
-     * @extends SliceGeometry
+     * @class SphericalPolarSimplexGeometry
+     * @extends SliceSimplexGeometry
      */
-    var SphericalPolarGeometry = (function (_super) {
-        __extends(SphericalPolarGeometry, _super);
+    var SphericalPolarSimplexGeometry = (function (_super) {
+        __extends(SphericalPolarSimplexGeometry, _super);
         /**
          * Constructs a geometry consisting of triangular simplices based on spherical coordinates.
-         * @class SphericalPolarGeometry
+         * @class SphericalPolarSimplexGeometry
          * @constructor
          * @param radius [number = 1]
          * @param axis [Cartesian3]
@@ -13239,12 +13413,12 @@ define('davinci-eight/geometries/SphericalPolarGeometry',["require", "exports", 
          * @param thetaStart [number]
          * @param thetaLength [number]
          */
-        function SphericalPolarGeometry(radius, axis, phiStart, phiLength, thetaStart, thetaLength) {
+        function SphericalPolarSimplexGeometry(radius, axis, phiStart, phiLength, thetaStart, thetaLength) {
             if (radius === void 0) { radius = 1; }
             if (phiLength === void 0) { phiLength = 2 * Math.PI; }
             if (thetaStart === void 0) { thetaStart = 0; }
             if (thetaLength === void 0) { thetaLength = Math.PI; }
-            _super.call(this, 'SphericalPolarGeometry', axis, phiStart, phiLength);
+            _super.call(this, 'SphericalPolarSimplexGeometry', axis, phiStart, phiLength);
             this._radius = new MutableNumber([radius]);
             this.thetaLength = thetaLength;
             this.thetaStart = thetaStart;
@@ -13256,11 +13430,11 @@ define('davinci-eight/geometries/SphericalPolarGeometry',["require", "exports", 
          * @return {void}
          * @protected
          */
-        SphericalPolarGeometry.prototype.destructor = function () {
+        SphericalPolarSimplexGeometry.prototype.destructor = function () {
             this._radius = void 0;
             _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(SphericalPolarGeometry.prototype, "radius", {
+        Object.defineProperty(SphericalPolarSimplexGeometry.prototype, "radius", {
             /**
              * @property radius
              * @type {number}
@@ -13274,7 +13448,7 @@ define('davinci-eight/geometries/SphericalPolarGeometry',["require", "exports", 
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(SphericalPolarGeometry.prototype, "phiLength", {
+        Object.defineProperty(SphericalPolarSimplexGeometry.prototype, "phiLength", {
             /**
              * @property phiLength
              * @type {number}
@@ -13288,7 +13462,7 @@ define('davinci-eight/geometries/SphericalPolarGeometry',["require", "exports", 
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(SphericalPolarGeometry.prototype, "phiStart", {
+        Object.defineProperty(SphericalPolarSimplexGeometry.prototype, "phiStart", {
             /**
              * Defines a start half-plane relative to the <code>axis</code> property.
              * @property phiStart
@@ -13307,16 +13481,16 @@ define('davinci-eight/geometries/SphericalPolarGeometry',["require", "exports", 
          * @method isModified
          * @return {boolean}
          */
-        SphericalPolarGeometry.prototype.isModified = function () {
+        SphericalPolarSimplexGeometry.prototype.isModified = function () {
             return this._radius.modified || _super.prototype.isModified.call(this);
         };
         /**
          * @method setModified
          * @param modified {boolean}
-         * @return {SphericalPolarGeometry}
+         * @return {SphericalPolarSimplexGeometry}
          * @chainable
          */
-        SphericalPolarGeometry.prototype.setModified = function (modified) {
+        SphericalPolarSimplexGeometry.prototype.setModified = function (modified) {
             _super.prototype.setModified.call(this, modified);
             this._radius.modified = modified;
             return this;
@@ -13325,7 +13499,7 @@ define('davinci-eight/geometries/SphericalPolarGeometry',["require", "exports", 
          * @method regenerate
          * @return {void}
          */
-        SphericalPolarGeometry.prototype.regenerate = function () {
+        SphericalPolarSimplexGeometry.prototype.regenerate = function () {
             this.data = [];
             var heightSegments = this.curvedSegments;
             var widthSegments = this.curvedSegments;
@@ -13360,9 +13534,9 @@ define('davinci-eight/geometries/SphericalPolarGeometry',["require", "exports", 
             }
             this.setModified(false);
         };
-        return SphericalPolarGeometry;
-    })(SliceGeometry);
-    return SphericalPolarGeometry;
+        return SphericalPolarSimplexGeometry;
+    })(SliceSimplexGeometry);
+    return SphericalPolarSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -13370,7 +13544,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
+define('davinci-eight/geometries/TetrahedronSimplexGeometry',["require", "exports", '../geometries/PolyhedronSimplexGeometry'], function (require, exports, PolyhedronSimplexGeometry) {
     var vertices = [
         1, 1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1
     ];
@@ -13378,23 +13552,23 @@ define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '..
         2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
     ];
     /**
-     * @class TetrahedronGeometry
-     * @extends PolyhedronGeometry
+     * @class TetrahedronSimplexGeometry
+     * @extends PolyhedronSimplexGeometry
      */
-    var TetrahedronGeometry = (function (_super) {
-        __extends(TetrahedronGeometry, _super);
+    var TetrahedronSimplexGeometry = (function (_super) {
+        __extends(TetrahedronSimplexGeometry, _super);
         /**
-         * @class TetrahedronGeometry
+         * @class TetrahedronSimplexGeometry
          * @constructor
          * @param radius [number]
          * @param detail [number]
          */
-        function TetrahedronGeometry(radius, detail) {
+        function TetrahedronSimplexGeometry(radius, detail) {
             _super.call(this, vertices, indices, radius, detail);
         }
-        return TetrahedronGeometry;
-    })(PolyhedronGeometry);
-    return TetrahedronGeometry;
+        return TetrahedronSimplexGeometry;
+    })(PolyhedronSimplexGeometry);
+    return TetrahedronSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -15429,24 +15603,24 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, Euclidean3, Geometry, mustBeInteger, mustBeString, Spinor3, Vector2, Vector3) {
+define('davinci-eight/geometries/VortexSimplexGeometry',["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../checks/mustBeString', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, Euclidean3, SimplexGeometry, mustBeInteger, mustBeString, Spinor3, Vector2, Vector3) {
     function perpendicular(to) {
         var random = new Vector3([Math.random(), Math.random(), Math.random()]);
         random.cross(to).normalize();
         return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0);
     }
     /**
-     * @class VortexGeometry
+     * @class VortexSimplexGeometry
      */
-    var VortexGeometry = (function (_super) {
-        __extends(VortexGeometry, _super);
+    var VortexSimplexGeometry = (function (_super) {
+        __extends(VortexSimplexGeometry, _super);
         /**
-         * @class VortexGeometry
+         * @class VortexSimplexGeometry
          * @constructor
-         * @param type [string = 'VortexGeometry']
+         * @param type [string = 'VortexSimplexGeometry']
          */
-        function VortexGeometry(type) {
-            if (type === void 0) { type = 'VortexGeometry'; }
+        function VortexSimplexGeometry(type) {
+            if (type === void 0) { type = 'VortexSimplexGeometry'; }
             _super.call(this, mustBeString('type', type));
             this.radius = 1;
             this.radiusCone = 0.08;
@@ -15458,15 +15632,15 @@ define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../math
             this.generator = new Spinor3([0, 0, 1, 0]);
             this.setModified(true);
         }
-        VortexGeometry.prototype.isModified = function () {
+        VortexSimplexGeometry.prototype.isModified = function () {
             return this.generator.modified;
         };
         /**
          * @method setModified
          * @param modified {boolean}
-         * @return {ArrowGeometry}
+         * @return {ArrowSimplexGeometry}
          */
-        VortexGeometry.prototype.setModified = function (modified) {
+        VortexSimplexGeometry.prototype.setModified = function (modified) {
             this.generator.modified = modified;
             return this;
         };
@@ -15474,7 +15648,7 @@ define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../math
          * @method regenerate
          * @return {void}
          */
-        VortexGeometry.prototype.regenerate = function () {
+        VortexSimplexGeometry.prototype.regenerate = function () {
             this.data = [];
             var radius = this.radius;
             var radiusCone = this.radiusCone;
@@ -15548,9 +15722,9 @@ define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../math
             }
             this.setModified(false);
         };
-        return VortexGeometry;
-    })(Geometry);
-    return VortexGeometry;
+        return VortexSimplexGeometry;
+    })(SimplexGeometry);
+    return VortexSimplexGeometry;
 });
 
 define('davinci-eight/utils/mergeStringMapList',["require", "exports"], function (require, exports) {
@@ -15960,7 +16134,12 @@ define('davinci-eight/math/Vector4',["require", "exports", '../math/VectorN'], f
             this.w = w;
             return this;
         };
-        Vector4.prototype.add = function (rhs) {
+        Vector4.prototype.add = function (vector, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.x += vector.x * alpha;
+            this.y += vector.y * alpha;
+            this.z += vector.z * alpha;
+            this.w += vector.w * alpha;
             return this;
         };
         Vector4.prototype.sum = function (a, b) {
@@ -16725,7 +16904,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SliceGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphericalPolarGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/MutableNumber', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, GeometryAttribute, GeometryElements, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialGeometry, RingGeometry, ArrowGeometry, BarnGeometry, ConeGeometry, CuboidGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, Simplex1Geometry, MobiusStripGeometry, OctahedronGeometry, SliceGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphericalPolarGeometry, TetrahedronGeometry, VortexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, MutableNumber, Matrix3, Matrix4, Spinor3, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/ArrowSimplexGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/MutableNumber', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, RingSimplexGeometry, ArrowSimplexGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, MutableNumber, Matrix3, Matrix4, Spinor3, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -16810,27 +16989,28 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
             return smartProgram;
         },
         get Color() { return Color; },
-        get RingGeometry() { return RingGeometry; },
-        get AxialGeometry() { return AxialGeometry; },
-        get ArrowGeometry() { return ArrowGeometry; },
-        get BarnGeometry() { return BarnGeometry; },
+        get RingSimplexGeometry() { return RingSimplexGeometry; },
+        get AxialSimplexGeometry() { return AxialSimplexGeometry; },
+        get ArrowSimplexGeometry() { return ArrowSimplexGeometry; },
+        get BarnSimplexGeometry() { return BarnSimplexGeometry; },
         get ConeGeometry() { return ConeGeometry; },
+        get ConeSimplexGeometry() { return ConeSimplexGeometry; },
         get CuboidGeometry() { return CuboidGeometry; },
-        get CylinderGeometry() { return CylinderGeometry; },
-        get DodecahedronGeometry() { return DodecahedronGeometry; },
-        get IcosahedronGeometry() { return IcosahedronGeometry; },
-        get KleinBottleGeometry() { return KleinBottleGeometry; },
+        get CuboidSimplexGeometry() { return CuboidSimplexGeometry; },
+        get CylinderSimplexGeometry() { return CylinderSimplexGeometry; },
+        get DodecahedronSimplexGeometry() { return DodecahedronSimplexGeometry; },
+        get IcosahedronSimplexGeometry() { return IcosahedronSimplexGeometry; },
+        get KleinBottleSimplexGeometry() { return KleinBottleSimplexGeometry; },
         get Simplex1Geometry() { return Simplex1Geometry; },
-        get MobiusStripGeometry() { return MobiusStripGeometry; },
-        get OctahedronGeometry() { return OctahedronGeometry; },
-        get SurfaceGeometry() { return SurfaceGeometry; },
-        get PolyhedronGeometry() { return PolyhedronGeometry; },
-        get RevolutionGeometry() { return RevolutionGeometry; },
-        get SliceGeometry() { return SliceGeometry; },
-        get SphericalPolarGeometry() { return SphericalPolarGeometry; },
-        get TetrahedronGeometry() { return TetrahedronGeometry; },
-        //  get TubeGeometry() { return TubeGeometry },
-        get VortexGeometry() { return VortexGeometry; },
+        get MobiusStripSimplexGeometry() { return MobiusStripSimplexGeometry; },
+        get OctahedronSimplexGeometry() { return OctahedronSimplexGeometry; },
+        get GridSimplexGeometry() { return GridSimplexGeometry; },
+        get PolyhedronSimplexGeometry() { return PolyhedronSimplexGeometry; },
+        get RevolutionSimplexGeometry() { return RevolutionSimplexGeometry; },
+        get SliceSimplexGeometry() { return SliceSimplexGeometry; },
+        get SphericalPolarSimplexGeometry() { return SphericalPolarSimplexGeometry; },
+        get TetrahedronSimplexGeometry() { return TetrahedronSimplexGeometry; },
+        get VortexSimplexGeometry() { return VortexSimplexGeometry; },
         get Topology() { return Topology; },
         get PointTopology() { return PointTopology; },
         get LineTopology() { return LineTopology; },
@@ -16850,20 +17030,20 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get RoundUniform() { return RoundUniform; },
         // mesh
         get ArrowBuilder() { return ArrowBuilder; },
-        get toGeometryMeta() { return toGeometryMeta; },
+        get simplicesToGeometryMeta() { return simplicesToGeometryMeta; },
         get computeFaceNormals() { return computeFaceNormals; },
         get cube() { return cube; },
         get quadrilateral() { return quadrilateral; },
         get square() { return square; },
         get tetrahedron() { return tetrahedron; },
         get triangle() { return triangle; },
-        get toGeometryData() { return toGeometryData; },
+        get simplicesToDrawPrimitive() { return simplicesToDrawPrimitive; },
         get CylinderArgs() { return CylinderArgs; },
         get Symbolic() { return Symbolic; },
         // programs
         get programFromScripts() { return programFromScripts; },
-        get GeometryAttribute() { return GeometryAttribute; },
-        get GeometryElements() { return GeometryElements; },
+        get DrawAttribute() { return DrawAttribute; },
+        get DrawPrimitive() { return DrawPrimitive; },
         // facets
         get AmbientLight() { return AmbientLight; },
         get ColorFacet() { return ColorFacet; },

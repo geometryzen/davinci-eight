@@ -1,5 +1,5 @@
 import ColorFacet = require('../../uniforms/ColorFacet')
-import CuboidGeometry = require('../../geometries/CuboidGeometry')
+import CuboidSimplexGeometry = require('../../geometries/CuboidSimplexGeometry')
 import IDrawable = require('../../core/IDrawable')
 import ISlide = require('../slideshow/ISlide')
 import ISlideCommand = require('../../slideshow/ISlideCommand')

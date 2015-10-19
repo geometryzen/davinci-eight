@@ -1,4 +1,4 @@
-define(["require", "exports", '../geometries/GeometryAttribute', '../geometries/GeometryElements', '../checks/mustBeInteger', '../geometries/Vertex'], function (require, exports, GeometryAttribute, GeometryElements, mustBeInteger, Vertex) {
+define(["require", "exports", '../geometries/DrawAttribute', '../geometries/DrawPrimitive', '../checks/mustBeInteger', '../geometries/Vertex'], function (require, exports, DrawAttribute, DrawPrimitive, mustBeInteger, Vertex) {
     function attributes(elements, vertices) {
         var attribs = {};
         for (var vertexIndex = 0; vertexIndex < vertices.length; vertexIndex++) {
@@ -10,7 +10,7 @@ define(["require", "exports", '../geometries/GeometryAttribute', '../geometries/
                 var chunkSize = data.length;
                 var attrib = attribs[name];
                 if (!attrib) {
-                    attrib = attribs[name] = new GeometryAttribute([], chunkSize);
+                    attrib = attribs[name] = new DrawAttribute([], chunkSize);
                 }
                 for (var coordIndex = 0; coordIndex < chunkSize; coordIndex++) {
                     attrib.values.push(data[coordIndex]);
@@ -42,11 +42,11 @@ define(["require", "exports", '../geometries/GeometryAttribute', '../geometries/
          * Creates the elements in a format required for WebGL.
          * This may involve creating some redundancy in order to get WebGL efficiency.
          * Thus, we should regard the topology as normalized
-         * @method toElements
-         * @return {GeometryElements}
+         * @method toDrawPrimitive
+         * @return {DrawPrimitive}
          */
-        Topology.prototype.toElements = function () {
-            return new GeometryElements(this.mode, this.elements, attributes(this.elements, this.vertices));
+        Topology.prototype.toDrawPrimitive = function () {
+            return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices));
         };
         return Topology;
     })();

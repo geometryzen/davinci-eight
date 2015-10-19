@@ -1,4 +1,4 @@
-import Geometry = require('../geometries/Geometry')
+import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Simplex = require('../geometries/Simplex')
 import Symbolic = require('../core/Symbolic')
 import Vector3 = require('../math/Vector3')
@@ -7,7 +7,7 @@ import Vector3 = require('../math/Vector3')
 /**
  * @class Simplex1Geometry
  */
-class Simplex1Geometry extends Geometry {
+class Simplex1Geometry extends SimplexGeometry {
   public head: Vector3 = new Vector3([1, 0, 0]);
   public tail: Vector3 = new Vector3([0, 1, 0]);
   /**

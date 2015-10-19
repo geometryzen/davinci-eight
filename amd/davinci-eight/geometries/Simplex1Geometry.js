@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector3) {
+define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector3'], function (require, exports, SimplexGeometry, Simplex, Symbolic, Vector3) {
     //import VectorN = require('../math/VectorN')
     /**
      * @class Simplex1Geometry
@@ -36,6 +36,6 @@ define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex',
             this.check();
         };
         return Simplex1Geometry;
-    })(Geometry);
+    })(SimplexGeometry);
     return Simplex1Geometry;
 });

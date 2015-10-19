@@ -69,13 +69,21 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
             configurable: true
         });
         /**
-         * Performs in-place addition of vectors.
+         * <p>
+         * Adds <code>alpha * vector</code> to this <code>Vector3</code>.
+         * </p>
          *
          * @method add
-         * @param v {Vector3} The vector to add to this vector.
+         * @param vector {Vector3} The vector to add to this vector.
+         * @param alpha [number = 1] The
+         * @return {Vector3}
          */
-        Vector3.prototype.add = function (v) {
-            return this.sum(this, v);
+        Vector3.prototype.add = function (vector, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.x += vector.x * alpha;
+            this.y += vector.y * alpha;
+            this.z += vector.z * alpha;
+            return this;
         };
         Vector3.prototype.sum = function (a, b) {
             this.x = a.x + b.x;
@@ -98,7 +106,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
          * The result is applied to this vector.
          * Strictly speaking, this method does not make much sense because the dimensions
          * of the square matrix and column vector don't match.
-         * TODO: Used by TubeGeometry.
+         * TODO: Used by TubeSimplexGeometry.
          * @method applyMatrix
          * @param m The 4x4 matrix that pre-multiplies this column vector.
          */
@@ -279,7 +287,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
          */
         Vector3.prototype.__add__ = function (rhs) {
             if (rhs instanceof Vector3) {
-                return this.clone().add(rhs);
+                return this.clone().add(rhs, 1.0);
             }
             else {
                 return void 0;
@@ -319,7 +327,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
          * @return {Vector3}
          */
         Vector3.lerp = function (a, b, alpha) {
-            return Vector3.copy(b).sub(a).scale(alpha).add(a);
+            return Vector3.copy(b).sub(a).scale(alpha).add(a, 1.0);
         };
         /**
          * @method random

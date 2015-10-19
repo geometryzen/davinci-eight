@@ -41,9 +41,9 @@ define(["require", "exports", '../../uniforms/ColorFacet', '../../scene/Drawable
             _super.prototype.destructor.call(this);
         };
         CreateDrawable.prototype.redo = function (slide, director) {
-            var elements = this.geometry.toElements();
+            var primitives = this.geometry.toPrimitives();
             var material = createMaterial(this.geometry);
-            var drawable = new Drawable(elements, material);
+            var drawable = new Drawable(primitives, material);
             drawable.setFacet('model', new ModelFacet()).decRef();
             drawable.setFacet('color', new ColorFacet()).decRef().setRGB(1, 1, 1);
             director.addDrawable(drawable, this.name);

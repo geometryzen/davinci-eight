@@ -3,7 +3,15 @@
  * @class LinearElement<I, M, S>
  */
 interface LinearElement<I, M, S, V> {
-  add(rhs: I): M;
+  /**
+   * <p>
+   * Adds <code>alpha * rhs</code> to <code>this</code> linear element.
+   * </p>
+   * @param rhs {I}
+   * @param alpha {number}
+   * @return {M}
+   */
+  add(rhs: I, alpha: number): M;
   clone(): M;
   copy(source: I): M;
   difference(a: I, b: I): M;

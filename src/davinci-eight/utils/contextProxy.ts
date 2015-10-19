@@ -4,7 +4,7 @@ import DrawMode = require('../core/DrawMode')
 import IContextProvider = require('../core/IContextProvider')
 import IContextConsumer = require('../core/IContextConsumer')
 import core = require('../core')
-import GeometryElements = require('../geometries/GeometryElements')
+import DrawPrimitive = require('../geometries/DrawPrimitive')
 import expectArg = require('../checks/expectArg')
 import initWebGL = require('../renderers/initWebGL')
 import IBuffer = require('../core/IBuffer')
@@ -567,8 +567,8 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         /**
          *
          */
-        createBufferGeometry(elements: GeometryElements, usage?: number): IBufferGeometry {
-            expectArg('elements', elements).toSatisfy(elements instanceof GeometryElements, "elements must be an instance of GeometryElements");
+        createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry {
+            expectArg('primitive', primitive).toSatisfy(primitive instanceof DrawPrimitive, "primitive must be an instance of DrawPrimitive");
             if (isDefined(usage)) {
                 expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
             }
@@ -591,7 +591,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
             let indexBuffer = kahuna.createElementArrayBuffer();
             indexBuffer.bind();
             if (isDefined(gl)) {
-                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices), usage);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
             }
             else {
                 console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.")
@@ -599,17 +599,17 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
             indexBuffer.unbind();
 
             let attributes = new StringIUnknownMap<ElementsBlockAttrib>('createBufferGeometry')
-            let names = Object.keys(elements.attributes)
+            let names = Object.keys(primitive.attributes)
             let namesLength = names.length
             var i: number
             for (i = 0; i < namesLength; i++) {
                 let name = names[i]
                 let buffer = kahuna.createArrayBuffer()
                 buffer.bind()
-                let vertexAttrib = elements.attributes[name]
+                let vertexAttrib = primitive.attributes[name]
                 let data: number[] = vertexAttrib.values
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage)
-                let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0)
+                let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.chunkSize, false, 0, 0)
                 attributes.put(name, attribute)
                 attribute.release()
                 buffer.unbind()
@@ -617,7 +617,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
             }
             // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
             // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-            let drawCommand = new GeometryDataCommand(elements.mode, elements.indices.length, gl.UNSIGNED_SHORT, 0)
+            let drawCommand = new GeometryDataCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0)
             var block = new ElementsBlock(indexBuffer, attributes, drawCommand)
             _blocks.put(mesh.uuid, block)
             block.release()

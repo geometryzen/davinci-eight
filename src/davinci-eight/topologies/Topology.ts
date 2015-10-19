@@ -1,13 +1,13 @@
 import DrawMode = require('../core/DrawMode')
-import GeometryAttribute = require('../geometries/GeometryAttribute')
-import GeometryElements = require('../geometries/GeometryElements')
+import DrawAttribute = require('../geometries/DrawAttribute')
+import DrawPrimitive = require('../geometries/DrawPrimitive')
 import mustBeInteger = require('../checks/mustBeInteger')
 import Simplex = require('../geometries/Simplex')
 import VectorN = require('../math/VectorN')
 import Vertex = require('../geometries/Vertex')
 
-function attributes(elements: number[], vertices: Vertex[]): { [name: string]: GeometryAttribute } {
-  let attribs: { [name: string]: GeometryAttribute } = {}
+function attributes(elements: number[], vertices: Vertex[]): { [name: string]: DrawAttribute } {
+  let attribs: { [name: string]: DrawAttribute } = {}
 
   for (var vertexIndex = 0; vertexIndex < vertices.length; vertexIndex++) {
 
@@ -20,7 +20,7 @@ function attributes(elements: number[], vertices: Vertex[]): { [name: string]: G
       var chunkSize = data.length
       var attrib = attribs[name]
       if (!attrib) {
-        attrib = attribs[name] = new GeometryAttribute([], chunkSize)
+        attrib = attribs[name] = new DrawAttribute([], chunkSize)
       }
       for (var coordIndex = 0; coordIndex < chunkSize; coordIndex++) {
         attrib.values.push(data[coordIndex])
@@ -71,11 +71,11 @@ class Topology {
    * Creates the elements in a format required for WebGL.
    * This may involve creating some redundancy in order to get WebGL efficiency.
    * Thus, we should regard the topology as normalized
-   * @method toElements
-   * @return {GeometryElements}
+   * @method toDrawPrimitive
+   * @return {DrawPrimitive}
    */
-  public toElements(): GeometryElements {
-    return new GeometryElements(this.mode, this.elements, attributes(this.elements, this.vertices))
+  public toDrawPrimitive(): DrawPrimitive {
+    return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices))
   }
 }
 

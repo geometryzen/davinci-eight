@@ -47,8 +47,9 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x = v.x;
             return this;
         };
-        MutableNumber.prototype.add = function (v) {
-            this.x += v.x;
+        MutableNumber.prototype.add = function (vector, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.x += vector.x * alpha;
             return this;
         };
         MutableNumber.prototype.addScalar = function (s) {
@@ -177,7 +178,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return this;
         };
         MutableNumber.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).scale(alpha).add(v1);
+            this.difference(v2, v1).scale(alpha).add(v1, 1.0);
             return this;
         };
         MutableNumber.prototype.equals = function (v) {

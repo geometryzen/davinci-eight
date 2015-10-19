@@ -1,13 +1,14 @@
-import toGeometryMeta = require('../geometries/toGeometryMeta')
+import simplicesToGeometryMeta = require('../geometries/simplicesToGeometryMeta')
 import IContextProvider = require('../core/IContextProvider')
 import IContextMonitor = require('../core/IContextMonitor')
 import core = require('../core');
-import GeometryElements = require('../geometries/GeometryElements')
+import DrawPrimitive = require('../geometries/DrawPrimitive')
 import GeometryMeta = require('../geometries/GeometryMeta')
 import IDrawable = require('../core/IDrawable')
 import IBufferGeometry = require('../geometries/IBufferGeometry')
 import isDefined = require('../checks/isDefined')
 import IMaterial = require('../core/IMaterial')
+import IUnknownArray = require('../collections/IUnknownArray')
 import Material = require('../materials/Material')
 import mustBeDefined = require('../checks/mustBeDefined')
 import NumberIUnknownMap = require('../collections/NumberIUnknownMap')
@@ -15,7 +16,7 @@ import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import Simplex = require('../geometries/Simplex')
 import StringIUnknownMap = require('../collections/StringIUnknownMap')
-import toGeometryData = require('../geometries/toGeometryData')
+import simplicesToDrawPrimitive = require('../geometries/simplicesToDrawPrimitive')
 import IFacet = require('../core/IFacet')
 import uuid4 = require('../utils/uuid4')
 
@@ -30,14 +31,15 @@ function contextBuilder() {
 
 /**
  * @class Drawable
- * @implements IDrawable
+ * @extends Shareable
+ * @extends IDrawable
  */
-class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareable implements IDrawable {
+class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
   /**
-   * @property geometry
-   * @type {G}
+   * @property primitives
+   * @type {DrawPrimitive[]}
    */
-  public geometry: G;
+  public primitives: DrawPrimitive[];
   /**
    * @property _material
    * @type {M}
@@ -50,11 +52,11 @@ class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareabl
    */
   public name: string;
   /**
-   * FIXME This is a bad name because it is not just a collection of buffersByCanvasid.
+   * FIXME This is a bad name because it is not just a collection of buffersByCanvasId.
    * A map from canvas to IBufferGeometry.
    * It's a function that returns a mesh, given a canvasId a lokup
    */
-  private buffersByCanvasid: NumberIUnknownMap<IBufferGeometry>;
+  private buffersByCanvasId: NumberIUnknownMap<IUnknownArray<IBufferGeometry>>;
   /**
    * @property uniforms
    * @type {StringIUnknownMap<IFacet>}
@@ -72,25 +74,25 @@ class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareabl
   /**
    * @class Drawable
    * @constructor
-   * @param geometry {G}
+   * @param primitives {DrawPrimitive[]}
    * @param material {M}
    * @param model {U}
    */
-  constructor(geometry: G, material: M) {
+  constructor(primitives: DrawPrimitive[], material: M) {
     super(LOGGING_NAME)
-    this.geometry = geometry
+    this.primitives = primitives
 
     this._material = material
     this._material.addRef()
 
-    this.buffersByCanvasid = new NumberIUnknownMap<IBufferGeometry>()
+    this.buffersByCanvasId = new NumberIUnknownMap<IUnknownArray<IBufferGeometry>>()
 
     this.uniforms = new StringIUnknownMap<IFacet>(LOGGING_NAME);
   }
   protected destructor(): void {
-    this.geometry = void 0;
-    this.buffersByCanvasid.release()
-    this.buffersByCanvasid = void 0
+    this.primitives = void 0;
+    this.buffersByCanvasId.release()
+    this.buffersByCanvasId = void 0
     this._material.release()
     this._material = void 0
     this.uniforms.release()
@@ -102,7 +104,7 @@ class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareabl
     if (isDefined(canvasId)) {
       let material = this._material
 
-      let buffers: IBufferGeometry = this.buffersByCanvasid.get(canvasId)
+      let buffers: IUnknownArray<IBufferGeometry> = this.buffersByCanvasId.getWeakRef(canvasId)
       if (isDefined(buffers)) {
         material.use(canvasId)
 
@@ -112,11 +114,12 @@ class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareabl
           uniform.setUniforms(material, canvasId)
         })
 
-        buffers.bind(material/*, aNameToKeyName*/) // FIXME: Why not part of the API?
-        buffers.draw()
-        buffers.unbind()
-
-        buffers.release()
+        for (var i = 0; i < buffers.length; i++) {
+          var buffer = buffers.getWeakRef(i)
+          buffer.bind(material/*, aNameToKeyName*/) // FIXME: Why not part of the API?
+          buffer.draw()
+          buffer.unbind()
+        }
       }
     }
   }
@@ -125,8 +128,15 @@ class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareabl
   }
   contextGain(manager: IContextProvider): void {
     // 1. Replace the existing buffer geometry if we have geometry. 
-    if (this.geometry) {
-      this.buffersByCanvasid.putWeakRef(manager.canvasId, manager.createBufferGeometry(this.geometry))
+    if (this.primitives) {
+      for (var i = 0; i < this.primitives.length; i++) {
+        var primitive = this.primitives[i]
+        if (!this.buffersByCanvasId.exists(manager.canvasId)) {
+          this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray<IBufferGeometry>([],'Drawable.buffers'))
+        }
+        var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId)
+        buffers.pushWeakRef(manager.createBufferGeometry(primitive))
+      }
     }
     else {
       console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId)

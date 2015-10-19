@@ -37,7 +37,7 @@ declare class Vector4 extends VectorN<number> implements Cartesian4, LinearEleme
      */
     w: number;
     setW(w: number): Vector4;
-    add(rhs: Cartesian4): Vector4;
+    add(vector: Cartesian4, alpha?: number): Vector4;
     sum(a: Cartesian4, b: Cartesian4): Vector4;
     clone(): Vector4;
     copy(v: Cartesian4): Vector4;

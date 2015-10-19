@@ -1,19 +1,20 @@
 import IContextProvider = require('../core/IContextProvider');
-import GeometryElements = require('../geometries/GeometryElements');
+import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IDrawable = require('../core/IDrawable');
 import IMaterial = require('../core/IMaterial');
 import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 /**
  * @class Drawable
- * @implements IDrawable
+ * @extends Shareable
+ * @extends IDrawable
  */
-declare class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareable implements IDrawable {
+declare class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
     /**
-     * @property geometry
-     * @type {G}
+     * @property primitives
+     * @type {DrawPrimitive[]}
      */
-    geometry: G;
+    primitives: DrawPrimitive[];
     /**
      * @property _material
      * @type {M}
@@ -26,11 +27,11 @@ declare class Drawable<G extends GeometryElements, M extends IMaterial> extends 
      */
     name: string;
     /**
-     * FIXME This is a bad name because it is not just a collection of buffersByCanvasid.
+     * FIXME This is a bad name because it is not just a collection of buffersByCanvasId.
      * A map from canvas to IBufferGeometry.
      * It's a function that returns a mesh, given a canvasId a lokup
      */
-    private buffersByCanvasid;
+    private buffersByCanvasId;
     /**
      * @property uniforms
      * @type {StringIUnknownMap<IFacet>}
@@ -46,11 +47,11 @@ declare class Drawable<G extends GeometryElements, M extends IMaterial> extends 
     /**
      * @class Drawable
      * @constructor
-     * @param geometry {G}
+     * @param primitives {DrawPrimitive[]}
      * @param material {M}
      * @param model {U}
      */
-    constructor(geometry: G, material: M);
+    constructor(primitives: DrawPrimitive[], material: M);
     protected destructor(): void;
     draw(canvasId: number): void;
     contextFree(canvasId: number): void;

@@ -22,7 +22,7 @@ declare class MutableNumber extends VectorN<number> implements Cartesian1, Linea
     set(x: number): MutableNumber;
     setX(x: number): MutableNumber;
     copy(v: Cartesian1): MutableNumber;
-    add(v: Cartesian1): MutableNumber;
+    add(vector: Cartesian1, alpha?: number): MutableNumber;
     addScalar(s: number): MutableNumber;
     determinant(): number;
     sum(a: Cartesian1, b: Cartesian1): MutableNumber;

@@ -68,9 +68,10 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y = v.y;
             return this;
         };
-        Vector2.prototype.add = function (v) {
-            this.x += v.x;
-            this.y += v.y;
+        Vector2.prototype.add = function (v, alpha) {
+            if (alpha === void 0) { alpha = 1; }
+            this.x += v.x * alpha;
+            this.y += v.y * alpha;
             return this;
         };
         Vector2.prototype.addScalar = function (s) {
@@ -208,7 +209,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return this;
         };
         Vector2.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).scale(alpha).add(v1);
+            this.difference(v2, v1).scale(alpha).add(v1, 1.0);
             return this;
         };
         Vector2.prototype.equals = function (v) {

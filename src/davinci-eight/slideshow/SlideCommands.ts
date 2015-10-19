@@ -1,4 +1,4 @@
-import Geometry = require('../geometries/Geometry')
+import SimplexGeometry = require('../geometries/SimplexGeometry')
 import IAnimation = require('../slideshow/IAnimation')
 import IDirector = require('../slideshow/IDirector')
 import ISlide = require('../slideshow/ISlide')
@@ -47,7 +47,7 @@ class SlideCommands extends Shareable implements ISlideCommand {
   {
     return this.animateDrawable(drawableName, 'color', 'rgb', new ColorAnimation(color, duration, callback))
   }
-  createDrawable(drawableName: string, geometry: Geometry): number
+  createDrawable(drawableName: string, geometry: SimplexGeometry): number
   {
     return this.commands.pushWeakRef(new CreateDrawable(drawableName, geometry))
   }
