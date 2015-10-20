@@ -1,4 +1,9 @@
-define(["require", "exports", '../topologies/GridTopology', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Symbolic, Vector2, Vector3) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeBoolean', '../checks/mustBeNumber', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Geometry, mustBeBoolean, mustBeNumber, Symbolic, Vector2, Vector3) {
     function side(basis, uSegments, vSegments) {
         var normal = Vector3.copy(basis[0]).cross(basis[1]).normalize();
         var aNeg = Vector3.copy(basis[0]).scale(-0.5);
@@ -21,16 +26,51 @@ define(["require", "exports", '../topologies/GridTopology', '../core/Symbolic', 
         }
         return side;
     }
-    var CuboidGeometry = (function () {
+    var CuboidGeometry = (function (_super) {
+        __extends(CuboidGeometry, _super);
         function CuboidGeometry() {
+            _super.call(this);
             this.iSegments = 1;
             this.jSegments = 1;
             this.kSegments = 1;
-            this._a = Vector3.e1;
-            this._b = Vector3.e2;
-            this._c = Vector3.e3;
+            this._a = Vector3.e1.clone();
+            this._b = Vector3.e2.clone();
+            this._c = Vector3.e3.clone();
             this.sides = [];
         }
+        Object.defineProperty(CuboidGeometry.prototype, "width", {
+            get: function () {
+                return this._a.magnitude();
+            },
+            set: function (width) {
+                mustBeNumber('width', width);
+                this._a.setMagnitude(width);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CuboidGeometry.prototype, "height", {
+            get: function () {
+                return this._b.magnitude();
+            },
+            set: function (height) {
+                mustBeNumber('height', height);
+                this._b.setMagnitude(height);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CuboidGeometry.prototype, "depth", {
+            get: function () {
+                return this._c.magnitude();
+            },
+            set: function (depth) {
+                mustBeNumber('depth', depth);
+                this._c.setMagnitude(depth);
+            },
+            enumerable: true,
+            configurable: true
+        });
         CuboidGeometry.prototype.regenerate = function () {
             this.sides = [];
             // front
@@ -46,10 +86,20 @@ define(["require", "exports", '../topologies/GridTopology', '../core/Symbolic', 
             // bottom
             this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments));
         };
+        CuboidGeometry.prototype.setPosition = function (position) {
+            this.position = position;
+            return this;
+        };
         CuboidGeometry.prototype.toPrimitives = function () {
+            this.regenerate();
             return this.sides.map(function (side) { return side.toDrawPrimitive(); });
         };
+        CuboidGeometry.prototype.enableTextureCoords = function (enable) {
+            mustBeBoolean('enable', enable);
+            this.useTextureCoords = enable;
+            return this;
+        };
         return CuboidGeometry;
-    })();
+    })(Geometry);
     return CuboidGeometry;
 });

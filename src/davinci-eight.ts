@@ -79,13 +79,14 @@ import Scene = require('davinci-eight/scene/Scene')
 import Canvas3D = require('davinci-eight/scene/Canvas3D')
 // geometries
 import AxialSimplexGeometry = require('davinci-eight/geometries/AxialSimplexGeometry')
-import RingSimplexGeometry = require('davinci-eight/geometries/RingSimplexGeometry')
+import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
 import ArrowSimplexGeometry = require('davinci-eight/geometries/ArrowSimplexGeometry')
 import BarnSimplexGeometry = require('davinci-eight/geometries/BarnSimplexGeometry')
 import ConeGeometry = require('davinci-eight/geometries/ConeGeometry')
 import ConeSimplexGeometry = require('davinci-eight/geometries/ConeSimplexGeometry')
 import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry')
 import CuboidSimplexGeometry = require('davinci-eight/geometries/CuboidSimplexGeometry')
+import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry')
 import CylinderSimplexGeometry = require('davinci-eight/geometries/CylinderSimplexGeometry')
 import DodecahedronSimplexGeometry = require('davinci-eight/geometries/DodecahedronSimplexGeometry')
 import IcosahedronSimplexGeometry = require('davinci-eight/geometries/IcosahedronSimplexGeometry')
@@ -97,6 +98,8 @@ import SliceSimplexGeometry = require('davinci-eight/geometries/SliceSimplexGeom
 import GridSimplexGeometry = require('davinci-eight/geometries/GridSimplexGeometry')
 import PolyhedronSimplexGeometry = require('davinci-eight/geometries/PolyhedronSimplexGeometry')
 import RevolutionSimplexGeometry = require('davinci-eight/geometries/RevolutionSimplexGeometry')
+import RingGeometry = require('davinci-eight/geometries/RingGeometry')
+import RingSimplexGeometry = require('davinci-eight/geometries/RingSimplexGeometry')
 import SphericalPolarSimplexGeometry = require('davinci-eight/geometries/SphericalPolarSimplexGeometry')
 import TetrahedronSimplexGeometry = require('davinci-eight/geometries/TetrahedronSimplexGeometry')
 //import TubeSimplexGeometry          = require('davinci-eight/geometries/TubeSimplexGeometry')
@@ -156,13 +159,6 @@ import Vector2 = require('davinci-eight/math/Vector2')
 import Vector3 = require('davinci-eight/math/Vector3')
 import Vector4 = require('davinci-eight/math/Vector4')
 import VectorN = require('davinci-eight/math/VectorN')
-// mesh
-import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder')
-import ArrowOptions = require('davinci-eight/mesh/ArrowOptions')
-import BoxOptions = require('davinci-eight/mesh/BoxOptions')
-import CylinderArgs = require('davinci-eight/mesh/CylinderArgs')
-import CylinderOptions = require('davinci-eight/mesh/CylinderOptions')
-import SphereOptions = require('davinci-eight/mesh/SphereOptions')
 
 // models
 import EulerFacet = require('davinci-eight/models/EulerFacet')
@@ -286,14 +282,15 @@ var eight = {
         return smartProgram
     },
     get Color() { return Color },
-    get RingSimplexGeometry() { return RingSimplexGeometry },
     get AxialSimplexGeometry() { return AxialSimplexGeometry },
+    get ArrowGeometry() { return ArrowGeometry },
     get ArrowSimplexGeometry() { return ArrowSimplexGeometry },
     get BarnSimplexGeometry() { return BarnSimplexGeometry },
     get ConeGeometry() { return ConeGeometry },
     get ConeSimplexGeometry() { return ConeSimplexGeometry },
     get CuboidGeometry() { return CuboidGeometry },
     get CuboidSimplexGeometry() { return CuboidSimplexGeometry },
+    get CylinderGeometry() { return CylinderGeometry },
     get CylinderSimplexGeometry() { return CylinderSimplexGeometry },
     get DodecahedronSimplexGeometry() { return DodecahedronSimplexGeometry },
     get IcosahedronSimplexGeometry() { return IcosahedronSimplexGeometry },
@@ -304,6 +301,8 @@ var eight = {
     get GridSimplexGeometry() { return GridSimplexGeometry },
     get PolyhedronSimplexGeometry() { return PolyhedronSimplexGeometry },
     get RevolutionSimplexGeometry() { return RevolutionSimplexGeometry },
+    get RingGeometry() { return RingGeometry },
+    get RingSimplexGeometry() { return RingSimplexGeometry },
     get SliceSimplexGeometry() { return SliceSimplexGeometry },
     get SphericalPolarSimplexGeometry() { return SphericalPolarSimplexGeometry },
     get TetrahedronSimplexGeometry() { return TetrahedronSimplexGeometry },
@@ -326,8 +325,6 @@ var eight = {
     get Curve() { return Curve },
     // mappers
     get RoundUniform() { return RoundUniform },
-    // mesh
-    get ArrowBuilder() { return ArrowBuilder },
 
     get simplicesToGeometryMeta() { return simplicesToGeometryMeta },
     get computeFaceNormals() { return computeFaceNormals },
@@ -337,7 +334,6 @@ var eight = {
     get tetrahedron() { return tetrahedron },
     get triangle() { return triangle },
     get simplicesToDrawPrimitive() { return simplicesToDrawPrimitive },
-    get CylinderArgs() { return CylinderArgs },
 
     get Symbolic() { return Symbolic },
     // programs

@@ -207,7 +207,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.104.0: 2015-09-22 MeshNormalMaterial
 * 2.105.0: 2015-09-23 Scene
 * 2.106.0: 2015-09-23 IPrologCommand
-* 2.107.0: 2015-09-23 Euclidean*
+* 2.107.0: 2015-09-23 Euclidean3
 * 2.108.0: 2015-09-23 Euclidean3
 * 2.109.0: 2015-09-25 IMaterial
 * 2.110.0: 2015-09-25 MeshNormalMaterial
@@ -224,17 +224,18 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.121.0: 2015-10-07 RevolutionGeometry
 * 2.122.0: 2015-10-07 VortexGeometry
 * 2.123.0: 2015-10-07 CylinderGeometry
-* 2.124.0: 2015-10-09 ArrowGeometry
+* 2.124.0: 2015-10-09 ArrowSimplexGeometry
 * 2.125.0: 2015-10-10 VortexGeometry
 * 2.126.0: 2015-10-12 DirectionalLight
 * 2.127.0: 2015-10-12 AmbientLight
 * 2.128.0: 2015-10-13 Blending
 * 2.129.0: 2015-10-14 IAnimationTarget
-* 2.130.0: 2015-10-15 RingGeometry
+* 2.130.0: 2015-10-15 RingSimplexGeometry
 * 2.131.0: 2015-10-15 RingGeometry
 * 2.132.0: 2015-10-16 SphericalPolarGeometry
 * 2.133.0: 2015-10-18 Topology
 * 2.134.0: 2015-10-19 GridTopology
+* 2.135.0: 2015-10-19 ArrowGeometry
 
 ## License
 Copyright (c) 2014-2015 David Holmes

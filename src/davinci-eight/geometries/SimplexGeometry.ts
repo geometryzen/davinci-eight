@@ -1,3 +1,4 @@
+import Cartesian3 = require('../math/Cartesian3')
 import DrawPrimitive = require('../geometries/DrawPrimitive')
 import GeometryMeta = require('../geometries/GeometryMeta')
 import IGeometry = require('../geometries/IGeometry')
@@ -16,7 +17,7 @@ import Vector3 = require('../math/Vector3')
  * @class SimplexGeometry
  * @extends Shareable
  */
-class SimplexGeometry extends Shareable implements IGeometry {
+class SimplexGeometry extends Shareable implements IGeometry<SimplexGeometry> {
     /**
      * The geometry as a list of simplices.
      * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
@@ -191,6 +192,9 @@ class SimplexGeometry extends Shareable implements IGeometry {
         this.check();
         return this;
     }
+    public setPosition(position: Cartesian3) {
+        return this
+    }
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}
@@ -272,6 +276,11 @@ class SimplexGeometry extends Shareable implements IGeometry {
     public empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
         var simplex = new Simplex(Simplex.EMPTY)
         return this.data.push(simplex)
+    }
+    enableTextureCoords(enable: boolean): SimplexGeometry {
+        //        mustBeBoolean('enable', enable)
+        //        this.useTextureCoords = enable
+        return this
     }
 }
 

@@ -2891,7 +2891,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-10-19',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.134.0'
+        VERSION: '2.135.0'
     };
     return core;
 });
@@ -3940,6 +3940,9 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../che
             this.check();
             return this;
         };
+        SimplexGeometry.prototype.setPosition = function (position) {
+            return this;
+        };
         /**
          * @method toPrimitives
          * @return {DrawPrimitive[]}
@@ -4016,6 +4019,11 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../che
         SimplexGeometry.prototype.empty = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.EMPTY);
             return this.data.push(simplex);
+        };
+        SimplexGeometry.prototype.enableTextureCoords = function (enable) {
+            //        mustBeBoolean('enable', enable)
+            //        this.useTextureCoords = enable
+            return this;
         };
         return SimplexGeometry;
     })(Shareable);
@@ -11633,108 +11641,49 @@ define('davinci-eight/geometries/AxialSimplexGeometry',["require", "exports", '.
     return AxialSimplexGeometry;
 });
 
-define('davinci-eight/geometries/arc3',["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeDefined, mustBeInteger, mustBeNumber, Spinor3, Vector3) {
+define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mustBeObject', '../math/Vector3'], function (require, exports, mustBeObject, Vector3) {
     /**
-     * Computes a list of points corresponding to an arc centered on the origin.
-     * param begin {Cartesian3} The begin position.
-     * param angle: {number} The angle of the rotation.
-     * param generator {Spinor3Coords} The generator of the rotation.
-     * param segments {number} The number of segments.
+     * @class Geometry
      */
-    function arc3(begin, angle, generator, segments) {
-        mustBeDefined('begin', begin);
-        mustBeNumber('angle', angle);
-        mustBeDefined('generator', generator);
-        mustBeInteger('segments', segments);
+    var Geometry = (function () {
         /**
-         * The return value is an array of points with length => segments + 1.
-         */
-        var points = [];
-        /**
-         * Temporary point that we will advance for each segment.
-         */
-        var point = Vector3.copy(begin);
-        /**
-         * The rotor that advances us through one segment.
-         */
-        var rotor = Spinor3.copy(generator).scale((-angle / 2) / segments).exp();
-        points.push(point.clone());
-        for (var i = 0; i < segments; i++) {
-            point.rotate(rotor);
-            points.push(point.clone());
-        }
-        return points;
-    }
-    return arc3;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/geometries/SliceSimplexGeometry',["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/isDefined', '../checks/mustBeNumber', '../math/Vector3'], function (require, exports, AxialSimplexGeometry, isDefined, mustBeNumber, Vector3) {
-    function perpendicular(axis) {
-        return Vector3.random().cross(axis).normalize();
-    }
-    /**
-     * @class SliceSimplexGeometry
-     * @extends AxialSimplexGeometry
-     */
-    var SliceSimplexGeometry = (function (_super) {
-        __extends(SliceSimplexGeometry, _super);
-        /**
-         * <p>
-         * Calls the base class constructor.
-         * </p>
-         * <p>
-         * Provides the <code>axis</code> to the <code>AxialSimplexGeometry</code> base class.
-         * </p>
-         * <p>
-         * Provides the <code>type</code> to the <code>AxialSimplexGeometry</code> base class.
-         * </p>
-         * @class SliceSimplexGeometry
+         * @class Geometry
          * @constructor
-         * @param type {string} Implementations must provide a type name used for reference count tracking.
-         * @param axis [Cartesian3 = Vector3.e3] The <code>axis</code> property.
-         * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
-         * @param sliceAngle [number = 2 * Math.PI] The <code>sliceAngle</code> property.
          */
-        function SliceSimplexGeometry(type, axis, sliceStart, sliceAngle) {
-            if (axis === void 0) { axis = Vector3.e3; }
-            if (sliceAngle === void 0) { sliceAngle = 2 * Math.PI; }
-            _super.call(this, type, axis);
+        function Geometry() {
+            /**
+             * @property _position
+             * @type {Vector3}
+             * @private
+             */
+            this._position = new Vector3();
+            /**
+             * @property useTextureCoords
+             * @type {boolean}
+             */
+            this.useTextureCoords = false;
+        }
+        Object.defineProperty(Geometry.prototype, "position", {
             /**
              * <p>
-             * The angle of the slice, measured in radians.
+             * The local `position` property used for geometry generation.
              * </p>
-             * @property sliceAngle
-             * @type {number}
+             * @property position
+             * @type {Cartesian3}
              */
-            this.sliceAngle = 2 * Math.PI;
-            if (isDefined(sliceStart)) {
-                // TODO: Verify that sliceStart is orthogonal to axis.
-                this.sliceStart = Vector3.copy(sliceStart).normalize();
-            }
-            else {
-                this.sliceStart = perpendicular(this.axis);
-            }
-            this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
-        }
-        /**
-         * <p>
-         * Calls the base class destructor method.
-         * </p>
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        SliceSimplexGeometry.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        return SliceSimplexGeometry;
-    })(AxialSimplexGeometry);
-    return SliceSimplexGeometry;
+            get: function () {
+                return this._position;
+            },
+            set: function (position) {
+                mustBeObject('position', position);
+                this._position.copy(position);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Geometry;
+    })();
+    return Geometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -11742,207 +11691,418 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/RingSimplexGeometry',["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Simplex, SliceSimplexGeometry, Spinor3, Symbolic, Vector2, Vector3) {
-    // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
-    // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
-    // TODO: May be more efficient to calculate points for the outer circle then scale them inwards.
+define('davinci-eight/geometries/AxialGeometry',["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject', '../math/Vector3', '../geometries/Geometry'], function (require, exports, mustBeNumber, mustBeObject, Vector3, Geometry) {
     /**
-     *
+     * @class AxialGeometry
      */
-    function computeVertices(a, b, axis, start, angle, generator, radialSegments, thetaSegments, vertices, uvs) {
+    var AxialGeometry = (function (_super) {
+        __extends(AxialGeometry, _super);
         /**
-         * `t` is the vector perpendicular to s in the plane of the ring.
-         * We could use the generator an PI / 4 to calculate this or the cross product as here.
-         */
-        var perp = Vector3.copy(axis).cross(start);
-        /**
-         * The distance of the vertex from the origin and center.
-         */
-        var radius = b;
-        var radiusStep = (a - b) / radialSegments;
-        for (var i = 0; i < radialSegments + 1; i++) {
-            var begin = Vector3.copy(start).scale(radius);
-            var arcPoints = arc3(begin, angle, generator, thetaSegments);
-            for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
-                var arcPoint = arcPoints[j];
-                vertices.push(arcPoint);
-                // The coordinates vary between -a and +a, which we map to 0 and 1.
-                uvs.push(new Vector2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]));
-            }
-            radius += radiusStep;
-        }
-    }
-    /**
-     * Our traversal will generate the following mapping into the vertices and uvs arrays.
-     * This is standard for two looping variables.
-     */
-    function vertexIndex(i, j, thetaSegments) {
-        return i * (thetaSegments + 1) + j;
-    }
-    function makeTriangles(vertices, uvs, axis, radialSegments, thetaSegments, geometry) {
-        for (var i = 0; i < radialSegments; i++) {
-            // Our traversal has resulted in the following formula for the index
-            // into the vertices or uvs array
-            // vertexIndex(i, j) => i * (thetaSegments + 1) + j
-            /**
-             * The index along the start radial line where j = 0. This is just index(i,0)
-             */
-            var startLineIndex = i * (thetaSegments + 1);
-            for (var j = 0; j < thetaSegments; j++) {
-                /**
-                 * The index of the corner of the quadrilateral with the lowest value of i and j.
-                 * This corresponds to the smallest radius and smallest angle counterclockwise.
-                 */
-                var quadIndex = startLineIndex + j;
-                var v0 = quadIndex;
-                var v1 = quadIndex + thetaSegments + 1; // Move outwards one segment.
-                var v2 = quadIndex + thetaSegments + 2; // Then move one segment along the radius.
-                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
-                v0 = quadIndex; // Start at the same corner
-                v1 = quadIndex + thetaSegments + 2; // Move diagonally outwards and along radial
-                v2 = quadIndex + 1; // Then move radially inwards
-                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
-            }
-        }
-    }
-    function makeLineSegments(vertices, radialSegments, thetaSegments, data) {
-        for (var i = 0; i < radialSegments; i++) {
-            for (var j = 0; j < thetaSegments; j++) {
-                var simplex = new Simplex(Simplex.LINE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)];
-                data.push(simplex);
-                var simplex = new Simplex(Simplex.LINE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)];
-                data.push(simplex);
-            }
-            // TODO: We probably don't need these lines when the thing is closed 
-            var simplex = new Simplex(Simplex.LINE);
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)];
-            data.push(simplex);
-        }
-        // Lines for the outermost circle.
-        for (var j = 0; j < thetaSegments; j++) {
-            var simplex = new Simplex(Simplex.LINE);
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j, thetaSegments)];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j + 1, thetaSegments)];
-            data.push(simplex);
-        }
-    }
-    function makePoints(vertices, radialSegments, thetaSegments, data) {
-        for (var i = 0; i <= radialSegments; i++) {
-            for (var j = 0; j <= thetaSegments; j++) {
-                var simplex = new Simplex(Simplex.POINT);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
-                data.push(simplex);
-            }
-        }
-    }
-    function makeEmpty(vertices, radialSegments, thetaSegments, data) {
-        for (var i = 0; i <= radialSegments; i++) {
-            for (var j = 0; j <= thetaSegments; j++) {
-                var simplex = new Simplex(Simplex.EMPTY);
-                data.push(simplex);
-            }
-        }
-    }
-    /**
-     * @class RingSimplexGeometry
-     * @extends SliceSimplexGeometry
-     */
-    var RingSimplexGeometry = (function (_super) {
-        __extends(RingSimplexGeometry, _super);
-        /**
-         * <p>
-         * Creates an annulus with a single hole.
-         * </p>
-         * <p>
-         * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
-         * </p>
-         * @class RingSimplexGeometry
+         * @class SliceGeometry
          * @constructor
-         * @param a [number = 1] The outer radius
-         * @param b [number = 0] The inner radius
-         * @param axis [Cartesian3] The <code>axis</code> property.
-         * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
-         * @param sliceAngle [number] The <code>sliceAngle</code> property.
          */
-        function RingSimplexGeometry(a, b, axis, sliceStart, sliceAngle) {
-            if (a === void 0) { a = 1; }
-            if (b === void 0) { b = 0; }
-            _super.call(this, 'RingSimplexGeometry', axis, sliceStart, sliceAngle);
-            this.a = a;
-            this.b = b;
+        /**
+         * @class AxialGeometry
+         * @constructor
+         */
+        function AxialGeometry() {
+            _super.call(this);
+            /**
+             * @property _axis
+             * @type {Vector3}
+             * @protected
+             */
+            this._axis = Vector3.e3.clone();
+            /**
+             * @property _sliceAngle
+             * @type {number}
+             * @private
+             */
+            this._sliceAngle = 2 * Math.PI;
+            /**
+             * @property _sliceStart
+             * @type {Vector3}
+             * @private
+             */
+            this._sliceStart = Vector3.e3.clone();
         }
+        Object.defineProperty(AxialGeometry.prototype, "axis", {
+            /**
+             * @property axis
+             * @type {Cartesian3}
+             */
+            get: function () {
+                return this._axis.clone();
+            },
+            set: function (axis) {
+                mustBeObject('axis', axis);
+                this._axis.copy(axis).normalize();
+                this._sliceStart = Vector3.random().cross(this._axis).normalize();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AxialGeometry.prototype, "sliceAngle", {
+            get: function () {
+                return this._sliceAngle;
+            },
+            set: function (sliceAngle) {
+                mustBeNumber('sliceAngle', sliceAngle);
+                this._sliceAngle = sliceAngle;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AxialGeometry.prototype, "sliceStart", {
+            /**
+             * The (unit vector) direction of the start of the slice.
+             * @property sliceStart
+             * @type {Cartesian3}
+             */
+            get: function () {
+                return this._sliceStart.clone();
+            },
+            set: function (sliceStart) {
+                mustBeObject('sliceStart', sliceStart);
+                this._sliceStart.copy(sliceStart).normalize();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return AxialGeometry;
+    })(Geometry);
+    return AxialGeometry;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../checks/mustBeBoolean', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialGeometry, GridTopology, mustBeBoolean, Symbolic, Vector2, Vector3) {
+    /**
+     * @class ConeGeometry
+     */
+    var ConeGeometry = (function (_super) {
+        __extends(ConeGeometry, _super);
         /**
-         * @method destructor
-         * @return {void}
-         * @protected
+         * @class ConeGeometry
+         * @constructor
          */
-        RingSimplexGeometry.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        /**
-         * @method isModified
-         * @return {boolean}
-         */
-        RingSimplexGeometry.prototype.isModified = function () {
-            return _super.prototype.isModified.call(this);
-        };
-        /**
-         * @method regenerate
-         * @return {void}
-         */
-        RingSimplexGeometry.prototype.regenerate = function () {
-            this.data = [];
-            var radialSegments = this.flatSegments;
-            var thetaSegments = this.curvedSegments;
-            var generator = new Spinor3().dual(this.axis);
-            var vertices = [];
-            var uvs = [];
-            computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);
-            switch (this.k) {
-                case Simplex.EMPTY:
-                    {
-                        makeEmpty(vertices, radialSegments, thetaSegments, this.data);
-                    }
-                    break;
-                case Simplex.POINT:
-                    {
-                        makePoints(vertices, radialSegments, thetaSegments, this.data);
-                    }
-                    break;
-                case Simplex.LINE:
-                    {
-                        makeLineSegments(vertices, radialSegments, thetaSegments, this.data);
-                    }
-                    break;
-                case Simplex.TRIANGLE:
-                    {
-                        makeTriangles(vertices, uvs, this.axis, radialSegments, thetaSegments, this);
-                    }
-                    break;
-                default: {
-                    console.warn(this.k + "-simplex is not supported for geometry generation.");
-                }
-            }
-            this.setModified(false);
-        };
-        /**
-         * @method setModified
-         * @param modified {boolean}
-         * @return {RingSimplexGeometry}
-         * @chainable
-         */
-        RingSimplexGeometry.prototype.setModified = function (modified) {
-            _super.prototype.setModified.call(this, modified);
+        function ConeGeometry() {
+            _super.call(this);
+            /**
+             * @property radius
+             * @type {number}
+             */
+            this.radius = 1;
+            /**
+             * @property height
+             * @type {number}
+             */
+            this.height = 1;
+            /**
+             * @property thetaSegments
+             * @type {number}
+             */
+            this.thetaSegments = 8;
+        }
+        ConeGeometry.prototype.setPosition = function (position) {
+            this.position = position;
             return this;
         };
-        return RingSimplexGeometry;
-    })(SliceSimplexGeometry);
-    return RingSimplexGeometry;
+        ConeGeometry.prototype.toPrimitives = function () {
+            var topo = new GridTopology(this.thetaSegments, 1);
+            var uLength = topo.uLength;
+            var uSegments = uLength - 1;
+            var vLength = topo.vLength;
+            var vSegments = vLength - 1;
+            var a = Vector3.copy(this.sliceStart).normalize().scale(this.radius);
+            var b = new Vector3().crossVectors(a, this.axis).normalize().scale(this.radius);
+            var h = Vector3.copy(this.axis).scale(this.height);
+            for (var uIndex = 0; uIndex < uLength; uIndex++) {
+                var u = uIndex / uSegments;
+                var theta = this.sliceAngle * u;
+                var cosTheta = Math.cos(theta);
+                var sinTheta = Math.sin(theta);
+                for (var vIndex = 0; vIndex < vLength; vIndex++) {
+                    var v = vIndex / vSegments;
+                    var position = new Vector3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
+                    var peak = Vector3.copy(h).sub(position);
+                    var normal = new Vector3().crossVectors(peak, position).cross(peak).normalize();
+                    var vertex = topo.vertex(uIndex, vIndex);
+                    vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position);
+                    vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                    if (this.useTextureCoords) {
+                        vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v]);
+                    }
+                }
+            }
+            return [topo.toDrawPrimitive()];
+        };
+        ConeGeometry.prototype.enableTextureCoords = function (enable) {
+            mustBeBoolean('enable', enable);
+            this.useTextureCoords = enable;
+            return this;
+        };
+        return ConeGeometry;
+    })(AxialGeometry);
+    return ConeGeometry;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../checks/mustBeBoolean', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialGeometry, GridTopology, mustBeBoolean, Spinor3, Symbolic, Vector2, Vector3) {
+    /**
+     * @class CylinderGeometry
+     */
+    var CylinderGeometry = (function (_super) {
+        __extends(CylinderGeometry, _super);
+        /**
+         * @class CylinderGeometry
+         * @constructor
+         */
+        function CylinderGeometry() {
+            _super.call(this);
+            /**
+             * @property thetaSegments
+             * @type {number}
+             */
+            this.thetaSegments = 8;
+        }
+        CylinderGeometry.prototype.setPosition = function (position) {
+            this.position = position;
+            return this;
+        };
+        CylinderGeometry.prototype.toPrimitives = function () {
+            var uSegments = this.thetaSegments;
+            var vSegments = 1;
+            var topo = new GridTopology(uSegments, vSegments);
+            var axis = this.axis;
+            var generator = new Spinor3().dual(axis);
+            for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
+                var u = uIndex / uSegments;
+                var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();
+                for (var vIndex = 0; vIndex < topo.vLength; vIndex++) {
+                    var v = vIndex / vSegments;
+                    var normal = Vector3.copy(this.sliceStart).rotate(rotor);
+                    var position = normal.clone().scale(this.radius).add(this.axis, v * this.height);
+                    var vertex = topo.vertex(uIndex, vIndex);
+                    vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position);
+                    vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                    if (this.useTextureCoords) {
+                        vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v]);
+                    }
+                }
+            }
+            return [topo.toDrawPrimitive()];
+        };
+        CylinderGeometry.prototype.enableTextureCoords = function (enable) {
+            mustBeBoolean('enable', enable);
+            this.useTextureCoords = enable;
+            return this;
+        };
+        return CylinderGeometry;
+    })(AxialGeometry);
+    return CylinderGeometry;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/RingGeometry',["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../checks/mustBeBoolean', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, AxialGeometry, mustBeBoolean, Spinor3, Symbolic, Vector2, Vector3) {
+    /**
+     * @class RingGeometry
+     */
+    var RingGeometry = (function (_super) {
+        __extends(RingGeometry, _super);
+        /**
+         * @class RingGeometry
+         * @constructor
+         */
+        function RingGeometry() {
+            _super.call(this);
+            /**
+             * @property innerRadius
+             * @type {number}
+             */
+            this.innerRadius = 0;
+            /**
+             * @property outerRadius
+             * @type {number}
+             */
+            this.outerRadius = 1;
+            /**
+             * @property thetaSegments
+             * @type {number}
+             */
+            this.thetaSegments = 8;
+        }
+        RingGeometry.prototype.setPosition = function (position) {
+            this.position = position;
+            return this;
+        };
+        RingGeometry.prototype.toPrimitives = function () {
+            var uSegments = this.thetaSegments;
+            var vSegments = 1;
+            var topo = new GridTopology(uSegments, vSegments);
+            var a = this.outerRadius;
+            var b = this.innerRadius;
+            var axis = Vector3.copy(this.axis);
+            var start = Vector3.copy(this.sliceStart);
+            var generator = new Spinor3().dual(this.axis);
+            for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
+                var u = uIndex / uSegments;
+                var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();
+                for (var vIndex = 0; vIndex < topo.vLength; vIndex++) {
+                    var v = vIndex / vSegments;
+                    var position = start.clone().rotate(rotor).scale(b + (a - b) * v);
+                    var vertex = topo.vertex(uIndex, vIndex);
+                    vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position);
+                    vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = axis;
+                    if (this.useTextureCoords) {
+                        vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v]);
+                    }
+                }
+            }
+            return [topo.toDrawPrimitive()];
+        };
+        RingGeometry.prototype.enableTextureCoords = function (enable) {
+            mustBeBoolean('enable', enable);
+            this.useTextureCoords = enable;
+            return this;
+        };
+        return RingGeometry;
+    })(AxialGeometry);
+    return RingGeometry;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geometries/ConeGeometry', '../geometries/CylinderGeometry', '../geometries/AxialGeometry', '../checks/mustBeBoolean', '../geometries/RingGeometry', '../math/Vector3'], function (require, exports, ConeGeometry, CylinderGeometry, AxialGeometry, mustBeBoolean, RingGeometry, Vector3) {
+    /**
+     * @class ArrowGeometry
+     */
+    var ArrowGeometry = (function (_super) {
+        __extends(ArrowGeometry, _super);
+        /**
+         * @class ArrowGeometry
+         * @constructor
+         */
+        function ArrowGeometry() {
+            _super.call(this);
+            /**
+             * @property heightCone
+             * @type {number}
+             */
+            this.heightCone = 0.20;
+            /**
+             * @property radiusCone
+             * @type {number}
+             */
+            this.radiusCone = 0.08;
+            /**
+             * @property radiusShaft
+             * @type {number}
+             */
+            this.radiusShaft = 0.01;
+            /**
+             * @property thetaSegments
+             * @type {number}
+             */
+            this.thetaSegments = 8;
+        }
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {ArrowGeometry}
+         * @chainable
+         */
+        ArrowGeometry.prototype.setPosition = function (position) {
+            this.position = position;
+            return this;
+        };
+        /**
+         * @method toPrimitives
+         * @return {DrawPrimitive[]}
+         */
+        ArrowGeometry.prototype.toPrimitives = function () {
+            var heightShaft = 1 - this.heightCone;
+            /**
+             * The opposite direction to the axis.
+             */
+            var back = Vector3.copy(this.axis).scale(-1);
+            /**
+             * The neck is the place where the cone meets the shaft.
+             */
+            var neck = Vector3.copy(this.axis).scale(heightShaft).add(this.position);
+            /**
+             * The tail is the the position of the blunt end of the arrow.
+             */
+            var tail = Vector3.copy(this.position);
+            var cone = new ConeGeometry();
+            cone.radius = this.radiusCone;
+            cone.height = this.heightCone;
+            cone.position = neck;
+            cone.axis = this.axis;
+            cone.sliceAngle = this.sliceAngle;
+            cone.sliceStart = this.sliceStart;
+            cone.thetaSegments = this.thetaSegments;
+            cone.useTextureCoords = this.useTextureCoords;
+            /**
+             * The `disc` fills the space between the cone and the shaft.
+             */
+            var disc = new RingGeometry();
+            disc.innerRadius = this.radiusShaft;
+            disc.outerRadius = this.radiusCone;
+            disc.position = neck;
+            disc.axis = back;
+            disc.sliceAngle = -this.sliceAngle;
+            disc.sliceStart = this.sliceStart;
+            disc.thetaSegments = this.thetaSegments;
+            disc.useTextureCoords = this.useTextureCoords;
+            /**
+             * The `shaft` is the slim part of the arrow.
+             */
+            var shaft = new CylinderGeometry();
+            shaft.radius = this.radiusShaft;
+            shaft.height = heightShaft;
+            shaft.position = tail;
+            shaft.axis = this.axis;
+            shaft.sliceAngle = this.sliceAngle;
+            shaft.sliceStart = this.sliceStart;
+            shaft.thetaSegments = this.thetaSegments;
+            shaft.useTextureCoords = this.useTextureCoords;
+            /**
+             * The `plug` fills the end of the shaft.
+             */
+            var plug = new RingGeometry();
+            plug.innerRadius = 0;
+            plug.outerRadius = this.radiusShaft;
+            plug.position = tail;
+            plug.axis = back;
+            plug.sliceAngle = -this.sliceAngle;
+            plug.sliceStart = this.sliceStart;
+            plug.thetaSegments = this.thetaSegments;
+            plug.useTextureCoords = this.useTextureCoords;
+            return [cone.toPrimitives(), disc.toPrimitives(), shaft.toPrimitives(), plug.toPrimitives()].reduce(function (a, b) { return a.concat(b); }, []);
+        };
+        ArrowGeometry.prototype.enableTextureCoords = function (enable) {
+            mustBeBoolean('enable', enable);
+            this.useTextureCoords = enable;
+            return this;
+        };
+        return ArrowGeometry;
+    })(AxialGeometry);
+    return ArrowGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12274,61 +12434,73 @@ define('davinci-eight/geometries/BarnSimplexGeometry',["require", "exports", '..
     return BarnSimplexGeometry;
 });
 
-define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../topologies/GridTopology', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Symbolic, Vector2, Vector3) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/SliceSimplexGeometry',["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/isDefined', '../checks/mustBeNumber', '../math/Vector3'], function (require, exports, AxialSimplexGeometry, isDefined, mustBeNumber, Vector3) {
+    function perpendicular(axis) {
+        return Vector3.random().cross(axis).normalize();
+    }
     /**
-     * @class ConeGeometry
+     * @class SliceSimplexGeometry
+     * @extends AxialSimplexGeometry
      */
-    var ConeGeometry = (function () {
+    var SliceSimplexGeometry = (function (_super) {
+        __extends(SliceSimplexGeometry, _super);
         /**
-         * @class ConeGeometry
+         * <p>
+         * Calls the base class constructor.
+         * </p>
+         * <p>
+         * Provides the <code>axis</code> to the <code>AxialSimplexGeometry</code> base class.
+         * </p>
+         * <p>
+         * Provides the <code>type</code> to the <code>AxialSimplexGeometry</code> base class.
+         * </p>
+         * @class SliceSimplexGeometry
          * @constructor
-         * @param radius {number}
-         * @param height {number}
-         * @param axis {Cartesian3}
+         * @param type {string} Implementations must provide a type name used for reference count tracking.
+         * @param axis [Cartesian3 = Vector3.e3] The <code>axis</code> property.
+         * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
+         * @param sliceAngle [number = 2 * Math.PI] The <code>sliceAngle</code> property.
          */
-        function ConeGeometry(radius, height, axis) {
-            this.radius = radius;
-            this.height = height;
-            this.axis = Vector3.copy(axis).normalize();
-        }
-        ConeGeometry.prototype.regenerate = function () {
-            this.topo = new GridTopology(16, 1);
-            var uLength = this.topo.uLength;
-            var uSegments = uLength - 1;
-            var vLength = this.topo.vLength;
-            var vSegments = vLength - 1;
-            var a = Vector3.random().cross(this.axis).normalize().scale(this.radius);
-            var b = new Vector3().crossVectors(a, this.axis).normalize().scale(this.radius);
-            var h = Vector3.copy(this.axis).scale(this.height);
-            for (var uIndex = 0; uIndex < uLength; uIndex++) {
-                var u = uIndex / uSegments;
-                var theta = 2 * Math.PI * u;
-                var cosTheta = Math.cos(theta);
-                var sinTheta = Math.sin(theta);
-                for (var vIndex = 0; vIndex < vLength; vIndex++) {
-                    var v = vIndex / vSegments;
-                    var position = new Vector3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
-                    var peak = Vector3.copy(h).sub(position);
-                    var normal = new Vector3().crossVectors(peak, position).cross(peak).normalize();
-                    var vertex = this.topo.vertex(uIndex, vIndex);
-                    vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position;
-                    vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v]);
-                }
+        function SliceSimplexGeometry(type, axis, sliceStart, sliceAngle) {
+            if (axis === void 0) { axis = Vector3.e3; }
+            if (sliceAngle === void 0) { sliceAngle = 2 * Math.PI; }
+            _super.call(this, type, axis);
+            /**
+             * <p>
+             * The angle of the slice, measured in radians.
+             * </p>
+             * @property sliceAngle
+             * @type {number}
+             */
+            this.sliceAngle = 2 * Math.PI;
+            if (isDefined(sliceStart)) {
+                // TODO: Verify that sliceStart is orthogonal to axis.
+                this.sliceStart = Vector3.copy(sliceStart).normalize();
             }
-        };
+            else {
+                this.sliceStart = perpendicular(this.axis);
+            }
+            this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
+        }
         /**
-         * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * <p>
+         * Calls the base class destructor method.
+         * </p>
+         * @method destructor
+         * @return {void}
+         * @protected
          */
-        ConeGeometry.prototype.toPrimitives = function () {
-            this.regenerate();
-            // FIXME: Rename toPrimitive
-            return [this.topo.toDrawPrimitive()];
+        SliceSimplexGeometry.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
         };
-        return ConeGeometry;
-    })();
-    return ConeGeometry;
+        return SliceSimplexGeometry;
+    })(AxialSimplexGeometry);
+    return SliceSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12473,7 +12645,12 @@ define('davinci-eight/geometries/ConeSimplexGeometry',["require", "exports", '..
     return ConeSimplexGeometry;
 });
 
-define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topologies/GridTopology', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Symbolic, Vector2, Vector3) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeBoolean', '../checks/mustBeNumber', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Geometry, mustBeBoolean, mustBeNumber, Symbolic, Vector2, Vector3) {
     function side(basis, uSegments, vSegments) {
         var normal = Vector3.copy(basis[0]).cross(basis[1]).normalize();
         var aNeg = Vector3.copy(basis[0]).scale(-0.5);
@@ -12496,16 +12673,51 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topo
         }
         return side;
     }
-    var CuboidGeometry = (function () {
+    var CuboidGeometry = (function (_super) {
+        __extends(CuboidGeometry, _super);
         function CuboidGeometry() {
+            _super.call(this);
             this.iSegments = 1;
             this.jSegments = 1;
             this.kSegments = 1;
-            this._a = Vector3.e1;
-            this._b = Vector3.e2;
-            this._c = Vector3.e3;
+            this._a = Vector3.e1.clone();
+            this._b = Vector3.e2.clone();
+            this._c = Vector3.e3.clone();
             this.sides = [];
         }
+        Object.defineProperty(CuboidGeometry.prototype, "width", {
+            get: function () {
+                return this._a.magnitude();
+            },
+            set: function (width) {
+                mustBeNumber('width', width);
+                this._a.setMagnitude(width);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CuboidGeometry.prototype, "height", {
+            get: function () {
+                return this._b.magnitude();
+            },
+            set: function (height) {
+                mustBeNumber('height', height);
+                this._b.setMagnitude(height);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CuboidGeometry.prototype, "depth", {
+            get: function () {
+                return this._c.magnitude();
+            },
+            set: function (depth) {
+                mustBeNumber('depth', depth);
+                this._c.setMagnitude(depth);
+            },
+            enumerable: true,
+            configurable: true
+        });
         CuboidGeometry.prototype.regenerate = function () {
             this.sides = [];
             // front
@@ -12521,12 +12733,57 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topo
             // bottom
             this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments));
         };
+        CuboidGeometry.prototype.setPosition = function (position) {
+            this.position = position;
+            return this;
+        };
         CuboidGeometry.prototype.toPrimitives = function () {
+            this.regenerate();
             return this.sides.map(function (side) { return side.toDrawPrimitive(); });
         };
+        CuboidGeometry.prototype.enableTextureCoords = function (enable) {
+            mustBeBoolean('enable', enable);
+            this.useTextureCoords = enable;
+            return this;
+        };
         return CuboidGeometry;
-    })();
+    })(Geometry);
     return CuboidGeometry;
+});
+
+define('davinci-eight/geometries/arc3',["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeDefined, mustBeInteger, mustBeNumber, Spinor3, Vector3) {
+    /**
+     * Computes a list of points corresponding to an arc centered on the origin.
+     * param begin {Cartesian3} The begin position.
+     * param angle: {number} The angle of the rotation.
+     * param generator {Spinor3Coords} The generator of the rotation.
+     * param segments {number} The number of segments.
+     */
+    function arc3(begin, angle, generator, segments) {
+        mustBeDefined('begin', begin);
+        mustBeNumber('angle', angle);
+        mustBeDefined('generator', generator);
+        mustBeInteger('segments', segments);
+        /**
+         * The return value is an array of points with length => segments + 1.
+         */
+        var points = [];
+        /**
+         * Temporary point that we will advance for each segment.
+         */
+        var point = Vector3.copy(begin);
+        /**
+         * The rotor that advances us through one segment.
+         */
+        var rotor = Spinor3.copy(generator).scale((-angle / 2) / segments).exp();
+        points.push(point.clone());
+        for (var i = 0; i < segments; i++) {
+            point.rotate(rotor);
+            points.push(point.clone());
+        }
+        return points;
+    }
+    return arc3;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -13243,6 +13500,214 @@ define('davinci-eight/geometries/OctahedronSimplexGeometry',["require", "exports
         return OctahedronSimplexGeometry;
     })(PolyhedronSimplexGeometry);
     return OctahedronSimplexGeometry;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/RingSimplexGeometry',["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Simplex, SliceSimplexGeometry, Spinor3, Symbolic, Vector2, Vector3) {
+    // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
+    // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
+    // TODO: May be more efficient to calculate points for the outer circle then scale them inwards.
+    /**
+     *
+     */
+    function computeVertices(a, b, axis, start, angle, generator, radialSegments, thetaSegments, vertices, uvs) {
+        /**
+         * `t` is the vector perpendicular to s in the plane of the ring.
+         * We could use the generator an PI / 4 to calculate this or the cross product as here.
+         */
+        var perp = Vector3.copy(axis).cross(start);
+        /**
+         * The distance of the vertex from the origin and center.
+         */
+        var radius = b;
+        var radiusStep = (a - b) / radialSegments;
+        for (var i = 0; i < radialSegments + 1; i++) {
+            var begin = Vector3.copy(start).scale(radius);
+            var arcPoints = arc3(begin, angle, generator, thetaSegments);
+            for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
+                var arcPoint = arcPoints[j];
+                vertices.push(arcPoint);
+                // The coordinates vary between -a and +a, which we map to 0 and 1.
+                uvs.push(new Vector2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]));
+            }
+            radius += radiusStep;
+        }
+    }
+    /**
+     * Our traversal will generate the following mapping into the vertices and uvs arrays.
+     * This is standard for two looping variables.
+     */
+    function vertexIndex(i, j, thetaSegments) {
+        return i * (thetaSegments + 1) + j;
+    }
+    function makeTriangles(vertices, uvs, axis, radialSegments, thetaSegments, geometry) {
+        for (var i = 0; i < radialSegments; i++) {
+            // Our traversal has resulted in the following formula for the index
+            // into the vertices or uvs array
+            // vertexIndex(i, j) => i * (thetaSegments + 1) + j
+            /**
+             * The index along the start radial line where j = 0. This is just index(i,0)
+             */
+            var startLineIndex = i * (thetaSegments + 1);
+            for (var j = 0; j < thetaSegments; j++) {
+                /**
+                 * The index of the corner of the quadrilateral with the lowest value of i and j.
+                 * This corresponds to the smallest radius and smallest angle counterclockwise.
+                 */
+                var quadIndex = startLineIndex + j;
+                var v0 = quadIndex;
+                var v1 = quadIndex + thetaSegments + 1; // Move outwards one segment.
+                var v2 = quadIndex + thetaSegments + 2; // Then move one segment along the radius.
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
+                v0 = quadIndex; // Start at the same corner
+                v1 = quadIndex + thetaSegments + 2; // Move diagonally outwards and along radial
+                v2 = quadIndex + 1; // Then move radially inwards
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
+            }
+        }
+    }
+    function makeLineSegments(vertices, radialSegments, thetaSegments, data) {
+        for (var i = 0; i < radialSegments; i++) {
+            for (var j = 0; j < thetaSegments; j++) {
+                var simplex = new Simplex(Simplex.LINE);
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
+                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)];
+                data.push(simplex);
+                var simplex = new Simplex(Simplex.LINE);
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
+                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)];
+                data.push(simplex);
+            }
+            // TODO: We probably don't need these lines when the thing is closed 
+            var simplex = new Simplex(Simplex.LINE);
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)];
+            data.push(simplex);
+        }
+        // Lines for the outermost circle.
+        for (var j = 0; j < thetaSegments; j++) {
+            var simplex = new Simplex(Simplex.LINE);
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j, thetaSegments)];
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j + 1, thetaSegments)];
+            data.push(simplex);
+        }
+    }
+    function makePoints(vertices, radialSegments, thetaSegments, data) {
+        for (var i = 0; i <= radialSegments; i++) {
+            for (var j = 0; j <= thetaSegments; j++) {
+                var simplex = new Simplex(Simplex.POINT);
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
+                data.push(simplex);
+            }
+        }
+    }
+    function makeEmpty(vertices, radialSegments, thetaSegments, data) {
+        for (var i = 0; i <= radialSegments; i++) {
+            for (var j = 0; j <= thetaSegments; j++) {
+                var simplex = new Simplex(Simplex.EMPTY);
+                data.push(simplex);
+            }
+        }
+    }
+    /**
+     * @class RingSimplexGeometry
+     * @extends SliceSimplexGeometry
+     */
+    var RingSimplexGeometry = (function (_super) {
+        __extends(RingSimplexGeometry, _super);
+        /**
+         * <p>
+         * Creates an annulus with a single hole.
+         * </p>
+         * <p>
+         * Sets the <code>sliceAngle</code> property to <code>2 * Math.PI</p>.
+         * </p>
+         * @class RingSimplexGeometry
+         * @constructor
+         * @param a [number = 1] The outer radius
+         * @param b [number = 0] The inner radius
+         * @param axis [Cartesian3] The <code>axis</code> property.
+         * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
+         * @param sliceAngle [number] The <code>sliceAngle</code> property.
+         */
+        function RingSimplexGeometry(a, b, axis, sliceStart, sliceAngle) {
+            if (a === void 0) { a = 1; }
+            if (b === void 0) { b = 0; }
+            _super.call(this, 'RingSimplexGeometry', axis, sliceStart, sliceAngle);
+            this.a = a;
+            this.b = b;
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        RingSimplexGeometry.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        /**
+         * @method isModified
+         * @return {boolean}
+         */
+        RingSimplexGeometry.prototype.isModified = function () {
+            return _super.prototype.isModified.call(this);
+        };
+        /**
+         * @method regenerate
+         * @return {void}
+         */
+        RingSimplexGeometry.prototype.regenerate = function () {
+            this.data = [];
+            var radialSegments = this.flatSegments;
+            var thetaSegments = this.curvedSegments;
+            var generator = new Spinor3().dual(this.axis);
+            var vertices = [];
+            var uvs = [];
+            computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);
+            switch (this.k) {
+                case Simplex.EMPTY:
+                    {
+                        makeEmpty(vertices, radialSegments, thetaSegments, this.data);
+                    }
+                    break;
+                case Simplex.POINT:
+                    {
+                        makePoints(vertices, radialSegments, thetaSegments, this.data);
+                    }
+                    break;
+                case Simplex.LINE:
+                    {
+                        makeLineSegments(vertices, radialSegments, thetaSegments, this.data);
+                    }
+                    break;
+                case Simplex.TRIANGLE:
+                    {
+                        makeTriangles(vertices, uvs, this.axis, radialSegments, thetaSegments, this);
+                    }
+                    break;
+                default: {
+                    console.warn(this.k + "-simplex is not supported for geometry generation.");
+                }
+            }
+            this.setModified(false);
+        };
+        /**
+         * @method setModified
+         * @param modified {boolean}
+         * @return {RingSimplexGeometry}
+         * @chainable
+         */
+        RingSimplexGeometry.prototype.setModified = function (modified) {
+            _super.prototype.setModified.call(this, modified);
+            return this;
+        };
+        return RingSimplexGeometry;
+    })(SliceSimplexGeometry);
+    return RingSimplexGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -16193,276 +16658,6 @@ define('davinci-eight/math/Vector4',["require", "exports", '../math/VectorN'], f
     return Vector4;
 });
 
-define('davinci-eight/mesh/ArrowBuilder',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3'], function (require, exports, expectArg, isUndefined, Vector3) {
-    var ArrowBuilder = (function () {
-        function ArrowBuilder(options) {
-            if (options === void 0) { options = {}; }
-            this.$axis = Vector3.e3.clone();
-            //    this.setWidth(isUndefined(options.width) ? 1 : options.width);
-            //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
-            //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);
-            //    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
-            //    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
-            //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
-            this.setFlavor(isUndefined(options.flavor) ? 0 : options.flavor);
-            this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
-        }
-        Object.defineProperty(ArrowBuilder.prototype, "axis", {
-            get: function () {
-                return this.$axis;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ArrowBuilder.prototype, "flavor", {
-            get: function () {
-                return this.$flavor;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ArrowBuilder.prototype, "height", {
-            get: function () {
-                return this.$height;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ArrowBuilder.prototype, "depth", {
-            get: function () {
-                return this.$depth;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ArrowBuilder.prototype, "widthSegments", {
-            get: function () {
-                return this.$widthSegments;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ArrowBuilder.prototype, "heightSegments", {
-            get: function () {
-                return this.$heightSegments;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ArrowBuilder.prototype, "depthSegments", {
-            get: function () {
-                return this.$depthSegments;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ArrowBuilder.prototype, "coneHeight", {
-            get: function () {
-                return this.$coneHeight;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ArrowBuilder.prototype, "wireFrame", {
-            get: function () {
-                return this.$wireFrame;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ArrowBuilder.prototype.setAxis = function (axis) {
-            expectArg('axis', axis).toBeObject();
-            this.$axis.copy(axis);
-            return this;
-        };
-        ArrowBuilder.prototype.setFlavor = function (flavor) {
-            expectArg('flavor', flavor).toBeNumber().toSatisfy(flavor >= 0, "flavor must be greater than or equal to zero.");
-            this.$flavor = flavor;
-            return this;
-        };
-        ArrowBuilder.prototype.setHeight = function (height) {
-            expectArg('height', height).toBeNumber().toSatisfy(height >= 0, "height must be greater than or equal to zero.");
-            this.$height = height;
-            return this;
-        };
-        ArrowBuilder.prototype.setDepth = function (depth) {
-            expectArg('depth', depth).toBeNumber().toSatisfy(depth >= 0, "depth must be greater than or equal to zero.");
-            this.$depth = depth;
-            return this;
-        };
-        ArrowBuilder.prototype.setWidthSegments = function (widthSegments) {
-            expectArg('widthSegments', widthSegments).toBeNumber().toSatisfy(widthSegments > 0, "widthSegments must be greater than zero.");
-            this.$widthSegments = widthSegments;
-            return this;
-        };
-        ArrowBuilder.prototype.setHeightSegments = function (heightSegments) {
-            expectArg('heightSegments', heightSegments).toBeNumber().toSatisfy(heightSegments > 0, "heightSegments must be greater than zero.");
-            this.$heightSegments = heightSegments;
-            return this;
-        };
-        ArrowBuilder.prototype.setDepthSegments = function (depthSegments) {
-            expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
-            this.$depthSegments = depthSegments;
-            return this;
-        };
-        ArrowBuilder.prototype.setConeHeight = function (coneHeight) {
-            expectArg('coneHeight', coneHeight).toBeNumber().toSatisfy(coneHeight >= 0, "coneHeight must be positive.");
-            this.$coneHeight = coneHeight;
-            return this;
-        };
-        ArrowBuilder.prototype.setWireFrame = function (wireFrame) {
-            expectArg('wireFrame', wireFrame).toBeBoolean();
-            this.$wireFrame = wireFrame;
-            return this;
-        };
-        return ArrowBuilder;
-    })();
-    return ArrowBuilder;
-});
-
-define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3'], function (require, exports, expectArg, isUndefined, Vector3) {
-    /**
-     * @class CylinderArgs
-     */
-    var CylinderArgs = (function () {
-        function CylinderArgs(options) {
-            if (options === void 0) { options = {}; }
-            this.$axis = Vector3.e3.clone();
-            this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
-            this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
-            this.setHeight(isUndefined(options.height) ? 1 : options.height);
-            this.setRadialSegments(isUndefined(options.radialSegments) ? 16 : options.radialSegments);
-            this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
-            this.setOpenEnded(isUndefined(options.openEnded) ? false : options.openEnded);
-            this.setThetaStart(isUndefined(options.thetaStart) ? 0 : options.thetaStart);
-            this.setThetaLength(isUndefined(options.thetaLength) ? 2 * Math.PI : options.thetaLength);
-            this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
-        }
-        Object.defineProperty(CylinderArgs.prototype, "radiusTop", {
-            get: function () {
-                return this.$radiusTop;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "radiusBottom", {
-            get: function () {
-                return this.$radiusBottom;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "height", {
-            get: function () {
-                return this.$height;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "radialSegments", {
-            get: function () {
-                return this.$radialSegments;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "heightSegments", {
-            get: function () {
-                return this.$heightSegments;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "openEnded", {
-            get: function () {
-                return this.$openEnded;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "thetaStart", {
-            get: function () {
-                return this.$thetaStart;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "thetaLength", {
-            get: function () {
-                return this.$thetaLength;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "wireFrame", {
-            get: function () {
-                return this.$wireFrame;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "axis", {
-            get: function () {
-                return this.$axis;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        CylinderArgs.prototype.setRadiusTop = function (radiusTop) {
-            expectArg('radiusTop', radiusTop).toBeNumber().toSatisfy(radiusTop >= 0, "radiusTop must be greater than or equal to zero.");
-            this.$radiusTop = radiusTop;
-            return this;
-        };
-        CylinderArgs.prototype.setRadiusBottom = function (radiusBottom) {
-            expectArg('radiusBottom', radiusBottom).toBeNumber().toSatisfy(radiusBottom >= 0, "radiusBottom must be greater than or equal to zero.");
-            this.$radiusBottom = radiusBottom;
-            return this;
-        };
-        CylinderArgs.prototype.setHeight = function (height) {
-            expectArg('height', height).toBeNumber().toSatisfy(height >= 0, "height must be greater than or equal to zero.");
-            this.$height = height;
-            return this;
-        };
-        CylinderArgs.prototype.setRadialSegments = function (radialSegments) {
-            expectArg('radialSegments', radialSegments).toBeNumber();
-            this.$radialSegments = radialSegments;
-            return this;
-        };
-        CylinderArgs.prototype.setHeightSegments = function (heightSegments) {
-            expectArg('heightSegments', heightSegments).toBeNumber();
-            this.$heightSegments = heightSegments;
-            return this;
-        };
-        CylinderArgs.prototype.setOpenEnded = function (openEnded) {
-            expectArg('openEnded', openEnded).toBeBoolean();
-            this.$openEnded = openEnded;
-            return this;
-        };
-        CylinderArgs.prototype.setThetaStart = function (thetaStart) {
-            expectArg('thetaStart', thetaStart).toBeNumber();
-            this.$thetaStart = thetaStart;
-            return this;
-        };
-        CylinderArgs.prototype.setThetaLength = function (thetaLength) {
-            expectArg('thetaLength', thetaLength).toBeNumber();
-            this.$thetaLength = thetaLength;
-            return this;
-        };
-        CylinderArgs.prototype.setWireFrame = function (wireFrame) {
-            expectArg('wireFrame', wireFrame).toBeBoolean();
-            this.$wireFrame = wireFrame;
-            return this;
-        };
-        CylinderArgs.prototype.setAxis = function (axis) {
-            expectArg('axis', axis).toBeObject();
-            this.$axis.copy(axis);
-            return this;
-        };
-        return CylinderArgs;
-    })();
-    return CylinderArgs;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -16904,7 +17099,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/ArrowSimplexGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/MutableNumber', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, RingSimplexGeometry, ArrowSimplexGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, MutableNumber, Matrix3, Matrix4, Spinor3, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/ArrowSimplexGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/MutableNumber', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, ArrowGeometry, ArrowSimplexGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, MutableNumber, Matrix3, Matrix4, Spinor3, Vector2, Vector3, Vector4, VectorN, EulerFacet, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -16989,14 +17184,15 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
             return smartProgram;
         },
         get Color() { return Color; },
-        get RingSimplexGeometry() { return RingSimplexGeometry; },
         get AxialSimplexGeometry() { return AxialSimplexGeometry; },
+        get ArrowGeometry() { return ArrowGeometry; },
         get ArrowSimplexGeometry() { return ArrowSimplexGeometry; },
         get BarnSimplexGeometry() { return BarnSimplexGeometry; },
         get ConeGeometry() { return ConeGeometry; },
         get ConeSimplexGeometry() { return ConeSimplexGeometry; },
         get CuboidGeometry() { return CuboidGeometry; },
         get CuboidSimplexGeometry() { return CuboidSimplexGeometry; },
+        get CylinderGeometry() { return CylinderGeometry; },
         get CylinderSimplexGeometry() { return CylinderSimplexGeometry; },
         get DodecahedronSimplexGeometry() { return DodecahedronSimplexGeometry; },
         get IcosahedronSimplexGeometry() { return IcosahedronSimplexGeometry; },
@@ -17007,6 +17203,8 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get GridSimplexGeometry() { return GridSimplexGeometry; },
         get PolyhedronSimplexGeometry() { return PolyhedronSimplexGeometry; },
         get RevolutionSimplexGeometry() { return RevolutionSimplexGeometry; },
+        get RingGeometry() { return RingGeometry; },
+        get RingSimplexGeometry() { return RingSimplexGeometry; },
         get SliceSimplexGeometry() { return SliceSimplexGeometry; },
         get SphericalPolarSimplexGeometry() { return SphericalPolarSimplexGeometry; },
         get TetrahedronSimplexGeometry() { return TetrahedronSimplexGeometry; },
@@ -17028,8 +17226,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get Curve() { return Curve; },
         // mappers
         get RoundUniform() { return RoundUniform; },
-        // mesh
-        get ArrowBuilder() { return ArrowBuilder; },
         get simplicesToGeometryMeta() { return simplicesToGeometryMeta; },
         get computeFaceNormals() { return computeFaceNormals; },
         get cube() { return cube; },
@@ -17038,7 +17234,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get tetrahedron() { return tetrahedron; },
         get triangle() { return triangle; },
         get simplicesToDrawPrimitive() { return simplicesToDrawPrimitive; },
-        get CylinderArgs() { return CylinderArgs; },
         get Symbolic() { return Symbolic; },
         // programs
         get programFromScripts() { return programFromScripts; },

@@ -181,6 +181,9 @@ define(["require", "exports", '../checks/mustBeInteger', '../checks/mustBeString
             this.check();
             return this;
         };
+        SimplexGeometry.prototype.setPosition = function (position) {
+            return this;
+        };
         /**
          * @method toPrimitives
          * @return {DrawPrimitive[]}
@@ -257,6 +260,11 @@ define(["require", "exports", '../checks/mustBeInteger', '../checks/mustBeString
         SimplexGeometry.prototype.empty = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.EMPTY);
             return this.data.push(simplex);
+        };
+        SimplexGeometry.prototype.enableTextureCoords = function (enable) {
+            //        mustBeBoolean('enable', enable)
+            //        this.useTextureCoords = enable
+            return this;
         };
         return SimplexGeometry;
     })(Shareable);

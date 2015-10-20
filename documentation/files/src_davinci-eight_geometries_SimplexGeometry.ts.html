@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.134.0</em>
+            <em>API Docs for: 2.135.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,9 +40,11 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/ArrowSimplexGeometry.html">ArrowSimplexGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
@@ -64,6 +66,7 @@
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
@@ -83,6 +86,7 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/GridSimplexGeometry.html">GridSimplexGeometry</a></li>
                                 <li><a href="../classes/GridTopology.html">GridTopology</a></li>
@@ -134,6 +138,7 @@
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -141,6 +146,7 @@
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
                                 <li><a href="../classes/SimplexGeometry.html">SimplexGeometry</a></li>
+                                <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
@@ -212,6 +218,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
 import DrawPrimitive = require(&#x27;../geometries/DrawPrimitive&#x27;)
 import GeometryMeta = require(&#x27;../geometries/GeometryMeta&#x27;)
 import IGeometry = require(&#x27;../geometries/IGeometry&#x27;)
@@ -230,7 +237,7 @@ import Vector3 = require(&#x27;../math/Vector3&#x27;)
  * @class SimplexGeometry
  * @extends Shareable
  */
-class SimplexGeometry extends Shareable implements IGeometry {
+class SimplexGeometry extends Shareable implements IGeometry&lt;SimplexGeometry&gt; {
     /**
      * The geometry as a list of simplices.
      * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
@@ -405,6 +412,9 @@ class SimplexGeometry extends Shareable implements IGeometry {
         this.check();
         return this;
     }
+    public setPosition(position: Cartesian3) {
+        return this
+    }
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}
@@ -486,6 +496,11 @@ class SimplexGeometry extends Shareable implements IGeometry {
     public empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
         var simplex = new Simplex(Simplex.EMPTY)
         return this.data.push(simplex)
+    }
+    enableTextureCoords(enable: boolean): SimplexGeometry {
+        //        mustBeBoolean(&#x27;enable&#x27;, enable)
+        //        this.useTextureCoords = enable
+        return this
     }
 }
 
