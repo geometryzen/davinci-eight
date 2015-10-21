@@ -1,7 +1,7 @@
-import Cartesian1 = require('../math/Cartesian1');
-import Cartesian2 = require('../math/Cartesian2');
-import Cartesian3 = require('../math/Cartesian3');
-import Cartesian4 = require('../math/Cartesian4');
+import VectorE1 = require('../math/VectorE1');
+import VectorE2 = require('../math/VectorE2');
+import VectorE3 = require('../math/VectorE3');
+import VectorE4 = require('../math/VectorE4');
 import MutableNumber = require('../math/MutableNumber');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
@@ -40,24 +40,24 @@ declare class UniformLocation implements IContextProgramConsumer {
     contextLost(): void;
     /**
      * @method cartesian1
-     * @param coords {Cartesian1}
+     * @param coords {VectorE1}
      */
-    cartesian1(coords: Cartesian1): void;
+    cartesian1(coords: VectorE1): void;
     /**
      * @method cartesian2
-     * @param coords {Cartesian2}
+     * @param coords {VectorE2}
      */
-    cartesian2(coords: Cartesian2): void;
+    cartesian2(coords: VectorE2): void;
     /**
      * @method cartesian3
-     * @param coords {Cartesian3}
+     * @param coords {VectorE3}
      */
-    cartesian3(coords: Cartesian3): void;
+    cartesian3(coords: VectorE3): void;
     /**
      * @method cartesian4
-     * @param coords {Cartesian4}
+     * @param coords {VectorE4}
      */
-    cartesian4(coords: Cartesian4): void;
+    cartesian4(coords: VectorE4): void;
     /**
      * @method uniform1f
      * @param x {number}

@@ -1,5 +1,5 @@
 import AxialGeometry = require('../geometries/AxialGeometry');
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
 /**
@@ -28,18 +28,18 @@ declare class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeG
     constructor();
     /**
      * @method setAxis
-     * @param axis {Cartesian3}
+     * @param axis {VectorE3}
      * @return {ConeGeometry}
      * @chainable
      */
-    setAxis(axis: Cartesian3): ConeGeometry;
+    setAxis(axis: VectorE3): ConeGeometry;
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {ConeGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): ConeGeometry;
+    setPosition(position: VectorE3): ConeGeometry;
     /**
      * @method tPrimitives
      * @return {DrawPrimitive[]}

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../uniforms/ColorFacet', '../../geometries/CuboidSimplexGeometry', '../../scene/Drawable', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex', '../../math/Vector3'], function (require, exports, ColorFacet, CuboidSimplexGeometry, Drawable, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex, Vector3) {
+define(["require", "exports", '../../uniforms/ColorFacet', '../../geometries/CuboidSimplexGeometry', '../../scene/Drawable', '../../materials/PointMaterial', '../../materials/LineMaterial', '../../materials/MeshMaterial', '../../models/ModelFacet', '../../utils/Shareable', '../../geometries/Simplex', '../../math/MutableVectorE3'], function (require, exports, ColorFacet, CuboidSimplexGeometry, Drawable, PointMaterial, LineMaterial, MeshMaterial, ModelFacet, Shareable, Simplex, MutableVectorE3) {
     function createMaterial(geometry) {
         switch (geometry.meta.k) {
             case Simplex.POINT:
@@ -26,17 +26,17 @@ define(["require", "exports", '../../uniforms/ColorFacet', '../../geometries/Cub
     var CreateCuboidDrawable = (function (_super) {
         __extends(CreateCuboidDrawable, _super);
         function CreateCuboidDrawable(name, a, b, c, k, subdivide, boundary) {
-            if (a === void 0) { a = Vector3.e1; }
-            if (b === void 0) { b = Vector3.e2; }
-            if (c === void 0) { c = Vector3.e3; }
+            if (a === void 0) { a = MutableVectorE3.e1; }
+            if (b === void 0) { b = MutableVectorE3.e2; }
+            if (c === void 0) { c = MutableVectorE3.e3; }
             if (k === void 0) { k = Simplex.TRIANGLE; }
             if (subdivide === void 0) { subdivide = 0; }
             if (boundary === void 0) { boundary = 0; }
             _super.call(this, 'CreateCuboidDrawable');
             this.name = name;
-            this.a = Vector3.copy(a);
-            this.b = Vector3.copy(b);
-            this.c = Vector3.copy(c);
+            this.a = MutableVectorE3.copy(a);
+            this.b = MutableVectorE3.copy(b);
+            this.c = MutableVectorE3.copy(c);
             this.k = k;
             this.subdivide = subdivide;
             this.boundary = boundary;

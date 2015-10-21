@@ -1,20 +1,20 @@
-import Cartesian2 = require('../math/Cartesian2');
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE2 = require('../math/VectorE2');
+import VectorE3 = require('../math/VectorE3');
 import Face3 = require('../core/Face3');
 import Simplex = require('../geometries/Simplex');
 import Sphere = require('../math/Sphere');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE2 = require('../math/MutableVectorE2');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 import isDefined = require('../checks/isDefined');
 
-function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
+function updateFaceNormal(face: Face3, vertices: VectorE3[]) {
   face.vertexNormals = [];
-  let vA: Cartesian3 = vertices[face.a];
-  let vB: Cartesian3 = vertices[face.b];
-  let vC: Cartesian3 = vertices[face.c];
-  let cb = new Vector3().difference(vC, vB);
-  let ab = new Vector3().difference(vA, vB);
-  let normal = new Vector3().cross2(cb, ab).normalize();
+  let vA: VectorE3 = vertices[face.a];
+  let vB: VectorE3 = vertices[face.b];
+  let vC: VectorE3 = vertices[face.c];
+  let cb = new MutableVectorE3().difference(vC, vB);
+  let ab = new MutableVectorE3().difference(vA, vB);
+  let normal = new MutableVectorE3().cross2(cb, ab).normalize();
   // TODO: I think we only need to push one normal here?
   face.vertexNormals.push(normal);
   face.vertexNormals.push(normal);
@@ -24,9 +24,9 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
 class SimplexGeometry {
   // faces and vertices will be combined into Simplex[]
   public faces: Face3[] = [];
-  public vertices: Cartesian3[] = [];
+  public vertices: VectorE3[] = [];
   // faceVertexUvs should be an attribute. Why the triple?
-  public faceVertexUvs: Cartesian2[][][] = [[]];
+  public faceVertexUvs: VectorE2[][][] = [[]];
   // Everything else is hints
   public dynamic = true;
   public verticesNeedUpdate = false;
@@ -60,10 +60,10 @@ class SimplexGeometry {
     var face: Face3;
 
     // For each vertex, we will compute a vertexNormal.
-    // Store the results in an Array<Vector3>
-    var vertexNormals: Array<Vector3> = new Array(this.vertices.length);
+    // Store the results in an Array<MutableVectorE3>
+    var vertexNormals: Array<MutableVectorE3> = new Array(this.vertices.length);
     for (v = 0, vl = this.vertices.length; v < vl; v++) {
-      vertexNormals[v] = new Vector3();
+      vertexNormals[v] = new MutableVectorE3();
     }
 
     if (areaWeighted) {
@@ -71,11 +71,11 @@ class SimplexGeometry {
       // vertex normals weighted by triangle areas
       // http://www.iquilezles.org/www/articles/normals/normals.htm
 
-      var vA: Cartesian3;
-      var vB: Cartesian3;
-      var vC: Cartesian3;
-      var cb = new Vector3();
-      var ab = new Vector3();
+      var vA: VectorE3;
+      var vB: VectorE3;
+      var vC: VectorE3;
+      var cb = new MutableVectorE3();
+      var ab = new MutableVectorE3();
 
       for ( f = 0, fl = this.faces.length; f < fl; f ++ ) {
         face = this.faces[ f ];
@@ -125,7 +125,7 @@ class SimplexGeometry {
     /**
      * The list of unique vertices.
      */
-    var unique: Cartesian3[] = [];
+    var unique: VectorE3[] = [];
     /**
      * Index is original index in vertices. Entry is index in unique array.
      */
@@ -137,7 +137,7 @@ class SimplexGeometry {
     var indices, j, jl;
 
     for (i = 0, il = this.vertices.length; i < il; i ++) {
-      let v: Cartesian3 = this.vertices[ i ];
+      let v: VectorE3 = this.vertices[ i ];
       let key: string = Math.round( v.x * precision ) + '_' + Math.round( v.y * precision ) + '_' + Math.round( v.z * precision );
 
       if (verticesMap[key] === void 0) {

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.136.0</em>
+            <em>API Docs for: 2.137.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
-                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
-                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
-                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
-                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
@@ -110,6 +106,7 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -126,6 +123,10 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
+                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
+                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
+                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
+                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -153,7 +154,6 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
-                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -161,10 +161,11 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector2.html">Vector2</a></li>
-                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
-                                <li><a href="../classes/Vector4.html">Vector4</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -217,12 +218,13 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
+import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
+import Geometry = require(&#x27;../geometries/Geometry&#x27;)
 import IAxialGeometry = require(&#x27;../geometries/IAxialGeometry&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
-import Vector3 = require(&#x27;../math/Vector3&#x27;)
-import Geometry = require(&#x27;../geometries/Geometry&#x27;)
+import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 
 /**
  * @class AxialGeometry
@@ -230,10 +232,10 @@ import Geometry = require(&#x27;../geometries/Geometry&#x27;)
 class AxialGeometry extends Geometry implements IAxialGeometry&lt;AxialGeometry&gt; {
     /**
      * @property _axis
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @protected
      */
-    protected _axis: Vector3;
+    protected _axis: MutableVectorE3;
     /**
      * @property _sliceAngle
      * @type {number}
@@ -242,40 +244,40 @@ class AxialGeometry extends Geometry implements IAxialGeometry&lt;AxialGeometry&
     private _sliceAngle: number = 2 * Math.PI;
     /**
      * @property _sliceStart
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @private
      */
-    private _sliceStart: Vector3;
+    private _sliceStart: MutableVectorE3;
     /**
      * @class SliceGeometry
      * @constructor
      */
     constructor() {
         super()
-        this._axis = Vector3.e2.clone()
-        this._sliceStart = Vector3.e1.clone()
+        this._axis = MutableVectorE3.copy(Euclidean3.e2)
+        this._sliceStart = MutableVectorE3.copy(Euclidean3.e1)
     }
     /**
      * @property axis
-     * @type {Cartesian3}
+     * @type {VectorE3}
      */
-    get axis(): Cartesian3 {
+    get axis(): VectorE3 {
         return this._axis.clone()
     }
-    set axis(axis: Cartesian3) {
+    set axis(axis: VectorE3) {
         this.setAxis(axis)
     }
     /**
      * @method setAxis
-     * @param axis {Cartesian3}
+     * @param axis {VectorE3}
      * @return {AxialGeometry}
      * @chainable
      */
-    setAxis(axis: Cartesian3): AxialGeometry {
+    setAxis(axis: VectorE3): AxialGeometry {
         mustBeObject(&#x27;axis&#x27;, axis)
         this._axis.copy(axis).normalize()
         // FIXME: randomize
-        this._sliceStart.copy(Vector3.random()).cross(this._axis).normalize()
+        this._sliceStart.copy(MutableVectorE3.random()).cross(this._axis).normalize()
         return this;
     }
     /**
@@ -293,22 +295,22 @@ class AxialGeometry extends Geometry implements IAxialGeometry&lt;AxialGeometry&
     /**
      * The (unit vector) direction of the start of the slice.
      * @property sliceStart
-     * @type {Cartesian3}
+     * @type {VectorE3}
      */
-    get sliceStart(): Cartesian3 {
+    get sliceStart(): VectorE3 {
         return this._sliceStart.clone()
     }
-    set sliceStart(sliceStart: Cartesian3) {
+    set sliceStart(sliceStart: VectorE3) {
         mustBeObject(&#x27;sliceStart&#x27;, sliceStart)
         this._sliceStart.copy(sliceStart).normalize()
     }
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {AxialGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): AxialGeometry {
+    setPosition(position: VectorE3): AxialGeometry {
         super.setPosition(position)
         return this
     }

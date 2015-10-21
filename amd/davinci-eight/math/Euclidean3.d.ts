@@ -1,12 +1,12 @@
-import Cartesian3 = require('../math/Cartesian3');
 import Measure = require('../math/Measure');
-import Spinor3Coords = require('../math/Spinor3Coords');
+import SpinorE3 = require('../math/SpinorE3');
 import Unit = require('../math/Unit');
+import VectorE3 = require('../math/VectorE3');
 /**
  * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
  * @class Euclidean3
  */
-declare class Euclidean3 implements Cartesian3, Measure<Euclidean3>, Spinor3Coords {
+declare class Euclidean3 implements Measure<Euclidean3>, SpinorE3, VectorE3 {
     static zero: Euclidean3;
     static one: Euclidean3;
     static e1: Euclidean3;
@@ -73,6 +73,12 @@ declare class Euclidean3 implements Cartesian3, Measure<Euclidean3>, Spinor3Coor
      */
     constructor(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom?: Unit);
     static fromCartesian(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit): Euclidean3;
+    /**
+     * @method fromSpinorE3
+     * @param spinor {SpinorE3}
+     * @return {Euclidean3}
+     */
+    static fromSpinorE3(spinor: SpinorE3): Euclidean3;
     coordinates(): number[];
     coordinate(index: number): number;
     /**

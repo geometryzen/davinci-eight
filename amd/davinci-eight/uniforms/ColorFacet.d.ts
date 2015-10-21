@@ -22,7 +22,7 @@ declare class ColorFacet extends Shareable implements ColorRGB, IFacet, IAnimati
     static PROP_RED: string;
     /**
      * @property colorRGB
-     * @type Vector3
+     * @type MutableVectorE3
      * @private
      */
     private data;

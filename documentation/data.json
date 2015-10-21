@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.136.0",
+        "version": "2.137.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -922,42 +922,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/Cartesian1.ts": {
-            "name": "src/davinci-eight/math/Cartesian1.ts",
-            "modules": {},
-            "classes": {
-                "Cartesian1": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/math/Cartesian2.ts": {
-            "name": "src/davinci-eight/math/Cartesian2.ts",
-            "modules": {},
-            "classes": {
-                "Cartesian2": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/math/Cartesian3.ts": {
-            "name": "src/davinci-eight/math/Cartesian3.ts",
-            "modules": {},
-            "classes": {
-                "Cartesian3": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/math/Cartesian4.ts": {
-            "name": "src/davinci-eight/math/Cartesian4.ts",
-            "modules": {},
-            "classes": {
-                "Cartesian4": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/math/Complex.ts": {
             "name": "src/davinci-eight/math/Complex.ts",
             "modules": {},
@@ -1064,6 +1028,42 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/math/MutableSpinorE3.ts": {
+            "name": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "modules": {},
+            "classes": {
+                "MutableSpinorE3": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/MutableVectorE2.ts": {
+            "name": "src/davinci-eight/math/MutableVectorE2.ts",
+            "modules": {},
+            "classes": {
+                "MutableVectorE2": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/MutableVectorE3.ts": {
+            "name": "src/davinci-eight/math/MutableVectorE3.ts",
+            "modules": {},
+            "classes": {
+                "MutableVectorE3": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/MutableVectorE4.ts": {
+            "name": "src/davinci-eight/math/MutableVectorE4.ts",
+            "modules": {},
+            "classes": {
+                "MutableVectorE4": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/math/Quaternion.ts": {
             "name": "src/davinci-eight/math/Quaternion.ts",
             "modules": {},
@@ -1082,15 +1082,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/Spinor3.ts": {
-            "name": "src/davinci-eight/math/Spinor3.ts",
-            "modules": {},
-            "classes": {
-                "Spinor3": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/math/Unit.ts": {
             "name": "src/davinci-eight/math/Unit.ts",
             "modules": {},
@@ -1100,29 +1091,38 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/Vector2.ts": {
-            "name": "src/davinci-eight/math/Vector2.ts",
+        "src/davinci-eight/math/VectorE1.ts": {
+            "name": "src/davinci-eight/math/VectorE1.ts",
             "modules": {},
             "classes": {
-                "Vector2": 1
+                "VectorE1": 1
             },
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/Vector3.ts": {
-            "name": "src/davinci-eight/math/Vector3.ts",
+        "src/davinci-eight/math/VectorE2.ts": {
+            "name": "src/davinci-eight/math/VectorE2.ts",
             "modules": {},
             "classes": {
-                "Vector3": 1
+                "VectorE2": 1
             },
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/Vector4.ts": {
-            "name": "src/davinci-eight/math/Vector4.ts",
+        "src/davinci-eight/math/VectorE3.ts": {
+            "name": "src/davinci-eight/math/VectorE3.ts",
             "modules": {},
             "classes": {
-                "Vector4": 1
+                "VectorE3": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/VectorE4.ts": {
+            "name": "src/davinci-eight/math/VectorE4.ts",
+            "modules": {},
+            "classes": {
+                "VectorE4": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1212,6 +1212,15 @@
             "modules": {},
             "classes": {
                 "EulerFacet": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/models/KinematicRigidBodyFacetE3.ts": {
+            "name": "src/davinci-eight/models/KinematicRigidBodyFacetE3.ts",
+            "modules": {},
+            "classes": {
+                "KinematicRigidBodyFacetE3": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1662,10 +1671,6 @@
                 "SmartMaterial": 1,
                 "SmartMaterialBuilder": 1,
                 "AbstractMatrix": 1,
-                "Cartesian1": 1,
-                "Cartesian2": 1,
-                "Cartesian3": 1,
-                "Cartesian4": 1,
                 "Complex": 1,
                 "Dimensions": 1,
                 "Euclidean1": 1,
@@ -1677,19 +1682,24 @@
                 "Matrix4": 1,
                 "Mutable": 1,
                 "MutableNumber": 1,
+                "MutableSpinorE3": 1,
+                "MutableVectorE2": 1,
+                "MutableVectorE3": 1,
+                "MutableVectorE4": 1,
                 "Quaternion": 1,
                 "Rational": 1,
-                "Spinor3": 1,
                 "Unit": 1,
-                "Vector2": 1,
-                "Vector3": 1,
-                "Vector4": 1,
+                "VectorE1": 1,
+                "VectorE2": 1,
+                "VectorE3": 1,
+                "VectorE4": 1,
                 "VectorN<T>": 1,
                 "BoxBuilder": 1,
                 "BoxMesh": 1,
                 "CuboidMesh": 1,
                 "CylinderArgs": 1,
                 "EulerFacet": 1,
+                "KinematicRigidBodyFacetE3": 1,
                 "ModelFacet": 1,
                 "IContextRenderer": 1,
                 "Canvas3D": 1,
@@ -1784,7 +1794,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/cameras/createView.ts",
-            "line": 14,
+            "line": 15,
             "is_constructor": 1
         },
         "IUnknownArray<T extends IUnknown>": {
@@ -2132,7 +2142,7 @@
                 {
                     "name": "normals",
                     "description": "The per-vertex normals for this face (3) or face normal (1).",
-                    "type": "Cartesian3[]"
+                    "type": "VectorE3[]"
                 }
             ]
         },
@@ -2375,7 +2385,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/geometries/ArrowSimplexGeometry.ts",
-            "line": 56,
+            "line": 57,
             "is_constructor": 1
         },
         "AxialGeometry": {
@@ -2388,7 +2398,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 8
+            "line": 9
         },
         "SliceGeometry": {
             "name": "SliceGeometry",
@@ -2400,7 +2410,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 30,
+            "line": 31,
             "is_constructor": 1
         },
         "AxialSimplexGeometry": {
@@ -2426,7 +2436,7 @@
                 {
                     "name": "axis",
                     "description": "The <b>axis</b> property.",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ]
         },
@@ -2471,7 +2481,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/ConeSimplexGeometry.ts",
-            "line": 20,
+            "line": 21,
             "extends": "SliceSimplexGeometry",
             "is_constructor": 1,
             "params": [
@@ -2512,7 +2522,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 46,
+            "line": 47,
             "is_constructor": 1
         },
         "CuboidSimplexGeometry": {
@@ -2526,22 +2536,22 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 52,
+            "line": 53,
             "extends": "SimplexGeometry",
             "description": "<p>\nThe <code>CuboidSimplexGeometry</code> generates simplices representing a cuboid, or more precisely a parallelepiped.\nThe parallelepiped is parameterized by the three vectors <b>a</b>, <b>b</b>, and <b>c</b>.\nThe property <code>k</code> represents the dimensionality of the vertices.\nThe default settings create a unit cube centered at the origin.\n</p>",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "a",
-                    "description": "[Cartesian3 = Vector3.e1]"
+                    "description": "[VectorE3 = MutableVectorE3.e1]"
                 },
                 {
                     "name": "b",
-                    "description": "[Cartesian3 = Vector3.e1]"
+                    "description": "[VectorE3 = MutableVectorE3.e1]"
                 },
                 {
                     "name": "c",
-                    "description": "[Cartesian3 = Vector3.e1]"
+                    "description": "[VectorE3 = MutableVectorE3.e1]"
                 },
                 {
                     "name": "k",
@@ -2600,7 +2610,7 @@
                 },
                 {
                     "name": "axis",
-                    "description": "[Cartesian3 = Vector3.e2]"
+                    "description": "[VectorE3 = MutableVectorE3.e2]"
                 },
                 {
                     "name": "openTop",
@@ -2738,7 +2748,7 @@
                 {
                     "name": "parametricFunction",
                     "description": "",
-                    "type": "(u: number, v: number) => Cartesian3"
+                    "type": "(u: number, v: number) => VectorE3"
                 },
                 {
                     "name": "uSegments",
@@ -2869,7 +2879,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/PolyhedronSimplexGeometry.ts",
-            "line": 50,
+            "line": 51,
             "extends": "SimplexGeometry",
             "is_constructor": 1
         },
@@ -2927,11 +2937,11 @@
                 },
                 {
                     "name": "axis",
-                    "description": "[Cartesian3] The <code>axis</code> property."
+                    "description": "[VectorE3] The <code>axis</code> property."
                 },
                 {
                     "name": "sliceStart",
-                    "description": "[Cartesian3] The <code>sliceStart</code> property."
+                    "description": "[VectorE3] The <code>sliceStart</code> property."
                 },
                 {
                     "name": "sliceAngle",
@@ -2986,7 +2996,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 68,
+            "line": 69,
             "extends": "Shareable",
             "description": "<p>\nA list of simplices (data) with information about dimensionality and vertex properties (meta). \nThis class should be used as an abstract base or concrete class when constructing\ngeometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).\nThe <code>SimplexGeometry</code> class implements IUnknown, as a convenience to implementations\nrequiring special de-allocation of resources, by extending <code>Shareable</code>.\n</p>",
             "is_constructor": 1,
@@ -3020,11 +3030,11 @@
                 },
                 {
                     "name": "axis",
-                    "description": "[Cartesian3 = Vector3.e3] The <code>axis</code> property."
+                    "description": "[VectorE3 = MutableVectorE3.e3] The <code>axis</code> property."
                 },
                 {
                     "name": "sliceStart",
-                    "description": "[Cartesian3] The <code>sliceStart</code> property."
+                    "description": "[VectorE3] The <code>sliceStart</code> property."
                 },
                 {
                     "name": "sliceAngle",
@@ -3054,11 +3064,11 @@
                 },
                 {
                     "name": "axis",
-                    "description": "[Cartesian3]"
+                    "description": "[VectorE3]"
                 },
                 {
                     "name": "phiStart",
-                    "description": "[Cartesian]"
+                    "description": "[vectorE3]"
                 },
                 {
                     "name": "phiLength",
@@ -3389,58 +3399,6 @@
                 }
             ]
         },
-        "Cartesian1": {
-            "name": "Cartesian1",
-            "shortname": "Cartesian1",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/math/Cartesian1.ts",
-            "line": 1
-        },
-        "Cartesian2": {
-            "name": "Cartesian2",
-            "shortname": "Cartesian2",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/math/Cartesian2.ts",
-            "line": 1
-        },
-        "Cartesian3": {
-            "name": "Cartesian3",
-            "shortname": "Cartesian3",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/math/Cartesian3.ts",
-            "line": 1
-        },
-        "Cartesian4": {
-            "name": "Cartesian4",
-            "shortname": "Cartesian4",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/math/Cartesian4.ts",
-            "line": 1
-        },
         "Complex": {
             "name": "Complex",
             "shortname": "Complex",
@@ -3600,7 +3558,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 684,
+            "line": 685,
             "description": "The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric."
         },
         "Matrix<M>": {
@@ -3703,6 +3661,108 @@
                 }
             ]
         },
+        "MutableSpinorE3": {
+            "name": "MutableSpinorE3",
+            "shortname": "MutableSpinorE3",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 27,
+            "extends": "VectorN<number>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "[number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1"
+                },
+                {
+                    "name": "modified",
+                    "description": "[boolean = false]"
+                }
+            ]
+        },
+        "MutableVectorE2": {
+            "name": "MutableVectorE2",
+            "shortname": "MutableVectorE2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/MutableVectorE2.ts",
+            "line": 11,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Default is [0, 0].",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "modified",
+                    "description": "Default is false.",
+                    "type": "Boolean"
+                }
+            ]
+        },
+        "MutableVectorE3": {
+            "name": "MutableVectorE3",
+            "shortname": "MutableVectorE3",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 51,
+            "extends": "VectorN<number>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "[number[] = [0, 0, 0]]"
+                },
+                {
+                    "name": "modified",
+                    "description": "[boolean = false]"
+                }
+            ]
+        },
+        "MutableVectorE4": {
+            "name": "MutableVectorE4",
+            "shortname": "MutableVectorE4",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/MutableVectorE4.ts",
+            "line": 11,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Default is [0, 0, 0, 0].",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "modified",
+                    "description": "Default is false.",
+                    "type": "Boolean"
+                }
+            ]
+        },
         "Quaternion": {
             "name": "Quaternion",
             "shortname": "Quaternion",
@@ -3714,7 +3774,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 28,
+            "line": 29,
             "is_constructor": 1,
             "params": [
                 {
@@ -3723,8 +3783,7 @@
                 },
                 {
                     "name": "v",
-                    "description": "[Cartesian3 = ]",
-                    "type": "X: 0, y: 0, z: 0"
+                    "description": "[VectorE3 = 0]"
                 }
             ]
         },
@@ -3752,31 +3811,6 @@
                     "name": "d",
                     "description": "The denominator, an integer.",
                     "type": "Number"
-                }
-            ]
-        },
-        "Spinor3": {
-            "name": "Spinor3",
-            "shortname": "Spinor3",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 26,
-            "extends": "VectorN<number>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "data",
-                    "description": "[number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1"
-                },
-                {
-                    "name": "modified",
-                    "description": "[boolean = false]"
                 }
             ]
         },
@@ -3812,9 +3846,9 @@
                 }
             ]
         },
-        "Vector2": {
-            "name": "Vector2",
-            "shortname": "Vector2",
+        "VectorE1": {
+            "name": "VectorE1",
+            "shortname": "VectorE1",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -3822,25 +3856,12 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/math/Vector2.ts",
-            "line": 11,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "data",
-                    "description": "Default is [0, 0].",
-                    "type": "Number[]"
-                },
-                {
-                    "name": "modified",
-                    "description": "Default is false.",
-                    "type": "Boolean"
-                }
-            ]
+            "file": "src/davinci-eight/math/VectorE1.ts",
+            "line": 1
         },
-        "Vector3": {
-            "name": "Vector3",
-            "shortname": "Vector3",
+        "VectorE2": {
+            "name": "VectorE2",
+            "shortname": "VectorE2",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -3848,24 +3869,12 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 36,
-            "extends": "VectorN<number>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "data",
-                    "description": "[number[] = [0, 0, 0]]"
-                },
-                {
-                    "name": "modified",
-                    "description": "[boolean = false]"
-                }
-            ]
+            "file": "src/davinci-eight/math/VectorE2.ts",
+            "line": 1
         },
-        "Vector4": {
-            "name": "Vector4",
-            "shortname": "Vector4",
+        "VectorE3": {
+            "name": "VectorE3",
+            "shortname": "VectorE3",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -3873,21 +3882,21 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/math/Vector4.ts",
-            "line": 11,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "data",
-                    "description": "Default is [0, 0, 0, 0].",
-                    "type": "Number[]"
-                },
-                {
-                    "name": "modified",
-                    "description": "Default is false.",
-                    "type": "Boolean"
-                }
-            ]
+            "file": "src/davinci-eight/math/VectorE3.ts",
+            "line": 1
+        },
+        "VectorE4": {
+            "name": "VectorE4",
+            "shortname": "VectorE4",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/VectorE4.ts",
+            "line": 1
         },
         "VectorN<T>": {
             "name": "VectorN<T>",
@@ -4003,6 +4012,31 @@
             "line": 12,
             "is_constructor": 1
         },
+        "KinematicRigidBodyFacetE3": {
+            "name": "KinematicRigidBodyFacetE3",
+            "shortname": "KinematicRigidBodyFacetE3",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/models/KinematicRigidBodyFacetE3.ts",
+            "line": 27,
+            "extends": "ModelFacet",
+            "description": "<p>\nConstructs a KinematicRigidBodyFacetE3.\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "type ",
+                    "description": "The name used for reference counting.",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": " 'KinematicRigidBodyFacetE3'"
+                }
+            ]
+        },
         "ModelFacet": {
             "name": "ModelFacet",
             "shortname": "ModelFacet",
@@ -4014,9 +4048,15 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 30,
-            "description": "ModelFacet implements IFacet required for manipulating a body.",
-            "is_constructor": 1
+            "line": 51,
+            "description": "<p>\nA collection of properties governing GLSL uniforms for Rigid Body Modeling.\n</p>\n<p>\nIn Physics, the drawable object may represent a rigid body.\nIn Computer Graphics, the drawable object is a collection of drawing primitives.\n</p>\n<p>\nModelFacet implements IFacet required for manipulating a drawable object.\n</p>\n<p>\nConstructs a ModelFacet at the origin and with unity attitude.\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "[string = 'ModelFacet'] The name used for reference counting."
+                }
+            ]
         },
         "IContextRenderer": {
             "name": "IContextRenderer",
@@ -4444,7 +4484,7 @@
                 {
                     "name": "vector",
                     "description": "",
-                    "type": "Vector3"
+                    "type": "MutableVectorE3"
                 }
             ]
         },
@@ -4544,7 +4584,7 @@
                 {
                     "name": "eye",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "Frustum"
@@ -4559,7 +4599,7 @@
                 {
                     "name": "look",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "Frustum"
@@ -4574,7 +4614,7 @@
                 {
                     "name": "up",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "Frustum"
@@ -4681,7 +4721,7 @@
                 {
                     "name": "eye",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "Perspective"
@@ -4696,7 +4736,7 @@
                 {
                     "name": "look",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "Perspective"
@@ -4711,7 +4751,7 @@
                 {
                     "name": "up",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "Perspective"
@@ -4721,7 +4761,7 @@
             "line": 11,
             "itemtype": "property",
             "name": "eye",
-            "type": "Vector3",
+            "type": "MutableVectorE3",
             "class": "View"
         },
         {
@@ -4729,7 +4769,7 @@
             "line": 16,
             "itemtype": "property",
             "name": "look",
-            "type": "Vector3",
+            "type": "MutableVectorE3",
             "class": "View"
         },
         {
@@ -4737,7 +4777,7 @@
             "line": 21,
             "itemtype": "property",
             "name": "up",
-            "type": "Vector3",
+            "type": "MutableVectorE3",
             "class": "View"
         },
         {
@@ -4750,7 +4790,7 @@
                 {
                     "name": "eye",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "View"
@@ -4765,7 +4805,7 @@
                 {
                     "name": "look",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "View"
@@ -4780,7 +4820,7 @@
                 {
                     "name": "up",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "View"
@@ -4833,14 +4873,14 @@
         },
         {
             "file": "src/davinci-eight/cameras/createView.ts",
-            "line": 55,
+            "line": 56,
             "itemtype": "method",
             "name": "setEye",
             "params": [
                 {
                     "name": "eye",
                     "description": "",
-                    "type": "Vector3"
+                    "type": "MutableVectorE3"
                 }
             ],
             "return": {
@@ -6411,7 +6451,7 @@
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
             "line": 73,
             "itemtype": "method",
-            "name": "uniformCartesian2",
+            "name": "uniformVectorE2",
             "params": [
                 {
                     "name": "name",
@@ -6421,7 +6461,7 @@
                 {
                     "name": "vector",
                     "description": "",
-                    "type": "Cartesian2"
+                    "type": "VectorE2"
                 },
                 {
                     "name": "canvasId",
@@ -6433,9 +6473,9 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 81,
+            "line": 80,
             "itemtype": "method",
-            "name": "uniformCartesian3",
+            "name": "uniformVectorE3",
             "params": [
                 {
                     "name": "name",
@@ -6445,7 +6485,7 @@
                 {
                     "name": "vector",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 },
                 {
                     "name": "canvasId",
@@ -6457,9 +6497,9 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 88,
+            "line": 87,
             "itemtype": "method",
-            "name": "uniformCartesian4",
+            "name": "uniformVectorE4",
             "params": [
                 {
                     "name": "name",
@@ -6469,7 +6509,7 @@
                 {
                     "name": "vector",
                     "description": "",
-                    "type": "Cartesian4"
+                    "type": "VectorE4"
                 },
                 {
                     "name": "canvasId",
@@ -6481,7 +6521,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 95,
+            "line": 94,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -6505,7 +6545,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 102,
+            "line": 101,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -6529,7 +6569,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 109,
+            "line": 108,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -6837,7 +6877,7 @@
                 {
                     "name": "coords",
                     "description": "",
-                    "type": "Cartesian1"
+                    "type": "VectorE1"
                 }
             ],
             "class": "UniformLocation"
@@ -6851,7 +6891,7 @@
                 {
                     "name": "coords",
                     "description": "",
-                    "type": "Cartesian2"
+                    "type": "VectorE2"
                 }
             ],
             "class": "UniformLocation"
@@ -6865,7 +6905,7 @@
                 {
                     "name": "coords",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "class": "UniformLocation"
@@ -6879,7 +6919,7 @@
                 {
                     "name": "coords",
                     "description": "",
-                    "type": "Cartesian4"
+                    "type": "VectorE4"
                 }
             ],
             "class": "UniformLocation"
@@ -7215,7 +7255,7 @@
                 {
                     "name": "position",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -7234,7 +7274,7 @@
                 {
                     "name": "axis",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -7293,15 +7333,15 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowSimplexGeometry.ts",
-            "line": 50,
+            "line": 51,
             "itemtype": "property",
             "name": "vector",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "class": "ArrowSimplexGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowSimplexGeometry.ts",
-            "line": 64,
+            "line": 65,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7314,7 +7354,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowSimplexGeometry.ts",
-            "line": 72,
+            "line": 73,
             "itemtype": "method",
             "name": "isModified",
             "return": {
@@ -7325,7 +7365,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowSimplexGeometry.ts",
-            "line": 79,
+            "line": 80,
             "itemtype": "method",
             "name": "setModified",
             "params": [
@@ -7343,7 +7383,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowSimplexGeometry.ts",
-            "line": 88,
+            "line": 89,
             "itemtype": "method",
             "name": "regenerate",
             "return": {
@@ -7354,17 +7394,17 @@
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 12,
+            "line": 13,
             "itemtype": "property",
             "name": "_axis",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "access": "protected",
             "tagname": "",
             "class": "AxialGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 18,
+            "line": 19,
             "itemtype": "property",
             "name": "_sliceAngle",
             "type": "{number}",
@@ -7374,32 +7414,32 @@
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 24,
+            "line": 25,
             "itemtype": "property",
             "name": "_sliceStart",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "access": "private",
             "tagname": "",
             "class": "AxialGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 39,
+            "line": 40,
             "itemtype": "property",
             "name": "axis",
-            "type": "{Cartesian3}",
+            "type": "{VectorE3}",
             "class": "SliceGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 49,
+            "line": 50,
             "itemtype": "method",
             "name": "setAxis",
             "params": [
                 {
                     "name": "axis",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -7411,7 +7451,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 62,
+            "line": 63,
             "itemtype": "property",
             "name": "sliceAngle",
             "type": "{number}",
@@ -7420,23 +7460,23 @@
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 74,
+            "line": 75,
             "description": "The (unit vector) direction of the start of the slice.",
             "itemtype": "property",
             "name": "sliceStart",
-            "type": "{Cartesian3}",
+            "type": "{VectorE3}",
             "class": "SliceGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 86,
+            "line": 87,
             "itemtype": "method",
             "name": "setPosition",
             "params": [
                 {
                     "name": "position",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -7448,7 +7488,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
-            "line": 96,
+            "line": 97,
             "itemtype": "method",
             "name": "enableTextureCoords",
             "params": [
@@ -7470,7 +7510,7 @@
             "description": "The symmetry axis used for geometry generation.",
             "itemtype": "property",
             "name": "axis",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "class": "AxialSimplexGeometry"
         },
         {
@@ -7496,7 +7536,7 @@
                 {
                     "name": "axis",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -7515,7 +7555,7 @@
                 {
                     "name": "position",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -7580,7 +7620,7 @@
                 {
                     "name": "axis",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -7600,7 +7640,7 @@
                 {
                     "name": "position",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -7625,7 +7665,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 54,
+            "line": 55,
             "itemtype": "property",
             "name": "width",
             "type": "{number}",
@@ -7634,7 +7674,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 65,
+            "line": 66,
             "itemtype": "property",
             "name": "height",
             "type": "{number}",
@@ -7643,7 +7683,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 76,
+            "line": 77,
             "itemtype": "property",
             "name": "depth",
             "type": "{number}",
@@ -7652,14 +7692,14 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 102,
+            "line": 103,
             "itemtype": "method",
             "name": "setPosition",
             "params": [
                 {
                     "name": "position",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -7671,7 +7711,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 111,
+            "line": 112,
             "itemtype": "method",
             "name": "toPrimitives",
             "return": {
@@ -7683,11 +7723,11 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 24,
+            "line": 25,
             "description": "Parameter is private so that we can detect assignments.",
             "itemtype": "property",
             "name": "_a",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "access": "private",
             "tagname": "",
             "class": "CuboidSimplexGeometry",
@@ -7695,11 +7735,11 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 31,
+            "line": 32,
             "description": "Parameter is private so that we can detect assignments.",
             "itemtype": "property",
             "name": "_b",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "access": "private",
             "tagname": "",
             "class": "CuboidSimplexGeometry",
@@ -7707,11 +7747,11 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 38,
+            "line": 39,
             "description": "Parameter is private so that we can detect assignments.",
             "itemtype": "property",
             "name": "_c",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "access": "private",
             "tagname": "",
             "class": "CuboidSimplexGeometry",
@@ -7719,7 +7759,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 45,
+            "line": 46,
             "description": "Used to mark the parameters of this object dirty when they are possibly shared.",
             "itemtype": "property",
             "name": "_isModified",
@@ -7731,37 +7771,37 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 87,
+            "line": 88,
             "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e1.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
             "itemtype": "property",
             "name": "a",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "class": "CuboidSimplexGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 108,
+            "line": 109,
             "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e2.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
             "itemtype": "property",
             "name": "b",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "class": "CuboidSimplexGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 129,
+            "line": 130,
             "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e3.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
             "itemtype": "property",
             "name": "c",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "class": "CuboidSimplexGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 153,
+            "line": 154,
             "itemtype": "method",
             "name": "setModified",
             "params": [
@@ -7780,7 +7820,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 166,
+            "line": 167,
             "description": "regenerate the geometry based upon the current parameters.",
             "itemtype": "method",
             "name": "regenerate",
@@ -7922,7 +7962,7 @@
             "line": 12,
             "itemtype": "property",
             "name": "_position",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "access": "private",
             "tagname": "",
             "class": "Geometry",
@@ -7943,7 +7983,7 @@
             "description": "<p>\nThe local `position` property used for geometry generation.\n</p>",
             "itemtype": "property",
             "name": "position",
-            "type": "{Cartesian3}",
+            "type": "{VectorE3}",
             "class": "Geometry",
             "module": "EIGHT"
         },
@@ -7976,7 +8016,7 @@
                 {
                     "name": "position",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -8131,8 +8171,8 @@
         },
         {
             "file": "src/davinci-eight/geometries/PolyhedronSimplexGeometry.ts",
-            "line": 20,
-            "description": "Modifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.\nOK!",
+            "line": 21,
+            "description": "Modifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a MutableVectorE2.\nOK!",
             "class": "PolyhedronSimplexGeometry",
             "module": "EIGHT"
         },
@@ -8145,12 +8185,12 @@
                 {
                     "name": "points",
                     "description": "",
-                    "type": "Vector3[]"
+                    "type": "MutableVectorE3[]"
                 },
                 {
                     "name": "generator",
                     "description": "",
-                    "type": "Spinor3"
+                    "type": "MutableSpinorE3"
                 },
                 {
                     "name": "segments",
@@ -8170,7 +8210,7 @@
                 {
                     "name": "attitude",
                     "description": "",
-                    "type": "Spinor3"
+                    "type": "MutableSpinorE3"
                 }
             ],
             "class": "RevolutionSimplexGeometry",
@@ -8238,7 +8278,7 @@
                 {
                     "name": "position",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -8568,7 +8608,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 21,
+            "line": 22,
             "description": "The geometry as a list of simplices.\nA simplex, in the context of WebGL, will usually represent a triangle, line or point.",
             "itemtype": "property",
             "name": "data",
@@ -8578,7 +8618,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 28,
+            "line": 29,
             "description": "Summary information on the simplices such as dimensionality and sizes for attributes.\nThis data structure may be used to map vertex attribute names to program names.",
             "itemtype": "property",
             "name": "meta",
@@ -8588,7 +8628,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 35,
+            "line": 36,
             "description": "The dimensionality of the simplices in this geometry.",
             "itemtype": "property",
             "name": "_k",
@@ -8600,7 +8640,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 42,
+            "line": 43,
             "description": "Specifies the number of segments to use in curved directions.",
             "itemtype": "property",
             "name": "curvedSegments",
@@ -8610,7 +8650,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 48,
+            "line": 49,
             "description": "Specifies the number of segments to use on flat surfaces.",
             "itemtype": "property",
             "name": "flatSegments",
@@ -8620,7 +8660,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 54,
+            "line": 55,
             "description": "<p>\nSpecifies that the geometry should set colors on vertex attributes\nfor visualizing orientation of triangles\n</p>",
             "itemtype": "property",
             "name": "orientationColors",
@@ -8630,7 +8670,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 85,
+            "line": 86,
             "description": "The destructor method should be implemented in derived classes and the super.destructor called\nas the last call in the derived class destructor.",
             "itemtype": "method",
             "name": "destructor",
@@ -8645,7 +8685,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 95,
+            "line": 96,
             "description": "<p>\nThe dimensionality of the simplices in this geometry.\n</p>\n<p>\nThe <code>k</code> parameter affects geometry generation.\n</p>\n<code>k</code> must be an integer.",
             "itemtype": "property",
             "name": "k",
@@ -8655,7 +8695,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 112,
+            "line": 113,
             "description": "Used to regenerate the simplex data from geometry parameters.\nThis method should be implemented by the derived geometry class.",
             "itemtype": "method",
             "name": "regenerate",
@@ -8668,7 +8708,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 121,
+            "line": 122,
             "description": "Used to determine whether the geometry must be recalculated.\nThe base implementation is pessimistic and returns <code>true</code>.\nThis method should be implemented by the derived class to reduce frequent recalculation.",
             "itemtype": "method",
             "name": "isModified",
@@ -8681,7 +8721,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 131,
+            "line": 132,
             "description": "Sets the modification state of <code>this</code> instance.\nDerived classes should override this method if they contain parameters which affect geometry calculation.",
             "itemtype": "method",
             "name": "setModified",
@@ -8702,7 +8742,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 143,
+            "line": 144,
             "description": "<p>\nApplies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe boundary operation converts simplices of dimension `n` to `n - 1`.\nFor example, triangles are converted to lines.\n</p>",
             "itemtype": "method",
             "name": "boundary",
@@ -8722,7 +8762,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 163,
+            "line": 164,
             "description": "Updates the meta property of this instance to match the data.",
             "itemtype": "method",
             "name": "check",
@@ -8736,7 +8776,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 175,
+            "line": 176,
             "description": "<p>\nApplies the subdivide operation to each Simplex in this instance the specified number of times.\n</p>\n<p>\nThe subdivide operation creates new simplices of the same dimension as the originals.\n</p>",
             "itemtype": "method",
             "name": "subdivide",
@@ -8756,14 +8796,14 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 195,
+            "line": 196,
             "itemtype": "method",
             "name": "setPosition",
             "params": [
                 {
                     "name": "position",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -8776,7 +8816,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 204,
+            "line": 205,
             "itemtype": "method",
             "name": "toPrimitives",
             "return": {
@@ -8788,7 +8828,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 215,
+            "line": 216,
             "itemtype": "method",
             "name": "mergeVertices",
             "params": [
@@ -8809,7 +8849,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SimplexGeometry.ts",
-            "line": 225,
+            "line": 226,
             "description": "Convenience method for pushing attribute data as a triangular simplex",
             "itemtype": "method",
             "name": "triangle",
@@ -8817,17 +8857,17 @@
                 {
                     "name": "positions",
                     "description": "",
-                    "type": "Vector3[]"
+                    "type": "MutableVectorE3[]"
                 },
                 {
                     "name": "normals",
                     "description": "",
-                    "type": "Vector3[]"
+                    "type": "MutableVectorE3[]"
                 },
                 {
                     "name": "uvs",
                     "description": "",
-                    "type": "Vector2[]"
+                    "type": "MutableVectorE2[]"
                 }
             ],
             "return": {
@@ -8854,7 +8894,7 @@
             "description": "<p>\nThe (unit vector) direction of the start of the slice.\n</p>",
             "itemtype": "property",
             "name": "sliceStart",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "class": "SliceSimplexGeometry",
             "module": "EIGHT"
         },
@@ -8948,7 +8988,7 @@
             "description": "Defines a start half-plane relative to the <code>axis</code> property.",
             "itemtype": "property",
             "name": "phiStart",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "class": "SphericalPolarSimplexGeometry",
             "module": "EIGHT"
         },
@@ -8961,7 +9001,7 @@
                 {
                     "name": "axis",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -8981,7 +9021,7 @@
                 {
                     "name": "position",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -9085,7 +9125,7 @@
         {
             "file": "src/davinci-eight/geometries/arc3.ts",
             "line": 9,
-            "description": "Computes a list of points corresponding to an arc centered on the origin.\nparam begin {Cartesian3} The begin position.\nparam angle: {number} The angle of the rotation.\nparam generator {Spinor3Coords} The generator of the rotation.\nparam segments {number} The number of segments.",
+            "description": "Computes a list of points corresponding to an arc centered on the origin.\nparam begin {VectorE3} The begin position.\nparam angle: {number} The angle of the rotation.\nparam generator {SpinorE3} The generator of the rotation.\nparam segments {number} The number of segments.",
             "class": "LocalizableMessage",
             "module": "EIGHT"
         },
@@ -9426,96 +9466,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Cartesian1.ts",
-            "line": 5,
-            "itemtype": "property",
-            "name": "x",
-            "type": "number",
-            "class": "Cartesian1",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Cartesian2.ts",
-            "line": 5,
-            "itemtype": "property",
-            "name": "x",
-            "type": "number",
-            "class": "Cartesian2",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Cartesian2.ts",
-            "line": 10,
-            "itemtype": "property",
-            "name": "y",
-            "type": "number",
-            "class": "Cartesian2",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Cartesian3.ts",
-            "line": 5,
-            "itemtype": "property",
-            "name": "x",
-            "type": "number",
-            "class": "Cartesian3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Cartesian3.ts",
-            "line": 10,
-            "itemtype": "property",
-            "name": "y",
-            "type": "number",
-            "class": "Cartesian3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Cartesian3.ts",
-            "line": 15,
-            "itemtype": "property",
-            "name": "z",
-            "type": "number",
-            "class": "Cartesian3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Cartesian4.ts",
-            "line": 5,
-            "itemtype": "property",
-            "name": "x",
-            "type": "number",
-            "class": "Cartesian4",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Cartesian4.ts",
-            "line": 10,
-            "itemtype": "property",
-            "name": "y",
-            "type": "number",
-            "class": "Cartesian4",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Cartesian4.ts",
-            "line": 15,
-            "itemtype": "property",
-            "name": "z",
-            "type": "number",
-            "class": "Cartesian4",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Cartesian4.ts",
-            "line": 20,
-            "itemtype": "property",
-            "name": "w",
-            "type": "number",
-            "class": "Cartesian4",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/math/Complex.ts",
             "line": 33,
             "description": "The real part of the complex number.",
@@ -9603,13 +9553,13 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 195,
+            "line": 196,
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 702,
+            "line": 703,
             "description": "The `w` property is the grade zero (scalar) part of the Euclidean3 multivector.",
             "itemtype": "property",
             "name": "w",
@@ -9619,63 +9569,63 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 708,
+            "line": 709,
             "description": "The `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 712,
+            "line": 713,
             "description": "The `y` property is the y coordinate of the grade one (vector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 716,
+            "line": 717,
             "description": "The `z` property is the z coordinate of the grade one (vector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 720,
+            "line": 721,
             "description": "The `xy` property is the xy coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 724,
+            "line": 725,
             "description": "The `yz` property is the yz coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 728,
+            "line": 729,
             "description": "The `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 732,
+            "line": 733,
             "description": "The `xyz` property is the grade three (pseudoscalar) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 736,
+            "line": 737,
             "description": "The optional unit of measure.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 740,
+            "line": 741,
             "description": "Constructs a Euclidean3 from its coordinates.",
             "is_constructor": 1,
             "params": [
@@ -9729,7 +9679,26 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 817,
+            "line": 791,
+            "itemtype": "method",
+            "name": "fromSpinorE3",
+            "params": [
+                {
+                    "name": "spinor",
+                    "description": "",
+                    "type": "SpinorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Euclidean3"
+            },
+            "class": "Euclidean3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 832,
             "description": "Computes the sum of this Euclidean3 and another considered to be the rhs of the binary addition, `+`, operator.\nThis method does not change this Euclidean3.",
             "itemtype": "method",
             "name": "add",
@@ -9749,7 +9718,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 852,
+            "line": 867,
             "itemtype": "method",
             "name": "sub",
             "params": [
@@ -9768,21 +9737,21 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1074,
+            "line": 1076,
             "description": "~ (tilde) produces reversion.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1158,
+            "line": 1160,
             "description": "Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 1163,
+            "line": 1165,
             "description": "Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
             "class": "Euclidean3",
             "module": "EIGHT"
@@ -10094,8 +10063,1433 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 36,
+            "itemtype": "property",
+            "name": "yz",
+            "type": "Number",
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 48,
+            "itemtype": "property",
+            "name": "zx",
+            "type": "Number",
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 60,
+            "itemtype": "property",
+            "name": "xy",
+            "type": "Number",
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 72,
+            "itemtype": "property",
+            "name": "w",
+            "type": "Number",
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 84,
+            "description": "<p>\n<code>this ⟼ this + α * spinor</code>\n</p>",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "spinor",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "α",
+                    "description": "[number = 1]"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 103,
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "A copy of <code>this</code>.",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 111,
+            "description": "<p>\n<code>this ⟼ (w, -B)</code>\n</p>",
+            "itemtype": "method",
+            "name": "conj",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 125,
+            "description": "<p>\n<code>this ⟼ copy(spinor)</code>\n</p>",
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "spinor",
+                    "description": "",
+                    "type": "SpinorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 142,
+            "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
+            "itemtype": "method",
+            "name": "diff",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "SpinorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 159,
+            "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
+            "itemtype": "method",
+            "name": "divideByScalar",
+            "params": [
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 175,
+            "description": "<p>\n<code>this ⟼ dual(v) = I * v</code>\n</p>\nNotice that the dual of a vector is related to the spinor by the right-hand rule.",
+            "itemtype": "method",
+            "name": "dual",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "The vector whose dual will be used to set this spinor.",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 193,
+            "description": "<p>\n<code>this ⟼ e<sup>this</sup></code>\n</p>",
+            "itemtype": "method",
+            "name": "exp",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 217,
+            "description": "<p>\n<code>this ⟼ conj(this) / quad(this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "inv",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 230,
+            "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "lerp",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 251,
+            "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n<p>",
+            "itemtype": "method",
+            "name": "lerp2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 266,
+            "description": "<p>\n<code>this ⟼ log(this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "log",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 293,
+            "description": "<p>\n<code>this ⟼ this * rhs</code>\n</p>",
+            "itemtype": "method",
+            "name": "multiply",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "SpinorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 305,
+            "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
+            "itemtype": "method",
+            "name": "norm",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 320,
+            "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
+            "itemtype": "method",
+            "name": "scale",
+            "params": [
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 336,
+            "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
+            "itemtype": "method",
+            "name": "product",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "SpinorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 363,
+            "itemtype": "method",
+            "name": "quaditude",
+            "return": {
+                "description": "<code>this * conj(this)</code>",
+                "type": "Number"
+            },
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 374,
+            "description": "<p>\n<code>this = (w, B) ⟼ (w, -B)</code>\n</p>",
+            "itemtype": "method",
+            "name": "reverse",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 388,
+            "description": "Sets this Spinor to the value of its reflection in the plane orthogonal to n.\nThe geometric formula for bivector reflection is B' = n * B * n.",
+            "itemtype": "method",
+            "name": "reflect",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 412,
+            "description": "<p>\n<code>this = ⟼ rotor * this * reverse(rotor)</code>\n</p>",
+            "itemtype": "method",
+            "name": "rotate",
+            "params": [
+                {
+                    "name": "rotor",
+                    "description": "",
+                    "type": "SpinorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 425,
+            "description": "<p>\nComputes a rotor, R, from two unit vectors, where\nR = (1 + b * a) / sqrt(2 * (1 + b << a))\n</p>",
+            "itemtype": "method",
+            "name": "rotor",
+            "params": [
+                {
+                    "name": "b",
+                    "description": "The ending unit vector",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "a",
+                    "description": "The starting unit vector",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code> The rotor representing a rotation from a to b.",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 443,
+            "description": "<p>\n<code>this = ⟼ exp(- dual(a) * θ / 2)</code>\n</p>",
+            "itemtype": "method",
+            "name": "rotorFromAxisAngle",
+            "params": [
+                {
+                    "name": "axis",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "θ",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 463,
+            "description": "<p>\n<code>this ⟼ this - α * spinor</code>\n</p>",
+            "itemtype": "method",
+            "name": "sub",
+            "params": [
+                {
+                    "name": "spinor",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "α",
+                    "description": "[number = 1]"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 482,
+            "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
+            "itemtype": "method",
+            "name": "sum",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "SpinorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableSpinorE3"
+            },
+            "chainable": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 499,
+            "description": "<p>\n<code>this ⟼ a * b</code>\n</p>\nSets this MutableSpinorE3 to the geometric product a * b of the vector arguments.",
+            "itemtype": "method",
+            "name": "spinor",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "MutableSpinorE3"
+            },
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 525,
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "A non-normative string representation of the target.",
+                "type": "String"
+            },
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 532,
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "spinor",
+                    "description": "",
+                    "type": "SpinorE3"
+                }
+            ],
+            "return": {
+                "description": "A copy of the <code>spinor</code> argument.",
+                "type": "MutableSpinorE3"
+            },
+            "static": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableSpinorE3.ts",
+            "line": 541,
+            "itemtype": "method",
+            "name": "lerp",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>a + α * (b - a)</code>",
+                "type": "MutableSpinorE3"
+            },
+            "static": 1,
+            "class": "MutableSpinorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE2.ts",
+            "line": 20,
+            "itemtype": "property",
+            "name": "x",
+            "type": "Number",
+            "class": "MutableVectorE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE2.ts",
+            "line": 31,
+            "itemtype": "property",
+            "name": "y",
+            "type": "Number",
+            "class": "MutableVectorE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE2.ts",
+            "line": 199,
+            "description": "<p>\n<code>this = a + α * (b - a)</code>\n</p>",
+            "itemtype": "method",
+            "name": "lerp2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE2"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE2"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 23,
+            "itemtype": "property",
+            "name": "e1",
+            "type": "{Euclidean3}",
+            "static": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 29,
+            "itemtype": "property",
+            "name": "e2",
+            "type": "{Euclidean3}",
+            "static": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 35,
+            "itemtype": "property",
+            "name": "e3",
+            "type": "{Euclidean3}",
+            "static": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 41,
+            "itemtype": "method",
+            "name": "dot",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 60,
+            "itemtype": "property",
+            "name": "x",
+            "type": "Number",
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 71,
+            "itemtype": "property",
+            "name": "y",
+            "type": "Number",
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 82,
+            "itemtype": "property",
+            "name": "z",
+            "type": "Number",
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 93,
+            "description": "<p>\n<code>this ⟼ this + vector * α</code>\n</p>",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "MutableVectorE3"
+                },
+                {
+                    "name": "α",
+                    "description": "[number = 1]"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 111,
+            "description": "<p>\n<code>this ⟼ m * this</code>\n</p>",
+            "itemtype": "method",
+            "name": "applyMatrix3",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "Matrix3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "deprecated": true,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 134,
+            "description": "Pre-multiplies the column vector corresponding to this vector by the matrix.\nThe result is applied to this vector.\nStrictly speaking, this method does not make much sense because the dimensions\nof the square matrix and column vector don't match.\nTODO: Used by TubeSimplexGeometry.",
+            "itemtype": "method",
+            "name": "applyMatrix",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "The 4x4 matrix that pre-multiplies this column vector."
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "deprecated": true,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 158,
+            "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
+            "itemtype": "method",
+            "name": "reflect",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 181,
+            "description": "<p>\n<code>this ⟼ R * this * reverse(R)</code>\n</p>",
+            "itemtype": "method",
+            "name": "rotate",
+            "params": [
+                {
+                    "name": "R",
+                    "description": "",
+                    "type": "SpinorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 212,
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "<code>copy(this)</code>",
+                "type": "MutableVectorE3"
+            },
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 219,
+            "description": "<p>\n<code>this ⟼ copy(v)</code>\n</p>",
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 235,
+            "description": "<p>\n<code>this ⟼ this ✕ v</code>\n</p>",
+            "itemtype": "method",
+            "name": "cross",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 248,
+            "description": "<p>\n<code>this ⟼ a ✕ b</code>\n</p>",
+            "itemtype": "method",
+            "name": "cross2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 271,
+            "itemtype": "method",
+            "name": "distanceTo",
+            "params": [
+                {
+                    "name": "point",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 284,
+            "itemtype": "method",
+            "name": "quadranceTo",
+            "params": [
+                {
+                    "name": "point",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 300,
+            "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
+            "itemtype": "method",
+            "name": "divideByScalar",
+            "params": [
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 324,
+            "itemtype": "method",
+            "name": "dot",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 332,
+            "description": "Returns the (Euclidean) norm of this vector.",
+            "itemtype": "method",
+            "name": "magnitude",
+            "return": {
+                "description": "<code>norm(this)</code>",
+                "type": "Number"
+            },
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 340,
+            "description": "Returns the (Euclidean) inner product of this vector with itself.",
+            "itemtype": "method",
+            "name": "quaditude",
+            "return": {
+                "description": "<code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>",
+                "type": "Number"
+            },
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 348,
+            "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "lerp",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 366,
+            "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
+            "itemtype": "method",
+            "name": "lerp2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 384,
+            "description": "<p>\n<code>this ⟼ this / norm(this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "normalize",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 395,
+            "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
+            "itemtype": "method",
+            "name": "scale",
+            "params": [
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 409,
+            "description": "<p>\n<code>this ⟼ this</code>, with components modified.\n</p>",
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "deprecated": true,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 427,
+            "description": "<p>\n<code>this ⟼ magnitude * this / norm(this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "setMagnitude",
+            "params": [
+                {
+                    "name": "magnitude",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 450,
+            "itemtype": "method",
+            "name": "setX",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "deprecated": true,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 462,
+            "itemtype": "method",
+            "name": "setY",
+            "params": [
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "deprecated": true,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 474,
+            "itemtype": "method",
+            "name": "setZ",
+            "params": [
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "deprecated": true,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 486,
+            "description": "<p>\n<code>this ⟼ this - v</code>\n</p>",
+            "itemtype": "method",
+            "name": "sub",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 499,
+            "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
+            "itemtype": "method",
+            "name": "sum",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 517,
+            "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
+            "itemtype": "method",
+            "name": "diff",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "MutableVectorE3"
+            },
+            "chainable": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 535,
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "A non-normative string representation of the target.",
+                "type": "String"
+            },
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 566,
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "MutableVectorE3"
+            },
+            "static": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 575,
+            "itemtype": "method",
+            "name": "lerp",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>a + α * (b - a)</code>",
+                "type": "MutableVectorE3"
+            },
+            "static": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE3.ts",
+            "line": 586,
+            "itemtype": "method",
+            "name": "random",
+            "return": {
+                "description": "",
+                "type": "MutableVectorE3"
+            },
+            "static": 1,
+            "class": "MutableVectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE4.ts",
+            "line": 20,
+            "itemtype": "property",
+            "name": "x",
+            "type": "Number",
+            "class": "MutableVectorE4",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE4.ts",
+            "line": 35,
+            "itemtype": "property",
+            "name": "y",
+            "type": "Number",
+            "class": "MutableVectorE4",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE4.ts",
+            "line": 50,
+            "itemtype": "property",
+            "name": "z",
+            "type": "Number",
+            "class": "MutableVectorE4",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableVectorE4.ts",
+            "line": 65,
+            "itemtype": "property",
+            "name": "w",
+            "type": "Number",
+            "class": "MutableVectorE4",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 22,
+            "line": 23,
             "description": "The scalar part of the Quaternion.",
             "itemtype": "property",
             "name": "t",
@@ -10105,7 +11499,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 45,
+            "line": 46,
             "description": "<p>\n<code>this ⟼ this + q * α</code>\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -10130,7 +11524,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 68,
+            "line": 69,
             "description": "<p>\n<code>this ⟼ a + b = (α, A) + (β, B) = (α + β, A + B)</code>\n</p>",
             "itemtype": "method",
             "name": "sum",
@@ -10156,7 +11550,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 87,
+            "line": 88,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -10168,7 +11562,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 94,
+            "line": 95,
             "description": "<p>\n<code>this = (t, -v)</code>\n</p>",
             "itemtype": "method",
             "name": "conj",
@@ -10182,7 +11576,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 121,
+            "line": 122,
             "description": "<p>\n<code>this ⟼ exp(t) * (cos(|v|), sin(|v|) * v / |v|)</code>\n</p>",
             "itemtype": "method",
             "name": "exp",
@@ -10195,7 +11589,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 138,
+            "line": 139,
             "itemtype": "method",
             "name": "inv",
             "return": {
@@ -10208,7 +11602,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 167,
+            "line": 168,
             "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
             "itemtype": "method",
             "name": "norm",
@@ -10222,7 +11616,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 182,
+            "line": 183,
             "description": "<p>\n<code>this ⟼ (a, <b>B</b>)(c, <b>D</b>)</code>\n</p>",
             "itemtype": "method",
             "name": "product",
@@ -10248,7 +11642,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 201,
+            "line": 202,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -10269,7 +11663,7 @@
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
-            "line": 249,
+            "line": 250,
             "description": "<p>\n<code>this = ⟼ exp(- dual(a) * θ / 2)</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromAxisAngle",
@@ -10277,7 +11671,7 @@
                 {
                     "name": "axis",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 },
                 {
                     "name": "θ",
@@ -10336,1394 +11730,112 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 35,
-            "itemtype": "property",
-            "name": "yz",
-            "type": "Number",
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 47,
-            "itemtype": "property",
-            "name": "zx",
-            "type": "Number",
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 59,
-            "itemtype": "property",
-            "name": "xy",
-            "type": "Number",
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 71,
-            "itemtype": "property",
-            "name": "w",
-            "type": "Number",
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 83,
-            "description": "<p>\n<code>this ⟼ this + α * spinor</code>\n</p>",
-            "itemtype": "method",
-            "name": "add",
-            "params": [
-                {
-                    "name": "spinor",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                },
-                {
-                    "name": "α",
-                    "description": "[number = 1]"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 102,
-            "itemtype": "method",
-            "name": "clone",
-            "return": {
-                "description": "A copy of <code>this</code>.",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 110,
-            "description": "<p>\n<code>this ⟼ (w, -B)</code>\n</p>",
-            "itemtype": "method",
-            "name": "conj",
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 124,
-            "description": "<p>\n<code>this ⟼ copy(spinor)</code>\n</p>",
-            "itemtype": "method",
-            "name": "copy",
-            "params": [
-                {
-                    "name": "spinor",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 140,
-            "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
-            "itemtype": "method",
-            "name": "diff",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 157,
-            "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
-            "itemtype": "method",
-            "name": "divideByScalar",
-            "params": [
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 173,
-            "description": "<p>\n<code>this ⟼ dual(this)</code>\n</p>\nSets this Spinor to the value of the dual of the vector, I * v.\nNotice that the dual of a vector is related to the spinor by the right-hand rule.",
-            "itemtype": "method",
-            "name": "dual",
-            "params": [
-                {
-                    "name": "vector",
-                    "description": "The vector whose dual will be used to set this spinor.",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 191,
-            "description": "<p>\n<code>this ⟼ e<sup>this</sup></code>\n</p>",
-            "itemtype": "method",
-            "name": "exp",
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 215,
-            "description": "<p>\n<code>this ⟼ conj(this) / quad(this)</code>\n</p>",
-            "itemtype": "method",
-            "name": "inv",
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 228,
-            "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
-            "itemtype": "method",
-            "name": "lerp",
-            "params": [
-                {
-                    "name": "target",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                },
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 249,
-            "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n<p>",
-            "itemtype": "method",
-            "name": "lerp2",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                },
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 264,
-            "description": "<p>\n<code>this ⟼ log(this)</code>\n</p>",
-            "itemtype": "method",
-            "name": "log",
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 291,
-            "description": "<p>\n<code>this ⟼ this * rhs</code>\n</p>",
-            "itemtype": "method",
-            "name": "multiply",
-            "params": [
-                {
-                    "name": "rhs",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 303,
-            "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
-            "itemtype": "method",
-            "name": "norm",
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 318,
-            "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
-            "itemtype": "method",
-            "name": "scale",
-            "params": [
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 333,
-            "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
-            "itemtype": "method",
-            "name": "product",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 360,
-            "itemtype": "method",
-            "name": "quaditude",
-            "return": {
-                "description": "<code>this * conj(this)</code>",
-                "type": "Number"
-            },
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 371,
-            "description": "<p>\n<code>this = (w, B) ⟼ (w, -B)</code>\n</p>",
-            "itemtype": "method",
-            "name": "reverse",
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 385,
-            "description": "Sets this Spinor to the value of its reflection in the plane orthogonal to n.\nThe geometric formula for bivector reflection is B' = n * B * n.",
-            "itemtype": "method",
-            "name": "reflect",
-            "params": [
-                {
-                    "name": "n",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 409,
-            "description": "<p>\n<code>this = ⟼ rotor * this * reverse(rotor)</code>\n</p>",
-            "itemtype": "method",
-            "name": "rotate",
-            "params": [
-                {
-                    "name": "rotor",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 422,
-            "description": "<p>\nComputes a rotor, R, from two unit vectors, where\nR = (1 + b * a) / sqrt(2 * (1 + b << a))\n</p>",
-            "itemtype": "method",
-            "name": "rotor",
-            "params": [
-                {
-                    "name": "b",
-                    "description": "The ending unit vector",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "a",
-                    "description": "The starting unit vector",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code> The rotor representing a rotation from a to b.",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 444,
-            "description": "<p>\n<code>this = ⟼ exp(- dual(a) * θ / 2)</code>\n</p>",
-            "itemtype": "method",
-            "name": "rotorFromAxisAngle",
-            "params": [
-                {
-                    "name": "axis",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "θ",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 464,
-            "description": "<p>\n<code>this ⟼ this - rhs</code>\n</p>",
-            "itemtype": "method",
-            "name": "sub",
-            "params": [
-                {
-                    "name": "rhs",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 476,
-            "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
-            "itemtype": "method",
-            "name": "sum",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Spinor3"
-            },
-            "chainable": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 493,
-            "description": "<p>\n<code>this ⟼ a * b</code>\n</p>\nSets this Spinor3 to the geometric product a * b of the vector arguments.",
-            "itemtype": "method",
-            "name": "spinor",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Spinor3"
-            },
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 519,
-            "itemtype": "method",
-            "name": "toString",
-            "return": {
-                "description": "A non-normative string representation of the target.",
-                "type": "String"
-            },
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 526,
-            "itemtype": "method",
-            "name": "copy",
-            "params": [
-                {
-                    "name": "spinor",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                }
-            ],
-            "return": {
-                "description": "A copy of the <code>spinor</code> argument.",
-                "type": "Spinor3"
-            },
-            "static": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 535,
-            "itemtype": "method",
-            "name": "lerp",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                },
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>a + α * (b - a)</code>",
-                "type": "Spinor3"
-            },
-            "static": 1,
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector2.ts",
-            "line": 20,
+            "file": "src/davinci-eight/math/VectorE1.ts",
+            "line": 5,
             "itemtype": "property",
             "name": "x",
-            "type": "Number",
-            "class": "Vector2",
+            "type": "number",
+            "class": "VectorE1",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Vector2.ts",
-            "line": 31,
+            "file": "src/davinci-eight/math/VectorE2.ts",
+            "line": 5,
+            "itemtype": "property",
+            "name": "x",
+            "type": "number",
+            "class": "VectorE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/VectorE2.ts",
+            "line": 10,
             "itemtype": "property",
             "name": "y",
-            "type": "Number",
-            "class": "Vector2",
+            "type": "number",
+            "class": "VectorE2",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Vector2.ts",
-            "line": 199,
-            "description": "<p>\n<code>this = a + α * (b - a)</code>\n</p>",
-            "itemtype": "method",
-            "name": "lerp2",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Cartesian2"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Cartesian2"
-                },
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector2"
-            },
-            "chainable": 1,
-            "class": "Vector2",
+            "file": "src/davinci-eight/math/VectorE3.ts",
+            "line": 5,
+            "itemtype": "property",
+            "name": "x",
+            "type": "number",
+            "class": "VectorE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 26,
+            "file": "src/davinci-eight/math/VectorE3.ts",
+            "line": 10,
+            "itemtype": "property",
+            "name": "y",
+            "type": "number",
+            "class": "VectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/VectorE3.ts",
+            "line": 15,
+            "itemtype": "property",
+            "name": "z",
+            "type": "number",
+            "class": "VectorE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/VectorE3.ts",
+            "line": 20,
             "itemtype": "method",
             "name": "dot",
             "params": [
                 {
-                    "name": "a",
+                    "name": "vector",
                     "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Number"
             },
-            "static": 1,
-            "class": "Vector3",
+            "class": "VectorE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 45,
+            "file": "src/davinci-eight/math/VectorE4.ts",
+            "line": 5,
             "itemtype": "property",
             "name": "x",
-            "type": "Number",
-            "class": "Vector3",
+            "type": "number",
+            "class": "VectorE4",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 56,
+            "file": "src/davinci-eight/math/VectorE4.ts",
+            "line": 10,
             "itemtype": "property",
             "name": "y",
-            "type": "Number",
-            "class": "Vector3",
+            "type": "number",
+            "class": "VectorE4",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 67,
+            "file": "src/davinci-eight/math/VectorE4.ts",
+            "line": 15,
             "itemtype": "property",
             "name": "z",
-            "type": "Number",
-            "class": "Vector3",
+            "type": "number",
+            "class": "VectorE4",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 78,
-            "description": "<p>\n<code>this ⟼ this + vector * α</code>\n</p>",
-            "itemtype": "method",
-            "name": "add",
-            "params": [
-                {
-                    "name": "vector",
-                    "description": "",
-                    "type": "Vector3"
-                },
-                {
-                    "name": "α",
-                    "description": "[number = 1]"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 96,
-            "description": "<p>\n<code>this ⟼ m * this</code>\n</p>",
-            "itemtype": "method",
-            "name": "applyMatrix3",
-            "params": [
-                {
-                    "name": "m",
-                    "description": "",
-                    "type": "Matrix3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "deprecated": true,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 119,
-            "description": "Pre-multiplies the column vector corresponding to this vector by the matrix.\nThe result is applied to this vector.\nStrictly speaking, this method does not make much sense because the dimensions\nof the square matrix and column vector don't match.\nTODO: Used by TubeSimplexGeometry.",
-            "itemtype": "method",
-            "name": "applyMatrix",
-            "params": [
-                {
-                    "name": "m",
-                    "description": "The 4x4 matrix that pre-multiplies this column vector."
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "deprecated": true,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 143,
-            "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
-            "itemtype": "method",
-            "name": "reflect",
-            "params": [
-                {
-                    "name": "n",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 166,
-            "description": "<p>\n<code>this ⟼ R * this * reverse(R)</code>\n</p>",
-            "itemtype": "method",
-            "name": "rotate",
-            "params": [
-                {
-                    "name": "R",
-                    "description": "",
-                    "type": "Spinor3Coords"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 197,
-            "itemtype": "method",
-            "name": "clone",
-            "return": {
-                "description": "<code>copy(this)</code>",
-                "type": "Vector3"
-            },
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 204,
-            "description": "<p>\n<code>this ⟼ copy(v)</code>\n</p>",
-            "itemtype": "method",
-            "name": "copy",
-            "params": [
-                {
-                    "name": "v",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 220,
-            "description": "<p>\n<code>this ⟼ this ✕ v</code>\n</p>",
-            "itemtype": "method",
-            "name": "cross",
-            "params": [
-                {
-                    "name": "v",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 233,
-            "description": "<p>\n<code>this ⟼ a ✕ b</code>\n</p>",
-            "itemtype": "method",
-            "name": "cross2",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 256,
-            "itemtype": "method",
-            "name": "distanceTo",
-            "params": [
-                {
-                    "name": "point",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 269,
-            "itemtype": "method",
-            "name": "quadranceTo",
-            "params": [
-                {
-                    "name": "point",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 285,
-            "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
-            "itemtype": "method",
-            "name": "divideByScalar",
-            "params": [
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 309,
-            "itemtype": "method",
-            "name": "dot",
-            "params": [
-                {
-                    "name": "v",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 317,
-            "description": "Returns the (Euclidean) norm of this vector.",
-            "itemtype": "method",
-            "name": "magnitude",
-            "return": {
-                "description": "<code>norm(this)</code>",
-                "type": "Number"
-            },
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 325,
-            "description": "Returns the (Euclidean) inner product of this vector with itself.",
-            "itemtype": "method",
-            "name": "quaditude",
-            "return": {
-                "description": "<code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>",
-                "type": "Number"
-            },
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 333,
-            "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
-            "itemtype": "method",
-            "name": "lerp",
-            "params": [
-                {
-                    "name": "target",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 351,
-            "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
-            "itemtype": "method",
-            "name": "lerp2",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 369,
-            "description": "<p>\n<code>this ⟼ this / norm(this)</code>\n</p>",
-            "itemtype": "method",
-            "name": "normalize",
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 380,
-            "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
-            "itemtype": "method",
-            "name": "scale",
-            "params": [
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 394,
-            "description": "<p>\n<code>this ⟼ this</code>, with components modified.\n</p>",
-            "itemtype": "method",
-            "name": "set",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "z",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "deprecated": true,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 412,
-            "description": "<p>\n<code>this ⟼ magnitude * this / norm(this)</code>\n</p>",
-            "itemtype": "method",
-            "name": "setMagnitude",
-            "params": [
-                {
-                    "name": "magnitude",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 435,
-            "itemtype": "method",
-            "name": "setX",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "deprecated": true,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 447,
-            "itemtype": "method",
-            "name": "setY",
-            "params": [
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "deprecated": true,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 459,
-            "itemtype": "method",
-            "name": "setZ",
-            "params": [
-                {
-                    "name": "z",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "deprecated": true,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 471,
-            "description": "<p>\n<code>this ⟼ this - v</code>\n</p>",
-            "itemtype": "method",
-            "name": "sub",
-            "params": [
-                {
-                    "name": "v",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 484,
-            "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
-            "itemtype": "method",
-            "name": "sum",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 502,
-            "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
-            "itemtype": "method",
-            "name": "diff",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ],
-            "return": {
-                "description": "<code>this</code>",
-                "type": "Vector3"
-            },
-            "chainable": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 520,
-            "itemtype": "method",
-            "name": "toString",
-            "return": {
-                "description": "A non-normative string representation of the target.",
-                "type": "String"
-            },
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 551,
-            "itemtype": "method",
-            "name": "copy",
-            "params": [
-                {
-                    "name": "vector",
-                    "description": "",
-                    "type": "Cartesian"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Vector3"
-            },
-            "static": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 560,
-            "itemtype": "method",
-            "name": "lerp",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "Cartesian3"
-                },
-                {
-                    "name": "α",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<code>a + α * (b - a)</code>",
-                "type": "Vector3"
-            },
-            "static": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector3.ts",
-            "line": 571,
-            "itemtype": "method",
-            "name": "random",
-            "return": {
-                "description": "",
-                "type": "Vector3"
-            },
-            "static": 1,
-            "class": "Vector3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector4.ts",
+            "file": "src/davinci-eight/math/VectorE4.ts",
             "line": 20,
             "itemtype": "property",
-            "name": "x",
-            "type": "Number",
-            "class": "Vector4",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector4.ts",
-            "line": 35,
-            "itemtype": "property",
-            "name": "y",
-            "type": "Number",
-            "class": "Vector4",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector4.ts",
-            "line": 50,
-            "itemtype": "property",
-            "name": "z",
-            "type": "Number",
-            "class": "Vector4",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Vector4.ts",
-            "line": 65,
-            "itemtype": "property",
             "name": "w",
-            "type": "Number",
-            "class": "Vector4",
+            "type": "number",
+            "class": "VectorE4",
             "module": "EIGHT"
         },
         {
@@ -11998,56 +12110,120 @@
             "line": 37,
             "itemtype": "property",
             "name": "rotation",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "readonly": "",
             "class": "EulerFacet",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 41,
+            "file": "src/davinci-eight/models/KinematicRigidBodyFacetE3.ts",
+            "line": 11,
+            "description": "<p>\nThe <em>linear velocity</em>, a vector.\n</p>",
+            "itemtype": "property",
+            "name": "V",
+            "type": "{MutableVectorE3}",
+            "class": "KinematicRigidBodyFacetE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/KinematicRigidBodyFacetE3.ts",
+            "line": 19,
+            "description": "<p>\nThe <em>rotational velocity</em>, a spinor.\n</p>",
+            "itemtype": "property",
+            "name": "Ω",
+            "type": "{MutableSpinorE3}",
+            "class": "KinematicRigidBodyFacetE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/KinematicRigidBodyFacetE3.ts",
+            "line": 38,
             "itemtype": "method",
             "name": "destructor",
             "return": {
                 "description": "",
                 "type": "Void"
             },
-            "class": "ModelFacet",
+            "access": "protected",
+            "tagname": "",
+            "class": "KinematicRigidBodyFacetE3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 55,
+            "line": 21,
+            "description": "The name of the property that designates the attitude.",
             "itemtype": "property",
-            "name": "attitude",
-            "type": "Spinor3",
+            "name": "PROP_ATTITUDE",
+            "type": "{string}",
+            "default": "'R'",
+            "static": 1,
             "readonly": "",
             "class": "ModelFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 66,
+            "line": 30,
+            "description": "The name of the property that designates the position.",
             "itemtype": "property",
-            "name": "position",
-            "type": "Vector3",
+            "name": "PROP_POSITION",
+            "type": "{string}",
+            "default": "'X'",
+            "static": 1,
             "readonly": "",
             "class": "ModelFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 77,
+            "line": 75,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "ModelFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 90,
+            "description": "<p>\nThe <em>attitude</em>, a unitary spinor.\n</p>",
+            "itemtype": "property",
+            "name": "R",
+            "type": "MutableSpinorE3",
+            "readonly": "",
+            "class": "ModelFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 104,
+            "description": "<p>\nThe <em>position</em>, a vector.\nThe vector <b>X</b> designates the center of mass of the body (Physics).\nThe vector <b>X</b> designates the displacement from the local origin (Computer Graphics).\n</p>",
+            "itemtype": "property",
+            "name": "X",
+            "type": "MutableVectorE3",
+            "readonly": "",
+            "class": "ModelFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 121,
             "itemtype": "property",
             "name": "scaleXYZ",
-            "type": "Vector3",
+            "type": "MutableVectorE3",
             "readonly": "",
             "class": "ModelFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 88,
+            "line": 132,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -12066,7 +12242,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 107,
+            "line": 154,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -12090,7 +12266,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 131,
+            "line": 178,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -12105,6 +12281,32 @@
                     "type": "Number"
                 }
             ],
+            "class": "ModelFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 203,
+            "itemtype": "method",
+            "name": "incRef",
+            "return": {
+                "description": "",
+                "type": "ModelFacet"
+            },
+            "chainable": 1,
+            "class": "ModelFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 212,
+            "itemtype": "method",
+            "name": "decRef",
+            "return": {
+                "description": "",
+                "type": "ModelFacet"
+            },
+            "chainable": 1,
             "class": "ModelFacet",
             "module": "EIGHT"
         },
@@ -12606,7 +12808,7 @@
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "eye",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "readonly": "",
             "class": "PerspectiveCamera",
             "module": "EIGHT"
@@ -12620,7 +12822,7 @@
                 {
                     "name": "eye",
                     "description": "",
-                    "type": "Cartesian3"
+                    "type": "VectorE3"
                 }
             ],
             "return": {
@@ -13182,7 +13384,7 @@
                 "type": "Vertex"
             },
             "example": [
-                "\n      var topo = new EIGHT.GridTopology(1, 1)\n      topo.vertex(uIndex, vIndex).attributes('aPosition') = new Vector3([i - 0.5, j - 0.5, 0])"
+                "\n      var topo = new EIGHT.GridTopology(1, 1)\n      topo.vertex(uIndex, vIndex).attributes('aPosition') = new MutableVectorE3([i - 0.5, j - 0.5, 0])"
             ],
             "class": "GridTopology",
             "module": "EIGHT"
@@ -13300,7 +13502,7 @@
             "line": 30,
             "itemtype": "property",
             "name": "colorRGB",
-            "type": "Vector3",
+            "type": "MutableVectorE3",
             "access": "private",
             "tagname": "",
             "class": "ColorFacet",
@@ -13366,7 +13568,7 @@
             "line": 21,
             "itemtype": "property",
             "name": "direction",
-            "type": "{Vector3}",
+            "type": "{MutableVectorE3}",
             "class": "DirectionalLight",
             "module": "EIGHT"
         },
@@ -13893,8 +14095,8 @@
             "line": " src/davinci-eight/geometries/MobiusStripSimplexGeometry.ts:28"
         },
         {
-            "message": "Missing item type\nModifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.\nOK!",
-            "line": " src/davinci-eight/geometries/PolyhedronSimplexGeometry.ts:20"
+            "message": "Missing item type\nModifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a MutableVectorE2.\nOK!",
+            "line": " src/davinci-eight/geometries/PolyhedronSimplexGeometry.ts:21"
         },
         {
             "message": "Missing item type\nTemporary list of points.",
@@ -13941,7 +14143,7 @@
             "line": " src/davinci-eight/geometries/Vertex.ts:25"
         },
         {
-            "message": "Missing item type\nComputes a list of points corresponding to an arc centered on the origin.\nparam begin {Cartesian3} The begin position.\nparam angle: {number} The angle of the rotation.\nparam generator {Spinor3Coords} The generator of the rotation.\nparam segments {number} The number of segments.",
+            "message": "Missing item type\nComputes a list of points corresponding to an arc centered on the origin.\nparam begin {VectorE3} The begin position.\nparam angle: {number} The angle of the rotation.\nparam generator {SpinorE3} The generator of the rotation.\nparam segments {number} The number of segments.",
             "line": " src/davinci-eight/geometries/arc3.ts:9"
         },
         {
@@ -14050,55 +14252,55 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/math/Euclidean3.ts:195"
+            "line": " src/davinci-eight/math/Euclidean3.ts:196"
         },
         {
             "message": "Missing item type\nThe `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:708"
+            "line": " src/davinci-eight/math/Euclidean3.ts:709"
         },
         {
             "message": "Missing item type\nThe `y` property is the y coordinate of the grade one (vector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:712"
+            "line": " src/davinci-eight/math/Euclidean3.ts:713"
         },
         {
             "message": "Missing item type\nThe `z` property is the z coordinate of the grade one (vector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:716"
+            "line": " src/davinci-eight/math/Euclidean3.ts:717"
         },
         {
             "message": "Missing item type\nThe `xy` property is the xy coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:720"
+            "line": " src/davinci-eight/math/Euclidean3.ts:721"
         },
         {
             "message": "Missing item type\nThe `yz` property is the yz coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:724"
+            "line": " src/davinci-eight/math/Euclidean3.ts:725"
         },
         {
             "message": "Missing item type\nThe `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:728"
+            "line": " src/davinci-eight/math/Euclidean3.ts:729"
         },
         {
             "message": "Missing item type\nThe `xyz` property is the grade three (pseudoscalar) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:732"
+            "line": " src/davinci-eight/math/Euclidean3.ts:733"
         },
         {
             "message": "Missing item type\nThe optional unit of measure.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:736"
+            "line": " src/davinci-eight/math/Euclidean3.ts:737"
         },
         {
             "message": "Missing item type\nConstructs a Euclidean3 from its coordinates.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:740"
+            "line": " src/davinci-eight/math/Euclidean3.ts:741"
         },
         {
             "message": "Missing item type\n~ (tilde) produces reversion.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:1074"
+            "line": " src/davinci-eight/math/Euclidean3.ts:1076"
         },
         {
             "message": "Missing item type\nComputes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:1158"
+            "line": " src/davinci-eight/math/Euclidean3.ts:1160"
         },
         {
             "message": "Missing item type\nComputes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:1163"
+            "line": " src/davinci-eight/math/Euclidean3.ts:1165"
         },
         {
             "message": "Missing item type\nThis interface is provided to ensure consistency.\nIt is not part of the documented API.",

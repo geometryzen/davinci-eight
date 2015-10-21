@@ -1,4 +1,4 @@
-import Cartesian3 = require('../../math/Cartesian3')
+import VectorE3 = require('../../math/VectorE3')
 
 import ColorFacet = require('../../uniforms/ColorFacet')
 import CuboidSimplexGeometry = require('../../geometries/CuboidSimplexGeometry')
@@ -15,7 +15,7 @@ import MeshMaterial = require('../../materials/MeshMaterial')
 import ModelFacet = require('../../models/ModelFacet')
 import Shareable = require('../../utils/Shareable')
 import Simplex = require('../../geometries/Simplex')
-import Vector3 = require('../../math/Vector3')
+import MutableVectorE3 = require('../../math/MutableVectorE3')
 
 function createMaterial(geometry: SimplexGeometry): IMaterial
 {

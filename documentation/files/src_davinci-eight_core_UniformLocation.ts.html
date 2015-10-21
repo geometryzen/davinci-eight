@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.136.0</em>
+            <em>API Docs for: 2.137.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
-                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
-                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
-                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
-                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
@@ -110,6 +106,7 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -126,6 +123,10 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
+                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
+                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
+                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
+                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -153,7 +154,6 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
-                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -161,10 +161,11 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector2.html">Vector2</a></li>
-                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
-                                <li><a href="../classes/Vector4.html">Vector4</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -217,10 +218,10 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Cartesian1 = require(&#x27;../math/Cartesian1&#x27;)
-import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;)
-import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
-import Cartesian4 = require(&#x27;../math/Cartesian4&#x27;)
+import VectorE1 = require(&#x27;../math/VectorE1&#x27;)
+import VectorE2 = require(&#x27;../math/VectorE2&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
+import VectorE4 = require(&#x27;../math/VectorE4&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;)
 import feedback = require(&#x27;../feedback/feedback&#x27;)
 import MutableNumber = require(&#x27;../math/MutableNumber&#x27;)
@@ -229,9 +230,9 @@ import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
 import IContextProgramConsumer = require(&#x27;../core/IContextProgramConsumer&#x27;)
 import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
-import Vector2 = require(&#x27;../math/Vector2&#x27;)
-import Vector3 = require(&#x27;../math/Vector3&#x27;)
-import Vector4 = require(&#x27;../math/Vector4&#x27;)
+import MutableVectorE2 = require(&#x27;../math/MutableVectorE2&#x27;)
+import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
+import MutableVectorE4 = require(&#x27;../math/MutableVectorE4&#x27;)
 
 /**
  * Utility class for managing a shader uniform variable.
@@ -281,25 +282,25 @@ class UniformLocation implements IContextProgramConsumer {
   }
   /**
    * @method cartesian1
-   * @param coords {Cartesian1}
+   * @param coords {VectorE1}
    */
-  cartesian1(coords: Cartesian1): void {
+  cartesian1(coords: VectorE1): void {
     this._context.useProgram(this._program);
     this._context.uniform1f(this._location, coords.x);
   }
   /**
    * @method cartesian2
-   * @param coords {Cartesian2}
+   * @param coords {VectorE2}
    */
-  cartesian2(coords: Cartesian2): void {
+  cartesian2(coords: VectorE2): void {
     this._context.useProgram(this._program);
     this._context.uniform2f(this._location, coords.x, coords.y);
   }
   /**
    * @method cartesian3
-   * @param coords {Cartesian3}
+   * @param coords {VectorE3}
    */
-  cartesian3(coords: Cartesian3): void {
+  cartesian3(coords: VectorE3): void {
     if (coords) {
       this._context.useProgram(this._program)
       this._context.uniform3f(this._location, coords.x, coords.y, coords.z)
@@ -307,9 +308,9 @@ class UniformLocation implements IContextProgramConsumer {
   }
   /**
    * @method cartesian4
-   * @param coords {Cartesian4}
+   * @param coords {VectorE4}
    */
-  cartesian4(coords: Cartesian4): void {
+  cartesian4(coords: VectorE4): void {
     this._context.useProgram(this._program);
     this._context.uniform4f(this._location, coords.x, coords.y, coords.z, coords.w);
   }

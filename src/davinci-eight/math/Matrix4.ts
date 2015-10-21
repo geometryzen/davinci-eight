@@ -6,8 +6,8 @@ import Matrix = require('../math/Matrix');
 import _M4_x_M4_ = require('../math/_M4_x_M4_');
 
 // TODO: Anything after this line hints of excessive coupling.
-import Spinor3Coords = require('../math/Spinor3Coords');
-import Cartesian3 = require('../math/Cartesian3');
+import SpinorE3 = require('../math/SpinorE3');
+import VectorE3 = require('../math/VectorE3');
 // TODO: Probably better not to couple this way.
 import frustumMatrix = require('../cameras/frustumMatrix');
 
@@ -53,13 +53,13 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
   public static zero() {
     return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
   }
-  public static scaling(scale: Cartesian3): Matrix4 {
+  public static scaling(scale: VectorE3): Matrix4 {
     return Matrix4.identity().scaling(scale);
   }
-  public static translation(vector: Cartesian3): Matrix4 {
+  public static translation(vector: VectorE3): Matrix4 {
     return Matrix4.identity().translation(vector);
   }
-  public static rotation(spinor: Spinor3Coords): Matrix4 {
+  public static rotation(spinor: SpinorE3): Matrix4 {
     return Matrix4.identity().rotation(spinor);
   }
   /**
@@ -70,7 +70,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
   clone(): Matrix4 {
     return Matrix4.zero().copy(this);
   }
-  compose(scale: Cartesian3, attitude: Spinor3Coords, position: Cartesian3): Matrix4 {
+  compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4 {
     // We 
     // this.identity();
     // this.scale(scale);
@@ -205,7 +205,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
 
     return this;
   }
-  rotationAxis(axis: Cartesian3, angle: number) {
+  rotationAxis(axis: VectorE3, angle: number) {
 
     // Based on http://www.gamedev.net/reference/articles/article1199.asp
 
@@ -230,7 +230,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     return this;
   }
   // TODO: This should not be here.
-  rotate(spinor: Spinor3Coords): Matrix4 {
+  rotate(spinor: SpinorE3): Matrix4 {
     let S: Matrix4 = Matrix4.rotation(spinor);
     _M4_x_M4_(S.data, this.data, this.data);
     return this;
@@ -239,7 +239,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
    * @method rotate
    * @param attitude  The spinor from which the rotation will be computed.
    */
-  rotation(spinor: Spinor3Coords): Matrix4 {
+  rotation(spinor: SpinorE3): Matrix4 {
     // The correspondence between quaternions and spinors is
     // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
     let x: number = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
@@ -270,7 +270,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     let te = this.data;
     return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
   }
-  scaleXYZ(scale: Cartesian3): Matrix4 {
+  scaleXYZ(scale: VectorE3): Matrix4 {
     // We treat the scale operation as pre-multiplication: 
     // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
     // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
@@ -286,7 +286,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     _M4_x_M4_(S.data, this.data, this.data);
     return this;
   }
-  scaling(scale: Cartesian3): Matrix4 {
+  scaling(scale: VectorE3): Matrix4 {
     return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
   }
   set(
@@ -331,12 +331,12 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     }
     return text.join('\n');
   }
-  translate(displacement: Cartesian3): Matrix4 {
+  translate(displacement: VectorE3): Matrix4 {
     let T: Matrix4 = Matrix4.translation(displacement);
     _M4_x_M4_(T.data, this.data, this.data);
     return this;
   }
-  translation(displacement: Cartesian3): Matrix4 {
+  translation(displacement: VectorE3): Matrix4 {
     return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
   }
   __mul__(other: any): Matrix4 {

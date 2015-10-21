@@ -1,10 +1,11 @@
-import Cartesian3 = require('../math/Cartesian3')
+import Euclidean3 = require('../math/Euclidean3')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Simplex = require('../geometries/Simplex')
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry')
 import Symbolic = require('../core/Symbolic')
-import Vector2 = require('../math/Vector2')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE2 = require('../math/MutableVectorE2')
+import VectorE3 = require('../math/VectorE3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 /**
  * @class ConeSimplexGeometry
@@ -30,7 +31,7 @@ class ConeSimplexGeometry extends SliceSimplexGeometry {
     constructor(
         radius: number = 0.5,
         height: number = 1,
-        axis: Cartesian3,
+        axis: VectorE3,
         radiusTop: number = 0.0,
         openTop: boolean = false,
         openBottom: boolean = false,
@@ -59,40 +60,40 @@ class ConeSimplexGeometry extends SliceSimplexGeometry {
 
         var x: number;
         var y: number;
-        var points: Vector3[] = [];
+        var points: MutableVectorE3[] = [];
         let vertices: number[][] = [];
-        let uvs: Vector2[][] = [];
+        let uvs: MutableVectorE2[][] = [];
 
         for (y = 0; y <= heightSegments; y++) {
             let verticesRow: number[] = [];
-            let uvsRow: Vector2[] = [];
+            let uvsRow: MutableVectorE2[] = [];
             let v = y / heightSegments;
             let radius = v * (radiusBottom - radiusTop) + radiusTop;
             for (x = 0; x <= radialSegments; x++) {
                 let u = x / radialSegments;
-                let vertex = new Vector3();
+                let vertex = new MutableVectorE3();
                 vertex.x = radius * Math.sin(u * sliceAngle + thetaStart);
                 vertex.y = - v * height + heightHalf;
                 vertex.z = radius * Math.cos(u * sliceAngle + thetaStart);
                 points.push(vertex);
                 verticesRow.push(points.length - 1);
-                uvsRow.push(new Vector2([u, 1 - v]));
+                uvsRow.push(new MutableVectorE2([u, 1 - v]));
             }
             vertices.push(verticesRow);
             uvs.push(uvsRow);
         }
 
         let tanTheta = (radiusBottom - radiusTop) / height;
-        var na: Vector3;
-        var nb: Vector3;
+        var na: MutableVectorE3;
+        var nb: MutableVectorE3;
         for (x = 0; x < radialSegments; x++) {
             if (radiusTop !== 0) {
-                na = Vector3.copy(points[vertices[0][x]]);
-                nb = Vector3.copy(points[vertices[0][x + 1]]);
+                na = MutableVectorE3.copy(points[vertices[0][x]]);
+                nb = MutableVectorE3.copy(points[vertices[0][x + 1]]);
             }
             else {
-                na = Vector3.copy(points[vertices[1][x]]);
-                nb = Vector3.copy(points[vertices[1][x + 1]]);
+                na = MutableVectorE3.copy(points[vertices[1][x]]);
+                nb = MutableVectorE3.copy(points[vertices[1][x + 1]]);
             }
             na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
             nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
@@ -116,34 +117,34 @@ class ConeSimplexGeometry extends SliceSimplexGeometry {
 
         // top cap
         if (!openTop && radiusTop > 0) {
-            points.push(Vector3.e2.clone().scale(heightHalf));
+            points.push(MutableVectorE3.copy(Euclidean3.e2).scale(heightHalf));
             for (x = 0; x < radialSegments; x++) {
                 let v1: number = vertices[0][x];
                 let v2: number = vertices[0][x + 1];
                 let v3: number = points.length - 1;
-                let n1: Vector3 = Vector3.e2.clone();
-                let n2: Vector3 = Vector3.e2.clone();
-                let n3: Vector3 = Vector3.e2.clone();
-                let uv1: Vector2 = uvs[0][x].clone();
-                let uv2: Vector2 = uvs[0][x + 1].clone();
-                let uv3: Vector2 = new Vector2([uv2.x, 0]);
+                let n1: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2);
+                let n2: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2);
+                let n3: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2);
+                let uv1: MutableVectorE2 = uvs[0][x].clone();
+                let uv2: MutableVectorE2 = uvs[0][x + 1].clone();
+                let uv3: MutableVectorE2 = new MutableVectorE2([uv2.x, 0]);
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }
 
         // bottom cap
         if (!openBottom && radiusBottom > 0) {
-            points.push(Vector3.e2.clone().scale(-heightHalf));
+            points.push(MutableVectorE3.copy(Euclidean3.e2).scale(-heightHalf));
             for (x = 0; x < radialSegments; x++) {
                 let v1: number = vertices[heightSegments][x + 1];
                 let v2: number = vertices[heightSegments][x];
                 let v3: number = points.length - 1;
-                let n1: Vector3 = Vector3.e2.clone().scale(-1);
-                let n2: Vector3 = Vector3.e2.clone().scale(-1);
-                let n3: Vector3 = Vector3.e2.clone().scale(-1);
-                let uv1: Vector2 = uvs[heightSegments][x + 1].clone();
-                let uv2: Vector2 = uvs[heightSegments][x].clone();
-                let uv3: Vector2 = new Vector2([uv2.x, 1]);
+                let n1: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2).scale(-1);
+                let n2: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2).scale(-1);
+                let n3: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2).scale(-1);
+                let uv1: MutableVectorE2 = uvs[heightSegments][x + 1].clone();
+                let uv2: MutableVectorE2 = uvs[heightSegments][x].clone();
+                let uv3: MutableVectorE2 = new MutableVectorE2([uv2.x, 1]);
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }

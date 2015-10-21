@@ -1,4 +1,4 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
 /**
  * @class RingSimplexGeometry
@@ -28,11 +28,11 @@ declare class RingSimplexGeometry extends SliceSimplexGeometry {
      * @constructor
      * @param a [number = 1] The outer radius
      * @param b [number = 0] The inner radius
-     * @param axis [Cartesian3] The <code>axis</code> property.
-     * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
+     * @param axis [VectorE3] The <code>axis</code> property.
+     * @param sliceStart [VectorE3] The <code>sliceStart</code> property.
      * @param sliceAngle [number] The <code>sliceAngle</code> property.
      */
-    constructor(a?: number, b?: number, axis?: Cartesian3, sliceStart?: Cartesian3, sliceAngle?: number);
+    constructor(a?: number, b?: number, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number);
     /**
      * @method destructor
      * @return {void}

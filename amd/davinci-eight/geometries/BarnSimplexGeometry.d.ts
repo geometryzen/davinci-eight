@@ -1,14 +1,14 @@
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * @module EIGHT
  * @submodule geometries
  * @class BarnSimplexGeometry
  */
 declare class BarnSimplexGeometry extends SimplexGeometry {
-    a: Vector3;
-    b: Vector3;
-    c: Vector3;
+    a: MutableVectorE3;
+    b: MutableVectorE3;
+    c: MutableVectorE3;
     /**
      * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
      * Ten (10) vertices are used to define the barn.

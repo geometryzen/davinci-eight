@@ -1,7 +1,7 @@
-import Cartesian3 = require('../math/Cartesian3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import Geometry = require('../geometries/Geometry');
 import IGeometry = require('../geometries/IGeometry');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class CuboidGeometry
  */
@@ -36,10 +36,10 @@ declare class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometr
     private regenerate();
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {CuboidGeometry}
      */
-    setPosition(position: Cartesian3): CuboidGeometry;
+    setPosition(position: VectorE3): CuboidGeometry;
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexGeometry', '../math/Vector3'], function (require, exports, SimplexGeometry, Vector3) {
+define(["require", "exports", '../geometries/SimplexGeometry', '../math/MutableVectorE3'], function (require, exports, SimplexGeometry, MutableVectorE3) {
     /**
      * @class AxialSimplexGeometry
      * @extends SimplexGeometry
@@ -22,11 +22,11 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/Vector3'
          * @class AxialSimplexGeometry
          * @constructor
          * @param type {string} Used for reference count tracking.
-         * @param axis {Cartesian3} The <b>axis</b> property.
+         * @param axis {VectorE3} The <b>axis</b> property.
          */
         function AxialSimplexGeometry(type, axis) {
             _super.call(this, type);
-            this.axis = Vector3.copy(axis).normalize();
+            this.axis = MutableVectorE3.copy(axis).normalize();
         }
         /**
          * <p>
@@ -42,7 +42,7 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/Vector3'
         };
         /**
          * @method setAxis
-         * @param axis {Cartesian3}
+         * @param axis {VectorE3}
          * @return {AxialSimplexGeometry}
          * @chainable
          */
@@ -52,7 +52,7 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/Vector3'
         };
         /**
          * @method setPosition
-         * @param position {Cartesian3}
+         * @param position {VectorE3}
          * @return {AxialSimplexGeometry}
          * @chainable
          */

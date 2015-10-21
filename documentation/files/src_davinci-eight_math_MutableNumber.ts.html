@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.136.0</em>
+            <em>API Docs for: 2.137.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
-                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
-                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
-                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
-                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
@@ -110,6 +106,7 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -126,6 +123,10 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
+                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
+                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
+                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
+                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -153,7 +154,6 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
-                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -161,10 +161,11 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector2.html">Vector2</a></li>
-                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
-                                <li><a href="../classes/Vector4.html">Vector4</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -217,16 +218,16 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Cartesian1 = require(&#x27;../math/Cartesian1&#x27;)
+import VectorE1 = require(&#x27;../math/VectorE1&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;)
 import LinearElement = require(&#x27;../math/LinearElement&#x27;)
 import Matrix = require(&#x27;../math/Matrix&#x27;)
-import Spinor1Coords = require(&#x27;../math/Spinor1Coords&#x27;)
+import SpinorE1 = require(&#x27;../math/SpinorE1&#x27;)
 import VectorN = require(&#x27;../math/VectorN&#x27;)
 /**
  * @class MutableNumber
  */
-class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearElement&lt;Cartesian1, MutableNumber, Spinor1Coords, Cartesian1&gt;, Matrix&lt;MutableNumber&gt; {
+class MutableNumber extends VectorN&lt;number&gt; implements VectorE1, LinearElement&lt;VectorE1, MutableNumber, SpinorE1, VectorE1&gt;, Matrix&lt;MutableNumber&gt; {
     /**
      * @class MutableNumber
      * @constructor
@@ -255,11 +256,11 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
         this.x = x;
         return this;
     }
-    copy(v: Cartesian1) {
+    copy(v: VectorE1) {
         this.x = v.x;
         return this;
     }
-    add(vector: Cartesian1, alpha: number = 1) {
+    add(vector: VectorE1, alpha: number = 1) {
         this.x += vector.x * alpha
         return this
     }
@@ -270,7 +271,7 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
     determinant(): number {
         return this.x
     }
-    sum(a: Cartesian1, b: Cartesian1) {
+    sum(a: VectorE1, b: VectorE1) {
         this.x = a.x + b.x;
         return this;
     }
@@ -278,7 +279,7 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
         this.x = Math.exp(this.x);
         return this;
     }
-    sub(v: Cartesian1) {
+    sub(v: VectorE1) {
         this.x -= v.x;
         return this;
     }
@@ -286,7 +287,7 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
         this.x -= s;
         return this;
     }
-    diff(a: Cartesian1, b: Cartesian1): MutableNumber {
+    diff(a: VectorE1, b: VectorE1): MutableNumber {
         this.x = a.x - b.x
         return this
     }
@@ -294,7 +295,7 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
         this.x = 1
         return this
     }
-    multiply(v: Cartesian1) {
+    multiply(v: VectorE1) {
         this.x *= v.x;
         return this;
     }
@@ -302,7 +303,7 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
         this.x *= scalar;
         return this;
     }
-    divide(v: Cartesian1) {
+    divide(v: VectorE1) {
         this.x /= v.x;
         return this;
     }
@@ -316,13 +317,13 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
         }
         return this;
     }
-    min(v: Cartesian1) {
+    min(v: VectorE1) {
         if (this.x &gt; v.x) {
             this.x = v.x;
         }
         return this;
     }
-    max(v: Cartesian1) {
+    max(v: VectorE1) {
         if (this.x &lt; v.x) {
             this.x = v.x;
         }
@@ -348,10 +349,10 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
         this.x = - this.x;
         return this;
     }
-    distanceTo(position: Cartesian1) {
+    distanceTo(position: VectorE1) {
         return Math.sqrt(this.quadranceTo(position));
     }
-    dot(v: Cartesian1) {
+    dot(v: VectorE1) {
         return this.x * v.x;
     }
     magnitude(): number {
@@ -360,21 +361,21 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
     normalize() {
         return this.divideByScalar(this.magnitude());
     }
-    product(a: Cartesian1, b: Cartesian1) {
+    product(a: VectorE1, b: VectorE1) {
         return this
     }
     quaditude(): number {
         return this.x * this.x;
     }
-    quadranceTo(position: Cartesian1) {
+    quadranceTo(position: VectorE1) {
         let dx = this.x - position.x;
         return dx * dx;
     }
-    reflect(n: Cartesian1): MutableNumber {
+    reflect(n: VectorE1): MutableNumber {
         // FIXME: TODO
         return this;
     }
-    rotate(rotor: Spinor1Coords): MutableNumber {
+    rotate(rotor: SpinorE1): MutableNumber {
         return this;
     }
     setMagnitude(l: number) {
@@ -384,7 +385,7 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
         }
         return this;
     }
-    lerp(v: Cartesian1, alpha: number) {
+    lerp(v: VectorE1, alpha: number) {
         this.x += (v.x - this.x) * alpha;
         return this;
     }
@@ -403,7 +404,7 @@ class MutableNumber extends VectorN&lt;number&gt; implements Cartesian1, LinearE
         this.diff(b, a).scale(α).add(a);
         return this;
     }
-    equals(v: Cartesian1) {
+    equals(v: VectorE1) {
         return v.x === this.x;
     }
     fromArray(array: number[], offset: number = 0) {

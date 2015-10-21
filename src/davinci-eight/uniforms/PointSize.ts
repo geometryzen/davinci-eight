@@ -5,7 +5,7 @@ import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeString = require('../checks/mustBeString')
 import Shareable = require('../utils/Shareable')
 import Symbolic = require('../core/Symbolic')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 var LOGGING_NAME = 'PointSize'
 

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SliceSimplexGeometry', '../math/Vector2', '../math/Vector3'], function (require, exports, SliceSimplexGeometry, Vector2, Vector3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/SliceSimplexGeometry', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, Euclidean3, SliceSimplexGeometry, MutableVectorE2, MutableVectorE3) {
     /**
      * @class ConeSimplexGeometry
      * @extends SliceSimplexGeometry
@@ -58,13 +58,13 @@ define(["require", "exports", '../geometries/SliceSimplexGeometry', '../math/Vec
                 var radius = v * (radiusBottom - radiusTop) + radiusTop;
                 for (x = 0; x <= radialSegments; x++) {
                     var u = x / radialSegments;
-                    var vertex = new Vector3();
+                    var vertex = new MutableVectorE3();
                     vertex.x = radius * Math.sin(u * sliceAngle + thetaStart);
                     vertex.y = -v * height + heightHalf;
                     vertex.z = radius * Math.cos(u * sliceAngle + thetaStart);
                     points.push(vertex);
                     verticesRow.push(points.length - 1);
-                    uvsRow.push(new Vector2([u, 1 - v]));
+                    uvsRow.push(new MutableVectorE2([u, 1 - v]));
                 }
                 vertices.push(verticesRow);
                 uvs.push(uvsRow);
@@ -74,12 +74,12 @@ define(["require", "exports", '../geometries/SliceSimplexGeometry', '../math/Vec
             var nb;
             for (x = 0; x < radialSegments; x++) {
                 if (radiusTop !== 0) {
-                    na = Vector3.copy(points[vertices[0][x]]);
-                    nb = Vector3.copy(points[vertices[0][x + 1]]);
+                    na = MutableVectorE3.copy(points[vertices[0][x]]);
+                    nb = MutableVectorE3.copy(points[vertices[0][x + 1]]);
                 }
                 else {
-                    na = Vector3.copy(points[vertices[1][x]]);
-                    nb = Vector3.copy(points[vertices[1][x + 1]]);
+                    na = MutableVectorE3.copy(points[vertices[1][x]]);
+                    nb = MutableVectorE3.copy(points[vertices[1][x + 1]]);
                 }
                 na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
                 nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
@@ -102,33 +102,33 @@ define(["require", "exports", '../geometries/SliceSimplexGeometry', '../math/Vec
             }
             // top cap
             if (!openTop && radiusTop > 0) {
-                points.push(Vector3.e2.clone().scale(heightHalf));
+                points.push(MutableVectorE3.copy(Euclidean3.e2).scale(heightHalf));
                 for (x = 0; x < radialSegments; x++) {
                     var v1 = vertices[0][x];
                     var v2 = vertices[0][x + 1];
                     var v3 = points.length - 1;
-                    var n1 = Vector3.e2.clone();
-                    var n2 = Vector3.e2.clone();
-                    var n3 = Vector3.e2.clone();
+                    var n1 = MutableVectorE3.copy(Euclidean3.e2);
+                    var n2 = MutableVectorE3.copy(Euclidean3.e2);
+                    var n3 = MutableVectorE3.copy(Euclidean3.e2);
                     var uv1 = uvs[0][x].clone();
                     var uv2 = uvs[0][x + 1].clone();
-                    var uv3 = new Vector2([uv2.x, 0]);
+                    var uv3 = new MutableVectorE2([uv2.x, 0]);
                     this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                 }
             }
             // bottom cap
             if (!openBottom && radiusBottom > 0) {
-                points.push(Vector3.e2.clone().scale(-heightHalf));
+                points.push(MutableVectorE3.copy(Euclidean3.e2).scale(-heightHalf));
                 for (x = 0; x < radialSegments; x++) {
                     var v1 = vertices[heightSegments][x + 1];
                     var v2 = vertices[heightSegments][x];
                     var v3 = points.length - 1;
-                    var n1 = Vector3.e2.clone().scale(-1);
-                    var n2 = Vector3.e2.clone().scale(-1);
-                    var n3 = Vector3.e2.clone().scale(-1);
+                    var n1 = MutableVectorE3.copy(Euclidean3.e2).scale(-1);
+                    var n2 = MutableVectorE3.copy(Euclidean3.e2).scale(-1);
+                    var n3 = MutableVectorE3.copy(Euclidean3.e2).scale(-1);
                     var uv1 = uvs[heightSegments][x + 1].clone();
                     var uv2 = uvs[heightSegments][x].clone();
-                    var uv3 = new Vector2([uv2.x, 1]);
+                    var uv3 = new MutableVectorE2([uv2.x, 1]);
                     this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                 }
             }

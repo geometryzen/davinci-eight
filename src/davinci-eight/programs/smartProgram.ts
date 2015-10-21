@@ -16,9 +16,9 @@ import IMaterial = require('../core/IMaterial');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import vColorRequired = require('../programs/vColorRequired');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
-import Vector4 = require('../math/Vector4');
+import MutableVectorE2 = require('../math/MutableVectorE2');
+import MutableVectorE3 = require('../math/MutableVectorE3');
+import MutableVectorE4 = require('../math/MutableVectorE4');
 import vertexShader = require('../programs/vertexShader');
 import vLightRequired = require('../programs/vLightRequired');
 
@@ -98,14 +98,14 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
       return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
     },
-    uniformCartesian2(name: string, vector: Vector2, canvasId: number) {
-      return innerProgram.uniformCartesian2(name, vector, canvasId);
+    uniformVectorE2(name: string, vector: MutableVectorE2, canvasId: number) {
+      return innerProgram.uniformVectorE2(name, vector, canvasId);
     },
-    uniformCartesian3(name: string, vector: Vector3, canvasId: number) {
-      return innerProgram.uniformCartesian3(name, vector, canvasId);
+    uniformVectorE3(name: string, vector: MutableVectorE3, canvasId: number) {
+      return innerProgram.uniformVectorE3(name, vector, canvasId);
     },
-    uniformCartesian4(name: string, vector: Vector4, canvasId: number) {
-      return innerProgram.uniformCartesian4(name, vector, canvasId);
+    uniformVectorE4(name: string, vector: MutableVectorE4, canvasId: number) {
+      return innerProgram.uniformVectorE4(name, vector, canvasId);
     },
     vector2(name: string, data: number[], canvasId: number): void {
       return innerProgram.vector2(name, data, canvasId);

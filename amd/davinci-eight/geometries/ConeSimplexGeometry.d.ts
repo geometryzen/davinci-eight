@@ -1,5 +1,5 @@
-import Cartesian3 = require('../math/Cartesian3');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class ConeSimplexGeometry
  * @extends SliceSimplexGeometry
@@ -21,7 +21,7 @@ declare class ConeSimplexGeometry extends SliceSimplexGeometry {
      * @param openBottom [boolean = false]
      * @param thetaStart [number = 0]
      */
-    constructor(radius: number, height: number, axis: Cartesian3, radiusTop?: number, openTop?: boolean, openBottom?: boolean, thetaStart?: number);
+    constructor(radius: number, height: number, axis: VectorE3, radiusTop?: number, openTop?: boolean, openBottom?: boolean, thetaStart?: number);
     regenerate(): void;
 }
 export = ConeSimplexGeometry;

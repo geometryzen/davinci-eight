@@ -1,6 +1,6 @@
 import cannotAssignTypeToProperty = require('../i18n/cannotAssignTypeToProperty')
-import Cartesian3 = require('../math/Cartesian3')
 import computeFaceNormals = require('../geometries/computeFaceNormals')
+import Euclidean3 = require('../math/Euclidean3')
 import feedback = require('../feedback/feedback')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import isObject = require('../checks/isObject')
@@ -13,7 +13,8 @@ import Simplex = require('../geometries/Simplex')
 import Symbolic = require('../core/Symbolic')
 import triangle = require('../geometries/triangle')
 import MutableNumber = require('../math/MutableNumber')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
+import VectorE3 = require('../math/VectorE3')
 import VectorN = require('../math/VectorN')
 
 /**
@@ -24,24 +25,24 @@ class CuboidSimplexGeometry extends SimplexGeometry {
   /**
    * Parameter is private so that we can detect assignments.
    * @property _a
-   * @type {Vector3}
+   * @type {MutableVectorE3}
    * @private
    */
-  private _a: Vector3;
+  private _a: MutableVectorE3;
   /**
    * Parameter is private so that we can detect assignments.
    * @property _b
-   * @type {Vector3}
+   * @type {MutableVectorE3}
    * @private
    */
-  private _b: Vector3;
+  private _b: MutableVectorE3;
   /**
    * Parameter is private so that we can detect assignments.
    * @property _c
-   * @type {Vector3}
+   * @type {MutableVectorE3}
    * @private
    */
-  private _c: Vector3;
+  private _c: MutableVectorE3;
   /**
    * Used to mark the parameters of this object dirty when they are possibly shared.
    * @property _isModified
@@ -58,9 +59,9 @@ class CuboidSimplexGeometry extends SimplexGeometry {
    * </p>
    * @class CuboidSimplexGeometry
    * @constructor
-   * @param a [Cartesian3 = Vector3.e1]
-   * @param b [Cartesian3 = Vector3.e1]
-   * @param c [Cartesian3 = Vector3.e1]
+   * @param a [VectorE3 = MutableVectorE3.e1]
+   * @param b [VectorE3 = MutableVectorE3.e1]
+   * @param c [VectorE3 = MutableVectorE3.e1]
    * @param k [number = Simplex.TRIANGLE]
    * @param subdivide [number = 0]
    * @param boundary [number = 0]
@@ -70,12 +71,12 @@ class CuboidSimplexGeometry extends SimplexGeometry {
        var material = new EIGHT.MeshMaterial();
        var cube = new EIGHT.Drawable([primitive], material);
    */
-  constructor(a: Cartesian3 = Vector3.e1, b: Cartesian3 = Vector3.e2, c: Cartesian3 = Vector3.e3, k: number = Simplex.TRIANGLE, subdivide: number = 0, boundary: number = 0)
+  constructor(a: VectorE3 = MutableVectorE3.e1, b: VectorE3 = MutableVectorE3.e2, c: VectorE3 = MutableVectorE3.e3, k: number = Simplex.TRIANGLE, subdivide: number = 0, boundary: number = 0)
   {
     super('CuboidSimplexGeometry')
-    this.a = Vector3.copy(a)
-    this.b = Vector3.copy(b)
-    this.c = Vector3.copy(c)
+    this.a = MutableVectorE3.copy(a)
+    this.b = MutableVectorE3.copy(b)
+    this.c = MutableVectorE3.copy(c)
     this.k = k
     this.subdivide(subdivide)
     this.boundary(boundary)
@@ -91,13 +92,13 @@ class CuboidSimplexGeometry extends SimplexGeometry {
    * Assignment is by reference making it possible for parameters to be shared references.
    * </p>
    * @property a
-   * @type {Vector3}
+   * @type {MutableVectorE3}
    */
-  public get a(): Vector3 {
+  public get a(): MutableVectorE3 {
     return this._a
   }
-  public set a(a: Vector3) {
-    if (a instanceof Vector3) {
+  public set a(a: MutableVectorE3) {
+    if (a instanceof MutableVectorE3) {
       this._a = a
       this._isModified = true
     }
@@ -112,13 +113,13 @@ class CuboidSimplexGeometry extends SimplexGeometry {
    * Assignment is by reference making it possible for parameters to be shared references.
    * </p>
    * @property b
-   * @type {Vector3}
+   * @type {MutableVectorE3}
    */
-  public get b(): Vector3 {
+  public get b(): MutableVectorE3 {
     return this._b
   }
-  public set b(b: Vector3) {
-    if (b instanceof Vector3) {
+  public set b(b: MutableVectorE3) {
+    if (b instanceof MutableVectorE3) {
       this._b = b
       this._isModified = true
     }
@@ -133,13 +134,13 @@ class CuboidSimplexGeometry extends SimplexGeometry {
    * Assignment is by reference making it possible for parameters to be shared references.
    * </p>
    * @property c
-   * @type {Vector3}
+   * @type {MutableVectorE3}
    */
-  public get c(): Vector3 {
+  public get c(): MutableVectorE3 {
     return this._c
   }
-  public set c(c: Vector3) {
-    if (c instanceof Vector3) {
+  public set c(c: MutableVectorE3) {
+    if (c instanceof MutableVectorE3) {
       this._c = c
       this._isModified = true
     }
@@ -171,15 +172,15 @@ class CuboidSimplexGeometry extends SimplexGeometry {
   public regenerate(): void {
     this.setModified(false)
 
-    var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})
-    pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideByScalar(2)
-    pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divideByScalar(2)
-    pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divideByScalar(2)
-    pos[3] = new Vector3().sub(this._a).add(this._b).add(this._c).divideByScalar(2)
-    pos[4] = new Vector3().copy(pos[3]).sub(this._c)
-    pos[5] = new Vector3().copy(pos[2]).sub(this._c)
-    pos[6] = new Vector3().copy(pos[1]).sub(this._c)
-    pos[7] = new Vector3().copy(pos[0]).sub(this._c)
+    var pos: MutableVectorE3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})
+    pos[0] = new MutableVectorE3().sub(this._a).sub(this._b).add(this._c).divideByScalar(2)
+    pos[1] = new MutableVectorE3().add(this._a).sub(this._b).add(this._c).divideByScalar(2)
+    pos[2] = new MutableVectorE3().add(this._a).add(this._b).add(this._c).divideByScalar(2)
+    pos[3] = new MutableVectorE3().sub(this._a).add(this._b).add(this._c).divideByScalar(2)
+    pos[4] = new MutableVectorE3().copy(pos[3]).sub(this._c)
+    pos[5] = new MutableVectorE3().copy(pos[2]).sub(this._c)
+    pos[6] = new MutableVectorE3().copy(pos[1]).sub(this._c)
+    pos[7] = new MutableVectorE3().copy(pos[0]).sub(this._c)
 
     function simplex(indices: number[]): Simplex {
       let simplex = new Simplex(indices.length - 1)

@@ -1,4 +1,4 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import AxialGeometry = require('../geometries/AxialGeometry');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
@@ -33,18 +33,18 @@ declare class ArrowGeometry extends AxialGeometry implements IAxialGeometry<Arro
     constructor();
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {ArrowGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): ArrowGeometry;
+    setPosition(position: VectorE3): ArrowGeometry;
     /**
      * @method setAxis
-     * @param axis {Cartesian3}
+     * @param axis {VectorE3}
      * @return {ArrowGeometry}
      * @chaninable
      */
-    setAxis(axis: Cartesian3): ArrowGeometry;
+    setAxis(axis: VectorE3): ArrowGeometry;
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}

@@ -43,7 +43,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         };
         /**
          * @method cartesian1
-         * @param coords {Cartesian1}
+         * @param coords {VectorE1}
          */
         UniformLocation.prototype.cartesian1 = function (coords) {
             this._context.useProgram(this._program);
@@ -51,7 +51,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         };
         /**
          * @method cartesian2
-         * @param coords {Cartesian2}
+         * @param coords {VectorE2}
          */
         UniformLocation.prototype.cartesian2 = function (coords) {
             this._context.useProgram(this._program);
@@ -59,7 +59,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         };
         /**
          * @method cartesian3
-         * @param coords {Cartesian3}
+         * @param coords {VectorE3}
          */
         UniformLocation.prototype.cartesian3 = function (coords) {
             if (coords) {
@@ -69,7 +69,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         };
         /**
          * @method cartesian4
-         * @param coords {Cartesian4}
+         * @param coords {VectorE4}
          */
         UniformLocation.prototype.cartesian4 = function (coords) {
             this._context.useProgram(this._program);

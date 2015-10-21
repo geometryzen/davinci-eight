@@ -1,12 +1,12 @@
 import Simplex = require('../geometries/Simplex');
 import quadrilateral = require('../geometries/quadrilateral');
 import Symbolic = require('../core/Symbolic');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE2 = require('../math/MutableVectorE2');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 import VectorN = require('../math/VectorN');
 
 function vector3(data: number[]): VectorN<number> {
-  return new Vector3([]);
+  return new MutableVectorE3([]);
 }
 
 /**
@@ -24,19 +24,19 @@ function cube(size: number = 1): Simplex[] {
 
   let s = size / 2;
 
-  let vec0 = new Vector3([+s, +s, +s]);
-  let vec1 = new Vector3([-s, +s, +s]);
-  let vec2 = new Vector3([-s, -s, +s]);
-  let vec3 = new Vector3([+s, -s, +s]);
-  let vec4 = new Vector3([+s, -s, -s]);
-  let vec5 = new Vector3([+s, +s, -s]);
-  let vec6 = new Vector3([-s, +s, -s]);
-  let vec7 = new Vector3([-s, -s, -s]);
+  let vec0 = new MutableVectorE3([+s, +s, +s]);
+  let vec1 = new MutableVectorE3([-s, +s, +s]);
+  let vec2 = new MutableVectorE3([-s, -s, +s]);
+  let vec3 = new MutableVectorE3([+s, -s, +s]);
+  let vec4 = new MutableVectorE3([+s, -s, -s]);
+  let vec5 = new MutableVectorE3([+s, +s, -s]);
+  let vec6 = new MutableVectorE3([-s, +s, -s]);
+  let vec7 = new MutableVectorE3([-s, -s, -s]);
 
-  let c00 = new Vector2([0, 0]);
-  let c01 = new Vector2([0, 1]);
-  let c10 = new Vector2([1, 0]);
-  let c11 = new Vector2([1, 1]);
+  let c00 = new MutableVectorE2([0, 0]);
+  let c01 = new MutableVectorE2([0, 1]);
+  let c10 = new MutableVectorE2([1, 0]);
+  let c11 = new MutableVectorE2([1, 1]);
 
   let attributes: { [name: string]: VectorN<number>[] } = {};
 

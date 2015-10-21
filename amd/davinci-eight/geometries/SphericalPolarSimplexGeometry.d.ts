@@ -1,8 +1,8 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
 import MutableNumber = require('../math/MutableNumber');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * @class SphericalPolarSimplexGeometry
  * @extends SliceSimplexGeometry
@@ -30,13 +30,13 @@ declare class SphericalPolarSimplexGeometry extends SliceSimplexGeometry impleme
      * @class SphericalPolarSimplexGeometry
      * @constructor
      * @param radius [number = 1]
-     * @param axis [Cartesian3]
-     * @param phiStart [Cartesian]
+     * @param axis [VectorE3]
+     * @param phiStart [vectorE3]
      * @param phiLength [number = 2 * Math.PI]
      * @param thetaStart [number]
      * @param thetaLength [number]
      */
-    constructor(radius: number, axis: Cartesian3, phiStart: Cartesian3, phiLength?: number, thetaStart?: number, thetaLength?: number);
+    constructor(radius: number, axis: VectorE3, phiStart: VectorE3, phiLength?: number, thetaStart?: number, thetaLength?: number);
     /**
      * @method destructor
      * @return {void}
@@ -56,23 +56,23 @@ declare class SphericalPolarSimplexGeometry extends SliceSimplexGeometry impleme
     /**
      * Defines a start half-plane relative to the <code>axis</code> property.
      * @property phiStart
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      */
-    phiStart: Vector3;
+    phiStart: MutableVectorE3;
     /**
      * @method setAxis
-     * @param axis {Cartesian3}
+     * @param axis {VectorE3}
      * @return {SphericalPolarSimplexGeometry}
      * @chainable
      */
-    setAxis(axis: Cartesian3): SphericalPolarSimplexGeometry;
+    setAxis(axis: VectorE3): SphericalPolarSimplexGeometry;
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {SphericalPolarSimplexGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): SphericalPolarSimplexGeometry;
+    setPosition(position: VectorE3): SphericalPolarSimplexGeometry;
     enableTextureCoords(enable: boolean): SphericalPolarSimplexGeometry;
     /**
      * @method isModified

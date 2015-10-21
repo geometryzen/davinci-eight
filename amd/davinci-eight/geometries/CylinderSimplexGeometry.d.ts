@@ -1,4 +1,4 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
 /**
  * @class CylinderSimplexGeometry
@@ -20,11 +20,11 @@ declare class CylinderSimplexGeometry extends SliceSimplexGeometry {
      * @constructor
      * @param radius [number = 1]
      * @param height [number = 1]
-     * @param axis [Cartesian3 = Vector3.e2]
+     * @param axis [VectorE3 = MutableVectorE3.e2]
      * @param openTop [boolean = false]
      * @param openBottom [boolean = false]
      */
-    constructor(radius?: number, height?: number, axis?: Cartesian3, openTop?: boolean, openBottom?: boolean);
+    constructor(radius?: number, height?: number, axis?: VectorE3, openTop?: boolean, openBottom?: boolean);
     regenerate(): void;
 }
 export = CylinderSimplexGeometry;

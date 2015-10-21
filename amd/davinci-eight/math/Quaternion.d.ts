@@ -1,10 +1,10 @@
-import Cartesian3 = require('../math/Cartesian3');
 import GeometricElement = require('../math/GeometricElement');
 import Matrix4 = require('../math/Matrix4');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class Quaternion
  */
-declare class Quaternion implements GeometricElement<Quaternion, Quaternion, Quaternion, Cartesian3, Cartesian3> {
+declare class Quaternion implements GeometricElement<Quaternion, Quaternion, Quaternion, VectorE3, VectorE3> {
     private x;
     private y;
     private z;
@@ -19,10 +19,10 @@ declare class Quaternion implements GeometricElement<Quaternion, Quaternion, Qua
      * @class Quaternion
      * @constructor
      * @param t [number = 1]
-     * @param v [Cartesian3 = {x: 0, y: 0, z: 0}]
+     * @param v [VectorE3 = 0]
      */
-    constructor(t?: number, v?: Cartesian3);
-    v: Cartesian3;
+    constructor(t?: number, v?: VectorE3);
+    v: VectorE3;
     /**
      * <p>
      * <code>this ⟼ this + q * α</code>
@@ -34,7 +34,7 @@ declare class Quaternion implements GeometricElement<Quaternion, Quaternion, Qua
      * @chainable
      */
     add(q: Quaternion, α?: number): Quaternion;
-    dual(m: Cartesian3): Quaternion;
+    dual(m: VectorE3): Quaternion;
     /**
      * <p>
      * <code>this ⟼ a + b = (α, A) + (β, B) = (α + β, A + B)</code>
@@ -114,22 +114,22 @@ declare class Quaternion implements GeometricElement<Quaternion, Quaternion, Qua
     scale(α: number): Quaternion;
     normalize(): Quaternion;
     quaditude(): number;
-    reflect(n: Cartesian3): Quaternion;
+    reflect(n: VectorE3): Quaternion;
     rotate(rotor: Quaternion): Quaternion;
-    rotor(a: Cartesian3, b: Cartesian3): Quaternion;
+    rotor(a: VectorE3, b: VectorE3): Quaternion;
     /**
      * <p>
      * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
      * </p>
      * @method rotorFromAxisAngle
-     * @param axis {Cartesian3}
+     * @param axis {VectorE3}
      * @param θ {number}
      * @return {Quaternion} <code>this</code>
      * @chainable
      */
-    rotorFromAxisAngle(axis: Cartesian3, θ: number): Quaternion;
+    rotorFromAxisAngle(axis: VectorE3, θ: number): Quaternion;
     setFromRotationMatrix(m: Matrix4): Quaternion;
-    spinor(a: Cartesian3, b: Cartesian3): Quaternion;
+    spinor(a: VectorE3, b: VectorE3): Quaternion;
     slerp(qb: Quaternion, t: number): Quaternion;
     sub(rhs: Quaternion): Quaternion;
     diff(a: Quaternion, b: Quaternion): Quaternion;

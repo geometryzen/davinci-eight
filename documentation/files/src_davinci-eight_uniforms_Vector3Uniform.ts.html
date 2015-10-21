@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.136.0</em>
+            <em>API Docs for: 2.137.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
-                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
-                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
-                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
-                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
@@ -110,6 +106,7 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -126,6 +123,10 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
+                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
+                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
+                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
+                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -153,7 +154,6 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
-                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -161,10 +161,11 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector2.html">Vector2</a></li>
-                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
-                                <li><a href="../classes/Vector4.html">Vector4</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -222,7 +223,7 @@ import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
 import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
-import Vector3 = require(&#x27;../math/Vector3&#x27;)
+import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
 
 var LOGGING_NAME = &#x27;Vector3Uniform&#x27;
 
@@ -235,14 +236,14 @@ function contextBuilder() {
  */
 class Vector3Uniform extends Shareable implements IFacet {
   private _name: string;
-  private _vector: Vector3;
+  private _vector: MutableVectorE3;
   /**
    * @class Vector3Uniform
    * @constructor
    * @param name {string}
-   * @param vector {Vector3}
+   * @param vector {MutableVectorE3}
    */
-  constructor(name: string, vector: Vector3) {
+  constructor(name: string, vector: MutableVectorE3) {
     super(&#x27;Vector3Uniform&#x27;)
     this._name = mustBeString(&#x27;name&#x27;, name, contextBuilder)
     this._vector = mustBeObject(&#x27;vector&#x27;, vector, contextBuilder)
@@ -256,7 +257,7 @@ class Vector3Uniform extends Shareable implements IFacet {
   setProperty(name:string, value: number[]): void {
   }
   setUniforms(visitor: IFacetVisitor, canvasId: number): void {
-    visitor.uniformCartesian3(this._name, this._vector, canvasId)
+    visitor.uniformVectorE3(this._name, this._vector, canvasId)
   }
 }
 

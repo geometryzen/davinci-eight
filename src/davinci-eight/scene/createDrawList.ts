@@ -16,9 +16,9 @@ import Shareable = require('../utils/Shareable')
 import StringIUnknownMap = require('../collections/StringIUnknownMap');
 import uuid4 = require('../utils/uuid4');
 import IFacet = require('../core/IFacet');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
-import Vector4 = require('../math/Vector4');
+import MutableVectorE2 = require('../math/MutableVectorE2');
+import MutableVectorE3 = require('../math/MutableVectorE3');
+import MutableVectorE4 = require('../math/MutableVectorE4');
 
 let CLASS_NAME_DRAWLIST = "createDrawList";
 let CLASS_NAME_GROUP = "DrawableGroup";

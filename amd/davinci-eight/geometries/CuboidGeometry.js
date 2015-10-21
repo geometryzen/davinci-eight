@@ -3,25 +3,25 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeNumber', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Geometry, mustBeNumber, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeNumber', '../math/MutableVectorE3', '../core/Symbolic', '../math/MutableVectorE2'], function (require, exports, Euclidean3, GridTopology, Geometry, mustBeNumber, MutableVectorE3, Symbolic, MutableVectorE2) {
     function side(basis, uSegments, vSegments) {
-        var normal = Vector3.copy(basis[0]).cross(basis[1]).normalize();
-        var aNeg = Vector3.copy(basis[0]).scale(-0.5);
-        var aPos = Vector3.copy(basis[0]).scale(+0.5);
-        var bNeg = Vector3.copy(basis[1]).scale(-0.5);
-        var bPos = Vector3.copy(basis[1]).scale(+0.5);
-        var cPos = Vector3.copy(basis[2]).scale(+0.5);
+        var normal = MutableVectorE3.copy(basis[0]).cross(basis[1]).normalize();
+        var aNeg = MutableVectorE3.copy(basis[0]).scale(-0.5);
+        var aPos = MutableVectorE3.copy(basis[0]).scale(+0.5);
+        var bNeg = MutableVectorE3.copy(basis[1]).scale(-0.5);
+        var bPos = MutableVectorE3.copy(basis[1]).scale(+0.5);
+        var cPos = MutableVectorE3.copy(basis[2]).scale(+0.5);
         var side = new GridTopology(uSegments, vSegments);
         for (var uIndex = 0; uIndex < side.uLength; uIndex++) {
             for (var vIndex = 0; vIndex < side.vLength; vIndex++) {
                 var u = uIndex / uSegments;
                 var v = vIndex / vSegments;
-                var a = Vector3.copy(aNeg).lerp(aPos, u);
-                var b = Vector3.copy(bNeg).lerp(bPos, v);
+                var a = MutableVectorE3.copy(aNeg).lerp(aPos, u);
+                var b = MutableVectorE3.copy(bNeg).lerp(bPos, v);
                 var vertex = side.vertex(uIndex, vIndex);
-                vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(a).add(b).add(cPos);
+                vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(a).add(b).add(cPos);
                 vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v]);
+                vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new MutableVectorE2([u, v]);
             }
         }
         return side;
@@ -40,9 +40,9 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Geome
             this.iSegments = 1;
             this.jSegments = 1;
             this.kSegments = 1;
-            this._a = Vector3.e1.clone();
-            this._b = Vector3.e2.clone();
-            this._c = Vector3.e3.clone();
+            this._a = MutableVectorE3.copy(Euclidean3.e1);
+            this._b = MutableVectorE3.copy(Euclidean3.e2);
+            this._c = MutableVectorE3.copy(Euclidean3.e3);
             this.sides = [];
         }
         Object.defineProperty(CuboidGeometry.prototype, "width", {
@@ -95,19 +95,19 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Geome
             // front
             this.sides.push(side([this._a, this._b, this._c], this.iSegments, this.jSegments));
             // right
-            this.sides.push(side([Vector3.copy(this._c).scale(-1), this._b, this._a], this.kSegments, this.jSegments));
+            this.sides.push(side([MutableVectorE3.copy(this._c).scale(-1), this._b, this._a], this.kSegments, this.jSegments));
             // left
-            this.sides.push(side([this._c, this._b, Vector3.copy(this._a).scale(-1)], this.kSegments, this.jSegments));
+            this.sides.push(side([this._c, this._b, MutableVectorE3.copy(this._a).scale(-1)], this.kSegments, this.jSegments));
             // back
-            this.sides.push(side([Vector3.copy(this._a).scale(-1), this._b, Vector3.copy(this._c).scale(-1)], this.iSegments, this.jSegments));
+            this.sides.push(side([MutableVectorE3.copy(this._a).scale(-1), this._b, MutableVectorE3.copy(this._c).scale(-1)], this.iSegments, this.jSegments));
             // top
-            this.sides.push(side([this._a, Vector3.copy(this._c).scale(-1), this._b], this.iSegments, this.kSegments));
+            this.sides.push(side([this._a, MutableVectorE3.copy(this._c).scale(-1), this._b], this.iSegments, this.kSegments));
             // bottom
-            this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments));
+            this.sides.push(side([this._a, this._c, MutableVectorE3.copy(this._b).scale(-1)], this.iSegments, this.kSegments));
         };
         /**
          * @method setPosition
-         * @param position {Cartesian3}
+         * @param position {VectorE3}
          * @return {CuboidGeometry}
          */
         CuboidGeometry.prototype.setPosition = function (position) {

@@ -1,15 +1,16 @@
-import Cartesian3 = require('../math/Cartesian3');
+import Euclidean3 = require('../math/Euclidean3')
+import VectorE3 = require('../math/VectorE3')
 
 class Sphere {
-  public center: Cartesian3;
-  public radius: number;
-  constructor(center?: Cartesian3, radius?: number) {
-    this.center = (center !== undefined) ? center : { x: 0, y: 0, z: 0 };
-    this.radius = ( radius !== undefined ) ? radius : 0;
-  }
-  setFromPoints(points: Cartesian3[]) {
-    throw new Error("Not Implemented: Sphere.setFromPoints");
-  }
+    public center: VectorE3;
+    public radius: number;
+    constructor(center: VectorE3 = Euclidean3.zero, radius: number = 0) {
+        this.center = center
+        this.radius = radius
+    }
+    setFromPoints(points: VectorE3[]) {
+        throw new Error("Not Implemented: Sphere.setFromPoints")
+    }
 }
 
-export = Sphere;
+export = Sphere

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, Simplex, SliceSimplexGeometry, Spinor3, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/MutableSpinorE3', '../core/Symbolic', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, arc3, Simplex, SliceSimplexGeometry, MutableSpinorE3, Symbolic, MutableVectorE2, MutableVectorE3) {
     // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
     // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
     // TODO: May be more efficient to calculate points for the outer circle then scale them inwards.
@@ -15,20 +15,20 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
          * `t` is the vector perpendicular to s in the plane of the ring.
          * We could use the generator an PI / 4 to calculate this or the cross product as here.
          */
-        var perp = Vector3.copy(axis).cross(start);
+        var perp = MutableVectorE3.copy(axis).cross(start);
         /**
          * The distance of the vertex from the origin and center.
          */
         var radius = b;
         var radiusStep = (a - b) / radialSegments;
         for (var i = 0; i < radialSegments + 1; i++) {
-            var begin = Vector3.copy(start).scale(radius);
+            var begin = MutableVectorE3.copy(start).scale(radius);
             var arcPoints = arc3(begin, angle, generator, thetaSegments);
             for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
                 var arcPoint = arcPoints[j];
                 vertices.push(arcPoint);
                 // The coordinates vary between -a and +a, which we map to 0 and 1.
-                uvs.push(new Vector2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]));
+                uvs.push(new MutableVectorE2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]));
             }
             radius += radiusStep;
         }
@@ -126,8 +126,8 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
          * @constructor
          * @param a [number = 1] The outer radius
          * @param b [number = 0] The inner radius
-         * @param axis [Cartesian3] The <code>axis</code> property.
-         * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
+         * @param axis [VectorE3] The <code>axis</code> property.
+         * @param sliceStart [VectorE3] The <code>sliceStart</code> property.
          * @param sliceAngle [number] The <code>sliceAngle</code> property.
          */
         function RingSimplexGeometry(a, b, axis, sliceStart, sliceAngle) {
@@ -160,7 +160,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
             this.data = [];
             var radialSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = new Spinor3().dual(this.axis);
+            var generator = new MutableSpinorE3().dual(this.axis);
             var vertices = [];
             var uvs = [];
             computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);

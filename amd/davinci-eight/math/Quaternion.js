@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/Vector3'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, mustBeNumber, mustBeObject, Vector3) {
+define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean3', '../math/euclidean3Quaditude2Arg', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/MutableVectorE3'], function (require, exports, cartesianQuaditudeE3, Euclidean3, euclidean3Quaditude2Arg, mustBeNumber, mustBeObject, MutableVectorE3) {
     var cos = Math.cos;
     var sin = Math.sin;
     var exp = Math.exp;
@@ -12,11 +12,11 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @class Quaternion
          * @constructor
          * @param t [number = 1]
-         * @param v [Cartesian3 = {x: 0, y: 0, z: 0}]
+         * @param v [VectorE3 = 0]
          */
         function Quaternion(t, v) {
             if (t === void 0) { t = 1; }
-            if (v === void 0) { v = { x: 0, y: 0, z: 0 }; }
+            if (v === void 0) { v = Euclidean3.zero; }
             this.t = mustBeNumber('t', t);
             mustBeObject('v', v);
             this.x = mustBeNumber('v.x', v.x);
@@ -25,7 +25,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         }
         Object.defineProperty(Quaternion.prototype, "v", {
             get: function () {
-                return { x: this.x, y: this.y, z: this.z };
+                return new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0);
             },
             enumerable: true,
             configurable: true
@@ -78,7 +78,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @return {Quaternion} <code>copy(target)</code>
          */
         Quaternion.prototype.clone = function () {
-            return new Quaternion(this.t, { x: this.x, y: this.y, z: this.z });
+            return new Quaternion(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0));
         };
         /**
          * <p>
@@ -240,7 +240,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
          * </p>
          * @method rotorFromAxisAngle
-         * @param axis {Cartesian3}
+         * @param axis {VectorE3}
          * @param θ {number}
          * @return {Quaternion} <code>this</code>
          * @chainable
@@ -291,7 +291,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         Quaternion.prototype.spinor = function (a, b) {
             // TODO: Could create circularity problems.
-            var v1 = new Vector3();
+            var v1 = new MutableVectorE3();
             var r = euclidean3Quaditude2Arg(a, b) + 1;
             if (r < EPS) {
                 r = 0;

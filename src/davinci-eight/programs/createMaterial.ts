@@ -1,8 +1,8 @@
 import AttribLocation = require('../core/AttribLocation')
-import Cartesian1 = require('../math/Cartesian1')
-import Cartesian2 = require('../math/Cartesian2')
-import Cartesian3 = require('../math/Cartesian3')
-import Cartesian4 = require('../math/Cartesian4')
+import VectorE1 = require('../math/VectorE1')
+import VectorE2 = require('../math/VectorE2')
+import VectorE3 = require('../math/VectorE3')
+import VectorE4 = require('../math/VectorE4')
 import IContextProvider = require('../core/IContextProvider')
 import IContextMonitor = require('../core/IContextMonitor')
 import core = require('../core')
@@ -21,9 +21,9 @@ import mustBeString = require('../checks/mustBeString')
 import uuid4 = require('../utils/uuid4')
 import UniformLocation = require('../core/UniformLocation')
 import UniformMetaInfo = require('../core/UniformMetaInfo')
-import Vector2 = require('../math/Vector2')
-import Vector3 = require('../math/Vector3')
-import Vector4 = require('../math/Vector4')
+import MutableVectorE2 = require('../math/MutableVectorE2')
+import MutableVectorE3 = require('../math/MutableVectorE3')
+import MutableVectorE4 = require('../math/MutableVectorE4')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import SimpleWebGLProgram = require('../programs/SimpleWebGLProgram')
@@ -253,7 +253,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
         }
       }
     },
-    uniformCartesian2(name: string, vector: Cartesian2, canvasId: number) {
+    uniformVectorE2(name: string, vector: VectorE2, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakRef(canvasId)
@@ -264,7 +264,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
         }
       }
     },
-    uniformCartesian3(name: string, vector: Cartesian3, canvasId: number) {
+    uniformVectorE3(name: string, vector: VectorE3, canvasId: number) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakRef(canvasId)
@@ -275,7 +275,7 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
         }
       }
     },
-    uniformCartesian4(name: string, vector: Cartesian4, canvasId: number): void {
+    uniformVectorE4(name: string, vector: VectorE4, canvasId: number): void {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakRef(canvasId)

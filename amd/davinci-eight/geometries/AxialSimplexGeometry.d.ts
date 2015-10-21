@@ -1,7 +1,7 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * @class AxialSimplexGeometry
  * @extends SimplexGeometry
@@ -10,9 +10,9 @@ declare class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeom
     /**
      * The symmetry axis used for geometry generation.
      * @property axis
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      */
-    axis: Vector3;
+    axis: MutableVectorE3;
     /**
      * <p>
      * A geometry which has axial symmetry, giving it an <code>axis</code> property.
@@ -25,9 +25,9 @@ declare class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeom
      * @class AxialSimplexGeometry
      * @constructor
      * @param type {string} Used for reference count tracking.
-     * @param axis {Cartesian3} The <b>axis</b> property.
+     * @param axis {VectorE3} The <b>axis</b> property.
      */
-    constructor(type: string, axis: Cartesian3);
+    constructor(type: string, axis: VectorE3);
     /**
      * <p>
      * Sets the <code>axis</code> property to <code>void 0</code>.
@@ -40,18 +40,18 @@ declare class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeom
     protected destructor(): void;
     /**
      * @method setAxis
-     * @param axis {Cartesian3}
+     * @param axis {VectorE3}
      * @return {AxialSimplexGeometry}
      * @chainable
      */
-    setAxis(axis: Cartesian3): AxialSimplexGeometry;
+    setAxis(axis: VectorE3): AxialSimplexGeometry;
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {AxialSimplexGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): AxialSimplexGeometry;
+    setPosition(position: VectorE3): AxialSimplexGeometry;
     /**
      * @method enableTextureCoords
      * @param enable {boolean}

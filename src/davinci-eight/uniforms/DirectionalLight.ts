@@ -5,7 +5,7 @@ import mustBeObject = require('../checks/mustBeObject')
 import mustBeString = require('../checks/mustBeString')
 import Shareable = require('../utils/Shareable')
 import Symbolic = require('../core/Symbolic')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 var LOGGING_NAME = 'DirectionalLight'
 
@@ -20,9 +20,9 @@ function contextBuilder() {
 class DirectionalLight extends Shareable implements IFacet {
   /**
    * @property direction
-   * @type {Vector3}
+   * @type {MutableVectorE3}
    */
-  public direction: Vector3;
+  public direction: MutableVectorE3;
   /**
    * @property color
    * @type {Color}
@@ -35,7 +35,7 @@ class DirectionalLight extends Shareable implements IFacet {
    */
   constructor() {
     super('DirectionalLight')
-    this.direction = new Vector3([-1, -1, -1]).normalize()
+    this.direction = new MutableVectorE3([-1, -1, -1]).normalize()
     this.color = Color.white.clone()
   }
   /**

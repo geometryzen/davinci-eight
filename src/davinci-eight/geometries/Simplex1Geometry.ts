@@ -1,15 +1,15 @@
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Simplex = require('../geometries/Simplex')
 import Symbolic = require('../core/Symbolic')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 //import VectorN = require('../math/VectorN')
 
 /**
  * @class Simplex1Geometry
  */
 class Simplex1Geometry extends SimplexGeometry {
-  public head: Vector3 = new Vector3([1, 0, 0]);
-  public tail: Vector3 = new Vector3([0, 1, 0]);
+  public head: MutableVectorE3 = new MutableVectorE3([1, 0, 0]);
+  public tail: MutableVectorE3 = new MutableVectorE3([0, 1, 0]);
   /**
    * @class Simplex1Geometry
    * @constructor
@@ -19,7 +19,7 @@ class Simplex1Geometry extends SimplexGeometry {
     this.calculate();
   }
   public calculate(): void {
-    var pos: Vector3[] = [0, 1].map(function(index) {return void 0})
+    var pos: MutableVectorE3[] = [0, 1].map(function(index) {return void 0})
     pos[0] = this.tail
     pos[1] = this.head
 

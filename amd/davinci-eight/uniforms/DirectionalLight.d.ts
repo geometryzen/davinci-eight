@@ -2,7 +2,7 @@ import Color = require('../core/Color');
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
 import Shareable = require('../utils/Shareable');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * @class DirectionalLight
  * @extends Shareable
@@ -10,9 +10,9 @@ import Vector3 = require('../math/Vector3');
 declare class DirectionalLight extends Shareable implements IFacet {
     /**
      * @property direction
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      */
-    direction: Vector3;
+    direction: MutableVectorE3;
     /**
      * @property color
      * @type {Color}

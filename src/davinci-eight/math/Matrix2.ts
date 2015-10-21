@@ -1,5 +1,5 @@
 import AbstractMatrix = require('../math/AbstractMatrix');
-import Cartesian2 = require('../math/Cartesian2')
+import VectorE2 = require('../math/VectorE2')
 import GeometricElement = require('../math/GeometricElement')
 import Matrix = require('../math/Matrix');
 

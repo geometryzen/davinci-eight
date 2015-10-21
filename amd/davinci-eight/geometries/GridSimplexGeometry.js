@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/Simplex', '../geometries/SimplexGeometry', '../core/Symbolic', '../math/Vector2', '../math/Vector3', '../checks/mustBeFunction', '../checks/mustBeInteger'], function (require, exports, Simplex, SimplexGeometry, Symbolic, Vector2, Vector3, mustBeFunction, mustBeInteger) {
+define(["require", "exports", '../geometries/Simplex', '../geometries/SimplexGeometry', '../core/Symbolic', '../math/MutableVectorE2', '../math/MutableVectorE3', '../checks/mustBeFunction', '../checks/mustBeInteger'], function (require, exports, Simplex, SimplexGeometry, Symbolic, MutableVectorE2, MutableVectorE3, mustBeFunction, mustBeInteger) {
     /**
      * @class GridSimplexGeometry
      */
@@ -12,7 +12,7 @@ define(["require", "exports", '../geometries/Simplex', '../geometries/SimplexGeo
         /**
          * @class GridSimplexGeometry
          * @constructor
-         * @param parametricFunction {(u: number, v: number) => Cartesian3}
+         * @param parametricFunction {(u: number, v: number) => VectorE3}
          * @param uSegments {number}
          * @param vSegments {number}
          */
@@ -34,7 +34,7 @@ define(["require", "exports", '../geometries/Simplex', '../geometries/SimplexGeo
                     var u = j / uSegments;
                     var point = parametricFunction(u, v);
                     // Make a copy just in case the function is returning mutable references.
-                    points.push(Vector3.copy(point));
+                    points.push(MutableVectorE3.copy(point));
                 }
             }
             var a;
@@ -51,10 +51,10 @@ define(["require", "exports", '../geometries/Simplex', '../geometries/SimplexGeo
                     b = i * sliceCount + j + 1;
                     c = (i + 1) * sliceCount + j + 1;
                     d = (i + 1) * sliceCount + j;
-                    uva = new Vector2([j / uSegments, i / vSegments]);
-                    uvb = new Vector2([(j + 1) / uSegments, i / vSegments]);
-                    uvc = new Vector2([(j + 1) / uSegments, (i + 1) / vSegments]);
-                    uvd = new Vector2([j / uSegments, (i + 1) / vSegments]);
+                    uva = new MutableVectorE2([j / uSegments, i / vSegments]);
+                    uvb = new MutableVectorE2([(j + 1) / uSegments, i / vSegments]);
+                    uvc = new MutableVectorE2([(j + 1) / uSegments, (i + 1) / vSegments]);
+                    uvd = new MutableVectorE2([j / uSegments, (i + 1) / vSegments]);
                     var simplex = new Simplex(Simplex.TRIANGLE);
                     simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a];
                     simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva;

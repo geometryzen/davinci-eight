@@ -1,8 +1,10 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", '../math/Euclidean3'], function (require, exports, Euclidean3) {
     var Sphere = (function () {
         function Sphere(center, radius) {
-            this.center = (center !== undefined) ? center : { x: 0, y: 0, z: 0 };
-            this.radius = (radius !== undefined) ? radius : 0;
+            if (center === void 0) { center = Euclidean3.zero; }
+            if (radius === void 0) { radius = 0; }
+            this.center = center;
+            this.radius = radius;
         }
         Sphere.prototype.setFromPoints = function (points) {
             throw new Error("Not Implemented: Sphere.setFromPoints");

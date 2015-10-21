@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.136.0</em>
+            <em>API Docs for: 2.137.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
-                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
-                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
-                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
-                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
@@ -110,6 +106,7 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -126,6 +123,10 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
+                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
+                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
+                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
+                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -153,7 +154,6 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
-                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -161,10 +161,11 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector2.html">Vector2</a></li>
-                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
-                                <li><a href="../classes/Vector4.html">Vector4</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -217,14 +218,15 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
 import cartesianQuaditudeE3 = require(&#x27;../math/cartesianQuaditudeE3&#x27;)
+import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
 import euclidean3Quaditude2Arg = require(&#x27;../math/euclidean3Quaditude2Arg&#x27;)
 import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
-import Vector3 = require(&#x27;../math/Vector3&#x27;)
+import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 
 let cos = Math.cos
 let sin = Math.sin
@@ -234,397 +236,397 @@ var EPS = 0.000001;
 /**
  * @class Quaternion
  */
-class Quaternion implements GeometricElement&lt;Quaternion, Quaternion, Quaternion, Cartesian3, Cartesian3&gt; {
-  private x: number;
-  private y: number;
-  private z: number;
-  /**
-   * The scalar part of the Quaternion.
-   * @property t
-   * @type {number}
-   */
-  public t: number;
-  /**
-   * 
-   * @class Quaternion
-   * @constructor
-   * @param t [number = 1]
-   * @param v [Cartesian3 = {x: 0, y: 0, z: 0}]
-   */
-  constructor(t: number = 1, v: Cartesian3 = { x: 0, y: 0, z: 0 }) {
-    this.t = mustBeNumber(&#x27;t&#x27;, t)
-    mustBeObject(&#x27;v&#x27;, v)
-    this.x = mustBeNumber(&#x27;v.x&#x27;, v.x)
-    this.y = mustBeNumber(&#x27;v.y&#x27;, v.y)
-    this.z = mustBeNumber(&#x27;v.z&#x27;, v.z)
-  }
-  get v(): Cartesian3 {
-    return { x: this.x, y: this.y, z: this.z }
-  }
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ this + q * α&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method add
-   * @param q {Quaternion}
-   * @param α [number = 1]
-   * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  add(q: Quaternion, α: number = 1): Quaternion {
-    mustBeObject(&#x27;q&#x27;, q)
-    mustBeNumber(&#x27;α&#x27;, α)
-    this.t += q.t * α
-    this.x += q.x * α
-    this.y += q.y * α
-    this.z += q.z * α
-    return this;
-  }
-  dual(m: Cartesian3): Quaternion {
-    // TODO
-    return this
-  }
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ a + b = (α, A) + (β, B) = (α + β, A + B)&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method sum
-   * @param a {Quaternion}
-   * @param b {Quaternion}
-   * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  sum(a: Quaternion, b: Quaternion): Quaternion {
-    mustBeObject(&#x27;a&#x27;, a)
-    mustBeObject(&#x27;b&#x27;, b)
-    this.t = a.t + b.t
-    this.x = a.x + b.x
-    this.y = a.y + b.y
-    this.z = a.z + b.z
-    return this;
-  }
-  /**
-   * @method clone
-   * @return {Quaternion} &lt;code&gt;copy(target)&lt;/code&gt;
-   */
-  clone(): Quaternion {
-    return new Quaternion(this.t, { x: this.x, y: this.y, z: this.z })
-  }
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this = (t, -v)&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method conj
-   * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  conj(): Quaternion {
-    this.x *= - 1
-    this.y *= - 1
-    this.z *= - 1
-    return this;
-  }
-  copy(quaternion: Quaternion): Quaternion {
-    this.x = quaternion.x;
-    this.y = quaternion.y;
-    this.z = quaternion.z;
-    this.t = quaternion.t;
-    return this;
-  }
-  divideByScalar(scalar: number) {
-    return this;
-  }
-  dot(v: Quaternion): number {
-    return this.x * v.x + this.y * v.y + this.z * v.z + this.t * v.t;
-  }
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ exp(t) * (cos(|v|), sin(|v|) * v / |v|)&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method exp
-   * @return {Quaternion}
-   */
-  exp(): Quaternion {
-    let expT = exp(this.t)
-    let m = cartesianQuaditudeE3(this.x, this.y, this.z, this.x, this.y, this.z)
-    let s = m !== 0 ? sin(m) / m : 1
-    this.t = expT * cos(m)
-    this.x = expT * this.x * s
-    this.y = expT * this.y * s
-    this.z = expT * this.z * s
-    return this;
-  }
-  /**
-   * @method inv
-   * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  inv(): Quaternion {
-    this.conj().normalize();
-    return this;
-  }
-  lerp(target: Quaternion, α: number): Quaternion {
-    this.x += (target.x - this.x) * α
-    this.y += (target.y - this.y) * α
-    this.z += (target.z - this.z) * α
-    this.t += (target.t - this.t) * α
-    return this;
-  }
-  lerp2(a: Quaternion, b: Quaternion, α: number): Quaternion {
-    this.copy(a).lerp(b, α)
-    return this
-  }
-  log(): Quaternion {
-    return this
-  }
-  magnitude(): number {
-    return Math.sqrt(this.quaditude());
-  }
-  multiply(q: Quaternion): Quaternion {
-    return this.product(this, q);
-  }
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method norm
-   * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  norm(): Quaternion {
-    this.t = this.magnitude()
-    this.x = 0
-    this.y = 0
-    this.z = 0
-    return this
-  }
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ (a, &lt;b&gt;B&lt;/b&gt;)(c, &lt;b&gt;D&lt;/b&gt;)&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method product
-   * @param a {Quaternion}
-   * @param b {Quaternion}
-   * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  product(a: Quaternion, b: Quaternion): Quaternion {
-    let qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
-    let qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
-    this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
-    this.y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
-    this.z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
-    this.t = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
-    return this;
-  }
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method scale
-   * @param α {number}
-   * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  scale(α: number): Quaternion {
-    mustBeNumber(&#x27;α&#x27;, α)
-    this.t *= α
-    this.x *= α
-    this.y *= α
-    this.z *= α
-    return this;
-  }
-  normalize(): Quaternion {
-    let l = this.magnitude();
-    if (l === 0) {
-      this.x = 0;
-      this.y = 0;
-      this.z = 0;
-      this.t = 1;
+class Quaternion implements GeometricElement&lt;Quaternion, Quaternion, Quaternion, VectorE3, VectorE3&gt; {
+    private x: number;
+    private y: number;
+    private z: number;
+    /**
+     * The scalar part of the Quaternion.
+     * @property t
+     * @type {number}
+     */
+    public t: number;
+    /**
+     * 
+     * @class Quaternion
+     * @constructor
+     * @param t [number = 1]
+     * @param v [VectorE3 = 0]
+     */
+    constructor(t: number = 1, v: VectorE3 = Euclidean3.zero) {
+        this.t = mustBeNumber(&#x27;t&#x27;, t)
+        mustBeObject(&#x27;v&#x27;, v)
+        this.x = mustBeNumber(&#x27;v.x&#x27;, v.x)
+        this.y = mustBeNumber(&#x27;v.y&#x27;, v.y)
+        this.z = mustBeNumber(&#x27;v.z&#x27;, v.z)
     }
-    else {
-      l = 1 / l;
-      this.x = this.x * l;
-      this.y = this.y * l;
-      this.z = this.z * l;
-      this.t = this.t * l;
+    get v(): VectorE3 {
+        return new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0)
     }
-    return this;
-  }
-  quaditude(): number {
-    return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
-  }
-  reflect(n: Cartesian3): Quaternion {
-    // FIXME: What does this mean?
-    throw new Error();
-  }
-  rotate(rotor: Quaternion): Quaternion {
-    // TODO: This would require creating a temporary so we fall back to components.
-    return this.product(rotor, this);
-  }
-  rotor(a: Cartesian3, b: Cartesian3): Quaternion {
-    return this
-  }
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this = ⟼ exp(- dual(a) * θ / 2)&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method rotorFromAxisAngle
-   * @param axis {Cartesian3}
-   * @param θ {number}
-   * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  rotorFromAxisAngle(axis: Cartesian3, θ: number): Quaternion {
-    //this.dual(a).scale(-θ/2).exp()?
-    let φ = θ / 2
-    let s = sin(φ)
-    this.x = axis.x * s
-    this.y = axis.y * s
-    this.z = axis.z * s
-    this.t = cos(φ)
-    return this;
-  }
-  setFromRotationMatrix(m: Matrix4): Quaternion {
-    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
-    // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
-    var te = m.data,
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + q * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method add
+     * @param q {Quaternion}
+     * @param α [number = 1]
+     * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    add(q: Quaternion, α: number = 1): Quaternion {
+        mustBeObject(&#x27;q&#x27;, q)
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.t += q.t * α
+        this.x += q.x * α
+        this.y += q.y * α
+        this.z += q.z * α
+        return this;
+    }
+    dual(m: VectorE3): Quaternion {
+        // TODO
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + b = (α, A) + (β, B) = (α + β, A + B)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method sum
+     * @param a {Quaternion}
+     * @param b {Quaternion}
+     * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    sum(a: Quaternion, b: Quaternion): Quaternion {
+        mustBeObject(&#x27;a&#x27;, a)
+        mustBeObject(&#x27;b&#x27;, b)
+        this.t = a.t + b.t
+        this.x = a.x + b.x
+        this.y = a.y + b.y
+        this.z = a.z + b.z
+        return this;
+    }
+    /**
+     * @method clone
+     * @return {Quaternion} &lt;code&gt;copy(target)&lt;/code&gt;
+     */
+    clone(): Quaternion {
+        return new Quaternion(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0))
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this = (t, -v)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method conj
+     * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    conj(): Quaternion {
+        this.x *= - 1
+        this.y *= - 1
+        this.z *= - 1
+        return this;
+    }
+    copy(quaternion: Quaternion): Quaternion {
+        this.x = quaternion.x;
+        this.y = quaternion.y;
+        this.z = quaternion.z;
+        this.t = quaternion.t;
+        return this;
+    }
+    divideByScalar(scalar: number) {
+        return this;
+    }
+    dot(v: Quaternion): number {
+        return this.x * v.x + this.y * v.y + this.z * v.z + this.t * v.t;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ exp(t) * (cos(|v|), sin(|v|) * v / |v|)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method exp
+     * @return {Quaternion}
+     */
+    exp(): Quaternion {
+        let expT = exp(this.t)
+        let m = cartesianQuaditudeE3(this.x, this.y, this.z, this.x, this.y, this.z)
+        let s = m !== 0 ? sin(m) / m : 1
+        this.t = expT * cos(m)
+        this.x = expT * this.x * s
+        this.y = expT * this.y * s
+        this.z = expT * this.z * s
+        return this;
+    }
+    /**
+     * @method inv
+     * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    inv(): Quaternion {
+        this.conj().normalize();
+        return this;
+    }
+    lerp(target: Quaternion, α: number): Quaternion {
+        this.x += (target.x - this.x) * α
+        this.y += (target.y - this.y) * α
+        this.z += (target.z - this.z) * α
+        this.t += (target.t - this.t) * α
+        return this;
+    }
+    lerp2(a: Quaternion, b: Quaternion, α: number): Quaternion {
+        this.copy(a).lerp(b, α)
+        return this
+    }
+    log(): Quaternion {
+        return this
+    }
+    magnitude(): number {
+        return Math.sqrt(this.quaditude());
+    }
+    multiply(q: Quaternion): Quaternion {
+        return this.product(this, q);
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method norm
+     * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    norm(): Quaternion {
+        this.t = this.magnitude()
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ (a, &lt;b&gt;B&lt;/b&gt;)(c, &lt;b&gt;D&lt;/b&gt;)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method product
+     * @param a {Quaternion}
+     * @param b {Quaternion}
+     * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    product(a: Quaternion, b: Quaternion): Quaternion {
+        let qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
+        let qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
+        this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
+        this.y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
+        this.z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
+        this.t = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method scale
+     * @param α {number}
+     * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    scale(α: number): Quaternion {
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.t *= α
+        this.x *= α
+        this.y *= α
+        this.z *= α
+        return this;
+    }
+    normalize(): Quaternion {
+        let l = this.magnitude();
+        if (l === 0) {
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.t = 1;
+        }
+        else {
+            l = 1 / l;
+            this.x = this.x * l;
+            this.y = this.y * l;
+            this.z = this.z * l;
+            this.t = this.t * l;
+        }
+        return this;
+    }
+    quaditude(): number {
+        return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
+    }
+    reflect(n: VectorE3): Quaternion {
+        // FIXME: What does this mean?
+        throw new Error();
+    }
+    rotate(rotor: Quaternion): Quaternion {
+        // TODO: This would require creating a temporary so we fall back to components.
+        return this.product(rotor, this);
+    }
+    rotor(a: VectorE3, b: VectorE3): Quaternion {
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this = ⟼ exp(- dual(a) * θ / 2)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rotorFromAxisAngle
+     * @param axis {VectorE3}
+     * @param θ {number}
+     * @return {Quaternion} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rotorFromAxisAngle(axis: VectorE3, θ: number): Quaternion {
+        //this.dual(a).scale(-θ/2).exp()?
+        let φ = θ / 2
+        let s = sin(φ)
+        this.x = axis.x * s
+        this.y = axis.y * s
+        this.z = axis.z * s
+        this.t = cos(φ)
+        return this;
+    }
+    setFromRotationMatrix(m: Matrix4): Quaternion {
+        // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
+        // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+        var te = m.data,
 
-      m11 = te[0], m12 = te[4], m13 = te[8],
-      m21 = te[1], m22 = te[5], m23 = te[9],
-      m31 = te[2], m32 = te[6], m33 = te[10],
+            m11 = te[0], m12 = te[4], m13 = te[8],
+            m21 = te[1], m22 = te[5], m23 = te[9],
+            m31 = te[2], m32 = te[6], m33 = te[10],
 
-      trace = m11 + m22 + m33,
-      s: number;
+            trace = m11 + m22 + m33,
+            s: number;
 
-    if (trace &gt; 0) {
-      s = 0.5 / Math.sqrt(trace + 1.0);
-      this.t = 0.25 / s;
-      this.x = (m32 - m23) * s;
-      this.y = (m13 - m31) * s;
-      this.z = (m21 - m12) * s;
+        if (trace &gt; 0) {
+            s = 0.5 / Math.sqrt(trace + 1.0);
+            this.t = 0.25 / s;
+            this.x = (m32 - m23) * s;
+            this.y = (m13 - m31) * s;
+            this.z = (m21 - m12) * s;
+        }
+        else if (m11 &gt; m22 &amp;&amp; m11 &gt; m33) {
+            s = 2.0 * Math.sqrt(1.0 + m11 - m22 - m33);
+            this.t = (m32 - m23) / s;
+            this.x = 0.25 * s;
+            this.y = (m12 + m21) / s;
+            this.z = (m13 + m31) / s;
+        }
+        else if (m22 &gt; m33) {
+            s = 2.0 * Math.sqrt(1.0 + m22 - m11 - m33);
+            this.t = (m13 - m31) / s;
+            this.x = (m12 + m21) / s;
+            this.y = 0.25 * s;
+            this.z = (m23 + m32) / s;
+        }
+        else {
+            s = 2.0 * Math.sqrt(1.0 + m33 - m11 - m22);
+            this.t = (m21 - m12) / s;
+            this.x = (m13 + m31) / s;
+            this.y = (m23 + m32) / s;
+            this.z = 0.25 * s;
+        }
+        return this;
     }
-    else if (m11 &gt; m22 &amp;&amp; m11 &gt; m33) {
-      s = 2.0 * Math.sqrt(1.0 + m11 - m22 - m33);
-      this.t = (m32 - m23) / s;
-      this.x = 0.25 * s;
-      this.y = (m12 + m21) / s;
-      this.z = (m13 + m31) / s;
-    }
-    else if (m22 &gt; m33) {
-      s = 2.0 * Math.sqrt(1.0 + m22 - m11 - m33);
-      this.t = (m13 - m31) / s;
-      this.x = (m12 + m21) / s;
-      this.y = 0.25 * s;
-      this.z = (m23 + m32) / s;
-    }
-    else {
-      s = 2.0 * Math.sqrt(1.0 + m33 - m11 - m22);
-      this.t = (m21 - m12) / s;
-      this.x = (m13 + m31) / s;
-      this.y = (m23 + m32) / s;
-      this.z = 0.25 * s;
-    }
-    return this;
-  }
-  spinor(a: Cartesian3, b: Cartesian3): Quaternion {
-    // TODO: Could create circularity problems.
-    let v1 = new Vector3();
+    spinor(a: VectorE3, b: VectorE3): Quaternion {
+        // TODO: Could create circularity problems.
+        let v1 = new MutableVectorE3();
 
-    var r: number = euclidean3Quaditude2Arg(a, b) + 1;
+        var r: number = euclidean3Quaditude2Arg(a, b) + 1;
 
-    if (r &lt; EPS) {
-      r = 0;
-      if (Math.abs(a.x) &gt; Math.abs(a.z)) {
-        v1.setXYZ(-a.y, a.x, 0);
-      }
-      else {
-        v1.setXYZ(0, -a.z, a.y);
-      }
+        if (r &lt; EPS) {
+            r = 0;
+            if (Math.abs(a.x) &gt; Math.abs(a.z)) {
+                v1.setXYZ(-a.y, a.x, 0);
+            }
+            else {
+                v1.setXYZ(0, -a.z, a.y);
+            }
+        }
+        else {
+            v1.cross2(a, b);
+        }
+        this.x = v1.x;
+        this.y = v1.y;
+        this.z = v1.z;
+        this.t = r;
+        this.normalize();
+        return this;
     }
-    else {
-      v1.cross2(a, b);
+    slerp(qb: Quaternion, t: number): Quaternion {
+        if (t === 0) return this;
+        if (t === 1) return this.copy(qb);
+        var x = this.x, y = this.y, z = this.z, w = this.t;
+
+        // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
+
+        var cosHalfTheta = w * qb.t + x * qb.x + y * qb.y + z * qb.z;
+
+        if (cosHalfTheta &lt; 0) {
+
+            this.t = - qb.t;
+            this.x = - qb.x;
+            this.y = - qb.y;
+            this.z = - qb.z;
+
+            cosHalfTheta = - cosHalfTheta;
+
+        }
+        else {
+            this.copy(qb);
+        }
+        if (cosHalfTheta &gt;= 1.0) {
+            this.t = w;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            return this;
+        }
+        var halfTheta = Math.acos(cosHalfTheta);
+        var sinHalfTheta = Math.sqrt(1.0 - cosHalfTheta * cosHalfTheta);
+        if (Math.abs(sinHalfTheta) &lt; 0.001) {
+            this.t = 0.5 * (w + this.t);
+            this.x = 0.5 * (x + this.x);
+            this.y = 0.5 * (y + this.y);
+            this.z = 0.5 * (z + this.z);
+            return this;
+        }
+        var ratioA = Math.sin((1 - t) * halfTheta) / sinHalfTheta,
+            ratioB = Math.sin(t * halfTheta) / sinHalfTheta;
+        this.t = (w * ratioA + this.t * ratioB);
+        this.x = (x * ratioA + this.x * ratioB);
+        this.y = (y * ratioA + this.y * ratioB);
+        this.z = (z * ratioA + this.z * ratioB);
+        return this;
     }
-    this.x = v1.x;
-    this.y = v1.y;
-    this.z = v1.z;
-    this.t = r;
-    this.normalize();
-    return this;
-  }
-  slerp(qb: Quaternion, t: number): Quaternion {
-    if (t === 0) return this;
-    if (t === 1) return this.copy(qb);
-    var x = this.x, y = this.y, z = this.z, w = this.t;
-
-    // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
-
-    var cosHalfTheta = w * qb.t + x * qb.x + y * qb.y + z * qb.z;
-
-    if (cosHalfTheta &lt; 0) {
-
-      this.t = - qb.t;
-      this.x = - qb.x;
-      this.y = - qb.y;
-      this.z = - qb.z;
-
-      cosHalfTheta = - cosHalfTheta;
-
+    sub(rhs: Quaternion) {
+        return this;
     }
-    else {
-      this.copy(qb);
+    diff(a: Quaternion, b: Quaternion): Quaternion {
+        throw new Error(&quot;TODO: Quaternion.diff()&quot;)
+        return this;
     }
-    if (cosHalfTheta &gt;= 1.0) {
-      this.t = w;
-      this.x = x;
-      this.y = y;
-      this.z = z;
-      return this;
+    equals(quaternion: Quaternion) {
+        return (quaternion.x === this.x) &amp;&amp; (quaternion.y === this.y) &amp;&amp; (quaternion.z === this.z) &amp;&amp; (quaternion.t === this.t);
     }
-    var halfTheta = Math.acos(cosHalfTheta);
-    var sinHalfTheta = Math.sqrt(1.0 - cosHalfTheta * cosHalfTheta);
-    if (Math.abs(sinHalfTheta) &lt; 0.001) {
-      this.t = 0.5 * (w + this.t);
-      this.x = 0.5 * (x + this.x);
-      this.y = 0.5 * (y + this.y);
-      this.z = 0.5 * (z + this.z);
-      return this;
+    fromArray(array: number[], offset: number = 0): Quaternion {
+        this.x = array[offset];
+        this.y = array[offset + 1];
+        this.z = array[offset + 2];
+        this.t = array[offset + 3];
+        return this;
     }
-    var ratioA = Math.sin((1 - t) * halfTheta) / sinHalfTheta,
-      ratioB = Math.sin(t * halfTheta) / sinHalfTheta;
-    this.t = (w * ratioA + this.t * ratioB);
-    this.x = (x * ratioA + this.x * ratioB);
-    this.y = (y * ratioA + this.y * ratioB);
-    this.z = (z * ratioA + this.z * ratioB);
-    return this;
-  }
-  sub(rhs: Quaternion) {
-    return this;
-  }
-  diff(a: Quaternion, b: Quaternion): Quaternion {
-    throw new Error(&quot;TODO: Quaternion.diff()&quot;)
-    return this;
-  }
-  equals(quaternion: Quaternion) {
-    return (quaternion.x === this.x) &amp;&amp; (quaternion.y === this.y) &amp;&amp; (quaternion.z === this.z) &amp;&amp; (quaternion.t === this.t);
-  }
-  fromArray(array: number[], offset: number = 0): Quaternion {
-    this.x = array[offset];
-    this.y = array[offset + 1];
-    this.z = array[offset + 2];
-    this.t = array[offset + 3];
-    return this;
-  }
-  toArray(array: number[] = [], offset: number = 0): number[] {
-    array[offset] = this.x;
-    array[offset + 1] = this.y;
-    array[offset + 2] = this.z;
-    array[offset + 3] = this.t;
-    return array;
-  }
-  public static slerp(qa: Quaternion, qb: Quaternion, qm: Quaternion, t: number): Quaternion {
-    return qm.copy(qa).slerp(qb, t);
-  }
+    toArray(array: number[] = [], offset: number = 0): number[] {
+        array[offset] = this.x;
+        array[offset + 1] = this.y;
+        array[offset + 2] = this.z;
+        array[offset + 3] = this.t;
+        return array;
+    }
+    public static slerp(qa: Quaternion, qb: Quaternion, qm: Quaternion, t: number): Quaternion {
+        return qm.copy(qa).slerp(qb, t);
+    }
 }
 
 export = Quaternion;

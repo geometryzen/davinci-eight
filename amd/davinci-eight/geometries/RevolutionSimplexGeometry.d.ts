@@ -1,6 +1,6 @@
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import Spinor3 = require('../math/Spinor3');
-import Vector3 = require('../math/Vector3');
+import MutableSpinorE3 = require('../math/MutableSpinorE3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * @class RevolutionSimplexGeometry
  */
@@ -12,13 +12,13 @@ declare class RevolutionSimplexGeometry extends SimplexGeometry {
     constructor(type?: string);
     /**
      * @method revolve
-     * @param points {Vector3[]}
-     * @param generator {Spinor3}
+     * @param points {MutableVectorE3[]}
+     * @param generator {MutableSpinorE3}
      * @param segments {number}
      * @param phiStart {number}
      * @param phiLength {number}
-     * @param attitude {Spinor3}
+     * @param attitude {MutableSpinorE3}
      */
-    protected revolve(points: Vector3[], generator: Spinor3, segments: number, phiStart: number, phiLength: number, attitude: Spinor3): void;
+    protected revolve(points: MutableVectorE3[], generator: MutableSpinorE3, segments: number, phiStart: number, phiLength: number, attitude: MutableSpinorE3): void;
 }
 export = RevolutionSimplexGeometry;

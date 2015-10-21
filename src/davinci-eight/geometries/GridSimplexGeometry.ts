@@ -1,10 +1,10 @@
-import Cartesian2 = require('../math/Cartesian2')
-import Cartesian3 = require('../math/Cartesian3')
+import VectorE2 = require('../math/VectorE2')
+import VectorE3 = require('../math/VectorE3')
 import Simplex = require('../geometries/Simplex')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Symbolic = require('../core/Symbolic')
-import Vector2 = require('../math/Vector2')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE2 = require('../math/MutableVectorE2')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 import expectArg = require('../checks/expectArg')
 import mustBeFunction = require('../checks/mustBeFunction')
 import mustBeInteger = require('../checks/mustBeInteger')
@@ -15,11 +15,11 @@ class GridSimplexGeometry extends SimplexGeometry {
   /**
    * @class GridSimplexGeometry
    * @constructor
-   * @param parametricFunction {(u: number, v: number) => Cartesian3}
+   * @param parametricFunction {(u: number, v: number) => VectorE3}
    * @param uSegments {number}
    * @param vSegments {number}
    */
-  constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number) {
+  constructor(parametricFunction: (u: number, v: number) => VectorE3, uSegments: number, vSegments: number) {
     super();
     mustBeFunction('parametricFunction', parametricFunction)
     mustBeInteger('uSegments', uSegments)
@@ -27,7 +27,7 @@ class GridSimplexGeometry extends SimplexGeometry {
     /**
      * Temporary array of points.
      */
-    let points: Vector3[] = [];
+    let points: MutableVectorE3[] = [];
 
     var i: number;
     var j: number;
@@ -42,9 +42,9 @@ class GridSimplexGeometry extends SimplexGeometry {
 
         let u: number = j / uSegments;
 
-        let point: Cartesian3 = parametricFunction( u, v );
+        let point: VectorE3 = parametricFunction( u, v );
         // Make a copy just in case the function is returning mutable references.
-        points.push(Vector3.copy(point));
+        points.push(MutableVectorE3.copy(point));
       }
     }
 
@@ -52,10 +52,10 @@ class GridSimplexGeometry extends SimplexGeometry {
     var b: number;
     var c: number;
     var d: number;
-    var uva: Vector2;
-    var uvb: Vector2;
-    var uvc: Vector2;
-    var uvd: Vector2;
+    var uva: MutableVectorE2;
+    var uvb: MutableVectorE2;
+    var uvc: MutableVectorE2;
+    var uvd: MutableVectorE2;
 
     for ( i = 0; i < vSegments; i ++ ) {
 
@@ -66,10 +66,10 @@ class GridSimplexGeometry extends SimplexGeometry {
         c = (i + 1) * sliceCount + j + 1;
         d = (i + 1) * sliceCount + j;
 
-        uva = new Vector2([j / uSegments, i / vSegments]);
-        uvb = new Vector2([(j + 1) / uSegments, i / vSegments]);
-        uvc = new Vector2([(j + 1) / uSegments, (i + 1) / vSegments]);
-        uvd = new Vector2([j / uSegments, (i + 1) / vSegments]);
+        uva = new MutableVectorE2([j / uSegments, i / vSegments]);
+        uvb = new MutableVectorE2([(j + 1) / uSegments, i / vSegments]);
+        uvc = new MutableVectorE2([(j + 1) / uSegments, (i + 1) / vSegments]);
+        uvd = new MutableVectorE2([j / uSegments, (i + 1) / vSegments]);
 
         var simplex = new Simplex(Simplex.TRIANGLE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a]

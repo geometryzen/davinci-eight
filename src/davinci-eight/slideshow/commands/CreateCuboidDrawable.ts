@@ -1,4 +1,4 @@
-import Cartesian3 = require('../../math/Cartesian3')
+import VectorE3 = require('../../math/VectorE3')
 
 import ColorFacet = require('../../uniforms/ColorFacet')
 import CuboidSimplexGeometry = require('../../geometries/CuboidSimplexGeometry')
@@ -14,7 +14,7 @@ import MeshMaterial = require('../../materials/MeshMaterial')
 import ModelFacet = require('../../models/ModelFacet')
 import Shareable = require('../../utils/Shareable')
 import Simplex = require('../../geometries/Simplex')
-import Vector3 = require('../../math/Vector3')
+import MutableVectorE3 = require('../../math/MutableVectorE3')
 
 function createMaterial(geometry: SimplexGeometry): IMaterial
 {
@@ -41,19 +41,19 @@ function createMaterial(geometry: SimplexGeometry): IMaterial
 class CreateCuboidDrawable extends Shareable implements ISlideCommand
 {
   private name: string;
-  private a: Vector3;
-  private b: Vector3;
-  private c: Vector3;
+  private a: MutableVectorE3;
+  private b: MutableVectorE3;
+  private c: MutableVectorE3;
   private k: number;
   private subdivide: number;
   private boundary: number;
-  constructor(name: string, a: Cartesian3 = Vector3.e1, b: Cartesian3 = Vector3.e2, c: Cartesian3 = Vector3.e3, k: number = Simplex.TRIANGLE, subdivide: number = 0, boundary: number = 0)
+  constructor(name: string, a: VectorE3 = MutableVectorE3.e1, b: VectorE3 = MutableVectorE3.e2, c: VectorE3 = MutableVectorE3.e3, k: number = Simplex.TRIANGLE, subdivide: number = 0, boundary: number = 0)
   {
     super('CreateCuboidDrawable')
     this.name = name
-    this.a = Vector3.copy(a)
-    this.b = Vector3.copy(b)
-    this.c = Vector3.copy(c)
+    this.a = MutableVectorE3.copy(a)
+    this.b = MutableVectorE3.copy(b)
+    this.c = MutableVectorE3.copy(c)
     this.k = k
     this.subdivide = subdivide
     this.boundary = boundary

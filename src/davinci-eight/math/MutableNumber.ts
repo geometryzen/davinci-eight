@@ -1,13 +1,13 @@
-import Cartesian1 = require('../math/Cartesian1')
+import VectorE1 = require('../math/VectorE1')
 import expectArg = require('../checks/expectArg')
 import LinearElement = require('../math/LinearElement')
 import Matrix = require('../math/Matrix')
-import Spinor1Coords = require('../math/Spinor1Coords')
+import SpinorE1 = require('../math/SpinorE1')
 import VectorN = require('../math/VectorN')
 /**
  * @class MutableNumber
  */
-class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, MutableNumber, Spinor1Coords, Cartesian1>, Matrix<MutableNumber> {
+class MutableNumber extends VectorN<number> implements VectorE1, LinearElement<VectorE1, MutableNumber, SpinorE1, VectorE1>, Matrix<MutableNumber> {
     /**
      * @class MutableNumber
      * @constructor
@@ -36,11 +36,11 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.x = x;
         return this;
     }
-    copy(v: Cartesian1) {
+    copy(v: VectorE1) {
         this.x = v.x;
         return this;
     }
-    add(vector: Cartesian1, alpha: number = 1) {
+    add(vector: VectorE1, alpha: number = 1) {
         this.x += vector.x * alpha
         return this
     }
@@ -51,7 +51,7 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
     determinant(): number {
         return this.x
     }
-    sum(a: Cartesian1, b: Cartesian1) {
+    sum(a: VectorE1, b: VectorE1) {
         this.x = a.x + b.x;
         return this;
     }
@@ -59,7 +59,7 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.x = Math.exp(this.x);
         return this;
     }
-    sub(v: Cartesian1) {
+    sub(v: VectorE1) {
         this.x -= v.x;
         return this;
     }
@@ -67,7 +67,7 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.x -= s;
         return this;
     }
-    diff(a: Cartesian1, b: Cartesian1): MutableNumber {
+    diff(a: VectorE1, b: VectorE1): MutableNumber {
         this.x = a.x - b.x
         return this
     }
@@ -75,7 +75,7 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.x = 1
         return this
     }
-    multiply(v: Cartesian1) {
+    multiply(v: VectorE1) {
         this.x *= v.x;
         return this;
     }
@@ -83,7 +83,7 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.x *= scalar;
         return this;
     }
-    divide(v: Cartesian1) {
+    divide(v: VectorE1) {
         this.x /= v.x;
         return this;
     }
@@ -97,13 +97,13 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         }
         return this;
     }
-    min(v: Cartesian1) {
+    min(v: VectorE1) {
         if (this.x > v.x) {
             this.x = v.x;
         }
         return this;
     }
-    max(v: Cartesian1) {
+    max(v: VectorE1) {
         if (this.x < v.x) {
             this.x = v.x;
         }
@@ -129,10 +129,10 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.x = - this.x;
         return this;
     }
-    distanceTo(position: Cartesian1) {
+    distanceTo(position: VectorE1) {
         return Math.sqrt(this.quadranceTo(position));
     }
-    dot(v: Cartesian1) {
+    dot(v: VectorE1) {
         return this.x * v.x;
     }
     magnitude(): number {
@@ -141,21 +141,21 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
     normalize() {
         return this.divideByScalar(this.magnitude());
     }
-    product(a: Cartesian1, b: Cartesian1) {
+    product(a: VectorE1, b: VectorE1) {
         return this
     }
     quaditude(): number {
         return this.x * this.x;
     }
-    quadranceTo(position: Cartesian1) {
+    quadranceTo(position: VectorE1) {
         let dx = this.x - position.x;
         return dx * dx;
     }
-    reflect(n: Cartesian1): MutableNumber {
+    reflect(n: VectorE1): MutableNumber {
         // FIXME: TODO
         return this;
     }
-    rotate(rotor: Spinor1Coords): MutableNumber {
+    rotate(rotor: SpinorE1): MutableNumber {
         return this;
     }
     setMagnitude(l: number) {
@@ -165,7 +165,7 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         }
         return this;
     }
-    lerp(v: Cartesian1, alpha: number) {
+    lerp(v: VectorE1, alpha: number) {
         this.x += (v.x - this.x) * alpha;
         return this;
     }
@@ -184,7 +184,7 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.diff(b, a).scale(α).add(a);
         return this;
     }
-    equals(v: Cartesian1) {
+    equals(v: VectorE1) {
         return v.x === this.x;
     }
     fromArray(array: number[], offset: number = 0) {

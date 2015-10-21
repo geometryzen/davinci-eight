@@ -1,9 +1,9 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import isDefined = require('../checks/isDefined');
 import Matrix4 = require('../math/Matrix4');
 import viewArray = require('../cameras/viewArray');
 
-function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4): Matrix4 {
+function viewMatrix(eye: VectorE3, look: VectorE3, up: VectorE3, matrix?: Matrix4): Matrix4 {
   let m: Matrix4 = isDefined(matrix) ? matrix : Matrix4.identity();
   viewArray(eye, look, up, m.data);
   return m;

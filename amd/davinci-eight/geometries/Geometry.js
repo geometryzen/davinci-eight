@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject', '../math/Vector3'], function (require, exports, mustBeBoolean, mustBeObject, Vector3) {
+define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject', '../math/MutableVectorE3'], function (require, exports, mustBeBoolean, mustBeObject, MutableVectorE3) {
     /**
      * @class Geometry
      */
@@ -10,10 +10,10 @@ define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject
         function Geometry() {
             /**
              * @property _position
-             * @type {Vector3}
+             * @type {MutableVectorE3}
              * @private
              */
-            this._position = new Vector3();
+            this._position = new MutableVectorE3();
             /**
              * @property useTextureCoords
              * @type {boolean}
@@ -26,7 +26,7 @@ define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject
              * The local `position` property used for geometry generation.
              * </p>
              * @property position
-             * @type {Cartesian3}
+             * @type {VectorE3}
              */
             get: function () {
                 return this._position;
@@ -50,7 +50,7 @@ define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject
         };
         /**
          * @method setPosition
-         * @param position {Cartesian3}
+         * @param position {VectorE3}
          * @return Geometry
          * @chainable
          */

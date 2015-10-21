@@ -1,4 +1,4 @@
-import Cartesian3 = require('../math/Cartesian3')
+import VectorE3 = require('../math/VectorE3')
 import ConeGeometry = require('../geometries/ConeGeometry')
 import CylinderGeometry = require('../geometries/CylinderGeometry')
 import DrawPrimitive = require('../geometries/DrawPrimitive')
@@ -6,7 +6,7 @@ import AxialGeometry = require('../geometries/AxialGeometry')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import RingGeometry = require('../geometries/RingGeometry')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 /**
  * @class ArrowGeometry
@@ -41,21 +41,21 @@ class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometr
     }
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {ArrowGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): ArrowGeometry {
+    setPosition(position: VectorE3): ArrowGeometry {
         super.setPosition(position)
         return this
     }
     /**
      * @method setAxis
-     * @param axis {Cartesian3}
+     * @param axis {VectorE3}
      * @return {ArrowGeometry}
      * @chaninable
      */
-    setAxis(axis: Cartesian3): ArrowGeometry {
+    setAxis(axis: VectorE3): ArrowGeometry {
         super.setAxis(axis)
         return this
     }
@@ -69,15 +69,15 @@ class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometr
         /**
          * The opposite direction to the axis.
          */
-        let back = Vector3.copy(this.axis).scale(-1)
+        let back = MutableVectorE3.copy(this.axis).scale(-1)
         /**
          * The neck is the place where the cone meets the shaft. 
          */
-        let neck = Vector3.copy(this.axis).scale(heightShaft).add(this.position)
+        let neck = MutableVectorE3.copy(this.axis).scale(heightShaft).add(this.position)
         /**
          * The tail is the the position of the blunt end of the arrow.
          */
-        let tail = Vector3.copy(this.position)
+        let tail = MutableVectorE3.copy(this.position)
 
         let cone = new ConeGeometry()
         cone.radius = this.radiusCone

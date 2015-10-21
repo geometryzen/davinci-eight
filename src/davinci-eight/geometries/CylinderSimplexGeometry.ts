@@ -1,33 +1,33 @@
 import arc3 = require('../geometries/arc3')
-import Cartesian3 = require('../math/Cartesian3')
+import VectorE3 = require('../math/VectorE3')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Simplex = require('../geometries/Simplex')
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
-import Spinor3 = require('../math/Spinor3')
-import Spinor3Coords = require('../math/Spinor3Coords')
+import MutableSpinorE3 = require('../math/MutableSpinorE3')
+import SpinorE3 = require('../math/SpinorE3')
 import Symbolic = require('../core/Symbolic')
-import Vector2 = require('../math/Vector2')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE2 = require('../math/MutableVectorE2')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 // TODO: The caps don't have radial segments!
 
-function computeVertices(radius: number, height: number, axis: Cartesian3, start: Cartesian3, angle: number, generator: Spinor3Coords, heightSegments: number, thetaSegments: number, points: Vector3[], vertices: number[][], uvs: Vector2[][]) {
+function computeVertices(radius: number, height: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: MutableVectorE3[], vertices: number[][], uvs: MutableVectorE2[][]) {
 
-    let begin = Vector3.copy(start).scale(radius)
-    let halfHeight = Vector3.copy(axis).scale(0.5 * height)
+    let begin = MutableVectorE3.copy(start).scale(radius)
+    let halfHeight = MutableVectorE3.copy(axis).scale(0.5 * height)
 
     /**
      * A displacement in the direction of axis that we must move for each height step.
      */
-    let stepH = Vector3.copy(axis).normalize().scale(height / heightSegments)
+    let stepH = MutableVectorE3.copy(axis).normalize().scale(height / heightSegments)
 
     for (var i = 0; i <= heightSegments; i++) {
         /**
          * The displacement to the current level.
          */
-        let dispH = Vector3.copy(stepH).scale(i).sub(halfHeight)
+        let dispH = MutableVectorE3.copy(stepH).scale(i).sub(halfHeight)
         let verticesRow: number[] = [];
-        let uvsRow: Vector2[] = [];
+        let uvsRow: MutableVectorE2[] = [];
         /**
          * Interesting that the v coordinate is 1 at the base and 0 at the top!
          * This is because i originally went from top to bottom.
@@ -48,7 +48,7 @@ function computeVertices(radius: number, height: number, axis: Cartesian3, start
             let u = j / thetaSegments;
             points.push(point);
             verticesRow.push(points.length - 1);
-            uvsRow.push(new Vector2([u, v]));
+            uvsRow.push(new MutableVectorE2([u, v]));
         }
         vertices.push(verticesRow);
         uvs.push(uvsRow);
@@ -76,14 +76,14 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
      * @constructor
      * @param radius [number = 1]
      * @param height [number = 1]
-     * @param axis [Cartesian3 = Vector3.e2]
+     * @param axis [VectorE3 = MutableVectorE3.e2]
      * @param openTop [boolean = false]
      * @param openBottom [boolean = false]
      */
     constructor(
         radius: number = 1,
         height: number = 1,
-        axis: Cartesian3 = Vector3.e2,
+        axis: VectorE3 = MutableVectorE3.e2,
         openTop: boolean = false,
         openBottom: boolean = false
     ) {
@@ -100,29 +100,29 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
         //let height = this.height
         let heightSegments = this.flatSegments
         let thetaSegments = this.curvedSegments
-        var generator: Spinor3Coords = new Spinor3().dual(this.axis)
+        var generator: SpinorE3 = new MutableSpinorE3().dual(this.axis)
 
         let heightHalf = this.height / 2;
 
-        var points: Vector3[] = [];
+        var points: MutableVectorE3[] = [];
         // The double array allows us to manage the i,j indexing more naturally.
         // The alternative is to use an indexing function.
         let vertices: number[][] = [];
-        let uvs: Vector2[][] = [];
+        let uvs: MutableVectorE2[][] = [];
 
         computeVertices(radius, this.height, this.axis, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs)
 
-        var na: Vector3;
-        var nb: Vector3;
+        var na: MutableVectorE3;
+        var nb: MutableVectorE3;
         // sides
         for (let j = 0; j < thetaSegments; j++) {
             if (radius !== 0) {
-                na = Vector3.copy(points[vertices[0][j]]);
-                nb = Vector3.copy(points[vertices[0][j + 1]]);
+                na = MutableVectorE3.copy(points[vertices[0][j]]);
+                nb = MutableVectorE3.copy(points[vertices[0][j + 1]]);
             }
             else {
-                na = Vector3.copy(points[vertices[1][j]]);
-                nb = Vector3.copy(points[vertices[1][j + 1]]);
+                na = MutableVectorE3.copy(points[vertices[1][j]]);
+                nb = MutableVectorE3.copy(points[vertices[1][j + 1]]);
             }
             // FIXME: This isn't geometric.
             na.setY(0).normalize();
@@ -162,13 +162,13 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
                 let v1: number = vertices[heightSegments][j + 1];
                 let v2: number = points.length - 1;
                 let v3: number = vertices[heightSegments][j];
-                let n1: Vector3 = this.axis.clone();
-                let n2: Vector3 = this.axis.clone();
-                let n3: Vector3 = this.axis.clone();
-                let uv1: Vector2 = uvs[heightSegments][j + 1].clone();
+                let n1: MutableVectorE3 = this.axis.clone();
+                let n2: MutableVectorE3 = this.axis.clone();
+                let n3: MutableVectorE3 = this.axis.clone();
+                let uv1: MutableVectorE2 = uvs[heightSegments][j + 1].clone();
                 // Check this
-                let uv2: Vector2 = new Vector2([uv1.x, 1]);
-                let uv3: Vector2 = uvs[heightSegments][j].clone();
+                let uv2: MutableVectorE2 = new MutableVectorE2([uv1.x, 1]);
+                let uv3: MutableVectorE2 = uvs[heightSegments][j].clone();
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }
@@ -181,13 +181,13 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
                 let v1: number = vertices[0][j]
                 let v2: number = points.length - 1
                 let v3: number = vertices[0][j + 1]
-                let n1: Vector3 = this.axis.clone().scale(-1)
-                let n2: Vector3 = this.axis.clone().scale(-1)
-                let n3: Vector3 = this.axis.clone().scale(-1)
-                let uv1: Vector2 = uvs[0][j].clone()
+                let n1: MutableVectorE3 = this.axis.clone().scale(-1)
+                let n2: MutableVectorE3 = this.axis.clone().scale(-1)
+                let n3: MutableVectorE3 = this.axis.clone().scale(-1)
+                let uv1: MutableVectorE2 = uvs[0][j].clone()
                 // TODO: Check this
-                let uv2: Vector2 = new Vector2([uv1.x, 1])
-                let uv3: Vector2 = uvs[0][j + 1].clone()
+                let uv2: MutableVectorE2 = new MutableVectorE2([uv1.x, 1])
+                let uv3: MutableVectorE2 = uvs[0][j + 1].clone()
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }

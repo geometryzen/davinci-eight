@@ -1,5 +1,5 @@
 import AxialGeometry = require('../geometries/AxialGeometry');
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
 /**
@@ -29,8 +29,8 @@ declare class CylinderGeometry extends AxialGeometry implements IAxialGeometry<C
      * @constructor
      */
     constructor();
-    setAxis(axis: Cartesian3): CylinderGeometry;
-    setPosition(position: Cartesian3): CylinderGeometry;
+    setAxis(axis: VectorE3): CylinderGeometry;
+    setPosition(position: VectorE3): CylinderGeometry;
     toPrimitives(): DrawPrimitive[];
     enableTextureCoords(enable: boolean): CylinderGeometry;
 }

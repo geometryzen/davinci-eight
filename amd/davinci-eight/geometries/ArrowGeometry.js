@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/ConeGeometry', '../geometries/CylinderGeometry', '../geometries/AxialGeometry', '../geometries/RingGeometry', '../math/Vector3'], function (require, exports, ConeGeometry, CylinderGeometry, AxialGeometry, RingGeometry, Vector3) {
+define(["require", "exports", '../geometries/ConeGeometry', '../geometries/CylinderGeometry', '../geometries/AxialGeometry', '../geometries/RingGeometry', '../math/MutableVectorE3'], function (require, exports, ConeGeometry, CylinderGeometry, AxialGeometry, RingGeometry, MutableVectorE3) {
     /**
      * @class ArrowGeometry
      */
@@ -38,7 +38,7 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
         }
         /**
          * @method setPosition
-         * @param position {Cartesian3}
+         * @param position {VectorE3}
          * @return {ArrowGeometry}
          * @chainable
          */
@@ -48,7 +48,7 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
         };
         /**
          * @method setAxis
-         * @param axis {Cartesian3}
+         * @param axis {VectorE3}
          * @return {ArrowGeometry}
          * @chaninable
          */
@@ -66,15 +66,15 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
             /**
              * The opposite direction to the axis.
              */
-            var back = Vector3.copy(this.axis).scale(-1);
+            var back = MutableVectorE3.copy(this.axis).scale(-1);
             /**
              * The neck is the place where the cone meets the shaft.
              */
-            var neck = Vector3.copy(this.axis).scale(heightShaft).add(this.position);
+            var neck = MutableVectorE3.copy(this.axis).scale(heightShaft).add(this.position);
             /**
              * The tail is the the position of the blunt end of the arrow.
              */
-            var tail = Vector3.copy(this.position);
+            var tail = MutableVectorE3.copy(this.position);
             var cone = new ConeGeometry();
             cone.radius = this.radiusCone;
             cone.height = this.heightCone;

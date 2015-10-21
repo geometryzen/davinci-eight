@@ -215,7 +215,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../collections
                     }
                 }
             },
-            uniformCartesian2: function (name, vector, canvasId) {
+            uniformVectorE2: function (name, vector, canvasId) {
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakRef(canvasId);
@@ -226,7 +226,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../collections
                     }
                 }
             },
-            uniformCartesian3: function (name, vector, canvasId) {
+            uniformVectorE3: function (name, vector, canvasId) {
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakRef(canvasId);
@@ -237,7 +237,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../collections
                     }
                 }
             },
-            uniformCartesian4: function (name, vector, canvasId) {
+            uniformVectorE4: function (name, vector, canvasId) {
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakRef(canvasId);

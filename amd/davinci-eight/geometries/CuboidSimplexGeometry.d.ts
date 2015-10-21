@@ -1,6 +1,6 @@
-import Cartesian3 = require('../math/Cartesian3');
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class CuboidSimplexGeometry
  * @extends SimplexGeometry
@@ -9,21 +9,21 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
     /**
      * Parameter is private so that we can detect assignments.
      * @property _a
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @private
      */
     private _a;
     /**
      * Parameter is private so that we can detect assignments.
      * @property _b
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @private
      */
     private _b;
     /**
      * Parameter is private so that we can detect assignments.
      * @property _c
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @private
      */
     private _c;
@@ -43,9 +43,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * </p>
      * @class CuboidSimplexGeometry
      * @constructor
-     * @param a [Cartesian3 = Vector3.e1]
-     * @param b [Cartesian3 = Vector3.e1]
-     * @param c [Cartesian3 = Vector3.e1]
+     * @param a [VectorE3 = MutableVectorE3.e1]
+     * @param b [VectorE3 = MutableVectorE3.e1]
+     * @param c [VectorE3 = MutableVectorE3.e1]
      * @param k [number = Simplex.TRIANGLE]
      * @param subdivide [number = 0]
      * @param boundary [number = 0]
@@ -55,7 +55,7 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
          var material = new EIGHT.MeshMaterial();
          var cube = new EIGHT.Drawable([primitive], material);
      */
-    constructor(a?: Cartesian3, b?: Cartesian3, c?: Cartesian3, k?: number, subdivide?: number, boundary?: number);
+    constructor(a?: VectorE3, b?: VectorE3, c?: VectorE3, k?: number, subdivide?: number, boundary?: number);
     protected destructor(): void;
     /**
      * <p>
@@ -64,9 +64,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * Assignment is by reference making it possible for parameters to be shared references.
      * </p>
      * @property a
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      */
-    a: Vector3;
+    a: MutableVectorE3;
     /**
      * <p>
      * A vector parameterizing the shape of the cuboid.
@@ -74,9 +74,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * Assignment is by reference making it possible for parameters to be shared references.
      * </p>
      * @property b
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      */
-    b: Vector3;
+    b: MutableVectorE3;
     /**
      * <p>
      * A vector parameterizing the shape of the cuboid.
@@ -84,9 +84,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * Assignment is by reference making it possible for parameters to be shared references.
      * </p>
      * @property c
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      */
-    c: Vector3;
+    c: MutableVectorE3;
     isModified(): boolean;
     /**
      * @method setModified

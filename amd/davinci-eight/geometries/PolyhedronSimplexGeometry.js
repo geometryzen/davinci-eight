@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, SimplexGeometry, Simplex, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/Symbolic', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, Euclidean3, SimplexGeometry, Simplex, Symbolic, MutableVectorE2, MutableVectorE3) {
     // Angle around the Y axis, counter-clockwise when looking from above.
     function azimuth(vector) {
         return Math.atan2(vector.z, -vector.x);
@@ -16,25 +16,25 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
      * Modifies the incoming point by projecting it onto the unit sphere.
      * Add the point to the array of points
      * Sets a hidden `index` property to the index in `points`
-     * Computes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.
+     * Computes the texture coordinates and sticks them in the hidden `uv` property as a MutableVectorE2.
      * OK!
      */
     function prepare(point, points) {
-        var vertex = Vector3.copy(point).normalize();
+        var vertex = MutableVectorE3.copy(point).normalize();
         points.push(vertex);
         // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
         var u = azimuth(point) / 2 / Math.PI + 0.5;
         var v = inclination(point) / Math.PI + 0.5;
         var something = vertex;
-        something['uv'] = new Vector2([u, 1 - v]);
+        something['uv'] = new MutableVectorE2([u, 1 - v]);
         return vertex;
     }
     // Texture fixing helper. Spheres have some odd behaviours.
     function correctUV(uv, vector, azimuth) {
         if ((azimuth < 0) && (uv.x === 1))
-            uv = new Vector2([uv.x - 1, uv.y]);
+            uv = new MutableVectorE2([uv.x - 1, uv.y]);
         if ((vector.x === 0) && (vector.z === 0))
-            uv = new Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
+            uv = new MutableVectorE2([azimuth / 2 / Math.PI + 0.5, uv.y]);
         return uv.clone();
     }
     /**
@@ -55,7 +55,7 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
             var that = this;
             var points = [];
             for (var i = 0, l = vertices.length; i < l; i += 3) {
-                prepare(new Vector3([vertices[i], vertices[i + 1], vertices[i + 2]]), points);
+                prepare(new MutableVectorE3([vertices[i], vertices[i + 1], vertices[i + 2]]), points);
             }
             var faces = [];
             for (var i = 0, j = 0, l = indices.length; i < l; i += 3, j++) {
@@ -66,11 +66,11 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
                 // TODO: Optimize vector copies.
                 var simplex = new Simplex(Simplex.TRIANGLE);
                 simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = v1;
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v1);
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v1);
                 simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = v2;
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v2);
+                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v2);
                 simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = v3;
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v3);
+                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v3);
                 faces[j] = simplex;
             }
             for (var i = 0, facesLength = faces.length; i < facesLength; i++) {
@@ -108,12 +108,12 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
             // Merge vertices
             this.mergeVertices();
             //    this.computeFaceNormals();
-            //    this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
+            //    this.boundingSphere = new Sphere(new MutableVectorE3([0, 0, 0]), radius);
             function centroid(v1, v2, v3) {
                 var x = (v1.x + v2.x + v3.x) / 3;
                 var y = (v1.y + v2.y + v3.y) / 3;
                 var z = (v1.z + v2.z + v3.z) / 3;
-                return { x: x, y: y, z: z };
+                return new Euclidean3(0, x, y, z, 0, 0, 0, 0);
             }
             // Approximate a curved face with recursively sub-divided triangles.
             function make(v1, v2, v3) {
@@ -125,14 +125,14 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
                 var uv2 = correctUV(something2['uv'], v2, azi);
                 var uv3 = correctUV(something3['uv'], v3, azi);
                 var simplex = new Simplex(Simplex.TRIANGLE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(v1);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v1);
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(v1);
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v1);
                 simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(v2);
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v2);
+                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(v2);
+                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v2);
                 simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2;
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(v3);
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v3);
+                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(v3);
+                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v3);
                 simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
                 that.data.push(simplex);
             }
@@ -146,15 +146,15 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
                 // Construct all of the vertices for this subdivision.
                 for (var i = 0; i <= cols; i++) {
                     v[i] = [];
-                    var aj = prepare(Vector3.copy(a).lerp(c, i / cols), points);
-                    var bj = prepare(Vector3.copy(b).lerp(c, i / cols), points);
+                    var aj = prepare(MutableVectorE3.copy(a).lerp(c, i / cols), points);
+                    var bj = prepare(MutableVectorE3.copy(b).lerp(c, i / cols), points);
                     var rows = cols - i;
                     for (var j = 0; j <= rows; j++) {
                         if (j == 0 && i == cols) {
                             v[i][j] = aj;
                         }
                         else {
-                            v[i][j] = prepare(Vector3.copy(aj).lerp(bj, j / rows), points);
+                            v[i][j] = prepare(MutableVectorE3.copy(aj).lerp(bj, j / rows), points);
                         }
                     }
                 }

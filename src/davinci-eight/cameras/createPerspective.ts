@@ -6,11 +6,11 @@ import Perspective        = require('../cameras/Perspective');
 import View               = require('../cameras/View');
 import createView         = require('../cameras/createView');
 import Matrix4            = require('../math/Matrix4');
-import Spinor3            = require('../math/Spinor3');
+import MutableSpinorE3            = require('../math/MutableSpinorE3');
 import Symbolic           = require('../core/Symbolic');
-import Cartesian3         = require('../math/Cartesian3');
+import VectorE3         = require('../math/VectorE3');
 import MutableNumber            = require('../math/MutableNumber');
-import Vector3            = require('../math/Vector3');
+import MutableVectorE3            = require('../math/MutableVectorE3');
 import isDefined          = require('../checks/isDefined');
 import isUndefined        = require('../checks/isUndefined');
 import expectArg          = require('../checks/expectArg');
@@ -57,33 +57,33 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
     setProperty(name: string, value: number[]): void {
     },
     // Delegate to the base camera.
-    get eye(): Vector3 {
+    get eye(): MutableVectorE3 {
       return base.eye;
     },
-    set eye(eye: Vector3) {
+    set eye(eye: MutableVectorE3) {
       base.eye = eye;
     },
-    setEye(eye: Cartesian3) {
+    setEye(eye: VectorE3) {
       base.setEye(eye);
       return self;
     },
-    get look(): Vector3 {
+    get look(): MutableVectorE3 {
       return base.look;
     },
-    set look(value: Vector3) {
+    set look(value: MutableVectorE3) {
       base.look = value;
     },
-    setLook(look: Cartesian3) {
+    setLook(look: VectorE3) {
       base.setLook(look);
       return self;
     },
-    get up(): Vector3 {
+    get up(): MutableVectorE3 {
       return base.up;
     },
-    set up(value: Vector3) {
+    set up(value: MutableVectorE3) {
       base.up = value;
     },
-    setUp(up: Cartesian3) {
+    setUp(up: VectorE3) {
       base.setUp(up);
       return self;
     },

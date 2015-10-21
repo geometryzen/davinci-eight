@@ -1,7 +1,7 @@
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
 import Shareable = require('../utils/Shareable');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * @class Vector3Uniform
  */
@@ -12,9 +12,9 @@ declare class Vector3Uniform extends Shareable implements IFacet {
      * @class Vector3Uniform
      * @constructor
      * @param name {string}
-     * @param vector {Vector3}
+     * @param vector {MutableVectorE3}
      */
-    constructor(name: string, vector: Vector3);
+    constructor(name: string, vector: MutableVectorE3);
     protected destructor(): void;
     getProperty(name: string): number[];
     setProperty(name: string, value: number[]): void;

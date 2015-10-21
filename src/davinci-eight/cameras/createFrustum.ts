@@ -3,11 +3,11 @@ import Frustum = require('davinci-eight/cameras/Frustum');
 import View = require('davinci-eight/cameras/View');
 import createView  = require('davinci-eight/cameras/createView');
 import Matrix4 = require('davinci-eight/math/Matrix4');
-import Spinor3 = require('davinci-eight/math/Spinor3');
+import MutableSpinorE3 = require('davinci-eight/math/MutableSpinorE3');
 import Symbolic = require('davinci-eight/core/Symbolic');
-import Cartesian3 = require('davinci-eight/math/Cartesian3');
+import VectorE3 = require('davinci-eight/math/VectorE3');
 import MutableNumber = require('../math/MutableNumber');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 
 /**
  * @function createFrustum
@@ -51,33 +51,33 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
     setProperty(name: string, value: number[]): void {
     },
     // Delegate to the base camera.
-    get eye(): Vector3 {
+    get eye(): MutableVectorE3 {
       return base.eye;
     },
-    set eye(value: Vector3) {
+    set eye(value: MutableVectorE3) {
       base.eye = value;
     },
-    setEye(eye: Cartesian3) {
+    setEye(eye: VectorE3) {
       base.setEye(eye);
       return self;
     },
-    get look(): Vector3 {
+    get look(): MutableVectorE3 {
       return base.look;
     },
-    set look(value: Vector3) {
+    set look(value: MutableVectorE3) {
       base.look = value;
     },
-    setLook(look: Cartesian3) {
+    setLook(look: VectorE3) {
       base.setLook(look);
       return self;
     },
-    get up(): Vector3 {
+    get up(): MutableVectorE3 {
       return base.up;
     },
-    set up(up: Vector3) {
+    set up(up: MutableVectorE3) {
       base.setUp(up);
     },
-    setUp(up: Cartesian3): Frustum {
+    setUp(up: VectorE3): Frustum {
       base.setUp(up);
       return self;
     },

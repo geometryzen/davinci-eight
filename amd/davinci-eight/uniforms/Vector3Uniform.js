@@ -17,7 +17,7 @@ define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'
          * @class Vector3Uniform
          * @constructor
          * @param name {string}
-         * @param vector {Vector3}
+         * @param vector {MutableVectorE3}
          */
         function Vector3Uniform(name, vector) {
             _super.call(this, 'Vector3Uniform');
@@ -33,7 +33,7 @@ define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'
         Vector3Uniform.prototype.setProperty = function (name, value) {
         };
         Vector3Uniform.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.uniformCartesian3(this._name, this._vector, canvasId);
+            visitor.uniformVectorE3(this._name, this._vector, canvasId);
         };
         return Vector3Uniform;
     })(Shareable);

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, AxialGeometry, Spinor3, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../math/MutableSpinorE3', '../core/Symbolic', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, GridTopology, AxialGeometry, MutableSpinorE3, Symbolic, MutableVectorE2, MutableVectorE3) {
     /**
      * @class RingGeometry
      */
@@ -43,7 +43,7 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Axial
         };
         /**
          * @method setPosition
-         * @param position {Cartesian3}
+         * @param position {VectorE3}
          * @return {RingGeometry}
          * @chainable
          */
@@ -61,9 +61,9 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Axial
             var topo = new GridTopology(uSegments, vSegments);
             var a = this.outerRadius;
             var b = this.innerRadius;
-            var axis = Vector3.copy(this.axis);
-            var start = Vector3.copy(this.sliceStart);
-            var generator = new Spinor3().dual(this.axis);
+            var axis = MutableVectorE3.copy(this.axis);
+            var start = MutableVectorE3.copy(this.sliceStart);
+            var generator = new MutableSpinorE3().dual(this.axis);
             for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
                 var u = uIndex / uSegments;
                 var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();
@@ -74,7 +74,7 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Axial
                     vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position);
                     vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = axis;
                     if (this.useTextureCoords) {
-                        vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v]);
+                        vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new MutableVectorE2([u, v]);
                     }
                 }
             }

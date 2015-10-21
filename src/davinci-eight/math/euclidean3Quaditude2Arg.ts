@@ -1,7 +1,7 @@
-import Cartesian3 = require('../math/Cartesian3')
+import VectorE3 = require('../math/VectorE3')
 import isDefined = require('../checks/isDefined')
 
-function euclidean3Quaditude1Arg2Arg(a: Cartesian3, b: Cartesian3): number {
+function euclidean3Quaditude1Arg2Arg(a: VectorE3, b: VectorE3): number {
     if (isDefined(a) && isDefined(b)) {
         return a.x * b.x + a.y * b.y + a.z * b.z
     }

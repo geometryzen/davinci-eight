@@ -1,4 +1,4 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IGeometry = require('../geometries/IGeometry');
 /**
@@ -7,7 +7,7 @@ import IGeometry = require('../geometries/IGeometry');
 declare class Geometry implements IGeometry<Geometry> {
     /**
      * @property _position
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @private
      */
     private _position;
@@ -26,9 +26,9 @@ declare class Geometry implements IGeometry<Geometry> {
      * The local `position` property used for geometry generation.
      * </p>
      * @property position
-     * @type {Cartesian3}
+     * @type {VectorE3}
      */
-    position: Cartesian3;
+    position: VectorE3;
     /**
      * @method enableTextureCoords
      * @param enable {boolean}
@@ -38,11 +38,11 @@ declare class Geometry implements IGeometry<Geometry> {
     enableTextureCoords(enable: boolean): Geometry;
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return Geometry
      * @chainable
      */
-    setPosition(position: Cartesian3): Geometry;
+    setPosition(position: VectorE3): Geometry;
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}

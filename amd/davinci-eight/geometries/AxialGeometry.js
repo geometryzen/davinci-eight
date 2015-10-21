@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject', '../math/Vector3', '../geometries/Geometry'], function (require, exports, mustBeNumber, mustBeObject, Vector3, Geometry) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/MutableVectorE3'], function (require, exports, Euclidean3, Geometry, mustBeNumber, mustBeObject, MutableVectorE3) {
     /**
      * @class AxialGeometry
      */
@@ -21,13 +21,13 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject'
              * @private
              */
             this._sliceAngle = 2 * Math.PI;
-            this._axis = Vector3.e2.clone();
-            this._sliceStart = Vector3.e1.clone();
+            this._axis = MutableVectorE3.copy(Euclidean3.e2);
+            this._sliceStart = MutableVectorE3.copy(Euclidean3.e1);
         }
         Object.defineProperty(AxialGeometry.prototype, "axis", {
             /**
              * @property axis
-             * @type {Cartesian3}
+             * @type {VectorE3}
              */
             get: function () {
                 return this._axis.clone();
@@ -40,7 +40,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject'
         });
         /**
          * @method setAxis
-         * @param axis {Cartesian3}
+         * @param axis {VectorE3}
          * @return {AxialGeometry}
          * @chainable
          */
@@ -48,7 +48,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject'
             mustBeObject('axis', axis);
             this._axis.copy(axis).normalize();
             // FIXME: randomize
-            this._sliceStart.copy(Vector3.random()).cross(this._axis).normalize();
+            this._sliceStart.copy(MutableVectorE3.random()).cross(this._axis).normalize();
             return this;
         };
         Object.defineProperty(AxialGeometry.prototype, "sliceAngle", {
@@ -71,7 +71,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject'
             /**
              * The (unit vector) direction of the start of the slice.
              * @property sliceStart
-             * @type {Cartesian3}
+             * @type {VectorE3}
              */
             get: function () {
                 return this._sliceStart.clone();
@@ -85,7 +85,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject'
         });
         /**
          * @method setPosition
-         * @param position {Cartesian3}
+         * @param position {VectorE3}
          * @return {AxialGeometry}
          * @chainable
          */

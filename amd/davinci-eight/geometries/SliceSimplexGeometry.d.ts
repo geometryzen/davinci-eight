@@ -1,6 +1,6 @@
 import AxialSimplexGeometry = require('../geometries/AxialSimplexGeometry');
-import Cartesian3 = require('../math/Cartesian3');
-import Vector3 = require('../math/Vector3');
+import VectorE3 = require('../math/VectorE3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * @class SliceSimplexGeometry
  * @extends AxialSimplexGeometry
@@ -19,9 +19,9 @@ declare class SliceSimplexGeometry extends AxialSimplexGeometry {
      * The (unit vector) direction of the start of the slice.
      * </p>
      * @property sliceStart
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      */
-    sliceStart: Vector3;
+    sliceStart: MutableVectorE3;
     /**
      * <p>
      * Calls the base class constructor.
@@ -35,11 +35,11 @@ declare class SliceSimplexGeometry extends AxialSimplexGeometry {
      * @class SliceSimplexGeometry
      * @constructor
      * @param type {string} Implementations must provide a type name used for reference count tracking.
-     * @param axis [Cartesian3 = Vector3.e3] The <code>axis</code> property.
-     * @param sliceStart [Cartesian3] The <code>sliceStart</code> property.
+     * @param axis [VectorE3 = MutableVectorE3.e3] The <code>axis</code> property.
+     * @param sliceStart [VectorE3] The <code>sliceStart</code> property.
      * @param sliceAngle [number = 2 * Math.PI] The <code>sliceAngle</code> property.
      */
-    constructor(type: string, axis?: Cartesian3, sliceStart?: Cartesian3, sliceAngle?: number);
+    constructor(type: string, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number);
     /**
      * <p>
      * Calls the base class destructor method.

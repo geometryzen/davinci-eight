@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexGeometry', '../math/Spinor3', '../math/Vector2'], function (require, exports, SimplexGeometry, Spinor3, Vector2) {
+define(["require", "exports", '../geometries/SimplexGeometry', '../math/MutableSpinorE3', '../math/MutableVectorE2'], function (require, exports, SimplexGeometry, MutableSpinorE3, MutableVectorE2) {
     /**
      * @class RevolutionSimplexGeometry
      */
@@ -19,12 +19,12 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/Spinor3'
         }
         /**
          * @method revolve
-         * @param points {Vector3[]}
-         * @param generator {Spinor3}
+         * @param points {MutableVectorE3[]}
+         * @param generator {MutableSpinorE3}
          * @param segments {number}
          * @param phiStart {number}
          * @param phiLength {number}
-         * @param attitude {Spinor3}
+         * @param attitude {MutableSpinorE3}
          */
         RevolutionSimplexGeometry.prototype.revolve = function (points, generator, segments, phiStart, phiLength, attitude) {
             if (segments === void 0) { segments = 12; }
@@ -44,7 +44,7 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/Spinor3'
             var j;
             var il;
             var jl;
-            var rotor = new Spinor3();
+            var rotor = new MutableSpinorE3();
             for (i = 0, il = halfPlanes; i < il; i++) {
                 var phi = phiStart + i * phiStep;
                 var halfAngle = phi / 2;
@@ -52,7 +52,7 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/Spinor3'
                 //var sinHA = Math.sin( halfAngle );
                 rotor.copy(generator).scale(halfAngle).exp();
                 // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
-                //var rotor = new Spinor3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
+                //var rotor = new MutableSpinorE3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
                 for (j = 0, jl = points.length; j < jl; j++) {
                     var vertex = points[j].clone();
                     // The generator tells us how to rotate the points.
@@ -79,8 +79,8 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/Spinor3'
                     var v0 = j * inversePointLength;
                     var u1 = u0 + inverseSegments;
                     var v1 = v0 + inversePointLength;
-                    this.triangle([vertices[d], vertices[b], vertices[a]], [], [new Vector2([u0, v0]), new Vector2([u1, v0]), new Vector2([u0, v1])]);
-                    this.triangle([vertices[d], vertices[c], vertices[b]], [], [new Vector2([u1, v0]), new Vector2([u1, v1]), new Vector2([u0, v1])]);
+                    this.triangle([vertices[d], vertices[b], vertices[a]], [], [new MutableVectorE2([u0, v0]), new MutableVectorE2([u1, v0]), new MutableVectorE2([u0, v1])]);
+                    this.triangle([vertices[d], vertices[c], vertices[b]], [], [new MutableVectorE2([u1, v0]), new MutableVectorE2([u1, v1]), new MutableVectorE2([u0, v1])]);
                 }
             }
             //    this.computeFaceNormals();

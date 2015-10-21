@@ -1,8 +1,8 @@
-import Cartesian3 = require('../math/Cartesian3')
+import VectorE3 = require('../math/VectorE3')
 import IGeometry = require('../geometries/IGeometry')
 
 interface IAxialGeometry<T> extends IGeometry<T>  {
-  setAxis(axis: Cartesian3): T
+  setAxis(axis: VectorE3): T
 }
 
 export = IAxialGeometry

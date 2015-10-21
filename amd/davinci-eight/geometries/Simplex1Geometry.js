@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector3'], function (require, exports, SimplexGeometry, Simplex, Symbolic, Vector3) {
+define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/Symbolic', '../math/MutableVectorE3'], function (require, exports, SimplexGeometry, Simplex, Symbolic, MutableVectorE3) {
     //import VectorN = require('../math/VectorN')
     /**
      * @class Simplex1Geometry
@@ -16,8 +16,8 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
          */
         function Simplex1Geometry() {
             _super.call(this);
-            this.head = new Vector3([1, 0, 0]);
-            this.tail = new Vector3([0, 1, 0]);
+            this.head = new MutableVectorE3([1, 0, 0]);
+            this.tail = new MutableVectorE3([0, 1, 0]);
             this.calculate();
         }
         Simplex1Geometry.prototype.calculate = function () {

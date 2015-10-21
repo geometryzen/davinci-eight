@@ -2,12 +2,12 @@ import IContextMonitor = require('../core/IContextMonitor');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import ArrowOptions = require('../mesh/ArrowOptions');
-import Cartesian3 = require('../math/Cartesian3');
-import Vector3 = require('../math/Vector3');
+import VectorE3 = require('../math/VectorE3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 import Symbolic = require('../core/Symbolic');
 
 class ArrowBuilder {
-  private $axis: Vector3 = Vector3.e3.clone();
+  private $axis: MutableVectorE3 = MutableVectorE3.e3.clone();
   private $flavor: number;
   private $height: number;
   private $depth: number;
@@ -26,7 +26,7 @@ class ArrowBuilder {
     this.setFlavor(isUndefined(options.flavor) ? 0 : options.flavor);
     this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
   }
-  get axis(): Cartesian3 {
+  get axis(): VectorE3 {
     return this.$axis;
   }
   get flavor() {
@@ -53,7 +53,7 @@ class ArrowBuilder {
   get wireFrame() {
     return this.$wireFrame;
   }
-  setAxis(axis: Cartesian3): ArrowBuilder {
+  setAxis(axis: VectorE3): ArrowBuilder {
     expectArg('axis', axis).toBeObject();
     this.$axis.copy(axis);
     return this;

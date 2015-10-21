@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/davinci-eight/math/MutableSpinorE3.ts - davinci-eight</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 2.137.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
+                                <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowSimplexGeometry.html">ArrowSimplexGeometry</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
+                                <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
+                                <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
+                                <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
+                                <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
+                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
+                                <li><a href="../classes/Complex.html">Complex</a></li>
+                                <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
+                                <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
+                                <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextController.html">ContextController</a></li>
+                                <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
+                                <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
+                                <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
+                                <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
+                                <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/Director.html">Director</a></li>
+                                <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
+                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
+                                <li><a href="../classes/DrawMode.html">DrawMode</a></li>
+                                <li><a href="../classes/DrawPrimitive.html">DrawPrimitive</a></li>
+                                <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
+                                <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
+                                <li><a href="../classes/EmptyMaterial.html">EmptyMaterial</a></li>
+                                <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
+                                <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
+                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
+                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
+                                <li><a href="../classes/Face3.html">Face3</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
+                                <li><a href="../classes/GridSimplexGeometry.html">GridSimplexGeometry</a></li>
+                                <li><a href="../classes/GridTopology.html">GridTopology</a></li>
+                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IAnimation.html">IAnimation</a></li>
+                                <li><a href="../classes/IAnimationTarget.html">IAnimationTarget</a></li>
+                                <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
+                                <li><a href="../classes/IContextRenderer.html">IContextRenderer</a></li>
+                                <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IFacet
+                extends IAnimationTarget.html">IFacet
+                extends IAnimationTarget</a></li>
+                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
+                                <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
+                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
+                                <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
+                                <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
+                                <li><a href="../classes/LineTopology.html">LineTopology</a></li>
+                                <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
+                                <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
+                                <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
+                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
+                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
+                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
+                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
+                                <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
+                                <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
+                                <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
+                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointTopology.html">PointTopology</a></li>
+                                <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Quaternion.html">Quaternion</a></li>
+                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
+                                <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
+                                <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/Simplex.html">Simplex</a></li>
+                                <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
+                                <li><a href="../classes/SimplexGeometry.html">SimplexGeometry</a></li>
+                                <li><a href="../classes/SliceGeometry.html">SliceGeometry</a></li>
+                                <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
+                                <li><a href="../classes/Slide.html">Slide</a></li>
+                                <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
+                                <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
+                                <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Topology.html">Topology</a></li>
+                                <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
+                                <li><a href="../classes/Unit.html">Unit</a></li>
+                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
+                                <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
+                                <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
+                                <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VortexSimplexGeometry.html">VortexSimplexGeometry</a></li>
+                                <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
+                                <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
+                                <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
+                                <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
+                                <li><a href="../modules/geometries.html">geometries</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/davinci-eight/math/MutableSpinorE3.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import cartesianQuaditudeE3 = require(&#x27;../math/cartesianQuaditudeE3&#x27;)
+import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
+import euclidean3Quaditude1Arg = require(&#x27;../math/euclidean3Quaditude1Arg&#x27;)
+import euclidean3Quaditude2Arg = require(&#x27;../math/euclidean3Quaditude2Arg&#x27;)
+import expectArg = require(&#x27;../checks/expectArg&#x27;)
+import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
+import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
+import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
+import Mutable = require(&#x27;../math/Mutable&#x27;)
+import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
+import VectorN = require(&#x27;../math/VectorN&#x27;)
+import wedgeXY = require(&#x27;../math/wedgeXY&#x27;)
+import wedgeYZ = require(&#x27;../math/wedgeYZ&#x27;)
+import wedgeZX = require(&#x27;../math/wedgeZX&#x27;)
+
+let exp = Math.exp
+let cos = Math.cos
+let sin = Math.sin
+
+/**
+ * @class MutableSpinorE3
+ * @extends VectorN&lt;number&gt;
+ */
+class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;number[]&gt;, GeometricElement&lt;SpinorE3, MutableSpinorE3, MutableSpinorE3, VectorE3, VectorE3&gt;
+{
+    /**
+     * @class MutableSpinorE3
+     * @constructor
+     * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
+     * @param modified [boolean = false]
+     */
+    constructor(data: number[] = [0, 0, 0, 1], modified: boolean = false) {
+        super(data, modified, 4)
+    }
+    /**
+     * @property yz
+     * @type Number
+     */
+    get yz(): number {
+        return this.data[0]
+    }
+    set yz(yz: number) {
+        mustBeNumber(&#x27;yz&#x27;, yz)
+        this.modified = this.modified || this.yz !== yz
+        this.data[0] = yz;
+    }
+    /**
+     * @property zx
+     * @type Number
+     */
+    get zx(): number {
+        return this.data[1];
+    }
+    set zx(zx: number) {
+        mustBeNumber(&#x27;zx&#x27;, zx)
+        this.modified = this.modified || this.zx !== zx;
+        this.data[1] = zx;
+    }
+    /**
+     * @property xy
+     * @type Number
+     */
+    get xy(): number {
+        return this.data[2];
+    }
+    set xy(xy: number) {
+        mustBeNumber(&#x27;xy&#x27;, xy)
+        this.modified = this.modified || this.xy !== xy;
+        this.data[2] = xy;
+    }
+    /**
+     * @property w
+     * @type Number
+     */
+    get w(): number {
+        return this.data[3];
+    }
+    set w(w: number) {
+        mustBeNumber(&#x27;w&#x27;, w)
+        this.modified = this.modified || this.w !== w;
+        this.data[3] = w;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + α * spinor&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method add
+     * @param spinor {SpinorE3}
+     * @param α [number = 1]
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    add(spinor: SpinorE3, α: number = 1): MutableSpinorE3 {
+        mustBeObject(&#x27;spinor&#x27;, spinor)
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.yz += spinor.yz * α
+        this.zx += spinor.zx * α
+        this.xy += spinor.xy * α
+        this.w += spinor.w * α
+        return this
+    }
+    /**
+     * @method clone
+     * @return {MutableSpinorE3} A copy of &lt;code&gt;this&lt;/code&gt;.
+     * @chainable
+     */
+    clone(): MutableSpinorE3 {
+        return new MutableSpinorE3([this.yz, this.zx, this.xy, this.w])
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ (w, -B)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method conj
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    conj() {
+        this.yz = -this.yz
+        this.zx = -this.zx
+        this.xy = -this.xy
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ copy(spinor)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method copy
+     * @param spinor {SpinorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    copy(spinor: SpinorE3): MutableSpinorE3 {
+        mustBeObject(&#x27;spinor&#x27;, spinor)
+        this.yz = mustBeNumber(&#x27;spinor.yz&#x27;, spinor.yz)
+        this.zx = mustBeNumber(&#x27;spinor.zx&#x27;, spinor.zx)
+        this.xy = mustBeNumber(&#x27;spinor.xy&#x27;, spinor.xy)
+        this.w = mustBeNumber(&#x27;spinor.w&#x27;, spinor.w)
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method diff
+     * @param a {SpinorE3}
+     * @param b {SpinorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    diff(a: SpinorE3, b: SpinorE3): MutableSpinorE3 {
+        this.yz = a.yz - b.yz
+        this.zx = a.zx - b.zx
+        this.xy = a.xy - b.xy
+        this.w = a.w - b.w
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method divideByScalar
+     * @param α {number}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    divideByScalar(α: number): MutableSpinorE3 {
+        this.yz /= α
+        this.zx /= α
+        this.xy /= α
+        this.w /= α
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ dual(v) = I * v&lt;/code&gt;
+     * &lt;/p&gt;
+     * Notice that the dual of a vector is related to the spinor by the right-hand rule.
+     * @method dual
+     * @param v {VectorE3} The vector whose dual will be used to set this spinor.
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    dual(v: VectorE3): MutableSpinorE3 {
+        mustBeObject(&#x27;v&#x27;, v)
+        this.yz = mustBeNumber(&#x27;v.x&#x27;, v.x)
+        this.zx = mustBeNumber(&#x27;v.y&#x27;, v.y)
+        this.xy = mustBeNumber(&#x27;v.z&#x27;, v.z)
+        this.w = 0
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ e&lt;sup&gt;this&lt;/sup&gt;&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method exp
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    exp(): MutableSpinorE3 {
+        let w = this.w
+        let x = this.yz
+        let y = this.zx
+        let z = this.xy
+        let expW = exp(w)
+        // φ is actually the absolute value of one half the rotation angle.
+        // The orientation of the rotation gets carried in the bivector components.
+        let φ = Math.sqrt(x * x + y * y + z * z)
+        let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
+        this.w = expW * cos(φ);
+        this.yz = x * s;
+        this.zx = y * s;
+        this.xy = z * s;
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ conj(this) / quad(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method inv
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    inv() {
+        this.conj()
+        this.divideByScalar(this.quaditude());
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lerp
+     * @param target {SpinorE3}
+     * @param α {number}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    // FIXME: Should really be slerp?
+    lerp(target: SpinorE3, α: number): MutableSpinorE3 {
+        var R2 = MutableSpinorE3.copy(target)
+        var R1 = this.clone()
+        var R = R2.multiply(R1.inv())
+        R.log()
+        R.scale(α)
+        R.exp()
+        this.copy(R)
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
+     * &lt;p&gt;
+     * @method lerp2
+     * @param a {SpinorE3}
+     * @param b {SpinorE3}
+     * @param α {number}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lerp2(a: SpinorE3, b: SpinorE3, α: number): MutableSpinorE3 {
+        this.diff(b, a).scale(α).add(a)
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ log(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method log
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    log(): MutableSpinorE3 {
+        let w = this.w
+        let x = this.yz
+        let y = this.zx
+        let z = this.xy
+        let bb = x * x + y * y + z * z
+        let R2 = Math.sqrt(bb)
+        let R0 = Math.abs(w)
+        let R = Math.sqrt(w * w + bb)
+        this.w = Math.log(R)
+        let f = Math.atan2(R2, R0) / R2
+        this.yz = x * f
+        this.zx = y * f
+        this.xy = z * f
+        return this;
+    }
+    magnitude() {
+        return Math.sqrt(this.quaditude());
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this * rhs&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method multiply
+     * @param rhs {SpinorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    multiply(rhs: SpinorE3): MutableSpinorE3 {
+        return this.product(this, rhs)
+    }
+    /**
+    * &lt;p&gt;
+    * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
+    * &lt;/p&gt;
+    * @method norm
+    * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+    * @chainable
+    */
+    norm(): MutableSpinorE3 {
+        this.w = this.magnitude()
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method scale
+     * @param α {number}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     */
+    scale(α: number): MutableSpinorE3 {
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.yz *= α;
+        this.zx *= α;
+        this.xy *= α;
+        this.w *= α;
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method product
+     * @param a {SpinorE3}
+     * @param b {SpinorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    product(a: SpinorE3, b: SpinorE3): MutableSpinorE3 {
+        let a0 = a.w;
+        let a1 = a.yz;
+        let a2 = a.zx;
+        let a3 = a.xy;
+        let b0 = b.w;
+        let b1 = b.yz;
+        let b2 = b.zx;
+        let b3 = b.xy;
+        // Compare this to the product for Quaternions
+        // It would be interesting to DRY this out.
+        this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+        return this;
+    }
+    /**
+     * @method quaditude
+     * @return {number} &lt;code&gt;this * conj(this)&lt;/code&gt;
+     */
+    quaditude(): number {
+        let w = this.w;
+        let yz = this.yz;
+        let zx = this.zx;
+        let xy = this.xy;
+        return w * w + yz * yz + zx * zx + xy * xy;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this = (w, B) ⟼ (w, -B)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method reverse
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    reverse(): MutableSpinorE3 {
+        this.yz *= - 1;
+        this.zx *= - 1;
+        this.xy *= - 1;
+        return this;
+    }
+    /**
+     * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
+     * The geometric formula for bivector reflection is B&#x27; = n * B * n.
+     * @method reflect
+     * @param n {VectorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    reflect(n: VectorE3): MutableSpinorE3 {
+        let w = this.w;
+        let yz = this.yz;
+        let zx = this.zx;
+        let xy = this.xy;
+        let nx = n.x;
+        let ny = n.y;
+        let nz = n.z;
+        let nn = nx * nx + ny * ny + nz * nz
+        let nB = nx * yz + ny * zx + nz * xy
+        this.w = nn * w
+        this.xy = 2 * nz * nB - nn * xy
+        this.yz = 2 * nx * nB - nn * yz
+        this.zx = 2 * ny * nB - nn * zx
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this = ⟼ rotor * this * reverse(rotor)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rotate
+     * @param rotor {SpinorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    rotate(rotor: SpinorE3): MutableSpinorE3 {
+        console.warn(&quot;MutableSpinorE3.rotate is not implemented&quot;)
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * Computes a rotor, R, from two unit vectors, where
+     * R = (1 + b * a) / sqrt(2 * (1 + b &lt;&lt; a))
+     * &lt;/p&gt;
+     * @method rotor
+     * @param b {VectorE3} The ending unit vector
+     * @param a {VectorE3} The starting unit vector
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt; The rotor representing a rotation from a to b.
+     * @chainable
+     */
+    rotor(b: VectorE3, a: VectorE3): MutableSpinorE3 {
+        this.spinor(b, a)
+        this.w += 1
+        var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)))
+        this.divideByScalar(denom)
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this = ⟼ exp(- dual(a) * θ / 2)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method rotorFromAxisAngle
+     * @param axis {VectorE3}
+     * @param θ {number}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     */
+    rotorFromAxisAngle(axis: VectorE3, θ: number): MutableSpinorE3 {
+        //this.dual(a).scale(-θ/2).exp()
+        let φ = θ / 2
+        let s = sin(φ)
+        this.yz = -axis.x * s
+        this.zx = -axis.y * s
+        this.xy = -axis.z * s
+        this.w = cos(φ)
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this - α * spinor&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method sub
+     * @param spinor {SpinorE3}
+     * @param α [number = 1]
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    sub(spinor: SpinorE3, α: number = 1): MutableSpinorE3 {
+        mustBeObject(&#x27;spinor&#x27;, spinor)
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.yz -= spinor.yz * α
+        this.zx -= spinor.zx * α
+        this.xy -= spinor.xy * α
+        this.w -= spinor.w * α
+        return this
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method sum
+     * @param a {SpinorE3}
+     * @param b {SpinorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    sum(a: SpinorE3, b: SpinorE3): MutableSpinorE3 {
+        this.w = a.w + b.w
+        this.yz = a.yz + b.yz
+        this.zx = a.zx + b.zx
+        this.xy = a.xy + b.xy
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
+     * &lt;/p&gt;
+     * Sets this MutableSpinorE3 to the geometric product a * b of the vector arguments. 
+     * @method spinor
+     * @param a {VectorE3}
+     * @param b {VectorE3}
+     * @return {MutableSpinorE3}
+     */
+    spinor(a: VectorE3, b: VectorE3): MutableSpinorE3 {
+
+        let ax = a.x
+        let ay = a.y
+        let az = a.z
+        let bx = b.x
+        let by = b.y
+        let bz = b.z
+
+        this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz)
+        this.yz = wedgeYZ(ax, ay, az, bx, by, bz)
+        this.zx = wedgeZX(ax, ay, az, bx, by, bz)
+        this.xy = wedgeXY(ax, ay, az, bx, by, bz)
+
+        return this
+    }
+    /**
+     * @method toString
+     * @return {string} A non-normative string representation of the target.
+     */
+    toString(): string {
+        return &quot;MutableSpinorE3({yz: &quot; + this.yz + &quot;, zx: &quot; + this.zx + &quot;, xy: &quot; + this.xy + &quot;, w: &quot; + this.w + &quot;})&quot;
+    }
+    /**
+     * @method copy
+     * @param spinor {SpinorE3}
+     * @return {MutableSpinorE3} A copy of the &lt;code&gt;spinor&lt;/code&gt; argument.
+     * @static
+     */
+    static copy(spinor: SpinorE3): MutableSpinorE3 {
+        return new MutableSpinorE3().copy(spinor);
+    }
+    /**
+     * @method lerp
+     * @param a {SpinorE3}
+     * @param b {SpinorE3}
+     * @param α {number}
+     * @return {MutableSpinorE3} &lt;code&gt;a + α * (b - a)&lt;/code&gt;
+     * @static
+     */
+    static lerp(a: SpinorE3, b: SpinorE3, α: number): MutableSpinorE3 {
+        return MutableSpinorE3.copy(a).lerp(b, α)
+    }
+}
+
+export = MutableSpinorE3;
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

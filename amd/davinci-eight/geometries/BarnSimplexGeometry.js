@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/computeFaceNormals', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/Vector3'], function (require, exports, computeFaceNormals, SimplexGeometry, quad, Simplex, Symbolic, triangle, Vector3) {
+define(["require", "exports", '../geometries/computeFaceNormals', '../math/Euclidean3', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/MutableVectorE3'], function (require, exports, computeFaceNormals, Euclidean3, SimplexGeometry, quad, Simplex, Symbolic, triangle, MutableVectorE3) {
     /**
      * @module EIGHT
      * @submodule geometries
@@ -22,9 +22,9 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../geometries
          */
         function BarnSimplexGeometry() {
             _super.call(this, 'BarnSimplexGeometry');
-            this.a = Vector3.e1.clone();
-            this.b = Vector3.e2.clone();
-            this.c = Vector3.e3.clone();
+            this.a = MutableVectorE3.copy(Euclidean3.e1);
+            this.b = MutableVectorE3.copy(Euclidean3.e2);
+            this.c = MutableVectorE3.copy(Euclidean3.e3);
             this.regenerate();
         }
         BarnSimplexGeometry.prototype.destructor = function () {
@@ -43,16 +43,16 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../geometries
         BarnSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
-            points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideByScalar(2);
-            points[1] = new Vector3().add(this.a).sub(this.b).sub(this.c).divideByScalar(2);
-            points[6] = new Vector3().add(this.a).sub(this.b).add(this.c).divideByScalar(2);
-            points[5] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideByScalar(2);
-            points[4] = new Vector3().copy(points[0]).add(this.b);
-            points[2] = new Vector3().copy(points[1]).add(this.b);
-            points[7] = new Vector3().copy(points[6]).add(this.b);
-            points[9] = new Vector3().copy(points[5]).add(this.b);
-            points[3] = Vector3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideByScalar(2);
-            points[8] = Vector3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideByScalar(2);
+            points[0] = new MutableVectorE3().sub(this.a).sub(this.b).sub(this.c).divideByScalar(2);
+            points[1] = new MutableVectorE3().add(this.a).sub(this.b).sub(this.c).divideByScalar(2);
+            points[6] = new MutableVectorE3().add(this.a).sub(this.b).add(this.c).divideByScalar(2);
+            points[5] = new MutableVectorE3().sub(this.a).sub(this.b).add(this.c).divideByScalar(2);
+            points[4] = new MutableVectorE3().copy(points[0]).add(this.b);
+            points[2] = new MutableVectorE3().copy(points[1]).add(this.b);
+            points[7] = new MutableVectorE3().copy(points[6]).add(this.b);
+            points[9] = new MutableVectorE3().copy(points[5]).add(this.b);
+            points[3] = MutableVectorE3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideByScalar(2);
+            points[8] = MutableVectorE3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideByScalar(2);
             function simplex(indices) {
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {

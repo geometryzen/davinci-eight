@@ -1,5 +1,5 @@
 import View = require('../cameras/View');
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class Frustum
  * @extends Camera
@@ -38,20 +38,20 @@ interface Frustum extends View {
     /**
      * Convenience method for setting the eye property allowing chainable method calls.
      * @method setEye
-     * @param eye {Cartesian3}
+     * @param eye {VectorE3}
      */
-    setEye(eye: Cartesian3): Frustum;
+    setEye(eye: VectorE3): Frustum;
     /**
      * Convenience method for setting the look property allowing chainable method calls.
      * @method setLook
-     * @param look {Cartesian3}
+     * @param look {VectorE3}
      */
-    setLook(look: Cartesian3): Frustum;
+    setLook(look: VectorE3): Frustum;
     /**
      * Convenience method for setting the up property allowing chainable method calls.
      * @method setUp
-     * @param up {Cartesian3}
+     * @param up {VectorE3}
      */
-    setUp(up: Cartesian3): Frustum;
+    setUp(up: VectorE3): Frustum;
 }
 export = Frustum;

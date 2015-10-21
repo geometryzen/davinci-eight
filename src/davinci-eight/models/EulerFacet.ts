@@ -2,20 +2,20 @@ import readOnly = require('../i18n/readOnly')
 import IFacet = require('../core/IFacet')
 import Shareable = require('../utils/Shareable')
 import IFacetVisitor = require('../core/IFacetVisitor')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 /**
  * @class EulerFacet
  */
 class EulerFacet extends Shareable implements IFacet {
-  private _rotation: Vector3;
+  private _rotation: MutableVectorE3;
   /**
    * @class EulerFacet
    * @constructor
    */
   constructor() {
     super('EulerFacet')
-    this._rotation = new Vector3();
+    this._rotation = new MutableVectorE3();
   }
   protected destructor(): void {
     super.destructor()
@@ -36,10 +36,10 @@ class EulerFacet extends Shareable implements IFacet {
   }
   /**
    * @property rotation
-   * @type {Vector3}
+   * @type {MutableVectorE3}
    * @readOnly
    */
-  get rotation(): Vector3 {
+  get rotation(): MutableVectorE3 {
     return this._rotation;
   }
   set rotation(unused) {

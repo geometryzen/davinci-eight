@@ -1,16 +1,16 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import IContextProvider = require('../core/IContextProvider');
 import IMaterial = require('../core/IMaterial');
 import Perspective = require('../cameras/Perspective');
 import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * @class PerspectiveCamera
  */
 declare class PerspectiveCamera extends Shareable implements Perspective, IFacet {
-    position: Vector3;
+    position: MutableVectorE3;
     /**
      * @property material
      * @type {IMaterial}
@@ -72,17 +72,17 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
     /**
      * The position of the camera.
      * @property eye
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @readOnly
      */
-    eye: Vector3;
+    eye: MutableVectorE3;
     /**
      * @method setEye
-     * @param eye {Cartesian3}
+     * @param eye {VectorE3}
      * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
      * @chainable
      */
-    setEye(eye: Cartesian3): PerspectiveCamera;
+    setEye(eye: VectorE3): PerspectiveCamera;
     /**
      * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
      * Measured in radians.
@@ -98,8 +98,8 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
      * @chainable
      */
     setFov(fov: number): PerspectiveCamera;
-    look: Vector3;
-    setLook(look: Cartesian3): PerspectiveCamera;
+    look: MutableVectorE3;
+    setLook(look: VectorE3): PerspectiveCamera;
     /**
      * The distance to the near plane.
      * @property near
@@ -116,7 +116,7 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
     setNear(near: number): PerspectiveCamera;
     far: number;
     setFar(far: number): PerspectiveCamera;
-    up: Vector3;
-    setUp(up: Cartesian3): PerspectiveCamera;
+    up: MutableVectorE3;
+    setUp(up: VectorE3): PerspectiveCamera;
 }
 export = PerspectiveCamera;

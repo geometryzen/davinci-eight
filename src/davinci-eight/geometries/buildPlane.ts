@@ -1,9 +1,9 @@
 import Simplex = require('../geometries/Simplex');
 import Symbolic = require('../core/Symbolic');
 import MutableNumber = require('../math/MutableNumber');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
-import Vector4 = require('../math/Vector4');
+import MutableVectorE2 = require('../math/MutableVectorE2');
+import MutableVectorE3 = require('../math/MutableVectorE3');
+import MutableVectorE4 = require('../math/MutableVectorE4');
 
 function buildPlane(
   u: string,
@@ -17,7 +17,7 @@ function buildPlane(
   heightSegments: number,
   depthSegments: number,
   geometryIndex: MutableNumber,
-  points: Vector3[],
+  points: MutableVectorE3[],
   faces: Simplex[]) {
 
   var w: string;
@@ -49,7 +49,7 @@ function buildPlane(
   let segment_height = height / gridY;
 
   // The normal starts out as all zeros.
-  let normal = new Vector3();
+  let normal = new MutableVectorE3();
   // A bit of hackery to keey TypeScript compiler happy.
   // TODO: This should really be implemented by, say, cyclic permutation of an array.
   var something: any = normal;
@@ -60,7 +60,7 @@ function buildPlane(
   // Compute the points.
   for ( iy = 0; iy < gridY1; iy ++ ) {
     for ( ix = 0; ix < gridX1; ix ++ ) {
-      let point = new Vector3();
+      let point = new MutableVectorE3();
       something = point;
       let bogusPoint: { [key: string]: number } = something;
 
@@ -82,10 +82,10 @@ function buildPlane(
       var c = ( ix + 1 ) + gridX1 * ( iy + 1 );
       var d = ( ix + 1 ) + gridX1 * iy;
 
-      var uva = new Vector2([ix / gridX, 1 - iy / gridY]);
-      var uvb = new Vector2([ix / gridX, 1 - ( iy + 1 ) / gridY]);
-      var uvc = new Vector2([( ix + 1 ) / gridX, 1 - ( iy + 1 ) / gridY]);
-      var uvd = new Vector2([( ix + 1 ) / gridX, 1 - iy / gridY]);
+      var uva = new MutableVectorE2([ix / gridX, 1 - iy / gridY]);
+      var uvb = new MutableVectorE2([ix / gridX, 1 - ( iy + 1 ) / gridY]);
+      var uvc = new MutableVectorE2([( ix + 1 ) / gridX, 1 - ( iy + 1 ) / gridY]);
+      var uvd = new MutableVectorE2([( ix + 1 ) / gridX, 1 - iy / gridY]);
 
       var face = new Simplex(Simplex.TRIANGLE);
       

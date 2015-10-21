@@ -1,12 +1,12 @@
-import Cartesian3 = require('../math/Cartesian3');
-import Spinor3Coords = require('../math/Spinor3Coords');
-import Vector3 = require('../math/Vector3');
+import VectorE3 = require('../math/VectorE3');
+import SpinorE3 = require('../math/SpinorE3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * Computes a list of points corresponding to an arc centered on the origin.
- * param begin {Cartesian3} The begin position.
+ * param begin {VectorE3} The begin position.
  * param angle: {number} The angle of the rotation.
- * param generator {Spinor3Coords} The generator of the rotation.
+ * param generator {SpinorE3} The generator of the rotation.
  * param segments {number} The number of segments.
  */
-declare function arc3(begin: Cartesian3, angle: number, generator: Spinor3Coords, segments: number): Vector3[];
+declare function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segments: number): MutableVectorE3[];
 export = arc3;

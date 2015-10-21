@@ -3,16 +3,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '../math/MutableNumber', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, arc3, mustBeNumber, MutableNumber, Simplex, SliceSimplexGeometry, Spinor3, Vector2, Vector3) {
+define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '../math/MutableNumber', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/MutableSpinorE3', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, arc3, mustBeNumber, MutableNumber, Simplex, SliceSimplexGeometry, MutableSpinorE3, MutableVectorE2, MutableVectorE3) {
     function computeVertices(radius, axis, phiStart, phiLength, thetaStart, thetaLength, heightSegments, widthSegments, points, uvs) {
-        var generator = new Spinor3().dual(axis);
+        var generator = new MutableSpinorE3().dual(axis);
         var iLength = heightSegments + 1;
         var jLength = widthSegments + 1;
         for (var i = 0; i < iLength; i++) {
             var v = i / heightSegments;
             var θ = thetaStart + v * thetaLength;
             var arcRadius = radius * Math.sin(θ);
-            var begin = Vector3.copy(phiStart).scale(arcRadius);
+            var begin = MutableVectorE3.copy(phiStart).scale(arcRadius);
             var arcPoints = arc3(begin, phiLength, generator, widthSegments);
             /**
              * Displacement that we need to add to each arc point to get the
@@ -23,7 +23,7 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var u = j / widthSegments;
                 var point = arcPoints[j].add(axis, cosθ);
                 points.push(point);
-                uvs.push(new Vector2([u, 1 - v]));
+                uvs.push(new MutableVectorE2([u, 1 - v]));
             }
         }
     }
@@ -48,10 +48,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = Vector3.copy(points[v0]).normalize();
-                var n1 = Vector3.copy(points[v1]).normalize();
-                var n2 = Vector3.copy(points[v2]).normalize();
-                var n3 = Vector3.copy(points[v3]).normalize();
+                var n0 = MutableVectorE3.copy(points[v0]).normalize();
+                var n1 = MutableVectorE3.copy(points[v1]).normalize();
+                var n2 = MutableVectorE3.copy(points[v2]).normalize();
+                var n3 = MutableVectorE3.copy(points[v3]).normalize();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -84,10 +84,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = Vector3.copy(points[v0]).normalize();
-                var n1 = Vector3.copy(points[v1]).normalize();
-                var n2 = Vector3.copy(points[v2]).normalize();
-                var n3 = Vector3.copy(points[v3]).normalize();
+                var n0 = MutableVectorE3.copy(points[v0]).normalize();
+                var n1 = MutableVectorE3.copy(points[v1]).normalize();
+                var n2 = MutableVectorE3.copy(points[v2]).normalize();
+                var n3 = MutableVectorE3.copy(points[v3]).normalize();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -121,10 +121,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = Vector3.copy(points[v0]).normalize();
-                var n1 = Vector3.copy(points[v1]).normalize();
-                var n2 = Vector3.copy(points[v2]).normalize();
-                var n3 = Vector3.copy(points[v3]).normalize();
+                var n0 = MutableVectorE3.copy(points[v0]).normalize();
+                var n1 = MutableVectorE3.copy(points[v1]).normalize();
+                var n2 = MutableVectorE3.copy(points[v2]).normalize();
+                var n3 = MutableVectorE3.copy(points[v3]).normalize();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -160,8 +160,8 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
          * @class SphericalPolarSimplexGeometry
          * @constructor
          * @param radius [number = 1]
-         * @param axis [Cartesian3]
-         * @param phiStart [Cartesian]
+         * @param axis [VectorE3]
+         * @param phiStart [vectorE3]
          * @param phiLength [number = 2 * Math.PI]
          * @param thetaStart [number]
          * @param thetaLength [number]
@@ -219,7 +219,7 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
             /**
              * Defines a start half-plane relative to the <code>axis</code> property.
              * @property phiStart
-             * @type {Vector3}
+             * @type {MutableVectorE3}
              */
             get: function () {
                 return this.sliceStart;
@@ -232,7 +232,7 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
         });
         /**
          * @method setAxis
-         * @param axis {Cartesian3}
+         * @param axis {VectorE3}
          * @return {SphericalPolarSimplexGeometry}
          * @chainable
          */
@@ -242,7 +242,7 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
         };
         /**
          * @method setPosition
-         * @param position {Cartesian3}
+         * @param position {VectorE3}
          * @return {SphericalPolarSimplexGeometry}
          * @chainable
          */

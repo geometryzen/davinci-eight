@@ -1,7 +1,7 @@
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 class Camera {
-  eye: Vector3;
+  eye: MutableVectorE3;
 }
 
 export = camera;

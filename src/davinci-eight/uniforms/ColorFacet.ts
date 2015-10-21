@@ -3,14 +3,14 @@ import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
 import mustBeNumber = require('../checks/mustBeNumber')
 import Shareable = require('../utils/Shareable')
-import Spinor3 = require('../math/Spinor3')
+import MutableSpinorE3 = require('../math/MutableSpinorE3')
 import Symbolic = require('../core/Symbolic')
 import IFacet = require('../core/IFacet')
 import ColorRGB = require('../core/ColorRGB')
 import IFacetVisitor = require('../core/IFacetVisitor')
 import IAnimationTarget = require('../slideshow/IAnimationTarget')
 import IUnknownExt = require('../core/IUnknownExt')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 /**
  * @class ColorFacet
  */
@@ -29,10 +29,10 @@ class ColorFacet extends Shareable implements ColorRGB, IFacet, IAnimationTarget
   public static PROP_RED = 'red';
   /**
    * @property colorRGB
-   * @type Vector3
+   * @type MutableVectorE3
    * @private
    */
-  private data: Vector3 = new Vector3([1, 1, 1]);
+  private data: MutableVectorE3 = new MutableVectorE3([1, 1, 1]);
   /**
    * @property name
    * @type {string}
@@ -149,7 +149,7 @@ class ColorFacet extends Shareable implements ColorRGB, IFacet, IAnimationTarget
     }
   }
   setUniforms(visitor: IFacetVisitor, canvasId: number) {
-    visitor.uniformCartesian3(this.name, this.data, canvasId)
+    visitor.uniformVectorE3(this.name, this.data, canvasId)
   }
 }
 

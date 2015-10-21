@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialGeometry, GridTopology, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../core/Symbolic', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, AxialGeometry, GridTopology, Symbolic, MutableVectorE2, MutableVectorE3) {
     /**
      * @class ConeGeometry
      */
@@ -33,7 +33,7 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
         }
         /**
          * @method setAxis
-         * @param axis {Cartesian3}
+         * @param axis {VectorE3}
          * @return {ConeGeometry}
          * @chainable
          */
@@ -43,7 +43,7 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
         };
         /**
          * @method setPosition
-         * @param position {Cartesian3}
+         * @param position {VectorE3}
          * @return {ConeGeometry}
          * @chainable
          */
@@ -62,9 +62,9 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
             var uSegments = uLength - 1;
             var vLength = topo.vLength;
             var vSegments = vLength - 1;
-            var a = Vector3.copy(this.sliceStart).normalize().scale(this.radius);
-            var b = new Vector3().cross2(a, this.axis).normalize().scale(this.radius);
-            var h = Vector3.copy(this.axis).scale(this.height);
+            var a = MutableVectorE3.copy(this.sliceStart).normalize().scale(this.radius);
+            var b = new MutableVectorE3().cross2(a, this.axis).normalize().scale(this.radius);
+            var h = MutableVectorE3.copy(this.axis).scale(this.height);
             for (var uIndex = 0; uIndex < uLength; uIndex++) {
                 var u = uIndex / uSegments;
                 var theta = this.sliceAngle * u;
@@ -72,14 +72,14 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
                 var sinTheta = Math.sin(theta);
                 for (var vIndex = 0; vIndex < vLength; vIndex++) {
                     var v = vIndex / vSegments;
-                    var position = new Vector3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
-                    var peak = Vector3.copy(h).sub(position);
-                    var normal = new Vector3().cross2(peak, position).cross(peak).normalize();
+                    var position = new MutableVectorE3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
+                    var peak = MutableVectorE3.copy(h).sub(position);
+                    var normal = new MutableVectorE3().cross2(peak, position).cross(peak).normalize();
                     var vertex = topo.vertex(uIndex, vIndex);
                     vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position);
                     vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
                     if (this.useTextureCoords) {
-                        vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v]);
+                        vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new MutableVectorE2([u, v]);
                     }
                 }
             }

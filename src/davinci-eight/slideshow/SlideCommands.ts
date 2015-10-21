@@ -10,10 +10,10 @@ import Shareable = require('../utils/Shareable')
 import ColorRGB = require('../core/ColorRGB')
 import ColorAnimation = require('../slideshow/animations/ColorAnimation')
 
-import Cartesian3 = require('../math/Cartesian3')
+import VectorE3 = require('../math/VectorE3')
 import Vector3Animation = require('../slideshow/animations/Vector3Animation')
 
-import Spinor3Coords = require('../math/Spinor3Coords')
+import SpinorE3 = require('../math/SpinorE3')
 import Spinor3Animation = require('../slideshow/animations/Spinor3Animation')
 
 import AnimateDrawableCommand = require('../slideshow/commands/AnimateDrawableCommand')
@@ -39,7 +39,7 @@ class SlideCommands extends Shareable implements ISlideCommand {
   {
     return this.commands.pushWeakRef(new AnimateDrawableCommand(drawableName, facetName, propName, animation))
   }
-  attitude(drawableName: string, attitude: Spinor3Coords, duration?: number, callback?:() => any): number
+  attitude(drawableName: string, attitude: SpinorE3, duration?: number, callback?:() => any): number
   {
     return this.animateDrawable(drawableName, 'model', 'attitude', new Spinor3Animation(attitude, duration, callback))
   }
@@ -51,14 +51,14 @@ class SlideCommands extends Shareable implements ISlideCommand {
   {
     return this.commands.pushWeakRef(new CreateDrawable(drawableName, geometry))
   }
-  cuboid(drawableName: string, a?: Cartesian3, b?: Cartesian3, c?: Cartesian3, k?: number, subdivide?: number, boundary?:  number): number
+  cuboid(drawableName: string, a?: VectorE3, b?: VectorE3, c?: VectorE3, k?: number, subdivide?: number, boundary?:  number): number
   {
     return this.commands.pushWeakRef(new CreateCuboidDrawable(drawableName, a, b, c, k, subdivide, boundary))
   }
   destroyDrawable(drawableName: string): number {
     return this.commands.pushWeakRef(new DestroyDrawableCommand(drawableName))
   }
-  position(drawableName: string, position: Cartesian3, duration?: number, callback?:() => any): number
+  position(drawableName: string, position: VectorE3, duration?: number, callback?:() => any): number
   {
     return this.animateDrawable(drawableName, 'model', 'position', new Vector3Animation(position, duration, callback))
   }

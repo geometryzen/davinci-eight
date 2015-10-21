@@ -1,4 +1,4 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import isDefined = require('../checks/isDefined');
 import Matrix4 = require('../math/Matrix4');
 import perspectiveArray = require('../cameras/perspectiveArray');

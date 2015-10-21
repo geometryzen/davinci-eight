@@ -3,27 +3,42 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/readOnly', '../utils/Shareable', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, readOnly, Shareable, Spinor3, Symbolic, Vector3) {
+define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/Matrix4', '../checks/mustBeString', '../math/MutableVectorE3', '../math/MutableSpinorE3', '../i18n/readOnly', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Euclidean3, Matrix3, Matrix4, mustBeString, MutableVectorE3, MutableSpinorE3, readOnly, Shareable, Symbolic) {
     /**
      * @class ModelFacet
      */
     var ModelFacet = (function (_super) {
         __extends(ModelFacet, _super);
         /**
-         * ModelFacet implements IFacet required for manipulating a body.
+         * <p>
+         * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
+         * </p>
+         * <p>
+         * In Physics, the drawable object may represent a rigid body.
+         * In Computer Graphics, the drawable object is a collection of drawing primitives.
+         * </p>
+         * <p>
+         * ModelFacet implements IFacet required for manipulating a drawable object.
+         * </p>
+         * <p>
+         * Constructs a ModelFacet at the origin and with unity attitude.
+         * </p>
          * @class ModelFacet
          * @constructor
+         * @param type [string = 'ModelFacet'] The name used for reference counting.
          */
-        function ModelFacet() {
-            _super.call(this, 'ModelFacet');
-            this._position = new Vector3();
-            this._attitude = new Spinor3();
-            this._scaleXYZ = new Vector3([1, 1, 1]);
-            this.M = Matrix4.identity();
-            this.N = Matrix3.identity();
-            this.R = Matrix4.identity();
-            this.S = Matrix4.identity();
-            this.T = Matrix4.identity();
+        function ModelFacet(type) {
+            if (type === void 0) { type = 'ModelFacet'; }
+            _super.call(this, mustBeString('type', type));
+            this._position = new MutableVectorE3().copy(Euclidean3.zero);
+            this._attitude = new MutableSpinorE3().copy(Euclidean3.one);
+            // FIXME: I don't like this non-geometric scaling.
+            this._scaleXYZ = new MutableVectorE3([1, 1, 1]);
+            this.matM = Matrix4.identity();
+            this.matN = Matrix3.identity();
+            this.matR = Matrix4.identity();
+            this.matS = Matrix4.identity();
+            this.matT = Matrix4.identity();
             this._position.modified = true;
             this._attitude.modified = true;
             this._scaleXYZ.modified = true;
@@ -31,43 +46,53 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/rea
         /**
          * @method destructor
          * @return {void}
+         * @protected
          */
         ModelFacet.prototype.destructor = function () {
             this._position = void 0;
             this._attitude = void 0;
             this._scaleXYZ = void 0;
-            this.M = void 0;
-            this.N = void 0;
-            this.R = void 0;
-            this.S = void 0;
-            this.T = void 0;
+            this.matM = void 0;
+            this.matN = void 0;
+            this.matR = void 0;
+            this.matS = void 0;
+            this.matT = void 0;
         };
-        Object.defineProperty(ModelFacet.prototype, "attitude", {
+        Object.defineProperty(ModelFacet.prototype, "R", {
             /**
-             * @property attitude
-             * @type Spinor3
+             * <p>
+             * The <em>attitude</em>, a unitary spinor.
+             * </p>
+             * @property R
+             * @type MutableSpinorE3
              * @readOnly
              */
             get: function () {
                 return this._attitude;
             },
             set: function (unused) {
-                throw new Error(readOnly('attitude').message);
+                throw new Error(readOnly(ModelFacet.PROP_ATTITUDE).message);
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(ModelFacet.prototype, "position", {
+        Object.defineProperty(ModelFacet.prototype, "X", {
             /**
-             * @property position
-             * @type Vector3
+             * <p>
+             * The <em>position</em>, a vector.
+             * The vector <b>X</b> designates the center of mass of the body (Physics).
+             * The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
+             * </p>
+             *
+             * @property X
+             * @type MutableVectorE3
              * @readOnly
              */
             get: function () {
                 return this._position;
             },
             set: function (unused) {
-                throw new Error(readOnly('position').message);
+                throw new Error(readOnly(ModelFacet.PROP_POSITION).message);
             },
             enumerable: true,
             configurable: true
@@ -75,14 +100,14 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/rea
         Object.defineProperty(ModelFacet.prototype, "scaleXYZ", {
             /**
              * @property scaleXYZ
-             * @type Vector3
+             * @type MutableVectorE3
              * @readOnly
              */
             get: function () {
                 return this._scaleXYZ;
             },
             set: function (unused) {
-                throw new Error(readOnly('scaleXYZ').message);
+                throw new Error(readOnly(ModelFacet.PROP_SCALEXYZ).message);
             },
             enumerable: true,
             configurable: true
@@ -95,6 +120,9 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/rea
         ModelFacet.prototype.getProperty = function (name) {
             switch (name) {
                 case ModelFacet.PROP_ATTITUDE: {
+                    // FIXME: Make an array copy function in collections.
+                    // copyNumberArray
+                    // copyIUnknownArray
                     return this._attitude.data.map(function (x) { return x; });
                 }
                 case ModelFacet.PROP_POSITION: {
@@ -138,37 +166,61 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/rea
          * @param canvasId {number}
          */
         ModelFacet.prototype.setUniforms = function (visitor, canvasId) {
-            if (!this.position) {
-                console.warn("setUniforms called on zombie ModelFacet");
-                return;
-            }
             if (this._position.modified) {
-                this.T.translation(this._position);
+                this.matT.translation(this._position);
                 this._position.modified = false;
             }
             if (this._attitude.modified) {
-                this.R.rotation(this._attitude);
+                this.matR.rotation(this._attitude);
                 this._attitude.modified = false;
             }
             if (this.scaleXYZ.modified) {
-                this.S.scaling(this.scaleXYZ);
+                this.matS.scaling(this.scaleXYZ);
                 this.scaleXYZ.modified = false;
             }
-            this.M.copy(this.T).multiply(this.R).multiply(this.S);
-            this.N.normalFromMatrix4(this.M);
-            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
-            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
+            this.matM.copy(this.matT).multiply(this.matR).multiply(this.matS);
+            this.matN.normalFromMatrix4(this.matM);
+            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId);
+            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId);
         };
+        /**
+         * @method incRef
+         * @return {ModelFacet}
+         * @chainable
+         */
         ModelFacet.prototype.incRef = function () {
             this.addRef();
             return this;
         };
+        /**
+         * @method decRef
+         * @return {ModelFacet}
+         * @chainable
+         */
         ModelFacet.prototype.decRef = function () {
             this.release();
             return this;
         };
-        ModelFacet.PROP_ATTITUDE = 'attitude';
-        ModelFacet.PROP_POSITION = 'position';
+        /**
+         * The name of the property that designates the attitude.
+         * @property PROP_ATTITUDE
+         * @type {string}
+         * @default 'R'
+         * @static
+         * @readOnly
+         */
+        ModelFacet.PROP_ATTITUDE = 'R';
+        /**
+         * The name of the property that designates the position.
+         * @property PROP_POSITION
+         * @type {string}
+         * @default 'X'
+         * @static
+         * @readOnly
+         */
+        ModelFacet.PROP_POSITION = 'X';
+        // FIXME: Make this scale so that we can be geometric?
+        ModelFacet.PROP_SCALEXYZ = 'scaleXYZ';
         return ModelFacet;
     })(Shareable);
     return ModelFacet;

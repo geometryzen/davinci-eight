@@ -1,6 +1,6 @@
-import Cartesian2 = require('../math/Cartesian2');
-import Cartesian3 = require('../math/Cartesian3');
-import Cartesian4 = require('../math/Cartesian4');
+import VectorE2 = require('../math/VectorE2');
+import VectorE3 = require('../math/VectorE3');
+import VectorE4 = require('../math/VectorE4');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
@@ -68,26 +68,26 @@ interface IFacetVisitor {
      */
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void;
     /**
-     * @method uniformCartesian2
+     * @method uniformVectorE2
      * @param name {string}
-     * @param vector {Cartesian2}
+     * @param vector {VectorE2}
      * @param canvasId {number}
      */
-    uniformCartesian2(name: string, vector: Cartesian2, canvasId: number): void;
+    uniformVectorE2(name: string, vector: VectorE2, canvasId: number): void;
     /**
-     * @method uniformCartesian3
+     * @method uniformVectorE3
      * @param name {string}
-     * @param vector {Cartesian3}
+     * @param vector {VectorE3}
      * @param canvasId {number}
      */
-    uniformCartesian3(name: string, vector: Cartesian3, canvasId: number): void;
+    uniformVectorE3(name: string, vector: VectorE3, canvasId: number): void;
     /**
-     * @method uniformCartesian4
+     * @method uniformVectorE4
      * @param name {string}
-     * @param vector {Cartesian4}
+     * @param vector {VectorE4}
      * @param canvasId {number}
      */
-    uniformCartesian4(name: string, vector: Cartesian4, canvasId: number): void;
+    uniformVectorE4(name: string, vector: VectorE4, canvasId: number): void;
     /**
      * @method vector2
      * @param name {string}

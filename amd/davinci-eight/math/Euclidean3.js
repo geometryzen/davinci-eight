@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/Euclidean3Error', '../math/mathcore', '../math/NotImplementedError', '../math/Unit'], function (require, exports, Euclidean3Error, mathcore, NotImplementedError, Unit) {
+define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', '../math/mathcore', '../math/NotImplementedError', '../math/Unit'], function (require, exports, Euclidean3Error, isDefined, mathcore, NotImplementedError, Unit) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -741,6 +741,19 @@ define(["require", "exports", '../math/Euclidean3Error', '../math/mathcore', '..
             assertArgNumber('xyz', xyz);
             assertArgUnitOrUndefined('uom', uom);
             return new Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom);
+        };
+        /**
+         * @method fromSpinorE3
+         * @param spinor {SpinorE3}
+         * @return {Euclidean3}
+         */
+        Euclidean3.fromSpinorE3 = function (spinor) {
+            if (isDefined(spinor)) {
+                return new Euclidean3(spinor.w, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0);
+            }
+            else {
+                return void 0;
+            }
         };
         Euclidean3.prototype.coordinates = function () {
             return [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz];

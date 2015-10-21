@@ -1,4 +1,4 @@
-import Cartesian3 = require('../../math/Cartesian3');
+import VectorE3 = require('../../math/VectorE3');
 import IAnimation = require('../../slideshow/IAnimation');
 import IAnimationTarget = require('../../slideshow/IAnimationTarget');
 import Shareable = require('../../utils/Shareable');
@@ -10,7 +10,7 @@ declare class Vector3Animation extends Shareable implements IAnimation {
     private fraction;
     private callback;
     private ease;
-    constructor(value: Cartesian3, duration?: number, callback?: () => void, ease?: string);
+    constructor(value: VectorE3, duration?: number, callback?: () => void, ease?: string);
     protected destructor(): void;
     apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
     hurry(factor: number): void;

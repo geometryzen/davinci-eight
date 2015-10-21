@@ -125,7 +125,7 @@ define(["require", "exports", '../core/DrawMode', '../checks/isDefined', '../top
          * @return {Vertex} The vertex corresponding to the specified coordinates.
          * @example
              var topo = new EIGHT.GridTopology(1, 1)
-             topo.vertex(uIndex, vIndex).attributes('aPosition') = new Vector3([i - 0.5, j - 0.5, 0])
+             topo.vertex(uIndex, vIndex).attributes('aPosition') = new MutableVectorE3([i - 0.5, j - 0.5, 0])
          */
         GridTopology.prototype.vertex = function (uIndex, vIndex) {
             mustBeInteger('uIndex', uIndex);

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math/Vector3'], function (require, exports, Shareable, Symbolic, Vector3) {
+define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math/MutableVectorE3'], function (require, exports, Shareable, Symbolic, MutableVectorE3) {
     /**
      * @class ColorFacet
      */
@@ -19,10 +19,10 @@ define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math
             _super.call(this, 'ColorFacet');
             /**
              * @property colorRGB
-             * @type Vector3
+             * @type MutableVectorE3
              * @private
              */
-            this.data = new Vector3([1, 1, 1]);
+            this.data = new MutableVectorE3([1, 1, 1]);
             this.data.modified = true;
             this.name = name;
         }
@@ -140,7 +140,7 @@ define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math
             }
         };
         ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.uniformCartesian3(this.name, this.data, canvasId);
+            visitor.uniformVectorE3(this.name, this.data, canvasId);
         };
         /**
          * property PROP_RGB

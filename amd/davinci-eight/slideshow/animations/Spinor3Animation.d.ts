@@ -1,7 +1,7 @@
 import IAnimation = require('../../slideshow/IAnimation');
 import IAnimationTarget = require('../../slideshow/IAnimationTarget');
 import Shareable = require('../../utils/Shareable');
-import Spinor3Coords = require('../../math/Spinor3Coords');
+import SpinorE3 = require('../../math/SpinorE3');
 declare class Spinor3Animation extends Shareable implements IAnimation {
     private from;
     private to;
@@ -10,7 +10,7 @@ declare class Spinor3Animation extends Shareable implements IAnimation {
     private fraction;
     private callback;
     private ease;
-    constructor(value: Spinor3Coords, duration?: number, callback?: () => void, ease?: string);
+    constructor(value: SpinorE3, duration?: number, callback?: () => void, ease?: string);
     protected destructor(): void;
     apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
     hurry(factor: number): void;

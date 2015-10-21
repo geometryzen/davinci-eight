@@ -122,10 +122,10 @@ import SmartMaterialBuilder = require('davinci-eight/materials/SmartMaterialBuil
 import RoundUniform = require('davinci-eight/mappers/RoundUniform')
 // math
 import AbstractMatrix = require('davinci-eight/math/AbstractMatrix')
-import Cartesian1 = require('davinci-eight/math/Cartesian1')
-import Cartesian2 = require('davinci-eight/math/Cartesian2')
-import Cartesian3 = require('davinci-eight/math/Cartesian3')
-import Cartesian4 = require('davinci-eight/math/Cartesian4')
+import VectorE1 = require('davinci-eight/math/VectorE1')
+import VectorE2 = require('davinci-eight/math/VectorE2')
+import VectorE3 = require('davinci-eight/math/VectorE3')
+import VectorE4 = require('davinci-eight/math/VectorE4')
 import Complex = require('davinci-eight/math/Complex')
 import DimensionError = require('davinci-eight/math/DimensionError')
 import Dimensions = require('davinci-eight/math/Dimensions')
@@ -147,22 +147,22 @@ import Matrix4 = require('davinci-eight/math/Matrix4')
 import Measure = require('davinci-eight/math/Measure')
 import Mutable = require('davinci-eight/math/Mutable')
 import Rational = require('davinci-eight/math/Rational')
-import Spinor1 = require('davinci-eight/math/Spinor1')
-import Spinor1Coords = require('davinci-eight/math/Spinor1Coords')
-import Spinor2 = require('davinci-eight/math/Spinor2')
-import Spinor2Coords = require('davinci-eight/math/Spinor2Coords')
-import Spinor3 = require('davinci-eight/math/Spinor3')
-import Spinor3Coords = require('davinci-eight/math/Spinor3Coords')
+import SpinorE1 = require('davinci-eight/math/SpinorE1')
+import MutableSpinorE2 = require('davinci-eight/math/MutableSpinorE2')
+import SpinorE2 = require('davinci-eight/math/SpinorE2')
+import MutableSpinorE3 = require('davinci-eight/math/MutableSpinorE3')
+import SpinorE3 = require('davinci-eight/math/SpinorE3')
 import Unit = require('davinci-eight/math/Unit')
 import UnitError = require('davinci-eight/math/UnitError')
-import Vector2 = require('davinci-eight/math/Vector2')
-import Vector3 = require('davinci-eight/math/Vector3')
-import Vector4 = require('davinci-eight/math/Vector4')
+import MutableVectorE2 = require('davinci-eight/math/MutableVectorE2')
+import MutableVectorE3 = require('davinci-eight/math/MutableVectorE3')
+import MutableVectorE4 = require('davinci-eight/math/MutableVectorE4')
 import VectorN = require('davinci-eight/math/VectorN')
 import Quaternion = require('davinci-eight/math/Quaternion')
 
 // models
 import EulerFacet = require('davinci-eight/models/EulerFacet')
+import KinematicRigidBodyFacetE3 = require('davinci-eight/models/KinematicRigidBodyFacetE3')
 import ModelFacet = require('davinci-eight/models/ModelFacet')
 
 // programs
@@ -257,6 +257,7 @@ var eight = {
     get createView() { return createView },
 
     get EulerFacet() { return EulerFacet },
+    get KinematicRigidBodyFacetE3() { return KinematicRigidBodyFacetE3 },
     get ModelFacet() { return ModelFacet },
 
     get Simplex() { return Simplex },
@@ -317,11 +318,11 @@ var eight = {
     get Euclidean3() { return Euclidean3 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
-    get Spinor3() { return Spinor3 },
+    get MutableSpinorE3() { return MutableSpinorE3 },
     get MutableNumber() { return MutableNumber },
-    get Vector2() { return Vector2 },
-    get Vector3() { return Vector3 },
-    get Vector4() { return Vector4 },
+    get MutableVectorE2() { return MutableVectorE2 },
+    get MutableVectorE3() { return MutableVectorE3 },
+    get MutableVectorE4() { return MutableVectorE4 },
     get VectorN() { return VectorN },
     get Curve() { return Curve },
     // mappers

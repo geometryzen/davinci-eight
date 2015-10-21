@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.136.0</em>
+            <em>API Docs for: 2.137.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
-                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
-                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
-                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
-                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
@@ -110,6 +106,7 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -126,6 +123,10 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
+                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
+                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
+                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
+                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -153,7 +154,6 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
-                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -161,10 +161,11 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector2.html">Vector2</a></li>
-                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
-                                <li><a href="../classes/Vector4.html">Vector4</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -218,35 +219,35 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import arc3 = require(&#x27;../geometries/arc3&#x27;)
-import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 import SimplexGeometry = require(&#x27;../geometries/SimplexGeometry&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import SliceSimplexGeometry = require(&#x27;../geometries/SliceSimplexGeometry&#x27;);
-import Spinor3 = require(&#x27;../math/Spinor3&#x27;)
-import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;)
+import MutableSpinorE3 = require(&#x27;../math/MutableSpinorE3&#x27;)
+import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
-import Vector2 = require(&#x27;../math/Vector2&#x27;)
-import Vector3 = require(&#x27;../math/Vector3&#x27;)
+import MutableVectorE2 = require(&#x27;../math/MutableVectorE2&#x27;)
+import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
 
 // TODO: The caps don&#x27;t have radial segments!
 
-function computeVertices(radius: number, height: number, axis: Cartesian3, start: Cartesian3, angle: number, generator: Spinor3Coords, heightSegments: number, thetaSegments: number, points: Vector3[], vertices: number[][], uvs: Vector2[][]) {
+function computeVertices(radius: number, height: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: MutableVectorE3[], vertices: number[][], uvs: MutableVectorE2[][]) {
 
-    let begin = Vector3.copy(start).scale(radius)
-    let halfHeight = Vector3.copy(axis).scale(0.5 * height)
+    let begin = MutableVectorE3.copy(start).scale(radius)
+    let halfHeight = MutableVectorE3.copy(axis).scale(0.5 * height)
 
     /**
      * A displacement in the direction of axis that we must move for each height step.
      */
-    let stepH = Vector3.copy(axis).normalize().scale(height / heightSegments)
+    let stepH = MutableVectorE3.copy(axis).normalize().scale(height / heightSegments)
 
     for (var i = 0; i &lt;= heightSegments; i++) {
         /**
          * The displacement to the current level.
          */
-        let dispH = Vector3.copy(stepH).scale(i).sub(halfHeight)
+        let dispH = MutableVectorE3.copy(stepH).scale(i).sub(halfHeight)
         let verticesRow: number[] = [];
-        let uvsRow: Vector2[] = [];
+        let uvsRow: MutableVectorE2[] = [];
         /**
          * Interesting that the v coordinate is 1 at the base and 0 at the top!
          * This is because i originally went from top to bottom.
@@ -267,7 +268,7 @@ function computeVertices(radius: number, height: number, axis: Cartesian3, start
             let u = j / thetaSegments;
             points.push(point);
             verticesRow.push(points.length - 1);
-            uvsRow.push(new Vector2([u, v]));
+            uvsRow.push(new MutableVectorE2([u, v]));
         }
         vertices.push(verticesRow);
         uvs.push(uvsRow);
@@ -295,14 +296,14 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
      * @constructor
      * @param radius [number = 1]
      * @param height [number = 1]
-     * @param axis [Cartesian3 = Vector3.e2]
+     * @param axis [VectorE3 = MutableVectorE3.e2]
      * @param openTop [boolean = false]
      * @param openBottom [boolean = false]
      */
     constructor(
         radius: number = 1,
         height: number = 1,
-        axis: Cartesian3 = Vector3.e2,
+        axis: VectorE3 = MutableVectorE3.e2,
         openTop: boolean = false,
         openBottom: boolean = false
     ) {
@@ -319,29 +320,29 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
         //let height = this.height
         let heightSegments = this.flatSegments
         let thetaSegments = this.curvedSegments
-        var generator: Spinor3Coords = new Spinor3().dual(this.axis)
+        var generator: SpinorE3 = new MutableSpinorE3().dual(this.axis)
 
         let heightHalf = this.height / 2;
 
-        var points: Vector3[] = [];
+        var points: MutableVectorE3[] = [];
         // The double array allows us to manage the i,j indexing more naturally.
         // The alternative is to use an indexing function.
         let vertices: number[][] = [];
-        let uvs: Vector2[][] = [];
+        let uvs: MutableVectorE2[][] = [];
 
         computeVertices(radius, this.height, this.axis, this.sliceStart, this.sliceAngle, generator, heightSegments, thetaSegments, points, vertices, uvs)
 
-        var na: Vector3;
-        var nb: Vector3;
+        var na: MutableVectorE3;
+        var nb: MutableVectorE3;
         // sides
         for (let j = 0; j &lt; thetaSegments; j++) {
             if (radius !== 0) {
-                na = Vector3.copy(points[vertices[0][j]]);
-                nb = Vector3.copy(points[vertices[0][j + 1]]);
+                na = MutableVectorE3.copy(points[vertices[0][j]]);
+                nb = MutableVectorE3.copy(points[vertices[0][j + 1]]);
             }
             else {
-                na = Vector3.copy(points[vertices[1][j]]);
-                nb = Vector3.copy(points[vertices[1][j + 1]]);
+                na = MutableVectorE3.copy(points[vertices[1][j]]);
+                nb = MutableVectorE3.copy(points[vertices[1][j + 1]]);
             }
             // FIXME: This isn&#x27;t geometric.
             na.setY(0).normalize();
@@ -381,13 +382,13 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
                 let v1: number = vertices[heightSegments][j + 1];
                 let v2: number = points.length - 1;
                 let v3: number = vertices[heightSegments][j];
-                let n1: Vector3 = this.axis.clone();
-                let n2: Vector3 = this.axis.clone();
-                let n3: Vector3 = this.axis.clone();
-                let uv1: Vector2 = uvs[heightSegments][j + 1].clone();
+                let n1: MutableVectorE3 = this.axis.clone();
+                let n2: MutableVectorE3 = this.axis.clone();
+                let n3: MutableVectorE3 = this.axis.clone();
+                let uv1: MutableVectorE2 = uvs[heightSegments][j + 1].clone();
                 // Check this
-                let uv2: Vector2 = new Vector2([uv1.x, 1]);
-                let uv3: Vector2 = uvs[heightSegments][j].clone();
+                let uv2: MutableVectorE2 = new MutableVectorE2([uv1.x, 1]);
+                let uv3: MutableVectorE2 = uvs[heightSegments][j].clone();
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }
@@ -400,13 +401,13 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
                 let v1: number = vertices[0][j]
                 let v2: number = points.length - 1
                 let v3: number = vertices[0][j + 1]
-                let n1: Vector3 = this.axis.clone().scale(-1)
-                let n2: Vector3 = this.axis.clone().scale(-1)
-                let n3: Vector3 = this.axis.clone().scale(-1)
-                let uv1: Vector2 = uvs[0][j].clone()
+                let n1: MutableVectorE3 = this.axis.clone().scale(-1)
+                let n2: MutableVectorE3 = this.axis.clone().scale(-1)
+                let n3: MutableVectorE3 = this.axis.clone().scale(-1)
+                let uv1: MutableVectorE2 = uvs[0][j].clone()
                 // TODO: Check this
-                let uv2: Vector2 = new Vector2([uv1.x, 1])
-                let uv3: Vector2 = uvs[0][j + 1].clone()
+                let uv2: MutableVectorE2 = new MutableVectorE2([uv1.x, 1])
+                let uv3: MutableVectorE2 = uvs[0][j + 1].clone()
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }

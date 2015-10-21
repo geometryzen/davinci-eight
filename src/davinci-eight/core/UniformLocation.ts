@@ -1,7 +1,7 @@
-import Cartesian1 = require('../math/Cartesian1')
-import Cartesian2 = require('../math/Cartesian2')
-import Cartesian3 = require('../math/Cartesian3')
-import Cartesian4 = require('../math/Cartesian4')
+import VectorE1 = require('../math/VectorE1')
+import VectorE2 = require('../math/VectorE2')
+import VectorE3 = require('../math/VectorE3')
+import VectorE4 = require('../math/VectorE4')
 import expectArg = require('../checks/expectArg')
 import feedback = require('../feedback/feedback')
 import MutableNumber = require('../math/MutableNumber')
@@ -10,9 +10,9 @@ import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
 import IContextProgramConsumer = require('../core/IContextProgramConsumer')
 import IContextProvider = require('../core/IContextProvider')
-import Vector2 = require('../math/Vector2')
-import Vector3 = require('../math/Vector3')
-import Vector4 = require('../math/Vector4')
+import MutableVectorE2 = require('../math/MutableVectorE2')
+import MutableVectorE3 = require('../math/MutableVectorE3')
+import MutableVectorE4 = require('../math/MutableVectorE4')
 
 /**
  * Utility class for managing a shader uniform variable.
@@ -62,25 +62,25 @@ class UniformLocation implements IContextProgramConsumer {
   }
   /**
    * @method cartesian1
-   * @param coords {Cartesian1}
+   * @param coords {VectorE1}
    */
-  cartesian1(coords: Cartesian1): void {
+  cartesian1(coords: VectorE1): void {
     this._context.useProgram(this._program);
     this._context.uniform1f(this._location, coords.x);
   }
   /**
    * @method cartesian2
-   * @param coords {Cartesian2}
+   * @param coords {VectorE2}
    */
-  cartesian2(coords: Cartesian2): void {
+  cartesian2(coords: VectorE2): void {
     this._context.useProgram(this._program);
     this._context.uniform2f(this._location, coords.x, coords.y);
   }
   /**
    * @method cartesian3
-   * @param coords {Cartesian3}
+   * @param coords {VectorE3}
    */
-  cartesian3(coords: Cartesian3): void {
+  cartesian3(coords: VectorE3): void {
     if (coords) {
       this._context.useProgram(this._program)
       this._context.uniform3f(this._location, coords.x, coords.y, coords.z)
@@ -88,9 +88,9 @@ class UniformLocation implements IContextProgramConsumer {
   }
   /**
    * @method cartesian4
-   * @param coords {Cartesian4}
+   * @param coords {VectorE4}
    */
-  cartesian4(coords: Cartesian4): void {
+  cartesian4(coords: VectorE4): void {
     this._context.useProgram(this._program);
     this._context.uniform4f(this._location, coords.x, coords.y, coords.z, coords.w);
   }

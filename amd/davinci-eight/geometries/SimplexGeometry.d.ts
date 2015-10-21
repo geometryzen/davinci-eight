@@ -1,11 +1,11 @@
-import Cartesian3 = require('../math/Cartesian3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import GeometryMeta = require('../geometries/GeometryMeta');
 import IGeometry = require('../geometries/IGeometry');
 import Shareable = require('../utils/Shareable');
 import Simplex = require('../geometries/Simplex');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
+import MutableVectorE2 = require('../math/MutableVectorE2');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class SimplexGeometry
  * @extends Shareable
@@ -147,11 +147,11 @@ declare class SimplexGeometry extends Shareable implements IGeometry<SimplexGeom
     subdivide(times?: number): SimplexGeometry;
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {SimplexGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): SimplexGeometry;
+    setPosition(position: VectorE3): SimplexGeometry;
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}
@@ -168,16 +168,16 @@ declare class SimplexGeometry extends Shareable implements IGeometry<SimplexGeom
     /**
      * Convenience method for pushing attribute data as a triangular simplex
      * @method triangle
-     * @param positions {Vector3[]}
-     * @param normals {Vector3[]}
-     * @param uvs {Vector2[]}
+     * @param positions {MutableVectorE3[]}
+     * @param normals {MutableVectorE3[]}
+     * @param uvs {MutableVectorE2[]}
      * @return {number}
      * @beta
      */
-    triangle(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number;
-    lineSegment(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number;
-    point(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number;
-    empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number;
+    triangle(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number;
+    lineSegment(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number;
+    point(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number;
+    empty(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number;
     enableTextureCoords(enable: boolean): SimplexGeometry;
 }
 export = SimplexGeometry;

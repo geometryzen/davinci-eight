@@ -1,9 +1,10 @@
-import Cartesian3 = require('../math/Cartesian3')
+import Euclidean3 = require('../math/Euclidean3')
+import Geometry = require('../geometries/Geometry')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
-import Vector3 = require('../math/Vector3')
-import Geometry = require('../geometries/Geometry')
+import MutableVectorE3 = require('../math/MutableVectorE3')
+import VectorE3 = require('../math/VectorE3')
 
 /**
  * @class AxialGeometry
@@ -11,10 +12,10 @@ import Geometry = require('../geometries/Geometry')
 class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * @property _axis
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @protected
      */
-    protected _axis: Vector3;
+    protected _axis: MutableVectorE3;
     /**
      * @property _sliceAngle
      * @type {number}
@@ -23,40 +24,40 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     private _sliceAngle: number = 2 * Math.PI;
     /**
      * @property _sliceStart
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @private
      */
-    private _sliceStart: Vector3;
+    private _sliceStart: MutableVectorE3;
     /**
      * @class SliceGeometry
      * @constructor
      */
     constructor() {
         super()
-        this._axis = Vector3.e2.clone()
-        this._sliceStart = Vector3.e1.clone()
+        this._axis = MutableVectorE3.copy(Euclidean3.e2)
+        this._sliceStart = MutableVectorE3.copy(Euclidean3.e1)
     }
     /**
      * @property axis
-     * @type {Cartesian3}
+     * @type {VectorE3}
      */
-    get axis(): Cartesian3 {
+    get axis(): VectorE3 {
         return this._axis.clone()
     }
-    set axis(axis: Cartesian3) {
+    set axis(axis: VectorE3) {
         this.setAxis(axis)
     }
     /**
      * @method setAxis
-     * @param axis {Cartesian3}
+     * @param axis {VectorE3}
      * @return {AxialGeometry}
      * @chainable
      */
-    setAxis(axis: Cartesian3): AxialGeometry {
+    setAxis(axis: VectorE3): AxialGeometry {
         mustBeObject('axis', axis)
         this._axis.copy(axis).normalize()
         // FIXME: randomize
-        this._sliceStart.copy(Vector3.random()).cross(this._axis).normalize()
+        this._sliceStart.copy(MutableVectorE3.random()).cross(this._axis).normalize()
         return this;
     }
     /**
@@ -74,22 +75,22 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * The (unit vector) direction of the start of the slice.
      * @property sliceStart
-     * @type {Cartesian3}
+     * @type {VectorE3}
      */
-    get sliceStart(): Cartesian3 {
+    get sliceStart(): VectorE3 {
         return this._sliceStart.clone()
     }
-    set sliceStart(sliceStart: Cartesian3) {
+    set sliceStart(sliceStart: VectorE3) {
         mustBeObject('sliceStart', sliceStart)
         this._sliceStart.copy(sliceStart).normalize()
     }
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {AxialGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): AxialGeometry {
+    setPosition(position: VectorE3): AxialGeometry {
         super.setPosition(position)
         return this
     }

@@ -1,4 +1,4 @@
-import Cartesian3 = require('../math/Cartesian3')
+import VectorE3 = require('../math/VectorE3')
 import IContextProvider = require('../core/IContextProvider')
 import IMaterial = require('../core/IMaterial')
 import createPerspective = require('../cameras/createPerspective')
@@ -14,7 +14,7 @@ import Shareable = require('../utils/Shareable')
 import IFacet = require('../core/IFacet')
 import IFacetVisitor = require('../core/IFacetVisitor')
 import uuid4 = require('../utils/uuid4')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 /**
  * Name used for reference count monitoring and logging.
@@ -26,7 +26,7 @@ let CLASS_NAME = 'PerspectiveCamera'
  */
 class PerspectiveCamera extends Shareable implements Perspective, IFacet {
   // FIXME: Gotta go
-  public position: Vector3 = new Vector3();
+  public position: MutableVectorE3 = new MutableVectorE3();
   /**
    * @property material
    * @type {IMaterial}
@@ -115,19 +115,19 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
   /**
    * The position of the camera.
    * @property eye
-   * @type {Vector3}
+   * @type {MutableVectorE3}
    * @readOnly
    */
-  get eye(): Vector3 {
+  get eye(): MutableVectorE3 {
     return this.inner.eye
   }
   /**
    * @method setEye
-   * @param eye {Cartesian3}
+   * @param eye {VectorE3}
    * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
    * @chainable
    */
-  setEye(eye: Cartesian3): PerspectiveCamera {
+  setEye(eye: VectorE3): PerspectiveCamera {
     this.inner.setEye(eye)
     return this
   }
@@ -138,7 +138,7 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
    * @type {number}
    * @readOnly
    */
-  // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
+  // TODO: Field of view could be specified as an Aspect + Magnitude of a MutableSpinorE3!?
   get fov(): number {
     return this.inner.fov
   }
@@ -159,7 +159,7 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
   get look() {
     return this.inner.look
   }
-  setLook(look: Cartesian3): PerspectiveCamera {
+  setLook(look: VectorE3): PerspectiveCamera {
     this.inner.setLook(look)
     return this
   }
@@ -196,13 +196,13 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
     this.inner.setFar(far)
     return this
   }
-  get up(): Vector3 {
+  get up(): MutableVectorE3 {
     return this.inner.up
   }
   set up(unused) {
     throw new Error(readOnly('up').message)
   }
-  setUp(up: Cartesian3): PerspectiveCamera {
+  setUp(up: VectorE3): PerspectiveCamera {
     this.inner.setUp(up)
     return this
   }

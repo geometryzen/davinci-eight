@@ -1,5 +1,5 @@
-import Cartesian3 = require('../math/Cartesian3')
 import DrawPrimitive = require('../geometries/DrawPrimitive')
+import Euclidean3 = require('../math/Euclidean3')
 import GeometryMeta = require('../geometries/GeometryMeta')
 import IGeometry = require('../geometries/IGeometry')
 import mustBeInteger = require('../checks/mustBeInteger')
@@ -10,8 +10,9 @@ import Symbolic = require('../core/Symbolic')
 import simplicesToDrawPrimitive = require('../geometries/simplicesToDrawPrimitive')
 import simplicesToGeometryMeta = require('../geometries/simplicesToGeometryMeta')
 import MutableNumber = require('../math/MutableNumber')
-import Vector2 = require('../math/Vector2')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
+import MutableVectorE2 = require('../math/MutableVectorE2')
+import VectorE3 = require('../math/VectorE3')
 
 /**
  * @class SimplexGeometry
@@ -194,11 +195,11 @@ class SimplexGeometry extends Shareable implements IGeometry<SimplexGeometry> {
     }
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {SimplexGeometry}
      * @chainable
      */
-    public setPosition(position: Cartesian3): SimplexGeometry {
+    public setPosition(position: VectorE3): SimplexGeometry {
         return this
     }
     /**
@@ -225,13 +226,13 @@ class SimplexGeometry extends Shareable implements IGeometry<SimplexGeometry> {
     /**
      * Convenience method for pushing attribute data as a triangular simplex
      * @method triangle
-     * @param positions {Vector3[]}
-     * @param normals {Vector3[]}
-     * @param uvs {Vector2[]}
+     * @param positions {MutableVectorE3[]}
+     * @param normals {MutableVectorE3[]}
+     * @param uvs {MutableVectorE2[]}
      * @return {number}
      * @beta
      */
-    public triangle(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+    public triangle(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number {
         var simplex = new Simplex(Simplex.TRIANGLE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1]
@@ -245,13 +246,13 @@ class SimplexGeometry extends Shareable implements IGeometry<SimplexGeometry> {
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1]
         simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2]
         if (this.orientationColors) {
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone()
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e3.clone()
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e1)
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e2)
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e3)
         }
         return this.data.push(simplex)
     }
-    public lineSegment(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+    public lineSegment(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number {
         var simplex = new Simplex(Simplex.LINE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1]
@@ -262,12 +263,12 @@ class SimplexGeometry extends Shareable implements IGeometry<SimplexGeometry> {
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0]
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1]
         if (this.orientationColors) {
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e2.clone()
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e1)
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e2)
         }
         return this.data.push(simplex)
     }
-    public point(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+    public point(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number {
         var simplex = new Simplex(Simplex.POINT)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
 
@@ -275,11 +276,11 @@ class SimplexGeometry extends Shareable implements IGeometry<SimplexGeometry> {
 
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0]
         if (this.orientationColors) {
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = Vector3.e1.clone()
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e1)
         }
         return this.data.push(simplex)
     }
-    public empty(positions: Vector3[], normals: Vector3[], uvs: Vector2[]): number {
+    public empty(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number {
         var simplex = new Simplex(Simplex.EMPTY)
         return this.data.push(simplex)
     }

@@ -1,5 +1,5 @@
 import View = require('../cameras/View');
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class Perspective
  * @extends View
@@ -52,20 +52,20 @@ interface Perspective extends View {
     /**
      * Convenience method for setting the eye property allowing chainable method calls.
      * @method setEye
-     * @param eye {Cartesian3}
+     * @param eye {VectorE3}
      */
-    setEye(eye: Cartesian3): Perspective;
+    setEye(eye: VectorE3): Perspective;
     /**
      * Convenience method for setting the look property allowing chainable method calls.
      * @method setLook
-     * @param look {Cartesian3}
+     * @param look {VectorE3}
      */
-    setLook(look: Cartesian3): Perspective;
+    setLook(look: VectorE3): Perspective;
     /**
      * Convenience method for setting the up property allowing chainable method calls.
      * @method setUp
-     * @param up {Cartesian3}
+     * @param up {VectorE3}
      */
-    setUp(up: Cartesian3): Perspective;
+    setUp(up: VectorE3): Perspective;
 }
 export = Perspective;

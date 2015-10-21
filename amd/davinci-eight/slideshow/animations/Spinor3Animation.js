@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../utils/Shareable', '../../math/Spinor3'], function (require, exports, Shareable, Spinor3) {
+define(["require", "exports", '../../utils/Shareable', '../../math/MutableSpinorE3'], function (require, exports, Shareable, MutableSpinorE3) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -15,7 +15,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/Spinor3'], fu
             if (duration === void 0) { duration = 300; }
             _super.call(this, 'Spinor3Animation');
             this.from = void 0;
-            this.to = Spinor3.copy(value);
+            this.to = MutableSpinorE3.copy(value);
             this.duration = duration;
             this.start = 0;
             this.fraction = 0;
@@ -30,7 +30,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/Spinor3'], fu
                 if (this.from === void 0) {
                     var data = target.getProperty(propName);
                     if (data) {
-                        this.from = new Spinor3(data);
+                        this.from = new MutableSpinorE3(data);
                     }
                 }
             }
@@ -62,7 +62,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/Spinor3'], fu
                     rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
                     break;
             }
-            var lerp = Spinor3.lerp(from, to, fraction);
+            var lerp = MutableSpinorE3.lerp(from, to, fraction);
             target.setProperty(propName, lerp.data);
         };
         Spinor3Animation.prototype.hurry = function (factor) {

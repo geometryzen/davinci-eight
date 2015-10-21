@@ -1,4 +1,4 @@
-import Cartesian3 = require('../math/Cartesian3');
+import VectorE3 = require('../math/VectorE3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
 import AxialGeometry = require('../geometries/AxialGeometry');
@@ -32,14 +32,14 @@ declare class RingGeometry extends AxialGeometry implements IAxialGeometry<RingG
      * @return {RingGeometry}
      * @chainable
      */
-    setAxis(axis: Cartesian3): RingGeometry;
+    setAxis(axis: VectorE3): RingGeometry;
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {RingGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): RingGeometry;
+    setPosition(position: VectorE3): RingGeometry;
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}

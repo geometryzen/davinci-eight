@@ -1,4 +1,4 @@
-import Vector3 = require('../math/Vector3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
 /**
  * @author zz85 / http://www.lab4games.net/zz85/blog
  * Extensible curve object
@@ -30,13 +30,13 @@ declare class Curve {
      * Virtual base class method to overwrite and implement in subclasses
      * t belongs to [0, 1]
      */
-    getPoint(t: number): Vector3;
+    getPoint(t: number): MutableVectorE3;
     /**
      * Get point at relative position in curve according to arc length
      */
-    getPointAt(u: number): Vector3;
-    getPoints(divisions?: number): Vector3[];
-    getSpacedPoints(divisions?: number): Vector3[];
+    getPointAt(u: number): MutableVectorE3;
+    getPoints(divisions?: number): MutableVectorE3[];
+    getSpacedPoints(divisions?: number): MutableVectorE3[];
     getLength(): number;
     getLengths(divisions?: number): number[];
     updateArcLengths(): void;
@@ -50,7 +50,7 @@ declare class Curve {
      * 2 points a small delta apart will be used to find its gradient
      * which seems to give a reasonable approximation
      */
-    getTangent(t: number): Vector3;
-    getTangentAt(u: number): Vector3;
+    getTangent(t: number): MutableVectorE3;
+    getTangentAt(u: number): MutableVectorE3;
 }
 export = Curve;

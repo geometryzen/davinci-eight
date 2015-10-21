@@ -1,17 +1,17 @@
-import Cartesian3 = require('../math/Cartesian3');
-import IAxialGeometry = require('../geometries/IAxialGeometry');
-import Vector3 = require('../math/Vector3');
 import Geometry = require('../geometries/Geometry');
+import IAxialGeometry = require('../geometries/IAxialGeometry');
+import MutableVectorE3 = require('../math/MutableVectorE3');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class AxialGeometry
  */
 declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * @property _axis
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @protected
      */
-    protected _axis: Vector3;
+    protected _axis: MutableVectorE3;
     /**
      * @property _sliceAngle
      * @type {number}
@@ -20,7 +20,7 @@ declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeom
     private _sliceAngle;
     /**
      * @property _sliceStart
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @private
      */
     private _sliceStart;
@@ -31,16 +31,16 @@ declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeom
     constructor();
     /**
      * @property axis
-     * @type {Cartesian3}
+     * @type {VectorE3}
      */
-    axis: Cartesian3;
+    axis: VectorE3;
     /**
      * @method setAxis
-     * @param axis {Cartesian3}
+     * @param axis {VectorE3}
      * @return {AxialGeometry}
      * @chainable
      */
-    setAxis(axis: Cartesian3): AxialGeometry;
+    setAxis(axis: VectorE3): AxialGeometry;
     /**
      * @property sliceAngle
      * @type {number}
@@ -50,16 +50,16 @@ declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeom
     /**
      * The (unit vector) direction of the start of the slice.
      * @property sliceStart
-     * @type {Cartesian3}
+     * @type {VectorE3}
      */
-    sliceStart: Cartesian3;
+    sliceStart: VectorE3;
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {AxialGeometry}
      * @chainable
      */
-    setPosition(position: Cartesian3): AxialGeometry;
+    setPosition(position: VectorE3): AxialGeometry;
     /**
      * @method enableTextureCoords
      * @param enable {boolean}

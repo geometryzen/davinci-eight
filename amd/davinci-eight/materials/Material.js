@@ -305,56 +305,56 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        Material.prototype.uniformCartesian2 = function (name, vector, canvasId) {
+        Material.prototype.uniformVectorE2 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformCartesian2(name, vector, canvasId);
+                this.inner.uniformVectorE2(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformCartesian2(name, vector, canvasId);
+                    this.inner.uniformVectorE2(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Vector2', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'MutableVectorE2', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniformCartesian3 = function (name, vector, canvasId) {
+        Material.prototype.uniformVectorE3 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformCartesian3(name, vector, canvasId);
+                this.inner.uniformVectorE3(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformCartesian3(name, vector, canvasId);
+                    this.inner.uniformVectorE3(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Vector3', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'MutableVectorE3', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniformCartesian4 = function (name, vector, canvasId) {
+        Material.prototype.uniformVectorE4 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformCartesian4(name, vector, canvasId);
+                this.inner.uniformVectorE4(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformCartesian4(name, vector, canvasId);
+                    this.inner.uniformVectorE4(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Vector4', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'MutableVectorE4', name, canvasId);
                     }
                 }
             }

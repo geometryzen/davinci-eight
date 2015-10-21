@@ -1,14 +1,14 @@
-import Cartesian3 = require('../math/Cartesian3')
+import VectorE3 = require('../math/VectorE3')
 import DrawPrimitive = require('../geometries/DrawPrimitive')
 import GridTopology = require('../topologies/GridTopology')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import AxialGeometry = require('../geometries/AxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import MutableNumber = require('../math/MutableNumber')
-import Spinor3 = require('../math/Spinor3')
+import MutableSpinorE3 = require('../math/MutableSpinorE3')
 import Symbolic = require('../core/Symbolic')
-import Vector2 = require('../math/Vector2')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE2 = require('../math/MutableVectorE2')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 /**
  * @class RingGeometry
@@ -42,17 +42,17 @@ class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry>
      * @return {RingGeometry}
      * @chainable
      */
-    public setAxis(axis: Cartesian3): RingGeometry {
+    public setAxis(axis: VectorE3): RingGeometry {
         super.setAxis(axis)
         return this
     }
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return {RingGeometry}
      * @chainable
      */
-    public setPosition(position: Cartesian3): RingGeometry {
+    public setPosition(position: VectorE3): RingGeometry {
         super.setPosition(position)
         return this
     }
@@ -66,9 +66,9 @@ class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry>
         let topo = new GridTopology(uSegments, vSegments)
         let a = this.outerRadius
         let b = this.innerRadius
-        let axis = Vector3.copy(this.axis)
-        let start = Vector3.copy(this.sliceStart)
-        let generator = new Spinor3().dual(this.axis)
+        let axis = MutableVectorE3.copy(this.axis)
+        let start = MutableVectorE3.copy(this.sliceStart)
+        let generator = new MutableSpinorE3().dual(this.axis)
 
         for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
             let u = uIndex / uSegments
@@ -80,7 +80,7 @@ class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry>
                 vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position)
                 vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = axis
                 if (this.useTextureCoords) {
-                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v])
+                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new MutableVectorE2([u, v])
                 }
             }
         }

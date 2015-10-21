@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.136.0</em>
+            <em>API Docs for: 2.137.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
-                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
-                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
-                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
-                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
@@ -110,6 +106,7 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -126,6 +123,10 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
+                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
+                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
+                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
+                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -153,7 +154,6 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
-                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -161,10 +161,11 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector2.html">Vector2</a></li>
-                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
-                                <li><a href="../classes/Vector4.html">Vector4</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -225,8 +226,8 @@ import Matrix = require(&#x27;../math/Matrix&#x27;);
 import _M4_x_M4_ = require(&#x27;../math/_M4_x_M4_&#x27;);
 
 // TODO: Anything after this line hints of excessive coupling.
-import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
-import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
+import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;);
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
 // TODO: Probably better not to couple this way.
 import frustumMatrix = require(&#x27;../cameras/frustumMatrix&#x27;);
 
@@ -272,13 +273,13 @@ class Matrix4 extends AbstractMatrix implements Matrix&lt;Matrix4&gt; {
   public static zero() {
     return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
   }
-  public static scaling(scale: Cartesian3): Matrix4 {
+  public static scaling(scale: VectorE3): Matrix4 {
     return Matrix4.identity().scaling(scale);
   }
-  public static translation(vector: Cartesian3): Matrix4 {
+  public static translation(vector: VectorE3): Matrix4 {
     return Matrix4.identity().translation(vector);
   }
-  public static rotation(spinor: Spinor3Coords): Matrix4 {
+  public static rotation(spinor: SpinorE3): Matrix4 {
     return Matrix4.identity().rotation(spinor);
   }
   /**
@@ -289,7 +290,7 @@ class Matrix4 extends AbstractMatrix implements Matrix&lt;Matrix4&gt; {
   clone(): Matrix4 {
     return Matrix4.zero().copy(this);
   }
-  compose(scale: Cartesian3, attitude: Spinor3Coords, position: Cartesian3): Matrix4 {
+  compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4 {
     // We 
     // this.identity();
     // this.scale(scale);
@@ -424,7 +425,7 @@ class Matrix4 extends AbstractMatrix implements Matrix&lt;Matrix4&gt; {
 
     return this;
   }
-  rotationAxis(axis: Cartesian3, angle: number) {
+  rotationAxis(axis: VectorE3, angle: number) {
 
     // Based on http://www.gamedev.net/reference/articles/article1199.asp
 
@@ -449,7 +450,7 @@ class Matrix4 extends AbstractMatrix implements Matrix&lt;Matrix4&gt; {
     return this;
   }
   // TODO: This should not be here.
-  rotate(spinor: Spinor3Coords): Matrix4 {
+  rotate(spinor: SpinorE3): Matrix4 {
     let S: Matrix4 = Matrix4.rotation(spinor);
     _M4_x_M4_(S.data, this.data, this.data);
     return this;
@@ -458,7 +459,7 @@ class Matrix4 extends AbstractMatrix implements Matrix&lt;Matrix4&gt; {
    * @method rotate
    * @param attitude  The spinor from which the rotation will be computed.
    */
-  rotation(spinor: Spinor3Coords): Matrix4 {
+  rotation(spinor: SpinorE3): Matrix4 {
     // The correspondence between quaternions and spinors is
     // i &lt;=&gt; -e2^e3, j &lt;=&gt; -e3^e1, k &lt;=&gt; -e1^e2.
     let x: number = -expectArg(&#x27;spinor.yz&#x27;, spinor.yz).toBeNumber().value;
@@ -489,7 +490,7 @@ class Matrix4 extends AbstractMatrix implements Matrix&lt;Matrix4&gt; {
     let te = this.data;
     return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
   }
-  scaleXYZ(scale: Cartesian3): Matrix4 {
+  scaleXYZ(scale: VectorE3): Matrix4 {
     // We treat the scale operation as pre-multiplication: 
     // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
     // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
@@ -505,7 +506,7 @@ class Matrix4 extends AbstractMatrix implements Matrix&lt;Matrix4&gt; {
     _M4_x_M4_(S.data, this.data, this.data);
     return this;
   }
-  scaling(scale: Cartesian3): Matrix4 {
+  scaling(scale: VectorE3): Matrix4 {
     return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
   }
   set(
@@ -550,12 +551,12 @@ class Matrix4 extends AbstractMatrix implements Matrix&lt;Matrix4&gt; {
     }
     return text.join(&#x27;\n&#x27;);
   }
-  translate(displacement: Cartesian3): Matrix4 {
+  translate(displacement: VectorE3): Matrix4 {
     let T: Matrix4 = Matrix4.translation(displacement);
     _M4_x_M4_(T.data, this.data, this.data);
     return this;
   }
-  translation(displacement: Cartesian3): Matrix4 {
+  translation(displacement: VectorE3): Matrix4 {
     return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
   }
   __mul__(other: any): Matrix4 {

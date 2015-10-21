@@ -1,42 +1,42 @@
 import IFacet = require('../core/IFacet');
-import Vector3 = require('../math/Vector3');
-import Cartesian3 = require('../math/Cartesian3');
+import MutableVectorE3 = require('../math/MutableVectorE3');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class View
  */
 interface View extends IFacet {
     /**
      * @property eye
-     * @type Vector3
+     * @type MutableVectorE3
      */
-    eye: Vector3;
+    eye: MutableVectorE3;
     /**
      * @property look
-     * @type Vector3
+     * @type MutableVectorE3
      */
-    look: Vector3;
+    look: MutableVectorE3;
     /**
      * @property up
-     * @type Vector3
+     * @type MutableVectorE3
      */
-    up: Vector3;
+    up: MutableVectorE3;
     /**
      * Convenience method for setting the eye property allowing chainable method calls.
      * @method setEye
-     * @param eye {Cartesian3}
+     * @param eye {VectorE3}
      */
-    setEye(eye: Cartesian3): View;
+    setEye(eye: VectorE3): View;
     /**
      * Convenience method for setting the look property allowing chainable method calls.
      * @method setLook
-     * @param look {Cartesian3}
+     * @param look {VectorE3}
      */
-    setLook(look: Cartesian3): View;
+    setLook(look: VectorE3): View;
     /**
      * Convenience method for setting the up property allowing chainable method calls.
      * @method setUp
-     * @param up {Cartesian3}
+     * @param up {VectorE3}
      */
-    setUp(up: Cartesian3): View;
+    setUp(up: VectorE3): View;
 }
 export = View;

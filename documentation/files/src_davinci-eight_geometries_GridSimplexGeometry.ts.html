@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.136.0</em>
+            <em>API Docs for: 2.137.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
-                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
-                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
-                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
-                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
@@ -110,6 +106,7 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -126,6 +123,10 @@
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
+                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
+                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
+                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
+                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -153,7 +154,6 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
-                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -161,10 +161,11 @@
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
-                                <li><a href="../classes/Vector2.html">Vector2</a></li>
-                                <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
-                                <li><a href="../classes/Vector4.html">Vector4</a></li>
+                                <li><a href="../classes/VectorE1.html">VectorE1</a></li>
+                                <li><a href="../classes/VectorE2.html">VectorE2</a></li>
+                                <li><a href="../classes/VectorE3.html">VectorE3</a></li>
+                                <li><a href="../classes/VectorE4.html">VectorE4</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -217,13 +218,13 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;)
-import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
+import VectorE2 = require(&#x27;../math/VectorE2&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import SimplexGeometry = require(&#x27;../geometries/SimplexGeometry&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
-import Vector2 = require(&#x27;../math/Vector2&#x27;)
-import Vector3 = require(&#x27;../math/Vector3&#x27;)
+import MutableVectorE2 = require(&#x27;../math/MutableVectorE2&#x27;)
+import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;)
 import mustBeFunction = require(&#x27;../checks/mustBeFunction&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
@@ -234,11 +235,11 @@ class GridSimplexGeometry extends SimplexGeometry {
   /**
    * @class GridSimplexGeometry
    * @constructor
-   * @param parametricFunction {(u: number, v: number) =&gt; Cartesian3}
+   * @param parametricFunction {(u: number, v: number) =&gt; VectorE3}
    * @param uSegments {number}
    * @param vSegments {number}
    */
-  constructor(parametricFunction: (u: number, v: number) =&gt; Cartesian3, uSegments: number, vSegments: number) {
+  constructor(parametricFunction: (u: number, v: number) =&gt; VectorE3, uSegments: number, vSegments: number) {
     super();
     mustBeFunction(&#x27;parametricFunction&#x27;, parametricFunction)
     mustBeInteger(&#x27;uSegments&#x27;, uSegments)
@@ -246,7 +247,7 @@ class GridSimplexGeometry extends SimplexGeometry {
     /**
      * Temporary array of points.
      */
-    let points: Vector3[] = [];
+    let points: MutableVectorE3[] = [];
 
     var i: number;
     var j: number;
@@ -261,9 +262,9 @@ class GridSimplexGeometry extends SimplexGeometry {
 
         let u: number = j / uSegments;
 
-        let point: Cartesian3 = parametricFunction( u, v );
+        let point: VectorE3 = parametricFunction( u, v );
         // Make a copy just in case the function is returning mutable references.
-        points.push(Vector3.copy(point));
+        points.push(MutableVectorE3.copy(point));
       }
     }
 
@@ -271,10 +272,10 @@ class GridSimplexGeometry extends SimplexGeometry {
     var b: number;
     var c: number;
     var d: number;
-    var uva: Vector2;
-    var uvb: Vector2;
-    var uvc: Vector2;
-    var uvd: Vector2;
+    var uva: MutableVectorE2;
+    var uvb: MutableVectorE2;
+    var uvc: MutableVectorE2;
+    var uvd: MutableVectorE2;
 
     for ( i = 0; i &lt; vSegments; i ++ ) {
 
@@ -285,10 +286,10 @@ class GridSimplexGeometry extends SimplexGeometry {
         c = (i + 1) * sliceCount + j + 1;
         d = (i + 1) * sliceCount + j;
 
-        uva = new Vector2([j / uSegments, i / vSegments]);
-        uvb = new Vector2([(j + 1) / uSegments, i / vSegments]);
-        uvc = new Vector2([(j + 1) / uSegments, (i + 1) / vSegments]);
-        uvd = new Vector2([j / uSegments, (i + 1) / vSegments]);
+        uva = new MutableVectorE2([j / uSegments, i / vSegments]);
+        uvb = new MutableVectorE2([(j + 1) / uSegments, i / vSegments]);
+        uvc = new MutableVectorE2([(j + 1) / uSegments, (i + 1) / vSegments]);
+        uvd = new MutableVectorE2([j / uSegments, (i + 1) / vSegments]);
 
         var simplex = new Simplex(Simplex.TRIANGLE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a]

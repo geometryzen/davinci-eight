@@ -1,9 +1,9 @@
-define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/Spinor3', '../math/Vector3'], function (require, exports, mustBeDefined, mustBeInteger, mustBeNumber, Spinor3, Vector3) {
+define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/MutableSpinorE3', '../math/MutableVectorE3'], function (require, exports, mustBeDefined, mustBeInteger, mustBeNumber, MutableSpinorE3, MutableVectorE3) {
     /**
      * Computes a list of points corresponding to an arc centered on the origin.
-     * param begin {Cartesian3} The begin position.
+     * param begin {VectorE3} The begin position.
      * param angle: {number} The angle of the rotation.
-     * param generator {Spinor3Coords} The generator of the rotation.
+     * param generator {SpinorE3} The generator of the rotation.
      * param segments {number} The number of segments.
      */
     function arc3(begin, angle, generator, segments) {
@@ -18,11 +18,11 @@ define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeIntege
         /**
          * Temporary point that we will advance for each segment.
          */
-        var point = Vector3.copy(begin);
+        var point = MutableVectorE3.copy(begin);
         /**
          * The rotor that advances us through one segment.
          */
-        var rotor = Spinor3.copy(generator).scale((-angle / 2) / segments).exp();
+        var rotor = MutableSpinorE3.copy(generator).scale((-angle / 2) / segments).exp();
         points.push(point.clone());
         for (var i = 0; i < segments; i++) {
             point.rotate(rotor);

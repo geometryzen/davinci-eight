@@ -16,9 +16,9 @@ import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import UniformLocation = require('../core/UniformLocation')
 import uuid4 = require('../utils/uuid4')
-import Vector2 = require('../math/Vector2')
-import Vector3 = require('../math/Vector3')
-import Vector4 = require('../math/Vector4')
+import VectorE2 = require('../math/VectorE2')
+import VectorE3 = require('../math/VectorE3')
+import VectorE4 = require('../math/VectorE4')
 
 function consoleWarnDroppedUniform(clazz: string, suffix: string, name: string, canvasId: number) {
   console.warn(clazz + " dropped uniform" + suffix + " " + name)
@@ -318,56 +318,56 @@ class Material extends Shareable implements IMaterial {
       }
     }
   }
-  uniformCartesian2(name: string, vector: Vector2, canvasId: number): void {
+  uniformVectorE2(name: string, vector: VectorE2, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformCartesian2(name, vector, canvasId)
+      this.inner.uniformVectorE2(name, vector, canvasId)
     }
     else {
       let async = false
       let readyPending = this.readyPending
       this.makeReady(async)
       if (this.inner) {
-        this.inner.uniformCartesian2(name, vector, canvasId)
+        this.inner.uniformVectorE2(name, vector, canvasId)
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Vector2', name, canvasId)
+          consoleWarnDroppedUniform(this.type, 'MutableVectorE2', name, canvasId)
         }
       }
     }
   }
-  uniformCartesian3(name: string, vector: Vector3, canvasId: number): void {
+  uniformVectorE3(name: string, vector: VectorE3, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformCartesian3(name, vector, canvasId)
+      this.inner.uniformVectorE3(name, vector, canvasId)
     }
     else {
       let async = false
       let readyPending = this.readyPending
       this.makeReady(async)
       if (this.inner) {
-        this.inner.uniformCartesian3(name, vector, canvasId)
+        this.inner.uniformVectorE3(name, vector, canvasId)
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Vector3', name, canvasId)
+          consoleWarnDroppedUniform(this.type, 'MutableVectorE3', name, canvasId)
         }
       }
     }
   }
-  uniformCartesian4(name: string, vector: Vector4, canvasId: number): void {
+  uniformVectorE4(name: string, vector: VectorE4, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformCartesian4(name, vector, canvasId)
+      this.inner.uniformVectorE4(name, vector, canvasId)
     }
     else {
       let async = false
       let readyPending = this.readyPending
       this.makeReady(async)
       if (this.inner) {
-        this.inner.uniformCartesian4(name, vector, canvasId)
+        this.inner.uniformVectorE4(name, vector, canvasId)
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Vector4', name, canvasId)
+          consoleWarnDroppedUniform(this.type, 'MutableVectorE4', name, canvasId)
         }
       }
     }

@@ -1,9 +1,9 @@
-import Cartesian3 = require('../math/Cartesian3')
+import VectorE3 = require('../math/VectorE3')
 import DrawPrimitive = require('../geometries/DrawPrimitive')
 import IGeometry = require('../geometries/IGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustBeObject = require('../checks/mustBeObject')
-import Vector3 = require('../math/Vector3')
+import MutableVectorE3 = require('../math/MutableVectorE3')
 
 /**
  * @class Geometry
@@ -11,10 +11,10 @@ import Vector3 = require('../math/Vector3')
 class Geometry implements IGeometry<Geometry> {
     /**
      * @property _position
-     * @type {Vector3}
+     * @type {MutableVectorE3}
      * @private
      */
-    private _position = new Vector3();
+    private _position = new MutableVectorE3();
     /**
      * @property useTextureCoords
      * @type {boolean}
@@ -31,12 +31,12 @@ class Geometry implements IGeometry<Geometry> {
      * The local `position` property used for geometry generation.
      * </p>
      * @property position
-     * @type {Cartesian3}
+     * @type {VectorE3}
      */
-    get position(): Cartesian3 {
+    get position(): VectorE3 {
         return this._position
     }
-    set position(position: Cartesian3) {
+    set position(position: VectorE3) {
         this.setPosition(position)
     }
     /**
@@ -52,11 +52,11 @@ class Geometry implements IGeometry<Geometry> {
     }
     /**
      * @method setPosition
-     * @param position {Cartesian3}
+     * @param position {VectorE3}
      * @return Geometry
      * @chainable
      */
-    setPosition(position: Cartesian3): Geometry {
+    setPosition(position: VectorE3): Geometry {
         mustBeObject('position', position)
         this._position.copy(position)
         return this
