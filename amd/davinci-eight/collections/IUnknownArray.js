@@ -4,16 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
-    function className(userName) {
-        return 'IUnknownArray:' + userName;
-    }
     /**
      * Essentially constructs the IUnknownArray without incrementing the
      * reference count of the elements, and without creating zombies.
      */
-    function transferOwnership(data, userName) {
+    function transferOwnership(data) {
         if (data) {
-            var result = new IUnknownArray(data, userName);
+            var result = new IUnknownArray(data);
             // The result has now taken ownership of the elements, so we can release.
             for (var i = 0, iLength = data.length; i < iLength; i++) {
                 var element = data[i];
@@ -39,14 +36,13 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
          * @class IUnknownArray
          * @constructor
          */
-        function IUnknownArray(elements, userName) {
+        function IUnknownArray(elements) {
             if (elements === void 0) { elements = []; }
-            _super.call(this, className(userName));
+            _super.call(this, 'IUnknownArray');
             this._elements = elements;
             for (var i = 0, l = this._elements.length; i < l; i++) {
                 this._elements[i].addRef();
             }
-            this.userName = userName;
         }
         /**
          * @method destructor
@@ -102,7 +98,7 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
                     return this._elements.length;
                 }
                 else {
-                    console.warn(className(this.userName) + " is now a zombie, length is undefined");
+                    console.warn("IUnknownArray is now a zombie, length is undefined");
                     return void 0;
                 }
             },
@@ -117,7 +113,7 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
          * @param end [number]
          */
         IUnknownArray.prototype.slice = function (begin, end) {
-            return new IUnknownArray(this._elements.slice(begin, end), 'IUnknownArray.slice()');
+            return new IUnknownArray(this._elements.slice(begin, end));
         };
         /**
          * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
@@ -128,7 +124,7 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
          */
         IUnknownArray.prototype.splice = function (index, deleteCount) {
             // The release burdon is on the caller now.
-            return transferOwnership(this._elements.splice(index, deleteCount), 'IUnknownArray.slice()');
+            return transferOwnership(this._elements.splice(index, deleteCount));
         };
         /**
          * @method shift

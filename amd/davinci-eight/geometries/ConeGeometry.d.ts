@@ -1,11 +1,11 @@
 import AxialGeometry = require('../geometries/AxialGeometry');
 import Cartesian3 = require('../math/Cartesian3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
-import IGeometry = require('../geometries/IGeometry');
+import IAxialGeometry = require('../geometries/IAxialGeometry');
 /**
  * @class ConeGeometry
  */
-declare class ConeGeometry extends AxialGeometry implements IGeometry<ConeGeometry> {
+declare class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry> {
     /**
      * @property radius
      * @type {number}
@@ -26,7 +26,24 @@ declare class ConeGeometry extends AxialGeometry implements IGeometry<ConeGeomet
      * @constructor
      */
     constructor();
+    /**
+     * @method setAxis
+     * @param axis {Cartesian3}
+     * @return {ConeGeometry}
+     * @chainable
+     */
+    setAxis(axis: Cartesian3): ConeGeometry;
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {ConeGeometry}
+     * @chainable
+     */
     setPosition(position: Cartesian3): ConeGeometry;
+    /**
+     * @method tPrimitives
+     * @return {DrawPrimitive[]}
+     */
     toPrimitives(): DrawPrimitive[];
     enableTextureCoords(enable: boolean): ConeGeometry;
 }

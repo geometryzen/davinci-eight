@@ -33,7 +33,7 @@ define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArr
             this._material = material;
             this._material.addRef();
             this.buffersByCanvasId = new NumberIUnknownMap();
-            this.uniforms = new StringIUnknownMap(LOGGING_NAME);
+            this.uniforms = new StringIUnknownMap();
         }
         Drawable.prototype.destructor = function () {
             this.primitives = void 0;
@@ -75,7 +75,7 @@ define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArr
                 for (var i = 0; i < this.primitives.length; i++) {
                     var primitive = this.primitives[i];
                     if (!this.buffersByCanvasId.exists(manager.canvasId)) {
-                        this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray([], 'Drawable.buffers'));
+                        this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray([]));
                     }
                     var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId);
                     buffers.pushWeakRef(manager.createBufferGeometry(primitive));

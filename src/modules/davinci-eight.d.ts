@@ -150,24 +150,43 @@ declare module EIGHT {
     draw(): void;
     unbind(): void;
   }
-
+  /**
+   *
+   */
+  enum DrawMode {
+    /**
+     * @property POINTS
+     * @type {DrawMode}
+     */
+    POINTS,
+    LINES,
+    LINE_STRIP,
+    LINE_LOOP,
+    TRIANGLES,
+    TRIANGLE_STRIP,
+    /**
+     * @property TRIANGLE_FAN
+     * @type {DrawMode}
+     */
+    TRIANGLE_FAN
+  }
   /**
    *
    */
   class DrawPrimitive {
-    public k: number;
-    public indices: VectorN<number>;
+    public mode: DrawMode;
+    public indices: number[];
     public attributes: { [name: string]: DrawAttribute };
-    constructor(k: number, indices: VectorN<number>, attributes: { [name: string]: DrawAttribute });
+    constructor(mode: DrawMode, indices: number[], attributes: { [name: string]: DrawAttribute });
   }
 
   /**
    *
    */
   class DrawAttribute {
-    public values: VectorN<number>;
+    public values: number[];
     public size: number;
-    constructor(values: VectorN<number>, size: number);
+    constructor(values: number[], size: number);
   }
 
   /**
@@ -401,36 +420,6 @@ declare module EIGHT {
   }
 
   /**
-   *
-   */
-  interface LinearElement<I, M, S, V> {
-    add(rhs: I, alpha?: number): M;
-    clone(): M;
-    copy(source: I): M;
-    difference(a: I, b: I): M;
-    divideScalar(scalar: number): M;
-    lerp(target: I, alpha: number): M;
-    scale(scalar: number): M;
-    reflect(vector: V): M;
-    rotate(rotor: S): M;
-    sub(rhs: I): M;
-    sum(a: I, b: I): M;
-  }
-
-  /**
-   *
-   */
-  interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
-    exp(): M;
-    dual(m: D): M;
-    log(): M;
-    magnitude(): number;
-    multiply(element: I): M;
-    product(a: I, b: I): M;
-    quaditude(): number;
-  }
-
-  /**
    * A rational number.
    */
   class Rational {
@@ -641,7 +630,7 @@ declare module EIGHT {
     quaditude(): number;
     set(x: number, y: number): Vector2;
     sub(v: Cartesian2): Vector2;
-    difference(a: Cartesian2, b: Cartesian2): Vector2;
+    diff(a: Cartesian2, b: Cartesian2): Vector2;
   }
 
   /**
@@ -666,8 +655,8 @@ declare module EIGHT {
     add(rhs: Spinor3Coords): Spinor3;
     clone(): Spinor3;
     copy(spinor: Spinor3Coords): Spinor3;
-    difference(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
-    divideScalar(scalar: number): Spinor3;
+    diff(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
+    divideByScalar(scalar: number): Spinor3;
     dual(vector: Cartesian3): Spinor3;
     exp(): Spinor3;
     inverse(): Spinor3;
@@ -718,7 +707,7 @@ declare module EIGHT {
   /**
    *
    */
-  class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords, Vector3> {
+  class Vector3 extends VectorN<number> implements Cartesian3 {
     x: number;
     y: number;
     z: number;
@@ -734,10 +723,10 @@ declare module EIGHT {
     clone(): Vector3;
     copy(v: Cartesian3): Vector3;
     cross(v: Cartesian3): Vector3;
-    crossVectors(a: Cartesian3, b: Cartesian3): Vector3;
-    difference(a: Cartesian3, b: Cartesian3): Vector3;
+    cross2(a: Cartesian3, b: Cartesian3): Vector3;
+    diff(a: Cartesian3, b: Cartesian3): Vector3;
     distanceTo(position: Cartesian3): number;
-    divideScalar(rhs: number): Vector3;
+    divideByScalar(rhs: number): Vector3;
     magnitude(): number;
     lerp(target: Cartesian3, alpha: number): Vector3;
     scale(rhs: number): Vector3;
@@ -926,6 +915,12 @@ declare module EIGHT {
   interface IGeometry<T> {
     setPosition(position: Cartesian3): T
     toPrimitives(): DrawPrimitive[];
+  }
+  /**
+   *
+   */
+  interface IAxialGeometry<T> extends IGeometry<T> {
+    setAxis(axis: Cartesian3): T
   }
   /**
    * A geometry holds a list of simplices.
@@ -1580,10 +1575,11 @@ declare module EIGHT {
   /**
    *
    */
-  class RingGeometry extends AxialGeometry implements IGeometry<RingGeometry> {
+  class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry> {
     innerRadius: number;
     outerRadius: number;
     constructor();
+    setAxis(axis: Cartesian3): RingGeometry
     setPosition(position: Cartesian3): RingGeometry
     toPrimitives(): DrawPrimitive[];
   }
@@ -1728,7 +1724,7 @@ declare module EIGHT {
   /**
    *
    */
-  class SphericalPolarSimplexGeometry extends SliceSimplexGeometry {
+  class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxialGeometry<SphericalPolarSimplexGeometry> {
     radius: number;
     phiLength: number;
     phiStart: Vector3;
@@ -1741,6 +1737,8 @@ declare module EIGHT {
       phiLength?: number,
       thetaStart?: number,
       thetaLength?: number);
+    setAxis(axis: Cartesian3): SphericalPolarSimplexGeometry;
+    setPosition(position: Cartesian3): SphericalPolarSimplexGeometry;
   }
 
   /**

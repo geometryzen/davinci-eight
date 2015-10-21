@@ -231,6 +231,30 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
             configurable: true
         });
         /**
+         * @method setAxis
+         * @param axis {Cartesian3}
+         * @return {SphericalPolarSimplexGeometry}
+         * @chainable
+         */
+        SphericalPolarSimplexGeometry.prototype.setAxis = function (axis) {
+            _super.prototype.setAxis.call(this, axis);
+            return this;
+        };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {SphericalPolarSimplexGeometry}
+         * @chainable
+         */
+        SphericalPolarSimplexGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        SphericalPolarSimplexGeometry.prototype.enableTextureCoords = function (enable) {
+            _super.prototype.enableTextureCoords.call(this, enable);
+            return this;
+        };
+        /**
          * @method isModified
          * @return {boolean}
          */

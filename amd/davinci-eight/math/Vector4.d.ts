@@ -41,12 +41,13 @@ declare class Vector4 extends VectorN<number> implements Cartesian4, LinearEleme
     sum(a: Cartesian4, b: Cartesian4): Vector4;
     clone(): Vector4;
     copy(v: Cartesian4): Vector4;
-    divideScalar(scalar: number): Vector4;
+    divideByScalar(scalar: number): Vector4;
     lerp(target: Cartesian4, alpha: number): Vector4;
+    lerp2(a: Cartesian4, b: Cartesian4, α: number): Vector4;
     scale(scalar: number): Vector4;
     reflect(n: Cartesian4): Vector4;
     rotate(rotor: Spinor4Coords): Vector4;
     sub(rhs: Cartesian4): Vector4;
-    difference(a: Cartesian4, b: Cartesian4): Vector4;
+    diff(a: Cartesian4, b: Cartesian4): Vector4;
 }
 export = Vector4;

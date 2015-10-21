@@ -11,7 +11,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/refChang
         var _manager;
         var uuid = uuid4().generate();
         var refCount = 1;
-        var commands = new IUnknownArray([], CLASS_NAME);
+        var commands = new IUnknownArray([]);
         var self = {
             addRef: function () {
                 refCount++;

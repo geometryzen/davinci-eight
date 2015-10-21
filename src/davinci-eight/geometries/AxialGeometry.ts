@@ -1,4 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3')
+import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import Vector3 = require('../math/Vector3')
@@ -7,13 +8,13 @@ import Geometry = require('../geometries/Geometry')
 /**
  * @class AxialGeometry
  */
-class AxialGeometry extends Geometry {
+class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * @property _axis
      * @type {Vector3}
      * @protected
      */
-    protected _axis = Vector3.e3.clone();
+    protected _axis: Vector3;
     /**
      * @property _sliceAngle
      * @type {number}
@@ -25,17 +26,15 @@ class AxialGeometry extends Geometry {
      * @type {Vector3}
      * @private
      */
-    private _sliceStart = Vector3.e3.clone();
+    private _sliceStart: Vector3;
     /**
      * @class SliceGeometry
      * @constructor
      */
-    /**
-     * @class AxialGeometry
-     * @constructor
-     */
     constructor() {
         super()
+        this._axis = Vector3.e2.clone()
+        this._sliceStart = Vector3.e1.clone()
     }
     /**
      * @property axis
@@ -45,10 +44,26 @@ class AxialGeometry extends Geometry {
         return this._axis.clone()
     }
     set axis(axis: Cartesian3) {
+        this.setAxis(axis)
+    }
+    /**
+     * @method setAxis
+     * @param axis {Cartesian3}
+     * @return {AxialGeometry}
+     * @chainable
+     */
+    setAxis(axis: Cartesian3): AxialGeometry {
         mustBeObject('axis', axis)
         this._axis.copy(axis).normalize()
-        this._sliceStart = Vector3.random().cross(this._axis).normalize()
+        // FIXME: randomize
+        this._sliceStart.copy(Vector3.random()).cross(this._axis).normalize()
+        return this;
     }
+    /**
+     * @property sliceAngle
+     * @type {number}
+     * @default 2 * Math.PI
+     */
     get sliceAngle(): number {
         return this._sliceAngle;
     }
@@ -67,6 +82,25 @@ class AxialGeometry extends Geometry {
     set sliceStart(sliceStart: Cartesian3) {
         mustBeObject('sliceStart', sliceStart)
         this._sliceStart.copy(sliceStart).normalize()
+    }
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {AxialGeometry}
+     * @chainable
+     */
+    setPosition(position: Cartesian3): AxialGeometry {
+        super.setPosition(position)
+        return this
+    }
+    /**
+     * @method enableTextureCoords
+     * @param enable {boolean}
+     * @return {AxialGeometry}
+     */
+    enableTextureCoords(enable: boolean): AxialGeometry {
+        super.enableTextureCoords(enable)
+        return this
     }
 }
 export = AxialGeometry

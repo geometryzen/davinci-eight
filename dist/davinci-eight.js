@@ -784,16 +784,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define('davinci-eight/collections/IUnknownArray',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
-    function className(userName) {
-        return 'IUnknownArray:' + userName;
-    }
     /**
      * Essentially constructs the IUnknownArray without incrementing the
      * reference count of the elements, and without creating zombies.
      */
-    function transferOwnership(data, userName) {
+    function transferOwnership(data) {
         if (data) {
-            var result = new IUnknownArray(data, userName);
+            var result = new IUnknownArray(data);
             // The result has now taken ownership of the elements, so we can release.
             for (var i = 0, iLength = data.length; i < iLength; i++) {
                 var element = data[i];
@@ -819,14 +816,13 @@ define('davinci-eight/collections/IUnknownArray',["require", "exports", '../util
          * @class IUnknownArray
          * @constructor
          */
-        function IUnknownArray(elements, userName) {
+        function IUnknownArray(elements) {
             if (elements === void 0) { elements = []; }
-            _super.call(this, className(userName));
+            _super.call(this, 'IUnknownArray');
             this._elements = elements;
             for (var i = 0, l = this._elements.length; i < l; i++) {
                 this._elements[i].addRef();
             }
-            this.userName = userName;
         }
         /**
          * @method destructor
@@ -882,7 +878,7 @@ define('davinci-eight/collections/IUnknownArray',["require", "exports", '../util
                     return this._elements.length;
                 }
                 else {
-                    console.warn(className(this.userName) + " is now a zombie, length is undefined");
+                    console.warn("IUnknownArray is now a zombie, length is undefined");
                     return void 0;
                 }
             },
@@ -897,7 +893,7 @@ define('davinci-eight/collections/IUnknownArray',["require", "exports", '../util
          * @param end [number]
          */
         IUnknownArray.prototype.slice = function (begin, end) {
-            return new IUnknownArray(this._elements.slice(begin, end), 'IUnknownArray.slice()');
+            return new IUnknownArray(this._elements.slice(begin, end));
         };
         /**
          * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
@@ -908,7 +904,7 @@ define('davinci-eight/collections/IUnknownArray',["require", "exports", '../util
          */
         IUnknownArray.prototype.splice = function (index, deleteCount) {
             // The release burdon is on the caller now.
-            return transferOwnership(this._elements.splice(index, deleteCount), 'IUnknownArray.slice()');
+            return transferOwnership(this._elements.splice(index, deleteCount));
         };
         /**
          * @method shift
@@ -1426,6 +1422,36 @@ define('davinci-eight/checks/isDefined',["require", "exports"], function (requir
     return isDefined;
 });
 
+define('davinci-eight/math/euclidean3Quaditude2Arg',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
+    function euclidean3Quaditude1Arg2Arg(a, b) {
+        if (isDefined(a) && isDefined(b)) {
+            return a.x * b.x + a.y * b.y + a.z * b.z;
+        }
+        else {
+            return void 0;
+        }
+    }
+    return euclidean3Quaditude1Arg2Arg;
+});
+
+define('davinci-eight/checks/isObject',["require", "exports"], function (require, exports) {
+    function isObject(x) {
+        return (typeof x === 'object');
+    }
+    return isObject;
+});
+
+define('davinci-eight/checks/mustBeObject',["require", "exports", '../checks/mustSatisfy', '../checks/isObject'], function (require, exports, mustSatisfy, isObject) {
+    function beObject() {
+        return "be an `object`";
+    }
+    function mustBeObject(name, value, contextBuilder) {
+        mustSatisfy(name, isObject(value), beObject, contextBuilder);
+        return value;
+    }
+    return mustBeObject;
+});
+
 define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../checks/isUndefined'], function (require, exports, expectArg, isDefined, isUndefined) {
     function constructorString(T) {
         return "new VectorN<" + T + ">(data: " + T + "[], modified: boolean = false, size?: number)";
@@ -1467,11 +1493,10 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
     }
     /**
      * @class VectorN<T>
-     * @extends Mutable<T[]>
      */
     var VectorN = (function () {
         /**
-         * @class VectorN
+         * @class VectorN<T>
          * @constructor
          * @param data {T[]}
          * @param modified [boolean = false]
@@ -1491,6 +1516,10 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
             }
         }
         Object.defineProperty(VectorN.prototype, "data", {
+            /**
+             * @property data
+             * @type {T[]}
+             */
             get: function () {
                 if (this._data) {
                     return this._data;
@@ -1518,6 +1547,10 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
             configurable: true
         });
         Object.defineProperty(VectorN.prototype, "callback", {
+            /**
+             * @property callback
+             * @type {() => T[]}
+             */
             get: function () {
                 return this._callback;
             },
@@ -1530,18 +1563,36 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
             configurable: true
         });
         Object.defineProperty(VectorN.prototype, "length", {
+            /**
+             * @property length
+             * @type {number}
+             * @readOnly
+             */
             get: function () {
                 return this.data.length;
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method clone
+         * @return {VectorN<T>}
+         */
         VectorN.prototype.clone = function () {
             return new VectorN(this._data, this.modified, this._size);
         };
+        /**
+         * @method getComponent
+         * @param index {number}
+         * @return {T}
+         */
         VectorN.prototype.getComponent = function (index) {
             return this.data[index];
         };
+        /**
+         * @method pop
+         * @return {T}
+         */
         VectorN.prototype.pop = function () {
             if (isUndefined(this._size)) {
                 return this.data.pop();
@@ -1550,7 +1601,11 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
                 throw new Error(verbotenPop());
             }
         };
-        // TODO: How to prototype this as ...items: T[]
+        /**
+         * @method push
+         * @param value {T}
+         * @return {number}
+         */
         VectorN.prototype.push = function (value) {
             if (isUndefined(this._size)) {
                 var data = this.data;
@@ -1562,6 +1617,12 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
                 throw new Error(verbotenPush());
             }
         };
+        /**
+         * @method setComponent
+         * @param index {number}
+         * @param value {T}
+         * @return {void}
+         */
         VectorN.prototype.setComponent = function (index, value) {
             var data = this.data;
             var existing = data[index];
@@ -1571,6 +1632,12 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
                 this.modified = true;
             }
         };
+        /**
+         * @method toArray
+         * @param [array = []] {T[]}
+         * @param [offset = 0] {number}
+         * @return {T[]}
+         */
         VectorN.prototype.toArray = function (array, offset) {
             if (array === void 0) { array = []; }
             if (offset === void 0) { offset = 0; }
@@ -1581,9 +1648,17 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
             }
             return array;
         };
+        /**
+         * @method toLocaleString
+         * @return {string}
+         */
         VectorN.prototype.toLocaleString = function () {
             return this.data.toLocaleString();
         };
+        /**
+         * @method toString
+         * @return {string}
+         */
         VectorN.prototype.toString = function () {
             return this.data.toString();
         };
@@ -1627,23 +1702,31 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg', '../checks/isNumber', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, expectArg, isNumber, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/Vector3',["require", "exports", '../math/euclidean3Quaditude2Arg', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, euclidean3Quaditude2Arg, isDefined, isNumber, mustBeNumber, mustBeObject, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     /**
      * @class Vector3
+     * @extends VectorN<number>
      */
     var Vector3 = (function (_super) {
         __extends(Vector3, _super);
         /**
          * @class Vector3
          * @constructor
-         * @param data {number[]} Default is [0, 0, 0].
-         * @param modified {boolean} Default is false;
+         * @param data [number[] = [0, 0, 0]]
+         * @param modified [boolean = false]
          */
         function Vector3(data, modified) {
             if (data === void 0) { data = [0, 0, 0]; }
             if (modified === void 0) { modified = false; }
             _super.call(this, data, modified, 3);
         }
+        /**
+         * @method dot
+         * @param a {Cartesian3}
+         * @param b {Cartesian3}
+         * @return {number}
+         * @static
+         */
         Vector3.dot = function (a, b) {
             return a.x * b.x + a.y * b.y + a.z * b.z;
         };
@@ -1694,27 +1777,33 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
         });
         /**
          * <p>
-         * Adds <code>alpha * vector</code> to this <code>Vector3</code>.
+         * <code>this ⟼ this + vector * α</code>
          * </p>
-         *
          * @method add
-         * @param vector {Vector3} The vector to add to this vector.
-         * @param alpha [number = 1] The
-         * @return {Vector3}
+         * @param vector {Vector3}
+         * @param α [number = 1]
+         * @return {Vector3} <code>this</code>
+         * @chainable
          */
-        Vector3.prototype.add = function (vector, alpha) {
-            if (alpha === void 0) { alpha = 1; }
-            this.x += vector.x * alpha;
-            this.y += vector.y * alpha;
-            this.z += vector.z * alpha;
+        Vector3.prototype.add = function (vector, α) {
+            if (α === void 0) { α = 1; }
+            mustBeObject('vector', vector);
+            mustBeNumber('α', α);
+            this.x += vector.x * α;
+            this.y += vector.y * α;
+            this.z += vector.z * α;
             return this;
         };
-        Vector3.prototype.sum = function (a, b) {
-            this.x = a.x + b.x;
-            this.y = a.y + b.y;
-            this.z = a.z + b.z;
-            return this;
-        };
+        /**
+         * <p>
+         * <code>this ⟼ m * this</code>
+         * </p>
+         * @method applyMatrix3
+         * @param m {Matrix3}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         * @deprecated
+         */
         Vector3.prototype.applyMatrix3 = function (m) {
             var x = this.x;
             var y = this.y;
@@ -1733,6 +1822,9 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
          * TODO: Used by TubeSimplexGeometry.
          * @method applyMatrix
          * @param m The 4x4 matrix that pre-multiplies this column vector.
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         * @deprecated
          */
         Vector3.prototype.applyMatrix4 = function (m) {
             var x = this.x, y = this.y, z = this.z;
@@ -1743,11 +1835,16 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
             return this;
         };
         /**
+         * <p>
+         * <code>this ⟼ - n * this * n</code>
+         * </p>
          * @method reflect
          * @param n {Cartesian3}
-         * @return {Vector3}
+         * @return {Vector3} <code>this</code>
+         * @chainable
          */
         Vector3.prototype.reflect = function (n) {
+            mustBeObject('n', n);
             var ax = this.x;
             var ay = this.y;
             var az = this.z;
@@ -1760,14 +1857,24 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
             this.z = az - dot2 * nz;
             return this;
         };
-        Vector3.prototype.rotate = function (spinor) {
+        /**
+         * <p>
+         * <code>this ⟼ R * this * reverse(R)</code>
+         * </p>
+         * @method rotate
+         * @param R {Spinor3Coords}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
+        Vector3.prototype.rotate = function (R) {
+            mustBeObject('R', R);
             var x = this.x;
             var y = this.y;
             var z = this.z;
-            var a = spinor.xy;
-            var b = spinor.yz;
-            var c = spinor.zx;
-            var w = spinor.w;
+            var a = R.xy;
+            var b = R.yz;
+            var c = R.zx;
+            var w = R.w;
             var ix = w * x - c * z + a * y;
             var iy = w * y - a * x + b * z;
             var iz = w * z - b * y + c * x;
@@ -1777,39 +1884,104 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
             this.z = iz * w + iw * a + ix * c - iy * b;
             return this;
         };
+        /**
+         * @method clone
+         * @return {Vector3} <code>copy(this)</code>
+         */
         Vector3.prototype.clone = function () {
             return new Vector3([this.x, this.y, this.z]);
         };
+        /**
+         * <p>
+         * <code>this ⟼ copy(v)</code>
+         * </p>
+         * @method copy
+         * @param v {Cartesian3}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
         Vector3.prototype.copy = function (v) {
+            mustBeObject('v', v);
             this.x = v.x;
             this.y = v.y;
             this.z = v.z;
             return this;
         };
+        /**
+         * <p>
+         * <code>this ⟼ this ✕ v</code>
+         * </p>
+         * @method cross
+         * @param v {Cartesian3}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
         Vector3.prototype.cross = function (v) {
-            return this.crossVectors(this, v);
+            mustBeObject('v', v);
+            return this.cross2(this, v);
         };
-        Vector3.prototype.crossVectors = function (a, b) {
+        /**
+         * <p>
+         * <code>this ⟼ a ✕ b</code>
+         * </p>
+         * @method cross2
+         * @param a {Cartesian3}
+         * @param b {Cartesian3}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
+        Vector3.prototype.cross2 = function (a, b) {
+            mustBeObject('a', a);
+            mustBeObject('b', b);
             var ax = a.x, ay = a.y, az = a.z;
             var bx = b.x, by = b.y, bz = b.z;
-            var x = wedgeYZ(ax, ay, az, bx, by, bz);
-            var y = wedgeZX(ax, ay, az, bx, by, bz);
-            var z = wedgeXY(ax, ay, az, bx, by, bz);
-            this.set(x, y, z);
+            this.x = wedgeYZ(ax, ay, az, bx, by, bz);
+            this.y = wedgeZX(ax, ay, az, bx, by, bz);
+            this.z = wedgeXY(ax, ay, az, bx, by, bz);
             return this;
         };
-        Vector3.prototype.distanceTo = function (position) {
-            return Math.sqrt(this.quadranceTo(position));
+        /**
+         * @method distanceTo
+         * @param point {Cartesian3}
+         * @return {number}
+         */
+        Vector3.prototype.distanceTo = function (point) {
+            if (isDefined(point)) {
+                return Math.sqrt(this.quadranceTo(point));
+            }
+            else {
+                return void 0;
+            }
         };
-        Vector3.prototype.quadranceTo = function (position) {
-            var dx = this.x - position.x;
-            var dy = this.y - position.y;
-            var dz = this.z - position.z;
-            return dx * dx + dy * dy + dz * dz;
+        /**
+         * @method quadranceTo
+         * @param point {Cartesian3}
+         * @return {number}
+         */
+        Vector3.prototype.quadranceTo = function (point) {
+            if (isDefined(point)) {
+                var dx = this.x - point.x;
+                var dy = this.y - point.y;
+                var dz = this.z - point.z;
+                return dx * dx + dy * dy + dz * dz;
+            }
+            else {
+                return void 0;
+            }
         };
-        Vector3.prototype.divideScalar = function (scalar) {
-            if (scalar !== 0) {
-                var invScalar = 1 / scalar;
+        /**
+         * <p>
+         * <code>this ⟼ this / α</code>
+         * </p>
+         * @method divideByScalar
+         * @param α {number}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
+        Vector3.prototype.divideByScalar = function (α) {
+            mustBeNumber('α', α);
+            if (α !== 0) {
+                var invScalar = 1 / α;
                 this.x *= invScalar;
                 this.y *= invScalar;
                 this.z *= invScalar;
@@ -1821,45 +1993,117 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
             }
             return this;
         };
+        /**
+         * @method dot
+         * @param v {Cartesian3}
+         * @return {number}
+         */
         Vector3.prototype.dot = function (v) {
             return Vector3.dot(this, v);
         };
+        /**
+         * Returns the (Euclidean) norm of this vector.
+         * @method magnitude
+         * @return {number} <code>norm(this)</code>
+         */
         Vector3.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());
         };
+        /**
+         * Returns the (Euclidean) inner product of this vector with itself.
+         * @method quaditude
+         * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
+         */
         Vector3.prototype.quaditude = function () {
-            var x = this.x;
-            var y = this.y;
-            var z = this.z;
-            return x * x + y * y + z * z;
+            return euclidean3Quaditude2Arg(this, this);
         };
-        Vector3.prototype.lerp = function (target, alpha) {
-            this.x += (target.x - this.x) * alpha;
-            this.y += (target.y - this.y) * alpha;
-            this.z += (target.z - this.z) * alpha;
+        /**
+         * <p>
+         * <code>this ⟼ this + α * (target - this)</code>
+         * </p>
+         * @method lerp
+         * @param target {Cartesian3}
+         * @param α {number}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
+        Vector3.prototype.lerp = function (target, α) {
+            mustBeObject('target', target);
+            mustBeNumber('α', α);
+            this.x += (target.x - this.x) * α;
+            this.y += (target.y - this.y) * α;
+            this.z += (target.z - this.z) * α;
             return this;
         };
+        /**
+         * <p>
+         * <code>this ⟼ a + α * (b - a)</code>
+         * </p>
+         * @method lerp2
+         * @param a {Cartesian3}
+         * @param b {Cartesian3}
+         * @param α {number}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
+        Vector3.prototype.lerp2 = function (a, b, α) {
+            mustBeObject('a', a);
+            mustBeObject('b', b);
+            mustBeNumber('α', α);
+            this.diff(b, a).scale(α).add(a);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this / norm(this)</code>
+         * </p>
+         * @method normalize
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
         Vector3.prototype.normalize = function () {
-            return this.divideScalar(this.magnitude());
+            return this.divideByScalar(this.magnitude());
         };
-        Vector3.prototype.multiply = function (v) {
-            this.x *= v.x;
-            this.y *= v.y;
-            this.z *= v.z;
+        /**
+         * <p>
+         * <code>this ⟼ this * α</code>
+         * </p>
+         * @method scale
+         * @param α {number}
+         */
+        Vector3.prototype.scale = function (α) {
+            mustBeNumber('α', α);
+            this.x *= α;
+            this.y *= α;
+            this.z *= α;
             return this;
         };
-        Vector3.prototype.scale = function (scalar) {
-            this.x *= scalar;
-            this.y *= scalar;
-            this.z *= scalar;
+        /**
+         * <p>
+         * <code>this ⟼ this</code>, with components modified.
+         * </p>
+         * @method set
+         * @param x {number}
+         * @param y {number}
+         * @param z {number}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         * @deprecated
+         */
+        Vector3.prototype.setXYZ = function (x, y, z) {
+            this.x = mustBeNumber('x', x);
+            this.y = mustBeNumber('y', y);
+            this.z = mustBeNumber('z', z);
             return this;
         };
-        Vector3.prototype.set = function (x, y, z) {
-            this.x = expectArg('x', x).toBeNumber().value;
-            this.y = expectArg('y', y).toBeNumber().value;
-            this.z = expectArg('z', z).toBeNumber().value;
-            return this;
-        };
+        /**
+         * <p>
+         * <code>this ⟼ magnitude * this / norm(this)</code>
+         * </p>
+         * @method setMagnitude
+         * @param magnitude {number}
+         * @return {Vector3} <code>this</code>
+         */
         Vector3.prototype.setMagnitude = function (magnitude) {
             var m = this.magnitude();
             if (m !== 0) {
@@ -1875,22 +2119,86 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
                 throw new Error("Attempting to set the magnitude of a null vector.");
             }
         };
+        /**
+         * @method setX
+         * @param x {number}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         * @deprecated
+         */
         Vector3.prototype.setX = function (x) {
+            mustBeNumber('x', x);
             this.x = x;
             return this;
         };
+        /**
+         * @method setY
+         * @param y {number}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         * @deprecated
+         */
         Vector3.prototype.setY = function (y) {
+            mustBeNumber('y', y);
             this.y = y;
             return this;
         };
+        /**
+         * @method setZ
+         * @param z {number}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         * @deprecated
+         */
         Vector3.prototype.setZ = function (z) {
+            mustBeNumber('z', z);
             this.z = z;
             return this;
         };
+        /**
+         * <p>
+         * <code>this ⟼ this - v</code>
+         * </p>
+         * @method sub
+         * @param v {Cartesian3}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
         Vector3.prototype.sub = function (v) {
-            return this.difference(this, v);
+            mustBeObject('v', v);
+            return this.diff(this, v);
         };
-        Vector3.prototype.difference = function (a, b) {
+        /**
+         * <p>
+         * <code>this ⟼ a + b</code>
+         * </p>
+         * @method sum
+         * @param a {Cartesian3}
+         * @param b {Cartesian3}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
+        Vector3.prototype.sum = function (a, b) {
+            mustBeObject('a', a);
+            mustBeObject('b', b);
+            this.x = a.x + b.x;
+            this.y = a.y + b.y;
+            this.z = a.z + b.z;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a - b</code>
+         * </p>
+         * @method diff
+         * @param a {Cartesian3}
+         * @param b {Cartesian3}
+         * @return {Vector3} <code>this</code>
+         * @chainable
+         */
+        Vector3.prototype.diff = function (a, b) {
+            mustBeObject('a', a);
+            mustBeObject('b', b);
             this.x = a.x - b.x;
             this.y = a.y - b.y;
             this.z = a.z - b.z;
@@ -1903,12 +2211,6 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
         Vector3.prototype.toString = function () {
             return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
         };
-        /**
-         * Returns the result of `this` + `rhs` without modifying `this`.
-         * @method __add__
-         * @param rhs {Vector3}
-         * @return {Vector3}
-         */
         Vector3.prototype.__add__ = function (rhs) {
             if (rhs instanceof Vector3) {
                 return this.clone().add(rhs, 1.0);
@@ -1943,15 +2245,15 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
             return new Vector3([vector.x, vector.y, vector.z]);
         };
         /**
-         * <code>a + alpha * (b - a)</code>
          * @method lerp
          * @param a {Cartesian3}
          * @param b {Cartesian3}
-         * @param alpha {number}
-         * @return {Vector3}
+         * @param α {number}
+         * @return {Vector3} <code>a + α * (b - a)</code>
+         * @static
          */
-        Vector3.lerp = function (a, b, alpha) {
-            return Vector3.copy(b).sub(a).scale(alpha).add(a, 1.0);
+        Vector3.lerp = function (a, b, α) {
+            return Vector3.copy(b).sub(a).scale(α).add(a);
         };
         /**
          * @method random
@@ -2069,21 +2371,29 @@ define('davinci-eight/slideshow/animations/Vector3Animation',["require", "export
     return Vector3Animation;
 });
 
-define('davinci-eight/math/dotVector3',["require", "exports"], function (require, exports) {
-    function dotVector3(a, b) {
-        return a.x * b.x + a.y * b.y + a.z * b.z;
+define('davinci-eight/math/cartesianQuaditudeE3',["require", "exports"], function (require, exports) {
+    /**
+     * Computes the dot product of the Cartesian components in a Euclidean metric
+     */
+    function cartesianQuaditudeE3(ax, ay, az, bx, by, bz) {
+        return ax * bx + ay * by + az * bz;
     }
-    return dotVector3;
+    return cartesianQuaditudeE3;
 });
 
-define('davinci-eight/math/quaditude3',["require", "exports"], function (require, exports) {
-    function quaditude3(vector) {
-        var x = vector.x;
-        var y = vector.y;
-        var z = vector.z;
-        return x * x + y * y + z * z;
+define('davinci-eight/math/euclidean3Quaditude1Arg',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
+    function euclidean3Quaditude1Arg(vector) {
+        if (isDefined(vector)) {
+            var x = vector.x;
+            var y = vector.y;
+            var z = vector.z;
+            return x * x + y * y + z * z;
+        }
+        else {
+            return void 0;
+        }
     }
-    return quaditude3;
+    return euclidean3Quaditude1Arg;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -2091,9 +2401,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '../math/dotVector3', '../checks/mustBeNumber', '../math/quaditude3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, dotVector3, mustBeNumber, quaditude3, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/Spinor3',["require", "exports", '../math/cartesianQuaditudeE3', '../math/VectorN', '../math/euclidean3Quaditude2Arg', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/euclidean3Quaditude1Arg', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, VectorN, euclidean3Quaditude2Arg, mustBeNumber, mustBeObject, euclidean3Quaditude1Arg, wedgeXY, wedgeYZ, wedgeZX) {
+    var exp = Math.exp;
+    var cos = Math.cos;
+    var sin = Math.sin;
     /**
      * @class Spinor3
+     * @extends VectorN<number>
      */
     var Spinor3 = (function (_super) {
         __extends(Spinor3, _super);
@@ -2173,40 +2487,55 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             configurable: true
         });
         /**
+         * <p>
+         * <code>this ⟼ this + α * spinor</code>
+         * </p>
          * @method add
          * @param spinor {Spinor3Coords}
-         * @param alpha {number}
-         * @return {Spinor3}
+         * @param α [number = 1]
+         * @return {Spinor3} <code>this</code>
+         * @chainable
          */
-        Spinor3.prototype.add = function (spinor, alpha) {
-            if (alpha === void 0) { alpha = 1; }
-            this.yz += spinor.yz * alpha;
-            this.zx += spinor.zx * alpha;
-            this.xy += spinor.xy * alpha;
-            this.w += spinor.w * alpha;
+        Spinor3.prototype.add = function (spinor, α) {
+            if (α === void 0) { α = 1; }
+            mustBeObject('spinor', spinor);
+            mustBeNumber('α', α);
+            this.yz += spinor.yz * α;
+            this.zx += spinor.zx * α;
+            this.xy += spinor.xy * α;
+            this.w += spinor.w * α;
             return this;
         };
         /**
          * @method clone
-         * @return {Spinor3}
+         * @return {Spinor3} A copy of <code>this</code>.
+         * @chainable
          */
         Spinor3.prototype.clone = function () {
             return new Spinor3([this.yz, this.zx, this.xy, this.w]);
         };
         /**
-         * @method conjugate
-         * @return {Spinor3}
+         * <p>
+         * <code>this ⟼ (w, -B)</code>
+         * </p>
+         * @method conj
+         * @return {Spinor3} <code>this</code>
+         * @chainable
          */
-        Spinor3.prototype.conjugate = function () {
-            this.yz *= -1;
-            this.zx *= -1;
-            this.xy *= -1;
+        Spinor3.prototype.conj = function () {
+            this.yz = -this.yz;
+            this.zx = -this.zx;
+            this.xy = -this.xy;
             return this;
         };
         /**
+         * <p>
+         * <code>this ⟼ copy(spinor)</code>
+         * </p>
          * @method copy
          * @param spinor {Spinor3Coords}
-         * @return {Spinor3}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
          */
         Spinor3.prototype.copy = function (spinor) {
             this.yz = spinor.yz;
@@ -2216,67 +2545,136 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             return this;
         };
         /**
-         * @method difference
+         * <p>
+         * <code>this ⟼ a - b</code>
+         * </p>
+         * @method diff
          * @param a {Spinor3Coords}
          * @param b {Spinor3Coords}
-         * @return {Spinor3}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
          */
-        Spinor3.prototype.difference = function (a, b) {
-            return this;
-        };
-        Spinor3.prototype.divideScalar = function (scalar) {
-            this.yz /= scalar;
-            this.zx /= scalar;
-            this.xy /= scalar;
-            this.w /= scalar;
+        Spinor3.prototype.diff = function (a, b) {
+            this.yz = a.yz - b.yz;
+            this.zx = a.zx - b.zx;
+            this.xy = a.xy - b.xy;
+            this.w = a.w - b.w;
             return this;
         };
         /**
+         * <p>
+         * <code>this ⟼ this / α</code>
+         * </p>
+         * @method divideByScalar
+         * @param α {number}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
+        Spinor3.prototype.divideByScalar = function (α) {
+            this.yz /= α;
+            this.zx /= α;
+            this.xy /= α;
+            this.w /= α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ dual(this)</code>
+         * </p>
          * Sets this Spinor to the value of the dual of the vector, I * v.
          * Notice that the dual of a vector is related to the spinor by the right-hand rule.
          * @method dual
-         * @param v {Cartesian3} The vector whose dual will be used to set this spinor.
-         * @return {Spinor3}
+         * @param vector {Cartesian3} The vector whose dual will be used to set this spinor.
+         * @return {Spinor3} <code>this</code>
+         * @chainable
          */
-        Spinor3.prototype.dual = function (v) {
-            this.yz = v.x;
-            this.zx = v.y;
-            this.xy = v.z;
+        Spinor3.prototype.dual = function (vector) {
+            this.yz = vector.x;
+            this.zx = vector.y;
+            this.xy = vector.z;
             this.w = 0;
             return this;
         };
+        /**
+         * <p>
+         * <code>this ⟼ e<sup>this</sup></code>
+         * </p>
+         * @method exp
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
         Spinor3.prototype.exp = function () {
             var w = this.w;
             var x = this.yz;
             var y = this.zx;
             var z = this.xy;
-            var expW = Math.exp(w);
-            var B = Math.sqrt(x * x + y * y + z * z);
-            var s = expW * (B !== 0 ? Math.sin(B) / B : 1);
-            this.w = expW * Math.cos(B);
+            var expW = exp(w);
+            // φ is actually the absolute value of one half the rotation angle.
+            // The orientation of the rotation gets carried in the bivector components.
+            var φ = Math.sqrt(x * x + y * y + z * z);
+            var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
+            this.w = expW * cos(φ);
             this.yz = x * s;
             this.zx = y * s;
             this.xy = z * s;
             return this;
         };
-        Spinor3.prototype.inverse = function () {
-            this.conjugate();
-            this.divideScalar(this.quaditude());
+        /**
+         * <p>
+         * <code>this ⟼ conj(this) / quad(this)</code>
+         * </p>
+         * @method inv
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
+        Spinor3.prototype.inv = function () {
+            this.conj();
+            this.divideByScalar(this.quaditude());
             return this;
         };
-        Spinor3.prototype.lerp = function (target, alpha) {
+        /**
+         * <p>
+         * <code>this ⟼ this + α * (target - this)</code>
+         * </p>
+         * @method lerp
+         * @param target {Spinor3Coords}
+         * @param α {number}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
+        // FIXME: Should really be slerp?
+        Spinor3.prototype.lerp = function (target, α) {
             var R2 = Spinor3.copy(target);
             var R1 = this.clone();
-            var R = R2.multiply(R1.inverse());
+            var R = R2.multiply(R1.inv());
             R.log();
-            R.scale(alpha);
+            R.scale(α);
             R.exp();
             this.copy(R);
             return this;
         };
         /**
+         * <p>
+         * <code>this ⟼ a + α * (b - a)</code>
+         * <p>
+         * @method lerp2
+         * @param a {Spinor3Coords}
+         * @param b {Spinor3Coords}
+         * @param α {number}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
+        Spinor3.prototype.lerp2 = function (a, b, α) {
+            this.diff(b, a).scale(α).add(a);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ log(this)</code>
+         * </p>
          * @method log
-         * @return {Spinor3}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
          */
         Spinor3.prototype.log = function () {
             var w = this.w;
@@ -2298,25 +2696,57 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             return Math.sqrt(this.quaditude());
         };
         /**
+         * <p>
+         * <code>this ⟼ this * rhs</code>
+         * </p>
          * @method multiply
          * @param rhs {Spinor3Coords}
-         * @return {Spinor3}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
          */
         Spinor3.prototype.multiply = function (rhs) {
             return this.product(this, rhs);
         };
         /**
-         * @method scale
-         * @param scalar {number}
-         * @return {Spinor3}
-         */
-        Spinor3.prototype.scale = function (scalar) {
-            this.yz *= scalar;
-            this.zx *= scalar;
-            this.xy *= scalar;
-            this.w *= scalar;
+        * <p>
+        * <code>this ⟼ sqrt(this * conj(this))</code>
+        * </p>
+        * @method norm
+        * @return {Spinor3} <code>this</code>
+        * @chainable
+        */
+        Spinor3.prototype.norm = function () {
+            this.w = this.magnitude();
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
             return this;
         };
+        /**
+         * <p>
+         * <code>this ⟼ this * α</code>
+         * </p>
+         * @method scale
+         * @param α {number}
+         * @return {Spinor3} <code>this</code>
+         */
+        Spinor3.prototype.scale = function (α) {
+            this.yz *= α;
+            this.zx *= α;
+            this.xy *= α;
+            this.w *= α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * @method product
+         * @param a {Spinor3Coords}
+         * @param b {Spinor3Coords}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
         Spinor3.prototype.product = function (a, b) {
             var a0 = a.w;
             var a1 = a.yz;
@@ -2326,12 +2756,18 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             var b1 = b.yz;
             var b2 = b.zx;
             var b3 = b.xy;
+            // Compare this to the product for Quaternions
+            // It would be interesting to DRY this out.
             this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
             return this;
         };
+        /**
+         * @method quaditude
+         * @return {number} <code>this * conj(this)</code>
+         */
         Spinor3.prototype.quaditude = function () {
             var w = this.w;
             var yz = this.yz;
@@ -2339,6 +2775,14 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             var xy = this.xy;
             return w * w + yz * yz + zx * zx + xy * xy;
         };
+        /**
+         * <p>
+         * <code>this = (w, B) ⟼ (w, -B)</code>
+         * </p>
+         * @method reverse
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
         Spinor3.prototype.reverse = function () {
             this.yz *= -1;
             this.zx *= -1;
@@ -2350,7 +2794,8 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
          * The geometric formula for bivector reflection is B' = n * B * n.
          * @method reflect
          * @param n {Cartesian3}
-         * @return {Spinor3}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
          */
         Spinor3.prototype.reflect = function (n) {
             var w = this.w;
@@ -2368,36 +2813,93 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             this.zx = 2 * ny * nB - nn * zx;
             return this;
         };
+        /**
+         * <p>
+         * <code>this = ⟼ rotor * this * reverse(rotor)</code>
+         * </p>
+         * @method rotate
+         * @param rotor {Spinor3Coords}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
         Spinor3.prototype.rotate = function (rotor) {
             console.warn("Spinor3.rotate is not implemented");
             return this;
         };
         /**
+         * <p>
          * Computes a rotor, R, from two unit vectors, where
          * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+         * </p>
          * @method rotor
          * @param b {Cartesian3} The ending unit vector
          * @param a {Cartesian3} The starting unit vector
-         * @return {Spinor3} The rotor representing a rotation from a to b.
+         * @return {Spinor3} <code>this</code> The rotor representing a rotation from a to b.
+         * @chainable
          */
         Spinor3.prototype.rotor = function (b, a) {
-            var bLength = Math.sqrt(quaditude3(b));
-            var aLength = Math.sqrt(quaditude3(a));
+            var bLength = Math.sqrt(euclidean3Quaditude1Arg(b));
+            var aLength = Math.sqrt(euclidean3Quaditude1Arg(a));
             b = { x: b.x / bLength, y: b.y / bLength, z: b.z / bLength };
             a = { x: a.x / aLength, y: a.y / aLength, z: a.z / aLength };
             this.spinor(b, a);
             this.w += 1;
-            var denom = Math.sqrt(2 * (1 + dotVector3(b, a)));
-            this.divideScalar(denom);
-            return this;
-        };
-        Spinor3.prototype.sub = function (rhs) {
-            return this;
-        };
-        Spinor3.prototype.sum = function (a, b) {
+            var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
+            this.divideByScalar(denom);
             return this;
         };
         /**
+         * <p>
+         * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
+         * </p>
+         * @method rotorFromAxisAngle
+         * @param axis {Cartesian3}
+         * @param θ {number}
+         * @return {Spinor3} <code>this</code>
+         */
+        Spinor3.prototype.rotorFromAxisAngle = function (axis, θ) {
+            //this.dual(a).scale(-θ/2).exp()
+            var φ = θ / 2;
+            var s = sin(φ);
+            this.yz = -axis.x * s;
+            this.zx = -axis.y * s;
+            this.xy = -axis.z * s;
+            this.w = cos(φ);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this - rhs</code>
+         * </p>
+         * @method sub
+         * @param rhs {Spinor3Coords}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
+        Spinor3.prototype.sub = function (rhs) {
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a + b</code>
+         * </p>
+         * @method sum
+         * @param a {Spinor3Coords}
+         * @param b {Spinor3Coords}
+         * @return {Spinor3} <code>this</code>
+         * @chainable
+         */
+        Spinor3.prototype.sum = function (a, b) {
+            this.w = a.w + b.w;
+            this.yz = a.yz + b.yz;
+            this.zx = a.zx + b.zx;
+            this.xy = a.xy + b.xy;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
          * Sets this Spinor3 to the geometric product a * b of the vector arguments.
          * @method spinor
          * @param a {Cartesian3}
@@ -2411,7 +2913,7 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             var bx = b.x;
             var by = b.y;
             var bz = b.z;
-            this.w = dotVector3(a, b);
+            this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz);
             this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
             this.zx = wedgeZX(ax, ay, az, bx, by, bz);
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
@@ -2424,11 +2926,25 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
         Spinor3.prototype.toString = function () {
             return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
         };
+        /**
+         * @method copy
+         * @param spinor {Spinor3Coords}
+         * @return {Spinor3} A copy of the <code>spinor</code> argument.
+         * @static
+         */
         Spinor3.copy = function (spinor) {
             return new Spinor3().copy(spinor);
         };
-        Spinor3.lerp = function (a, b, alpha) {
-            return Spinor3.copy(a).lerp(b, alpha);
+        /**
+         * @method lerp
+         * @param a {Spinor3Coords}
+         * @param b {Spinor3Coords}
+         * @param α {number}
+         * @return {Spinor3} <code>a + α * (b - a)</code>
+         * @static
+         */
+        Spinor3.lerp = function (a, b, α) {
+            return Spinor3.copy(a).lerp(b, α);
         };
         return Spinor3;
     })(VectorN);
@@ -2888,10 +3404,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-10-19',
+        LAST_MODIFIED: '2015-10-20',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.135.0'
+        VERSION: '2.136.0'
     };
     return core;
 });
@@ -3623,7 +4139,7 @@ define('davinci-eight/math/MutableNumber',["require", "exports", '../math/Vector
             this.x -= s;
             return this;
         };
-        MutableNumber.prototype.difference = function (a, b) {
+        MutableNumber.prototype.diff = function (a, b) {
             this.x = a.x - b.x;
             return this;
         };
@@ -3643,7 +4159,7 @@ define('davinci-eight/math/MutableNumber',["require", "exports", '../math/Vector
             this.x /= v.x;
             return this;
         };
-        MutableNumber.prototype.divideScalar = function (scalar) {
+        MutableNumber.prototype.divideByScalar = function (scalar) {
             if (scalar !== 0) {
                 var invScalar = 1 / scalar;
                 this.x *= invScalar;
@@ -3695,7 +4211,7 @@ define('davinci-eight/math/MutableNumber',["require", "exports", '../math/Vector
             return Math.sqrt(this.quaditude());
         };
         MutableNumber.prototype.normalize = function () {
-            return this.divideScalar(this.magnitude());
+            return this.divideByScalar(this.magnitude());
         };
         MutableNumber.prototype.product = function (a, b) {
             return this;
@@ -3725,8 +4241,19 @@ define('davinci-eight/math/MutableNumber',["require", "exports", '../math/Vector
             this.x += (v.x - this.x) * alpha;
             return this;
         };
-        MutableNumber.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).scale(alpha).add(v1, 1.0);
+        /**
+         * <p>
+         * <code>this = a + α * (b - a)</code>
+         * </p>
+         * @method lerp2
+         * @param a {MutableNumber}
+         * @param b {MutableNumber}
+         * @param α {number}
+         * @return {MutableNumber}
+         * @chainable
+         */
+        MutableNumber.prototype.lerp2 = function (a, b, α) {
+            this.diff(b, a).scale(α).add(a);
             return this;
         };
         MutableNumber.prototype.equals = function (v) {
@@ -3940,6 +4467,12 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../che
             this.check();
             return this;
         };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {SimplexGeometry}
+         * @chainable
+         */
         SimplexGeometry.prototype.setPosition = function (position) {
             return this;
         };
@@ -4252,10 +4785,10 @@ define('davinci-eight/geometries/CuboidSimplexGeometry',["require", "exports", '
         CuboidSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
-            pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideScalar(2);
-            pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divideScalar(2);
-            pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divideScalar(2);
-            pos[3] = new Vector3().sub(this._a).add(this._b).add(this._c).divideScalar(2);
+            pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideByScalar(2);
+            pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divideByScalar(2);
+            pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divideByScalar(2);
+            pos[3] = new Vector3().sub(this._a).add(this._b).add(this._c).divideByScalar(2);
             pos[4] = new Vector3().copy(pos[3]).sub(this._c);
             pos[5] = new Vector3().copy(pos[2]).sub(this._c);
             pos[6] = new Vector3().copy(pos[1]).sub(this._c);
@@ -4395,47 +4928,44 @@ define('davinci-eight/collections/NumberIUnknownMap',["require", "exports", '../
     return NumberIUnknownMap;
 });
 
-define('davinci-eight/collections/StringIUnknownMap',["require", "exports", '../checks/mustBeString', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, refChange, uuid4) {
-    function className(user) {
-        var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
-        return LOGGING_NAME_IUNKNOWN_MAP + ":" + user;
-    }
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/collections/StringIUnknownMap',["require", "exports", '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeString, Shareable) {
     /**
-     * @class StringIUnknownMap<V extends IUnknown>
-     * @extends IUnknown
+     * @class StringIUnknownMap
+     * @extends Shareable
      */
-    // FIXME: Extend Shareable
-    var StringIUnknownMap = (function () {
+    var StringIUnknownMap = (function (_super) {
+        __extends(StringIUnknownMap, _super);
         /**
          * <p>
-         * A map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.
+         * A map of <code>string</code> to <code>V extends IUnknown</code>.
          * </p>
          * @class StringIUnknownMap
          * @constructor
          */
-        function StringIUnknownMap(userName) {
-            this._refCount = 1;
-            this._elements = {};
-            this._uuid = uuid4().generate();
-            this._userName = userName;
-            refChange(this._uuid, className(this._userName), +1);
+        function StringIUnknownMap() {
+            _super.call(this, 'StringIUnknownMap');
+            /**
+             * @property elements
+             * @type {{[key: string]: V}}
+             */
+            this.elements = {};
         }
-        StringIUnknownMap.prototype.addRef = function () {
-            refChange(this._uuid, className(this._userName), +1);
-            this._refCount++;
-            return this._refCount;
-        };
-        StringIUnknownMap.prototype.release = function () {
-            refChange(this._uuid, className(this._userName), -1);
-            this._refCount--;
-            if (this._refCount === 0) {
-                var self_1 = this;
-                this.forEach(function (key) {
-                    self_1.putWeakRef(key, void 0);
-                });
-                this._elements = void 0;
-            }
-            return this._refCount;
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        StringIUnknownMap.prototype.destructor = function () {
+            var self = this;
+            this.forEach(function (key) {
+                self.putWeakRef(key, void 0);
+            });
+            _super.prototype.destructor.call(this);
         };
         /**
          * Determines whether the key exists in the map with a defined value.
@@ -4444,11 +4974,16 @@ define('davinci-eight/collections/StringIUnknownMap',["require", "exports", '../
          * @return {boolean} <p><code>true</code> if there is an element at the specified key.</p>
          */
         StringIUnknownMap.prototype.exists = function (key) {
-            var element = this._elements[key];
+            var element = this.elements[key];
             return element ? true : false;
         };
+        /**
+         * @method get
+         * @param key {string}
+         * @return {V}
+         */
         StringIUnknownMap.prototype.get = function (key) {
-            var element = this._elements[key];
+            var element = this.elements[key];
             if (element) {
                 element.addRef();
                 return element;
@@ -4457,9 +4992,20 @@ define('davinci-eight/collections/StringIUnknownMap',["require", "exports", '../
                 return void 0;
             }
         };
+        /**
+         * @method getWeakRef
+         * @param key {string}
+         * @return {V}
+         */
         StringIUnknownMap.prototype.getWeakRef = function (key) {
-            return this._elements[key];
+            return this.elements[key];
         };
+        /**
+         * @method put
+         * @param key {string}
+         * @param value {V}
+         * @return {void}
+         */
         StringIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
@@ -4471,53 +5017,68 @@ define('davinci-eight/collections/StringIUnknownMap',["require", "exports", '../
          * @param key {string}
          * @param value {V}
          * @return {void}
-         * @private
          */
         StringIUnknownMap.prototype.putWeakRef = function (key, value) {
             mustBeString('key', key);
-            var elements = this._elements;
+            var elements = this.elements;
             var existing = elements[key];
             if (existing) {
                 existing.release();
             }
             elements[key] = value;
         };
+        /**
+         * @method forEach
+         * @param callback {(key: string, value: V) => void}
+         */
         StringIUnknownMap.prototype.forEach = function (callback) {
             var keys = this.keys;
             for (var i = 0, iLength = keys.length; i < iLength; i++) {
                 var key = keys[i];
-                callback(key, this._elements[key]);
+                callback(key, this.elements[key]);
             }
         };
         Object.defineProperty(StringIUnknownMap.prototype, "keys", {
+            /**
+             * @property keys
+             * @type {string[]}
+             */
             get: function () {
-                // TODO: Cache
-                return Object.keys(this._elements);
+                return Object.keys(this.elements);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(StringIUnknownMap.prototype, "values", {
+            /**
+             * @property values
+             * @type {V[]}
+             */
             get: function () {
-                // TODO: Cache
                 var values = [];
                 var keys = this.keys;
                 for (var i = 0, iLength = keys.length; i < iLength; i++) {
                     var key = keys[i];
-                    values.push(this._elements[key]);
+                    values.push(this.elements[key]);
                 }
                 return values;
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method remove
+         * @param key {string}
+         * @return {V}
+         */
         StringIUnknownMap.prototype.remove = function (key) {
-            var value = this._elements[key];
-            delete this._elements[key];
+            mustBeString('key', key);
+            var value = this.elements[key];
+            delete this.elements[key];
             return value;
         };
         return StringIUnknownMap;
-    })();
+    })(Shareable);
     return StringIUnknownMap;
 });
 
@@ -4556,7 +5117,7 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
             this._material = material;
             this._material.addRef();
             this.buffersByCanvasId = new NumberIUnknownMap();
-            this.uniforms = new StringIUnknownMap(LOGGING_NAME);
+            this.uniforms = new StringIUnknownMap();
         }
         Drawable.prototype.destructor = function () {
             this.primitives = void 0;
@@ -4598,7 +5159,7 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
                 for (var i = 0; i < this.primitives.length; i++) {
                     var primitive = this.primitives[i];
                     if (!this.buffersByCanvasId.exists(manager.canvasId)) {
-                        this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray([], 'Drawable.buffers'));
+                        this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray([]));
                     }
                     var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId);
                     buffers.pushWeakRef(manager.createBufferGeometry(primitive));
@@ -7248,7 +7809,7 @@ define('davinci-eight/models/ModelFacet',["require", "exports", '../math/Matrix3
                     break;
                 case ModelFacet.PROP_POSITION:
                     {
-                        this._position.set(data[0], data[1], data[2]);
+                        this._position.setXYZ(data[0], data[1], data[2]);
                     }
                     break;
                 default: {
@@ -7539,9 +8100,9 @@ var __extends = (this && this.__extends) || function (d, b) {
 define('davinci-eight/slideshow/SlideCommands',["require", "exports", '../collections/IUnknownArray', '../utils/Shareable', '../slideshow/animations/ColorAnimation', '../slideshow/animations/Vector3Animation', '../slideshow/animations/Spinor3Animation', '../slideshow/commands/AnimateDrawableCommand', '../slideshow/commands/CreateCuboidDrawable', '../slideshow/commands/CreateDrawable', '../slideshow/commands/DestroyDrawableCommand', '../slideshow/commands/UseDrawableInSceneCommand'], function (require, exports, IUnknownArray, Shareable, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, CreateDrawable, DestroyDrawableCommand, UseDrawableInSceneCommand) {
     var SlideCommands = (function (_super) {
         __extends(SlideCommands, _super);
-        function SlideCommands(userName) {
+        function SlideCommands() {
             _super.call(this, 'SlideCommands');
-            this.commands = new IUnknownArray([], userName);
+            this.commands = new IUnknownArray();
         }
         SlideCommands.prototype.destructor = function () {
             this.commands.release();
@@ -7611,10 +8172,10 @@ define('davinci-eight/slideshow/Slide',["require", "exports", '../collections/IU
              * The time standard for this Slide.
              */
             this.now = 0;
-            this.prolog = new SlideCommands('Slide.prolog');
-            this.epilog = new SlideCommands('Slide.epilog');
-            this.targets = new IUnknownArray([], 'Slide.targets');
-            this.mirrors = new StringIUnknownMap('Slide.mirrors');
+            this.prolog = new SlideCommands();
+            this.epilog = new SlideCommands();
+            this.targets = new IUnknownArray();
+            this.mirrors = new StringIUnknownMap();
         }
         Slide.prototype.destructor = function () {
             this.prolog.release();
@@ -7710,8 +8271,8 @@ define('davinci-eight/slideshow/Slide',["require", "exports", '../collections/IU
         __extends(AnimationLane, _super);
         function AnimationLane() {
             _super.call(this, 'AnimationLane');
-            this.completed = new IUnknownArray([], 'AnimationLane.remaining');
-            this.remaining = new IUnknownArray([], 'AnimationLane.remaining');
+            this.completed = new IUnknownArray();
+            this.remaining = new IUnknownArray();
         }
         AnimationLane.prototype.destructor = function () {
             this.completed.release();
@@ -7772,7 +8333,7 @@ define('davinci-eight/slideshow/Slide',["require", "exports", '../collections/IU
         __extends(Mirror, _super);
         function Mirror() {
             _super.call(this, 'Mirror');
-            this.animationLanes = new StringIUnknownMap('Mirror.animationLanes');
+            this.animationLanes = new StringIUnknownMap();
         }
         Mirror.prototype.destructor = function () {
             this.animationLanes.release();
@@ -7810,12 +8371,12 @@ define('davinci-eight/slideshow/Director',["require", "exports", '../slideshow/S
         function Director() {
             _super.call(this, 'Director');
             this.step = -1; // Position before the first slide.
-            this.slides = new IUnknownArray([], 'Director.slides');
+            this.slides = new IUnknownArray([]);
             this.contexts = new NumberIUnknownMap();
-            this.scenes = new StringIUnknownMap('Director.scenes');
-            this.drawables = new StringIUnknownMap('Director.drawables');
-            this.geometries = new StringIUnknownMap('Director.geometries');
-            this.facets = new StringIUnknownMap('Director.facets');
+            this.scenes = new StringIUnknownMap();
+            this.drawables = new StringIUnknownMap();
+            this.geometries = new StringIUnknownMap();
+            this.facets = new StringIUnknownMap();
             this.sceneNamesByCanvasId = {};
             this.facetsByCanvasId = new NumberIUnknownMap();
         }
@@ -7950,7 +8511,7 @@ define('davinci-eight/slideshow/Director',["require", "exports", '../slideshow/S
                 try {
                     var facets = this.facetsByCanvasId.get(canvasId);
                     if (!facets) {
-                        facets = new StringIUnknownMap('Director');
+                        facets = new StringIUnknownMap();
                         this.facetsByCanvasId.put(canvasId, facets);
                     }
                     facets.put(facetName, facet);
@@ -8195,29 +8756,11 @@ define('davinci-eight/slideshow/commands/TestCommand',["require", "exports", '..
     return TestCommand;
 });
 
-define('davinci-eight/checks/isObject',["require", "exports"], function (require, exports) {
-    function isObject(x) {
-        return (typeof x === 'object');
-    }
-    return isObject;
-});
-
-define('davinci-eight/checks/mustBeObject',["require", "exports", '../checks/mustSatisfy', '../checks/isObject'], function (require, exports, mustSatisfy, isObject) {
-    function beObject() {
-        return "be an `object`";
-    }
-    function mustBeObject(name, value, contextBuilder) {
-        mustSatisfy(name, isObject(value), beObject, contextBuilder);
-        return value;
-    }
-    return mustBeObject;
-});
-
 define('davinci-eight/cameras/viewArray',["require", "exports", '../math/Vector3', '../checks/expectArg', '../checks/isDefined'], function (require, exports, Vector3, expectArg, isDefined) {
     function viewArray(eye, look, up, matrix) {
         var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         expectArg('matrix', m).toSatisfy(m.length === 16, 'matrix must have length 16');
-        var n = new Vector3().difference(eye, look);
+        var n = new Vector3().diff(eye, look);
         if (n.x === 0 && n.y === 0 && n.z === 0) {
             // View direction is ambiguous.
             n.z = 1;
@@ -8225,8 +8768,8 @@ define('davinci-eight/cameras/viewArray',["require", "exports", '../math/Vector3
         else {
             n.normalize();
         }
-        var u = new Vector3().crossVectors(up, n);
-        var v = new Vector3().crossVectors(n, u);
+        var u = new Vector3().cross2(up, n);
+        var v = new Vector3().cross2(n, u);
         var d = new Vector3([Vector3.dot(eye, u), Vector3.dot(eye, v), Vector3.dot(eye, n)]).scale(-1);
         m[0] = u.x;
         m[4] = u.y;
@@ -9288,7 +9831,7 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], f
             this.y -= s;
             return this;
         };
-        Vector2.prototype.difference = function (a, b) {
+        Vector2.prototype.diff = function (a, b) {
             this.x = a.x - b.x;
             this.y = a.y - b.y;
             return this;
@@ -9308,7 +9851,7 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], f
             this.y /= v.y;
             return this;
         };
-        Vector2.prototype.divideScalar = function (scalar) {
+        Vector2.prototype.divideByScalar = function (scalar) {
             if (scalar !== 0) {
                 var invScalar = 1 / scalar;
                 this.x *= invScalar;
@@ -9373,7 +9916,7 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], f
             return Math.sqrt(this.quaditude());
         };
         Vector2.prototype.normalize = function () {
-            return this.divideScalar(this.magnitude());
+            return this.divideByScalar(this.magnitude());
         };
         Vector2.prototype.quaditude = function () {
             return this.x * this.x + this.y * this.y;
@@ -9402,8 +9945,19 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], f
             this.y += (v.y - this.y) * alpha;
             return this;
         };
-        Vector2.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).scale(alpha).add(v1, 1.0);
+        /**
+         * <p>
+         * <code>this = a + α * (b - a)</code>
+         * </p>
+         * @method lerp2
+         * @param a {Cartesian2}
+         * @param b {Cartesian2}
+         * @param α {number}
+         * @return {Vector2} <code>this</code>
+         * @chainable
+         */
+        Vector2.prototype.lerp2 = function (a, v2, α) {
+            this.diff(v2, a).scale(α).add(a);
             return this;
         };
         Vector2.prototype.equals = function (v) {
@@ -9839,7 +10393,7 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../collectio
     // FIXME: extends Shareable
     var DrawableGroup = (function () {
         function DrawableGroup(program) {
-            this._drawables = new IUnknownArray([], CLASS_NAME_GROUP);
+            this._drawables = new IUnknownArray();
             this._refCount = 1;
             this._uuid = uuid4().generate();
             this._program = program;
@@ -9935,7 +10489,7 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../collectio
             /**
              * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
              */
-            this._groups = new StringIUnknownMap(CLASS_NAME_ALL);
+            this._groups = new StringIUnknownMap();
         }
         DrawableGroups.prototype.destructor = function () {
             this._groups.release();
@@ -10117,7 +10671,7 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../collectio
                 drawableGroups.draw(ambients, canvasId);
             },
             getDrawablesByName: function (name) {
-                var result = new IUnknownArray([], 'getDrawablesByName');
+                var result = new IUnknownArray();
                 drawableGroups.traverseDrawables(function (candidate) {
                     if (candidate.name === name) {
                         result.push(candidate);
@@ -10498,7 +11052,7 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../collections
         var _manager;
         var uuid = uuid4().generate();
         var refCount = 1;
-        var commands = new IUnknownArray([], CLASS_NAME);
+        var commands = new IUnknownArray([]);
         var self = {
             addRef: function () {
                 refCount++;
@@ -10693,7 +11247,6 @@ define('davinci-eight/resources/TextureResource',["require", "exports", '../chec
     var LOGGING_NAME_ITEXTURE = 'ITexture';
     var ms = new Array();
     var os = [];
-    // What is the difference?
     var TextureResource = (function () {
         function TextureResource(monitors, target) {
             this._refCount = 1;
@@ -11103,7 +11656,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
         var uuid = uuid4().generate();
-        var _blocks = new StringIUnknownMap('webgl');
+        var _blocks = new StringIUnknownMap();
         // Remark: We only hold weak references to users so that the lifetime of resource
         // objects is not affected by the fact that they are listening for gl events.
         // Users should automatically add themselves upon construction and remove upon release.
@@ -11298,7 +11851,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
                 }
                 indexBuffer.unbind();
-                var attributes = new StringIUnknownMap('createBufferGeometry');
+                var attributes = new StringIUnknownMap();
                 var names = Object.keys(primitive.attributes);
                 var namesLength = names.length;
                 var i;
@@ -11636,12 +12189,42 @@ define('davinci-eight/geometries/AxialSimplexGeometry',["require", "exports", '.
         AxialSimplexGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        /**
+         * @method setAxis
+         * @param axis {Cartesian3}
+         * @return {AxialSimplexGeometry}
+         * @chainable
+         */
+        AxialSimplexGeometry.prototype.setAxis = function (axis) {
+            this.axis.copy(axis).normalize();
+            return this;
+        };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {AxialSimplexGeometry}
+         * @chainable
+         */
+        AxialSimplexGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {AxialSimplexGeometry}
+         * @chainable
+         */
+        AxialSimplexGeometry.prototype.enableTextureCoords = function (enable) {
+            _super.prototype.enableTextureCoords.call(this, enable);
+            return this;
+        };
         return AxialSimplexGeometry;
     })(SimplexGeometry);
     return AxialSimplexGeometry;
 });
 
-define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mustBeObject', '../math/Vector3'], function (require, exports, mustBeObject, Vector3) {
+define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject', '../math/Vector3'], function (require, exports, mustBeBoolean, mustBeObject, Vector3) {
     /**
      * @class Geometry
      */
@@ -11675,12 +12258,41 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../checks/mus
                 return this._position;
             },
             set: function (position) {
-                mustBeObject('position', position);
-                this._position.copy(position);
+                this.setPosition(position);
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {Geometry}
+         * @chainable
+         */
+        Geometry.prototype.enableTextureCoords = function (enable) {
+            mustBeBoolean('enable', enable);
+            this.useTextureCoords = enable;
+            return this;
+        };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return Geometry
+         * @chainable
+         */
+        Geometry.prototype.setPosition = function (position) {
+            mustBeObject('position', position);
+            this._position.copy(position);
+            return this;
+        };
+        /**
+         * @method toPrimitives
+         * @return {DrawPrimitive[]}
+         */
+        Geometry.prototype.toPrimitives = function () {
+            console.warn("Geometry.toPrimitives() must be implemented by derived classes.");
+            return [];
+        };
         return Geometry;
     })();
     return Geometry;
@@ -11701,30 +12313,16 @@ define('davinci-eight/geometries/AxialGeometry',["require", "exports", '../check
          * @class SliceGeometry
          * @constructor
          */
-        /**
-         * @class AxialGeometry
-         * @constructor
-         */
         function AxialGeometry() {
             _super.call(this);
-            /**
-             * @property _axis
-             * @type {Vector3}
-             * @protected
-             */
-            this._axis = Vector3.e3.clone();
             /**
              * @property _sliceAngle
              * @type {number}
              * @private
              */
             this._sliceAngle = 2 * Math.PI;
-            /**
-             * @property _sliceStart
-             * @type {Vector3}
-             * @private
-             */
-            this._sliceStart = Vector3.e3.clone();
+            this._axis = Vector3.e2.clone();
+            this._sliceStart = Vector3.e1.clone();
         }
         Object.defineProperty(AxialGeometry.prototype, "axis", {
             /**
@@ -11735,14 +12333,30 @@ define('davinci-eight/geometries/AxialGeometry',["require", "exports", '../check
                 return this._axis.clone();
             },
             set: function (axis) {
-                mustBeObject('axis', axis);
-                this._axis.copy(axis).normalize();
-                this._sliceStart = Vector3.random().cross(this._axis).normalize();
+                this.setAxis(axis);
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method setAxis
+         * @param axis {Cartesian3}
+         * @return {AxialGeometry}
+         * @chainable
+         */
+        AxialGeometry.prototype.setAxis = function (axis) {
+            mustBeObject('axis', axis);
+            this._axis.copy(axis).normalize();
+            // FIXME: randomize
+            this._sliceStart.copy(Vector3.random()).cross(this._axis).normalize();
+            return this;
+        };
         Object.defineProperty(AxialGeometry.prototype, "sliceAngle", {
+            /**
+             * @property sliceAngle
+             * @type {number}
+             * @default 2 * Math.PI
+             */
             get: function () {
                 return this._sliceAngle;
             },
@@ -11769,6 +12383,25 @@ define('davinci-eight/geometries/AxialGeometry',["require", "exports", '../check
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {AxialGeometry}
+         * @chainable
+         */
+        AxialGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {AxialGeometry}
+         */
+        AxialGeometry.prototype.enableTextureCoords = function (enable) {
+            _super.prototype.enableTextureCoords.call(this, enable);
+            return this;
+        };
         return AxialGeometry;
     })(Geometry);
     return AxialGeometry;
@@ -11779,7 +12412,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../checks/mustBeBoolean', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialGeometry, GridTopology, mustBeBoolean, Symbolic, Vector2, Vector3) {
+define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialGeometry, GridTopology, Symbolic, Vector2, Vector3) {
     /**
      * @class ConeGeometry
      */
@@ -11805,20 +12438,41 @@ define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geomet
              * @property thetaSegments
              * @type {number}
              */
-            this.thetaSegments = 8;
+            this.thetaSegments = 16;
         }
-        ConeGeometry.prototype.setPosition = function (position) {
-            this.position = position;
+        /**
+         * @method setAxis
+         * @param axis {Cartesian3}
+         * @return {ConeGeometry}
+         * @chainable
+         */
+        ConeGeometry.prototype.setAxis = function (axis) {
+            _super.prototype.setAxis.call(this, axis);
             return this;
         };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {ConeGeometry}
+         * @chainable
+         */
+        ConeGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        /**
+         * @method tPrimitives
+         * @return {DrawPrimitive[]}
+         */
         ConeGeometry.prototype.toPrimitives = function () {
+            console.log("ConeGeometry.toPrimitives()");
             var topo = new GridTopology(this.thetaSegments, 1);
             var uLength = topo.uLength;
             var uSegments = uLength - 1;
             var vLength = topo.vLength;
             var vSegments = vLength - 1;
             var a = Vector3.copy(this.sliceStart).normalize().scale(this.radius);
-            var b = new Vector3().crossVectors(a, this.axis).normalize().scale(this.radius);
+            var b = new Vector3().cross2(a, this.axis).normalize().scale(this.radius);
             var h = Vector3.copy(this.axis).scale(this.height);
             for (var uIndex = 0; uIndex < uLength; uIndex++) {
                 var u = uIndex / uSegments;
@@ -11829,7 +12483,7 @@ define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geomet
                     var v = vIndex / vSegments;
                     var position = new Vector3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
                     var peak = Vector3.copy(h).sub(position);
-                    var normal = new Vector3().crossVectors(peak, position).cross(peak).normalize();
+                    var normal = new Vector3().cross2(peak, position).cross(peak).normalize();
                     var vertex = topo.vertex(uIndex, vIndex);
                     vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position);
                     vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
@@ -11841,8 +12495,7 @@ define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geomet
             return [topo.toDrawPrimitive()];
         };
         ConeGeometry.prototype.enableTextureCoords = function (enable) {
-            mustBeBoolean('enable', enable);
-            this.useTextureCoords = enable;
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return ConeGeometry;
@@ -11855,7 +12508,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../checks/mustBeBoolean', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialGeometry, GridTopology, mustBeBoolean, Spinor3, Symbolic, Vector2, Vector3) {
+define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialGeometry, GridTopology, Spinor3, Symbolic, Vector2, Vector3) {
     /**
      * @class CylinderGeometry
      */
@@ -11868,13 +12521,30 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
         function CylinderGeometry() {
             _super.call(this);
             /**
+             * @property radius
+             * @type {number}
+             * @default 1
+             */
+            this.radius = 1;
+            /**
+             * @property height
+             * @type {number}
+             * @default 1
+             */
+            this.height = 1;
+            /**
              * @property thetaSegments
              * @type {number}
+             * @default 16
              */
-            this.thetaSegments = 8;
+            this.thetaSegments = 16;
         }
+        CylinderGeometry.prototype.setAxis = function (axis) {
+            _super.prototype.setAxis.call(this, axis);
+            return this;
+        };
         CylinderGeometry.prototype.setPosition = function (position) {
-            this.position = position;
+            _super.prototype.setPosition.call(this, position);
             return this;
         };
         CylinderGeometry.prototype.toPrimitives = function () {
@@ -11901,8 +12571,7 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
             return [topo.toDrawPrimitive()];
         };
         CylinderGeometry.prototype.enableTextureCoords = function (enable) {
-            mustBeBoolean('enable', enable);
-            this.useTextureCoords = enable;
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return CylinderGeometry;
@@ -11915,7 +12584,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/RingGeometry',["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../checks/mustBeBoolean', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, AxialGeometry, mustBeBoolean, Spinor3, Symbolic, Vector2, Vector3) {
+define('davinci-eight/geometries/RingGeometry',["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, AxialGeometry, Spinor3, Symbolic, Vector2, Vector3) {
     /**
      * @class RingGeometry
      */
@@ -11941,12 +12610,32 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../topolo
              * @property thetaSegments
              * @type {number}
              */
-            this.thetaSegments = 8;
+            this.thetaSegments = 16;
         }
-        RingGeometry.prototype.setPosition = function (position) {
-            this.position = position;
+        /**
+         * @method setAxis
+         * @param axis
+         * @return {RingGeometry}
+         * @chainable
+         */
+        RingGeometry.prototype.setAxis = function (axis) {
+            _super.prototype.setAxis.call(this, axis);
             return this;
         };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {RingGeometry}
+         * @chainable
+         */
+        RingGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        /**
+         * @method toPrimitives
+         * @return {DrawPrimitive[]}
+         */
         RingGeometry.prototype.toPrimitives = function () {
             var uSegments = this.thetaSegments;
             var vSegments = 1;
@@ -11972,9 +12661,14 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../topolo
             }
             return [topo.toDrawPrimitive()];
         };
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {RingGeometry}
+         * @chainable
+         */
         RingGeometry.prototype.enableTextureCoords = function (enable) {
-            mustBeBoolean('enable', enable);
-            this.useTextureCoords = enable;
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return RingGeometry;
@@ -11987,7 +12681,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geometries/ConeGeometry', '../geometries/CylinderGeometry', '../geometries/AxialGeometry', '../checks/mustBeBoolean', '../geometries/RingGeometry', '../math/Vector3'], function (require, exports, ConeGeometry, CylinderGeometry, AxialGeometry, mustBeBoolean, RingGeometry, Vector3) {
+define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geometries/ConeGeometry', '../geometries/CylinderGeometry', '../geometries/AxialGeometry', '../geometries/RingGeometry', '../math/Vector3'], function (require, exports, ConeGeometry, CylinderGeometry, AxialGeometry, RingGeometry, Vector3) {
     /**
      * @class ArrowGeometry
      */
@@ -12018,7 +12712,7 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
              * @property thetaSegments
              * @type {number}
              */
-            this.thetaSegments = 8;
+            this.thetaSegments = 16;
         }
         /**
          * @method setPosition
@@ -12027,7 +12721,17 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
          * @chainable
          */
         ArrowGeometry.prototype.setPosition = function (position) {
-            this.position = position;
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        /**
+         * @method setAxis
+         * @param axis {Cartesian3}
+         * @return {ArrowGeometry}
+         * @chaninable
+         */
+        ArrowGeometry.prototype.setAxis = function (axis) {
+            _super.prototype.setAxis.call(this, axis);
             return this;
         };
         /**
@@ -12035,6 +12739,7 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
          * @return {DrawPrimitive[]}
          */
         ArrowGeometry.prototype.toPrimitives = function () {
+            console.log("ArrowGeometry.toPrimitives()");
             var heightShaft = 1 - this.heightCone;
             /**
              * The opposite direction to the axis.
@@ -12096,8 +12801,7 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
             return [cone.toPrimitives(), disc.toPrimitives(), shaft.toPrimitives(), plug.toPrimitives()].reduce(function (a, b) { return a.concat(b); }, []);
         };
         ArrowGeometry.prototype.enableTextureCoords = function (enable) {
-            mustBeBoolean('enable', enable);
-            this.useTextureCoords = enable;
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return ArrowGeometry;
@@ -12371,16 +13075,16 @@ define('davinci-eight/geometries/BarnSimplexGeometry',["require", "exports", '..
         BarnSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
-            points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideScalar(2);
-            points[1] = new Vector3().add(this.a).sub(this.b).sub(this.c).divideScalar(2);
-            points[6] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2);
-            points[5] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2);
+            points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideByScalar(2);
+            points[1] = new Vector3().add(this.a).sub(this.b).sub(this.c).divideByScalar(2);
+            points[6] = new Vector3().add(this.a).sub(this.b).add(this.c).divideByScalar(2);
+            points[5] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideByScalar(2);
             points[4] = new Vector3().copy(points[0]).add(this.b);
             points[2] = new Vector3().copy(points[1]).add(this.b);
             points[7] = new Vector3().copy(points[6]).add(this.b);
             points[9] = new Vector3().copy(points[5]).add(this.b);
-            points[3] = Vector3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideScalar(2);
-            points[8] = Vector3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideScalar(2);
+            points[3] = Vector3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideByScalar(2);
+            points[8] = Vector3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideByScalar(2);
             function simplex(indices) {
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {
@@ -12650,7 +13354,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeBoolean', '../checks/mustBeNumber', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Geometry, mustBeBoolean, mustBeNumber, Symbolic, Vector2, Vector3) {
+define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeNumber', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, Geometry, mustBeNumber, Symbolic, Vector2, Vector3) {
     function side(basis, uSegments, vSegments) {
         var normal = Vector3.copy(basis[0]).cross(basis[1]).normalize();
         var aNeg = Vector3.copy(basis[0]).scale(-0.5);
@@ -12673,8 +13377,15 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topo
         }
         return side;
     }
+    /**
+     * @class CuboidGeometry
+     */
     var CuboidGeometry = (function (_super) {
         __extends(CuboidGeometry, _super);
+        /**
+         * @class CuboidGeometry
+         * @constructor
+         */
         function CuboidGeometry() {
             _super.call(this);
             this.iSegments = 1;
@@ -12686,6 +13397,10 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topo
             this.sides = [];
         }
         Object.defineProperty(CuboidGeometry.prototype, "width", {
+            /**
+             * @property width
+             * @type {number}
+             */
             get: function () {
                 return this._a.magnitude();
             },
@@ -12697,6 +13412,10 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topo
             configurable: true
         });
         Object.defineProperty(CuboidGeometry.prototype, "height", {
+            /**
+             * @property height
+             * @type {number}
+             */
             get: function () {
                 return this._b.magnitude();
             },
@@ -12708,6 +13427,10 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topo
             configurable: true
         });
         Object.defineProperty(CuboidGeometry.prototype, "depth", {
+            /**
+             * @property depth
+             * @type {number}
+             */
             get: function () {
                 return this._c.magnitude();
             },
@@ -12733,17 +13456,25 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../topo
             // bottom
             this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments));
         };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {CuboidGeometry}
+         */
         CuboidGeometry.prototype.setPosition = function (position) {
-            this.position = position;
+            _super.prototype.setPosition.call(this, position);
             return this;
         };
+        /**
+         * @method toPrimitives
+         * @return {DrawPrimitive[]}
+         */
         CuboidGeometry.prototype.toPrimitives = function () {
             this.regenerate();
             return this.sides.map(function (side) { return side.toDrawPrimitive(); });
         };
         CuboidGeometry.prototype.enableTextureCoords = function (enable) {
-            mustBeBoolean('enable', enable);
-            this.useTextureCoords = enable;
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return CuboidGeometry;
@@ -13942,6 +14673,30 @@ define('davinci-eight/geometries/SphericalPolarSimplexGeometry',["require", "exp
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method setAxis
+         * @param axis {Cartesian3}
+         * @return {SphericalPolarSimplexGeometry}
+         * @chainable
+         */
+        SphericalPolarSimplexGeometry.prototype.setAxis = function (axis) {
+            _super.prototype.setAxis.call(this, axis);
+            return this;
+        };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {SphericalPolarSimplexGeometry}
+         * @chainable
+         */
+        SphericalPolarSimplexGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        SphericalPolarSimplexGeometry.prototype.enableTextureCoords = function (enable) {
+            _super.prototype.enableTextureCoords.call(this, enable);
+            return this;
+        };
         /**
          * @method isModified
          * @return {boolean}
@@ -15719,11 +16474,9 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
             }
         };
         /**
-         * Computes the difference of this Euclidean3 and another considered to be the rhs of the binary subtraction, `-`, operator.
-         * This method does not change this Euclidean3.
          * @method sub
          * @param rhs {Euclidean3}
-         * @return {Euclidean3} This Euclidean3 minus rhs.
+         * @return {Euclidean3}
          */
         Euclidean3.prototype.sub = function (rhs) {
             var coord = function (x, n) {
@@ -16620,7 +17373,7 @@ define('davinci-eight/math/Vector4',["require", "exports", '../math/VectorN'], f
             this.w = v.w;
             return this;
         };
-        Vector4.prototype.divideScalar = function (scalar) {
+        Vector4.prototype.divideByScalar = function (scalar) {
             this.x /= scalar;
             this.y /= scalar;
             this.z /= scalar;
@@ -16632,6 +17385,10 @@ define('davinci-eight/math/Vector4',["require", "exports", '../math/VectorN'], f
             this.y += (target.y - this.y) * alpha;
             this.z += (target.z - this.z) * alpha;
             this.w += (target.w - this.w) * alpha;
+            return this;
+        };
+        Vector4.prototype.lerp2 = function (a, b, α) {
+            this.diff(b, a).scale(α).add(a);
             return this;
         };
         Vector4.prototype.scale = function (scalar) {
@@ -16650,7 +17407,7 @@ define('davinci-eight/math/Vector4',["require", "exports", '../math/VectorN'], f
         Vector4.prototype.sub = function (rhs) {
             return this;
         };
-        Vector4.prototype.difference = function (a, b) {
+        Vector4.prototype.diff = function (a, b) {
             return this;
         };
         return Vector4;

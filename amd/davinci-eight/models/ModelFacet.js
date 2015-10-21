@@ -124,7 +124,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/rea
                     break;
                 case ModelFacet.PROP_POSITION:
                     {
-                        this._position.set(data[0], data[1], data[2]);
+                        this._position.setXYZ(data[0], data[1], data[2]);
                     }
                     break;
                 default: {

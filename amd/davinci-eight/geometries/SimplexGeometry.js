@@ -181,6 +181,12 @@ define(["require", "exports", '../checks/mustBeInteger', '../checks/mustBeString
             this.check();
             return this;
         };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {SimplexGeometry}
+         * @chainable
+         */
         SimplexGeometry.prototype.setPosition = function (position) {
             return this;
         };

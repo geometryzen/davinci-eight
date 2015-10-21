@@ -16,12 +16,12 @@ define(["require", "exports", '../slideshow/Slide', '../checks/isDefined', '../c
         function Director() {
             _super.call(this, 'Director');
             this.step = -1; // Position before the first slide.
-            this.slides = new IUnknownArray([], 'Director.slides');
+            this.slides = new IUnknownArray([]);
             this.contexts = new NumberIUnknownMap();
-            this.scenes = new StringIUnknownMap('Director.scenes');
-            this.drawables = new StringIUnknownMap('Director.drawables');
-            this.geometries = new StringIUnknownMap('Director.geometries');
-            this.facets = new StringIUnknownMap('Director.facets');
+            this.scenes = new StringIUnknownMap();
+            this.drawables = new StringIUnknownMap();
+            this.geometries = new StringIUnknownMap();
+            this.facets = new StringIUnknownMap();
             this.sceneNamesByCanvasId = {};
             this.facetsByCanvasId = new NumberIUnknownMap();
         }
@@ -156,7 +156,7 @@ define(["require", "exports", '../slideshow/Slide', '../checks/isDefined', '../c
                 try {
                     var facets = this.facetsByCanvasId.get(canvasId);
                     if (!facets) {
-                        facets = new StringIUnknownMap('Director');
+                        facets = new StringIUnknownMap();
                         this.facetsByCanvasId.put(canvasId, facets);
                     }
                     facets.put(facetName, facet);

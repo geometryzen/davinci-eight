@@ -384,7 +384,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
     let uuid: string = uuid4().generate();
-    let _blocks = new StringIUnknownMap<ElementsBlock>('webgl');
+    let _blocks = new StringIUnknownMap<ElementsBlock>();
     // Remark: We only hold weak references to users so that the lifetime of resource
     // objects is not affected by the fact that they are listening for gl events.
     // Users should automatically add themselves upon construction and remove upon release.
@@ -598,7 +598,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
             }
             indexBuffer.unbind();
 
-            let attributes = new StringIUnknownMap<ElementsBlockAttrib>('createBufferGeometry')
+            let attributes = new StringIUnknownMap<ElementsBlockAttrib>()
             let names = Object.keys(primitive.attributes)
             let namesLength = names.length
             var i: number

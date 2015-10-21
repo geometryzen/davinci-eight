@@ -13,30 +13,16 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject'
          * @class SliceGeometry
          * @constructor
          */
-        /**
-         * @class AxialGeometry
-         * @constructor
-         */
         function AxialGeometry() {
             _super.call(this);
-            /**
-             * @property _axis
-             * @type {Vector3}
-             * @protected
-             */
-            this._axis = Vector3.e3.clone();
             /**
              * @property _sliceAngle
              * @type {number}
              * @private
              */
             this._sliceAngle = 2 * Math.PI;
-            /**
-             * @property _sliceStart
-             * @type {Vector3}
-             * @private
-             */
-            this._sliceStart = Vector3.e3.clone();
+            this._axis = Vector3.e2.clone();
+            this._sliceStart = Vector3.e1.clone();
         }
         Object.defineProperty(AxialGeometry.prototype, "axis", {
             /**
@@ -47,14 +33,30 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject'
                 return this._axis.clone();
             },
             set: function (axis) {
-                mustBeObject('axis', axis);
-                this._axis.copy(axis).normalize();
-                this._sliceStart = Vector3.random().cross(this._axis).normalize();
+                this.setAxis(axis);
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method setAxis
+         * @param axis {Cartesian3}
+         * @return {AxialGeometry}
+         * @chainable
+         */
+        AxialGeometry.prototype.setAxis = function (axis) {
+            mustBeObject('axis', axis);
+            this._axis.copy(axis).normalize();
+            // FIXME: randomize
+            this._sliceStart.copy(Vector3.random()).cross(this._axis).normalize();
+            return this;
+        };
         Object.defineProperty(AxialGeometry.prototype, "sliceAngle", {
+            /**
+             * @property sliceAngle
+             * @type {number}
+             * @default 2 * Math.PI
+             */
             get: function () {
                 return this._sliceAngle;
             },
@@ -81,6 +83,25 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject'
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {AxialGeometry}
+         * @chainable
+         */
+        AxialGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {AxialGeometry}
+         */
+        AxialGeometry.prototype.enableTextureCoords = function (enable) {
+            _super.prototype.enableTextureCoords.call(this, enable);
+            return this;
+        };
         return AxialGeometry;
     })(Geometry);
     return AxialGeometry;

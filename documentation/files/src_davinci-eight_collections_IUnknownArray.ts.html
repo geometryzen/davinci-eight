@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.135.0</em>
+            <em>API Docs for: 2.136.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -63,6 +63,7 @@
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -111,7 +112,6 @@
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
-                                <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
@@ -136,6 +136,7 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Quaternion.html">Quaternion</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
@@ -154,7 +155,6 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
-                                <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Topology.html">Topology</a></li>
@@ -165,7 +165,6 @@
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
-                                <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -221,17 +220,13 @@
 import IUnknown = require(&#x27;../core/IUnknown&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
 
-function className(userName: string): string {
-  return &#x27;IUnknownArray:&#x27; + userName
-}
-
 /**
  * Essentially constructs the IUnknownArray without incrementing the
  * reference count of the elements, and without creating zombies.
  */
-function transferOwnership&lt;T extends IUnknown&gt;(data: T[], userName: string): IUnknownArray&lt;T&gt; {
+function transferOwnership&lt;T extends IUnknown&gt;(data: T[]): IUnknownArray&lt;T&gt; {
   if (data) {
-    var result = new IUnknownArray&lt;T&gt;(data, userName)
+    var result = new IUnknownArray&lt;T&gt;(data)
     // The result has now taken ownership of the elements, so we can release.
     for (var i = 0, iLength = data.length; i &lt; iLength; i++) {
       var element = data[i]
@@ -257,20 +252,18 @@ class IUnknownArray&lt;T extends IUnknown&gt; extends Shareable {
    * @private
    */
   private _elements: T[];
-  private userName: string;
   /**
    * Collection class for maintaining an array of types derived from IUnknown.
    * Provides a safer way to maintain reference counts than a native array.
    * @class IUnknownArray
    * @constructor
    */
-  constructor(elements: T[] = [], userName: string) {
-   super(className(userName))
+  constructor(elements: T[] = []) {
+   super(&#x27;IUnknownArray&#x27;)
    this._elements = elements
     for (var i = 0, l = this._elements.length; i &lt; l; i++) {
       this._elements[i].addRef()
     }
-    this.userName = userName;
   }
   /**
    * @method destructor
@@ -325,7 +318,7 @@ class IUnknownArray&lt;T extends IUnknown&gt; extends Shareable {
       return this._elements.length;
     }
     else {
-      console.warn(className(this.userName) + &quot; is now a zombie, length is undefined&quot;)
+      console.warn(&quot;IUnknownArray is now a zombie, length is undefined&quot;)
       return void 0
     }
   }
@@ -337,7 +330,7 @@ class IUnknownArray&lt;T extends IUnknown&gt; extends Shareable {
    * @param end [number]
    */
   slice(begin?: number, end?: number): IUnknownArray&lt;T&gt; {
-    return new IUnknownArray&lt;T&gt;(this._elements.slice(begin, end), &#x27;IUnknownArray.slice()&#x27;)
+    return new IUnknownArray&lt;T&gt;(this._elements.slice(begin, end))
   }
   /**
    * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
@@ -348,7 +341,7 @@ class IUnknownArray&lt;T extends IUnknown&gt; extends Shareable {
    */
   splice(index: number, deleteCount: number): IUnknownArray&lt;T&gt; {
     // The release burdon is on the caller now.
-    return transferOwnership(this._elements.splice(index, deleteCount), &#x27;IUnknownArray.slice()&#x27;)
+    return transferOwnership(this._elements.splice(index, deleteCount))
   }
   /**
    * @method shift

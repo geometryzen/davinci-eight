@@ -19,10 +19,10 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
              * The time standard for this Slide.
              */
             this.now = 0;
-            this.prolog = new SlideCommands('Slide.prolog');
-            this.epilog = new SlideCommands('Slide.epilog');
-            this.targets = new IUnknownArray([], 'Slide.targets');
-            this.mirrors = new StringIUnknownMap('Slide.mirrors');
+            this.prolog = new SlideCommands();
+            this.epilog = new SlideCommands();
+            this.targets = new IUnknownArray();
+            this.mirrors = new StringIUnknownMap();
         }
         Slide.prototype.destructor = function () {
             this.prolog.release();
@@ -118,8 +118,8 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
         __extends(AnimationLane, _super);
         function AnimationLane() {
             _super.call(this, 'AnimationLane');
-            this.completed = new IUnknownArray([], 'AnimationLane.remaining');
-            this.remaining = new IUnknownArray([], 'AnimationLane.remaining');
+            this.completed = new IUnknownArray();
+            this.remaining = new IUnknownArray();
         }
         AnimationLane.prototype.destructor = function () {
             this.completed.release();
@@ -180,7 +180,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
         __extends(Mirror, _super);
         function Mirror() {
             _super.call(this, 'Mirror');
-            this.animationLanes = new StringIUnknownMap('Mirror.animationLanes');
+            this.animationLanes = new StringIUnknownMap();
         }
         Mirror.prototype.destructor = function () {
             this.animationLanes.release();

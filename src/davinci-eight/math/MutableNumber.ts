@@ -67,9 +67,9 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.x -= s;
         return this;
     }
-    difference(a: Cartesian1, b: Cartesian1) {
-        this.x = a.x - b.x;
-        return this;
+    diff(a: Cartesian1, b: Cartesian1): MutableNumber {
+        this.x = a.x - b.x
+        return this
     }
     identity() {
         this.x = 1
@@ -87,7 +87,7 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.x /= v.x;
         return this;
     }
-    divideScalar(scalar: number) {
+    divideByScalar(scalar: number) {
         if (scalar !== 0) {
             var invScalar = 1 / scalar;
             this.x *= invScalar;
@@ -139,7 +139,7 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         return Math.sqrt(this.quaditude());
     }
     normalize() {
-        return this.divideScalar(this.magnitude());
+        return this.divideByScalar(this.magnitude());
     }
     product(a: Cartesian1, b: Cartesian1) {
         return this
@@ -169,8 +169,19 @@ class MutableNumber extends VectorN<number> implements Cartesian1, LinearElement
         this.x += (v.x - this.x) * alpha;
         return this;
     }
-    lerpVectors(v1: MutableNumber, v2: MutableNumber, alpha: number) {
-        this.difference(v2, v1).scale(alpha).add(v1, 1.0);
+    /**
+     * <p>
+     * <code>this = a + α * (b - a)</code>
+     * </p>
+     * @method lerp2
+     * @param a {MutableNumber}
+     * @param b {MutableNumber}
+     * @param α {number}
+     * @return {MutableNumber}
+     * @chainable
+     */
+    lerp2(a: MutableNumber, b: MutableNumber, α: number) {
+        this.diff(b, a).scale(α).add(a);
         return this;
     }
     equals(v: Cartesian1) {

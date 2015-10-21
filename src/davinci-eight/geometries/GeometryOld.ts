@@ -14,7 +14,7 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
   let vC: Cartesian3 = vertices[face.c];
   let cb = new Vector3().difference(vC, vB);
   let ab = new Vector3().difference(vA, vB);
-  let normal = new Vector3().crossVectors(cb, ab).normalize();
+  let normal = new Vector3().cross2(cb, ab).normalize();
   // TODO: I think we only need to push one normal here?
   face.vertexNormals.push(normal);
   face.vertexNormals.push(normal);

@@ -1,4 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3');
+import IAxialGeometry = require('../geometries/IAxialGeometry');
 import MutableNumber = require('../math/MutableNumber');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
 import Vector3 = require('../math/Vector3');
@@ -6,7 +7,7 @@ import Vector3 = require('../math/Vector3');
  * @class SphericalPolarSimplexGeometry
  * @extends SliceSimplexGeometry
  */
-declare class SphericalPolarSimplexGeometry extends SliceSimplexGeometry {
+declare class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxialGeometry<SphericalPolarSimplexGeometry> {
     /**
      * @property _radius
      * @type {MutableNumber}
@@ -58,6 +59,21 @@ declare class SphericalPolarSimplexGeometry extends SliceSimplexGeometry {
      * @type {Vector3}
      */
     phiStart: Vector3;
+    /**
+     * @method setAxis
+     * @param axis {Cartesian3}
+     * @return {SphericalPolarSimplexGeometry}
+     * @chainable
+     */
+    setAxis(axis: Cartesian3): SphericalPolarSimplexGeometry;
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {SphericalPolarSimplexGeometry}
+     * @chainable
+     */
+    setPosition(position: Cartesian3): SphericalPolarSimplexGeometry;
+    enableTextureCoords(enable: boolean): SphericalPolarSimplexGeometry;
     /**
      * @method isModified
      * @return {boolean}

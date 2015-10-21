@@ -2,7 +2,7 @@ define(["require", "exports", '../math/Vector3', '../checks/expectArg', '../chec
     function viewArray(eye, look, up, matrix) {
         var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         expectArg('matrix', m).toSatisfy(m.length === 16, 'matrix must have length 16');
-        var n = new Vector3().difference(eye, look);
+        var n = new Vector3().diff(eye, look);
         if (n.x === 0 && n.y === 0 && n.z === 0) {
             // View direction is ambiguous.
             n.z = 1;
@@ -10,8 +10,8 @@ define(["require", "exports", '../math/Vector3', '../checks/expectArg', '../chec
         else {
             n.normalize();
         }
-        var u = new Vector3().crossVectors(up, n);
-        var v = new Vector3().crossVectors(n, u);
+        var u = new Vector3().cross2(up, n);
+        var v = new Vector3().cross2(n, u);
         var d = new Vector3([Vector3.dot(eye, u), Vector3.dot(eye, v), Vector3.dot(eye, n)]).scale(-1);
         m[0] = u.x;
         m[4] = u.y;

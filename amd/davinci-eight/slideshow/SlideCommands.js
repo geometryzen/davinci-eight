@@ -6,9 +6,9 @@ var __extends = (this && this.__extends) || function (d, b) {
 define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareable', '../slideshow/animations/ColorAnimation', '../slideshow/animations/Vector3Animation', '../slideshow/animations/Spinor3Animation', '../slideshow/commands/AnimateDrawableCommand', '../slideshow/commands/CreateCuboidDrawable', '../slideshow/commands/CreateDrawable', '../slideshow/commands/DestroyDrawableCommand', '../slideshow/commands/UseDrawableInSceneCommand'], function (require, exports, IUnknownArray, Shareable, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, CreateDrawable, DestroyDrawableCommand, UseDrawableInSceneCommand) {
     var SlideCommands = (function (_super) {
         __extends(SlideCommands, _super);
-        function SlideCommands(userName) {
+        function SlideCommands() {
             _super.call(this, 'SlideCommands');
-            this.commands = new IUnknownArray([], userName);
+            this.commands = new IUnknownArray();
         }
         SlideCommands.prototype.destructor = function () {
             this.commands.release();

@@ -145,6 +145,12 @@ declare class SimplexGeometry extends Shareable implements IGeometry<SimplexGeom
      * @return {SimplexGeometry}
      */
     subdivide(times?: number): SimplexGeometry;
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {SimplexGeometry}
+     * @chainable
+     */
     setPosition(position: Cartesian3): SimplexGeometry;
     /**
      * @method toPrimitives

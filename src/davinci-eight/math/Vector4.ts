@@ -97,7 +97,7 @@ class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Carte
         this.w = v.w;
         return this;
     }
-    divideScalar(scalar: number) {
+    divideByScalar(scalar: number) {
         this.x /= scalar;
         this.y /= scalar;
         this.z /= scalar;
@@ -110,6 +110,10 @@ class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Carte
         this.z += (target.z - this.z) * alpha;
         this.w += (target.w - this.w) * alpha;
         return this;
+    }
+    lerp2(a: Cartesian4, b: Cartesian4, α: number): Vector4 {
+        this.diff(b, a).scale(α).add(a)
+        return this
     }
     scale(scalar: number) {
         this.x *= scalar;
@@ -127,7 +131,7 @@ class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Carte
     sub(rhs: Cartesian4) {
         return this;
     }
-    difference(a: Cartesian4, b: Cartesian4) {
+    diff(a: Cartesian4, b: Cartesian4): Vector4 {
         return this;
     }
 }

@@ -87,7 +87,7 @@ class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
 
     this.buffersByCanvasId = new NumberIUnknownMap<IUnknownArray<IBufferGeometry>>()
 
-    this.uniforms = new StringIUnknownMap<IFacet>(LOGGING_NAME);
+    this.uniforms = new StringIUnknownMap<IFacet>();
   }
   protected destructor(): void {
     this.primitives = void 0;
@@ -132,7 +132,7 @@ class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
       for (var i = 0; i < this.primitives.length; i++) {
         var primitive = this.primitives[i]
         if (!this.buffersByCanvasId.exists(manager.canvasId)) {
-          this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray<IBufferGeometry>([],'Drawable.buffers'))
+          this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray<IBufferGeometry>([]))
         }
         var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId)
         buffers.pushWeakRef(manager.createBufferGeometry(primitive))

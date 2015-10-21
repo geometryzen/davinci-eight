@@ -14,7 +14,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
     // FIXME: extends Shareable
     var DrawableGroup = (function () {
         function DrawableGroup(program) {
-            this._drawables = new IUnknownArray([], CLASS_NAME_GROUP);
+            this._drawables = new IUnknownArray();
             this._refCount = 1;
             this._uuid = uuid4().generate();
             this._program = program;
@@ -110,7 +110,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             /**
              * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
              */
-            this._groups = new StringIUnknownMap(CLASS_NAME_ALL);
+            this._groups = new StringIUnknownMap();
         }
         DrawableGroups.prototype.destructor = function () {
             this._groups.release();
@@ -292,7 +292,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
                 drawableGroups.draw(ambients, canvasId);
             },
             getDrawablesByName: function (name) {
-                var result = new IUnknownArray([], 'getDrawablesByName');
+                var result = new IUnknownArray();
                 drawableGroups.traverseDrawables(function (candidate) {
                     if (candidate.name === name) {
                         result.push(candidate);

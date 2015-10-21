@@ -39,11 +39,10 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
     }
     /**
      * @class VectorN<T>
-     * @extends Mutable<T[]>
      */
     var VectorN = (function () {
         /**
-         * @class VectorN
+         * @class VectorN<T>
          * @constructor
          * @param data {T[]}
          * @param modified [boolean = false]
@@ -63,6 +62,10 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
             }
         }
         Object.defineProperty(VectorN.prototype, "data", {
+            /**
+             * @property data
+             * @type {T[]}
+             */
             get: function () {
                 if (this._data) {
                     return this._data;
@@ -90,6 +93,10 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
             configurable: true
         });
         Object.defineProperty(VectorN.prototype, "callback", {
+            /**
+             * @property callback
+             * @type {() => T[]}
+             */
             get: function () {
                 return this._callback;
             },
@@ -102,18 +109,36 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
             configurable: true
         });
         Object.defineProperty(VectorN.prototype, "length", {
+            /**
+             * @property length
+             * @type {number}
+             * @readOnly
+             */
             get: function () {
                 return this.data.length;
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method clone
+         * @return {VectorN<T>}
+         */
         VectorN.prototype.clone = function () {
             return new VectorN(this._data, this.modified, this._size);
         };
+        /**
+         * @method getComponent
+         * @param index {number}
+         * @return {T}
+         */
         VectorN.prototype.getComponent = function (index) {
             return this.data[index];
         };
+        /**
+         * @method pop
+         * @return {T}
+         */
         VectorN.prototype.pop = function () {
             if (isUndefined(this._size)) {
                 return this.data.pop();
@@ -122,7 +147,11 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
                 throw new Error(verbotenPop());
             }
         };
-        // TODO: How to prototype this as ...items: T[]
+        /**
+         * @method push
+         * @param value {T}
+         * @return {number}
+         */
         VectorN.prototype.push = function (value) {
             if (isUndefined(this._size)) {
                 var data = this.data;
@@ -134,6 +163,12 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
                 throw new Error(verbotenPush());
             }
         };
+        /**
+         * @method setComponent
+         * @param index {number}
+         * @param value {T}
+         * @return {void}
+         */
         VectorN.prototype.setComponent = function (index, value) {
             var data = this.data;
             var existing = data[index];
@@ -143,6 +178,12 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
                 this.modified = true;
             }
         };
+        /**
+         * @method toArray
+         * @param [array = []] {T[]}
+         * @param [offset = 0] {number}
+         * @return {T[]}
+         */
         VectorN.prototype.toArray = function (array, offset) {
             if (array === void 0) { array = []; }
             if (offset === void 0) { offset = 0; }
@@ -153,9 +194,17 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
             }
             return array;
         };
+        /**
+         * @method toLocaleString
+         * @return {string}
+         */
         VectorN.prototype.toLocaleString = function () {
             return this.data.toLocaleString();
         };
+        /**
+         * @method toString
+         * @return {string}
+         */
         VectorN.prototype.toString = function () {
             return this.data.toString();
         };

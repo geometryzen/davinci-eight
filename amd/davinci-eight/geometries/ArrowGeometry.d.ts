@@ -1,11 +1,11 @@
 import Cartesian3 = require('../math/Cartesian3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import AxialGeometry = require('../geometries/AxialGeometry');
-import IGeometry = require('../geometries/IGeometry');
+import IAxialGeometry = require('../geometries/IAxialGeometry');
 /**
  * @class ArrowGeometry
  */
-declare class ArrowGeometry extends AxialGeometry implements IGeometry<ArrowGeometry> {
+declare class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometry> {
     /**
      * @property heightCone
      * @type {number}
@@ -38,6 +38,13 @@ declare class ArrowGeometry extends AxialGeometry implements IGeometry<ArrowGeom
      * @chainable
      */
     setPosition(position: Cartesian3): ArrowGeometry;
+    /**
+     * @method setAxis
+     * @param axis {Cartesian3}
+     * @return {ArrowGeometry}
+     * @chaninable
+     */
+    setAxis(axis: Cartesian3): ArrowGeometry;
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}

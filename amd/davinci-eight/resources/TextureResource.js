@@ -5,7 +5,6 @@ define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../u
     var LOGGING_NAME_ITEXTURE = 'ITexture';
     var ms = new Array();
     var os = [];
-    // What is the difference?
     var TextureResource = (function () {
         function TextureResource(monitors, target) {
             this._refCount = 1;

@@ -102,7 +102,7 @@ module.exports = function(grunt) {
             url: '<%= pkg.homepage %>',
             logo: '../assets/logo.png',
             options: {
-                linkNatives: true, // Native types get linked to MDN.
+                linkNatives: false, // Native types get linked to MDN.
                 quiet: true,
                 writeJSON: true,
                 excludes: [],

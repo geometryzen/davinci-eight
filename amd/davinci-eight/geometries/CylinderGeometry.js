@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../checks/mustBeBoolean', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialGeometry, GridTopology, mustBeBoolean, Spinor3, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, AxialGeometry, GridTopology, Spinor3, Symbolic, Vector2, Vector3) {
     /**
      * @class CylinderGeometry
      */
@@ -16,13 +16,30 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
         function CylinderGeometry() {
             _super.call(this);
             /**
+             * @property radius
+             * @type {number}
+             * @default 1
+             */
+            this.radius = 1;
+            /**
+             * @property height
+             * @type {number}
+             * @default 1
+             */
+            this.height = 1;
+            /**
              * @property thetaSegments
              * @type {number}
+             * @default 16
              */
-            this.thetaSegments = 8;
+            this.thetaSegments = 16;
         }
+        CylinderGeometry.prototype.setAxis = function (axis) {
+            _super.prototype.setAxis.call(this, axis);
+            return this;
+        };
         CylinderGeometry.prototype.setPosition = function (position) {
-            this.position = position;
+            _super.prototype.setPosition.call(this, position);
             return this;
         };
         CylinderGeometry.prototype.toPrimitives = function () {
@@ -49,8 +66,7 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
             return [topo.toDrawPrimitive()];
         };
         CylinderGeometry.prototype.enableTextureCoords = function (enable) {
-            mustBeBoolean('enable', enable);
-            this.useTextureCoords = enable;
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return CylinderGeometry;

@@ -117,7 +117,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.w = v.w;
             return this;
         };
-        Vector4.prototype.divideScalar = function (scalar) {
+        Vector4.prototype.divideByScalar = function (scalar) {
             this.x /= scalar;
             this.y /= scalar;
             this.z /= scalar;
@@ -129,6 +129,10 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y += (target.y - this.y) * alpha;
             this.z += (target.z - this.z) * alpha;
             this.w += (target.w - this.w) * alpha;
+            return this;
+        };
+        Vector4.prototype.lerp2 = function (a, b, α) {
+            this.diff(b, a).scale(α).add(a);
             return this;
         };
         Vector4.prototype.scale = function (scalar) {
@@ -147,7 +151,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         Vector4.prototype.sub = function (rhs) {
             return this;
         };
-        Vector4.prototype.difference = function (a, b) {
+        Vector4.prototype.diff = function (a, b) {
             return this;
         };
         return Vector4;

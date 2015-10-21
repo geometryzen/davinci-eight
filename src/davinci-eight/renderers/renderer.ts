@@ -29,7 +29,7 @@ let renderer = function(): IContextRenderer {
   var _manager: IContextProvider;
   let uuid = uuid4().generate()
   let refCount = 1
-  let commands = new IUnknownArray<IContextCommand>([], CLASS_NAME)
+  let commands = new IUnknownArray<IContextCommand>([])
 
   let self: IContextRenderer = {
     addRef(): number {

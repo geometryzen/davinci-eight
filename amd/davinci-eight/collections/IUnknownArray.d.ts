@@ -11,14 +11,13 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
      * @private
      */
     private _elements;
-    private userName;
     /**
      * Collection class for maintaining an array of types derived from IUnknown.
      * Provides a safer way to maintain reference counts than a native array.
      * @class IUnknownArray
      * @constructor
      */
-    constructor(elements: T[], userName: string);
+    constructor(elements?: T[]);
     /**
      * @method destructor
      * @return {void}

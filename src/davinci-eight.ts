@@ -159,6 +159,7 @@ import Vector2 = require('davinci-eight/math/Vector2')
 import Vector3 = require('davinci-eight/math/Vector3')
 import Vector4 = require('davinci-eight/math/Vector4')
 import VectorN = require('davinci-eight/math/VectorN')
+import Quaternion = require('davinci-eight/math/Quaternion')
 
 // models
 import EulerFacet = require('davinci-eight/models/EulerFacet')

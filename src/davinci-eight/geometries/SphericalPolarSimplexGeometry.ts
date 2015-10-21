@@ -1,6 +1,7 @@
 import arc3 = require('../geometries/arc3')
 import Cartesian3 = require('../math/Cartesian3')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
+import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeNumber = require('../checks/mustBeNumber')
 import MutableNumber = require('../math/MutableNumber')
 import Simplex = require('../geometries/Simplex');
@@ -181,7 +182,7 @@ function makePoints(points: Vector3[], uvs: Vector2[], radius: number, heightSeg
  * @class SphericalPolarSimplexGeometry
  * @extends SliceSimplexGeometry
  */
-class SphericalPolarSimplexGeometry extends SliceSimplexGeometry {
+class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxialGeometry<SphericalPolarSimplexGeometry> {
     /**
      * @property _radius
      * @type {MutableNumber}
@@ -267,6 +268,30 @@ class SphericalPolarSimplexGeometry extends SliceSimplexGeometry {
         this.sliceStart.copy(phiStart)
     }
     /**
+     * @method setAxis
+     * @param axis {Cartesian3}
+     * @return {SphericalPolarSimplexGeometry}
+     * @chainable
+     */
+    public setAxis(axis: Cartesian3): SphericalPolarSimplexGeometry {
+        super.setAxis(axis)
+        return this
+    }
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {SphericalPolarSimplexGeometry}
+     * @chainable
+     */
+    public setPosition(position: Cartesian3): SphericalPolarSimplexGeometry {
+        super.setPosition(position)
+        return this
+    }
+    public enableTextureCoords(enable: boolean): SphericalPolarSimplexGeometry {
+        super.enableTextureCoords(enable)
+        return this
+    }
+    /**
      * @method isModified
      * @return {boolean}
      */
@@ -301,19 +326,19 @@ class SphericalPolarSimplexGeometry extends SliceSimplexGeometry {
 
         switch (this.k) {
             case Simplex.EMPTY: {
-              makeTriangles(points, uvs, this.radius, heightSegments, widthSegments, this)
+                makeTriangles(points, uvs, this.radius, heightSegments, widthSegments, this)
             }
                 break
             case Simplex.POINT: {
-              makePoints(points, uvs, this.radius, heightSegments, widthSegments, this)
+                makePoints(points, uvs, this.radius, heightSegments, widthSegments, this)
             }
                 break
             case Simplex.LINE: {
-              makeLineSegments(points, uvs, this.radius, heightSegments, widthSegments, this)
+                makeLineSegments(points, uvs, this.radius, heightSegments, widthSegments, this)
             }
                 break
             case Simplex.TRIANGLE: {
-              makeTriangles(points, uvs, this.radius, heightSegments, widthSegments, this)
+                makeTriangles(points, uvs, this.radius, heightSegments, widthSegments, this)
             }
                 break
             default: {

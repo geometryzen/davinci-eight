@@ -801,11 +801,9 @@ define(["require", "exports", '../math/Euclidean3Error', '../math/mathcore', '..
             }
         };
         /**
-         * Computes the difference of this Euclidean3 and another considered to be the rhs of the binary subtraction, `-`, operator.
-         * This method does not change this Euclidean3.
          * @method sub
          * @param rhs {Euclidean3}
-         * @return {Euclidean3} This Euclidean3 minus rhs.
+         * @return {Euclidean3}
          */
         Euclidean3.prototype.sub = function (rhs) {
             var coord = function (x, n) {

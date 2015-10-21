@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.135.0</em>
+            <em>API Docs for: 2.136.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -63,6 +63,7 @@
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -111,7 +112,6 @@
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
-                                <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
@@ -136,6 +136,7 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Quaternion.html">Quaternion</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
@@ -154,7 +155,6 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
-                                <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Topology.html">Topology</a></li>
@@ -165,7 +165,6 @@
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
-                                <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -225,166 +224,219 @@ import isUndefined = require(&#x27;../checks/isUndefined&#x27;);
 import LinearElement = require(&#x27;../math/LinearElement&#x27;);
 
 function constructorString(T: string): string {
-  return &quot;new VectorN&lt;&quot; + T + &quot;&gt;(data: &quot; + T + &quot;[], modified: boolean = false, size?: number)&quot;;
+    return &quot;new VectorN&lt;&quot; + T + &quot;&gt;(data: &quot; + T + &quot;[], modified: boolean = false, size?: number)&quot;;
 }
 
 function pushString(T: string): string {
-  return &quot;push(value: &quot; + T + &quot;): number&quot;;
+    return &quot;push(value: &quot; + T + &quot;): number&quot;;
 }
 
 function popString(T: string): string {
-  return &quot;pop(): &quot; + T;
+    return &quot;pop(): &quot; + T;
 }
 
 function contextNameKind(context: string, name: string, kind: string): string {
-  return name + &quot; must be a &quot; + kind + &quot; in &quot; + context;
+    return name + &quot; must be a &quot; + kind + &quot; in &quot; + context;
 }
 
 function contextNameLength(context: string, name: string, length: number): string {
-  return name + &quot; length must be &quot; + length + &quot; in &quot; + context;
+    return name + &quot; length must be &quot; + length + &quot; in &quot; + context;
 }
 
 function ctorDataKind(): string {
-  return contextNameKind(constructorString(&#x27;T&#x27;), &#x27;data&#x27;, &#x27;T[]&#x27;);
+    return contextNameKind(constructorString(&#x27;T&#x27;), &#x27;data&#x27;, &#x27;T[]&#x27;);
 }
 
 function ctorDataLength(length: number): () =&gt; string {
-  return function(): string {
-    return contextNameLength(constructorString(&#x27;T&#x27;), &#x27;data&#x27;, length);
-  }
+    return function(): string {
+        return contextNameLength(constructorString(&#x27;T&#x27;), &#x27;data&#x27;, length);
+    }
 }
 
 function verboten(operation: string): string {
-  return operation + &quot; is not allowed for a fixed size vector&quot;;
+    return operation + &quot; is not allowed for a fixed size vector&quot;;
 }
 
 function verbotenPush(): string {
-  return verboten(pushString(&#x27;T&#x27;));
+    return verboten(pushString(&#x27;T&#x27;));
 }
 
 function verbotenPop(): string {
-  return verboten(popString(&#x27;T&#x27;));
+    return verboten(popString(&#x27;T&#x27;));
 }
 
 function ctorModifiedKind(): string {
-  return contextNameKind(constructorString(&#x27;T&#x27;), &#x27;modified&#x27;, &#x27;boolean&#x27;);
+    return contextNameKind(constructorString(&#x27;T&#x27;), &#x27;modified&#x27;, &#x27;boolean&#x27;);
 }
 
 function ctorSizeKind(): string {
-  return contextNameKind(constructorString(&#x27;T&#x27;), &#x27;size&#x27;, &#x27;number&#x27;);
+    return contextNameKind(constructorString(&#x27;T&#x27;), &#x27;size&#x27;, &#x27;number&#x27;);
 }
 
 /**
  * @class VectorN&lt;T&gt;
- * @extends Mutable&lt;T[]&gt;
  */
 class VectorN&lt;T&gt; implements Mutable&lt;T[]&gt; {
-  private _size: number;
-  private _data: T[];
-  private _callback: () =&gt; T[];
-  public modified: boolean;
-  /**
-   * @class VectorN
-   * @constructor
-   * @param data {T[]}
-   * @param modified [boolean = false]
-   * @param [size]
-   */
-  constructor(data: T[], modified: boolean = false, size?: number) {
-    let dataArg = expectArg(&#x27;data&#x27;, data).toBeObject(ctorDataKind);
-    this.modified = expectArg(&#x27;modified&#x27;, modified).toBeBoolean(ctorModifiedKind).value;
-    if (isDefined(size)) {
-      this._size = expectArg(&#x27;size&#x27;, size).toBeNumber(ctorSizeKind).toSatisfy(size &gt;= 0, &quot;size must be positive&quot;).value;
-      this._data = dataArg.toSatisfy(data.length === size, ctorDataLength(size)()).value;
+    private _size: number;
+    private _data: T[];
+    private _callback: () =&gt; T[];
+    /**
+     * @property modified
+     * @type {boolean}
+     */
+    public modified: boolean;
+    /**
+     * @class VectorN&lt;T&gt;
+     * @constructor
+     * @param data {T[]}
+     * @param modified [boolean = false]
+     * @param [size]
+     */
+    constructor(data: T[], modified: boolean = false, size?: number) {
+        let dataArg = expectArg(&#x27;data&#x27;, data).toBeObject(ctorDataKind);
+        this.modified = expectArg(&#x27;modified&#x27;, modified).toBeBoolean(ctorModifiedKind).value;
+        if (isDefined(size)) {
+            this._size = expectArg(&#x27;size&#x27;, size).toBeNumber(ctorSizeKind).toSatisfy(size &gt;= 0, &quot;size must be positive&quot;).value;
+            this._data = dataArg.toSatisfy(data.length === size, ctorDataLength(size)()).value;
+        }
+        else {
+            this._size = void 0;
+            this._data = dataArg.value;
+        }
     }
-    else {
-      this._size = void 0;
-      this._data = dataArg.value;
+    /**
+     * @property data
+     * @type {T[]}
+     */
+    get data(): T[] {
+        if (this._data) {
+            return this._data;
+        }
+        else if (this._callback) {
+            var data = this._callback();
+            if (isDefined(this._size)) {
+                expectArg(&#x27;callback()&#x27;, data).toSatisfy(data.length === this._size, &quot;callback() length must be &quot; + this._size);
+            }
+            return this._callback();
+        }
+        else {
+            throw new Error(&quot;Vector&quot; + this._size + &quot; is undefined.&quot;);
+        }
     }
-  }
-  get data() {
-    if (this._data) {
-      return this._data;
+    set data(data: T[]) {
+        if (isDefined(this._size)) {
+            expectArg(&#x27;data&#x27;, data).toSatisfy(data.length === this._size, &quot;data length must be &quot; + this._size);
+        }
+        this._data = data;
+        this._callback = void 0;
+        this.modified = true;
     }
-    else if (this._callback) {
-      var data = this._callback();
-      if (isDefined(this._size)) {
-        expectArg(&#x27;callback()&#x27;, data).toSatisfy(data.length === this._size, &quot;callback() length must be &quot; + this._size);
-      }
-      return this._callback();
+    /**
+     * @property callback
+     * @type {() =&gt; T[]}
+     */
+    get callback(): () =&gt; T[] {
+        return this._callback;
     }
-    else {
-      throw new Error(&quot;Vector&quot; + this._size + &quot; is undefined.&quot;);
+    set callback(reactTo: () =&gt; T[]) {
+        this._callback = reactTo;
+        this._data = void 0;
+        this.modified = true;
     }
-  }
-  set data(data: T[]) {
-    if (isDefined(this._size)) {
-      expectArg(&#x27;data&#x27;, data).toSatisfy(data.length === this._size, &quot;data length must be &quot; + this._size);
+    /**
+     * @property length
+     * @type {number}
+     * @readOnly
+     */
+    get length(): number {
+        return this.data.length;
     }
-    this._data = data;
-    this._callback = void 0;
-    this.modified = true;
-  }
-  get callback() {
-    return this._callback;
-  }
-  set callback(reactTo: () =&gt; T[]) {
-    this._callback = reactTo;
-    this._data = void 0;
-    this.modified = true;
-  }
-  get length() {
-    return this.data.length;
-  }
-  clone(): VectorN&lt;T&gt; {
-    return new VectorN&lt;T&gt;(this._data, this.modified, this._size);
-  }
-  getComponent(index: number): T {
-    return this.data[index];
-  }
-  pop(): T {
-    if (isUndefined(this._size)) {
-      return this.data.pop();
+    /**
+     * @method clone
+     * @return {VectorN&lt;T&gt;}
+     */
+    clone(): VectorN&lt;T&gt; {
+        return new VectorN&lt;T&gt;(this._data, this.modified, this._size);
     }
-    else {
-      throw new Error(verbotenPop());
+    /**
+     * @method getComponent
+     * @param index {number}
+     * @return {T}
+     */
+    getComponent(index: number): T {
+        return this.data[index];
     }
-  }
-  // TODO: How to prototype this as ...items: T[]
-  push(value: T): number {
-    if (isUndefined(this._size)) {
-      let data = this.data;
-      let newLength = data.push(value);
-      this.data = data;
-      return newLength;
+    /**
+     * @method pop
+     * @return {T}
+     */
+    pop(): T {
+        if (isUndefined(this._size)) {
+            return this.data.pop();
+        }
+        else {
+            throw new Error(verbotenPop());
+        }
     }
-    else {
-      throw new Error(verbotenPush());
+    /**
+     * @method push
+     * @param value {T}
+     * @return {number}
+     */
+    push(value: T): number {
+        if (isUndefined(this._size)) {
+            let data = this.data;
+            let newLength = data.push(value);
+            this.data = data;
+            return newLength;
+        }
+        else {
+            throw new Error(verbotenPush());
+        }
     }
-  }
-  setComponent(index: number, value: T): void {
-    let data: T[] = this.data;
-    let existing = data[index];
-    if (value !== existing) {
-      data[index] = value;
-      this.data = data;
-      this.modified = true;
+    /**
+     * @method setComponent
+     * @param index {number}
+     * @param value {T}
+     * @return {void}
+     */
+    setComponent(index: number, value: T): void {
+        let data: T[] = this.data;
+        let existing = data[index];
+        if (value !== existing) {
+            data[index] = value;
+            this.data = data;
+            this.modified = true;
+        }
     }
-  }
-  toArray(array: T[] = [], offset: number = 0): T[] {
-    let data = this.data;
-    let length = data.length;
-    for (var i = 0; i &lt; length; i++) {
-      array[offset + i] = data[i];
+    /**
+     * @method toArray
+     * @param [array = []] {T[]}
+     * @param [offset = 0] {number}
+     * @return {T[]}
+     */
+    toArray(array: T[] = [], offset: number = 0): T[] {
+        let data = this.data;
+        let length = data.length;
+        for (var i = 0; i &lt; length; i++) {
+            array[offset + i] = data[i];
+        }
+        return array;
     }
-    return array;
-  }
-  toLocaleString(): string {
-    return this.data.toLocaleString();
-  }
-  toString(): string {
-    return this.data.toString();
-  }
+    /**
+     * @method toLocaleString
+     * @return {string}
+     */
+    toLocaleString(): string {
+        return this.data.toLocaleString();
+    }
+    /**
+     * @method toString
+     * @return {string}
+     */
+    toString(): string {
+        return this.data.toString();
+    }
 }
 
 export = VectorN;

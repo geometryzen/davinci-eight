@@ -2,8 +2,9 @@ import AxialGeometry = require('../geometries/AxialGeometry')
 import Cartesian3 = require('../math/Cartesian3')
 import DrawPrimitive = require('../geometries/DrawPrimitive')
 import GridTopology = require('../topologies/GridTopology')
-import IGeometry = require('../geometries/IGeometry')
+import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
+import mustBeNumber = require('../checks/mustBeNumber')
 import MutableNumber = require('../math/MutableNumber')
 import Spinor3 = require('../math/Spinor3')
 import Symbolic = require('../core/Symbolic')
@@ -13,22 +14,25 @@ import Vector3 = require('../math/Vector3')
 /**
  * @class CylinderGeometry
  */
-class CylinderGeometry extends AxialGeometry implements IGeometry<CylinderGeometry> {
+class CylinderGeometry extends AxialGeometry implements IAxialGeometry<CylinderGeometry> {
     /**
      * @property radius
      * @type {number}
+     * @default 1
      */
-    public radius: number;
+    public radius: number = 1;
     /**
      * @property height
      * @type {number}
+     * @default 1
      */
-    public height: number;
+    public height: number = 1;
     /**
      * @property thetaSegments
      * @type {number}
+     * @default 16
      */
-    public thetaSegments = 8;
+    public thetaSegments = 16;
     /**
      * @class CylinderGeometry
      * @constructor
@@ -36,8 +40,12 @@ class CylinderGeometry extends AxialGeometry implements IGeometry<CylinderGeomet
     constructor() {
         super()
     }
+    public setAxis(axis: Cartesian3): CylinderGeometry {
+        super.setAxis(axis)
+        return this
+    }
     public setPosition(position: Cartesian3): CylinderGeometry {
-        this.position = position
+        super.setPosition(position)
         return this
     }
     toPrimitives(): DrawPrimitive[] {
@@ -65,8 +73,7 @@ class CylinderGeometry extends AxialGeometry implements IGeometry<CylinderGeomet
         return [topo.toDrawPrimitive()]
     }
     enableTextureCoords(enable: boolean): CylinderGeometry {
-        mustBeBoolean('enable', enable)
-        this.useTextureCoords = enable
+        super.enableTextureCoords(enable)
         return this
     }
 }

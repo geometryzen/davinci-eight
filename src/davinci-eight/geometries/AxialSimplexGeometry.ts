@@ -1,4 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3')
+import IAxialGeometry = require('../geometries/IAxialGeometry')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Vector3 = require('../math/Vector3')
 
@@ -6,7 +7,7 @@ import Vector3 = require('../math/Vector3')
  * @class AxialSimplexGeometry
  * @extends SimplexGeometry
  */
-class AxialSimplexGeometry extends SimplexGeometry {
+class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<AxialSimplexGeometry> {
     /**
      * The symmetry axis used for geometry generation.
      * @property axis
@@ -42,6 +43,36 @@ class AxialSimplexGeometry extends SimplexGeometry {
      */
     protected destructor(): void {
         super.destructor()
+    }
+    /**
+     * @method setAxis
+     * @param axis {Cartesian3}
+     * @return {AxialSimplexGeometry}
+     * @chainable
+     */
+    setAxis(axis: Cartesian3): AxialSimplexGeometry {
+        this.axis.copy(axis).normalize()
+        return this
+    }
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {AxialSimplexGeometry}
+     * @chainable
+     */
+    setPosition(position: Cartesian3): AxialSimplexGeometry {
+        super.setPosition(position)
+        return this
+    }
+    /**
+     * @method enableTextureCoords
+     * @param enable {boolean}
+     * @return {AxialSimplexGeometry}
+     * @chainable
+     */
+    enableTextureCoords(enable: boolean): AxialSimplexGeometry {
+        super.enableTextureCoords(enable)
+        return this
     }
 }
 

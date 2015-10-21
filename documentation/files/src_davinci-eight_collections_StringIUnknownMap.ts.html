@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.135.0</em>
+            <em>API Docs for: 2.136.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -63,6 +63,7 @@
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -111,7 +112,6 @@
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
-                                <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
@@ -136,6 +136,7 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Quaternion.html">Quaternion</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
@@ -154,7 +155,6 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
-                                <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Topology.html">Topology</a></li>
@@ -165,7 +165,6 @@
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
-                                <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -220,124 +219,142 @@
     <pre class="code prettyprint linenums">
 import IUnknown = require(&#x27;../core/IUnknown&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
-import refChange = require(&#x27;../utils/refChange&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
-import uuid4 = require(&#x27;../utils/uuid4&#x27;)
-
-function className(user: string) {
-  var LOGGING_NAME_IUNKNOWN_MAP = &#x27;StringIUnknownMap&#x27;
-  return LOGGING_NAME_IUNKNOWN_MAP + &quot;:&quot; + user
-}
 
 /**
- * @class StringIUnknownMap&lt;V extends IUnknown&gt;
- * @extends IUnknown
+ * @class StringIUnknownMap
+ * @extends Shareable
  */
-// FIXME: Extend Shareable
-class StringIUnknownMap&lt;V extends IUnknown&gt; implements IUnknown {
-  private _refCount = 1;
-  private _elements: { [key: string]: V } = {};
-  private _uuid = uuid4().generate();
-  private _userName: string
-  /**
-   * &lt;p&gt;
-   * A map&amp;lt;V&amp;gt; of &lt;code&gt;string&lt;/code&gt; to &lt;code&gt;V extends IUnknown&lt;/code&gt;.
-   * &lt;/p&gt;
-   * @class StringIUnknownMap
-   * @constructor
-   */
-  constructor(userName: string) {
-    this._userName = userName
-    refChange(this._uuid, className(this._userName), +1);
-  }
-  addRef() {
-    refChange(this._uuid, className(this._userName), +1);
-    this._refCount++;
-    return this._refCount;
-  }
-  release() {
-    refChange(this._uuid, className(this._userName), -1);
-    this._refCount--;
-    if (this._refCount === 0) {
-      let self = this;
-      this.forEach(function(key) {
-        self.putWeakRef(key, void 0);
-      });
-      this._elements = void 0;
+class StringIUnknownMap&lt;V extends IUnknown&gt; extends Shareable implements IUnknown {
+    /**
+     * @property elements
+     * @type {{[key: string]: V}}
+     */
+    private elements: { [key: string]: V } = {};
+    /**
+     * &lt;p&gt;
+     * A map of &lt;code&gt;string&lt;/code&gt; to &lt;code&gt;V extends IUnknown&lt;/code&gt;.
+     * &lt;/p&gt;
+     * @class StringIUnknownMap
+     * @constructor
+     */
+    constructor() {
+        super(&#x27;StringIUnknownMap&#x27;)
     }
-    return this._refCount;
-  }
-  /**
-   * Determines whether the key exists in the map with a defined value.
-   * @method exists
-   * @param key {string}
-   * @return {boolean} &lt;p&gt;&lt;code&gt;true&lt;/code&gt; if there is an element at the specified key.&lt;/p&gt;
-   */
-  exists(key: string): boolean {
-    let element = this._elements[key];
-    return element ? true : false;
-  }
-  get(key: string): V {
-    let element = this._elements[key];
-    if (element) {
-      element.addRef();
-      return element;
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        let self = this;
+        this.forEach(function(key: string) {
+            self.putWeakRef(key, void 0)
+        })
+        super.destructor()
     }
-    else {
-      return void 0;
+    /**
+     * Determines whether the key exists in the map with a defined value.
+     * @method exists
+     * @param key {string}
+     * @return {boolean} &lt;p&gt;&lt;code&gt;true&lt;/code&gt; if there is an element at the specified key.&lt;/p&gt;
+     */
+    public exists(key: string): boolean {
+        let element = this.elements[key];
+        return element ? true : false;
     }
-  }
-  getWeakRef(key: string): V {
-    return this._elements[key];
-  }
-  put(key: string, value: V): void {
-    if (value) {
-      value.addRef()
+    /**
+     * @method get
+     * @param key {string}
+     * @return {V}
+     */
+    public get(key: string): V {
+        let element = this.elements[key];
+        if (element) {
+            element.addRef();
+            return element;
+        }
+        else {
+            return void 0;
+        }
     }
-    this.putWeakRef(key, value)
-  }
-  /**
-   * @method putWeakRef
-   * @param key {string}
-   * @param value {V}
-   * @return {void}
-   * @private
-   */
-  public putWeakRef(key: string, value: V): void {
-    mustBeString(&#x27;key&#x27;, key)
-    var elements = this._elements
-    var existing = elements[key]
-    if (existing) {
-      existing.release()
+    /**
+     * @method getWeakRef
+     * @param key {string}
+     * @return {V}
+     */
+    public getWeakRef(key: string): V {
+        return this.elements[key];
     }
-    elements[key] = value
-  }
-  forEach(callback: (key: string, value: V) =&gt; void) {
-    let keys: string[] = this.keys;
-    for (var i = 0, iLength = keys.length; i &lt; iLength; i++) {
-      let key: string = keys[i];
-      callback(key, this._elements[key]);
+    /**
+     * @method put
+     * @param key {string}
+     * @param value {V}
+     * @return {void}
+     */
+    public put(key: string, value: V): void {
+        if (value) {
+            value.addRef()
+        }
+        this.putWeakRef(key, value)
     }
-  }
-  get keys(): string[] {
-    // TODO: Cache
-    return Object.keys(this._elements);
-  }
-  get values(): V[] {
-    // TODO: Cache
-    var values: V[] = []
-    var keys: string[] = this.keys
-    for (var i = 0, iLength = keys.length; i &lt; iLength; i++) {
-      let key: string = keys[i]
-      values.push(this._elements[key])
+    /**
+     * @method putWeakRef
+     * @param key {string}
+     * @param value {V}
+     * @return {void}
+     */
+    public putWeakRef(key: string, value: V): void {
+        mustBeString(&#x27;key&#x27;, key)
+        var elements = this.elements
+        var existing = elements[key]
+        if (existing) {
+            existing.release()
+        }
+        elements[key] = value
     }
-    return values
-  }
-  remove(key: string): V {
-    var value = this._elements[key]
-    delete this._elements[key]
-    return value
-  }
+    /**
+     * @method forEach
+     * @param callback {(key: string, value: V) =&gt; void}
+     */
+    public forEach(callback: (key: string, value: V) =&gt; void): void {
+        let keys: string[] = this.keys;
+        for (var i = 0, iLength = keys.length; i &lt; iLength; i++) {
+            let key: string = keys[i];
+            callback(key, this.elements[key]);
+        }
+    }
+    /**
+     * @property keys
+     * @type {string[]}
+     */
+    get keys(): string[] {
+        return Object.keys(this.elements);
+    }
+    /**
+     * @property values
+     * @type {V[]}
+     */
+    get values(): V[] {
+        var values: V[] = []
+        var keys: string[] = this.keys
+        for (var i = 0, iLength = keys.length; i &lt; iLength; i++) {
+            let key: string = keys[i]
+            values.push(this.elements[key])
+        }
+        return values
+    }
+    /**
+     * @method remove
+     * @param key {string}
+     * @return {V}
+     */
+    public remove(key: string): V {
+        mustBeString(&#x27;key&#x27;, key)
+        var value = this.elements[key]
+        delete this.elements[key]
+        return value
+    }
 }
 
 export = StringIUnknownMap;

@@ -1,7 +1,7 @@
 import Cartesian3 = require('../math/Cartesian3')
 import DrawPrimitive = require('../geometries/DrawPrimitive')
 import GridTopology = require('../topologies/GridTopology')
-import IGeometry = require('../geometries/IGeometry')
+import IAxialGeometry = require('../geometries/IAxialGeometry')
 import AxialGeometry = require('../geometries/AxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import MutableNumber = require('../math/MutableNumber')
@@ -13,7 +13,7 @@ import Vector3 = require('../math/Vector3')
 /**
  * @class RingGeometry
  */
-class RingGeometry extends AxialGeometry implements IGeometry<RingGeometry> {
+class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry> {
     /**
      * @property innerRadius
      * @type {number}
@@ -28,7 +28,7 @@ class RingGeometry extends AxialGeometry implements IGeometry<RingGeometry> {
      * @property thetaSegments
      * @type {number}
      */
-    public thetaSegments = 8;
+    public thetaSegments = 16;
     /**
      * @class RingGeometry
      * @constructor
@@ -36,10 +36,30 @@ class RingGeometry extends AxialGeometry implements IGeometry<RingGeometry> {
     constructor() {
         super()
     }
-    public setPosition(position: Cartesian3): RingGeometry {
-        this.position = position
+    /**
+     * @method setAxis
+     * @param axis
+     * @return {RingGeometry}
+     * @chainable
+     */
+    public setAxis(axis: Cartesian3): RingGeometry {
+        super.setAxis(axis)
         return this
     }
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {RingGeometry}
+     * @chainable
+     */
+    public setPosition(position: Cartesian3): RingGeometry {
+        super.setPosition(position)
+        return this
+    }
+    /**
+     * @method toPrimitives
+     * @return {DrawPrimitive[]}
+     */
     toPrimitives(): DrawPrimitive[] {
         let uSegments = this.thetaSegments
         let vSegments = 1
@@ -66,9 +86,14 @@ class RingGeometry extends AxialGeometry implements IGeometry<RingGeometry> {
         }
         return [topo.toDrawPrimitive()]
     }
+    /**
+     * @method enableTextureCoords
+     * @param enable {boolean}
+     * @return {RingGeometry}
+     * @chainable
+     */
     enableTextureCoords(enable: boolean): RingGeometry {
-        mustBeBoolean('enable', enable)
-        this.useTextureCoords = enable
+        super.enableTextureCoords(enable)
         return this
     }
 }

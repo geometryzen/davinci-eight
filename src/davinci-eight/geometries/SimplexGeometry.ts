@@ -192,7 +192,13 @@ class SimplexGeometry extends Shareable implements IGeometry<SimplexGeometry> {
         this.check();
         return this;
     }
-    public setPosition(position: Cartesian3) {
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {SimplexGeometry}
+     * @chainable
+     */
+    public setPosition(position: Cartesian3): SimplexGeometry {
         return this
     }
     /**

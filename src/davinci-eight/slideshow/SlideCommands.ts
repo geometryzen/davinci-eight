@@ -24,10 +24,10 @@ import UseDrawableInSceneCommand = require('../slideshow/commands/UseDrawableInS
 
 class SlideCommands extends Shareable implements ISlideCommand {
   private commands: IUnknownArray<ISlideCommand>;
-  constructor(userName: string)
+  constructor()
   {
     super('SlideCommands')
-    this.commands = new IUnknownArray<ISlideCommand>([], userName)
+    this.commands = new IUnknownArray<ISlideCommand>()
   }
   protected destructor(): void
   {

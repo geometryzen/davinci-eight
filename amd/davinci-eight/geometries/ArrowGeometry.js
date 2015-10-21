@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/ConeGeometry', '../geometries/CylinderGeometry', '../geometries/AxialGeometry', '../checks/mustBeBoolean', '../geometries/RingGeometry', '../math/Vector3'], function (require, exports, ConeGeometry, CylinderGeometry, AxialGeometry, mustBeBoolean, RingGeometry, Vector3) {
+define(["require", "exports", '../geometries/ConeGeometry', '../geometries/CylinderGeometry', '../geometries/AxialGeometry', '../geometries/RingGeometry', '../math/Vector3'], function (require, exports, ConeGeometry, CylinderGeometry, AxialGeometry, RingGeometry, Vector3) {
     /**
      * @class ArrowGeometry
      */
@@ -34,7 +34,7 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
              * @property thetaSegments
              * @type {number}
              */
-            this.thetaSegments = 8;
+            this.thetaSegments = 16;
         }
         /**
          * @method setPosition
@@ -43,7 +43,17 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
          * @chainable
          */
         ArrowGeometry.prototype.setPosition = function (position) {
-            this.position = position;
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        /**
+         * @method setAxis
+         * @param axis {Cartesian3}
+         * @return {ArrowGeometry}
+         * @chaninable
+         */
+        ArrowGeometry.prototype.setAxis = function (axis) {
+            _super.prototype.setAxis.call(this, axis);
             return this;
         };
         /**
@@ -51,6 +61,7 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
          * @return {DrawPrimitive[]}
          */
         ArrowGeometry.prototype.toPrimitives = function () {
+            console.log("ArrowGeometry.toPrimitives()");
             var heightShaft = 1 - this.heightCone;
             /**
              * The opposite direction to the axis.
@@ -112,8 +123,7 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
             return [cone.toPrimitives(), disc.toPrimitives(), shaft.toPrimitives(), plug.toPrimitives()].reduce(function (a, b) { return a.concat(b); }, []);
         };
         ArrowGeometry.prototype.enableTextureCoords = function (enable) {
-            mustBeBoolean('enable', enable);
-            this.useTextureCoords = enable;
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return ArrowGeometry;

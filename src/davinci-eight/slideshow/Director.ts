@@ -66,12 +66,12 @@ class Director extends Shareable implements IDirector {
   constructor() {
     super('Director')
     this.step = -1 // Position before the first slide.
-    this.slides = new IUnknownArray<Slide>([], 'Director.slides')
+    this.slides = new IUnknownArray<Slide>([])
     this.contexts = new NumberIUnknownMap<Canvas3D>()
-    this.scenes = new StringIUnknownMap<IDrawList>('Director.scenes')
-    this.drawables = new StringIUnknownMap<IDrawable>('Director.drawables')
-    this.geometries = new StringIUnknownMap<SimplexGeometry>('Director.geometries')
-    this.facets = new StringIUnknownMap<IFacet>('Director.facets')
+    this.scenes = new StringIUnknownMap<IDrawList>()
+    this.drawables = new StringIUnknownMap<IDrawable>()
+    this.geometries = new StringIUnknownMap<SimplexGeometry>()
+    this.facets = new StringIUnknownMap<IFacet>()
     this.sceneNamesByCanvasId = {}
     this.facetsByCanvasId = new NumberIUnknownMap<StringIUnknownMap<IFacet>>();
   }
@@ -216,7 +216,7 @@ class Director extends Shareable implements IDirector {
       try {
         var facets: StringIUnknownMap<IFacet> = this.facetsByCanvasId.get(canvasId)
         if (!facets) {
-          facets = new StringIUnknownMap<IFacet>('Director');
+          facets = new StringIUnknownMap<IFacet>();
           this.facetsByCanvasId.put(canvasId, facets)
         }
         facets.put(facetName, facet)

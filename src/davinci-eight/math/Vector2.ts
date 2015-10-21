@@ -82,7 +82,7 @@ class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Carte
         this.y -= s;
         return this;
     }
-    difference(a: Cartesian2, b: Cartesian2) {
+    diff(a: Cartesian2, b: Cartesian2) {
         this.x = a.x - b.x;
         this.y = a.y - b.y;
         return this;
@@ -102,7 +102,7 @@ class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Carte
         this.y /= v.y;
         return this;
     }
-    divideScalar(scalar: number) {
+    divideByScalar(scalar: number) {
         if (scalar !== 0) {
             var invScalar = 1 / scalar;
             this.x *= invScalar;
@@ -167,7 +167,7 @@ class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Carte
         return Math.sqrt(this.quaditude());
     }
     normalize() {
-        return this.divideScalar(this.magnitude());
+        return this.divideByScalar(this.magnitude());
     }
     quaditude(): number {
         return this.x * this.x + this.y * this.y;
@@ -196,8 +196,19 @@ class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Carte
         this.y += (v.y - this.y) * alpha;
         return this;
     }
-    lerpVectors(v1: Vector2, v2: Vector2, alpha: number) {
-        this.difference(v2, v1).scale(alpha).add(v1, 1.0)
+    /**
+     * <p>
+     * <code>this = a + α * (b - a)</code>
+     * </p>
+     * @method lerp2
+     * @param a {Cartesian2}
+     * @param b {Cartesian2}
+     * @param α {number}
+     * @return {Vector2} <code>this</code>
+     * @chainable
+     */
+    lerp2(a: Cartesian2, v2: Cartesian2, α: number): Vector2 {
+        this.diff(v2, a).scale(α).add(a)
         return this
     }
     equals(v: Cartesian2) {

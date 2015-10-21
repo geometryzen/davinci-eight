@@ -75,7 +75,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x -= s;
             return this;
         };
-        MutableNumber.prototype.difference = function (a, b) {
+        MutableNumber.prototype.diff = function (a, b) {
             this.x = a.x - b.x;
             return this;
         };
@@ -95,7 +95,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x /= v.x;
             return this;
         };
-        MutableNumber.prototype.divideScalar = function (scalar) {
+        MutableNumber.prototype.divideByScalar = function (scalar) {
             if (scalar !== 0) {
                 var invScalar = 1 / scalar;
                 this.x *= invScalar;
@@ -147,7 +147,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return Math.sqrt(this.quaditude());
         };
         MutableNumber.prototype.normalize = function () {
-            return this.divideScalar(this.magnitude());
+            return this.divideByScalar(this.magnitude());
         };
         MutableNumber.prototype.product = function (a, b) {
             return this;
@@ -177,8 +177,19 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x += (v.x - this.x) * alpha;
             return this;
         };
-        MutableNumber.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).scale(alpha).add(v1, 1.0);
+        /**
+         * <p>
+         * <code>this = a + α * (b - a)</code>
+         * </p>
+         * @method lerp2
+         * @param a {MutableNumber}
+         * @param b {MutableNumber}
+         * @param α {number}
+         * @return {MutableNumber}
+         * @chainable
+         */
+        MutableNumber.prototype.lerp2 = function (a, b, α) {
+            this.diff(b, a).scale(α).add(a);
             return this;
         };
         MutableNumber.prototype.equals = function (v) {

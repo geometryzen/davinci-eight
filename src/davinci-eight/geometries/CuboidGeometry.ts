@@ -32,6 +32,9 @@ function side(basis: Vector3[], uSegments: number, vSegments: number): GridTopol
     return side
 }
 
+/**
+ * @class CuboidGeometry
+ */
 class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     public iSegments: number = 1;
     public jSegments: number = 1;
@@ -40,10 +43,18 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     private _b: Vector3 = Vector3.e2.clone();
     private _c: Vector3 = Vector3.e3.clone();
     private sides: GridTopology[];
+    /**
+     * @class CuboidGeometry
+     * @constructor
+     */
     constructor() {
         super()
         this.sides = []
     }
+    /**
+     * @property width
+     * @type {number}
+     */
     get width() {
         return this._a.magnitude()
     }
@@ -51,6 +62,10 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
         mustBeNumber('width', width)
         this._a.setMagnitude(width)
     }
+    /**
+     * @property height
+     * @type {number}
+     */
     get height() {
         return this._b.magnitude()
     }
@@ -58,6 +73,10 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
         mustBeNumber('height', height)
         this._b.setMagnitude(height)
     }
+    /**
+     * @property depth
+     * @type {number}
+     */
     get depth() {
         return this._c.magnitude()
     }
@@ -80,17 +99,25 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
         // bottom
         this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments))
     }
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {CuboidGeometry}
+     */
     public setPosition(position: Cartesian3): CuboidGeometry {
-        this.position = position
+        super.setPosition(position)
         return this
     }
+    /**
+     * @method toPrimitives
+     * @return {DrawPrimitive[]}
+     */
     public toPrimitives(): DrawPrimitive[] {
         this.regenerate()
         return this.sides.map((side) => { return side.toDrawPrimitive() })
     }
     enableTextureCoords(enable: boolean): CuboidGeometry {
-        mustBeBoolean('enable', enable)
-        this.useTextureCoords = enable
+        super.enableTextureCoords(enable)
         return this
     }
 }

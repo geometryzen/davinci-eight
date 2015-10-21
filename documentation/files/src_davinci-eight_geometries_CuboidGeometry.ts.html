@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>StringIUnknownMap&lt;V extends IUnknown&gt; - davinci-eight</title>
+    <title>src/davinci-eight/geometries/CuboidGeometry.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.135.0</em>
+            <em>API Docs for: 2.136.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -63,6 +63,7 @@
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -111,7 +112,6 @@
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
-                                <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
@@ -136,6 +136,7 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Quaternion.html">Quaternion</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
@@ -154,7 +155,6 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
-                                <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Topology.html">Topology</a></li>
@@ -165,7 +165,6 @@
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
-                                <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -214,155 +213,135 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>StringIUnknownMap&lt;V extends IUnknown&gt; Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: src/davinci-eight/geometries/CuboidGeometry.ts</h1>
 
-        <div class="extends">
-            Extends <a href="../classes/IUnknown.html" class="crosslink">IUnknown</a>
-        </div>
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
+import DrawPrimitive = require(&#x27;../geometries/DrawPrimitive&#x27;)
+import GridTopology = require(&#x27;../topologies/GridTopology&#x27;)
+import Geometry = require(&#x27;../geometries/Geometry&#x27;)
+import IGeometry = require(&#x27;../geometries/IGeometry&#x27;)
+import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;)
+import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
+import Symbolic = require(&#x27;../core/Symbolic&#x27;)
+import Vector2 = require(&#x27;../math/Vector2&#x27;)
+import Vector3 = require(&#x27;../math/Vector3&#x27;)
 
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_collections_StringIUnknownMap.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;StringIUnknownMap.ts:12</code></a>
-        </div>
+function side(basis: Vector3[], uSegments: number, vSegments: number): GridTopology {
+    var normal = Vector3.copy(basis[0]).cross(basis[1]).normalize()
+    var aNeg = Vector3.copy(basis[0]).scale(-0.5)
+    var aPos = Vector3.copy(basis[0]).scale(+0.5)
+    var bNeg = Vector3.copy(basis[1]).scale(-0.5)
+    var bPos = Vector3.copy(basis[1]).scale(+0.5)
+    var cPos = Vector3.copy(basis[2]).scale(+0.5)
+    var side = new GridTopology(uSegments, vSegments)
+    for (var uIndex = 0; uIndex &lt; side.uLength; uIndex++) {
+        for (var vIndex = 0; vIndex &lt; side.vLength; vIndex++) {
+            var u = uIndex / uSegments
+            var v = vIndex / vSegments
+            var a = Vector3.copy(aNeg).lerp(aPos, u)
+            var b = Vector3.copy(bNeg).lerp(bPos, v)
+            var vertex = side.vertex(uIndex, vIndex)
+            vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(a).add(b).add(cPos)
+            vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal
+            vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new Vector2([u, v])
+        }
+    }
+    return side
+}
 
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
-
-</div>
-
-
-<div class="box intro">
-    
-</div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/IUnknown.html#method_addRef">IUnknown</a>:
-        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:9</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Increments the reference count of an IUnknown instance.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
-                    <p>
-The new reference count. This value is intended to be used only for test purposes.
-</p>
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/IUnknown.html#method_release">IUnknown</a>:
-        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:20</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Decrements the reference count of an IUnknown instance.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
-                    <p>
-The new reference count. This value is intended to be used only for test purposes.
-</p>
-            </div>
-        </div>
-
-
-</div>
-            </div>
-
-
-
-    </div>
+/**
+ * @class CuboidGeometry
+ */
+class CuboidGeometry extends Geometry implements IGeometry&lt;CuboidGeometry&gt; {
+    public iSegments: number = 1;
+    public jSegments: number = 1;
+    public kSegments: number = 1;
+    private _a: Vector3 = Vector3.e1.clone();
+    private _b: Vector3 = Vector3.e2.clone();
+    private _c: Vector3 = Vector3.e3.clone();
+    private sides: GridTopology[];
+    /**
+     * @class CuboidGeometry
+     * @constructor
+     */
+    constructor() {
+        super()
+        this.sides = []
+    }
+    /**
+     * @property width
+     * @type {number}
+     */
+    get width() {
+        return this._a.magnitude()
+    }
+    set width(width: number) {
+        mustBeNumber(&#x27;width&#x27;, width)
+        this._a.setMagnitude(width)
+    }
+    /**
+     * @property height
+     * @type {number}
+     */
+    get height() {
+        return this._b.magnitude()
+    }
+    set height(height: number) {
+        mustBeNumber(&#x27;height&#x27;, height)
+        this._b.setMagnitude(height)
+    }
+    /**
+     * @property depth
+     * @type {number}
+     */
+    get depth() {
+        return this._c.magnitude()
+    }
+    set depth(depth: number) {
+        mustBeNumber(&#x27;depth&#x27;, depth)
+        this._c.setMagnitude(depth)
+    }
+    private regenerate(): void {
+        this.sides = []
+        // front
+        this.sides.push(side([this._a, this._b, this._c], this.iSegments, this.jSegments))
+        // right
+        this.sides.push(side([Vector3.copy(this._c).scale(-1), this._b, this._a], this.kSegments, this.jSegments))
+        // left
+        this.sides.push(side([this._c, this._b, Vector3.copy(this._a).scale(-1)], this.kSegments, this.jSegments))
+        // back
+        this.sides.push(side([Vector3.copy(this._a).scale(-1), this._b, Vector3.copy(this._c).scale(-1)], this.iSegments, this.jSegments))
+        // top
+        this.sides.push(side([this._a, Vector3.copy(this._c).scale(-1), this._b], this.iSegments, this.kSegments))
+        // bottom
+        this.sides.push(side([this._a, this._c, Vector3.copy(this._b).scale(-1)], this.iSegments, this.kSegments))
+    }
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {CuboidGeometry}
+     */
+    public setPosition(position: Cartesian3): CuboidGeometry {
+        super.setPosition(position)
+        return this
+    }
+    /**
+     * @method toPrimitives
+     * @return {DrawPrimitive[]}
+     */
+    public toPrimitives(): DrawPrimitive[] {
+        this.regenerate()
+        return this.sides.map((side) =&gt; { return side.toDrawPrimitive() })
+    }
+    enableTextureCoords(enable: boolean): CuboidGeometry {
+        super.enableTextureCoords(enable)
+        return this
+    }
+}
+export = CuboidGeometry
+    </pre>
 </div>
                     </div>
                 </div>

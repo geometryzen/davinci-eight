@@ -116,11 +116,11 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
         this._attitude.yz = data[0]
         this._attitude.zx = data[1]
         this._attitude.xy = data[2]
-        this._attitude.w = data[3]
+        this._attitude.w  = data[3]
       }
       break;
       case ModelFacet.PROP_POSITION: {
-        this._position.set(data[0], data[1], data[2])
+        this._position.setXYZ(data[0], data[1], data[2])
       }
       break;
       default: {

@@ -35,10 +35,10 @@ class Slide extends Shareable implements ISlide {
      */
     constructor() {
         super('Slide')
-        this.prolog = new SlideCommands('Slide.prolog')
-        this.epilog = new SlideCommands('Slide.epilog')
-        this.targets = new IUnknownArray<IAnimationTarget>([], 'Slide.targets')
-        this.mirrors = new StringIUnknownMap<Mirror>('Slide.mirrors')
+        this.prolog = new SlideCommands()
+        this.epilog = new SlideCommands()
+        this.targets = new IUnknownArray<IAnimationTarget>()
+        this.mirrors = new StringIUnknownMap<Mirror>()
     }
     protected destructor(): void {
         this.prolog.release()
@@ -147,8 +147,8 @@ class AnimationLane extends Shareable {
     private remaining: IUnknownArray<IAnimation>;
     constructor() {
         super('AnimationLane')
-        this.completed = new IUnknownArray<IAnimation>([], 'AnimationLane.remaining')
-        this.remaining = new IUnknownArray<IAnimation>([], 'AnimationLane.remaining')
+        this.completed = new IUnknownArray<IAnimation>()
+        this.remaining = new IUnknownArray<IAnimation>()
     }
     protected destructor(): void {
         this.completed.release()
@@ -215,7 +215,7 @@ class Mirror extends Shareable {
     public animationLanes: StringIUnknownMap<AnimationLane>;
     constructor() {
         super('Mirror')
-        this.animationLanes = new StringIUnknownMap<AnimationLane>('Mirror.animationLanes')
+        this.animationLanes = new StringIUnknownMap<AnimationLane>()
     }
 
     protected destructor(): void {

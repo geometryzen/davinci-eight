@@ -330,7 +330,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
         // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
         var uuid = uuid4().generate();
-        var _blocks = new StringIUnknownMap('webgl');
+        var _blocks = new StringIUnknownMap();
         // Remark: We only hold weak references to users so that the lifetime of resource
         // objects is not affected by the fact that they are listening for gl events.
         // Users should automatically add themselves upon construction and remove upon release.
@@ -525,7 +525,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
                 }
                 indexBuffer.unbind();
-                var attributes = new StringIUnknownMap('createBufferGeometry');
+                var attributes = new StringIUnknownMap();
                 var names = Object.keys(primitive.attributes);
                 var namesLength = names.length;
                 var i;

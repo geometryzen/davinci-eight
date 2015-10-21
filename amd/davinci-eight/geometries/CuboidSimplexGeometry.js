@@ -156,10 +156,10 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
         CuboidSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
-            pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideScalar(2);
-            pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divideScalar(2);
-            pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divideScalar(2);
-            pos[3] = new Vector3().sub(this._a).add(this._b).add(this._c).divideScalar(2);
+            pos[0] = new Vector3().sub(this._a).sub(this._b).add(this._c).divideByScalar(2);
+            pos[1] = new Vector3().add(this._a).sub(this._b).add(this._c).divideByScalar(2);
+            pos[2] = new Vector3().add(this._a).add(this._b).add(this._c).divideByScalar(2);
+            pos[3] = new Vector3().sub(this._a).add(this._b).add(this._c).divideByScalar(2);
             pos[4] = new Vector3().copy(pos[3]).sub(this._c);
             pos[5] = new Vector3().copy(pos[2]).sub(this._c);
             pos[6] = new Vector3().copy(pos[1]).sub(this._c);

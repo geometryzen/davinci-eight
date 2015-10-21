@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../checks/mustBeBoolean', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, AxialGeometry, mustBeBoolean, Spinor3, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, GridTopology, AxialGeometry, Spinor3, Symbolic, Vector2, Vector3) {
     /**
      * @class RingGeometry
      */
@@ -29,12 +29,32 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Axial
              * @property thetaSegments
              * @type {number}
              */
-            this.thetaSegments = 8;
+            this.thetaSegments = 16;
         }
-        RingGeometry.prototype.setPosition = function (position) {
-            this.position = position;
+        /**
+         * @method setAxis
+         * @param axis
+         * @return {RingGeometry}
+         * @chainable
+         */
+        RingGeometry.prototype.setAxis = function (axis) {
+            _super.prototype.setAxis.call(this, axis);
             return this;
         };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {RingGeometry}
+         * @chainable
+         */
+        RingGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        /**
+         * @method toPrimitives
+         * @return {DrawPrimitive[]}
+         */
         RingGeometry.prototype.toPrimitives = function () {
             var uSegments = this.thetaSegments;
             var vSegments = 1;
@@ -60,9 +80,14 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Axial
             }
             return [topo.toDrawPrimitive()];
         };
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {RingGeometry}
+         * @chainable
+         */
         RingGeometry.prototype.enableTextureCoords = function (enable) {
-            mustBeBoolean('enable', enable);
-            this.useTextureCoords = enable;
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return RingGeometry;

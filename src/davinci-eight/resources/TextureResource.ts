@@ -13,7 +13,6 @@ let LOGGING_NAME_ITEXTURE = 'ITexture'
 
 let ms = new Array<IContextMonitor>()
 let os: IContextMonitor[] = []
-// What is the difference?
 
 class TextureResource implements ITexture {
   private _gl: WebGLRenderingContext

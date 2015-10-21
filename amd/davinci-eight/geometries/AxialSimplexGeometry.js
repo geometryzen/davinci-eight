@@ -40,6 +40,36 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/Vector3'
         AxialSimplexGeometry.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        /**
+         * @method setAxis
+         * @param axis {Cartesian3}
+         * @return {AxialSimplexGeometry}
+         * @chainable
+         */
+        AxialSimplexGeometry.prototype.setAxis = function (axis) {
+            this.axis.copy(axis).normalize();
+            return this;
+        };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return {AxialSimplexGeometry}
+         * @chainable
+         */
+        AxialSimplexGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
+            return this;
+        };
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {AxialSimplexGeometry}
+         * @chainable
+         */
+        AxialSimplexGeometry.prototype.enableTextureCoords = function (enable) {
+            _super.prototype.enableTextureCoords.call(this, enable);
+            return this;
+        };
         return AxialSimplexGeometry;
     })(SimplexGeometry);
     return AxialSimplexGeometry;

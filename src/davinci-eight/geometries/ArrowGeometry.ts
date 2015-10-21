@@ -3,7 +3,7 @@ import ConeGeometry = require('../geometries/ConeGeometry')
 import CylinderGeometry = require('../geometries/CylinderGeometry')
 import DrawPrimitive = require('../geometries/DrawPrimitive')
 import AxialGeometry = require('../geometries/AxialGeometry')
-import IGeometry = require('../geometries/IGeometry')
+import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import RingGeometry = require('../geometries/RingGeometry')
 import Vector3 = require('../math/Vector3')
@@ -11,7 +11,7 @@ import Vector3 = require('../math/Vector3')
 /**
  * @class ArrowGeometry
  */
-class ArrowGeometry extends AxialGeometry implements IGeometry<ArrowGeometry> {
+class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometry> {
     /**
      * @property heightCone
      * @type {number}
@@ -31,7 +31,7 @@ class ArrowGeometry extends AxialGeometry implements IGeometry<ArrowGeometry> {
      * @property thetaSegments
      * @type {number}
      */
-    public thetaSegments = 8;
+    public thetaSegments = 16;
     /**
      * @class ArrowGeometry
      * @constructor
@@ -46,7 +46,17 @@ class ArrowGeometry extends AxialGeometry implements IGeometry<ArrowGeometry> {
      * @chainable
      */
     setPosition(position: Cartesian3): ArrowGeometry {
-        this.position = position
+        super.setPosition(position)
+        return this
+    }
+    /**
+     * @method setAxis
+     * @param axis {Cartesian3}
+     * @return {ArrowGeometry}
+     * @chaninable
+     */
+    setAxis(axis: Cartesian3): ArrowGeometry {
+        super.setAxis(axis)
         return this
     }
     /**
@@ -54,6 +64,7 @@ class ArrowGeometry extends AxialGeometry implements IGeometry<ArrowGeometry> {
      * @return {DrawPrimitive[]}
      */
     toPrimitives(): DrawPrimitive[] {
+        console.log("ArrowGeometry.toPrimitives()")
         let heightShaft = 1 - this.heightCone
         /**
          * The opposite direction to the axis.
@@ -117,8 +128,7 @@ class ArrowGeometry extends AxialGeometry implements IGeometry<ArrowGeometry> {
         return [cone.toPrimitives(), disc.toPrimitives(), shaft.toPrimitives(), plug.toPrimitives()].reduce((a, b) => { return a.concat(b) }, [])
     }
     enableTextureCoords(enable: boolean): ArrowGeometry {
-        mustBeBoolean('enable', enable)
-        this.useTextureCoords = enable
+        super.enableTextureCoords(enable)
         return this
     }
 }

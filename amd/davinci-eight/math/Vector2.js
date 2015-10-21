@@ -94,7 +94,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y -= s;
             return this;
         };
-        Vector2.prototype.difference = function (a, b) {
+        Vector2.prototype.diff = function (a, b) {
             this.x = a.x - b.x;
             this.y = a.y - b.y;
             return this;
@@ -114,7 +114,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y /= v.y;
             return this;
         };
-        Vector2.prototype.divideScalar = function (scalar) {
+        Vector2.prototype.divideByScalar = function (scalar) {
             if (scalar !== 0) {
                 var invScalar = 1 / scalar;
                 this.x *= invScalar;
@@ -179,7 +179,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return Math.sqrt(this.quaditude());
         };
         Vector2.prototype.normalize = function () {
-            return this.divideScalar(this.magnitude());
+            return this.divideByScalar(this.magnitude());
         };
         Vector2.prototype.quaditude = function () {
             return this.x * this.x + this.y * this.y;
@@ -208,8 +208,19 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y += (v.y - this.y) * alpha;
             return this;
         };
-        Vector2.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).scale(alpha).add(v1, 1.0);
+        /**
+         * <p>
+         * <code>this = a + α * (b - a)</code>
+         * </p>
+         * @method lerp2
+         * @param a {Cartesian2}
+         * @param b {Cartesian2}
+         * @param α {number}
+         * @return {Vector2} <code>this</code>
+         * @chainable
+         */
+        Vector2.prototype.lerp2 = function (a, v2, α) {
+            this.diff(v2, a).scale(α).add(a);
             return this;
         };
         Vector2.prototype.equals = function (v) {

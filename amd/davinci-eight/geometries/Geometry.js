@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/mustBeObject', '../math/Vector3'], function (require, exports, mustBeObject, Vector3) {
+define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject', '../math/Vector3'], function (require, exports, mustBeBoolean, mustBeObject, Vector3) {
     /**
      * @class Geometry
      */
@@ -32,12 +32,41 @@ define(["require", "exports", '../checks/mustBeObject', '../math/Vector3'], func
                 return this._position;
             },
             set: function (position) {
-                mustBeObject('position', position);
-                this._position.copy(position);
+                this.setPosition(position);
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {Geometry}
+         * @chainable
+         */
+        Geometry.prototype.enableTextureCoords = function (enable) {
+            mustBeBoolean('enable', enable);
+            this.useTextureCoords = enable;
+            return this;
+        };
+        /**
+         * @method setPosition
+         * @param position {Cartesian3}
+         * @return Geometry
+         * @chainable
+         */
+        Geometry.prototype.setPosition = function (position) {
+            mustBeObject('position', position);
+            this._position.copy(position);
+            return this;
+        };
+        /**
+         * @method toPrimitives
+         * @return {DrawPrimitive[]}
+         */
+        Geometry.prototype.toPrimitives = function () {
+            console.warn("Geometry.toPrimitives() must be implemented by derived classes.");
+            return [];
+        };
         return Geometry;
     })();
     return Geometry;

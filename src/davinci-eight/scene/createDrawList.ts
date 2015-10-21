@@ -35,7 +35,7 @@ class DrawableGroup implements IUnknown {
    * I can't see this being used; it's all about the drawables!
    */
   private _program: IMaterial;
-  private _drawables = new IUnknownArray<IDrawable>([], CLASS_NAME_GROUP);
+  private _drawables = new IUnknownArray<IDrawable>();
   private _refCount = 1;
   private _uuid = uuid4().generate();
   constructor(program: IMaterial) {
@@ -125,7 +125,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
   /**
    * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
    */
-  private _groups = new StringIUnknownMap<DrawableGroup>(CLASS_NAME_ALL);
+  private _groups = new StringIUnknownMap<DrawableGroup>();
   constructor() {
     super(CLASS_NAME_ALL)
   }
@@ -324,7 +324,7 @@ let createDrawList = function(): IDrawList {
       drawableGroups.draw(ambients, canvasId)
     },
     getDrawablesByName(name: string): IUnknownArray<IDrawable> {
-      var result = new IUnknownArray<IDrawable>([], 'getDrawablesByName')
+      var result = new IUnknownArray<IDrawable>()
       drawableGroups.traverseDrawables(
         function(candidate: IDrawable) {
           if  (candidate.name === name) {

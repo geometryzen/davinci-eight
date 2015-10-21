@@ -1,44 +1,41 @@
-define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, refChange, uuid4) {
-    function className(user) {
-        var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
-        return LOGGING_NAME_IUNKNOWN_MAP + ":" + user;
-    }
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeString, Shareable) {
     /**
-     * @class StringIUnknownMap<V extends IUnknown>
-     * @extends IUnknown
+     * @class StringIUnknownMap
+     * @extends Shareable
      */
-    // FIXME: Extend Shareable
-    var StringIUnknownMap = (function () {
+    var StringIUnknownMap = (function (_super) {
+        __extends(StringIUnknownMap, _super);
         /**
          * <p>
-         * A map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.
+         * A map of <code>string</code> to <code>V extends IUnknown</code>.
          * </p>
          * @class StringIUnknownMap
          * @constructor
          */
-        function StringIUnknownMap(userName) {
-            this._refCount = 1;
-            this._elements = {};
-            this._uuid = uuid4().generate();
-            this._userName = userName;
-            refChange(this._uuid, className(this._userName), +1);
+        function StringIUnknownMap() {
+            _super.call(this, 'StringIUnknownMap');
+            /**
+             * @property elements
+             * @type {{[key: string]: V}}
+             */
+            this.elements = {};
         }
-        StringIUnknownMap.prototype.addRef = function () {
-            refChange(this._uuid, className(this._userName), +1);
-            this._refCount++;
-            return this._refCount;
-        };
-        StringIUnknownMap.prototype.release = function () {
-            refChange(this._uuid, className(this._userName), -1);
-            this._refCount--;
-            if (this._refCount === 0) {
-                var self_1 = this;
-                this.forEach(function (key) {
-                    self_1.putWeakRef(key, void 0);
-                });
-                this._elements = void 0;
-            }
-            return this._refCount;
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        StringIUnknownMap.prototype.destructor = function () {
+            var self = this;
+            this.forEach(function (key) {
+                self.putWeakRef(key, void 0);
+            });
+            _super.prototype.destructor.call(this);
         };
         /**
          * Determines whether the key exists in the map with a defined value.
@@ -47,11 +44,16 @@ define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '.
          * @return {boolean} <p><code>true</code> if there is an element at the specified key.</p>
          */
         StringIUnknownMap.prototype.exists = function (key) {
-            var element = this._elements[key];
+            var element = this.elements[key];
             return element ? true : false;
         };
+        /**
+         * @method get
+         * @param key {string}
+         * @return {V}
+         */
         StringIUnknownMap.prototype.get = function (key) {
-            var element = this._elements[key];
+            var element = this.elements[key];
             if (element) {
                 element.addRef();
                 return element;
@@ -60,9 +62,20 @@ define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '.
                 return void 0;
             }
         };
+        /**
+         * @method getWeakRef
+         * @param key {string}
+         * @return {V}
+         */
         StringIUnknownMap.prototype.getWeakRef = function (key) {
-            return this._elements[key];
+            return this.elements[key];
         };
+        /**
+         * @method put
+         * @param key {string}
+         * @param value {V}
+         * @return {void}
+         */
         StringIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
@@ -74,52 +87,67 @@ define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '.
          * @param key {string}
          * @param value {V}
          * @return {void}
-         * @private
          */
         StringIUnknownMap.prototype.putWeakRef = function (key, value) {
             mustBeString('key', key);
-            var elements = this._elements;
+            var elements = this.elements;
             var existing = elements[key];
             if (existing) {
                 existing.release();
             }
             elements[key] = value;
         };
+        /**
+         * @method forEach
+         * @param callback {(key: string, value: V) => void}
+         */
         StringIUnknownMap.prototype.forEach = function (callback) {
             var keys = this.keys;
             for (var i = 0, iLength = keys.length; i < iLength; i++) {
                 var key = keys[i];
-                callback(key, this._elements[key]);
+                callback(key, this.elements[key]);
             }
         };
         Object.defineProperty(StringIUnknownMap.prototype, "keys", {
+            /**
+             * @property keys
+             * @type {string[]}
+             */
             get: function () {
-                // TODO: Cache
-                return Object.keys(this._elements);
+                return Object.keys(this.elements);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(StringIUnknownMap.prototype, "values", {
+            /**
+             * @property values
+             * @type {V[]}
+             */
             get: function () {
-                // TODO: Cache
                 var values = [];
                 var keys = this.keys;
                 for (var i = 0, iLength = keys.length; i < iLength; i++) {
                     var key = keys[i];
-                    values.push(this._elements[key]);
+                    values.push(this.elements[key]);
                 }
                 return values;
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method remove
+         * @param key {string}
+         * @return {V}
+         */
         StringIUnknownMap.prototype.remove = function (key) {
-            var value = this._elements[key];
-            delete this._elements[key];
+            mustBeString('key', key);
+            var value = this.elements[key];
+            delete this.elements[key];
             return value;
         };
         return StringIUnknownMap;
-    })();
+    })(Shareable);
     return StringIUnknownMap;
 });

@@ -9,7 +9,7 @@ import Cartesian3 = require('../math/Cartesian3');
 import Spinor3Coords = require('../math/Spinor3Coords');
 declare class SlideCommands extends Shareable implements ISlideCommand {
     private commands;
-    constructor(userName: string);
+    constructor();
     protected destructor(): void;
     animateDrawable(drawableName: string, facetName: string, propName: string, animation: IAnimation): number;
     attitude(drawableName: string, attitude: Spinor3Coords, duration?: number, callback?: () => any): number;

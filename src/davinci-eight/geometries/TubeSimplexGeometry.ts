@@ -194,16 +194,16 @@ class FrenetFrames {
       normals[ 0 ] = new THREE.Vector3();
       binormals[ 0 ] = new THREE.Vector3();
       if (lastBinormal===undefined) lastBinormal = new THREE.Vector3( 0, 0, 1 );
-      normals[ 0 ].crossVectors( lastBinormal, tangents[ 0 ] ).normalize();
-      binormals[ 0 ].crossVectors( tangents[ 0 ], normals[ 0 ] ).normalize();
+      normals[ 0 ].cross2( lastBinormal, tangents[ 0 ] ).normalize();
+      binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).normalize();
     }
     function initialNormal2() {
       // This uses the Frenet-Serret formula for deriving binormal
       var t2 = path.getTangentAt( epsilon );
       normals[ 0 ] = new THREE.Vector3().difference( t2, tangents[ 0 ] ).normalize();
-      binormals[ 0 ] = new THREE.Vector3().crossVectors( tangents[ 0 ], normals[ 0 ] );
-      normals[ 0 ].crossVectors( binormals[ 0 ], tangents[ 0 ] ).normalize(); // last binormal x tangent
-      binormals[ 0 ].crossVectors( tangents[ 0 ], normals[ 0 ] ).normalize();
+      binormals[ 0 ] = new THREE.Vector3().cross2( tangents[ 0 ], normals[ 0 ] );
+      normals[ 0 ].cross2( binormals[ 0 ], tangents[ 0 ] ).normalize(); // last binormal x tangent
+      binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).normalize();
     }
     */
 
@@ -232,10 +232,10 @@ class FrenetFrames {
             normal.set(0, 0, 1);
         }
 
-        vec.crossVectors(tangents[0], normal).normalize();
+        vec.cross2(tangents[0], normal).normalize();
 
-        normals[0].crossVectors(tangents[0], vec);
-        binormals[0].crossVectors(tangents[0], normals[0]);
+        normals[0].cross2(tangents[0], vec);
+        binormals[0].cross2(tangents[0], normals[0]);
     }
 
 
@@ -247,7 +247,7 @@ class FrenetFrames {
 
         binormals[i] = binormals[i - 1].clone();
 
-        vec.crossVectors(tangents[i - 1], tangents[i]);
+        vec.cross2(tangents[i - 1], tangents[i]);
 
         if (vec.magnitude() > epsilon) {
 
@@ -260,7 +260,7 @@ class FrenetFrames {
 
         }
 
-        binormals[i].crossVectors(tangents[i], normals[i]);
+        binormals[i].cross2(tangents[i], normals[i]);
 
     }
 
@@ -272,7 +272,7 @@ class FrenetFrames {
         theta = Math.acos(clamp(normals[0].dot(normals[numpoints - 1]), - 1, 1));
         theta /= (numpoints - 1);
 
-        if (tangents[0].dot(vec.crossVectors(normals[0], normals[numpoints - 1])) > 0) {
+        if (tangents[0].dot(vec.cross2(normals[0], normals[numpoints - 1])) > 0) {
 
             theta = - theta;
 
@@ -283,7 +283,7 @@ class FrenetFrames {
             // twist a little...
             // TODO: Don't like this applyMatrix4 use applySpinor
             normals[i].applyMatrix4(mat.rotationAxis(tangents[i], theta * i));
-            binormals[i].crossVectors(tangents[i], normals[i]);
+            binormals[i].cross2(tangents[i], normals[i]);
 
         }
 

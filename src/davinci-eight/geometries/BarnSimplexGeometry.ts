@@ -55,18 +55,18 @@ class BarnSimplexGeometry extends SimplexGeometry
 
     var points: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(index) {return void 0})
 
-    points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideScalar(2)
-    points[1] = new Vector3().add(this.a).sub(this.b).sub(this.c).divideScalar(2)
-    points[6] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2)
-    points[5] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2)
+    points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideByScalar(2)
+    points[1] = new Vector3().add(this.a).sub(this.b).sub(this.c).divideByScalar(2)
+    points[6] = new Vector3().add(this.a).sub(this.b).add(this.c).divideByScalar(2)
+    points[5] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideByScalar(2)
 
     points[4] = new Vector3().copy(points[0]).add(this.b)
     points[2] = new Vector3().copy(points[1]).add(this.b)
     points[7] = new Vector3().copy(points[6]).add(this.b)
     points[9] = new Vector3().copy(points[5]).add(this.b)
 
-    points[3] = Vector3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideScalar(2)
-    points[8] = Vector3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideScalar(2)
+    points[3] = Vector3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideByScalar(2)
+    points[8] = Vector3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideByScalar(2)
 
     function simplex(indices: number[]): Simplex
     {

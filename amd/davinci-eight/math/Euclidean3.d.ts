@@ -86,11 +86,9 @@ declare class Euclidean3 implements Cartesian3, Measure<Euclidean3>, Spinor3Coor
     __add__(other: any): Euclidean3;
     __radd__(other: any): Euclidean3;
     /**
-     * Computes the difference of this Euclidean3 and another considered to be the rhs of the binary subtraction, `-`, operator.
-     * This method does not change this Euclidean3.
      * @method sub
      * @param rhs {Euclidean3}
-     * @return {Euclidean3} This Euclidean3 minus rhs.
+     * @return {Euclidean3}
      */
     sub(rhs: Euclidean3): Euclidean3;
     __sub__(other: any): Euclidean3;

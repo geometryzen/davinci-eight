@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.135.0</em>
+            <em>API Docs for: 2.136.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -63,6 +63,7 @@
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -111,7 +112,6 @@
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
-                                <li><a href="../classes/LinearElement&lt;I, M, S&gt;.html">LinearElement&lt;I, M, S&gt;</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
@@ -136,6 +136,7 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Quaternion.html">Quaternion</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
@@ -154,7 +155,6 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
-                                <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Topology.html">Topology</a></li>
@@ -165,7 +165,6 @@
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
-                                <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/VectorN&lt;T&gt;.html">VectorN&lt;T&gt;</a></li>
                                 <li><a href="../classes/VersionLogger.html">VersionLogger</a></li>
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
@@ -222,7 +221,7 @@ import AxialGeometry = require(&#x27;../geometries/AxialGeometry&#x27;)
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
 import DrawPrimitive = require(&#x27;../geometries/DrawPrimitive&#x27;)
 import GridTopology = require(&#x27;../topologies/GridTopology&#x27;)
-import IGeometry = require(&#x27;../geometries/IGeometry&#x27;)
+import IAxialGeometry = require(&#x27;../geometries/IAxialGeometry&#x27;)
 import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 import Vector2 = require(&#x27;../math/Vector2&#x27;)
@@ -231,7 +230,7 @@ import Vector3 = require(&#x27;../math/Vector3&#x27;)
 /**
  * @class ConeGeometry
  */
-class ConeGeometry extends AxialGeometry implements IGeometry&lt;ConeGeometry&gt; {
+class ConeGeometry extends AxialGeometry implements IAxialGeometry&lt;ConeGeometry&gt; {
     /**
      * @property radius
      * @type {number}
@@ -246,7 +245,7 @@ class ConeGeometry extends AxialGeometry implements IGeometry&lt;ConeGeometry&gt
      * @property thetaSegments
      * @type {number}
      */
-    public thetaSegments = 8;
+    public thetaSegments = 16;
     /**
      * @class ConeGeometry
      * @constructor
@@ -254,11 +253,32 @@ class ConeGeometry extends AxialGeometry implements IGeometry&lt;ConeGeometry&gt
     constructor() {
         super()
     }
-    public setPosition(position: Cartesian3): ConeGeometry {
-        this.position = position
+    /**
+     * @method setAxis
+     * @param axis {Cartesian3}
+     * @return {ConeGeometry}
+     * @chainable
+     */
+    public setAxis(axis: Cartesian3): ConeGeometry {
+        super.setAxis(axis)
         return this
     }
+    /**
+     * @method setPosition
+     * @param position {Cartesian3}
+     * @return {ConeGeometry}
+     * @chainable
+     */
+    public setPosition(position: Cartesian3): ConeGeometry {
+        super.setPosition(position)
+        return this
+    }
+    /**
+     * @method tPrimitives
+     * @return {DrawPrimitive[]}
+     */
     public toPrimitives(): DrawPrimitive[] {
+        console.log(&quot;ConeGeometry.toPrimitives()&quot;)
         var topo = new GridTopology(this.thetaSegments, 1)
         var uLength = topo.uLength
         var uSegments = uLength - 1
@@ -266,7 +286,7 @@ class ConeGeometry extends AxialGeometry implements IGeometry&lt;ConeGeometry&gt
         var vSegments = vLength - 1
 
         var a = Vector3.copy(this.sliceStart).normalize().scale(this.radius)
-        var b = new Vector3().crossVectors(a, this.axis).normalize().scale(this.radius)
+        var b = new Vector3().cross2(a, this.axis).normalize().scale(this.radius)
         var h = Vector3.copy(this.axis).scale(this.height)
         for (var uIndex = 0; uIndex &lt; uLength; uIndex++) {
             var u = uIndex / uSegments
@@ -277,7 +297,7 @@ class ConeGeometry extends AxialGeometry implements IGeometry&lt;ConeGeometry&gt
                 var v = vIndex / vSegments
                 var position = new Vector3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v)
                 var peak = Vector3.copy(h).sub(position)
-                var normal = new Vector3().crossVectors(peak, position).cross(peak).normalize()
+                var normal = new Vector3().cross2(peak, position).cross(peak).normalize()
                 var vertex = topo.vertex(uIndex, vIndex)
                 vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position)
                 vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal
@@ -289,8 +309,7 @@ class ConeGeometry extends AxialGeometry implements IGeometry&lt;ConeGeometry&gt
         return [topo.toDrawPrimitive()]
     }
     enableTextureCoords(enable: boolean): ConeGeometry {
-        mustBeBoolean(&#x27;enable&#x27;, enable)
-        this.useTextureCoords = enable
+        super.enableTextureCoords(enable)
         return this
     }
 }

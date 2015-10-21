@@ -29,12 +29,12 @@ declare class MutableNumber extends VectorN<number> implements Cartesian1, Linea
     exp(): MutableNumber;
     sub(v: Cartesian1): MutableNumber;
     subScalar(s: number): MutableNumber;
-    difference(a: Cartesian1, b: Cartesian1): MutableNumber;
+    diff(a: Cartesian1, b: Cartesian1): MutableNumber;
     identity(): MutableNumber;
     multiply(v: Cartesian1): MutableNumber;
     scale(scalar: number): MutableNumber;
     divide(v: Cartesian1): MutableNumber;
-    divideScalar(scalar: number): MutableNumber;
+    divideByScalar(scalar: number): MutableNumber;
     min(v: Cartesian1): MutableNumber;
     max(v: Cartesian1): MutableNumber;
     floor(): MutableNumber;
@@ -53,7 +53,18 @@ declare class MutableNumber extends VectorN<number> implements Cartesian1, Linea
     rotate(rotor: Spinor1Coords): MutableNumber;
     setMagnitude(l: number): MutableNumber;
     lerp(v: Cartesian1, alpha: number): MutableNumber;
-    lerpVectors(v1: MutableNumber, v2: MutableNumber, alpha: number): MutableNumber;
+    /**
+     * <p>
+     * <code>this = a + α * (b - a)</code>
+     * </p>
+     * @method lerp2
+     * @param a {MutableNumber}
+     * @param b {MutableNumber}
+     * @param α {number}
+     * @return {MutableNumber}
+     * @chainable
+     */
+    lerp2(a: MutableNumber, b: MutableNumber, α: number): MutableNumber;
     equals(v: Cartesian1): boolean;
     fromArray(array: number[], offset?: number): MutableNumber;
     toArray(array?: number[], offset?: number): number[];

@@ -236,6 +236,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.133.0: 2015-10-18 Topology
 * 2.134.0: 2015-10-19 GridTopology
 * 2.135.0: 2015-10-19 ArrowGeometry
+* 2.136.0: 2015-10-20 Quaternion
 
 ## License
 Copyright (c) 2014-2015 David Holmes

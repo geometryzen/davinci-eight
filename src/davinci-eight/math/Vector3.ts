@@ -1,9 +1,13 @@
 import Cartesian3 = require('../math/Cartesian3');
+import euclidean3Quaditude2Arg = require('../math/euclidean3Quaditude2Arg')
 import expectArg = require('../checks/expectArg');
 import LinearElement = require('../math/LinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
+import isDefined = require('../checks/isDefined');
 import isNumber = require('../checks/isNumber');
+import mustBeNumber = require('../checks/mustBeNumber');
+import mustBeObject = require('../checks/mustBeObject');
 import Spinor3Coords = require('../math/Spinor3Coords');
 import VectorN = require('../math/VectorN');
 import wedgeXY = require('../math/wedgeXY');
@@ -12,19 +16,28 @@ import wedgeZX = require('../math/wedgeZX');
 
 /**
  * @class Vector3
+ * @extends VectorN<number>
  */
 class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords, Cartesian3> {
+
     public static e1 = new Vector3([1, 0, 0]);
     public static e2 = new Vector3([0, 1, 0]);
     public static e3 = new Vector3([0, 0, 1]);
+    /**
+     * @method dot
+     * @param a {Cartesian3}
+     * @param b {Cartesian3}
+     * @return {number}
+     * @static
+     */
     public static dot(a: Cartesian3, b: Cartesian3): number {
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
     /**
      * @class Vector3
      * @constructor
-     * @param data {number[]} Default is [0, 0, 0].
-     * @param modified {boolean} Default is false;
+     * @param data [number[] = [0, 0, 0]]
+     * @param modified [boolean = false]
      */
     constructor(data: number[] = [0, 0, 0], modified = false) {
         super(data, modified, 3);
@@ -64,26 +77,32 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
     }
     /**
      * <p>
-     * Adds <code>alpha * vector</code> to this <code>Vector3</code>.
+     * <code>this ⟼ this + vector * α</code>
      * </p>
-     *
      * @method add
-     * @param vector {Vector3} The vector to add to this vector.
-     * @param alpha [number = 1] The
-     * @return {Vector3} 
+     * @param vector {Vector3}
+     * @param α [number = 1]
+     * @return {Vector3} <code>this</code>
+     * @chainable
      */
-    add(vector: Cartesian3, alpha: number = 1): Vector3 {
-        this.x += vector.x * alpha
-        this.y += vector.y * alpha
-        this.z += vector.z * alpha
+    add(vector: Cartesian3, α: number = 1) {
+        mustBeObject('vector', vector)
+        mustBeNumber('α', α)
+        this.x += vector.x * α
+        this.y += vector.y * α
+        this.z += vector.z * α
         return this
     }
-    sum(a: Cartesian3, b: Cartesian3): Vector3 {
-        this.x = a.x + b.x;
-        this.y = a.y + b.y;
-        this.z = a.z + b.z;
-        return this;
-    }
+    /**
+     * <p>
+     * <code>this ⟼ m * this</code>
+     * </p>
+     * @method applyMatrix3
+     * @param m {Matrix3}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     * @deprecated
+     */
     applyMatrix3(m: Matrix3): Vector3 {
         let x = this.x;
         let y = this.y;
@@ -105,6 +124,9 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
      * TODO: Used by TubeSimplexGeometry.
      * @method applyMatrix
      * @param m The 4x4 matrix that pre-multiplies this column vector.
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     * @deprecated
      */
     applyMatrix4(m: Matrix4): Vector3 {
 
@@ -119,11 +141,16 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
         return this;
     }
     /**
+     * <p>
+     * <code>this ⟼ - n * this * n</code>
+     * </p>
      * @method reflect
      * @param n {Cartesian3}
-     * @return {Vector3}
+     * @return {Vector3} <code>this</code>
+     * @chainable
      */
-    reflect(n: Cartesian3): Vector3 {
+    reflect(n: Cartesian3) {
+        mustBeObject('n', n);
         let ax = this.x;
         let ay = this.y;
         let az = this.z;
@@ -134,17 +161,27 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
         this.x = ax - dot2 * nx;
         this.y = ay - dot2 * ny;
         this.z = az - dot2 * nz;
-        return this
+        return this;
     }
-    rotate(spinor: Spinor3Coords): Vector3 {
+    /**
+     * <p>
+     * <code>this ⟼ R * this * reverse(R)</code>
+     * </p>
+     * @method rotate
+     * @param R {Spinor3Coords}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
+    rotate(R: Spinor3Coords): Vector3 {
+        mustBeObject('R', R);
         let x = this.x;
         let y = this.y;
         let z = this.z;
 
-        let a = spinor.xy;
-        let b = spinor.yz;
-        let c = spinor.zx;
-        let w = spinor.w;
+        let a = R.xy;
+        let b = R.yz;
+        let c = R.zx;
+        let w = R.w;
 
         let ix = w * x - c * z + a * y;
         let iy = w * y - a * x + b * z;
@@ -157,43 +194,107 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
 
         return this;
     }
+    /**
+     * @method clone
+     * @return {Vector3} <code>copy(this)</code>
+     */
     clone() {
         return new Vector3([this.x, this.y, this.z]);
     }
+    /**
+     * <p>
+     * <code>this ⟼ copy(v)</code>
+     * </p>
+     * @method copy
+     * @param v {Cartesian3}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
     copy(v: Cartesian3) {
+        mustBeObject('v', v);
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
         return this;
     }
+    /**
+     * <p>
+     * <code>this ⟼ this ✕ v</code>
+     * </p>
+     * @method cross
+     * @param v {Cartesian3}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
     cross(v: Cartesian3): Vector3 {
-        return this.crossVectors(this, v);
+        mustBeObject('v', v);
+        return this.cross2(this, v);
     }
-    crossVectors(a: Cartesian3, b: Cartesian3): Vector3 {
+    /**
+     * <p>
+     * <code>this ⟼ a ✕ b</code>
+     * </p>
+     * @method cross2
+     * @param a {Cartesian3}
+     * @param b {Cartesian3}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
+    cross2(a: Cartesian3, b: Cartesian3): Vector3 {
+        mustBeObject('a', a);
+        mustBeObject('b', b);
 
         let ax = a.x, ay = a.y, az = a.z;
         let bx = b.x, by = b.y, bz = b.z;
 
-        let x = wedgeYZ(ax, ay, az, bx, by, bz);
-        let y = wedgeZX(ax, ay, az, bx, by, bz);
-        let z = wedgeXY(ax, ay, az, bx, by, bz);
-
-        this.set(x, y, z);
+        this.x = wedgeYZ(ax, ay, az, bx, by, bz);
+        this.y = wedgeZX(ax, ay, az, bx, by, bz);
+        this.z = wedgeXY(ax, ay, az, bx, by, bz);
 
         return this;
     }
-    distanceTo(position: Cartesian3): number {
-        return Math.sqrt(this.quadranceTo(position));
+    /**
+     * @method distanceTo
+     * @param point {Cartesian3}
+     * @return {number}
+     */
+    distanceTo(point: Cartesian3): number {
+        if (isDefined(point)) {
+            return Math.sqrt(this.quadranceTo(point));
+        }
+        else {
+            return void 0
+        }
     }
-    quadranceTo(position: Cartesian3): number {
-        var dx = this.x - position.x;
-        var dy = this.y - position.y;
-        var dz = this.z - position.z;
-        return dx * dx + dy * dy + dz * dz;
+    /**
+     * @method quadranceTo
+     * @param point {Cartesian3}
+     * @return {number}
+     */
+    quadranceTo(point: Cartesian3): number {
+        if (isDefined(point)) {
+            var dx = this.x - point.x;
+            var dy = this.y - point.y;
+            var dz = this.z - point.z;
+            return dx * dx + dy * dy + dz * dz;
+        }
+        else {
+            return void 0
+        }
     }
-    divideScalar(scalar: number): Vector3 {
-        if (scalar !== 0) {
-            let invScalar = 1 / scalar;
+    /**
+     * <p>
+     * <code>this ⟼ this / α</code>
+     * </p>
+     * @method divideByScalar
+     * @param α {number}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
+    divideByScalar(α: number) {
+        mustBeNumber('α', α);
+        if (α !== 0) {
+            let invScalar = 1 / α;
             this.x *= invScalar;
             this.y *= invScalar;
             this.z *= invScalar;
@@ -205,45 +306,117 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
         }
         return this;
     }
+    /**
+     * @method dot
+     * @param v {Cartesian3}
+     * @return {number}
+     */
     dot(v: Cartesian3): number {
         return Vector3.dot(this, v);
     }
+    /**
+     * Returns the (Euclidean) norm of this vector.
+     * @method magnitude
+     * @return {number} <code>norm(this)</code>
+     */
     magnitude(): number {
         return Math.sqrt(this.quaditude());
     }
+    /**
+     * Returns the (Euclidean) inner product of this vector with itself.
+     * @method quaditude
+     * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
+     */
     quaditude(): number {
-        let x = this.x;
-        let y = this.y;
-        let z = this.z;
-        return x * x + y * y + z * z;
+        return euclidean3Quaditude2Arg(this, this)
     }
-    lerp(target: Cartesian3, alpha: number): Vector3 {
-        this.x += (target.x - this.x) * alpha;
-        this.y += (target.y - this.y) * alpha;
-        this.z += (target.z - this.z) * alpha;
+    /**
+     * <p>
+     * <code>this ⟼ this + α * (target - this)</code>
+     * </p>
+     * @method lerp
+     * @param target {Cartesian3}
+     * @param α {number}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
+    lerp(target: Cartesian3, α: number) {
+        mustBeObject('target', target)
+        mustBeNumber('α', α)
+        this.x += (target.x - this.x) * α;
+        this.y += (target.y - this.y) * α;
+        this.z += (target.z - this.z) * α;
         return this;
     }
+    /**
+     * <p>
+     * <code>this ⟼ a + α * (b - a)</code>
+     * </p>
+     * @method lerp2
+     * @param a {Cartesian3}
+     * @param b {Cartesian3}
+     * @param α {number}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
+    lerp2(a: Cartesian3, b: Cartesian3, α: number) {
+        mustBeObject('a', a)
+        mustBeObject('b', b)
+        mustBeNumber('α', α)
+        this.diff(b, a).scale(α).add(a)
+        return this
+    }
+    /**
+     * <p>
+     * <code>this ⟼ this / norm(this)</code>
+     * </p>
+     * @method normalize
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
     normalize(): Vector3 {
-        return this.divideScalar(this.magnitude());
+        return this.divideByScalar(this.magnitude());
     }
-    multiply(v: Cartesian3): Vector3 {
-        this.x *= v.x;
-        this.y *= v.y;
-        this.z *= v.z;
-        return this;
+    /**
+     * <p>
+     * <code>this ⟼ this * α</code>
+     * </p>
+     * @method scale
+     * @param α {number} 
+     */
+    scale(α: number): Vector3 {
+        mustBeNumber('α', α)
+        this.x *= α
+        this.y *= α
+        this.z *= α
+        return this
     }
-    scale(scalar: number): Vector3 {
-        this.x *= scalar;
-        this.y *= scalar;
-        this.z *= scalar;
-        return this;
+    /**
+     * <p>
+     * <code>this ⟼ this</code>, with components modified.
+     * </p>
+     * @method set
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     * @deprecated
+     */
+    setXYZ(x: number, y: number, z: number) {
+        this.x = mustBeNumber('x', x)
+        this.y = mustBeNumber('y', y)
+        this.z = mustBeNumber('z', z)
+        return this
     }
-    set(x: number, y: number, z: number): Vector3 {
-        this.x = expectArg('x', x).toBeNumber().value;
-        this.y = expectArg('y', y).toBeNumber().value;
-        this.z = expectArg('z', z).toBeNumber().value;
-        return this;
-    }
+    /**
+     * <p>
+     * <code>this ⟼ magnitude * this / norm(this)</code>
+     * </p>
+     * @method setMagnitude
+     * @param magnitude {number}
+     * @return {Vector3} <code>this</code>
+     */
     setMagnitude(magnitude: number): Vector3 {
         let m = this.magnitude();
         if (m !== 0) {
@@ -259,22 +432,86 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
             throw new Error("Attempting to set the magnitude of a null vector.");
         }
     }
+    /**
+     * @method setX
+     * @param x {number}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     * @deprecated
+     */
     setX(x: number): Vector3 {
+        mustBeNumber('x', x)
         this.x = x;
         return this;
     }
+    /**
+     * @method setY
+     * @param y {number}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     * @deprecated
+     */
     setY(y: number): Vector3 {
+        mustBeNumber('y', y)
         this.y = y;
         return this;
     }
+    /**
+     * @method setZ
+     * @param z {number}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     * @deprecated
+     */
     setZ(z: number): Vector3 {
+        mustBeNumber('z', z)
         this.z = z;
         return this;
     }
+    /**
+     * <p>
+     * <code>this ⟼ this - v</code>
+     * </p>
+     * @method sub
+     * @param v {Cartesian3}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
     sub(v: Cartesian3): Vector3 {
-        return this.difference(this, v);
+        mustBeObject('v', v)
+        return this.diff(this, v);
     }
-    difference(a: Cartesian3, b: Cartesian3): Vector3 {
+    /**
+     * <p>
+     * <code>this ⟼ a + b</code>
+     * </p>
+     * @method sum
+     * @param a {Cartesian3}
+     * @param b {Cartesian3}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
+    sum(a: Cartesian3, b: Cartesian3): Vector3 {
+        mustBeObject('a', a)
+        mustBeObject('b', b)
+        this.x = a.x + b.x
+        this.y = a.y + b.y
+        this.z = a.z + b.z
+        return this
+    }
+    /**
+     * <p>
+     * <code>this ⟼ a - b</code>
+     * </p>
+     * @method diff
+     * @param a {Cartesian3}
+     * @param b {Cartesian3}
+     * @return {Vector3} <code>this</code>
+     * @chainable
+     */
+    diff(a: Cartesian3, b: Cartesian3): Vector3 {
+        mustBeObject('a', a)
+        mustBeObject('b', b)
         this.x = a.x - b.x;
         this.y = a.y - b.y;
         this.z = a.z - b.z;
@@ -287,12 +524,6 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
     toString(): string {
         return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})"
     }
-    /**
-     * Returns the result of `this` + `rhs` without modifying `this`.
-     * @method __add__
-     * @param rhs {Vector3}
-     * @return {Vector3}
-     */
     __add__(rhs: Vector3): Vector3 {
         if (rhs instanceof Vector3) {
             return this.clone().add(rhs, 1.0);
@@ -327,15 +558,15 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
         return new Vector3([vector.x, vector.y, vector.z])
     }
     /**
-     * <code>a + alpha * (b - a)</code>
      * @method lerp
      * @param a {Cartesian3}
      * @param b {Cartesian3}
-     * @param alpha {number}
-     * @return {Vector3}
+     * @param α {number}
+     * @return {Vector3} <code>a + α * (b - a)</code>
+     * @static
      */
-    static lerp(a: Cartesian3, b: Cartesian3, alpha: number): Vector3 {
-        return Vector3.copy(b).sub(a).scale(alpha).add(a, 1.0)
+    static lerp(a: Cartesian3, b: Cartesian3, α: number): Vector3 {
+        return Vector3.copy(b).sub(a).scale(α).add(a)
     }
     /**
      * @method random
