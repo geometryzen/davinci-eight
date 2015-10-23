@@ -3,18 +3,8 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
     var sin = Math.sin;
     var exp = Math.exp;
     var EPS = 0.000001;
-    /**
-     * @class Quaternion
-     */
-    var Quaternion = (function () {
-        /**
-         *
-         * @class Quaternion
-         * @constructor
-         * @param t [number = 1]
-         * @param v [VectorE3 = 0]
-         */
-        function Quaternion(t, v) {
+    var MutableQuaternion = (function () {
+        function MutableQuaternion(t, v) {
             if (t === void 0) { t = 1; }
             if (v === void 0) { v = Euclidean3.zero; }
             this.t = mustBeNumber('t', t);
@@ -23,24 +13,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.y = mustBeNumber('v.y', v.y);
             this.z = mustBeNumber('v.z', v.z);
         }
-        Object.defineProperty(Quaternion.prototype, "v", {
+        Object.defineProperty(MutableQuaternion.prototype, "v", {
             get: function () {
                 return new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0);
             },
             enumerable: true,
             configurable: true
         });
-        /**
-         * <p>
-         * <code>this ⟼ this + q * α</code>
-         * </p>
-         * @method add
-         * @param q {Quaternion}
-         * @param α [number = 1]
-         * @return {Quaternion} <code>this</code>
-         * @chainable
-         */
-        Quaternion.prototype.add = function (q, α) {
+        MutableQuaternion.prototype.add = function (q, α) {
             if (α === void 0) { α = 1; }
             mustBeObject('q', q);
             mustBeNumber('α', α);
@@ -50,21 +30,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z += q.z * α;
             return this;
         };
-        Quaternion.prototype.dual = function (m) {
-            // TODO
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a + b = (α, A) + (β, B) = (α + β, A + B)</code>
-         * </p>
-         * @method sum
-         * @param a {Quaternion}
-         * @param b {Quaternion}
-         * @return {Quaternion} <code>this</code>
-         * @chainable
-         */
-        Quaternion.prototype.sum = function (a, b) {
+        MutableQuaternion.prototype.add2 = function (a, b) {
             mustBeObject('a', a);
             mustBeObject('b', b);
             this.t = a.t + b.t;
@@ -73,48 +39,45 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z = a.z + b.z;
             return this;
         };
-        /**
-         * @method clone
-         * @return {Quaternion} <code>copy(target)</code>
-         */
-        Quaternion.prototype.clone = function () {
-            return new Quaternion(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0));
+        MutableQuaternion.prototype.dual = function (m) {
+            // TODO
+            return this;
         };
-        /**
-         * <p>
-         * <code>this = (t, -v)</code>
-         * </p>
-         * @method conj
-         * @return {Quaternion} <code>this</code>
-         * @chainable
-         */
-        Quaternion.prototype.conj = function () {
+        MutableQuaternion.prototype.clone = function () {
+            return new MutableQuaternion(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0));
+        };
+        MutableQuaternion.prototype.conj = function () {
             this.x *= -1;
             this.y *= -1;
             this.z *= -1;
             return this;
         };
-        Quaternion.prototype.copy = function (quaternion) {
+        MutableQuaternion.prototype.copy = function (quaternion) {
             this.x = quaternion.x;
             this.y = quaternion.y;
             this.z = quaternion.z;
             this.t = quaternion.t;
             return this;
         };
-        Quaternion.prototype.divideByScalar = function (scalar) {
+        MutableQuaternion.prototype.divide = function (q) {
+            return this.divide2(this, q);
+        };
+        MutableQuaternion.prototype.divide2 = function (a, b) {
+            var qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
+            var qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
+            this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
+            this.y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
+            this.z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
+            this.t = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
             return this;
         };
-        Quaternion.prototype.dot = function (v) {
+        MutableQuaternion.prototype.divideByScalar = function (scalar) {
+            return this;
+        };
+        MutableQuaternion.prototype.dot = function (v) {
             return this.x * v.x + this.y * v.y + this.z * v.z + this.t * v.t;
         };
-        /**
-         * <p>
-         * <code>this ⟼ exp(t) * (cos(|v|), sin(|v|) * v / |v|)</code>
-         * </p>
-         * @method exp
-         * @return {Quaternion}
-         */
-        Quaternion.prototype.exp = function () {
+        MutableQuaternion.prototype.exp = function () {
             var expT = exp(this.t);
             var m = cartesianQuaditudeE3(this.x, this.y, this.z, this.x, this.y, this.z);
             var s = m !== 0 ? sin(m) / m : 1;
@@ -124,61 +87,31 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z = expT * this.z * s;
             return this;
         };
-        /**
-         * @method inv
-         * @return {Quaternion} <code>this</code>
-         * @chainable
-         */
-        Quaternion.prototype.inv = function () {
+        MutableQuaternion.prototype.inv = function () {
             this.conj().normalize();
             return this;
         };
-        Quaternion.prototype.lerp = function (target, α) {
+        MutableQuaternion.prototype.lerp = function (target, α) {
             this.x += (target.x - this.x) * α;
             this.y += (target.y - this.y) * α;
             this.z += (target.z - this.z) * α;
             this.t += (target.t - this.t) * α;
             return this;
         };
-        Quaternion.prototype.lerp2 = function (a, b, α) {
+        MutableQuaternion.prototype.lerp2 = function (a, b, α) {
             this.copy(a).lerp(b, α);
             return this;
         };
-        Quaternion.prototype.log = function () {
+        MutableQuaternion.prototype.log = function () {
             return this;
         };
-        Quaternion.prototype.magnitude = function () {
+        MutableQuaternion.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());
         };
-        Quaternion.prototype.multiply = function (q) {
-            return this.product(this, q);
+        MutableQuaternion.prototype.multiply = function (q) {
+            return this.multiply2(this, q);
         };
-        /**
-         * <p>
-         * <code>this ⟼ sqrt(this * conj(this))</code>
-         * </p>
-         * @method norm
-         * @return {Quaternion} <code>this</code>
-         * @chainable
-         */
-        Quaternion.prototype.norm = function () {
-            this.t = this.magnitude();
-            this.x = 0;
-            this.y = 0;
-            this.z = 0;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ (a, <b>B</b>)(c, <b>D</b>)</code>
-         * </p>
-         * @method product
-         * @param a {Quaternion}
-         * @param b {Quaternion}
-         * @return {Quaternion} <code>this</code>
-         * @chainable
-         */
-        Quaternion.prototype.product = function (a, b) {
+        MutableQuaternion.prototype.multiply2 = function (a, b) {
             var qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
             var qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
             this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
@@ -187,16 +120,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.t = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
             return this;
         };
-        /**
-         * <p>
-         * <code>this ⟼ this * α</code>
-         * </p>
-         * @method scale
-         * @param α {number}
-         * @return {Quaternion} <code>this</code>
-         * @chainable
-         */
-        Quaternion.prototype.scale = function (α) {
+        MutableQuaternion.prototype.norm = function () {
+            this.t = this.quaditude();
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            return this;
+        };
+        MutableQuaternion.prototype.scale = function (α) {
             mustBeNumber('α', α);
             this.t *= α;
             this.x *= α;
@@ -204,49 +135,29 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z *= α;
             return this;
         };
-        Quaternion.prototype.normalize = function () {
-            var l = this.magnitude();
-            if (l === 0) {
-                this.x = 0;
-                this.y = 0;
-                this.z = 0;
-                this.t = 1;
-            }
-            else {
-                l = 1 / l;
-                this.x = this.x * l;
-                this.y = this.y * l;
-                this.z = this.z * l;
-                this.t = this.t * l;
-            }
+        MutableQuaternion.prototype.normalize = function () {
+            var modulus = this.magnitude();
+            this.x = this.x / modulus;
+            this.y = this.y / modulus;
+            this.z = this.z / modulus;
+            this.t = this.t / modulus;
             return this;
         };
-        Quaternion.prototype.quaditude = function () {
+        MutableQuaternion.prototype.quaditude = function () {
             return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
         };
-        Quaternion.prototype.reflect = function (n) {
+        MutableQuaternion.prototype.reflect = function (n) {
             // FIXME: What does this mean?
             throw new Error();
         };
-        Quaternion.prototype.rotate = function (rotor) {
+        MutableQuaternion.prototype.rotate = function (rotor) {
             // TODO: This would require creating a temporary so we fall back to components.
-            return this.product(rotor, this);
+            return this.multiply2(rotor, this);
         };
-        Quaternion.prototype.rotor = function (a, b) {
+        MutableQuaternion.prototype.rotor = function (a, b) {
             return this;
         };
-        /**
-         * <p>
-         * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
-         * </p>
-         * @method rotorFromAxisAngle
-         * @param axis {VectorE3}
-         * @param θ {number}
-         * @return {Quaternion} <code>this</code>
-         * @chainable
-         */
-        Quaternion.prototype.rotorFromAxisAngle = function (axis, θ) {
-            //this.dual(a).scale(-θ/2).exp()?
+        MutableQuaternion.prototype.rotorFromAxisAngle = function (axis, θ) {
             var φ = θ / 2;
             var s = sin(φ);
             this.x = axis.x * s;
@@ -255,7 +166,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.t = cos(φ);
             return this;
         };
-        Quaternion.prototype.setFromRotationMatrix = function (m) {
+        MutableQuaternion.prototype.setFromRotationMatrix = function (m) {
             // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
             // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
             var te = m.data, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10], trace = m11 + m22 + m33, s;
@@ -289,7 +200,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             }
             return this;
         };
-        Quaternion.prototype.spinor = function (a, b) {
+        MutableQuaternion.prototype.spinor = function (a, b) {
             // TODO: Could create circularity problems.
             var v1 = new MutableVectorE3();
             var r = euclidean3Quaditude2Arg(a, b) + 1;
@@ -312,7 +223,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.normalize();
             return this;
         };
-        Quaternion.prototype.slerp = function (qb, t) {
+        MutableQuaternion.prototype.slerp = function (qb, t) {
             if (t === 0)
                 return this;
             if (t === 1)
@@ -353,17 +264,25 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z = (z * ratioA + this.z * ratioB);
             return this;
         };
-        Quaternion.prototype.sub = function (rhs) {
+        MutableQuaternion.prototype.sub = function (q, α) {
+            if (α === void 0) { α = 1; }
+            this.x -= q.x * α;
+            this.y -= q.y * α;
+            this.z -= q.z * α;
+            this.t -= q.t * α;
             return this;
         };
-        Quaternion.prototype.diff = function (a, b) {
-            throw new Error("TODO: Quaternion.diff()");
+        MutableQuaternion.prototype.sub2 = function (a, b) {
+            this.x = a.x - b.x;
+            this.y = a.y - b.y;
+            this.z = a.z - b.z;
+            this.t = a.t - b.t;
             return this;
         };
-        Quaternion.prototype.equals = function (quaternion) {
+        MutableQuaternion.prototype.equals = function (quaternion) {
             return (quaternion.x === this.x) && (quaternion.y === this.y) && (quaternion.z === this.z) && (quaternion.t === this.t);
         };
-        Quaternion.prototype.fromArray = function (array, offset) {
+        MutableQuaternion.prototype.fromArray = function (array, offset) {
             if (offset === void 0) { offset = 0; }
             this.x = array[offset];
             this.y = array[offset + 1];
@@ -371,7 +290,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.t = array[offset + 3];
             return this;
         };
-        Quaternion.prototype.toArray = function (array, offset) {
+        MutableQuaternion.prototype.toArray = function (array, offset) {
             if (array === void 0) { array = []; }
             if (offset === void 0) { offset = 0; }
             array[offset] = this.x;
@@ -380,10 +299,10 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             array[offset + 3] = this.t;
             return array;
         };
-        Quaternion.slerp = function (qa, qb, qm, t) {
+        MutableQuaternion.slerp = function (qa, qb, qm, t) {
             return qm.copy(qa).slerp(qb, t);
         };
-        return Quaternion;
+        return MutableQuaternion;
     })();
-    return Quaternion;
+    return MutableQuaternion;
 });

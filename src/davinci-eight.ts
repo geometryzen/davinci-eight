@@ -148,17 +148,18 @@ import Measure = require('davinci-eight/math/Measure')
 import Mutable = require('davinci-eight/math/Mutable')
 import Rational = require('davinci-eight/math/Rational')
 import SpinorE1 = require('davinci-eight/math/SpinorE1')
-import MutableSpinorE2 = require('davinci-eight/math/MutableSpinorE2')
 import SpinorE2 = require('davinci-eight/math/SpinorE2')
-import MutableSpinorE3 = require('davinci-eight/math/MutableSpinorE3')
 import SpinorE3 = require('davinci-eight/math/SpinorE3')
 import Unit = require('davinci-eight/math/Unit')
 import UnitError = require('davinci-eight/math/UnitError')
+import MutableG3 = require('davinci-eight/math/MutableG3')
+import MutableSpinorE2 = require('davinci-eight/math/MutableSpinorE2')
+import MutableSpinorE3 = require('davinci-eight/math/MutableSpinorE3')
 import MutableVectorE2 = require('davinci-eight/math/MutableVectorE2')
 import MutableVectorE3 = require('davinci-eight/math/MutableVectorE3')
 import MutableVectorE4 = require('davinci-eight/math/MutableVectorE4')
 import VectorN = require('davinci-eight/math/VectorN')
-import Quaternion = require('davinci-eight/math/Quaternion')
+import MutableQuaternion = require('davinci-eight/math/MutableQuaternion')
 
 // models
 import EulerFacet = require('davinci-eight/models/EulerFacet')
@@ -318,8 +319,9 @@ var eight = {
     get Euclidean3() { return Euclidean3 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
-    get MutableSpinorE3() { return MutableSpinorE3 },
+    get MutableG3() { return MutableG3 },
     get MutableNumber() { return MutableNumber },
+    get MutableSpinorE3() { return MutableSpinorE3 },
     get MutableVectorE2() { return MutableVectorE2 },
     get MutableVectorE3() { return MutableVectorE3 },
     get MutableVectorE4() { return MutableVectorE4 },

@@ -37,17 +37,17 @@ declare class MutableVectorE4 extends VectorN<number> implements VectorE4, Linea
      */
     w: number;
     setW(w: number): MutableVectorE4;
-    add(vector: VectorE4, alpha?: number): MutableVectorE4;
-    sum(a: VectorE4, b: VectorE4): MutableVectorE4;
+    add(vector: VectorE4, α?: number): MutableVectorE4;
+    add2(a: VectorE4, b: VectorE4): MutableVectorE4;
     clone(): MutableVectorE4;
     copy(v: VectorE4): MutableVectorE4;
-    divideByScalar(scalar: number): MutableVectorE4;
-    lerp(target: VectorE4, alpha: number): MutableVectorE4;
+    divideByScalar(α: number): MutableVectorE4;
+    lerp(target: VectorE4, α: number): MutableVectorE4;
     lerp2(a: VectorE4, b: VectorE4, α: number): MutableVectorE4;
-    scale(scalar: number): MutableVectorE4;
+    scale(α: number): MutableVectorE4;
     reflect(n: VectorE4): MutableVectorE4;
     rotate(rotor: SpinorE4): MutableVectorE4;
-    sub(rhs: VectorE4): MutableVectorE4;
-    diff(a: VectorE4, b: VectorE4): MutableVectorE4;
+    sub(v: VectorE4, α: number): MutableVectorE4;
+    sub2(a: VectorE4, b: VectorE4): MutableVectorE4;
 }
 export = MutableVectorE4;

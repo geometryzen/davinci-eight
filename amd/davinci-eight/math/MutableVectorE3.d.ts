@@ -45,7 +45,7 @@ declare class MutableVectorE3 extends VectorN<number> implements VectorE3, Linea
     constructor(data?: number[], modified?: boolean);
     /**
      * @property x
-     * @type Number
+     * @type {number}
      */
     x: number;
     /**
@@ -69,6 +69,17 @@ declare class MutableVectorE3 extends VectorN<number> implements VectorE3, Linea
      * @chainable
      */
     add(vector: VectorE3, α?: number): MutableVectorE3;
+    /**
+     * <p>
+     * <code>this ⟼ a + b</code>
+     * </p>
+     * @method add2
+     * @param a {VectorE3}
+     * @param b {VectorE3}
+     * @return {MutableVectorE3} <code>this</code>
+     * @chainable
+     */
+    add2(a: VectorE3, b: VectorE3): MutableVectorE3;
     /**
      * <p>
      * <code>this ⟼ m * this</code>
@@ -281,32 +292,22 @@ declare class MutableVectorE3 extends VectorN<number> implements VectorE3, Linea
      * </p>
      * @method sub
      * @param v {VectorE3}
+     * @param α [number = 1]
      * @return {MutableVectorE3} <code>this</code>
      * @chainable
      */
-    sub(v: VectorE3): MutableVectorE3;
-    /**
-     * <p>
-     * <code>this ⟼ a + b</code>
-     * </p>
-     * @method sum
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {MutableVectorE3} <code>this</code>
-     * @chainable
-     */
-    sum(a: VectorE3, b: VectorE3): MutableVectorE3;
+    sub(v: VectorE3, α?: number): MutableVectorE3;
     /**
      * <p>
      * <code>this ⟼ a - b</code>
      * </p>
-     * @method diff
+     * @method sub2
      * @param a {VectorE3}
      * @param b {VectorE3}
      * @return {MutableVectorE3} <code>this</code>
      * @chainable
      */
-    diff(a: VectorE3, b: VectorE3): MutableVectorE3;
+    sub2(a: VectorE3, b: VectorE3): MutableVectorE3;
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.

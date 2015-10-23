@@ -34,7 +34,7 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
         Object.defineProperty(MutableVectorE3.prototype, "x", {
             /**
              * @property x
-             * @type Number
+             * @type {number}
              */
             get: function () {
                 return this.data[0];
@@ -93,6 +93,24 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
             this.x += vector.x * α;
             this.y += vector.y * α;
             this.z += vector.z * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a + b</code>
+         * </p>
+         * @method add2
+         * @param a {VectorE3}
+         * @param b {VectorE3}
+         * @return {MutableVectorE3} <code>this</code>
+         * @chainable
+         */
+        MutableVectorE3.prototype.add2 = function (a, b) {
+            mustBeObject('a', a);
+            mustBeObject('b', b);
+            this.x = a.x + b.x;
+            this.y = a.y + b.y;
+            this.z = a.z + b.z;
             return this;
         };
         /**
@@ -351,7 +369,7 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
             mustBeObject('a', a);
             mustBeObject('b', b);
             mustBeNumber('α', α);
-            this.diff(b, a).scale(α).add(a);
+            this.copy(a).lerp(b, α);
             return this;
         };
         /**
@@ -462,42 +480,30 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
          * </p>
          * @method sub
          * @param v {VectorE3}
+         * @param α [number = 1]
          * @return {MutableVectorE3} <code>this</code>
          * @chainable
          */
-        MutableVectorE3.prototype.sub = function (v) {
+        MutableVectorE3.prototype.sub = function (v, α) {
+            if (α === void 0) { α = 1; }
             mustBeObject('v', v);
-            return this.diff(this, v);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a + b</code>
-         * </p>
-         * @method sum
-         * @param a {VectorE3}
-         * @param b {VectorE3}
-         * @return {MutableVectorE3} <code>this</code>
-         * @chainable
-         */
-        MutableVectorE3.prototype.sum = function (a, b) {
-            mustBeObject('a', a);
-            mustBeObject('b', b);
-            this.x = a.x + b.x;
-            this.y = a.y + b.y;
-            this.z = a.z + b.z;
+            mustBeNumber('α', α);
+            this.x -= v.x * α;
+            this.y -= v.y * α;
+            this.z -= v.z * α;
             return this;
         };
         /**
          * <p>
          * <code>this ⟼ a - b</code>
          * </p>
-         * @method diff
+         * @method sub2
          * @param a {VectorE3}
          * @param b {VectorE3}
          * @return {MutableVectorE3} <code>this</code>
          * @chainable
          */
-        MutableVectorE3.prototype.diff = function (a, b) {
+        MutableVectorE3.prototype.sub2 = function (a, b) {
             mustBeObject('a', a);
             mustBeObject('b', b);
             this.x = a.x - b.x;

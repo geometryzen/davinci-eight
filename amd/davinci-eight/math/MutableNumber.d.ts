@@ -23,13 +23,12 @@ declare class MutableNumber extends VectorN<number> implements VectorE1, LinearE
     setX(x: number): MutableNumber;
     copy(v: VectorE1): MutableNumber;
     add(vector: VectorE1, alpha?: number): MutableNumber;
-    addScalar(s: number): MutableNumber;
+    add2(a: VectorE1, b: VectorE1): MutableNumber;
     determinant(): number;
-    sum(a: VectorE1, b: VectorE1): MutableNumber;
     exp(): MutableNumber;
     sub(v: VectorE1): MutableNumber;
     subScalar(s: number): MutableNumber;
-    diff(a: VectorE1, b: VectorE1): MutableNumber;
+    sub2(a: VectorE1, b: VectorE1): MutableNumber;
     identity(): MutableNumber;
     multiply(v: VectorE1): MutableNumber;
     scale(scalar: number): MutableNumber;
@@ -52,10 +51,18 @@ declare class MutableNumber extends VectorN<number> implements VectorE1, LinearE
     reflect(n: VectorE1): MutableNumber;
     rotate(rotor: SpinorE1): MutableNumber;
     setMagnitude(l: number): MutableNumber;
-    lerp(v: VectorE1, alpha: number): MutableNumber;
+    /**
+     * this ⟼ this + α * (v - this)</code>
+     * @method lerp
+     * @param v {VectorE1}
+     * @param α {number}
+     * @return {MutanbleNumber}
+     * @chainable
+     */
+    lerp(v: VectorE1, α: number): MutableNumber;
     /**
      * <p>
-     * <code>this = a + α * (b - a)</code>
+     * <code>this ⟼ a + α * (b - a)</code>
      * </p>
      * @method lerp2
      * @param a {MutableNumber}

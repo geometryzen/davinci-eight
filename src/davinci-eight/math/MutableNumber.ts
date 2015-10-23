@@ -44,30 +44,26 @@ class MutableNumber extends VectorN<number> implements VectorE1, LinearElement<V
         this.x += vector.x * alpha
         return this
     }
-    addScalar(s: number) {
-        this.x += s;
+    add2(a: VectorE1, b: VectorE1) {
+        this.x = a.x + b.x;
         return this;
     }
     determinant(): number {
         return this.x
     }
-    sum(a: VectorE1, b: VectorE1) {
-        this.x = a.x + b.x;
-        return this;
-    }
     exp() {
-        this.x = Math.exp(this.x);
-        return this;
+        this.x = Math.exp(this.x)
+        return this
     }
     sub(v: VectorE1) {
-        this.x -= v.x;
-        return this;
+        this.x -= v.x
+        return this
     }
     subScalar(s: number) {
-        this.x -= s;
-        return this;
+        this.x -= s
+        return this
     }
-    diff(a: VectorE1, b: VectorE1): MutableNumber {
+    sub2(a: VectorE1, b: VectorE1): MutableNumber {
         this.x = a.x - b.x
         return this
     }
@@ -76,25 +72,19 @@ class MutableNumber extends VectorN<number> implements VectorE1, LinearElement<V
         return this
     }
     multiply(v: VectorE1) {
-        this.x *= v.x;
-        return this;
+        this.x *= v.x
+        return this
     }
     scale(scalar: number) {
-        this.x *= scalar;
-        return this;
+        this.x *= scalar
+        return this
     }
     divide(v: VectorE1) {
-        this.x /= v.x;
-        return this;
+        this.x /= v.x
+        return this
     }
     divideByScalar(scalar: number) {
-        if (scalar !== 0) {
-            var invScalar = 1 / scalar;
-            this.x *= invScalar;
-        }
-        else {
-            this.x = 0;
-        }
+        this.x /= scalar;
         return this;
     }
     min(v: VectorE1) {
@@ -165,13 +155,21 @@ class MutableNumber extends VectorN<number> implements VectorE1, LinearElement<V
         }
         return this;
     }
-    lerp(v: VectorE1, alpha: number) {
-        this.x += (v.x - this.x) * alpha;
+    /**
+     * this ⟼ this + α * (v - this)</code>
+     * @method lerp
+     * @param v {VectorE1}
+     * @param α {number}
+     * @return {MutanbleNumber}
+     * @chainable
+     */
+    lerp(v: VectorE1, α: number) {
+        this.x += (v.x - this.x) * α;
         return this;
     }
     /**
      * <p>
-     * <code>this = a + α * (b - a)</code>
+     * <code>this ⟼ a + α * (b - a)</code>
      * </p>
      * @method lerp2
      * @param a {MutableNumber}
@@ -181,7 +179,7 @@ class MutableNumber extends VectorN<number> implements VectorE1, LinearElement<V
      * @chainable
      */
     lerp2(a: MutableNumber, b: MutableNumber, α: number) {
-        this.diff(b, a).scale(α).add(a);
+        this.sub2(b, a).scale(α).add(a);
         return this;
     }
     equals(v: VectorE1) {

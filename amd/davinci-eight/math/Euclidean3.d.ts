@@ -1,12 +1,12 @@
+import GeometricE3 = require('../math/GeometricE3');
 import Measure = require('../math/Measure');
 import SpinorE3 = require('../math/SpinorE3');
 import Unit = require('../math/Unit');
-import VectorE3 = require('../math/VectorE3');
 /**
- * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
  * @class Euclidean3
+ * @extends GeometricE3
  */
-declare class Euclidean3 implements Measure<Euclidean3>, SpinorE3, VectorE3 {
+declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
     static zero: Euclidean3;
     static one: Euclidean3;
     static e1: Euclidean3;
@@ -59,6 +59,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, SpinorE3, VectorE3 {
      */
     uom: Unit;
     /**
+     * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
      * Constructs a Euclidean3 from its coordinates.
      * @constructor
      * @param {number} w The scalar part of the multivector.

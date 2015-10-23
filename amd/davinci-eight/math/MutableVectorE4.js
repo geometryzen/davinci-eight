@@ -96,15 +96,19 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.w = w;
             return this;
         };
-        MutableVectorE4.prototype.add = function (vector, alpha) {
-            if (alpha === void 0) { alpha = 1; }
-            this.x += vector.x * alpha;
-            this.y += vector.y * alpha;
-            this.z += vector.z * alpha;
-            this.w += vector.w * alpha;
+        MutableVectorE4.prototype.add = function (vector, α) {
+            if (α === void 0) { α = 1; }
+            this.x += vector.x * α;
+            this.y += vector.y * α;
+            this.z += vector.z * α;
+            this.w += vector.w * α;
             return this;
         };
-        MutableVectorE4.prototype.sum = function (a, b) {
+        MutableVectorE4.prototype.add2 = function (a, b) {
+            this.x = a.x + b.x;
+            this.y = a.y + b.y;
+            this.z = a.z + b.z;
+            this.w = a.w + b.w;
             return this;
         };
         MutableVectorE4.prototype.clone = function () {
@@ -117,41 +121,51 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.w = v.w;
             return this;
         };
-        MutableVectorE4.prototype.divideByScalar = function (scalar) {
-            this.x /= scalar;
-            this.y /= scalar;
-            this.z /= scalar;
-            this.w /= scalar;
+        MutableVectorE4.prototype.divideByScalar = function (α) {
+            this.x /= α;
+            this.y /= α;
+            this.z /= α;
+            this.w /= α;
             return this;
         };
-        MutableVectorE4.prototype.lerp = function (target, alpha) {
-            this.x += (target.x - this.x) * alpha;
-            this.y += (target.y - this.y) * alpha;
-            this.z += (target.z - this.z) * alpha;
-            this.w += (target.w - this.w) * alpha;
+        MutableVectorE4.prototype.lerp = function (target, α) {
+            this.x += (target.x - this.x) * α;
+            this.y += (target.y - this.y) * α;
+            this.z += (target.z - this.z) * α;
+            this.w += (target.w - this.w) * α;
             return this;
         };
         MutableVectorE4.prototype.lerp2 = function (a, b, α) {
-            this.diff(b, a).scale(α).add(a);
+            this.sub2(b, a).scale(α).add(a);
             return this;
         };
-        MutableVectorE4.prototype.scale = function (scalar) {
-            this.x *= scalar;
-            this.y *= scalar;
-            this.z *= scalar;
-            this.w *= scalar;
+        MutableVectorE4.prototype.scale = function (α) {
+            this.x *= α;
+            this.y *= α;
+            this.z *= α;
+            this.w *= α;
             return this;
         };
         MutableVectorE4.prototype.reflect = function (n) {
+            // TODO
             return this;
         };
         MutableVectorE4.prototype.rotate = function (rotor) {
+            // TODO
             return this;
         };
-        MutableVectorE4.prototype.sub = function (rhs) {
+        MutableVectorE4.prototype.sub = function (v, α) {
+            this.x -= v.x * α;
+            this.y -= v.y * α;
+            this.z -= v.z * α;
+            this.w -= v.w * α;
             return this;
         };
-        MutableVectorE4.prototype.diff = function (a, b) {
+        MutableVectorE4.prototype.sub2 = function (a, b) {
+            this.x = a.x - b.x;
+            this.y = a.y - b.y;
+            this.z = a.z - b.z;
+            this.w = a.w - b.w;
             return this;
         };
         return MutableVectorE4;

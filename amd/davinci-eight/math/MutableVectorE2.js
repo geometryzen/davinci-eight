@@ -74,12 +74,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y += v.y * alpha;
             return this;
         };
-        MutableVectorE2.prototype.addScalar = function (s) {
-            this.x += s;
-            this.y += s;
-            return this;
-        };
-        MutableVectorE2.prototype.sum = function (a, b) {
+        MutableVectorE2.prototype.add2 = function (a, b) {
             this.x = a.x + b.x;
             this.y = a.y + b.y;
             return this;
@@ -94,7 +89,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y -= s;
             return this;
         };
-        MutableVectorE2.prototype.diff = function (a, b) {
+        MutableVectorE2.prototype.sub2 = function (a, b) {
             this.x = a.x - b.x;
             this.y = a.y - b.y;
             return this;
@@ -203,14 +198,22 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             }
             return this;
         };
-        MutableVectorE2.prototype.lerp = function (v, alpha) {
-            this.x += (v.x - this.x) * alpha;
-            this.y += (v.y - this.y) * alpha;
+        /**
+         * this ⟼ this + (v - this) * α
+         * @method lerp
+         * @param v {VectorE2}
+         * @param α {number}
+         * @return {MutableVectorE2}
+         * @chainable
+         */
+        MutableVectorE2.prototype.lerp = function (v, α) {
+            this.x += (v.x - this.x) * α;
+            this.y += (v.y - this.y) * α;
             return this;
         };
         /**
          * <p>
-         * <code>this = a + α * (b - a)</code>
+         * <code>this ⟼ a + α * (b - a)</code>
          * </p>
          * @method lerp2
          * @param a {VectorE2}
@@ -219,8 +222,8 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
          * @return {MutableVectorE2} <code>this</code>
          * @chainable
          */
-        MutableVectorE2.prototype.lerp2 = function (a, v2, α) {
-            this.diff(v2, a).scale(α).add(a);
+        MutableVectorE2.prototype.lerp2 = function (a, b, α) {
+            this.copy(a).lerp(b, α);
             return this;
         };
         MutableVectorE2.prototype.equals = function (v) {

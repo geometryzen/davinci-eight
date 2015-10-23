@@ -129,7 +129,7 @@ class VortexSimplexGeometry extends SimplexGeometry {
 
                 var r: Euclidean3 = Rminor.mul(r0).mul(Rminor.__tilde__())
 
-                vertex.sum(center, r)
+                vertex.add2(center, r)
 
                 points.push(vertex);
 

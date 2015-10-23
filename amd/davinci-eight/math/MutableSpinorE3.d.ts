@@ -47,6 +47,17 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
      */
     add(spinor: SpinorE3, α?: number): MutableSpinorE3;
     /**
+     * <p>
+     * <code>this ⟼ a + b</code>
+     * </p>
+     * @method add2
+     * @param a {SpinorE3}
+     * @param b {SpinorE3}
+     * @return {MutableSpinorE3} <code>this</code>
+     * @chainable
+     */
+    add2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
+    /**
      * @method clone
      * @return {MutableSpinorE3} A copy of <code>this</code>.
      * @chainable
@@ -73,15 +84,25 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
     copy(spinor: SpinorE3): MutableSpinorE3;
     /**
      * <p>
-     * <code>this ⟼ a - b</code>
+     * <code>this ⟼ this / s</code>
      * </p>
-     * @method diff
+     * @method divide
+     * @param s {SpinorE3}
+     * @return {MutableSpinorE3} <code>this</code>
+     * @chainable
+     */
+    divide(s: SpinorE3): MutableSpinorE3;
+    /**
+     * <p>
+     * <code>this ⟼ a / b</code>
+     * </p>
+     * @method divide2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
      * @return {MutableSpinorE3} <code>this</code>
      * @chainable
      */
-    diff(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
+    divide2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
     /**
      * <p>
      * <code>this ⟼ this / α</code>
@@ -156,14 +177,25 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
     magnitude(): number;
     /**
      * <p>
-     * <code>this ⟼ this * rhs</code>
+     * <code>this ⟼ this * s</code>
      * </p>
      * @method multiply
-     * @param rhs {SpinorE3}
+     * @param s {SpinorE3}
      * @return {MutableSpinorE3} <code>this</code>
      * @chainable
      */
-    multiply(rhs: SpinorE3): MutableSpinorE3;
+    multiply(s: SpinorE3): MutableSpinorE3;
+    /**
+     * <p>
+     * <code>this ⟼ a * b</code>
+     * </p>
+     * @method multiply2
+     * @param a {SpinorE3}
+     * @param b {SpinorE3}
+     * @return {MutableSpinorE3} <code>this</code>
+     * @chainable
+     */
+    multiply2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
     /**
     * <p>
     * <code>this ⟼ sqrt(this * conj(this))</code>
@@ -175,6 +207,15 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
     norm(): MutableSpinorE3;
     /**
      * <p>
+     * <code>this ⟼ this / magnitude(this)</code>
+     * </p>
+     * @method normalize
+     * @return {MutableQuaternion} <code>this</code>
+     * @chainable
+     */
+    normalize(): MutableSpinorE3;
+    /**
+     * <p>
      * <code>this ⟼ this * α</code>
      * </p>
      * @method scale
@@ -182,17 +223,6 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
      * @return {MutableSpinorE3} <code>this</code>
      */
     scale(α: number): MutableSpinorE3;
-    /**
-     * <p>
-     * <code>this ⟼ a * b</code>
-     * </p>
-     * @method product
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {MutableSpinorE3} <code>this</code>
-     * @chainable
-     */
-    product(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
     /**
      * @method quaditude
      * @return {number} <code>this * conj(this)</code>
@@ -250,26 +280,26 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
     rotorFromAxisAngle(axis: VectorE3, θ: number): MutableSpinorE3;
     /**
      * <p>
-     * <code>this ⟼ this - α * spinor</code>
+     * <code>this ⟼ this - s * α</code>
      * </p>
      * @method sub
-     * @param spinor {SpinorE3}
+     * @param s {SpinorE3}
      * @param α [number = 1]
      * @return {MutableSpinorE3} <code>this</code>
      * @chainable
      */
-    sub(spinor: SpinorE3, α?: number): MutableSpinorE3;
+    sub(s: SpinorE3, α?: number): MutableSpinorE3;
     /**
      * <p>
-     * <code>this ⟼ a + b</code>
+     * <code>this ⟼ a - b</code>
      * </p>
-     * @method sum
+     * @method sub2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
      * @return {MutableSpinorE3} <code>this</code>
      * @chainable
      */
-    sum(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
+    sub2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
     /**
      * <p>
      * <code>this ⟼ a * b</code>

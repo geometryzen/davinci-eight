@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.137.0</em>
+            <em>API Docs for: 2.138.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,6 +83,7 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/GridSimplexGeometry.html">GridSimplexGeometry</a></li>
@@ -122,6 +123,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/MutableG3.html">MutableG3</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
                                 <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
@@ -137,7 +139,7 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/Quaternion.html">Quaternion</a></li>
+                                <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
@@ -325,6 +327,10 @@
                                 <a href="#method_add">add</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_add2">add2</a>
+
+                            </li>
                             <li class="index-item method deprecated">
                                 <a href="#method_applyMatrix">applyMatrix</a>
 
@@ -357,10 +363,6 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_diff">diff</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_distanceTo">distanceTo</a>
 
                             </li>
@@ -380,11 +382,11 @@
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp2">lerp2</a>
@@ -452,7 +454,7 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_sum">sum</a>
+                                <a href="#method_sub2">sub2</a>
 
                             </li>
                             <li class="index-item method">
@@ -583,6 +585,86 @@
 
 
 </div>
+<div id="method_add2" class="method item">
+    <h3 class="name"><code>add2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/MutableVectorE3.html" class="crosslink">MutableVectorE3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:111</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ a + b</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/MutableVectorE3.html" class="crosslink">MutableVectorE3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_applyMatrix" class="method item deprecated">
     <h3 class="name"><code>applyMatrix</code></h3>
 
@@ -609,7 +691,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:134</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l152"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:152</code></a>
         </p>
 
 
@@ -681,7 +763,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:111</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:129</code></a>
         </p>
 
 
@@ -741,7 +823,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l212"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:212</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:230</code></a>
         </p>
 
 
@@ -790,7 +872,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l566"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:566</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l571"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:571</code></a>
         </p>
 
 
@@ -853,7 +935,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l219"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:219</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l237"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:237</code></a>
         </p>
 
 
@@ -920,7 +1002,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l235"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:235</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l253"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:253</code></a>
         </p>
 
 
@@ -990,7 +1072,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l248"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:248</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l266"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:266</code></a>
         </p>
 
 
@@ -1000,86 +1082,6 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="description">
         <p>
 <code>this ⟼ a ✕ b</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/MutableVectorE3.html" class="crosslink">MutableVectorE3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_diff" class="method item">
-    <h3 class="name"><code>diff</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>a</code>
-                </li>
-                <li class="arg">
-                        <code>b</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/MutableVectorE3.html" class="crosslink">MutableVectorE3</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l517"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:517</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ a - b</code>
 </p>
     </div>
 
@@ -1146,7 +1148,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l271"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:271</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l289"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:289</code></a>
         </p>
 
 
@@ -1209,7 +1211,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l300"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:300</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:318</code></a>
         </p>
 
 
@@ -1275,7 +1277,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l324"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:324</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l342"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:342</code></a>
         </p>
 
 
@@ -1395,86 +1397,6 @@ TODO: Used by TubeSimplexGeometry.</p>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>target</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/MutableVectorE3.html" class="crosslink">MutableVectorE3</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l348"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:348</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + α * (target - this)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">target</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/MutableVectorE3.html" class="crosslink">MutableVectorE3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_lerp" class="method item">
-    <h3 class="name"><code>lerp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
                         <code>a</code>
                 </li>
                 <li class="arg">
@@ -1500,7 +1422,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l575"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:575</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l580"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:580</code></a>
         </p>
 
 
@@ -1560,6 +1482,86 @@ TODO: Used by TubeSimplexGeometry.</p>
 
 
 </div>
+<div id="method_lerp" class="method item">
+    <h3 class="name"><code>lerp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>target</code>
+                </li>
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/MutableVectorE3.html" class="crosslink">MutableVectorE3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l366"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:366</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this + α * (target - this)</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">target</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/MutableVectorE3.html" class="crosslink">MutableVectorE3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_lerp2" class="method item">
     <h3 class="name"><code>lerp2</code></h3>
 
@@ -1591,7 +1593,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l366"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:366</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l384"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:384</code></a>
         </p>
 
 
@@ -1671,7 +1673,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l332"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:332</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l350"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:350</code></a>
         </p>
 
 
@@ -1715,7 +1717,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l384"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:384</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l402"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:402</code></a>
         </p>
 
 
@@ -1759,7 +1761,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l340"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:340</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l358"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:358</code></a>
         </p>
 
 
@@ -1808,7 +1810,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l284"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:284</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l302"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:302</code></a>
         </p>
 
 
@@ -1865,7 +1867,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l586"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:586</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l591"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:591</code></a>
         </p>
 
 
@@ -1912,7 +1914,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l158"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:158</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:176</code></a>
         </p>
 
 
@@ -1979,7 +1981,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l181"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:181</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l199"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:199</code></a>
         </p>
 
 
@@ -2042,7 +2044,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l395"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:395</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l413"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:413</code></a>
         </p>
 
 
@@ -2107,7 +2109,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l409"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:409</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l427"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:427</code></a>
         </p>
 
 
@@ -2193,7 +2195,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l427"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:427</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l445"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:445</code></a>
         </p>
 
 
@@ -2261,7 +2263,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l450"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:450</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l468"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:468</code></a>
         </p>
 
 
@@ -2327,7 +2329,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l462"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:462</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l480"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:480</code></a>
         </p>
 
 
@@ -2393,7 +2395,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l474"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:474</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l492"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:492</code></a>
         </p>
 
 
@@ -2441,6 +2443,9 @@ TODO: Used by TubeSimplexGeometry.</p>
                 <li class="arg">
                         <code>v</code>
                 </li>
+                <li class="arg">
+                        <code>α</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -2458,7 +2463,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l486"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:486</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l504"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:504</code></a>
         </p>
 
 
@@ -2485,6 +2490,17 @@ TODO: Used by TubeSimplexGeometry.</p>
                     </div>
 
                 </li>
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>[number = 1]</p>
+
+                    </div>
+
+                </li>
             </ul>
         </div>
 
@@ -2500,8 +2516,8 @@ TODO: Used by TubeSimplexGeometry.</p>
 
 
 </div>
-<div id="method_sum" class="method item">
-    <h3 class="name"><code>sum</code></h3>
+<div id="method_sub2" class="method item">
+    <h3 class="name"><code>sub2</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -2528,7 +2544,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l499"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:499</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l522"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:522</code></a>
         </p>
 
 
@@ -2537,7 +2553,7 @@ TODO: Used by TubeSimplexGeometry.</p>
 
     <div class="description">
         <p>
-<code>this ⟼ a + b</code>
+<code>this ⟼ a - b</code>
 </p>
     </div>
 
@@ -2598,7 +2614,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l535"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:535</code></a>
+        <a href="../files/src_davinci-eight_math_MutableVectorE3.ts.html#l540"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableVectorE3.ts:540</code></a>
         </p>
 
 

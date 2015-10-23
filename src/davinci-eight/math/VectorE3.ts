@@ -17,12 +17,6 @@ interface VectorE3 {
    * @type number
    */
   z: number;
-  /**
-   * @method dot
-   * @param vector {VectorE3}
-   * @return {number}
-   */
-  dot(vector: VectorE3): number;
 }
 
 export = VectorE3;

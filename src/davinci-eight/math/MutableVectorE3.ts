@@ -59,7 +59,7 @@ class MutableVectorE3 extends VectorN<number> implements VectorE3, LinearElement
     }
     /**
      * @property x
-     * @type Number
+     * @type {number}
      */
     get x(): number {
         return this.data[0];
@@ -106,6 +106,24 @@ class MutableVectorE3 extends VectorN<number> implements VectorE3, LinearElement
         this.x += vector.x * α
         this.y += vector.y * α
         this.z += vector.z * α
+        return this
+    }
+    /**
+     * <p>
+     * <code>this ⟼ a + b</code>
+     * </p>
+     * @method add2
+     * @param a {VectorE3}
+     * @param b {VectorE3}
+     * @return {MutableVectorE3} <code>this</code>
+     * @chainable
+     */
+    add2(a: VectorE3, b: VectorE3): MutableVectorE3 {
+        mustBeObject('a', a)
+        mustBeObject('b', b)
+        this.x = a.x + b.x
+        this.y = a.y + b.y
+        this.z = a.z + b.z
         return this
     }
     /**
@@ -378,7 +396,7 @@ class MutableVectorE3 extends VectorN<number> implements VectorE3, LinearElement
         mustBeObject('a', a)
         mustBeObject('b', b)
         mustBeNumber('α', α)
-        this.diff(b, a).scale(α).add(a)
+        this.copy(a).lerp(b, α)
         return this
     }
     /**
@@ -489,48 +507,35 @@ class MutableVectorE3 extends VectorN<number> implements VectorE3, LinearElement
      * </p>
      * @method sub
      * @param v {VectorE3}
+     * @param α [number = 1]
      * @return {MutableVectorE3} <code>this</code>
      * @chainable
      */
-    sub(v: VectorE3): MutableVectorE3 {
+    sub(v: VectorE3, α: number = 1): MutableVectorE3 {
         mustBeObject('v', v)
-        return this.diff(this, v);
-    }
-    /**
-     * <p>
-     * <code>this ⟼ a + b</code>
-     * </p>
-     * @method sum
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {MutableVectorE3} <code>this</code>
-     * @chainable
-     */
-    sum(a: VectorE3, b: VectorE3): MutableVectorE3 {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
-        this.x = a.x + b.x
-        this.y = a.y + b.y
-        this.z = a.z + b.z
+        mustBeNumber('α', α)
+        this.x -= v.x * α
+        this.y -= v.y * α
+        this.z -= v.z * α
         return this
     }
     /**
      * <p>
      * <code>this ⟼ a - b</code>
      * </p>
-     * @method diff
+     * @method sub2
      * @param a {VectorE3}
      * @param b {VectorE3}
      * @return {MutableVectorE3} <code>this</code>
      * @chainable
      */
-    diff(a: VectorE3, b: VectorE3): MutableVectorE3 {
+    sub2(a: VectorE3, b: VectorE3) {
         mustBeObject('a', a)
         mustBeObject('b', b)
-        this.x = a.x - b.x;
-        this.y = a.y - b.y;
-        this.z = a.z - b.z;
-        return this;
+        this.x = a.x - b.x
+        this.y = a.y - b.y
+        this.z = a.z - b.z
+        return this
     }
     /**
      * @method toString

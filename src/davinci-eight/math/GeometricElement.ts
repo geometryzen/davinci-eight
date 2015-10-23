@@ -5,14 +5,20 @@ import LinearElement = require('../math/LinearElement');
  */
 interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
   conj(): M;
-  dual(m: D): M;
+  /**
+   * divide really only applies to division algebras.
+   */
+  divide(rhs: I): M;
+  divide2(a: I, b: I): M;
+  dual(m: D): M;  // Probably should move out since 3D
   exp(): M;
   inv(): M;
   log(): M;
   magnitude(): number;
   multiply(rhs: I): M;
+  multiply2(a: I, b: I): M;
   norm(): M;
-  product(a: I, b: I): M;
+  normalize(): void;
   quaditude(): number;
   rotor(b: V, a: V): M;
   rotorFromAxisAngle(axis: V, θ: number): M;

@@ -81,6 +81,7 @@ import Euclidean3 = require('davinci-eight/math/Euclidean3');
 import MutableNumber = require('davinci-eight/math/MutableNumber');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
+import MutableG3 = require('davinci-eight/math/MutableG3');
 import MutableSpinorE3 = require('davinci-eight/math/MutableSpinorE3');
 import MutableVectorE2 = require('davinci-eight/math/MutableVectorE2');
 import MutableVectorE3 = require('davinci-eight/math/MutableVectorE3');
@@ -216,8 +217,9 @@ declare var eight: {
     Euclidean3: typeof Euclidean3;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
-    MutableSpinorE3: typeof MutableSpinorE3;
+    MutableG3: typeof MutableG3;
     MutableNumber: typeof MutableNumber;
+    MutableSpinorE3: typeof MutableSpinorE3;
     MutableVectorE2: typeof MutableVectorE2;
     MutableVectorE3: typeof MutableVectorE3;
     MutableVectorE4: typeof MutableVectorE4;

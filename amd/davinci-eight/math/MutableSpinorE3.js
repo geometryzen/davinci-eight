@@ -109,6 +109,23 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return this;
         };
         /**
+         * <p>
+         * <code>this ⟼ a + b</code>
+         * </p>
+         * @method add2
+         * @param a {SpinorE3}
+         * @param b {SpinorE3}
+         * @return {MutableSpinorE3} <code>this</code>
+         * @chainable
+         */
+        MutableSpinorE3.prototype.add2 = function (a, b) {
+            this.w = a.w + b.w;
+            this.yz = a.yz + b.yz;
+            this.zx = a.zx + b.zx;
+            this.xy = a.xy + b.xy;
+            return this;
+        };
+        /**
          * @method clone
          * @return {MutableSpinorE3} A copy of <code>this</code>.
          * @chainable
@@ -149,19 +166,42 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
-         * <code>this ⟼ a - b</code>
+         * <code>this ⟼ this / s</code>
          * </p>
-         * @method diff
+         * @method divide
+         * @param s {SpinorE3}
+         * @return {MutableSpinorE3} <code>this</code>
+         * @chainable
+         */
+        MutableSpinorE3.prototype.divide = function (s) {
+            return this.multiply2(this, s);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a / b</code>
+         * </p>
+         * @method divide2
          * @param a {SpinorE3}
          * @param b {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.diff = function (a, b) {
-            this.yz = a.yz - b.yz;
-            this.zx = a.zx - b.zx;
-            this.xy = a.xy - b.xy;
-            this.w = a.w - b.w;
+        MutableSpinorE3.prototype.divide2 = function (a, b) {
+            var a0 = a.w;
+            var a1 = a.yz;
+            var a2 = a.zx;
+            var a3 = a.xy;
+            var b0 = b.w;
+            var b1 = b.yz;
+            var b2 = b.zx;
+            var b3 = b.xy;
+            // Compare this to the product for Quaternions
+            // It would be interesting to DRY this out.
+            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+            // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+            this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+            this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+            this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
             return this;
         };
         /**
@@ -268,7 +308,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @chainable
          */
         MutableSpinorE3.prototype.lerp2 = function (a, b, α) {
-            this.diff(b, a).scale(α).add(a);
+            this.sub2(b, a).scale(α).add(a);
             return this;
         };
         /**
@@ -300,15 +340,43 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
-         * <code>this ⟼ this * rhs</code>
+         * <code>this ⟼ this * s</code>
          * </p>
          * @method multiply
-         * @param rhs {SpinorE3}
+         * @param s {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.multiply = function (rhs) {
-            return this.product(this, rhs);
+        MutableSpinorE3.prototype.multiply = function (s) {
+            return this.multiply2(this, s);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * @method multiply2
+         * @param a {SpinorE3}
+         * @param b {SpinorE3}
+         * @return {MutableSpinorE3} <code>this</code>
+         * @chainable
+         */
+        MutableSpinorE3.prototype.multiply2 = function (a, b) {
+            var a0 = a.w;
+            var a1 = a.yz;
+            var a2 = a.zx;
+            var a3 = a.xy;
+            var b0 = b.w;
+            var b1 = b.yz;
+            var b2 = b.zx;
+            var b3 = b.xy;
+            // Compare this to the product for Quaternions
+            // It would be interesting to DRY this out.
+            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+            // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+            this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+            this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+            this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+            return this;
         };
         /**
         * <p>
@@ -327,6 +395,22 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
+         * <code>this ⟼ this / magnitude(this)</code>
+         * </p>
+         * @method normalize
+         * @return {MutableQuaternion} <code>this</code>
+         * @chainable
+         */
+        MutableSpinorE3.prototype.normalize = function () {
+            var modulus = this.magnitude();
+            this.yz = this.yz / modulus;
+            this.zx = this.zx / modulus;
+            this.xy = this.xy / modulus;
+            this.w = this.w / modulus;
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ this * α</code>
          * </p>
          * @method scale
@@ -339,33 +423,6 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.zx *= α;
             this.xy *= α;
             this.w *= α;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a * b</code>
-         * </p>
-         * @method product
-         * @param a {SpinorE3}
-         * @param b {SpinorE3}
-         * @return {MutableSpinorE3} <code>this</code>
-         * @chainable
-         */
-        MutableSpinorE3.prototype.product = function (a, b) {
-            var a0 = a.w;
-            var a1 = a.yz;
-            var a2 = a.zx;
-            var a3 = a.xy;
-            var b0 = b.w;
-            var b1 = b.yz;
-            var b2 = b.zx;
-            var b3 = b.xy;
-            // Compare this to the product for Quaternions
-            // It would be interesting to DRY this out.
-            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-            this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-            this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
             return this;
         };
         /**
@@ -458,7 +515,6 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @return {MutableSpinorE3} <code>this</code>
          */
         MutableSpinorE3.prototype.rotorFromAxisAngle = function (axis, θ) {
-            //this.dual(a).scale(-θ/2).exp()
             var φ = θ / 2;
             var s = sin(φ);
             this.yz = -axis.x * s;
@@ -469,39 +525,39 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
-         * <code>this ⟼ this - α * spinor</code>
+         * <code>this ⟼ this - s * α</code>
          * </p>
          * @method sub
-         * @param spinor {SpinorE3}
+         * @param s {SpinorE3}
          * @param α [number = 1]
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.sub = function (spinor, α) {
+        MutableSpinorE3.prototype.sub = function (s, α) {
             if (α === void 0) { α = 1; }
-            mustBeObject('spinor', spinor);
+            mustBeObject('s', s);
             mustBeNumber('α', α);
-            this.yz -= spinor.yz * α;
-            this.zx -= spinor.zx * α;
-            this.xy -= spinor.xy * α;
-            this.w -= spinor.w * α;
+            this.yz -= s.yz * α;
+            this.zx -= s.zx * α;
+            this.xy -= s.xy * α;
+            this.w -= s.w * α;
             return this;
         };
         /**
          * <p>
-         * <code>this ⟼ a + b</code>
+         * <code>this ⟼ a - b</code>
          * </p>
-         * @method sum
+         * @method sub2
          * @param a {SpinorE3}
          * @param b {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.sum = function (a, b) {
-            this.w = a.w + b.w;
-            this.yz = a.yz + b.yz;
-            this.zx = a.zx + b.zx;
-            this.xy = a.xy + b.xy;
+        MutableSpinorE3.prototype.sub2 = function (a, b) {
+            this.yz = a.yz - b.yz;
+            this.zx = a.zx - b.zx;
+            this.xy = a.xy - b.xy;
+            this.w = a.w - b.w;
             return this;
         };
         /**

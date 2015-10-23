@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.137.0</em>
+            <em>API Docs for: 2.138.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,6 +83,7 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/GridSimplexGeometry.html">GridSimplexGeometry</a></li>
@@ -122,6 +123,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/MutableG3.html">MutableG3</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
                                 <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
@@ -137,7 +139,7 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/Quaternion.html">Quaternion</a></li>
+                                <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
@@ -321,6 +323,23 @@ class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable
         return this
     }
     /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method add2
+     * @param a {SpinorE3}
+     * @param b {SpinorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    add2(a: SpinorE3, b: SpinorE3): MutableSpinorE3 {
+        this.w = a.w + b.w
+        this.yz = a.yz + b.yz
+        this.zx = a.zx + b.zx
+        this.xy = a.xy + b.xy
+        return this;
+    }
+    /**
      * @method clone
      * @return {MutableSpinorE3} A copy of &lt;code&gt;this&lt;/code&gt;.
      * @chainable
@@ -361,19 +380,42 @@ class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable
     }
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
+     * &lt;code&gt;this ⟼ this / s&lt;/code&gt;
      * &lt;/p&gt;
-     * @method diff
+     * @method divide
+     * @param s {SpinorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    divide(s: SpinorE3): MutableSpinorE3 {
+        return this.multiply2(this, s)
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a / b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method divide2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
      * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    diff(a: SpinorE3, b: SpinorE3): MutableSpinorE3 {
-        this.yz = a.yz - b.yz
-        this.zx = a.zx - b.zx
-        this.xy = a.xy - b.xy
-        this.w = a.w - b.w
+    divide2(a: SpinorE3, b: SpinorE3) {
+        let a0 = a.w;
+        let a1 = a.yz;
+        let a2 = a.zx;
+        let a3 = a.xy;
+        let b0 = b.w;
+        let b1 = b.yz;
+        let b2 = b.zx;
+        let b3 = b.xy;
+        // Compare this to the product for Quaternions
+        // It would be interesting to DRY this out.
+        this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+        // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
         return this;
     }
     /**
@@ -480,7 +522,7 @@ class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable
      * @chainable
      */
     lerp2(a: SpinorE3, b: SpinorE3, α: number): MutableSpinorE3 {
-        this.diff(b, a).scale(α).add(a)
+        this.sub2(b, a).scale(α).add(a)
         return this
     }
     /**
@@ -512,15 +554,43 @@ class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable
     }
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this * rhs&lt;/code&gt;
+     * &lt;code&gt;this ⟼ this * s&lt;/code&gt;
      * &lt;/p&gt;
      * @method multiply
-     * @param rhs {SpinorE3}
+     * @param s {SpinorE3}
      * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    multiply(rhs: SpinorE3): MutableSpinorE3 {
-        return this.product(this, rhs)
+    multiply(s: SpinorE3): MutableSpinorE3 {
+        return this.multiply2(this, s)
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method multiply2
+     * @param a {SpinorE3}
+     * @param b {SpinorE3}
+     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    multiply2(a: SpinorE3, b: SpinorE3) {
+        let a0 = a.w;
+        let a1 = a.yz;
+        let a2 = a.zx;
+        let a3 = a.xy;
+        let b0 = b.w;
+        let b1 = b.yz;
+        let b2 = b.zx;
+        let b3 = b.xy;
+        // Compare this to the product for Quaternions
+        // It would be interesting to DRY this out.
+        this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+        // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+        return this;
     }
     /**
     * &lt;p&gt;
@@ -539,6 +609,22 @@ class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable
     }
     /**
      * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method normalize
+     * @return {MutableQuaternion} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    normalize(): MutableSpinorE3 {
+        let modulus = this.magnitude()
+        this.yz = this.yz / modulus
+        this.zx = this.zx / modulus
+        this.xy = this.xy / modulus
+        this.w = this.w / modulus
+        return this
+    }
+    /**
+     * &lt;p&gt;
      * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
      * &lt;/p&gt;
      * @method scale
@@ -551,33 +637,6 @@ class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable
         this.zx *= α;
         this.xy *= α;
         this.w *= α;
-        return this;
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method product
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    product(a: SpinorE3, b: SpinorE3): MutableSpinorE3 {
-        let a0 = a.w;
-        let a1 = a.yz;
-        let a2 = a.zx;
-        let a3 = a.xy;
-        let b0 = b.w;
-        let b1 = b.yz;
-        let b2 = b.zx;
-        let b3 = b.xy;
-        // Compare this to the product for Quaternions
-        // It would be interesting to DRY this out.
-        this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
         return this;
     }
     /**
@@ -670,7 +729,6 @@ class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable
      * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
      */
     rotorFromAxisAngle(axis: VectorE3, θ: number): MutableSpinorE3 {
-        //this.dual(a).scale(-θ/2).exp()
         let φ = θ / 2
         let s = sin(φ)
         this.yz = -axis.x * s
@@ -682,38 +740,38 @@ class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable
 
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this - α * spinor&lt;/code&gt;
+     * &lt;code&gt;this ⟼ this - s * α&lt;/code&gt;
      * &lt;/p&gt;
      * @method sub
-     * @param spinor {SpinorE3}
+     * @param s {SpinorE3}
      * @param α [number = 1]
      * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    sub(spinor: SpinorE3, α: number = 1): MutableSpinorE3 {
-        mustBeObject(&#x27;spinor&#x27;, spinor)
+    sub(s: SpinorE3, α: number = 1): MutableSpinorE3 {
+        mustBeObject(&#x27;s&#x27;, s)
         mustBeNumber(&#x27;α&#x27;, α)
-        this.yz -= spinor.yz * α
-        this.zx -= spinor.zx * α
-        this.xy -= spinor.xy * α
-        this.w -= spinor.w * α
+        this.yz -= s.yz * α
+        this.zx -= s.zx * α
+        this.xy -= s.xy * α
+        this.w -= s.w * α
         return this
     }
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
+     * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
      * &lt;/p&gt;
-     * @method sum
+     * @method sub2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
      * @return {MutableSpinorE3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    sum(a: SpinorE3, b: SpinorE3): MutableSpinorE3 {
-        this.w = a.w + b.w
-        this.yz = a.yz + b.yz
-        this.zx = a.zx + b.zx
-        this.xy = a.xy + b.xy
+    sub2(a: SpinorE3, b: SpinorE3): MutableSpinorE3 {
+        this.yz = a.yz - b.yz
+        this.zx = a.zx - b.zx
+        this.xy = a.xy - b.xy
+        this.w = a.w - b.w
         return this;
     }
     /**
@@ -726,7 +784,7 @@ class MutableSpinorE3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable
      * @param b {VectorE3}
      * @return {MutableSpinorE3}
      */
-    spinor(a: VectorE3, b: VectorE3): MutableSpinorE3 {
+    spinor(a: VectorE3, b: VectorE3) {
 
         let ax = a.x
         let ay = a.y

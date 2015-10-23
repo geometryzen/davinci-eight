@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.137.0</em>
+            <em>API Docs for: 2.138.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,6 +83,7 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/GridSimplexGeometry.html">GridSimplexGeometry</a></li>
@@ -122,6 +123,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/MutableG3.html">MutableG3</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
                                 <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
@@ -137,7 +139,7 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/Quaternion.html">Quaternion</a></li>
+                                <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
@@ -326,6 +328,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_add2">add2</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_clone">clone</a>
 
                             </li>
@@ -343,7 +349,11 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
-                                <a href="#method_diff">diff</a>
+                                <a href="#method_divide">divide</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_divide2">divide2</a>
 
                             </li>
                             <li class="index-item method">
@@ -384,11 +394,15 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_multiply2">multiply2</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_norm">norm</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_product">product</a>
+                                <a href="#method_normalize">normalize</a>
 
                             </li>
                             <li class="index-item method">
@@ -428,7 +442,7 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_sum">sum</a>
+                                <a href="#method_sub2">sub2</a>
 
                             </li>
                             <li class="index-item method">
@@ -548,6 +562,86 @@
 
 
 </div>
+<div id="method_add2" class="method item">
+    <h3 class="name"><code>add2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/MutableSpinorE3.html" class="crosslink">MutableSpinorE3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:103</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ a + b</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type">SpinorE3</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type">SpinorE3</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/MutableSpinorE3.html" class="crosslink">MutableSpinorE3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_clone" class="method item">
     <h3 class="name"><code>clone</code></h3>
 
@@ -567,7 +661,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:103</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:120</code></a>
         </p>
 
 
@@ -610,7 +704,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:111</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:128</code></a>
         </p>
 
 
@@ -661,7 +755,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l125"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:125</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:142</code></a>
         </p>
 
 
@@ -728,7 +822,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l532"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:532</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l588"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:588</code></a>
         </p>
 
 
@@ -768,8 +862,75 @@
 
 
 </div>
-<div id="method_diff" class="method item">
-    <h3 class="name"><code>diff</code></h3>
+<div id="method_divide" class="method item">
+    <h3 class="name"><code>divide</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>s</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/MutableSpinorE3.html" class="crosslink">MutableSpinorE3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:159</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this / s</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">s</code>
+                        <span class="type">SpinorE3</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/MutableSpinorE3.html" class="crosslink">MutableSpinorE3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_divide2" class="method item">
+    <h3 class="name"><code>divide2</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -796,7 +957,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:142</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:171</code></a>
         </p>
 
 
@@ -805,7 +966,7 @@
 
     <div class="description">
         <p>
-<code>this ⟼ a - b</code>
+<code>this ⟼ a / b</code>
 </p>
     </div>
 
@@ -873,7 +1034,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:159</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l199"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:199</code></a>
         </p>
 
 
@@ -940,7 +1101,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:175</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l215"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:215</code></a>
         </p>
 
 
@@ -1003,7 +1164,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:193</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l233"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:233</code></a>
         </p>
 
 
@@ -1048,7 +1209,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l217"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:217</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l257"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:257</code></a>
         </p>
 
 
@@ -1105,7 +1266,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l541"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:541</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l597"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:597</code></a>
         </p>
 
 
@@ -1193,7 +1354,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:230</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l270"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:270</code></a>
         </p>
 
 
@@ -1276,7 +1437,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l251"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:251</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l291"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:291</code></a>
         </p>
 
 
@@ -1357,7 +1518,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l266"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:266</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l306"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:306</code></a>
         </p>
 
 
@@ -1389,7 +1550,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>rhs</code>
+                        <code>s</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1408,7 +1569,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l293"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:293</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l333"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:333</code></a>
         </p>
 
 
@@ -1417,7 +1578,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
     <div class="description">
         <p>
-<code>this ⟼ this * rhs</code>
+<code>this ⟼ this * s</code>
 </p>
     </div>
 
@@ -1426,7 +1587,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">rhs</code>
+                        <code class="param-name">s</code>
                         <span class="type">SpinorE3</span>
 
 
@@ -1450,53 +1611,8 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
 
 </div>
-<div id="method_norm" class="method item">
-    <h3 class="name"><code>norm</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/MutableSpinorE3.html" class="crosslink">MutableSpinorE3</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l305"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:305</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ sqrt(this * conj(this))</code>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/MutableSpinorE3.html" class="crosslink">MutableSpinorE3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_product" class="method item">
-    <h3 class="name"><code>product</code></h3>
+<div id="method_multiply2" class="method item">
+    <h3 class="name"><code>multiply2</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -1523,7 +1639,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l336"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:336</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l345"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:345</code></a>
         </p>
 
 
@@ -1575,6 +1691,96 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
 
 </div>
+<div id="method_norm" class="method item">
+    <h3 class="name"><code>norm</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/MutableSpinorE3.html" class="crosslink">MutableSpinorE3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l373"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:373</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ sqrt(this * conj(this))</code>
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/MutableSpinorE3.html" class="crosslink">MutableSpinorE3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_normalize" class="method item">
+    <h3 class="name"><code>normalize</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">MutableQuaternion</span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l388"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:388</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this / magnitude(this)</code>
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">MutableQuaternion</span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_quaditude" class="method item">
     <h3 class="name"><code>quaditude</code></h3>
 
@@ -1593,7 +1799,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l363"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:363</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l420"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:420</code></a>
         </p>
 
 
@@ -1642,7 +1848,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l388"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:388</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l445"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:445</code></a>
         </p>
 
 
@@ -1703,7 +1909,7 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l374"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:374</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l431"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:431</code></a>
         </p>
 
 
@@ -1754,7 +1960,7 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l412"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:412</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l469"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:469</code></a>
         </p>
 
 
@@ -1824,7 +2030,7 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l425"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:425</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l482"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:482</code></a>
         </p>
 
 
@@ -1906,7 +2112,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l443"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:443</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l500"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:500</code></a>
         </p>
 
 
@@ -1982,7 +2188,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l320"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:320</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l404"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:404</code></a>
         </p>
 
 
@@ -2051,7 +2257,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l499"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:499</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l555"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:555</code></a>
         </p>
 
 
@@ -2108,7 +2314,7 @@ Sets this MutableSpinorE3 to the geometric product a * b of the vector arguments
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>spinor</code>
+                        <code>s</code>
                 </li>
                 <li class="arg">
                         <code>α</code>
@@ -2130,7 +2336,7 @@ Sets this MutableSpinorE3 to the geometric product a * b of the vector arguments
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l463"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:463</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l519"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:519</code></a>
         </p>
 
 
@@ -2139,7 +2345,7 @@ Sets this MutableSpinorE3 to the geometric product a * b of the vector arguments
 
     <div class="description">
         <p>
-<code>this ⟼ this - α * spinor</code>
+<code>this ⟼ this - s * α</code>
 </p>
     </div>
 
@@ -2148,7 +2354,7 @@ Sets this MutableSpinorE3 to the geometric product a * b of the vector arguments
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">spinor</code>
+                        <code class="param-name">s</code>
                         <span class="type">SpinorE3</span>
 
 
@@ -2183,8 +2389,8 @@ Sets this MutableSpinorE3 to the geometric product a * b of the vector arguments
 
 
 </div>
-<div id="method_sum" class="method item">
-    <h3 class="name"><code>sum</code></h3>
+<div id="method_sub2" class="method item">
+    <h3 class="name"><code>sub2</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -2211,7 +2417,7 @@ Sets this MutableSpinorE3 to the geometric product a * b of the vector arguments
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l482"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:482</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l538"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:538</code></a>
         </p>
 
 
@@ -2220,7 +2426,7 @@ Sets this MutableSpinorE3 to the geometric product a * b of the vector arguments
 
     <div class="description">
         <p>
-<code>this ⟼ a + b</code>
+<code>this ⟼ a - b</code>
 </p>
     </div>
 
@@ -2281,7 +2487,7 @@ Sets this MutableSpinorE3 to the geometric product a * b of the vector arguments
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l525"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:525</code></a>
+        <a href="../files/src_davinci-eight_math_MutableSpinorE3.ts.html#l581"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;MutableSpinorE3.ts:581</code></a>
         </p>
 
 

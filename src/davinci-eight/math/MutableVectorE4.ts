@@ -77,15 +77,19 @@ class MutableVectorE4 extends VectorN<number> implements VectorE4, LinearElement
         this.w = w;
         return this;
     }
-    add(vector: VectorE4, alpha: number = 1) {
-        this.x += vector.x * alpha
-        this.y += vector.y * alpha
-        this.z += vector.z * alpha
-        this.w += vector.w * alpha
+    add(vector: VectorE4, α: number = 1) {
+        this.x += vector.x * α
+        this.y += vector.y * α
+        this.z += vector.z * α
+        this.w += vector.w * α
         return this
     }
-    sum(a: VectorE4, b: VectorE4) {
-        return this;
+    add2(a: VectorE4, b: VectorE4) {
+        this.x = a.x + b.x
+        this.y = a.y + b.y
+        this.z = a.z + b.z
+        this.w = a.w + b.w
+        return this
     }
     clone() {
         return new MutableVectorE4([this.x, this.y, this.z, this.w]);
@@ -97,41 +101,51 @@ class MutableVectorE4 extends VectorN<number> implements VectorE4, LinearElement
         this.w = v.w;
         return this;
     }
-    divideByScalar(scalar: number) {
-        this.x /= scalar;
-        this.y /= scalar;
-        this.z /= scalar;
-        this.w /= scalar;
+    divideByScalar(α: number) {
+        this.x /= α;
+        this.y /= α;
+        this.z /= α;
+        this.w /= α;
         return this;
     }
-    lerp(target: VectorE4, alpha: number) {
-        this.x += (target.x - this.x) * alpha;
-        this.y += (target.y - this.y) * alpha;
-        this.z += (target.z - this.z) * alpha;
-        this.w += (target.w - this.w) * alpha;
+    lerp(target: VectorE4, α: number) {
+        this.x += (target.x - this.x) * α;
+        this.y += (target.y - this.y) * α;
+        this.z += (target.z - this.z) * α;
+        this.w += (target.w - this.w) * α;
         return this;
     }
     lerp2(a: VectorE4, b: VectorE4, α: number): MutableVectorE4 {
-        this.diff(b, a).scale(α).add(a)
+        this.sub2(b, a).scale(α).add(a)
         return this
     }
-    scale(scalar: number) {
-        this.x *= scalar;
-        this.y *= scalar;
-        this.z *= scalar;
-        this.w *= scalar;
+    scale(α: number) {
+        this.x *= α;
+        this.y *= α;
+        this.z *= α;
+        this.w *= α;
         return this;
     }
     reflect(n: VectorE4) {
+        // TODO
         return this;
     }
     rotate(rotor: SpinorE4) {
+        // TODO
         return this;
     }
-    sub(rhs: VectorE4) {
+    sub(v: VectorE4, α: number) {
+        this.x -= v.x * α
+        this.y -= v.y * α
+        this.z -= v.z * α
+        this.w -= v.w * α
         return this;
     }
-    diff(a: VectorE4, b: VectorE4): MutableVectorE4 {
+    sub2(a: VectorE4, b: VectorE4) {
+        this.x = a.x - b.x
+        this.y = a.y - b.y
+        this.z = a.z - b.z
+        this.w = a.w - b.w
         return this;
     }
 }

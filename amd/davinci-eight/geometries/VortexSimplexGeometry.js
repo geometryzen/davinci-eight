@@ -104,7 +104,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
                     var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scalarMultiply(-v / 2).exp();
                     // var Rminor = Rminor0.clone().rotate(Rmajor).scale(-v/2).exp()
                     var r = Rminor.mul(r0).mul(Rminor.__tilde__());
-                    vertex.sum(center, r);
+                    vertex.add2(center, r);
                     points.push(vertex);
                     uvs.push(new MutableVectorE2([i / circleSegments, j / radialSegments]));
                     normals.push(MutableVectorE3.copy(r).normalize());

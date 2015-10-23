@@ -690,11 +690,12 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
         return str;
     }
     /**
-     * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
      * @class Euclidean3
+     * @extends GeometricE3
      */
     var Euclidean3 = (function () {
         /**
+         * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
          * Constructs a Euclidean3 from its coordinates.
          * @constructor
          * @param {number} w The scalar part of the multivector.

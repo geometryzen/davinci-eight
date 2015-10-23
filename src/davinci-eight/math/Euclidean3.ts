@@ -1,5 +1,6 @@
 import Dimensions = require('../math/Dimensions')
 import Euclidean3Error = require('../math/Euclidean3Error')
+import GeometricE3 = require('../math/GeometricE3')
 import isDefined = require('../checks/isDefined')
 import mathcore = require('../math/mathcore');
 import Measure = require('../math/Measure');
@@ -683,10 +684,10 @@ function stringFromCoordinates(
 }
 
 /**
- * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
  * @class Euclidean3
+ * @extends GeometricE3
  */
-class Euclidean3 implements Measure<Euclidean3>, SpinorE3, VectorE3 {
+class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
     public static zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
     public static one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
     public static e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
@@ -739,6 +740,7 @@ class Euclidean3 implements Measure<Euclidean3>, SpinorE3, VectorE3 {
      */
     public uom: Unit;
     /**
+     * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
      * Constructs a Euclidean3 from its coordinates.
      * @constructor
      * @param {number} w The scalar part of the multivector.

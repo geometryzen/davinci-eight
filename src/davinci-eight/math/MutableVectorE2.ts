@@ -62,12 +62,7 @@ class MutableVectorE2 extends VectorN<number> implements VectorE2, LinearElement
         this.y += v.y * alpha
         return this
     }
-    addScalar(s: number) {
-        this.x += s;
-        this.y += s;
-        return this;
-    }
-    sum(a: VectorE2, b: VectorE2) {
+    add2(a: VectorE2, b: VectorE2) {
         this.x = a.x + b.x;
         this.y = a.y + b.y;
         return this;
@@ -82,7 +77,7 @@ class MutableVectorE2 extends VectorN<number> implements VectorE2, LinearElement
         this.y -= s;
         return this;
     }
-    diff(a: VectorE2, b: VectorE2) {
+    sub2(a: VectorE2, b: VectorE2) {
         this.x = a.x - b.x;
         this.y = a.y - b.y;
         return this;
@@ -191,14 +186,22 @@ class MutableVectorE2 extends VectorN<number> implements VectorE2, LinearElement
         }
         return this;
     }
-    lerp(v: VectorE2, alpha: number) {
-        this.x += (v.x - this.x) * alpha;
-        this.y += (v.y - this.y) * alpha;
+    /**
+     * this ⟼ this + (v - this) * α
+     * @method lerp
+     * @param v {VectorE2}
+     * @param α {number}
+     * @return {MutableVectorE2}
+     * @chainable 
+     */
+    lerp(v: VectorE2, α: number) {
+        this.x += (v.x - this.x) * α;
+        this.y += (v.y - this.y) * α;
         return this;
     }
     /**
      * <p>
-     * <code>this = a + α * (b - a)</code>
+     * <code>this ⟼ a + α * (b - a)</code>
      * </p>
      * @method lerp2
      * @param a {VectorE2}
@@ -207,8 +210,8 @@ class MutableVectorE2 extends VectorN<number> implements VectorE2, LinearElement
      * @return {MutableVectorE2} <code>this</code>
      * @chainable
      */
-    lerp2(a: VectorE2, v2: VectorE2, α: number): MutableVectorE2 {
-        this.diff(v2, a).scale(α).add(a)
+    lerp2(a: VectorE2, b: VectorE2, α: number) {
+        this.copy(a).lerp(b, α)
         return this
     }
     equals(v: VectorE2) {
