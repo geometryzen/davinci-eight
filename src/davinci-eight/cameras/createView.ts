@@ -1,8 +1,8 @@
 import Euclidean3 = require('../math/Euclidean3')
 import IFacetVisitor = require('../core/IFacetVisitor')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R3 = require('../math/R3')
 import VectorE3 = require('../math/VectorE3')
-import MutableSpinorE3 = require('../math/MutableSpinorE3')
+import SpinG3 = require('../math/SpinG3')
 import Matrix4 = require('../math/Matrix4')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
@@ -19,9 +19,9 @@ import computeViewMatrix = require('../cameras/viewMatrix')
 let createView = function(options?: { viewMatrixName?: string }): View {
 
     let refCount = 1
-    let eye: MutableVectorE3 = new MutableVectorE3()
-    let look: MutableVectorE3 = new MutableVectorE3()
-    let up: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2)
+    let eye: R3 = new R3()
+    let look: R3 = new R3()
+    let up: R3 = R3.copy(Euclidean3.e2)
     let viewMatrix: Matrix4 = Matrix4.identity()
     let viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName
 
@@ -47,28 +47,28 @@ let createView = function(options?: { viewMatrixName?: string }): View {
         },
         setProperty(name: string, value: number[]): void {
         },
-        get eye(): MutableVectorE3 {
+        get eye(): R3 {
             return eye
         },
-        set eye(value: MutableVectorE3) {
+        set eye(value: R3) {
             self.setEye(value)
         },
         /**
          * @method setEye
-         * @param eye {MutableVectorE3}
+         * @param eye {R3}
          * @return {View} `this` instance.
          */
-        setEye(eye_: MutableVectorE3): View {
+        setEye(eye_: R3): View {
             mustBeObject('eye', eye_)
             eye.x = mustBeNumber('eye.x', eye_.x)
             eye.y = mustBeNumber('eye.y', eye_.y)
             eye.z = mustBeNumber('eye.z', eye_.z)
             return self
         },
-        get look(): MutableVectorE3 {
+        get look(): R3 {
             return look
         },
-        set look(value: MutableVectorE3) {
+        set look(value: R3) {
             self.setLook(value)
         },
         setLook(value: VectorE3): View {
@@ -78,10 +78,10 @@ let createView = function(options?: { viewMatrixName?: string }): View {
             look.z = value.z
             return self
         },
-        get up(): MutableVectorE3 {
+        get up(): R3 {
             return up
         },
-        set up(value: MutableVectorE3) {
+        set up(value: R3) {
             self.setUp(value)
         },
         setUp(value: VectorE3): View {

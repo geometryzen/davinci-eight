@@ -1,8 +1,8 @@
 import Simplex = require('../geometries/Simplex');
 import quadrilateral = require('../geometries/quadrilateral');
 import Symbolic = require('../core/Symbolic');
-import MutableVectorE2 = require('../math/MutableVectorE2');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R2 = require('../math/R2');
+import R3 = require('../math/R3');
 import VectorN = require('../math/VectorN');
 
 // square
@@ -17,17 +17,17 @@ function square(size: number = 1): Simplex[] {
 
   let s = size / 2;
 
-  let vec0 = new MutableVectorE3([+s, +s, 0]);
-  let vec1 = new MutableVectorE3([-s, +s, 0]);
-  let vec2 = new MutableVectorE3([-s, -s, 0]);
-  let vec3 = new MutableVectorE3([+s, -s, 0]);
+  let vec0 = new R3([+s, +s, 0]);
+  let vec1 = new R3([-s, +s, 0]);
+  let vec2 = new R3([-s, -s, 0]);
+  let vec3 = new R3([+s, -s, 0]);
 
-  let c00 = new MutableVectorE2([0, 0]);
-  let c01 = new MutableVectorE2([0, 1]);
-  let c10 = new MutableVectorE2([1, 0]);
-  let c11 = new MutableVectorE2([1, 1]);
+  let c00 = new R2([0, 0]);
+  let c01 = new R2([0, 1]);
+  let c10 = new R2([1, 0]);
+  let c11 = new R2([1, 1]);
 
-  let coords: MutableVectorE2[] = [c11, c01, c00, c10];
+  let coords: R2[] = [c11, c01, c00, c10];
 
   let attributes: { [name: string]: VectorN<number>[] } = {};
 

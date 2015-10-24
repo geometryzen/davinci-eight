@@ -2,13 +2,13 @@ define(
 [
   'davinci-eight/geometries/Simplex',
   'davinci-eight/geometries/Vertex',
-  'davinci-eight/math/MutableVectorE3',
+  'davinci-eight/math/R3',
   'davinci-eight/geometries/simplicesToDrawPrimitive',
   'davinci-eight/geometries/simplicesToGeometryMeta',
   'davinci-eight/geometries/cube',
   'davinci-eight/core/Symbolic'
 ],
-function(Simplex, Vertex, MutableVectorE3, simplicesToDrawPrimitive, simplicesToGeometryMeta, cube, Symbolic)
+function(Simplex, Vertex, R3, simplicesToDrawPrimitive, simplicesToGeometryMeta, cube, Symbolic)
 {
   var SQUARES_PER_CUBE = 6;
   var TRIANGLES_PER_SQUARE = 2;

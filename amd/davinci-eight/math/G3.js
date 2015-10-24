@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/rcoG3', '../math/scpG3', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, extG3, lcoG3, mulG3, mustBeNumber, mustBeObject, rcoG3, scpG3, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../math/extG3', '../checks/isNumber', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/rcoG3', '../math/scpG3', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, extG3, isNumber, lcoG3, mulG3, mustBeNumber, mustBeObject, rcoG3, scpG3, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -195,6 +195,25 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
+         * <code>this ⟼ this + v * α</code>
+         * </p>
+         * @method addVector
+         * @param v {VectorE3}
+         * @param α [number = 1]
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.addVector = function (v, α) {
+            if (α === void 0) { α = 1; }
+            mustBeObject('v', v);
+            mustBeNumber('α', α);
+            this.x += v.x * α;
+            this.y += v.y * α;
+            this.z += v.z * α;
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ a + b</code>
          * </p>
          * @method add2
@@ -245,12 +264,12 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * <p>
          * <code>this ⟼ this << m</code>
          * </p>
-         * @method conL
+         * @method lco
          * @param m {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.conL = function (m) {
+        G3.prototype.lco = function (m) {
             return this.conL2(this, m);
         };
         /**
@@ -270,12 +289,12 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * <p>
          * <code>this ⟼ this >> m</code>
          * </p>
-         * @method conR
+         * @method rco
          * @param m {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.conR = function (m) {
+        G3.prototype.rco = function (m) {
             return this.conR2(this, m);
         };
         /**
@@ -310,6 +329,48 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.zx = M.zx;
             this.xy = M.xy;
             this.xyz = M.xyz;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ copy(spinor)</code>
+         * </p>
+         * @method copySpinor
+         * @param spinor {SpinorE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.copySpinor = function (spinor) {
+            mustBeObject('spinor', spinor);
+            this.w = spinor.w;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.yz = spinor.yz;
+            this.zx = spinor.zx;
+            this.xy = spinor.xy;
+            this.xyz = 0;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ copyVector(vector)</code>
+         * </p>
+         * @method copyVector
+         * @param vector {VectorE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.copyVector = function (vector) {
+            mustBeObject('vector', vector);
+            this.w = 0;
+            this.x = vector.x;
+            this.y = vector.y;
+            this.z = vector.z;
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            this.xyz = 0;
             return this;
         };
         /**
@@ -526,6 +587,25 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return mulG3(a, b, this);
         };
         /**
+         * <p>
+         * <code>this ⟼ -1 * this</code>
+         * </p>
+         * @method neg
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.neg = function () {
+            this.w = -this.w;
+            this.x = -this.x;
+            this.y = -this.y;
+            this.z = -this.z;
+            this.yz = this.yz;
+            this.zx = -this.zx;
+            this.xy = -this.xy;
+            this.xyz = -this.xyz;
+            return this;
+        };
+        /**
         * <p>
         * <code>this ⟼ sqrt(this * conj(this))</code>
         * </p>
@@ -592,6 +672,33 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.y = y - dot2 * ny;
             this.z = z - dot2 * nz;
             return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ reverse(this)</code>
+         * </p>
+         * @method reverse
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.reverse = function () {
+            // reverse has a ++-- structure.
+            this.w = this.w;
+            this.x = this.x;
+            this.y = this.y;
+            this.z = this.z;
+            this.yz = -this.yz;
+            this.zx = -this.zx;
+            this.xy = -this.xy;
+            this.xyz = -this.xyz;
+            return this;
+        };
+        /**
+         * @method __tilde__
+         * @return {G3}
+         */
+        G3.prototype.__tilde__ = function () {
+            return G3.copy(this).reverse();
         };
         /**
          * <p>
@@ -710,10 +817,9 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @method spinor
          * @param a {VectorE3}
          * @param b {VectorE3}
-         * @return {G3}
+         * @return {G3} <code>this</code>
          */
         G3.prototype.spinor = function (a, b) {
-            // FIXME: TODO
             var ax = a.x;
             var ay = a.y;
             var az = a.z;
@@ -721,9 +827,13 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             var by = b.y;
             var bz = b.z;
             this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz);
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
             this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
             this.zx = wedgeZX(ax, ay, az, bx, by, bz);
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
+            this.xyz = 0;
             return this;
         };
         /**
@@ -797,6 +907,204 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          */
         G3.prototype.wedge2 = function (a, b) {
             return extG3(a, b, this);
+        };
+        /**
+         * @method __add__
+         * @param other {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__add__ = function (other) {
+            if (other instanceof G3) {
+                var rhs = other;
+                return G3.copy(this).add(rhs);
+            }
+            else if (isNumber(other)) {
+                var m = G3.copy(this);
+                m.w += other;
+                return m;
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __div__
+         * @param other {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__div__ = function (other) {
+            if (other instanceof G3) {
+                return G3.copy(this).div(other);
+            }
+            else if (isNumber(other)) {
+                return G3.copy(this).divideByScalar(other);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __mul__
+         * @param other {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__mul__ = function (other) {
+            if (other instanceof G3) {
+                return G3.copy(this).mul(other);
+            }
+            else if (isNumber(other)) {
+                return G3.copy(this).scale(other);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __radd__
+         * @param other {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__radd__ = function (other) {
+            if (other instanceof G3) {
+                var rhs = other;
+                return G3.copy(other).add(this);
+            }
+            else if (isNumber(other)) {
+                var m = G3.copy(this); /*.pos()*/
+                m.w += other;
+                return m;
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __sub__
+         * @param other {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__sub__ = function (other) {
+            if (other instanceof G3) {
+                var rhs = other;
+                return G3.copy(this).sub(rhs);
+            }
+            else if (isNumber(other)) {
+                var m = G3.copy(this);
+                m.w -= other;
+                return m;
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rsub__
+         * @param other {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__rsub__ = function (other) {
+            if (other instanceof G3) {
+                var rhs = other;
+                return G3.copy(other).sub(this);
+            }
+            else if (isNumber(other)) {
+                var m = G3.copy(this).neg();
+                m.w += other;
+                return m;
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __pos__
+         * @return {G3}
+         * @private
+         * @chainable
+         */
+        G3.prototype.__pos__ = function () {
+            return G3.copy(this); /*.pos()*/
+        };
+        /**
+         * @method __neg__
+         * @return {G3}
+         * @private
+         * @chainable
+         */
+        G3.prototype.__neg__ = function () {
+            return G3.copy(this).neg();
+        };
+        /**
+         * @method copy
+         * @param M {GeometricE3}
+         * @return {G3}
+         * @static
+         */
+        G3.copy = function (M) {
+            var copy = new G3();
+            copy.w = M.w;
+            copy.x = M.x;
+            copy.y = M.y;
+            copy.z = M.z;
+            copy.yz = M.yz;
+            copy.zx = M.zx;
+            copy.xy = M.xy;
+            copy.xyz = M.xyz;
+            return copy;
+        };
+        /**
+         * @method fromSpinor
+         * @param spinor {SpinorE3}
+         * @return {G3}
+         * @static
+         */
+        G3.fromSpinor = function (spinor) {
+            var copy = new G3();
+            copy.w = spinor.w;
+            copy.x = 0;
+            copy.y = 0;
+            copy.z = 0;
+            copy.yz = spinor.yz;
+            copy.zx = spinor.yz;
+            copy.xy = spinor.xy;
+            copy.xyz = 0;
+            return copy;
+        };
+        /**
+         * @method fromVector
+         * @param vector {VectorE3}
+         * @return {G3}
+         * @static
+         */
+        G3.fromVector = function (vector) {
+            var copy = new G3();
+            copy.w = 0;
+            copy.x = vector.x;
+            copy.y = vector.y;
+            copy.z = vector.z;
+            copy.yz = 0;
+            copy.zx = 0;
+            copy.xy = 0;
+            copy.xyz = 0;
+            return copy;
+        };
+        /**
+        * @method lerp
+        * @param A {GeometricE3}
+        * @param B {GeometricE3}
+        * @param α {number}
+        * @return {G3} <code>A + α * (B - A)</code>
+        * @static
+        */
+        G3.lerp = function (A, B, α) {
+            return G3.copy(A).lerp(B, α);
+            // return G3.copy(B).sub(A).scale(α).add(A)
         };
         return G3;
     })(VectorN);

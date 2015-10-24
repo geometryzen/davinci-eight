@@ -17,7 +17,7 @@ define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'
          * @class Vector3Uniform
          * @constructor
          * @param name {string}
-         * @param vector {MutableVectorE3}
+         * @param vector {R3}
          */
         function Vector3Uniform(name, vector) {
             _super.call(this, 'Vector3Uniform');

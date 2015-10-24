@@ -1,20 +1,21 @@
 define([
     'davinci-eight/math/Dimensions',
-    'davinci-eight/math/Rational'
+    'davinci-eight/math/QQ'
 ], function(
     Dimensions,
-    Rational
+    QQ
 ) {
+    var ONE = QQ.ONE
     describe("Dimensions", function() {
         describe("constructor", function() {
             it("properties match construction arguments", function() {
-                var M = new Rational(2,3);
-                var L = new Rational(3,5);
-                var T = new Rational(5,7);
-                var Q = new Rational(7,11);
-                var temperature = new Rational(11,13);
-                var amount = new Rational(13,17);
-                var intensity = new Rational(17,19);
+                var M = new QQ(2,3);
+                var L = new QQ(3,5);
+                var T = new QQ(5,7);
+                var Q = new QQ(7,11);
+                var temperature = new QQ(11,13);
+                var amount = new QQ(13,17);
+                var intensity = new QQ(17,19);
                 var x = new Dimensions(M, L, T, Q, temperature, amount, intensity);
                 expect(x.M.numer).toBe(2);
                 expect(x.M.denom).toBe(3);
@@ -33,15 +34,15 @@ define([
             });
         });
 
-        it("Construction(Rational)", function() {
+        it("Construction(QQ)", function() {
           var L, M, Q, T, amount, d, intensity, temperature;
-          M = new Rational(1, 1);
-          L = new Rational(2, 1);
-          T = new Rational(3, 1);
-          Q = new Rational(4, 1);
-          temperature = new Rational(5, 1);
-          amount = new Rational(6, 1);
-          intensity = new Rational(7, 1);
+          M = new QQ(1, 1);
+          L = new QQ(2, 1);
+          T = new QQ(3, 1);
+          Q = new QQ(4, 1);
+          temperature = new QQ(5, 1);
+          amount = new QQ(6, 1);
+          intensity = new QQ(7, 1);
           d = new Dimensions(M, L, T, Q, temperature, amount, intensity);
           expect(d.M.numer).toBe(1);
           expect(d.M.denom).toBe(1);
@@ -128,7 +129,7 @@ define([
         it("pow", function() {
           var base, x;
           base = new Dimensions(1, 2, 3, 4, 5, 6, 7);
-          x = base.pow(Rational.TWO);
+          x = base.pow(Q.TWO);
           expect(x.M.numer).toBe(2);
           expect(x.M.denom).toBe(1);
           expect(x.L.numer).toBe(4);
@@ -233,7 +234,7 @@ define([
           expect("" + (new Dimensions(0, 0, 0, 0, 1, 0, 0))).toBe("thermodynamic temperature");
           expect("" + (new Dimensions(0, 0, 0, 0, 0, 1, 0))).toBe("amount of substance");
           expect("" + (new Dimensions(0, 0, 0, 0, 0, 0, 1))).toBe("luminous intensity");
-          return expect("" + (new Dimensions(0, 1, new Rational(-2, 1), 0, 0, 0, 0))).toBe("length * time ** -2");
+          return expect("" + (new Dimensions(0, 1, new Q(-2, 1), 0, 0, 0, 0))).toBe("length * time ** -2");
         });
     });
 });

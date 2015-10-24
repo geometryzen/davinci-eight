@@ -1,6 +1,6 @@
-define(["require", "exports", '../geometries/quadrilateral', '../core/Symbolic', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, quadrilateral, Symbolic, MutableVectorE2, MutableVectorE3) {
+define(["require", "exports", '../geometries/quadrilateral', '../core/Symbolic', '../math/R2', '../math/R3'], function (require, exports, quadrilateral, Symbolic, R2, R3) {
     function vector3(data) {
-        return new MutableVectorE3([]);
+        return new R3([]);
     }
     /**
      * cube as Simplex[]
@@ -16,18 +16,18 @@ define(["require", "exports", '../geometries/quadrilateral', '../core/Symbolic',
     function cube(size) {
         if (size === void 0) { size = 1; }
         var s = size / 2;
-        var vec0 = new MutableVectorE3([+s, +s, +s]);
-        var vec1 = new MutableVectorE3([-s, +s, +s]);
-        var vec2 = new MutableVectorE3([-s, -s, +s]);
-        var vec3 = new MutableVectorE3([+s, -s, +s]);
-        var vec4 = new MutableVectorE3([+s, -s, -s]);
-        var vec5 = new MutableVectorE3([+s, +s, -s]);
-        var vec6 = new MutableVectorE3([-s, +s, -s]);
-        var vec7 = new MutableVectorE3([-s, -s, -s]);
-        var c00 = new MutableVectorE2([0, 0]);
-        var c01 = new MutableVectorE2([0, 1]);
-        var c10 = new MutableVectorE2([1, 0]);
-        var c11 = new MutableVectorE2([1, 1]);
+        var vec0 = new R3([+s, +s, +s]);
+        var vec1 = new R3([-s, +s, +s]);
+        var vec2 = new R3([-s, -s, +s]);
+        var vec3 = new R3([+s, -s, +s]);
+        var vec4 = new R3([+s, -s, -s]);
+        var vec5 = new R3([+s, +s, -s]);
+        var vec6 = new R3([-s, +s, -s]);
+        var vec7 = new R3([-s, -s, -s]);
+        var c00 = new R2([0, 0]);
+        var c01 = new R2([0, 1]);
+        var c10 = new R2([1, 0]);
+        var c11 = new R2([1, 1]);
         var attributes = {};
         attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
         // We currently call quadrilateral rather than square because of the arguments.

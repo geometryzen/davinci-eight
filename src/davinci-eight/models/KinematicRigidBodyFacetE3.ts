@@ -1,7 +1,6 @@
 import Euclidean3 = require('../math/Euclidean3')
 import ModelFacet = require('../models/ModelFacet')
-import MutableVectorE3 = require('../math/MutableVectorE3')
-import MutableSpinorE3 = require('../math/MutableSpinorE3')
+import G3 = require('../math/G3')
 
 /**
  * @class KinematicRigidBodyFacetE3
@@ -13,17 +12,17 @@ class KinematicRigidBodyFacetE3 extends ModelFacet {
      * The <em>linear velocity</em>, a vector.
      * </p>
      * @property V
-     * @type {MutableVectorE3}
+     * @type {G3}
      */
-    public V: MutableVectorE3 = new MutableVectorE3().copy(Euclidean3.zero);
+    public V: G3 = new G3().copy(Euclidean3.zero);
     /**
      * <p>
      * The <em>rotational velocity</em>, a spinor.
      * </p>
      * @property Ω
-     * @type {MutableSpinorE3}
+     * @type {G3}
      */
-    public Ω: MutableSpinorE3 = new MutableSpinorE3();
+    public Ω: G3 = new G3();
     /**
      * <p>
      * Constructs a KinematicRigidBodyFacetE3.

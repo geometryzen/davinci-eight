@@ -2,8 +2,8 @@ import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
 import IAnimationTarget = require('../slideshow/IAnimationTarget');
 import IUnknownExt = require('../core/IUnknownExt');
-import MutableVectorE3 = require('../math/MutableVectorE3');
-import MutableSpinorE3 = require('../math/MutableSpinorE3');
+import G3 = require('../math/G3');
+import R3 = require('../math/R3');
 import Shareable = require('../utils/Shareable');
 /**
  * @class ModelFacet
@@ -66,10 +66,10 @@ declare class ModelFacet extends Shareable implements IFacet, IAnimationTarget, 
      * The <em>attitude</em>, a unitary spinor.
      * </p>
      * @property R
-     * @type MutableSpinorE3
+     * @type G3
      * @readOnly
      */
-    R: MutableSpinorE3;
+    R: G3;
     /**
      * <p>
      * The <em>position</em>, a vector.
@@ -78,16 +78,16 @@ declare class ModelFacet extends Shareable implements IFacet, IAnimationTarget, 
      * </p>
      *
      * @property X
-     * @type MutableVectorE3
+     * @type G3
      * @readOnly
      */
-    X: MutableVectorE3;
+    X: G3;
     /**
      * @property scaleXYZ
-     * @type MutableVectorE3
+     * @type R3
      * @readOnly
      */
-    scaleXYZ: MutableVectorE3;
+    scaleXYZ: R3;
     /**
      * @method getProperty
      * @param name {string}

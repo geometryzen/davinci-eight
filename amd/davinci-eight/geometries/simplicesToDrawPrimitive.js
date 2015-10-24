@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/DrawMode', '../geometries/simplicesToGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/DrawPrimitive', '../geometries/DrawAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, DrawMode, simplicesToGeometryMeta, computeUniqueVertices, DrawPrimitive, DrawAttribute, expectArg, Simplex, VectorN) {
+define(["require", "exports", '../collections/copyToArray', '../geometries/dataFromVectorN', '../core/DrawMode', '../geometries/simplicesToGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/DrawPrimitive', '../geometries/DrawAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, copyToArray, dataFromVectorN, DrawMode, simplicesToGeometryMeta, computeUniqueVertices, DrawPrimitive, DrawAttribute, expectArg, Simplex, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {
@@ -75,11 +75,13 @@ define(["require", "exports", '../core/DrawMode', '../geometries/simplicesToGeom
             for (k = 0; k < keysLen; k++) {
                 var output = outputs[k];
                 var size = output.dimensions;
-                var data = vertexAttribs[keys[k]];
-                if (!data) {
-                    data = new VectorN(numberList(size, 0), false, size);
+                var value = vertexAttribs[keys[k]];
+                if (!value) {
+                    value = new VectorN(numberList(size, 0), false, size);
                 }
-                data.toArray(output.data, i * output.dimensions);
+                // TODO: Merge functions to avoid creating temporary array.
+                var data = dataFromVectorN(value);
+                copyToArray(data, output.data, i * output.dimensions);
             }
         }
         // Copy accumulated attribute arrays to output data structure.

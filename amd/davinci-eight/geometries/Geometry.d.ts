@@ -7,7 +7,7 @@ import IGeometry = require('../geometries/IGeometry');
 declare class Geometry implements IGeometry<Geometry> {
     /**
      * @property _position
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @private
      */
     private _position;

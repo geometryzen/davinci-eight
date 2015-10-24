@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject', '../math/MutableVectorE3'], function (require, exports, mustBeBoolean, mustBeObject, MutableVectorE3) {
+define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject', '../math/R3'], function (require, exports, mustBeBoolean, mustBeObject, R3) {
     /**
      * @class Geometry
      */
@@ -10,10 +10,10 @@ define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject
         function Geometry() {
             /**
              * @property _position
-             * @type {MutableVectorE3}
+             * @type {R3}
              * @private
              */
-            this._position = new MutableVectorE3();
+            this._position = new R3();
             /**
              * @property useTextureCoords
              * @type {boolean}

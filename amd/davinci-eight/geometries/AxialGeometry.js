@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/MutableVectorE3'], function (require, exports, Euclidean3, Geometry, mustBeNumber, mustBeObject, MutableVectorE3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/R3'], function (require, exports, Euclidean3, Geometry, mustBeNumber, mustBeObject, R3) {
     /**
      * @class AxialGeometry
      */
@@ -21,8 +21,8 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '.
              * @private
              */
             this._sliceAngle = 2 * Math.PI;
-            this._axis = MutableVectorE3.copy(Euclidean3.e2);
-            this._sliceStart = MutableVectorE3.copy(Euclidean3.e1);
+            this._axis = R3.copy(Euclidean3.e2);
+            this._sliceStart = R3.copy(Euclidean3.e1);
         }
         Object.defineProperty(AxialGeometry.prototype, "axis", {
             /**
@@ -48,7 +48,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '.
             mustBeObject('axis', axis);
             this._axis.copy(axis).normalize();
             // FIXME: randomize
-            this._sliceStart.copy(MutableVectorE3.random()).cross(this._axis).normalize();
+            this._sliceStart.copy(R3.random()).cross(this._axis).normalize();
             return this;
         };
         Object.defineProperty(AxialGeometry.prototype, "sliceAngle", {

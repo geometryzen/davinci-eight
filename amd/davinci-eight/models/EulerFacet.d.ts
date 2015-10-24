@@ -1,7 +1,7 @@
 import IFacet = require('../core/IFacet');
 import Shareable = require('../utils/Shareable');
 import IFacetVisitor = require('../core/IFacetVisitor');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 /**
  * @class EulerFacet
  */
@@ -24,9 +24,9 @@ declare class EulerFacet extends Shareable implements IFacet {
     setUniforms(visitor: IFacetVisitor, canvasId: number): void;
     /**
      * @property rotation
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @readOnly
      */
-    rotation: MutableVectorE3;
+    rotation: R3;
 }
 export = EulerFacet;

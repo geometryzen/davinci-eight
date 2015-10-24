@@ -378,13 +378,13 @@ declare module EIGHT {
         uniform2f(x: number, y: number): void;
         uniform3f(x: number, y: number, z: number): void;
         uniform4f(x: number, y: number, z: number, w: number): void;
-        matrix1(transpose: boolean, matrix: MutableNumber): void;
+        matrix1(transpose: boolean, matrix: R1): void;
         matrix2(transpose: boolean, matrix: Matrix2): void;
         matrix3(transpose: boolean, matrix: Matrix3): void;
         matrix4(transpose: boolean, matrix: Matrix4): void;
-        vector2(vector: MutableVectorE2): void;
-        vector3(vector: MutableVectorE3): void;
-        vector4(vector: MutableVectorE4): void;
+        vector2(vector: R2): void;
+        vector3(vector: R3): void;
+        vector4(vector: R4): void;
     }
 
     /**
@@ -422,7 +422,7 @@ declare module EIGHT {
     /**
      * A rational number.
      */
-    class Rational {
+    class QQ {
         numer: number;
         denom: number;
     }
@@ -431,13 +431,13 @@ declare module EIGHT {
      * The dimensions of a physical quantity.
      */
     class Dimensions {
-        M: Rational;
-        L: Rational;
-        T: Rational;
-        Q: Rational;
-        temperature: Rational;
-        amount: Rational;
-        intensity: Rational;
+        M: QQ;
+        L: QQ;
+        T: QQ;
+        QQ: QQ;
+        temperature: QQ;
+        amount: QQ;
+        intensity: QQ;
     }
 
     /**
@@ -604,7 +604,7 @@ declare module EIGHT {
     /**
      *
      */
-    class MutableNumber extends VectorN<number> implements VectorE1 {
+    class R1 extends VectorN<number> implements VectorE1 {
         public x: number;
         constructor(data?: number[], modified?: boolean);
     }
@@ -612,19 +612,19 @@ declare module EIGHT {
     /**
      *
      */
-    class MutableVectorE2 extends VectorN<number> implements VectorE2 {
+    class R2 extends VectorN<number> implements VectorE2 {
         public x: number;
         public y: number;
         constructor(data?: number[], modified?: boolean);
-        add(v: VectorE2): MutableVectorE2;
-        sum(a: VectorE2, b: VectorE2): MutableVectorE2;
-        copy(v: VectorE2): MutableVectorE2;
+        add(v: VectorE2): R2;
+        sum(a: VectorE2, b: VectorE2): R2;
+        copy(v: VectorE2): R2;
         magnitude(): number;
-        scale(s: number): MutableVectorE2;
+        scale(s: number): R2;
         quaditude(): number;
-        set(x: number, y: number): MutableVectorE2;
-        sub(v: VectorE2): MutableVectorE2;
-        diff(a: VectorE2, b: VectorE2): MutableVectorE2;
+        set(x: number, y: number): R2;
+        sub(v: VectorE2): R2;
+        diff(a: VectorE2, b: VectorE2): R2;
     }
     /**
      *
@@ -702,6 +702,7 @@ declare module EIGHT {
          * @constructor
          */
         constructor(data?: number[]);
+
         /**
          * <p>
          * <code>this ⟼ this + M * α</code>
@@ -713,6 +714,7 @@ declare module EIGHT {
          * @chainable
          */
         add(M: GeometricE3, α?: number): G3;
+
         /**
          * <p>
          * <code>this ⟼ a + b</code>
@@ -724,11 +726,13 @@ declare module EIGHT {
          * @chainable
          */
         add2(a: GeometricE3, b: GeometricE3): G3;
+
         /**
          * @method clone
          * @return {G3} <code>copy(this)</code>
          */
         clone(): G3;
+
         /**
          * <p>
          * <code>this ⟼ copy(v)</code>
@@ -739,6 +743,29 @@ declare module EIGHT {
          * @chainable
          */
         copy(M: GeometricE3): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ copy(spinor)</code>
+         * </p>
+         * @method copySpinor
+         * @param spinor {SpinorE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        copySpinor(spinor: SpinorE3): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ copyVector(vector)</code>
+         * </p>
+         * @method copyVector
+         * @param vector {VectorE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        copyVector(vector: VectorE3): G3;
+
         /**
          * <p>
          * <code>this ⟼ this / α</code>
@@ -749,6 +776,29 @@ declare module EIGHT {
          * @chainable
          */
         divideByScalar(α: number): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ dual(m) = I * m</code>
+         * </p>
+         * Notice that the dual of a vector is related to the spinor by the right-hand rule.
+         * @method dual
+         * @param m {GeometricE3} The vector whose dual will be used to set this spinor.
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        dual(m: VectorE3): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ e<sup>this</sup></code>
+         * </p>
+         * @method exp
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        exp(): G3;
+
         /**
          * <p>
          * <code>this ⟼ this + α * (target - this)</code>
@@ -772,6 +822,28 @@ declare module EIGHT {
          * @chainable
          */
         lerp2(a: GeometricE3, b: GeometricE3, α: number): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ this * s</code>
+         * </p>
+         * @method mul
+         * @param m {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        mul(m: GeometricE3): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ reverse(this)</code>
+         * </p>
+         * @method reverse
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        reverse(): G3;
+
         /**
          * <p>
          * <code>this ⟼ this * α</code>
@@ -800,6 +872,39 @@ declare module EIGHT {
          * @chainable
          */
         rotate(R: SpinorE3): G3;
+
+        /**
+         * <p>
+         * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
+         * </p>
+         * @method rotorFromAxisAngle
+         * @param axis {VectorE3}
+         * @param θ {number}
+         * @return {G3} <code>this</code>
+         */
+        rotorFromAxisAngle(axis: VectorE3, θ: number): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ this * α</code>
+         * </p>
+         * @method scale
+         * @param α {number} 
+         */
+        scale(α: number): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * Sets this G3 to the geometric product a * b of the vector arguments. 
+         * @method spinor
+         * @param a {VectorE3}
+         * @param b {VectorE3}
+         * @return {G3} <code>this</code>
+         */
+        spinor(a: VectorE3, b: VectorE3): G3;
+
         /**
          * <p>
          * <code>this ⟼ this - M * α</code>
@@ -822,12 +927,29 @@ declare module EIGHT {
          * @chainable
          */
         sub2(a: GeometricE3, b: GeometricE3): G3;
+
+        /**
+         * @method fromSpinor
+         * @param spinor {SpinorE3}
+         * @return {G3}
+         * @static
+         */
+        static fromSpinor(spinor: SpinorE3): G3;
+
+        /**
+         * @method fromVector
+         * @param vector {VectorE3}
+         * @return {G3}
+         * @static
+         */
+        static fromVector(vector: VectorE3): G3;
+
     }
 
     /**
      *
      */
-    class MutableSpinorE3 extends VectorN<number> {
+    class SpinG3 extends VectorN<number> {
         public yz: number;
         public zx: number;
         public xy: number;
@@ -839,67 +961,67 @@ declare module EIGHT {
         /**
          * this ⟼ this + spinor * α
          */
-        add(spinor: SpinorE3, α?: number): MutableSpinorE3;
-        clone(): MutableSpinorE3;
+        add(spinor: SpinorE3, α?: number): SpinG3;
+        clone(): SpinG3;
         /**
          * this ⟼ copy(spinor)
          */
-        copy(spinor: SpinorE3): MutableSpinorE3;
-        diff(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
-        divideByScalar(scalar: number): MutableSpinorE3;
+        copy(spinor: SpinorE3): SpinG3;
+        diff(a: SpinorE3, b: SpinorE3): SpinG3;
+        divideByScalar(scalar: number): SpinG3;
         /**
          * this ⟼ dual(v) = I * v
          */
-        dual(v: VectorE3): MutableSpinorE3;
+        dual(v: VectorE3): SpinG3;
         /**
          * this ⟼ exp(this)
          */
-        exp(): MutableSpinorE3;
-        inverse(): MutableSpinorE3;
-        lerp(target: SpinorE3, α: number): MutableSpinorE3;
-        log(): MutableSpinorE3;
+        exp(): SpinG3;
+        inverse(): SpinG3;
+        lerp(target: SpinorE3, α: number): SpinG3;
+        log(): SpinG3;
         magnitude(): number;
-        mul(rhs: SpinorE3): MutableSpinorE3;
+        mul(rhs: SpinorE3): SpinG3;
         /**
          * this ⟼ this / magnitude(this)
          * <em>s.normalize()</em> scales the target spinor, <em>s</em>, so that it has unit magnitude.
          */
-        normalize(): MutableSpinorE3;
+        normalize(): SpinG3;
         /**
          * this ⟼ this * α
          */
-        scale(α: number): MutableSpinorE3;
+        scale(α: number): SpinG3;
         /**
-         * Sets this MutableSpinorE3 to the geometric product of the vectors a and b, a * b.
+         * Sets this SpinG3 to the geometric product of the vectors a and b, a * b.
          */
-        mul2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
+        mul2(a: SpinorE3, b: SpinorE3): SpinG3;
         quaditude(): number;
-        reverse(): MutableSpinorE3;
-        reflect(n: VectorE3): MutableSpinorE3;
+        reverse(): SpinG3;
+        reflect(n: VectorE3): SpinG3;
         /**
          * this ⟼ R * this * reverse(R)
          */
-        rotate(R: SpinorE3): MutableSpinorE3;
+        rotate(R: SpinorE3): SpinG3;
         /**
          * this ⟼ exp(- dual(axis) * θ / 2)
          * <code>axis</code> The direction (unit vector) of the rotation.
          * <code>θ</code> The angle of the rotation, measured in radians.
          */
-        rotorFromAxisAngle(axis: VectorE3, θ: number): MutableSpinorE3;
+        rotorFromAxisAngle(axis: VectorE3, θ: number): SpinG3;
         /**
-         * Sets this MutableSpinorE3 to the rotor corresponding to a rotation from vector a to vector b.
+         * Sets this SpinG3 to the rotor corresponding to a rotation from vector a to vector b.
          */
-        rotor(b: VectorE3, a: VectorE3): MutableSpinorE3;
+        rotor(b: VectorE3, a: VectorE3): SpinG3;
         /**
          * this ⟼ this - spinor * α
          */
-        sub(spinor: SpinorE3, α?: number): MutableSpinorE3;
-        sum(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
+        sub(spinor: SpinorE3, α?: number): SpinG3;
+        sum(a: SpinorE3, b: SpinorE3): SpinG3;
         toString(): string;
         /**
          * this ⟼ a * b
          */
-        spinor(a: VectorE3, b: VectorE3): MutableSpinorE3;
+        spinor(a: VectorE3, b: VectorE3): SpinG3;
     }
 
     /**
@@ -923,41 +1045,41 @@ declare module EIGHT {
     /**
      *
      */
-    class MutableVectorE3 extends VectorN<number> implements VectorE3 {
+    class R3 extends VectorN<number> implements VectorE3 {
         x: number;
         y: number;
         z: number;
-        static e1: MutableVectorE3;
-        static e2: MutableVectorE3;
-        static e3: MutableVectorE3;
-        static copy(vector: VectorE3): MutableVectorE3;
+        static e1: R3;
+        static e2: R3;
+        static e3: R3;
+        static copy(vector: VectorE3): R3;
         constructor(data?: number[], modified?: boolean);
         /**
          * this += alpha * vector
          */
-        add(vector: VectorE3, alpha?: number): MutableVectorE3;
-        clone(): MutableVectorE3;
-        copy(v: VectorE3): MutableVectorE3;
-        cross(v: VectorE3): MutableVectorE3;
-        cross2(a: VectorE3, b: VectorE3): MutableVectorE3;
-        diff(a: VectorE3, b: VectorE3): MutableVectorE3;
+        add(vector: VectorE3, alpha?: number): R3;
+        clone(): R3;
+        copy(v: VectorE3): R3;
+        cross(v: VectorE3): R3;
+        cross2(a: VectorE3, b: VectorE3): R3;
+        diff(a: VectorE3, b: VectorE3): R3;
         distanceTo(position: VectorE3): number;
-        divideByScalar(rhs: number): MutableVectorE3;
+        divideByScalar(rhs: number): R3;
         magnitude(): number;
-        lerp(target: VectorE3, alpha: number): MutableVectorE3;
-        scale(rhs: number): MutableVectorE3;
-        normalize(): MutableVectorE3;
+        lerp(target: VectorE3, alpha: number): R3;
+        scale(rhs: number): R3;
+        normalize(): R3;
         quaditude(): number;
         quadranceTo(position: VectorE3): number;
-        reflect(n: VectorE3): MutableVectorE3;
-        rotate(rotor: SpinorE3): MutableVectorE3;
-        set(x: number, y: number, z: number): MutableVectorE3;
-        setMagnitude(magnitude: number): MutableVectorE3;
-        sub(rhs: VectorE3): MutableVectorE3;
-        sum(a: VectorE3, b: VectorE3): MutableVectorE3;
-        static copy(vector: VectorE3): MutableVectorE3;
-        static lerp(a: VectorE3, b: VectorE3, alpha: number): MutableVectorE3;
-        static random(): MutableVectorE3;
+        reflect(n: VectorE3): R3;
+        rotate(rotor: SpinorE3): R3;
+        set(x: number, y: number, z: number): R3;
+        setMagnitude(magnitude: number): R3;
+        sub(rhs: VectorE3): R3;
+        sum(a: VectorE3, b: VectorE3): R3;
+        static copy(vector: VectorE3): R3;
+        static lerp(a: VectorE3, b: VectorE3, alpha: number): R3;
+        static random(): R3;
     }
 
     /**
@@ -973,7 +1095,7 @@ declare module EIGHT {
     /**
      *
      */
-    class MutableVectorE4 extends VectorN<number> implements VectorE4 {
+    class R4 extends VectorN<number> implements VectorE4 {
         public x: number;
         public y: number;
         public z: number;
@@ -1014,7 +1136,7 @@ declare module EIGHT {
         /**
          * The position of the view reference point, VRP.
          */
-        eye: MutableVectorE3;
+        eye: R3;
         /**
          * A special point in the world coordinates that defines the viewplane normal, VPN or n.
          * n = eye - look, normalized to unity.
@@ -1025,7 +1147,7 @@ declare module EIGHT {
          * u = cross(up, n), and
          * v = cross(n, u).
          */
-        up: MutableVectorE3;
+        up: R3;
         /**
          * Convenience method for setting the eye property allowing chainable method calls.
          */
@@ -1403,12 +1525,15 @@ declare module EIGHT {
         /**
          * The position, a vector.
          */
-        public X: MutableVectorE3;
+        public X: G3;
         /**
          * The attitude, a unitary spinor.
          */
-        public R: MutableSpinorE3;
-        public scaleXYZ: MutableVectorE3;
+        public R: G3;
+        /**
+         * The overall scale.
+         */
+        public scaleXYZ: R3;
         /**
          * Constructs a ModelFacet at the origin and with unity attitude.
          */
@@ -1426,11 +1551,11 @@ declare module EIGHT {
         /**
          * The linear velocity, a vector.
          */
-        V: MutableVectorE3;
+        V: G3;
         /**
          * The rotational velocity, a spinor.
          */
-        Ω: MutableSpinorE3;
+        Ω: G3;
         /**
          * Constructs a KinematicRigidBodyFacetE3.
          */
@@ -1624,7 +1749,7 @@ declare module EIGHT {
         /**
          * The position of the camera.
          */
-        eye: MutableVectorE3;
+        eye: R3;
         /**
          * The distance to the far plane of the viewport.
          */
@@ -1637,7 +1762,7 @@ declare module EIGHT {
         /**
          * The point (position vector) that the camera looks at.
          */
-        look: MutableVectorE3;
+        look: R3;
         /**
          *The distance to the near plane of the viewport.
          */
@@ -1645,7 +1770,7 @@ declare module EIGHT {
         /**
          *
          */
-        position: MutableVectorE3;
+        position: R3;
         /**
          * Optional material used for rendering this instance.
          */
@@ -1657,7 +1782,7 @@ declare module EIGHT {
         /**
          * The "guess" direction that is used to generate the upwards direction for the camera. 
          */
-        up: MutableVectorE3;
+        up: R3;
         /**
          * fov...: The `fov` property.
          * aspect: The `aspect` property.
@@ -1770,7 +1895,7 @@ declare module EIGHT {
     }
 
     class AxialSimplexGeometry extends SimplexGeometry {
-        axis: MutableVectorE3;
+        axis: R3;
         constructor(axis: VectorE3, type: string)
     }
 
@@ -1804,12 +1929,12 @@ declare module EIGHT {
     }
 
     class ArrowSimplexGeometry extends SimplexGeometry {
-        vector: MutableVectorE3;
+        vector: R3;
         constructor(type?: string)
     }
 
     class VortexSimplexGeometry extends SimplexGeometry {
-        generator: MutableSpinorE3;
+        generator: SpinG3;
         constructor(type?: string)
     }
     /**
@@ -1829,8 +1954,8 @@ declare module EIGHT {
     class RingSimplexGeometry extends SliceSimplexGeometry {
         innerRadius: number;
         outerRadius: number;
-        axis: MutableVectorE3;
-        start: MutableVectorE3;
+        axis: R3;
+        start: R3;
         radialSegments: number;
         thetaSegments: number;
         constructor(innerRadius?: number, outerRadius?: number, axis?: VectorE3, start?: VectorE3);
@@ -1840,9 +1965,9 @@ declare module EIGHT {
      *
      */
     class BarnSimplexGeometry extends SimplexGeometry {
-        a: MutableVectorE3;
-        b: MutableVectorE3;
-        c: MutableVectorE3;
+        a: R3;
+        b: R3;
+        c: R3;
         k: number;
         constructor(type?: string);
     }
@@ -1903,9 +2028,9 @@ declare module EIGHT {
      *
      */
     class CuboidSimplexGeometry extends SimplexGeometry {
-        a: MutableVectorE3;
-        b: MutableVectorE3;
-        c: MutableVectorE3;
+        a: R3;
+        b: R3;
+        c: R3;
         k: number;
         constructor(a?: VectorE3, b?: VectorE3, c?: VectorE3, k?: number, subdivide?: number, boundary?: number);
     }
@@ -1913,7 +2038,7 @@ declare module EIGHT {
     class CylinderSimplexGeometry extends SliceSimplexGeometry {
         radius: number;
         height: number;
-        start: MutableVectorE3;
+        start: R3;
         openTop: boolean;
         openBottom: boolean;
         constructor(
@@ -1951,12 +2076,12 @@ declare module EIGHT {
     }
 
     class RevolutionSimplexGeometry extends SimplexGeometry {
-        constructor(points: MutableVectorE3[], generator: MutableSpinorE3, segments: number, phiStart: number, phiLength: number, attitude: MutableSpinorE3)
+        constructor(points: R3[], generator: SpinG3, segments: number, phiStart: number, phiLength: number, attitude: SpinG3)
     }
 
     class Simplex1Geometry extends SimplexGeometry {
-        head: MutableVectorE3;
-        tail: MutableVectorE3;
+        head: R3;
+        tail: R3;
         constructor();
         calculate(): void;
     }
@@ -1967,7 +2092,7 @@ declare module EIGHT {
     class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxialGeometry<SphericalPolarSimplexGeometry> {
         radius: number;
         phiLength: number;
-        phiStart: MutableVectorE3;
+        phiStart: R3;
         thetaLength: number;
         thetaStart: number;
         constructor(
@@ -2148,7 +2273,7 @@ declare module EIGHT {
     }
 
     class DirectionalLight extends AbstractFacet {
-        public direction: MutableVectorE3;
+        public direction: R3;
         public color: Color;
         constructor();
     }
@@ -2160,15 +2285,15 @@ declare module EIGHT {
     }
 
     class EulerFacet extends AbstractFacet {
-        rotation: MutableVectorE3;
+        rotation: R3;
         constructor()
     }
 
     /**
-     * A (name: string, vector: MutableVectorE3) pair that can be used to set a uniform variable.
+     * A (name: string, vector: R3) pair that can be used to set a uniform variable.
      */
     class Vector3Uniform extends AbstractFacet {
-        constructor(name: string, vector: MutableVectorE3);
+        constructor(name: string, vector: R3);
     }
 
     // commands

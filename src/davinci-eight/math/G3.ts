@@ -3,11 +3,13 @@ import euclidean3Quaditude1Arg = require('../math/euclidean3Quaditude1Arg')
 import euclidean3Quaditude2Arg = require('../math/euclidean3Quaditude2Arg')
 import extG3 = require('../math/extG3')
 import GeometricE3 = require('../math/GeometricE3')
-import MutableGeometricElement = require('../math/MutableGeometricElement')
+import isNumber = require('../checks/isNumber')
 import lcoG3 = require('../math/lcoG3')
+import GeometricOperators = require('../math/GeometricOperators')
 import mulG3 = require('../math/mulG3')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
+import MutableGeometricElement = require('../math/MutableGeometricElement')
 import PseudoscalarEe = require('../math/PseudoscalarE3')
 import rcoG3 = require('../math/rcoG3')
 import scpG3 = require('../math/scpG3')
@@ -37,7 +39,7 @@ let sin = Math.sin
  * @extends GeometricE3
  * @beta
  */
-class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement<GeometricE3, G3, SpinorE3, VectorE3, GeometricE3> {
+class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement<GeometricE3, G3, SpinorE3, VectorE3, GeometricE3>, GeometricOperators<G3> {
     /**
      * Constructs a <code>G3</code>.
      * The multivector is initialized to zero.
@@ -177,6 +179,24 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
     /**
      * <p>
+     * <code>this ⟼ this + v * α</code>
+     * </p>
+     * @method addVector
+     * @param v {VectorE3}
+     * @param α [number = 1]
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    addVector(v: VectorE3, α: number = 1): G3 {
+        mustBeObject('v', v)
+        mustBeNumber('α', α)
+        this.x += v.x * α
+        this.y += v.y * α
+        this.z += v.z * α
+        return this
+    }
+    /**
+     * <p>
      * <code>this ⟼ a + b</code>
      * </p>
      * @method add2
@@ -227,12 +247,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * <p>
      * <code>this ⟼ this << m</code>
      * </p>
-     * @method conL
+     * @method lco
      * @param m {GeometricE3}
      * @return {G3} <code>this</code>
      * @chainable
      */
-    conL(m: GeometricE3): G3 {
+    lco(m: GeometricE3): G3 {
         return this.conL2(this, m)
     }
     /**
@@ -252,12 +272,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * <p>
      * <code>this ⟼ this >> m</code>
      * </p>
-     * @method conR
+     * @method rco
      * @param m {GeometricE3}
      * @return {G3} <code>this</code>
      * @chainable
      */
-    conR(m: GeometricE3): G3 {
+    rco(m: GeometricE3): G3 {
         return this.conR2(this, m)
     }
     /**
@@ -273,6 +293,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     conR2(a: GeometricE3, b: GeometricE3): G3 {
         return rcoG3(a, b, this)
     }
+
     /**
      * <p>
      * <code>this ⟼ copy(v)</code>
@@ -294,6 +315,51 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         this.xyz = M.xyz
         return this
     }
+
+    /**
+     * <p>
+     * <code>this ⟼ copy(spinor)</code>
+     * </p>
+     * @method copySpinor
+     * @param spinor {SpinorE3}
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    copySpinor(spinor: SpinorE3) {
+        mustBeObject('spinor', spinor)
+        this.w = spinor.w
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        this.yz = spinor.yz
+        this.zx = spinor.zx
+        this.xy = spinor.xy
+        this.xyz = 0
+        return this
+    }
+
+    /**
+     * <p>
+     * <code>this ⟼ copyVector(vector)</code>
+     * </p>
+     * @method copyVector
+     * @param vector {VectorE3}
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    copyVector(vector: VectorE3) {
+        mustBeObject('vector', vector)
+        this.w = 0
+        this.x = vector.x
+        this.y = vector.y
+        this.z = vector.z
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        this.xyz = 0
+        return this
+    }
+
     /**
      * <p>
      * <code>this ⟼ this / m</code>
@@ -482,6 +548,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     magnitude() {
         return Math.sqrt(this.quaditude());
     }
+
     /**
      * <p>
      * <code>this ⟼ this * s</code>
@@ -506,6 +573,25 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      */
     mul2(a: GeometricE3, b: GeometricE3): G3 {
         return mulG3(a, b, this)
+    }
+    /**
+     * <p>
+     * <code>this ⟼ -1 * this</code>
+     * </p>
+     * @method neg
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    neg() {
+        this.w = -this.w
+        this.x = -this.x
+        this.y = -this.y
+        this.z = -this.z
+        this.yz = this.yz
+        this.zx = -this.zx
+        this.xy = -this.xy
+        this.xyz = -this.xyz
+        return this;
     }
     /**
     * <p>
@@ -574,6 +660,34 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         this.y = y - dot2 * ny;
         this.z = z - dot2 * nz;
         return this;
+    }
+
+    /**
+     * <p>
+     * <code>this ⟼ reverse(this)</code>
+     * </p>
+     * @method reverse
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    reverse(): G3 {
+        // reverse has a ++-- structure.
+        this.w = this.w
+        this.x = this.x
+        this.y = this.y
+        this.z = this.z
+        this.yz = -this.yz
+        this.zx = -this.zx
+        this.xy = -this.xy
+        this.xyz = -this.xyz
+        return this
+    }
+    /**
+     * @method __tilde__
+     * @return {G3}
+     */
+    __tilde__(): G3 {
+        return G3.copy(this).reverse()
     }
     /**
      * <p>
@@ -669,6 +783,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     align2(a: GeometricE3, b: GeometricE3): G3 {
         return scpG3(a, b, this)
     }
+
     /**
      * <p>
      * <code>this ⟼ this * α</code>
@@ -696,21 +811,24 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @method spinor
      * @param a {VectorE3}
      * @param b {VectorE3}
-     * @return {G3}
+     * @return {G3} <code>this</code>
      */
     spinor(a: VectorE3, b: VectorE3): G3 {
-        // FIXME: TODO
-        let ax = a.x
-        let ay = a.y
-        let az = a.z
-        let bx = b.x
-        let by = b.y
-        let bz = b.z
+        let ax = a.x;
+        let ay = a.y;
+        let az = a.z;
+        let bx = b.x;
+        let by = b.y;
+        let bz = b.z;
 
         this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz)
+        this.x = 0
+        this.y = 0
+        this.z = 0
         this.yz = wedgeYZ(ax, ay, az, bx, by, bz)
         this.zx = wedgeZX(ax, ay, az, bx, by, bz)
         this.xy = wedgeXY(ax, ay, az, bx, by, bz)
+        this.xyz = 0
 
         return this
     }
@@ -785,6 +903,214 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     wedge2(a: GeometricE3, b: GeometricE3): G3 {
         return extG3(a, b, this)
     }
+
+    /**
+     * @method __add__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __add__(other: any) {
+        if (other instanceof G3) {
+            var rhs = <G3>other
+            return G3.copy(this).add(rhs)
+        }
+        else if (isNumber(other)) {
+            var m = G3.copy(this)
+            m.w += <number>other
+            return m
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __div__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __div__(other: any) {
+        if (other instanceof G3) {
+            return G3.copy(this).div(other)
+        }
+        else if (isNumber(other)) {
+            return G3.copy(this).divideByScalar(other)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __mul__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __mul__(other: any) {
+        if (other instanceof G3) {
+            return G3.copy(this).mul(other)
+        }
+        else if (isNumber(other)) {
+            return G3.copy(this).scale(other)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __radd__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __radd__(other: any) {
+        if (other instanceof G3) {
+            var rhs = <G3>other
+            return G3.copy(other).add(this)
+        }
+        else if (isNumber(other)) {
+            var m = G3.copy(this)/*.pos()*/
+            m.w += <number>other
+            return m
+        }
+        else {
+            return void 0
+        }
+    }
+    /**
+     * @method __sub__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __sub__(other: any) {
+        if (other instanceof G3) {
+            var rhs = <G3>other
+            return G3.copy(this).sub(rhs)
+        }
+        else if (isNumber(other)) {
+            var m = G3.copy(this)
+            m.w -= <number>other
+            return m
+        }
+        else {
+            return void 0
+        }
+    }
+    /**
+     * @method __rsub__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __rsub__(other: any) {
+        if (other instanceof G3) {
+            var rhs = <G3>other
+            return G3.copy(other).sub(this)
+        }
+        else if (isNumber(other)) {
+            var m = G3.copy(this).neg()
+            m.w += <number>other
+            return m
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __pos__
+     * @return {G3}
+     * @private
+     * @chainable
+     */
+    __pos__() {
+        return G3.copy(this)/*.pos()*/
+    }
+
+    /**
+     * @method __neg__
+     * @return {G3}
+     * @private
+     * @chainable
+     */
+    __neg__() {
+        return G3.copy(this).neg()
+    }
+
+    /**
+     * @method copy
+     * @param M {GeometricE3}
+     * @return {G3}
+     * @static
+     */
+    static copy(M: GeometricE3): G3 {
+        var copy = new G3()
+        copy.w = M.w
+        copy.x = M.x
+        copy.y = M.y
+        copy.z = M.z
+        copy.yz = M.yz
+        copy.zx = M.zx
+        copy.xy = M.xy
+        copy.xyz = M.xyz
+        return copy
+    }
+
+    /**
+     * @method fromSpinor
+     * @param spinor {SpinorE3}
+     * @return {G3}
+     * @static
+     */
+    static fromSpinor(spinor: SpinorE3): G3 {
+        var copy = new G3()
+        copy.w = spinor.w
+        copy.x = 0
+        copy.y = 0
+        copy.z = 0
+        copy.yz = spinor.yz
+        copy.zx = spinor.yz
+        copy.xy = spinor.xy
+        copy.xyz = 0
+        return copy
+    }
+
+    /**
+     * @method fromVector
+     * @param vector {VectorE3}
+     * @return {G3}
+     * @static
+     */
+    static fromVector(vector: VectorE3): G3 {
+        var copy = new G3()
+        copy.w = 0
+        copy.x = vector.x
+        copy.y = vector.y
+        copy.z = vector.z
+        copy.yz = 0
+        copy.zx = 0
+        copy.xy = 0
+        copy.xyz = 0
+        return copy
+    }
+    /**
+    * @method lerp
+    * @param A {GeometricE3}
+    * @param B {GeometricE3}
+    * @param α {number}
+    * @return {G3} <code>A + α * (B - A)</code>
+    * @static
+    */
+    static lerp(A: GeometricE3, B: GeometricE3, α: number): G3 {
+        return G3.copy(A).lerp(B, α)
+        // return G3.copy(B).sub(A).scale(α).add(A)
+    }
+
 }
 
 export = G3

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSimplexGeometry', '../math/MutableSpinorE3', '../math/MutableVectorE3'], function (require, exports, Euclidean3, RevolutionSimplexGeometry, MutableSpinorE3, MutableVectorE3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSimplexGeometry', '../math/SpinG3', '../math/R3'], function (require, exports, Euclidean3, RevolutionSimplexGeometry, SpinG3, R3) {
     function signum(x) {
         return x >= 0 ? +1 : -1;
     }
@@ -23,16 +23,16 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSim
         var cardinalIndex = permutation(direction);
         switch (cardinalIndex) {
             case 0: {
-                return new MutableVectorE3([orientation(cardinalIndex, direction), 0, 0]);
+                return new R3([orientation(cardinalIndex, direction), 0, 0]);
             }
             case 1: {
-                return new MutableVectorE3([0, orientation(cardinalIndex, direction), 0]);
+                return new R3([0, orientation(cardinalIndex, direction), 0]);
             }
             case 2: {
-                return new MutableVectorE3([0, 0, orientation(cardinalIndex, direction)]);
+                return new R3([0, 0, orientation(cardinalIndex, direction)]);
             }
         }
-        return MutableVectorE3.copy(direction);
+        return R3.copy(direction);
     }
     /**
      * @class ArrowSimplexGeometry
@@ -50,9 +50,9 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSim
             this.radiusShaft = 0.01;
             /**
              * @property vector
-             * @type {MutableVectorE3}
+             * @type {R3}
              */
-            this.vector = MutableVectorE3.copy(Euclidean3.e1);
+            this.vector = R3.copy(Euclidean3.e1);
             this.segments = 12;
             this.setModified(true);
         }
@@ -107,16 +107,16 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSim
                     [-a, 0, 0] // tail end
                 ];
                 var points = data.map(function (point) {
-                    return new MutableVectorE3([point[i], point[j], point[k]]);
+                    return new R3([point[i], point[j], point[k]]);
                 });
                 // We're essentially computing the dual of the vector as the rotation generator.
                 var n = nearest(direction);
-                var generator = new MutableSpinorE3([n.x, n.y, n.z, 0]);
+                var generator = new SpinG3([n.x, n.y, n.z, 0]);
                 return { "points": points, "generator": generator };
             };
-            var direction = MutableVectorE3.copy(this.vector).normalize();
+            var direction = R3.copy(this.vector).normalize();
             var arrow = computeArrow(direction);
-            var R = new MutableSpinorE3().rotor(direction, nearest(direction));
+            var R = new SpinG3().rotor(direction, nearest(direction));
             this.data = [];
             _super.prototype.revolve.call(this, arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R);
             this.setModified(false);

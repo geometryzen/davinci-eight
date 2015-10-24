@@ -4,15 +4,15 @@ import VectorE3 = require('../math/VectorE3')
 import VectorE4 = require('../math/VectorE4')
 import expectArg = require('../checks/expectArg')
 import feedback = require('../feedback/feedback')
-import MutableNumber = require('../math/MutableNumber')
+import R1 = require('../math/R1')
 import Matrix2 = require('../math/Matrix2')
 import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
 import IContextProgramConsumer = require('../core/IContextProgramConsumer')
 import IContextProvider = require('../core/IContextProvider')
-import MutableVectorE2 = require('../math/MutableVectorE2')
-import MutableVectorE3 = require('../math/MutableVectorE3')
-import MutableVectorE4 = require('../math/MutableVectorE4')
+import R2 = require('../math/R2')
+import R3 = require('../math/R3')
+import R4 = require('../math/R4')
 
 /**
  * Utility class for managing a shader uniform variable.
@@ -135,9 +135,9 @@ class UniformLocation implements IContextProgramConsumer {
   /**
    * @method matrix1
    * @param transpose {boolean}
-   * @param matrix {MutableNumber}
+   * @param matrix {R1}
    */
-  matrix1(transpose: boolean, matrix: MutableNumber): void {
+  matrix1(transpose: boolean, matrix: R1): void {
     this._context.useProgram(this._program);
     this._context.uniform1fv(this._location, matrix.data);
   }

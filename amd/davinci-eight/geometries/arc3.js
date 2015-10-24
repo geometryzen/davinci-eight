@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/MutableSpinorE3', '../math/MutableVectorE3'], function (require, exports, mustBeDefined, mustBeInteger, mustBeNumber, MutableSpinorE3, MutableVectorE3) {
+define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/SpinG3', '../math/R3'], function (require, exports, mustBeDefined, mustBeInteger, mustBeNumber, SpinG3, R3) {
     /**
      * Computes a list of points corresponding to an arc centered on the origin.
      * param begin {VectorE3} The begin position.
@@ -18,11 +18,11 @@ define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeIntege
         /**
          * Temporary point that we will advance for each segment.
          */
-        var point = MutableVectorE3.copy(begin);
+        var point = R3.copy(begin);
         /**
          * The rotor that advances us through one segment.
          */
-        var rotor = MutableSpinorE3.copy(generator).scale((-angle / 2) / segments).exp();
+        var rotor = SpinG3.copy(generator).scale((-angle / 2) / segments).exp();
         points.push(point.clone());
         for (var i = 0; i < segments; i++) {
             point.rotate(rotor);

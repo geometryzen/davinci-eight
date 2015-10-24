@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexGeometry', '../math/MutableVectorE3'], function (require, exports, SimplexGeometry, MutableVectorE3) {
+define(["require", "exports", '../geometries/SimplexGeometry', '../math/R3'], function (require, exports, SimplexGeometry, R3) {
     /**
      * @class AxialSimplexGeometry
      * @extends SimplexGeometry
@@ -26,7 +26,7 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/MutableV
          */
         function AxialSimplexGeometry(type, axis) {
             _super.call(this, type);
-            this.axis = MutableVectorE3.copy(axis).normalize();
+            this.axis = R3.copy(axis).normalize();
         }
         /**
          * <p>

@@ -1,9 +1,9 @@
 import SimplexGeometry = require('../geometries/SimplexGeometry');
 import Simplex = require('../geometries/Simplex');
-import MutableSpinorE3 = require('../math/MutableSpinorE3');
+import SpinG3 = require('../math/SpinG3');
 import Symbolic = require('../core/Symbolic');
-import MutableVectorE2 = require('../math/MutableVectorE2');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R2 = require('../math/R2');
+import R3 = require('../math/R3');
 
 /**
  * @class RevolutionSimplexGeometry
@@ -19,25 +19,25 @@ class RevolutionSimplexGeometry extends SimplexGeometry
   }
   /**
    * @method revolve
-   * @param points {MutableVectorE3[]}
-   * @param generator {MutableSpinorE3}
+   * @param points {R3[]}
+   * @param generator {SpinG3}
    * @param segments {number}
    * @param phiStart {number}
    * @param phiLength {number}
-   * @param attitude {MutableSpinorE3}
+   * @param attitude {SpinG3}
    */
   protected revolve(
-    points: MutableVectorE3[],
-    generator: MutableSpinorE3,
+    points: R3[],
+    generator: SpinG3,
     segments: number = 12,
     phiStart: number = 0,
     phiLength: number = 2 * Math.PI,
-    attitude: MutableSpinorE3)
+    attitude: SpinG3)
   {
     /**
      * Temporary list of points.
      */
-    var vertices: MutableVectorE3[] = []
+    var vertices: R3[] = []
 
     // Determine heuristically whether the user intended to make a complete revolution.
     var isClosed = Math.abs(2 * Math.PI - Math.abs(phiLength - phiStart)) < 0.0001;
@@ -52,7 +52,7 @@ class RevolutionSimplexGeometry extends SimplexGeometry
     var il: number;
     var jl: number;
 
-    var rotor: MutableSpinorE3 = new MutableSpinorE3()
+    var rotor: SpinG3 = new SpinG3()
 
     for (i = 0, il = halfPlanes; i < il; i++) {
 
@@ -64,7 +64,7 @@ class RevolutionSimplexGeometry extends SimplexGeometry
       //var sinHA = Math.sin( halfAngle );
       rotor.copy(generator).scale(halfAngle).exp()
       // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
-      //var rotor = new MutableSpinorE3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
+      //var rotor = new SpinG3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
 
       for (j = 0, jl = points.length; j < jl; j++) {
 
@@ -103,8 +103,8 @@ class RevolutionSimplexGeometry extends SimplexGeometry
         var u1 = u0 + inverseSegments;
         var v1 = v0 + inversePointLength;
 
-        this.triangle([vertices[d],vertices[b],vertices[a]],[],[new MutableVectorE2([u0, v0]),new MutableVectorE2([u1, v0]), new MutableVectorE2([u0, v1])])
-        this.triangle([vertices[d],vertices[c],vertices[b]],[],[new MutableVectorE2([u1, v0]),new MutableVectorE2([u1, v1]), new MutableVectorE2([u0, v1])])
+        this.triangle([vertices[d],vertices[b],vertices[a]],[],[new R2([u0, v0]),new R2([u1, v0]), new R2([u0, v1])])
+        this.triangle([vertices[d],vertices[c],vertices[b]],[],[new R2([u1, v0]),new R2([u1, v1]), new R2([u0, v1])])
       }
     }
 //    this.computeFaceNormals();

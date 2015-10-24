@@ -4,9 +4,18 @@ import LinearElement = require('../math/LinearElement');
  * It is not part of the documented API.
  */
 interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
+    /**
+     * Conjugate
+     */
     conj(): M;
-    conL(rhs: I): M;
-    conR(rhs: I): M;
+    /**
+     * Left contraction
+     */
+    lco(rhs: I): M;
+    /**
+     * Right contraction
+     */
+    rco(rhs: I): M;
     /**
      * divide really only applies to division algebras.
      */
@@ -15,11 +24,30 @@ interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
     exp(): M;
     inv(): M;
     log(): M;
+    /**
+     * abs(x) = |x|
+     */
     magnitude(): number;
     mul(rhs: I): M;
+    /**
+     * squared norm, ||x|| = align(x, reverse(x))
+     */
     norm(): M;
+    /**
+     * squared norm, ||x|| = align(x, reverse(x))
+     */
     quaditude(): number;
+    /**
+     * Reverse
+     */
+    reverse(): M;
+    /**
+     * Scalar Product
+     */
     align(rhs: I): M;
+    /**
+     * Outer Product.
+     */
     wedge(rhs: I): M;
 }
 export = GeometricElement;

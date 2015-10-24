@@ -3,8 +3,8 @@ import VectorE3 = require('../math/VectorE3');
 import Face3 = require('../core/Face3');
 import Simplex = require('../geometries/Simplex');
 import Sphere = require('../math/Sphere');
-import MutableVectorE2 = require('../math/MutableVectorE2');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R2 = require('../math/R2');
+import R3 = require('../math/R3');
 import isDefined = require('../checks/isDefined');
 
 function updateFaceNormal(face: Face3, vertices: VectorE3[]) {
@@ -12,9 +12,9 @@ function updateFaceNormal(face: Face3, vertices: VectorE3[]) {
   let vA: VectorE3 = vertices[face.a];
   let vB: VectorE3 = vertices[face.b];
   let vC: VectorE3 = vertices[face.c];
-  let cb = new MutableVectorE3().difference(vC, vB);
-  let ab = new MutableVectorE3().difference(vA, vB);
-  let normal = new MutableVectorE3().cross2(cb, ab).normalize();
+  let cb = new R3().difference(vC, vB);
+  let ab = new R3().difference(vA, vB);
+  let normal = new R3().cross2(cb, ab).normalize();
   // TODO: I think we only need to push one normal here?
   face.vertexNormals.push(normal);
   face.vertexNormals.push(normal);
@@ -60,10 +60,10 @@ class SimplexGeometry {
     var face: Face3;
 
     // For each vertex, we will compute a vertexNormal.
-    // Store the results in an Array<MutableVectorE3>
-    var vertexNormals: Array<MutableVectorE3> = new Array(this.vertices.length);
+    // Store the results in an Array<R3>
+    var vertexNormals: Array<R3> = new Array(this.vertices.length);
     for (v = 0, vl = this.vertices.length; v < vl; v++) {
-      vertexNormals[v] = new MutableVectorE3();
+      vertexNormals[v] = new R3();
     }
 
     if (areaWeighted) {
@@ -74,8 +74,8 @@ class SimplexGeometry {
       var vA: VectorE3;
       var vB: VectorE3;
       var vC: VectorE3;
-      var cb = new MutableVectorE3();
-      var ab = new MutableVectorE3();
+      var cb = new R3();
+      var ab = new R3();
 
       for ( f = 0, fl = this.faces.length; f < fl; f ++ ) {
         face = this.faces[ f ];

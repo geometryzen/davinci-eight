@@ -110,12 +110,12 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         throw new Euclidean1Error('wedge')
     }
 
-    conL(rhs: Euclidean1): Euclidean1 {
+    lco(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1('rhs', rhs)
         throw new Euclidean1Error('lshift')
     }
 
-    conR(rhs: Euclidean1): Euclidean1 {
+    rco(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1('rhs', rhs)
         throw new Euclidean1Error('rshift')
     }

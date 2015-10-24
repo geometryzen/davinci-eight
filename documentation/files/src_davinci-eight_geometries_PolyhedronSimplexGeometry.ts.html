@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.139.0</em>
+            <em>API Docs for: 2.140.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,10 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -124,11 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
-                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
-                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
-                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
-                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -140,7 +135,11 @@
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1.html">R1</a></li>
+                                <li><a href="../classes/R2.html">R2</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
+                                <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
@@ -156,6 +155,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -227,8 +227,8 @@ import SimplexGeometry = require(&#x27;../geometries/SimplexGeometry&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import Sphere = require(&#x27;../math/Sphere&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
-import MutableVectorE2 = require(&#x27;../math/MutableVectorE2&#x27;)
-import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
+import R2 = require(&#x27;../math/R2&#x27;)
+import R3 = require(&#x27;../math/R3&#x27;)
 
 // Angle around the Y axis, counter-clockwise when looking from above.
 function azimuth(vector: VectorE3): number {
@@ -244,24 +244,24 @@ function inclination(pos: VectorE3): number {
  * Modifies the incoming point by projecting it onto the unit sphere.
  * Add the point to the array of points
  * Sets a hidden &#x60;index&#x60; property to the index in &#x60;points&#x60;
- * Computes the texture coordinates and sticks them in the hidden &#x60;uv&#x60; property as a MutableVectorE2.
+ * Computes the texture coordinates and sticks them in the hidden &#x60;uv&#x60; property as a R2.
  * OK!
  */
-function prepare(point: VectorE3, points: MutableVectorE3[]): VectorE3 {
-    let vertex: MutableVectorE3 = MutableVectorE3.copy(point).normalize()
+function prepare(point: VectorE3, points: R3[]): VectorE3 {
+    let vertex: R3 = R3.copy(point).normalize()
     points.push(vertex)
     // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
     let u = azimuth(point) / 2 / Math.PI + 0.5;
     let v = inclination(point) / Math.PI + 0.5;
     var something: any = vertex
-    something[&#x27;uv&#x27;] = new MutableVectorE2([u, 1 - v]);
+    something[&#x27;uv&#x27;] = new R2([u, 1 - v]);
     return vertex;
 }
 
 // Texture fixing helper. Spheres have some odd behaviours.
-function correctUV(uv: MutableVectorE2, vector: VectorE3, azimuth: number): MutableVectorE2 {
-    if ((azimuth &lt; 0) &amp;&amp; (uv.x === 1)) uv = new MutableVectorE2([uv.x - 1, uv.y]);
-    if ((vector.x === 0) &amp;&amp; (vector.z === 0)) uv = new MutableVectorE2([azimuth / 2 / Math.PI + 0.5, uv.y]);
+function correctUV(uv: R2, vector: VectorE3, azimuth: number): R2 {
+    if ((azimuth &lt; 0) &amp;&amp; (uv.x === 1)) uv = new R2([uv.x - 1, uv.y]);
+    if ((vector.x === 0) &amp;&amp; (vector.z === 0)) uv = new R2([azimuth / 2 / Math.PI + 0.5, uv.y]);
     return uv.clone();
 }
 
@@ -280,10 +280,10 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
 
         var that = this;
 
-        var points: MutableVectorE3[] = []
+        var points: R3[] = []
 
         for (var i = 0, l = vertices.length; i &lt; l; i += 3) {
-            prepare(new MutableVectorE3([vertices[i], vertices[i + 1], vertices[i + 2]]), points)
+            prepare(new R3([vertices[i], vertices[i + 1], vertices[i + 2]]), points)
         }
 
         var faces: Simplex[] = [];
@@ -298,11 +298,11 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
             // TODO: Optimize vector copies.
             var simplex = new Simplex(Simplex.TRIANGLE)
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = v1
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v1)
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v1)
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = v2
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v2)
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v2)
             simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = v3
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v3)
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v3)
             faces[j] = simplex
         }
 
@@ -351,7 +351,7 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
 
         //    this.computeFaceNormals();
 
-        //    this.boundingSphere = new Sphere(new MutableVectorE3([0, 0, 0]), radius);
+        //    this.boundingSphere = new Sphere(new R3([0, 0, 0]), radius);
 
 
         function centroid(v1: VectorE3, v2: VectorE3, v3: VectorE3): VectorE3 {
@@ -376,26 +376,26 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
             var uv3 = correctUV(something3[&#x27;uv&#x27;], v3, azi);
 
             var simplex = new Simplex(Simplex.TRIANGLE)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(v1)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v1)
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v1)
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v1)
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(v2)
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v2)
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v2)
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v2)
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(v3)
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v3)
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v3)
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v3)
             simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3
             that.data.push(simplex)
         }
 
         // Analytically subdivide a face to the required detail level.
 
-        function subdivide(face: Simplex, detail: number, points: MutableVectorE3[]) {
+        function subdivide(face: Simplex, detail: number, points: R3[]) {
 
             var cols = Math.pow(2, detail);
-            var a: VectorE3 = prepare(&lt;MutableVectorE3&gt;face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION], points);
-            var b: VectorE3 = prepare(&lt;MutableVectorE3&gt;face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION], points);
-            var c: VectorE3 = prepare(&lt;MutableVectorE3&gt;face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION], points);
+            var a: VectorE3 = prepare(&lt;R3&gt;face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION], points);
+            var b: VectorE3 = prepare(&lt;R3&gt;face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION], points);
+            var c: VectorE3 = prepare(&lt;R3&gt;face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION], points);
             var v: VectorE3[][] = [];
 
             // Construct all of the vertices for this subdivision.
@@ -404,8 +404,8 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
 
                 v[i] = [];
 
-                var aj: VectorE3 = prepare(MutableVectorE3.copy(a).lerp(c, i / cols), points);
-                var bj: VectorE3 = prepare(MutableVectorE3.copy(b).lerp(c, i / cols), points);
+                var aj: VectorE3 = prepare(R3.copy(a).lerp(c, i / cols), points);
+                var bj: VectorE3 = prepare(R3.copy(b).lerp(c, i / cols), points);
                 var rows = cols - i;
 
                 for (var j = 0; j &lt;= rows; j++) {
@@ -414,7 +414,7 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
                         v[i][j] = aj;
                     }
                     else {
-                        v[i][j] = prepare(MutableVectorE3.copy(aj).lerp(bj, j / rows), points);
+                        v[i][j] = prepare(R3.copy(aj).lerp(bj, j / rows), points);
                     }
 
                 }

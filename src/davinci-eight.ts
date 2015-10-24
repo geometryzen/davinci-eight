@@ -126,8 +126,7 @@ import VectorE1 = require('davinci-eight/math/VectorE1')
 import VectorE2 = require('davinci-eight/math/VectorE2')
 import VectorE3 = require('davinci-eight/math/VectorE3')
 import VectorE4 = require('davinci-eight/math/VectorE4')
-import Complex = require('davinci-eight/math/Complex')
-import DimensionError = require('davinci-eight/math/DimensionError')
+import CC = require('davinci-eight/math/CC')
 import Dimensions = require('davinci-eight/math/Dimensions')
 import Euclidean1 = require('davinci-eight/math/Euclidean1')
 import Euclidean1Coords = require('davinci-eight/math/Euclidean1Coords')
@@ -140,26 +139,26 @@ import Euler = require('davinci-eight/math/Euler')
 import GeometricElement = require('davinci-eight/math/GeometricElement')
 import LinearElement = require('davinci-eight/math/LinearElement')
 import mathcore = require('davinci-eight/math/mathcore')
-import MutableNumber = require('davinci-eight/math/MutableNumber')
+import R1 = require('davinci-eight/math/R1')
 import Matrix2 = require('davinci-eight/math/Matrix2')
 import Matrix3 = require('davinci-eight/math/Matrix3')
 import Matrix4 = require('davinci-eight/math/Matrix4')
 import Measure = require('davinci-eight/math/Measure')
 import Mutable = require('davinci-eight/math/Mutable')
-import Rational = require('davinci-eight/math/Rational')
+import QQ = require('davinci-eight/math/QQ')
 import SpinorE1 = require('davinci-eight/math/SpinorE1')
 import SpinorE2 = require('davinci-eight/math/SpinorE2')
 import SpinorE3 = require('davinci-eight/math/SpinorE3')
 import Unit = require('davinci-eight/math/Unit')
 import UnitError = require('davinci-eight/math/UnitError')
 import G3 = require('davinci-eight/math/G3')
-import MutableSpinorE2 = require('davinci-eight/math/MutableSpinorE2')
-import MutableSpinorE3 = require('davinci-eight/math/MutableSpinorE3')
-import MutableVectorE2 = require('davinci-eight/math/MutableVectorE2')
-import MutableVectorE3 = require('davinci-eight/math/MutableVectorE3')
-import MutableVectorE4 = require('davinci-eight/math/MutableVectorE4')
+import SpinG2 = require('davinci-eight/math/SpinG2')
+import SpinG3 = require('davinci-eight/math/SpinG3')
+import R2 = require('davinci-eight/math/R2')
+import R3 = require('davinci-eight/math/R3')
+import R4 = require('davinci-eight/math/R4')
 import VectorN = require('davinci-eight/math/VectorN')
-import MutableQuaternion = require('davinci-eight/math/MutableQuaternion')
+import HH = require('davinci-eight/math/HH')
 
 // models
 import EulerFacet = require('davinci-eight/models/EulerFacet')
@@ -320,11 +319,11 @@ var eight = {
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
     get G3() { return G3 },
-    get MutableNumber() { return MutableNumber },
-    get MutableSpinorE3() { return MutableSpinorE3 },
-    get MutableVectorE2() { return MutableVectorE2 },
-    get MutableVectorE3() { return MutableVectorE3 },
-    get MutableVectorE4() { return MutableVectorE4 },
+    get R1() { return R1 },
+    get SpinG3() { return SpinG3 },
+    get R2() { return R2 },
+    get R3() { return R3 },
+    get R4() { return R4 },
     get VectorN() { return VectorN },
     get Curve() { return Curve },
     // mappers

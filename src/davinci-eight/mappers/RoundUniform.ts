@@ -1,4 +1,4 @@
-import MutableNumber = require('../math/MutableNumber');
+import R1 = require('../math/R1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');

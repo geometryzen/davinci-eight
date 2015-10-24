@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../utils/Shareable', '../../math/MutableVectorE3'], function (require, exports, Shareable, MutableVectorE3) {
+define(["require", "exports", '../../utils/Shareable', '../../math/R3'], function (require, exports, Shareable, R3) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -14,7 +14,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/MutableVector
         function Vector3Animation(value, duration, callback, ease) {
             if (duration === void 0) { duration = 300; }
             _super.call(this, 'Vector3Animation');
-            this.to = MutableVectorE3.copy(value);
+            this.to = R3.copy(value);
             this.duration = duration;
             this.fraction = 0;
             this.callback = callback;
@@ -29,7 +29,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/MutableVector
                 if (this.from === void 0) {
                     var data = target.getProperty(propName);
                     if (data) {
-                        this.from = new MutableVectorE3(data);
+                        this.from = new R3(data);
                     }
                 }
             }
@@ -59,7 +59,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/MutableVector
                     rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
                     break;
             }
-            var lerp = MutableVectorE3.lerp(this.from, this.to, rolloff);
+            var lerp = R3.lerp(this.from, this.to, rolloff);
             target.setProperty(propName, lerp.data);
         };
         Vector3Animation.prototype.hurry = function (factor) {

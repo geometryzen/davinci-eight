@@ -1,12 +1,12 @@
 import GridSimplexGeometry = require('../geometries/GridSimplexGeometry');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 
 let cos = Math.cos;
 let sin = Math.sin;
 let pi = Math.PI;
 
-function mobius(u: number, v: number): MutableVectorE3 {
-  var point = new MutableVectorE3([0, 0, 0]);
+function mobius(u: number, v: number): R3 {
+  var point = new R3([0, 0, 0]);
   /**
    * radius
    */

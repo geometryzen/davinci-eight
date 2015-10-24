@@ -14,7 +14,7 @@ import Shareable = require('../utils/Shareable')
 import IFacet = require('../core/IFacet')
 import IFacetVisitor = require('../core/IFacetVisitor')
 import uuid4 = require('../utils/uuid4')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R3 = require('../math/R3')
 
 /**
  * Name used for reference count monitoring and logging.
@@ -26,7 +26,7 @@ let CLASS_NAME = 'PerspectiveCamera'
  */
 class PerspectiveCamera extends Shareable implements Perspective, IFacet {
   // FIXME: Gotta go
-  public position: MutableVectorE3 = new MutableVectorE3();
+  public position: R3 = new R3();
   /**
    * @property material
    * @type {IMaterial}
@@ -115,10 +115,10 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
   /**
    * The position of the camera.
    * @property eye
-   * @type {MutableVectorE3}
+   * @type {R3}
    * @readOnly
    */
-  get eye(): MutableVectorE3 {
+  get eye(): R3 {
     return this.inner.eye
   }
   /**
@@ -138,7 +138,7 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
    * @type {number}
    * @readOnly
    */
-  // TODO: Field of view could be specified as an Aspect + Magnitude of a MutableSpinorE3!?
+  // TODO: Field of view could be specified as an Aspect + Magnitude of a SpinG3!?
   get fov(): number {
     return this.inner.fov
   }
@@ -196,7 +196,7 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
     this.inner.setFar(far)
     return this
   }
-  get up(): MutableVectorE3 {
+  get up(): R3 {
     return this.inner.up
   }
   set up(unused) {

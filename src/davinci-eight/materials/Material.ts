@@ -6,7 +6,7 @@ import isDefined = require('../checks/isDefined')
 import isUndefined = require('../checks/isUndefined')
 import MonitorList = require('../scene/MonitorList')
 import IMaterial = require('../core/IMaterial')
-import MutableNumber = require('../math/MutableNumber')
+import R1 = require('../math/R1')
 import Matrix2 = require('../math/Matrix2')
 import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
@@ -331,7 +331,7 @@ class Material extends Shareable implements IMaterial {
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'MutableVectorE2', name, canvasId)
+          consoleWarnDroppedUniform(this.type, 'R2', name, canvasId)
         }
       }
     }
@@ -349,7 +349,7 @@ class Material extends Shareable implements IMaterial {
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'MutableVectorE3', name, canvasId)
+          consoleWarnDroppedUniform(this.type, 'R3', name, canvasId)
         }
       }
     }
@@ -367,7 +367,7 @@ class Material extends Shareable implements IMaterial {
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'MutableVectorE4', name, canvasId)
+          consoleWarnDroppedUniform(this.type, 'R4', name, canvasId)
         }
       }
     }

@@ -3,11 +3,11 @@ import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import ArrowOptions = require('../mesh/ArrowOptions');
 import VectorE3 = require('../math/VectorE3');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 import Symbolic = require('../core/Symbolic');
 
 class ArrowBuilder {
-  private $axis: MutableVectorE3 = MutableVectorE3.e3.clone();
+  private $axis: R3 = R3.e3.clone();
   private $flavor: number;
   private $height: number;
   private $depth: number;

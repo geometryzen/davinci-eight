@@ -1,7 +1,7 @@
 import VectorE3 = require('../math/VectorE3');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 /**
  * @class AxialSimplexGeometry
  * @extends SimplexGeometry
@@ -10,9 +10,9 @@ declare class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeom
     /**
      * The symmetry axis used for geometry generation.
      * @property axis
-     * @type {MutableVectorE3}
+     * @type {R3}
      */
-    axis: MutableVectorE3;
+    axis: R3;
     /**
      * <p>
      * A geometry which has axial symmetry, giving it an <code>axis</code> property.

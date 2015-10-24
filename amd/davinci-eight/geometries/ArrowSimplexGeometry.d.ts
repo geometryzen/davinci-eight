@@ -1,5 +1,5 @@
 import RevolutionSimplexGeometry = require('../geometries/RevolutionSimplexGeometry');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 /**
  * @class ArrowSimplexGeometry
  */
@@ -9,9 +9,9 @@ declare class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
     radiusShaft: number;
     /**
      * @property vector
-     * @type {MutableVectorE3}
+     * @type {R3}
      */
-    vector: MutableVectorE3;
+    vector: R3;
     segments: number;
     /**
      * @class ArrowSimplexGeometry

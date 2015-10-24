@@ -2,7 +2,7 @@ import VectorE1 = require('../math/VectorE1');
 import VectorE2 = require('../math/VectorE2');
 import VectorE3 = require('../math/VectorE3');
 import VectorE4 = require('../math/VectorE4');
-import MutableNumber = require('../math/MutableNumber');
+import R1 = require('../math/R1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
@@ -87,9 +87,9 @@ declare class UniformLocation implements IContextProgramConsumer {
     /**
      * @method matrix1
      * @param transpose {boolean}
-     * @param matrix {MutableNumber}
+     * @param matrix {R1}
      */
-    matrix1(transpose: boolean, matrix: MutableNumber): void;
+    matrix1(transpose: boolean, matrix: R1): void;
     /**
      * @method matrix2
      * @param transpose {boolean}

@@ -29,8 +29,8 @@ declare class Euclidean1 implements Measure<Euclidean1> {
     div(rhs: Euclidean1): Euclidean1;
     align(rhs: Euclidean1): Euclidean1;
     wedge(rhs: Euclidean1): Euclidean1;
-    conL(rhs: Euclidean1): Euclidean1;
-    conR(rhs: Euclidean1): Euclidean1;
+    lco(rhs: Euclidean1): Euclidean1;
+    rco(rhs: Euclidean1): Euclidean1;
     pow(exponent: Euclidean1): Euclidean1;
     cos(): Euclidean1;
     cosh(): Euclidean1;

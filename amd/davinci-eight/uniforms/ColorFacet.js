@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math/MutableVectorE3'], function (require, exports, Shareable, Symbolic, MutableVectorE3) {
+define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math/R3'], function (require, exports, Shareable, Symbolic, R3) {
     /**
      * @class ColorFacet
      */
@@ -19,10 +19,10 @@ define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math
             _super.call(this, 'ColorFacet');
             /**
              * @property colorRGB
-             * @type MutableVectorE3
+             * @type R3
              * @private
              */
-            this.data = new MutableVectorE3([1, 1, 1]);
+            this.data = new R3([1, 1, 1]);
             this.data.modified = true;
             this.name = name;
         }

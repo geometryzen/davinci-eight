@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../geometries/Simplex'], function (require, exports, expectArg, isDefined, Simplex) {
+define(["require", "exports", '../geometries/dataLength', '../checks/expectArg', '../checks/isDefined', '../geometries/Simplex'], function (require, exports, dataLength, expectArg, isDefined, Simplex) {
     function stringify(thing, space) {
         var cache = [];
         return JSON.stringify(thing, function (key, value) {
@@ -36,15 +36,16 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
                 var keysLen = keys.length;
                 for (var k = 0; k < keysLen; k++) {
                     var key = keys[k];
-                    var vector = attributes[key];
+                    var value = attributes[key];
+                    var dLength = dataLength(value);
                     var known = knowns[key];
                     if (known) {
-                        if (known.size !== vector.length) {
+                        if (known.size !== dLength) {
                             throw new Error("Something is rotten in Denmark!");
                         }
                     }
                     else {
-                        knowns[key] = { size: vector.length };
+                        knowns[key] = { size: dLength };
                     }
                 }
             }

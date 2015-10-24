@@ -7,8 +7,8 @@ interface Measure<T> {
     mul(rhs: T): T
     div(rhs: T): T
     wedge(rhs: T): T
-    conL(rhs: T): T
-    conR(rhs: T): T
+    lco(rhs: T): T
+    rco(rhs: T): T
     pow(exponent: T): T
     cos(): T
     cosh(): T

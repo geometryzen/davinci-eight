@@ -1,9 +1,9 @@
 import Euclidean3 = require('../math/Euclidean3')
 import mustBeNumber = require('../checks/mustBeNumber');
 import RevolutionSimplexGeometry = require('../geometries/RevolutionSimplexGeometry');
-import MutableSpinorE3 = require('../math/MutableSpinorE3');
-import MutableNumber = require('../math/MutableNumber');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import SpinG3 = require('../math/SpinG3');
+import R1 = require('../math/R1');
+import R3 = require('../math/R3');
 import VectorE3 = require('../math/VectorE3');
 
 function signum(x: number): number {
@@ -21,24 +21,24 @@ var permutation = function(direction: VectorE3): number {
     return bigger(x, z) ? (bigger(x, y) ? 0 : 1) : (bigger(y, z) ? 1 : 2)
 }
 
-var orientation = function(cardinalIndex: number, direction: MutableVectorE3): number {
+var orientation = function(cardinalIndex: number, direction: R3): number {
     return signum(direction.getComponent(cardinalIndex))
 }
 
-function nearest(direction: MutableVectorE3): MutableVectorE3 {
+function nearest(direction: R3): R3 {
     var cardinalIndex = permutation(direction)
     switch (cardinalIndex) {
         case 0: {
-            return new MutableVectorE3([orientation(cardinalIndex, direction), 0, 0])
+            return new R3([orientation(cardinalIndex, direction), 0, 0])
         }
         case 1: {
-            return new MutableVectorE3([0, orientation(cardinalIndex, direction), 0])
+            return new R3([0, orientation(cardinalIndex, direction), 0])
         }
         case 2: {
-            return new MutableVectorE3([0, 0, orientation(cardinalIndex, direction)])
+            return new R3([0, 0, orientation(cardinalIndex, direction)])
         }
     }
-    return MutableVectorE3.copy(direction)
+    return R3.copy(direction)
 }
 
 /**
@@ -50,9 +50,9 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
     public radiusShaft: number = 0.01;
     /**
      * @property vector
-     * @type {MutableVectorE3}
+     * @type {R3}
      */
-    public vector: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e1);
+    public vector: R3 = R3.copy(Euclidean3.e1);
     public segments: number = 12;
     /**
      * @class ArrowSimplexGeometry
@@ -96,7 +96,7 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
         var halfLength = length / 2;
         var radiusCone = this.radiusCone
         var radiusShaft = this.radiusShaft
-        var computeArrow = function(direction: MutableVectorE3): { points: MutableVectorE3[], generator: MutableSpinorE3 } {
+        var computeArrow = function(direction: R3): { points: R3[], generator: SpinG3 } {
             var cycle = permutation(direction)
             var sign = orientation(cycle, direction)
             var i = (cycle + 0) % 3
@@ -113,16 +113,16 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
                 [-a, 0, 0]    // tail end
             ]
             var points = data.map(function(point: number[]) {
-                return new MutableVectorE3([point[i], point[j], point[k]])
+                return new R3([point[i], point[j], point[k]])
             })
             // We're essentially computing the dual of the vector as the rotation generator.
             var n = nearest(direction)
-            var generator = new MutableSpinorE3([n.x, n.y, n.z, 0])
+            var generator = new SpinG3([n.x, n.y, n.z, 0])
             return { "points": points, "generator": generator }
         }
-        var direction = MutableVectorE3.copy(this.vector).normalize()
+        var direction = R3.copy(this.vector).normalize()
         var arrow = computeArrow(direction)
-        var R = new MutableSpinorE3().rotor(direction, nearest(direction))
+        var R = new SpinG3().rotor(direction, nearest(direction))
         this.data = []
         super.revolve(arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R)
         this.setModified(false)

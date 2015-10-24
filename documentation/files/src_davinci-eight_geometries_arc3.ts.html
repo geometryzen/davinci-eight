@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.139.0</em>
+            <em>API Docs for: 2.140.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,10 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -124,11 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
-                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
-                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
-                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
-                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -140,7 +135,11 @@
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1.html">R1</a></li>
+                                <li><a href="../classes/R2.html">R2</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
+                                <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
@@ -156,6 +155,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -224,9 +224,9 @@ import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
-import MutableSpinorE3 = require(&#x27;../math/MutableSpinorE3&#x27;)
+import SpinG3 = require(&#x27;../math/SpinG3&#x27;)
 import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
-import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
+import R3 = require(&#x27;../math/R3&#x27;)
 
 /**
  * Computes a list of points corresponding to an arc centered on the origin.
@@ -235,7 +235,7 @@ import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
  * param generator {SpinorE3} The generator of the rotation.
  * param segments {number} The number of segments.
  */
-function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segments: number): MutableVectorE3[]
+function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segments: number): R3[]
 {
   mustBeDefined(&#x27;begin&#x27;, begin)
   mustBeNumber(&#x27;angle&#x27;, angle)
@@ -245,17 +245,17 @@ function arc3(begin: VectorE3, angle: number, generator: SpinorE3, segments: num
   /**
    * The return value is an array of points with length =&gt; segments + 1.
    */
-  var points: MutableVectorE3[] = []
+  var points: R3[] = []
 
   /**
    * Temporary point that we will advance for each segment.
    */
-  var point = MutableVectorE3.copy(begin)
+  var point = R3.copy(begin)
 
   /**
    * The rotor that advances us through one segment.
    */
-  var rotor = MutableSpinorE3.copy(generator).scale((-angle / 2) / segments).exp()
+  var rotor = SpinG3.copy(generator).scale((-angle / 2) / segments).exp()
 
   points.push(point.clone())
 

@@ -2,7 +2,7 @@ import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import CylinderOptions = require('../mesh/CylinderOptions');
 import VectorE3 = require('../math/VectorE3');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 import Symbolic = require('../core/Symbolic');
 
 /**
@@ -18,7 +18,7 @@ class CylinderArgs {
   private $thetaStart: number;
   private $thetaLength: number;
   private $wireFrame: boolean;
-  private $axis: MutableVectorE3 = MutableVectorE3.e3.clone();
+  private $axis: R3 = R3.e3.clone();
   constructor(options: CylinderOptions = {}) {
     this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
     this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);

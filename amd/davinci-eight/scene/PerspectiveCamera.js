@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeNumber', '../utils/Shareable', '../math/MutableVectorE3'], function (require, exports, createPerspective, readOnly, mustBeNumber, Shareable, MutableVectorE3) {
+define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeNumber', '../utils/Shareable', '../math/R3'], function (require, exports, createPerspective, readOnly, mustBeNumber, Shareable, R3) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -35,7 +35,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             if (far === void 0) { far = 2000; }
             _super.call(this, 'PerspectiveCamera');
             // FIXME: Gotta go
-            this.position = new MutableVectorE3();
+            this.position = new R3();
             mustBeNumber('fov', fov);
             mustBeNumber('aspect', aspect);
             mustBeNumber('near', near);
@@ -97,7 +97,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             /**
              * The position of the camera.
              * @property eye
-             * @type {MutableVectorE3}
+             * @type {R3}
              * @readOnly
              */
             get: function () {
@@ -124,7 +124,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
              * @type {number}
              * @readOnly
              */
-            // TODO: Field of view could be specified as an Aspect + Magnitude of a MutableSpinorE3!?
+            // TODO: Field of view could be specified as an Aspect + Magnitude of a SpinG3!?
             get: function () {
                 return this.inner.fov;
             },

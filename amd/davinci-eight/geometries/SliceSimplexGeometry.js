@@ -3,9 +3,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/isDefined', '../checks/mustBeNumber', '../math/MutableVectorE3'], function (require, exports, AxialSimplexGeometry, isDefined, mustBeNumber, MutableVectorE3) {
+define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/isDefined', '../checks/mustBeNumber', '../math/R3'], function (require, exports, AxialSimplexGeometry, isDefined, mustBeNumber, R3) {
     function perpendicular(axis) {
-        return MutableVectorE3.random().cross(axis).normalize();
+        return R3.random().cross(axis).normalize();
     }
     /**
      * @class SliceSimplexGeometry
@@ -26,12 +26,12 @@ define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/i
          * @class SliceSimplexGeometry
          * @constructor
          * @param type {string} Implementations must provide a type name used for reference count tracking.
-         * @param axis [VectorE3 = MutableVectorE3.e3] The <code>axis</code> property.
+         * @param axis [VectorE3 = R3.e3] The <code>axis</code> property.
          * @param sliceStart [VectorE3] The <code>sliceStart</code> property.
          * @param sliceAngle [number = 2 * Math.PI] The <code>sliceAngle</code> property.
          */
         function SliceSimplexGeometry(type, axis, sliceStart, sliceAngle) {
-            if (axis === void 0) { axis = MutableVectorE3.e3; }
+            if (axis === void 0) { axis = R3.e3; }
             if (sliceAngle === void 0) { sliceAngle = 2 * Math.PI; }
             _super.call(this, type, axis);
             /**
@@ -44,7 +44,7 @@ define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/i
             this.sliceAngle = 2 * Math.PI;
             if (isDefined(sliceStart)) {
                 // TODO: Verify that sliceStart is orthogonal to axis.
-                this.sliceStart = MutableVectorE3.copy(sliceStart).normalize();
+                this.sliceStart = R3.copy(sliceStart).normalize();
             }
             else {
                 this.sliceStart = perpendicular(this.axis);

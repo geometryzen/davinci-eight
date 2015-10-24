@@ -20,7 +20,7 @@ declare class CylinderSimplexGeometry extends SliceSimplexGeometry {
      * @constructor
      * @param radius [number = 1]
      * @param height [number = 1]
-     * @param axis [VectorE3 = MutableVectorE3.e2]
+     * @param axis [VectorE3 = R3.e2]
      * @param openTop [boolean = false]
      * @param openBottom [boolean = false]
      */

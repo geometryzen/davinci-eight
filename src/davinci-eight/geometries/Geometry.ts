@@ -3,7 +3,7 @@ import DrawPrimitive = require('../geometries/DrawPrimitive')
 import IGeometry = require('../geometries/IGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustBeObject = require('../checks/mustBeObject')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R3 = require('../math/R3')
 
 /**
  * @class Geometry
@@ -11,10 +11,10 @@ import MutableVectorE3 = require('../math/MutableVectorE3')
 class Geometry implements IGeometry<Geometry> {
     /**
      * @property _position
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @private
      */
-    private _position = new MutableVectorE3();
+    private _position = new R3();
     /**
      * @property useTextureCoords
      * @type {boolean}

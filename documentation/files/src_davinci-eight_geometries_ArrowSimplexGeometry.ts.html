@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.139.0</em>
+            <em>API Docs for: 2.140.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,10 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -124,11 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
-                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
-                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
-                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
-                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -140,7 +135,11 @@
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1.html">R1</a></li>
+                                <li><a href="../classes/R2.html">R2</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
+                                <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
@@ -156,6 +155,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -223,9 +223,9 @@
 import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;);
 import RevolutionSimplexGeometry = require(&#x27;../geometries/RevolutionSimplexGeometry&#x27;);
-import MutableSpinorE3 = require(&#x27;../math/MutableSpinorE3&#x27;);
-import MutableNumber = require(&#x27;../math/MutableNumber&#x27;);
-import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;);
+import SpinG3 = require(&#x27;../math/SpinG3&#x27;);
+import R1 = require(&#x27;../math/R1&#x27;);
+import R3 = require(&#x27;../math/R3&#x27;);
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
 
 function signum(x: number): number {
@@ -243,24 +243,24 @@ var permutation = function(direction: VectorE3): number {
     return bigger(x, z) ? (bigger(x, y) ? 0 : 1) : (bigger(y, z) ? 1 : 2)
 }
 
-var orientation = function(cardinalIndex: number, direction: MutableVectorE3): number {
+var orientation = function(cardinalIndex: number, direction: R3): number {
     return signum(direction.getComponent(cardinalIndex))
 }
 
-function nearest(direction: MutableVectorE3): MutableVectorE3 {
+function nearest(direction: R3): R3 {
     var cardinalIndex = permutation(direction)
     switch (cardinalIndex) {
         case 0: {
-            return new MutableVectorE3([orientation(cardinalIndex, direction), 0, 0])
+            return new R3([orientation(cardinalIndex, direction), 0, 0])
         }
         case 1: {
-            return new MutableVectorE3([0, orientation(cardinalIndex, direction), 0])
+            return new R3([0, orientation(cardinalIndex, direction), 0])
         }
         case 2: {
-            return new MutableVectorE3([0, 0, orientation(cardinalIndex, direction)])
+            return new R3([0, 0, orientation(cardinalIndex, direction)])
         }
     }
-    return MutableVectorE3.copy(direction)
+    return R3.copy(direction)
 }
 
 /**
@@ -272,9 +272,9 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
     public radiusShaft: number = 0.01;
     /**
      * @property vector
-     * @type {MutableVectorE3}
+     * @type {R3}
      */
-    public vector: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e1);
+    public vector: R3 = R3.copy(Euclidean3.e1);
     public segments: number = 12;
     /**
      * @class ArrowSimplexGeometry
@@ -318,7 +318,7 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
         var halfLength = length / 2;
         var radiusCone = this.radiusCone
         var radiusShaft = this.radiusShaft
-        var computeArrow = function(direction: MutableVectorE3): { points: MutableVectorE3[], generator: MutableSpinorE3 } {
+        var computeArrow = function(direction: R3): { points: R3[], generator: SpinG3 } {
             var cycle = permutation(direction)
             var sign = orientation(cycle, direction)
             var i = (cycle + 0) % 3
@@ -335,16 +335,16 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
                 [-a, 0, 0]    // tail end
             ]
             var points = data.map(function(point: number[]) {
-                return new MutableVectorE3([point[i], point[j], point[k]])
+                return new R3([point[i], point[j], point[k]])
             })
             // We&#x27;re essentially computing the dual of the vector as the rotation generator.
             var n = nearest(direction)
-            var generator = new MutableSpinorE3([n.x, n.y, n.z, 0])
+            var generator = new SpinG3([n.x, n.y, n.z, 0])
             return { &quot;points&quot;: points, &quot;generator&quot;: generator }
         }
-        var direction = MutableVectorE3.copy(this.vector).normalize()
+        var direction = R3.copy(this.vector).normalize()
         var arrow = computeArrow(direction)
-        var R = new MutableSpinorE3().rotor(direction, nearest(direction))
+        var R = new SpinG3().rotor(direction, nearest(direction))
         this.data = []
         super.revolve(arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R)
         this.setModified(false)

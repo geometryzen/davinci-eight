@@ -16,15 +16,15 @@ import Curve = require('../curves/Curve');
 import Face3 = require('../core/Face3');
 import SimplexGeometry = require('../geometries/SimplexGeometry');
 import Matrix4 = require('../math/Matrix4');
-import MutableVectorE2 = require('../math/MutableVectorE2');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R2 = require('../math/R2');
+import R3 = require('../math/R3');
 
 class TubeSimplexGeometry extends SimplexGeometry {
   public static NoTaper = function (u: number): number {return 1;};
   public static SinusoidalTaper = function (u: number): number {return Math.sin(Math.PI * u);};
-  public tangents: MutableVectorE3[];
-  public normals: MutableVectorE3[];
-  public binormals: MutableVectorE3[];
+  public tangents: R3[];
+  public normals: R3[];
+  public binormals: R3[];
   constructor(path: Curve, segments?: number, radius?: number, radialSegments?: number, closed?: boolean, taper?: (u: number)=>number) {
     super();
     segments = segments || 64;
@@ -36,9 +36,9 @@ class TubeSimplexGeometry extends SimplexGeometry {
     var grid: number[][] = [];
 
     var scope = this;
-    var tangent: MutableVectorE3;
-    var normal: MutableVectorE3;
-    var binormal: MutableVectorE3;
+    var tangent: R3;
+    var normal: R3;
+    var binormal: R3;
     var numpoints = segments + 1;
 
     var u: number;
@@ -47,8 +47,8 @@ class TubeSimplexGeometry extends SimplexGeometry {
 
     var cx: number;
     var cy: number;
-    var pos: MutableVectorE3;
-    var pos2: MutableVectorE3 = new MutableVectorE3([0, 0, 0]);
+    var pos: R3;
+    var pos2: R3 = new R3([0, 0, 0]);
     var i: number;
     var j: number;
     var ip: number;
@@ -57,10 +57,10 @@ class TubeSimplexGeometry extends SimplexGeometry {
     var b: number;
     var c: number;
     var d: number;
-    var uva: MutableVectorE2;
-    var uvb: MutableVectorE2;
-    var uvc: MutableVectorE2;
-    var uvd: MutableVectorE2;
+    var uva: R2;
+    var uvb: R2;
+    var uvc: R2;
+    var uvd: R2;
 
     var frames = new FrenetFrames(path, segments, closed);
     var tangents = frames.tangents;
@@ -73,7 +73,7 @@ class TubeSimplexGeometry extends SimplexGeometry {
     this.binormals = binormals;
 
     function vert(x: number, y: number, z: number) {
-      return scope.vertices.push(new MutableVectorE3([x, y, z])) - 1;
+      return scope.vertices.push(new R3([x, y, z])) - 1;
     }
 
     // consruct the grid
@@ -121,10 +121,10 @@ class TubeSimplexGeometry extends SimplexGeometry {
         c = grid[ ip ][ jp ];
         d = grid[ i ][ jp ];
 
-        uva = new MutableVectorE2([i / segments, j / radialSegments]);
-        uvb = new MutableVectorE2([( i + 1 ) / segments, j / radialSegments]);
-        uvc = new MutableVectorE2([( i + 1 ) / segments, ( j + 1 ) / radialSegments]);
-        uvd = new MutableVectorE2([i / segments, ( j + 1 ) / radialSegments]);
+        uva = new R2([i / segments, j / radialSegments]);
+        uvb = new R2([( i + 1 ) / segments, j / radialSegments]);
+        uvc = new R2([( i + 1 ) / segments, ( j + 1 ) / radialSegments]);
+        uvd = new R2([i / segments, ( j + 1 ) / radialSegments]);
 
         this.faces.push( new Face3( a, b, d ) );
         this.faceVertexUvs[ 0 ].push( [ uva, uvb, uvd ] );
@@ -144,16 +144,16 @@ export = TubeSimplexGeometry;
 
 // For computing of Frenet frames, exposing the tangents, normals and binormals the spline
 class FrenetFrames {
-  public tangents: MutableVectorE3[];
-  public normals: MutableVectorE3[];
-  public binormals: MutableVectorE3[];
+  public tangents: R3[];
+  public normals: R3[];
+  public binormals: R3[];
   constructor(path: Curve, segments: number, closed: boolean) {
-    var normal = new MutableVectorE3([0, 0, 0]);
-    var tangents: MutableVectorE3[] = [];
-    var normals: MutableVectorE3[] = [];
-    var binormals: MutableVectorE3[] = [];
+    var normal = new R3([0, 0, 0]);
+    var tangents: R3[] = [];
+    var normals: R3[] = [];
+    var binormals: R3[] = [];
 
-    var vec = new MutableVectorE3([0, 0, 0]);
+    var vec = new R3([0, 0, 0]);
     var mat = Matrix4.identity();
 
     var numpoints: number = segments + 1;
@@ -162,7 +162,7 @@ class FrenetFrames {
     let epsilonSquared = 0.0001 * 0.0001;
     var smallest: number;
 
-    // TODO: The folloowing should be a MutableVectorE3
+    // TODO: The folloowing should be a R3
     var tx: number;
     var ty: number;
     var tz: number;
@@ -191,17 +191,17 @@ class FrenetFrames {
     /*
     function initialNormal1(lastBinormal) {
       // fixed start binormal. Has dangers of 0 vectors
-      normals[ 0 ] = new THREE.MutableVectorE3();
-      binormals[ 0 ] = new THREE.MutableVectorE3();
-      if (lastBinormal===undefined) lastBinormal = new THREE.MutableVectorE3( 0, 0, 1 );
+      normals[ 0 ] = new THREE.R3();
+      binormals[ 0 ] = new THREE.R3();
+      if (lastBinormal===undefined) lastBinormal = new THREE.R3( 0, 0, 1 );
       normals[ 0 ].cross2( lastBinormal, tangents[ 0 ] ).normalize();
       binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).normalize();
     }
     function initialNormal2() {
       // This uses the Frenet-Serret formula for deriving binormal
       var t2 = path.getTangentAt( epsilon );
-      normals[ 0 ] = new THREE.MutableVectorE3().difference( t2, tangents[ 0 ] ).normalize();
-      binormals[ 0 ] = new THREE.MutableVectorE3().cross2( tangents[ 0 ], normals[ 0 ] );
+      normals[ 0 ] = new THREE.R3().difference( t2, tangents[ 0 ] ).normalize();
+      binormals[ 0 ] = new THREE.R3().cross2( tangents[ 0 ], normals[ 0 ] );
       normals[ 0 ].cross2( binormals[ 0 ], tangents[ 0 ] ).normalize(); // last binormal x tangent
       binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).normalize();
     }
@@ -211,8 +211,8 @@ class FrenetFrames {
         // select an initial normal vector perpendicular to the first tangent vector,
         // and in the direction of the smallest tangent xyz component
 
-        normals[0] = new MutableVectorE3([0, 0, 0]);
-        binormals[0] = new MutableVectorE3([0, 0, 0]);
+        normals[0] = new R3([0, 0, 0]);
+        binormals[0] = new R3([0, 0, 0]);
         smallest = Number.MAX_VALUE;
         tx = Math.abs(tangents[0].x);
         ty = Math.abs(tangents[0].y);

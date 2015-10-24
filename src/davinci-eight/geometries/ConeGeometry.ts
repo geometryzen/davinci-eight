@@ -5,8 +5,8 @@ import GridTopology = require('../topologies/GridTopology')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import Symbolic = require('../core/Symbolic')
-import MutableVectorE2 = require('../math/MutableVectorE2')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R2 = require('../math/R2')
+import R3 = require('../math/R3')
 
 /**
  * @class ConeGeometry
@@ -66,9 +66,9 @@ class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry>
         var vLength = topo.vLength
         var vSegments = vLength - 1
 
-        var a = MutableVectorE3.copy(this.sliceStart).normalize().scale(this.radius)
-        var b = new MutableVectorE3().cross2(a, this.axis).normalize().scale(this.radius)
-        var h = MutableVectorE3.copy(this.axis).scale(this.height)
+        var a = R3.copy(this.sliceStart).normalize().scale(this.radius)
+        var b = new R3().cross2(a, this.axis).normalize().scale(this.radius)
+        var h = R3.copy(this.axis).scale(this.height)
         for (var uIndex = 0; uIndex < uLength; uIndex++) {
             var u = uIndex / uSegments
             var theta = this.sliceAngle * u
@@ -76,14 +76,14 @@ class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry>
             var sinTheta = Math.sin(theta)
             for (var vIndex = 0; vIndex < vLength; vIndex++) {
                 var v = vIndex / vSegments
-                var position = new MutableVectorE3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v)
-                var peak = MutableVectorE3.copy(h).sub(position)
-                var normal = new MutableVectorE3().cross2(peak, position).cross(peak).normalize()
+                var position = new R3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v)
+                var peak = R3.copy(h).sub(position)
+                var normal = new R3().cross2(peak, position).cross(peak).normalize()
                 var vertex = topo.vertex(uIndex, vIndex)
                 vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position)
                 vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal
                 if (this.useTextureCoords) {
-                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new MutableVectorE2([u, v])
+                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
                 }
             }
         }

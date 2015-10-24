@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/Matrix4', '../checks/mustBeString', '../math/MutableVectorE3', '../math/MutableSpinorE3', '../i18n/readOnly', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Euclidean3, Matrix3, Matrix4, mustBeString, MutableVectorE3, MutableSpinorE3, readOnly, Shareable, Symbolic) {
+define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/Matrix4', '../checks/mustBeString', '../math/G3', '../math/R3', '../i18n/readOnly', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Euclidean3, Matrix3, Matrix4, mustBeString, G3, R3, readOnly, Shareable, Symbolic) {
     /**
      * @class ModelFacet
      */
@@ -30,10 +30,10 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
         function ModelFacet(type) {
             if (type === void 0) { type = 'ModelFacet'; }
             _super.call(this, mustBeString('type', type));
-            this._position = new MutableVectorE3().copy(Euclidean3.zero);
-            this._attitude = new MutableSpinorE3().copy(Euclidean3.one);
+            this._position = new G3().copy(Euclidean3.zero);
+            this._attitude = new G3().copy(Euclidean3.one);
             // FIXME: I don't like this non-geometric scaling.
-            this._scaleXYZ = new MutableVectorE3([1, 1, 1]);
+            this._scaleXYZ = new R3([1, 1, 1]);
             this.matM = Matrix4.identity();
             this.matN = Matrix3.identity();
             this.matR = Matrix4.identity();
@@ -64,7 +64,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
              * The <em>attitude</em>, a unitary spinor.
              * </p>
              * @property R
-             * @type MutableSpinorE3
+             * @type G3
              * @readOnly
              */
             get: function () {
@@ -85,7 +85,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
              * </p>
              *
              * @property X
-             * @type MutableVectorE3
+             * @type G3
              * @readOnly
              */
             get: function () {
@@ -100,7 +100,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
         Object.defineProperty(ModelFacet.prototype, "scaleXYZ", {
             /**
              * @property scaleXYZ
-             * @type MutableVectorE3
+             * @type R3
              * @readOnly
              */
             get: function () {
@@ -120,13 +120,10 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
         ModelFacet.prototype.getProperty = function (name) {
             switch (name) {
                 case ModelFacet.PROP_ATTITUDE: {
-                    // FIXME: Make an array copy function in collections.
-                    // copyNumberArray
-                    // copyIUnknownArray
-                    return this._attitude.data.map(function (x) { return x; });
+                    return [this._attitude.yz, this._attitude.zx, this._attitude.xy, this._attitude.w];
                 }
                 case ModelFacet.PROP_POSITION: {
-                    return this._position.data.map(function (x) { return x; });
+                    return [this._position.x, this._position.y, this._position.z];
                 }
                 default: {
                     console.warn("ModelFacet.getProperty " + name);
@@ -148,11 +145,22 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
                         this._attitude.zx = data[1];
                         this._attitude.xy = data[2];
                         this._attitude.w = data[3];
+                        this._attitude.x = 0;
+                        this._attitude.y = 0;
+                        this._attitude.z = 0;
+                        this._attitude.xyz = 0;
                     }
                     break;
                 case ModelFacet.PROP_POSITION:
                     {
-                        this._position.setXYZ(data[0], data[1], data[2]);
+                        this._position.w = 0;
+                        this._position.x = data[0];
+                        this._position.y = data[1];
+                        this._position.z = data[2];
+                        this._position.yz = 0;
+                        this._position.zx = 0;
+                        this._position.xy = 0;
+                        this._position.xyz = 0;
                     }
                     break;
                 default: {

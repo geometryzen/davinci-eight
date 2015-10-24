@@ -2,7 +2,7 @@ import VectorE3 = require('../../math/VectorE3')
 import IAnimation = require('../../slideshow/IAnimation')
 import IAnimationTarget = require('../../slideshow/IAnimationTarget')
 import Shareable = require('../../utils/Shareable')
-import MutableVectorE3 = require('../../math/MutableVectorE3')
+import R3 = require('../../math/R3')
 
 function loop(n: number, callback: (i: number) => void) {
   for (var i = 0; i < n; ++i) {
@@ -11,8 +11,8 @@ function loop(n: number, callback: (i: number) => void) {
 }
 
 class Vector3Animation extends Shareable implements IAnimation {
-  private from: MutableVectorE3;
-  private to: MutableVectorE3;
+  private from: R3;
+  private to: R3;
   private duration: number;
   private start: number;
   private fraction: number;
@@ -20,7 +20,7 @@ class Vector3Animation extends Shareable implements IAnimation {
   private ease: string;
   constructor(value: VectorE3, duration: number = 300, callback?: () => void, ease?: string) {
     super('Vector3Animation')
-    this.to = MutableVectorE3.copy(value)
+    this.to = R3.copy(value)
     this.duration = duration
     this.fraction = 0;
     this.callback = callback
@@ -36,7 +36,7 @@ class Vector3Animation extends Shareable implements IAnimation {
       if (this.from === void 0) {
         var data: number[] = target.getProperty(propName)
         if (data) {
-          this.from = new MutableVectorE3(data)
+          this.from = new R3(data)
         }
       }
     }
@@ -70,7 +70,7 @@ class Vector3Animation extends Shareable implements IAnimation {
         break
     }
 
-    var lerp = MutableVectorE3.lerp(this.from, this.to, rolloff)
+    var lerp = R3.lerp(this.from, this.to, rolloff)
     target.setProperty(propName, lerp.data)
   }
   hurry(factor: number): void {

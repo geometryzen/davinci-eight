@@ -1,10 +1,10 @@
 define([
-    'davinci-eight/math/Rational',
+    'davinci-eight/math/QQ',
     'davinci-eight/math/Dimensions',
     'davinci-eight/math/Unit',
     'davinci-eight/math/Euclidean3'
 ], function(
-    Rational,
+    QQ,
     Dimensions,
     Unit,
     Euclidean3
@@ -51,7 +51,7 @@ define([
       });
     });
 
-    it('Construction', function() {
+    it('constructor', function() {
       var w = Math.random();
       var x = Math.random();
       var y = Math.random();
@@ -429,153 +429,153 @@ define([
 
     describe("left contraction", function() {
       it("", function() {
-        expect(one.conL(one)).toBeNear(one);
-        expect(one.conL(i)).toBeNear(i);
-        expect(one.conL(j)).toBeNear(j);
-        expect(one.conL(k)).toBeNear(k);
-        expect(one.conL(ij)).toBeNear(ij);
-        expect(one.conL(jk)).toBeNear(jk);
-        expect(one.conL(ki)).toBeNear(ki);
-        expect(one.conL(I)).toBeNear(I);
+        expect(one.lco(one)).toBeNear(one);
+        expect(one.lco(i)).toBeNear(i);
+        expect(one.lco(j)).toBeNear(j);
+        expect(one.lco(k)).toBeNear(k);
+        expect(one.lco(ij)).toBeNear(ij);
+        expect(one.lco(jk)).toBeNear(jk);
+        expect(one.lco(ki)).toBeNear(ki);
+        expect(one.lco(I)).toBeNear(I);
 
-        expect(i.conL(one)).toBeNear(zero);
-        expect(i.conL(i)).toBeNear(one);
-        expect(i.conL(j)).toBeNear(zero);
-        expect(i.conL(k)).toBeNear(zero);
-        expect(i.conL(ij)).toBeNear(j);
-        expect(i.conL(jk)).toBeNear(zero);
-        expect(i.conL(ki)).toBeNear(zero.sub(k));
-        expect(i.conL(I)).toBeNear(jk);
+        expect(i.lco(one)).toBeNear(zero);
+        expect(i.lco(i)).toBeNear(one);
+        expect(i.lco(j)).toBeNear(zero);
+        expect(i.lco(k)).toBeNear(zero);
+        expect(i.lco(ij)).toBeNear(j);
+        expect(i.lco(jk)).toBeNear(zero);
+        expect(i.lco(ki)).toBeNear(zero.sub(k));
+        expect(i.lco(I)).toBeNear(jk);
 
-        expect(j.conL(one)).toBeNear(zero);
-        expect(j.conL(i)).toBeNear(zero);
-        expect(j.conL(j)).toBeNear(one);
-        expect(j.conL(k)).toBeNear(zero);
-        expect(j.conL(ij)).toBeNear(zero.sub(i));
-        expect(j.conL(jk)).toBeNear(k);
-        expect(j.conL(ki)).toBeNear(zero);
-        expect(j.conL(I)).toBeNear(ki);
+        expect(j.lco(one)).toBeNear(zero);
+        expect(j.lco(i)).toBeNear(zero);
+        expect(j.lco(j)).toBeNear(one);
+        expect(j.lco(k)).toBeNear(zero);
+        expect(j.lco(ij)).toBeNear(zero.sub(i));
+        expect(j.lco(jk)).toBeNear(k);
+        expect(j.lco(ki)).toBeNear(zero);
+        expect(j.lco(I)).toBeNear(ki);
 
-        expect(k.conL(one)).toBeNear(zero);
-        expect(k.conL(i)).toBeNear(zero);
-        expect(k.conL(j)).toBeNear(zero);
-        expect(k.conL(k)).toBeNear(one);
-        expect(k.conL(ij)).toBeNear(zero);
-        expect(k.conL(jk)).toBeNear(zero.sub(j));
-        expect(k.conL(ki)).toBeNear(i);
-        expect(k.conL(I)).toBeNear(ij);
+        expect(k.lco(one)).toBeNear(zero);
+        expect(k.lco(i)).toBeNear(zero);
+        expect(k.lco(j)).toBeNear(zero);
+        expect(k.lco(k)).toBeNear(one);
+        expect(k.lco(ij)).toBeNear(zero);
+        expect(k.lco(jk)).toBeNear(zero.sub(j));
+        expect(k.lco(ki)).toBeNear(i);
+        expect(k.lco(I)).toBeNear(ij);
 
-        expect(ij.conL(one)).toBeNear(zero);
-        expect(ij.conL(i)).toBeNear(zero);
-        expect(ij.conL(j)).toBeNear(zero);
-        expect(ij.conL(k)).toBeNear(zero);
-        expect(ij.conL(ij)).toBeNear(zero.sub(one));
-        expect(ij.conL(jk)).toBeNear(zero);
-        expect(ij.conL(ki)).toBeNear(zero);
-        expect(ij.conL(I)).toBeNear(zero.sub(k));
+        expect(ij.lco(one)).toBeNear(zero);
+        expect(ij.lco(i)).toBeNear(zero);
+        expect(ij.lco(j)).toBeNear(zero);
+        expect(ij.lco(k)).toBeNear(zero);
+        expect(ij.lco(ij)).toBeNear(zero.sub(one));
+        expect(ij.lco(jk)).toBeNear(zero);
+        expect(ij.lco(ki)).toBeNear(zero);
+        expect(ij.lco(I)).toBeNear(zero.sub(k));
 
-        expect(jk.conL(one)).toBeNear(zero);
-        expect(jk.conL(i)).toBeNear(zero);
-        expect(jk.conL(j)).toBeNear(zero);
-        expect(jk.conL(k)).toBeNear(zero);
-        expect(jk.conL(ij)).toBeNear(zero);
-        expect(jk.conL(jk)).toBeNear(zero.sub(one));
-        expect(jk.conL(ki)).toBeNear(zero);
-        expect(jk.conL(I)).toBeNear(zero.sub(i));
+        expect(jk.lco(one)).toBeNear(zero);
+        expect(jk.lco(i)).toBeNear(zero);
+        expect(jk.lco(j)).toBeNear(zero);
+        expect(jk.lco(k)).toBeNear(zero);
+        expect(jk.lco(ij)).toBeNear(zero);
+        expect(jk.lco(jk)).toBeNear(zero.sub(one));
+        expect(jk.lco(ki)).toBeNear(zero);
+        expect(jk.lco(I)).toBeNear(zero.sub(i));
 
-        expect(ki.conL(one)).toBeNear(zero);          // 49
-        expect(ki.conL(i)).toBeNear(zero);            // 50
-        expect(ki.conL(j)).toBeNear(zero);            // 51
-        expect(ki.conL(k)).toBeNear(zero);            // 52
-        expect(ki.conL(ij)).toBeNear(zero);           // 53
-        expect(ki.conL(jk)).toBeNear(zero);           // 54
-        expect(ki.conL(ki)).toBeNear(zero.sub(one));  // 55
-        expect(ki.conL(I)).toBeNear(zero.sub(j));     // 56
+        expect(ki.lco(one)).toBeNear(zero);          // 49
+        expect(ki.lco(i)).toBeNear(zero);            // 50
+        expect(ki.lco(j)).toBeNear(zero);            // 51
+        expect(ki.lco(k)).toBeNear(zero);            // 52
+        expect(ki.lco(ij)).toBeNear(zero);           // 53
+        expect(ki.lco(jk)).toBeNear(zero);           // 54
+        expect(ki.lco(ki)).toBeNear(zero.sub(one));  // 55
+        expect(ki.lco(I)).toBeNear(zero.sub(j));     // 56
 
-        expect(I.conL(one)).toBeNear(zero);           // 57
-        expect(I.conL(i)).toBeNear(zero);             // 58
-        expect(I.conL(j)).toBeNear(zero);             // 59
-        expect(I.conL(k)).toBeNear(zero);             // 60
-        expect(I.conL(ij)).toBeNear(zero);            // 61
-        expect(I.conL(jk)).toBeNear(zero);            // 62
-        expect(I.conL(ki)).toBeNear(zero);            // 63
-        expect(I.conL(I)).toBeNear(zero.sub(one));    // 64
+        expect(I.lco(one)).toBeNear(zero);           // 57
+        expect(I.lco(i)).toBeNear(zero);             // 58
+        expect(I.lco(j)).toBeNear(zero);             // 59
+        expect(I.lco(k)).toBeNear(zero);             // 60
+        expect(I.lco(ij)).toBeNear(zero);            // 61
+        expect(I.lco(jk)).toBeNear(zero);            // 62
+        expect(I.lco(ki)).toBeNear(zero);            // 63
+        expect(I.lco(I)).toBeNear(zero.sub(one));    // 64
       });
     });
 
     describe("right contraction", function() {
       it("", function() {
-        expect(one.conR(one)).toBeNear(one);          //  1
-        expect(one.conR(i)).toBeNear(zero);           //  2
-        expect(one.conR(j)).toBeNear(zero);           //  3
-        expect(one.conR(k)).toBeNear(zero);           //  4
-        expect(one.conR(ij)).toBeNear(zero);          //  5
-        expect(one.conR(jk)).toBeNear(zero);          //  6
-        expect(one.conR(ki)).toBeNear(zero);          //  7
-        expect(one.conR(I)).toBeNear(zero);           //  8
+        expect(one.rco(one)).toBeNear(one);          //  1
+        expect(one.rco(i)).toBeNear(zero);           //  2
+        expect(one.rco(j)).toBeNear(zero);           //  3
+        expect(one.rco(k)).toBeNear(zero);           //  4
+        expect(one.rco(ij)).toBeNear(zero);          //  5
+        expect(one.rco(jk)).toBeNear(zero);          //  6
+        expect(one.rco(ki)).toBeNear(zero);          //  7
+        expect(one.rco(I)).toBeNear(zero);           //  8
 
-        expect(i.conR(one)).toBeNear(i);              //  9
-        expect(i.conR(i)).toBeNear(one);              // 10
-        expect(i.conR(j)).toBeNear(zero);             // 11
-        expect(i.conR(k)).toBeNear(zero);             // 12
-        expect(i.conR(ij)).toBeNear(zero);            // 13
-        expect(i.conR(jk)).toBeNear(zero);            // 14
-        expect(i.conR(ki)).toBeNear(zero);            // 15
-        expect(i.conR(I)).toBeNear(zero);             // 16
+        expect(i.rco(one)).toBeNear(i);              //  9
+        expect(i.rco(i)).toBeNear(one);              // 10
+        expect(i.rco(j)).toBeNear(zero);             // 11
+        expect(i.rco(k)).toBeNear(zero);             // 12
+        expect(i.rco(ij)).toBeNear(zero);            // 13
+        expect(i.rco(jk)).toBeNear(zero);            // 14
+        expect(i.rco(ki)).toBeNear(zero);            // 15
+        expect(i.rco(I)).toBeNear(zero);             // 16
 
-        expect(j.conR(one)).toBeNear(j);              // 17
-        expect(j.conR(i)).toBeNear(zero);             // 18
-        expect(j.conR(j)).toBeNear(one);              // 19
-        expect(j.conR(k)).toBeNear(zero);             // 20
-        expect(j.conR(ij)).toBeNear(zero);            // 21
-        expect(j.conR(jk)).toBeNear(zero);            // 22
-        expect(j.conR(ki)).toBeNear(zero);            // 23
-        expect(j.conR(I)).toBeNear(zero);             // 24
+        expect(j.rco(one)).toBeNear(j);              // 17
+        expect(j.rco(i)).toBeNear(zero);             // 18
+        expect(j.rco(j)).toBeNear(one);              // 19
+        expect(j.rco(k)).toBeNear(zero);             // 20
+        expect(j.rco(ij)).toBeNear(zero);            // 21
+        expect(j.rco(jk)).toBeNear(zero);            // 22
+        expect(j.rco(ki)).toBeNear(zero);            // 23
+        expect(j.rco(I)).toBeNear(zero);             // 24
 
-        expect(k.conR(one)).toBeNear(k);              // 25
-        expect(k.conR(i)).toBeNear(zero);             // 26
-        expect(k.conR(j)).toBeNear(zero);             // 27
-        expect(k.conR(k)).toBeNear(one);              // 28
-        expect(k.conR(ij)).toBeNear(zero);            // 29
-        expect(k.conR(jk)).toBeNear(zero);            // 30
-        expect(k.conR(ki)).toBeNear(zero);            // 31
-        expect(k.conR(I)).toBeNear(zero);             // 32
+        expect(k.rco(one)).toBeNear(k);              // 25
+        expect(k.rco(i)).toBeNear(zero);             // 26
+        expect(k.rco(j)).toBeNear(zero);             // 27
+        expect(k.rco(k)).toBeNear(one);              // 28
+        expect(k.rco(ij)).toBeNear(zero);            // 29
+        expect(k.rco(jk)).toBeNear(zero);            // 30
+        expect(k.rco(ki)).toBeNear(zero);            // 31
+        expect(k.rco(I)).toBeNear(zero);             // 32
 
-        expect(ij.conR(one)).toBeNear(ij);            // 33
-        expect(ij.conR(i)).toBeNear(zero.sub(j));     // 34
-        expect(ij.conR(j)).toBeNear(i);               // 35
-        expect(ij.conR(k)).toBeNear(zero);            // 36
-        expect(ij.conR(ij)).toBeNear(zero.sub(one));  // 37
-        expect(ij.conR(jk)).toBeNear(zero);           // 38
-        expect(ij.conR(ki)).toBeNear(zero);           // 39
-        expect(ij.conR(I)).toBeNear(zero);            // 40
+        expect(ij.rco(one)).toBeNear(ij);            // 33
+        expect(ij.rco(i)).toBeNear(zero.sub(j));     // 34
+        expect(ij.rco(j)).toBeNear(i);               // 35
+        expect(ij.rco(k)).toBeNear(zero);            // 36
+        expect(ij.rco(ij)).toBeNear(zero.sub(one));  // 37
+        expect(ij.rco(jk)).toBeNear(zero);           // 38
+        expect(ij.rco(ki)).toBeNear(zero);           // 39
+        expect(ij.rco(I)).toBeNear(zero);            // 40
 
-        expect(jk.conR(one)).toBeNear(jk);            // 41
-        expect(jk.conR(i)).toBeNear(zero);            // 42
-        expect(jk.conR(j)).toBeNear(zero.sub(k));     // 43
-        expect(jk.conR(k)).toBeNear(j);               // 44
-        expect(jk.conR(ij)).toBeNear(zero);           // 45
-        expect(jk.conR(jk)).toBeNear(zero.sub(one));  // 46
-        expect(jk.conR(ki)).toBeNear(zero);           // 47
-        expect(jk.conR(I)).toBeNear(zero);            // 48
+        expect(jk.rco(one)).toBeNear(jk);            // 41
+        expect(jk.rco(i)).toBeNear(zero);            // 42
+        expect(jk.rco(j)).toBeNear(zero.sub(k));     // 43
+        expect(jk.rco(k)).toBeNear(j);               // 44
+        expect(jk.rco(ij)).toBeNear(zero);           // 45
+        expect(jk.rco(jk)).toBeNear(zero.sub(one));  // 46
+        expect(jk.rco(ki)).toBeNear(zero);           // 47
+        expect(jk.rco(I)).toBeNear(zero);            // 48
 
-        expect(ki.conR(one)).toBeNear(ki);            // 49
-        expect(ki.conR(i)).toBeNear(k);               // 50
-        expect(ki.conR(j)).toBeNear(zero);            // 51
-        expect(ki.conR(k)).toBeNear(zero.sub(i));     // 52
-        expect(ki.conR(ij)).toBeNear(zero);           // 53
-        expect(ki.conR(jk)).toBeNear(zero);           // 54
-        expect(ki.conR(ki)).toBeNear(zero.sub(one));  // 55
-        expect(ki.conR(I)).toBeNear(zero);            // 56
+        expect(ki.rco(one)).toBeNear(ki);            // 49
+        expect(ki.rco(i)).toBeNear(k);               // 50
+        expect(ki.rco(j)).toBeNear(zero);            // 51
+        expect(ki.rco(k)).toBeNear(zero.sub(i));     // 52
+        expect(ki.rco(ij)).toBeNear(zero);           // 53
+        expect(ki.rco(jk)).toBeNear(zero);           // 54
+        expect(ki.rco(ki)).toBeNear(zero.sub(one));  // 55
+        expect(ki.rco(I)).toBeNear(zero);            // 56
 
-        expect(I.conR(one)).toBeNear(I);              // 57
-        expect(I.conR(i)).toBeNear(jk);               // 58
-        expect(I.conR(j)).toBeNear(ki);               // 59
-        expect(I.conR(k)).toBeNear(ij);               // 60
-        expect(I.conR(ij)).toBeNear(zero.sub(k));     // 61
-        expect(I.conR(jk)).toBeNear(zero.sub(i));     // 62
-        expect(I.conR(ki)).toBeNear(zero.sub(j));     // 63
-        expect(I.conR(I)).toBeNear(zero.sub(one));    // 64
+        expect(I.rco(one)).toBeNear(I);              // 57
+        expect(I.rco(i)).toBeNear(jk);               // 58
+        expect(I.rco(j)).toBeNear(ki);               // 59
+        expect(I.rco(k)).toBeNear(ij);               // 60
+        expect(I.rco(ij)).toBeNear(zero.sub(k));     // 61
+        expect(I.rco(jk)).toBeNear(zero.sub(i));     // 62
+        expect(I.rco(ki)).toBeNear(zero.sub(j));     // 63
+        expect(I.rco(I)).toBeNear(zero.sub(one));    // 64
       });
     });
     describe("Operator Overloading", function(){
@@ -689,7 +689,7 @@ define([
         expect(e.xyz).toBe(b.xyz);
       });
       it("<<", function() {
-        var e = x.conL(y);
+        var e = x.lco(y);
         var a = x.__lshift__(y);
         var b = y.__rlshift__(x);
         expect(e.w).toBe(a.w);
@@ -710,7 +710,7 @@ define([
         expect(e.xyz).toBe(b.xyz);
       });
       it(">>", function() {
-        var e = x.conR(y);
+        var e = x.rco(y);
         var a = x.__rshift__(y);
         var b = y.__rrshift__(x);
         expect(e.w).toBe(a.w);

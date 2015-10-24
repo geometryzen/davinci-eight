@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/MutableNumber', '../math/MutableVectorE3'], function (require, exports, Euclidean3, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, MutableNumber, MutableVectorE3) {
+define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, R1, R3) {
     /**
      * @class SimplexGeometry
      * @extends Shareable
@@ -42,7 +42,7 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
              * @type {number}
              * @private
              */
-            this._k = new MutableNumber([Simplex.TRIANGLE]);
+            this._k = new R1([Simplex.TRIANGLE]);
             /**
              * Specifies the number of segments to use in curved directions.
              * @property curvedSegments
@@ -215,9 +215,9 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
         /**
          * Convenience method for pushing attribute data as a triangular simplex
          * @method triangle
-         * @param positions {MutableVectorE3[]}
-         * @param normals {MutableVectorE3[]}
-         * @param uvs {MutableVectorE2[]}
+         * @param positions {R3[]}
+         * @param normals {R3[]}
+         * @param uvs {R2[]}
          * @return {number}
          * @beta
          */
@@ -233,9 +233,9 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
             simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2];
             if (this.orientationColors) {
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e1);
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e2);
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e3);
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e1);
+                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e2);
+                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e3);
             }
             return this.data.push(simplex);
         };
@@ -248,8 +248,8 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
             if (this.orientationColors) {
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e1);
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e2);
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e1);
+                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e2);
             }
             return this.data.push(simplex);
         };
@@ -259,7 +259,7 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
             if (this.orientationColors) {
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = MutableVectorE3.copy(Euclidean3.e1);
+                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e1);
             }
             return this.data.push(simplex);
         };

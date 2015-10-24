@@ -3,14 +3,14 @@ import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
 import mustBeNumber = require('../checks/mustBeNumber')
 import Shareable = require('../utils/Shareable')
-import MutableSpinorE3 = require('../math/MutableSpinorE3')
+import SpinG3 = require('../math/SpinG3')
 import Symbolic = require('../core/Symbolic')
 import IFacet = require('../core/IFacet')
 import ColorRGB = require('../core/ColorRGB')
 import IFacetVisitor = require('../core/IFacetVisitor')
 import IAnimationTarget = require('../slideshow/IAnimationTarget')
 import IUnknownExt = require('../core/IUnknownExt')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R3 = require('../math/R3')
 /**
  * @class ColorFacet
  */
@@ -29,10 +29,10 @@ class ColorFacet extends Shareable implements ColorRGB, IFacet, IAnimationTarget
   public static PROP_RED = 'red';
   /**
    * @property colorRGB
-   * @type MutableVectorE3
+   * @type R3
    * @private
    */
-  private data: MutableVectorE3 = new MutableVectorE3([1, 1, 1]);
+  private data: R3 = new R3([1, 1, 1]);
   /**
    * @property name
    * @type {string}

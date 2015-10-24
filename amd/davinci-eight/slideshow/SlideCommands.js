@@ -19,7 +19,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             return this.commands.pushWeakRef(new AnimateDrawableCommand(drawableName, facetName, propName, animation));
         };
         SlideCommands.prototype.attitude = function (drawableName, attitude, duration, callback) {
-            return this.animateDrawable(drawableName, 'model', 'attitude', new Spinor3Animation(attitude, duration, callback));
+            return this.animateDrawable(drawableName, 'model', 'R', new Spinor3Animation(attitude, duration, callback));
         };
         SlideCommands.prototype.color = function (drawableName, color, duration, callback) {
             return this.animateDrawable(drawableName, 'color', 'rgb', new ColorAnimation(color, duration, callback));
@@ -34,7 +34,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             return this.commands.pushWeakRef(new DestroyDrawableCommand(drawableName));
         };
         SlideCommands.prototype.position = function (drawableName, position, duration, callback) {
-            return this.animateDrawable(drawableName, 'model', 'position', new Vector3Animation(position, duration, callback));
+            return this.animateDrawable(drawableName, 'model', 'X', new Vector3Animation(position, duration, callback));
         };
         SlideCommands.prototype.useDrawableInScene = function (drawableName, sceneName, confirm) {
             return this.commands.pushWeakRef(new UseDrawableInSceneCommand(drawableName, sceneName, confirm));

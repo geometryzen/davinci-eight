@@ -15,7 +15,7 @@ import MeshMaterial = require('../../materials/MeshMaterial')
 import ModelFacet = require('../../models/ModelFacet')
 import Shareable = require('../../utils/Shareable')
 import Simplex = require('../../geometries/Simplex')
-import MutableVectorE3 = require('../../math/MutableVectorE3')
+import R3 = require('../../math/R3')
 
 function createMaterial(geometry: SimplexGeometry): IMaterial
 {

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.139.0</em>
+            <em>API Docs for: 2.140.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,10 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -124,11 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
-                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
-                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
-                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
-                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -140,7 +135,11 @@
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1.html">R1</a></li>
+                                <li><a href="../classes/R2.html">R2</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
+                                <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
@@ -156,6 +155,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -225,9 +225,9 @@ import SimplexGeometry = require(&#x27;../geometries/SimplexGeometry&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import SliceSimplexGeometry = require(&#x27;../geometries/SliceSimplexGeometry&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
-import MutableVectorE2 = require(&#x27;../math/MutableVectorE2&#x27;)
+import R2 = require(&#x27;../math/R2&#x27;)
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
-import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
+import R3 = require(&#x27;../math/R3&#x27;)
 
 /**
  * @class ConeSimplexGeometry
@@ -282,40 +282,40 @@ class ConeSimplexGeometry extends SliceSimplexGeometry {
 
         var x: number;
         var y: number;
-        var points: MutableVectorE3[] = [];
+        var points: R3[] = [];
         let vertices: number[][] = [];
-        let uvs: MutableVectorE2[][] = [];
+        let uvs: R2[][] = [];
 
         for (y = 0; y &lt;= heightSegments; y++) {
             let verticesRow: number[] = [];
-            let uvsRow: MutableVectorE2[] = [];
+            let uvsRow: R2[] = [];
             let v = y / heightSegments;
             let radius = v * (radiusBottom - radiusTop) + radiusTop;
             for (x = 0; x &lt;= radialSegments; x++) {
                 let u = x / radialSegments;
-                let vertex = new MutableVectorE3();
+                let vertex = new R3();
                 vertex.x = radius * Math.sin(u * sliceAngle + thetaStart);
                 vertex.y = - v * height + heightHalf;
                 vertex.z = radius * Math.cos(u * sliceAngle + thetaStart);
                 points.push(vertex);
                 verticesRow.push(points.length - 1);
-                uvsRow.push(new MutableVectorE2([u, 1 - v]));
+                uvsRow.push(new R2([u, 1 - v]));
             }
             vertices.push(verticesRow);
             uvs.push(uvsRow);
         }
 
         let tanTheta = (radiusBottom - radiusTop) / height;
-        var na: MutableVectorE3;
-        var nb: MutableVectorE3;
+        var na: R3;
+        var nb: R3;
         for (x = 0; x &lt; radialSegments; x++) {
             if (radiusTop !== 0) {
-                na = MutableVectorE3.copy(points[vertices[0][x]]);
-                nb = MutableVectorE3.copy(points[vertices[0][x + 1]]);
+                na = R3.copy(points[vertices[0][x]]);
+                nb = R3.copy(points[vertices[0][x + 1]]);
             }
             else {
-                na = MutableVectorE3.copy(points[vertices[1][x]]);
-                nb = MutableVectorE3.copy(points[vertices[1][x + 1]]);
+                na = R3.copy(points[vertices[1][x]]);
+                nb = R3.copy(points[vertices[1][x + 1]]);
             }
             na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
             nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
@@ -339,34 +339,34 @@ class ConeSimplexGeometry extends SliceSimplexGeometry {
 
         // top cap
         if (!openTop &amp;&amp; radiusTop &gt; 0) {
-            points.push(MutableVectorE3.copy(Euclidean3.e2).scale(heightHalf));
+            points.push(R3.copy(Euclidean3.e2).scale(heightHalf));
             for (x = 0; x &lt; radialSegments; x++) {
                 let v1: number = vertices[0][x];
                 let v2: number = vertices[0][x + 1];
                 let v3: number = points.length - 1;
-                let n1: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2);
-                let n2: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2);
-                let n3: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2);
-                let uv1: MutableVectorE2 = uvs[0][x].clone();
-                let uv2: MutableVectorE2 = uvs[0][x + 1].clone();
-                let uv3: MutableVectorE2 = new MutableVectorE2([uv2.x, 0]);
+                let n1: R3 = R3.copy(Euclidean3.e2);
+                let n2: R3 = R3.copy(Euclidean3.e2);
+                let n3: R3 = R3.copy(Euclidean3.e2);
+                let uv1: R2 = uvs[0][x].clone();
+                let uv2: R2 = uvs[0][x + 1].clone();
+                let uv3: R2 = new R2([uv2.x, 0]);
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }
 
         // bottom cap
         if (!openBottom &amp;&amp; radiusBottom &gt; 0) {
-            points.push(MutableVectorE3.copy(Euclidean3.e2).scale(-heightHalf));
+            points.push(R3.copy(Euclidean3.e2).scale(-heightHalf));
             for (x = 0; x &lt; radialSegments; x++) {
                 let v1: number = vertices[heightSegments][x + 1];
                 let v2: number = vertices[heightSegments][x];
                 let v3: number = points.length - 1;
-                let n1: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2).scale(-1);
-                let n2: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2).scale(-1);
-                let n3: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2).scale(-1);
-                let uv1: MutableVectorE2 = uvs[heightSegments][x + 1].clone();
-                let uv2: MutableVectorE2 = uvs[heightSegments][x].clone();
-                let uv3: MutableVectorE2 = new MutableVectorE2([uv2.x, 1]);
+                let n1: R3 = R3.copy(Euclidean3.e2).scale(-1);
+                let n2: R3 = R3.copy(Euclidean3.e2).scale(-1);
+                let n3: R3 = R3.copy(Euclidean3.e2).scale(-1);
+                let uv1: R2 = uvs[heightSegments][x + 1].clone();
+                let uv2: R2 = uvs[heightSegments][x].clone();
+                let uv3: R2 = new R2([uv2.x, 1]);
                 this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3])
             }
         }

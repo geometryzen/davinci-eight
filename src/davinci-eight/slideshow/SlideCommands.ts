@@ -41,7 +41,7 @@ class SlideCommands extends Shareable implements ISlideCommand {
   }
   attitude(drawableName: string, attitude: SpinorE3, duration?: number, callback?:() => any): number
   {
-    return this.animateDrawable(drawableName, 'model', 'attitude', new Spinor3Animation(attitude, duration, callback))
+    return this.animateDrawable(drawableName, 'model', 'R', new Spinor3Animation(attitude, duration, callback))
   }
   color(drawableName: string, color: ColorRGB, duration?: number, callback?:() => any): number
   {
@@ -60,7 +60,7 @@ class SlideCommands extends Shareable implements ISlideCommand {
   }
   position(drawableName: string, position: VectorE3, duration?: number, callback?:() => any): number
   {
-    return this.animateDrawable(drawableName, 'model', 'position', new Vector3Animation(position, duration, callback))
+    return this.animateDrawable(drawableName, 'model', 'X', new Vector3Animation(position, duration, callback))
   }
   useDrawableInScene(drawableName: string, sceneName: string, confirm: boolean): number
   {

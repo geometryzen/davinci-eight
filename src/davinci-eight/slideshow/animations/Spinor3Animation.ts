@@ -1,7 +1,7 @@
 import IAnimation = require('../../slideshow/IAnimation')
 import IAnimationTarget = require('../../slideshow/IAnimationTarget')
 import Shareable = require('../../utils/Shareable')
-import MutableSpinorE3 = require('../../math/MutableSpinorE3')
+import SpinG3 = require('../../math/SpinG3')
 import SpinorE3 = require('../../math/SpinorE3')
 
 function loop(n: number, callback: (i: number) => void) {
@@ -11,8 +11,8 @@ function loop(n: number, callback: (i: number) => void) {
 }
 
 class Spinor3Animation extends Shareable implements IAnimation {
-  private from: MutableSpinorE3;
-  private to: MutableSpinorE3;
+  private from: SpinG3;
+  private to: SpinG3;
   private duration: number;
   private start: number;
   private fraction: number;
@@ -21,7 +21,7 @@ class Spinor3Animation extends Shareable implements IAnimation {
   constructor(value: SpinorE3, duration: number = 300, callback?: () => void, ease?: string) {
     super('Spinor3Animation')
     this.from = void 0
-    this.to = MutableSpinorE3.copy(value)
+    this.to = SpinG3.copy(value)
     this.duration = duration
     this.start = 0
     this.fraction = 0
@@ -37,7 +37,7 @@ class Spinor3Animation extends Shareable implements IAnimation {
       if (this.from === void 0) {
         var data: number[] = target.getProperty(propName)
         if (data) {
-          this.from = new MutableSpinorE3(data);
+          this.from = new SpinG3(data);
         }
       }
     }
@@ -73,7 +73,7 @@ class Spinor3Animation extends Shareable implements IAnimation {
         break
     }
 
-    var lerp = MutableSpinorE3.lerp(from, to, fraction)
+    var lerp = SpinG3.lerp(from, to, fraction)
     target.setProperty(propName, lerp.data)
   }
   hurry(factor: number): void {

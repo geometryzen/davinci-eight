@@ -2,14 +2,14 @@ define(
 [
   'davinci-eight/geometries/Simplex',
   'davinci-eight/geometries/Vertex',
-  'davinci-eight/math/MutableVectorE3',
+  'davinci-eight/math/R3',
   'davinci-eight/geometries/triangle',
   'davinci-eight/geometries/simplicesToDrawPrimitive',
   'davinci-eight/core/Symbolic',
   'davinci-eight/geometries/simplicesToGeometryMeta',
   'davinci-eight/geometries/computeFaceNormals'
 ],
-function(Simplex, Vertex, MutableVectorE3, triangle, simplicesToDrawPrimitive, Symbolic, simplicesToGeometryMeta, computeFaceNormals)
+function(Simplex, Vertex, R3, triangle, simplicesToDrawPrimitive, Symbolic, simplicesToGeometryMeta, computeFaceNormals)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
@@ -25,9 +25,9 @@ function(Simplex, Vertex, MutableVectorE3, triangle, simplicesToDrawPrimitive, S
       });
     });
     describe("one triangle", function() {
-      var A = new MutableVectorE3([0.0, 0.0, 0.0]);
-      var B = new MutableVectorE3([0.1, 0.0, 0.0]);
-      var C = new MutableVectorE3([0.0, 0.1, 0.0]);
+      var A = new R3([0.0, 0.0, 0.0]);
+      var B = new R3([0.1, 0.0, 0.0]);
+      var C = new R3([0.0, 0.1, 0.0]);
       var geometry = triangle(A, B, C);
       var a = geometry[0].vertices[0];
       var b = geometry[0].vertices[1];
@@ -80,10 +80,10 @@ function(Simplex, Vertex, MutableVectorE3, triangle, simplicesToDrawPrimitive, S
       });
     });
     describe("two triangles with one common edge", function() {
-      var vec0 = new MutableVectorE3([0.2, 0.0, 0.0]);
-      var vec1 = new MutableVectorE3([0.0, 0.0, 0.0]);
-      var vec2 = new MutableVectorE3([0.0, 0.2, 0.0]);
-      var vec3 = new MutableVectorE3([0.2, 0.2, 0.0]);
+      var vec0 = new R3([0.2, 0.0, 0.0]);
+      var vec1 = new R3([0.0, 0.0, 0.0]);
+      var vec2 = new R3([0.0, 0.2, 0.0]);
+      var vec3 = new R3([0.2, 0.2, 0.0]);
       var f012 = triangle(vec0, vec1, vec2)[0];
       var f023 = triangle(vec0, vec2, vec3)[0];
       var geometry = [];
@@ -156,10 +156,10 @@ function(Simplex, Vertex, MutableVectorE3, triangle, simplicesToDrawPrimitive, S
     });
     describe("tetrahedron", function() {
       var vecs = [];
-      vecs.push(new MutableVectorE3([0, 0, 0]));
-      vecs.push(new MutableVectorE3([1, 0, 0]));
-      vecs.push(new MutableVectorE3([0, 1, 0]));
-      vecs.push(new MutableVectorE3([0, 0, 1]));
+      vecs.push(new R3([0, 0, 0]));
+      vecs.push(new R3([1, 0, 0]));
+      vecs.push(new R3([0, 1, 0]));
+      vecs.push(new R3([0, 0, 1]));
       var f123 = triangle(vecs[1], vecs[2], vecs[3])[0];
       var f013 = triangle(vecs[0], vecs[1], vecs[3])[0];
       var f032 = triangle(vecs[0], vecs[3], vecs[2])[0];

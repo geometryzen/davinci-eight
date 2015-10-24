@@ -5,12 +5,12 @@ import Perspective = require('../cameras/Perspective');
 import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 /**
  * @class PerspectiveCamera
  */
 declare class PerspectiveCamera extends Shareable implements Perspective, IFacet {
-    position: MutableVectorE3;
+    position: R3;
     /**
      * @property material
      * @type {IMaterial}
@@ -72,10 +72,10 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
     /**
      * The position of the camera.
      * @property eye
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @readOnly
      */
-    eye: MutableVectorE3;
+    eye: R3;
     /**
      * @method setEye
      * @param eye {VectorE3}
@@ -98,7 +98,7 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
      * @chainable
      */
     setFov(fov: number): PerspectiveCamera;
-    look: MutableVectorE3;
+    look: R3;
     setLook(look: VectorE3): PerspectiveCamera;
     /**
      * The distance to the near plane.
@@ -116,7 +116,7 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
     setNear(near: number): PerspectiveCamera;
     far: number;
     setFar(far: number): PerspectiveCamera;
-    up: MutableVectorE3;
+    up: R3;
     setUp(up: VectorE3): PerspectiveCamera;
 }
 export = PerspectiveCamera;

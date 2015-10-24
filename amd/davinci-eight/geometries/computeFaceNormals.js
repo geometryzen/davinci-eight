@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/Symbolic', '../math/MutableVectorE3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, Symbolic, MutableVectorE3, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../core/Symbolic', '../math/R3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, Symbolic, R3, wedgeXY, wedgeYZ, wedgeZX) {
     function computeFaceNormals(simplex, positionName, normalName) {
         if (positionName === void 0) { positionName = Symbolic.ATTRIBUTE_POSITION; }
         if (normalName === void 0) { normalName = Symbolic.ATTRIBUTE_NORMAL; }
@@ -26,7 +26,7 @@ define(["require", "exports", '../core/Symbolic', '../math/MutableVectorE3', '..
         var x = wedgeYZ(ax, ay, az, bx, by, bz);
         var y = wedgeZX(ax, ay, az, bx, by, bz);
         var z = wedgeXY(ax, ay, az, bx, by, bz);
-        var normal = new MutableVectorE3([x, y, z]).normalize();
+        var normal = new R3([x, y, z]).normalize();
         vertex0[normalName] = normal;
         vertex1[normalName] = normal;
         vertex2[normalName] = normal;

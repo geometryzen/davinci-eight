@@ -708,7 +708,7 @@ class Euclidean2 implements Measure<Euclidean2> {
         return [x0, x1, x2, x3];
     }
 
-    conL(rhs: Euclidean2): Euclidean2 {
+    lco(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2('rhs', rhs);
         var xs = Euclidean2.lshift(this.coordinates(), rhs.coordinates());
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
@@ -717,22 +717,22 @@ class Euclidean2 implements Measure<Euclidean2> {
     __lshift__(other: any): Euclidean2 {
         if (other instanceof Euclidean2) {
             var rhs: Euclidean2 = other;
-            return this.conL(rhs);
+            return this.lco(rhs);
         }
         else if (typeof other === 'number') {
             var w: number = other;
-            return this.conL(new Euclidean2(w, 0, 0, 0, undefined));
+            return this.lco(new Euclidean2(w, 0, 0, 0, undefined));
         }
     }
 
     __rlshift__(other: any): Euclidean2 {
         if (other instanceof Euclidean2) {
             var lhs: Euclidean2 = other;
-            return lhs.conL(this);
+            return lhs.lco(this);
         }
         else if (typeof other === 'number') {
             var w: number = other;
-            return new Euclidean2(w, 0, 0, 0, undefined).conL(this);
+            return new Euclidean2(w, 0, 0, 0, undefined).lco(this);
         }
     }
 
@@ -752,7 +752,7 @@ class Euclidean2 implements Measure<Euclidean2> {
         return [x0, x1, x2, x3];
     }
 
-    conR(rhs: Euclidean2): Euclidean2 {
+    rco(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2('rhs', rhs);
         var xs = Euclidean2.rshift(this.coordinates(), rhs.coordinates());
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
@@ -760,19 +760,19 @@ class Euclidean2 implements Measure<Euclidean2> {
 
     __rshift__(other: any): Euclidean2 {
         if (other instanceof Euclidean2) {
-            return this.conR(other);
+            return this.rco(other);
         }
         else if (typeof other === 'number') {
-            return this.conR(new Euclidean2(other, 0, 0, 0, undefined));
+            return this.rco(new Euclidean2(other, 0, 0, 0, undefined));
         }
     }
 
     __rrshift__(other: any): Euclidean2 {
         if (other instanceof Euclidean2) {
-            return (<Euclidean2>other).conR(this);
+            return (<Euclidean2>other).rco(this);
         }
         else if (typeof other === 'number') {
-            return new Euclidean2(other, 0, 0, 0, undefined).conR(this);
+            return new Euclidean2(other, 0, 0, 0, undefined).rco(this);
         }
     }
 

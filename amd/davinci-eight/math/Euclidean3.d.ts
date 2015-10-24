@@ -1,14 +1,16 @@
 import GeometricE3 = require('../math/GeometricE3');
+import GeometricOperators = require('../math/GeometricOperators');
 import Measure = require('../math/Measure');
 import GeometricElement = require('../math/GeometricElement');
 import SpinorE3 = require('../math/SpinorE3');
+import TrigMethods = require('../math/TrigMethods');
 import Unit = require('../math/Unit');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class Euclidean3
  * @extends GeometricE3
  */
-declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3> {
+declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
     static zero: Euclidean3;
     static one: Euclidean3;
     static e1: Euclidean3;
@@ -121,17 +123,42 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     __rvbar__(other: any): Euclidean3;
     __wedge__(other: any): Euclidean3;
     __rwedge__(other: any): Euclidean3;
-    conL(rhs: Euclidean3): Euclidean3;
+    lco(rhs: Euclidean3): Euclidean3;
     __lshift__(other: any): Euclidean3;
     __rlshift__(other: any): Euclidean3;
-    conR(rhs: Euclidean3): Euclidean3;
+    rco(rhs: Euclidean3): Euclidean3;
     __rshift__(other: any): Euclidean3;
     __rrshift__(other: any): Euclidean3;
     pow(exponent: Euclidean3): Euclidean3;
+    /**
+     * Unary plus(+).
+     * @method __pos__
+     * @return {Euclidean3}
+     * @private
+     */
     __pos__(): Euclidean3;
+    /**
+     * @method neg
+     * @return {Euclidean3} <code>-1 * this</code>
+     */
+    neg(): Euclidean3;
+    /**
+     * Unary minus (-).
+     * @method __neg__
+     * @return {Euclidean3}
+     * @private
+     */
     __neg__(): Euclidean3;
     /**
+     * @method reverse
+     * @return {Euclidean3}
+     */
+    reverse(): Euclidean3;
+    /**
      * ~ (tilde) produces reversion.
+     * @method __tilde__
+     * @return {Euclidean3}
+     * @private
      */
     __tilde__(): Euclidean3;
     grade(index: number): Euclidean3;

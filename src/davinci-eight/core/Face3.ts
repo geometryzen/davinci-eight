@@ -1,5 +1,5 @@
 import VectorE3 = require('../math/VectorE3');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 import ColorRGB = require('../core/ColorRGB');
 import Color = require('../core/Color');
 /**
@@ -26,7 +26,7 @@ class Face3 {
   public vertexNormals: VectorE3[];
   public vertexColors: ColorRGB[];
   public vertexTangents: VectorE3[];
-  public normal: VectorE3 = new MutableVectorE3();
+  public normal: VectorE3 = new R3();
   public color: ColorRGB = new Color();
   public materialIndex: number;
   /**
@@ -46,13 +46,13 @@ class Face3 {
   clone() {
     let face = new Face3(this.a, this.b, this.c);
 
-    face.normal = MutableVectorE3.copy(this.normal);
+    face.normal = R3.copy(this.normal);
     face.color = Color.copy(this.color);
 
     face.materialIndex = this.materialIndex;
 
     for ( var i = 0, il = this.vertexNormals.length; i < il; i ++ ) {
-      face.vertexNormals[ i ] = MutableVectorE3.copy(this.vertexNormals[i]);
+      face.vertexNormals[ i ] = R3.copy(this.vertexNormals[i]);
     }
 
     for ( var i = 0, il = this.vertexColors.length; i < il; i ++ ) {
@@ -60,7 +60,7 @@ class Face3 {
     }
 
     for ( var i = 0, il = this.vertexTangents.length; i < il; i ++ ) {
-      face.vertexTangents[ i ] = MutableVectorE3.copy(this.vertexTangents[i]);
+      face.vertexTangents[ i ] = R3.copy(this.vertexTangents[i]);
     }
     return face;
   }

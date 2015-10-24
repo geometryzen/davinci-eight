@@ -3,12 +3,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/GridSimplexGeometry', '../math/MutableVectorE3'], function (require, exports, GridSimplexGeometry, MutableVectorE3) {
+define(["require", "exports", '../geometries/GridSimplexGeometry', '../math/R3'], function (require, exports, GridSimplexGeometry, R3) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
     function mobius(u, v) {
-        var point = new MutableVectorE3([0, 0, 0]);
+        var point = new R3([0, 0, 0]);
         /**
          * radius
          */

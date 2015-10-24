@@ -4,11 +4,11 @@ import SimplexGeometry = require('../geometries/SimplexGeometry')
 import mustBeNumber = require('../checks/mustBeNumber')
 import Simplex = require('../geometries/Simplex')
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry')
-import MutableSpinorE3 = require('../math/MutableSpinorE3')
+import SpinG3 = require('../math/SpinG3')
 import SpinorE3 = require('../math/SpinorE3')
 import Symbolic = require('../core/Symbolic')
-import MutableVectorE2 = require('../math/MutableVectorE2')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R2 = require('../math/R2')
+import R3 = require('../math/R3')
 
 // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
 // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
@@ -17,12 +17,12 @@ import MutableVectorE3 = require('../math/MutableVectorE3')
 /**
  * 
  */
-function computeVertices(a: number, b: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: MutableVectorE3[], uvs: MutableVectorE2[]) {
+function computeVertices(a: number, b: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3[], uvs: R2[]) {
     /**
      * `t` is the vector perpendicular to s in the plane of the ring.
      * We could use the generator an PI / 4 to calculate this or the cross product as here.
      */
-    var perp = MutableVectorE3.copy(axis).cross(start)
+    var perp = R3.copy(axis).cross(start)
     /**
      * The distance of the vertex from the origin and center.
      */
@@ -30,13 +30,13 @@ function computeVertices(a: number, b: number, axis: VectorE3, start: VectorE3, 
     var radiusStep = (a - b) / radialSegments
 
     for (var i = 0; i < radialSegments + 1; i++) {
-        var begin = MutableVectorE3.copy(start).scale(radius)
+        var begin = R3.copy(start).scale(radius)
         var arcPoints = arc3(begin, angle, generator, thetaSegments)
         for (var j = 0, jLength = arcPoints.length; j < jLength; j++) {
             var arcPoint = arcPoints[j]
             vertices.push(arcPoint)
             // The coordinates vary between -a and +a, which we map to 0 and 1.
-            uvs.push(new MutableVectorE2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]))
+            uvs.push(new R2([(arcPoint.dot(start) / a + 1) / 2, (arcPoint.dot(perp) / a + 1) / 2]))
         }
         radius += radiusStep;
     }
@@ -50,7 +50,7 @@ function vertexIndex(i: number, j: number, thetaSegments: number): number {
     return i * (thetaSegments + 1) + j
 }
 
-function makeTriangles(vertices: MutableVectorE3[], uvs: MutableVectorE2[], axis: MutableVectorE3, radialSegments: number, thetaSegments: number, geometry: SimplexGeometry) {
+function makeTriangles(vertices: R3[], uvs: R2[], axis: R3, radialSegments: number, thetaSegments: number, geometry: SimplexGeometry) {
     for (var i = 0; i < radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
         // into the vertices or uvs array
@@ -82,7 +82,7 @@ function makeTriangles(vertices: MutableVectorE3[], uvs: MutableVectorE2[], axis
     }
 }
 
-function makeLineSegments(vertices: MutableVectorE3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
+function makeLineSegments(vertices: R3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i < radialSegments; i++) {
         for (let j = 0; j < thetaSegments; j++) {
             var simplex = new Simplex(Simplex.LINE)
@@ -110,7 +110,7 @@ function makeLineSegments(vertices: MutableVectorE3[], radialSegments: number, t
     }
 }
 
-function makePoints(vertices: MutableVectorE3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
+function makePoints(vertices: R3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i <= radialSegments; i++) {
         for (let j = 0; j <= thetaSegments; j++) {
             var simplex = new Simplex(Simplex.POINT)
@@ -120,7 +120,7 @@ function makePoints(vertices: MutableVectorE3[], radialSegments: number, thetaSe
     }
 }
 
-function makeEmpty(vertices: MutableVectorE3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
+function makeEmpty(vertices: R3[], radialSegments: number, thetaSegments: number, data: Simplex[]) {
     for (let i = 0; i <= radialSegments; i++) {
         for (let j = 0; j <= thetaSegments; j++) {
             var simplex = new Simplex(Simplex.EMPTY)
@@ -190,10 +190,10 @@ class RingSimplexGeometry extends SliceSimplexGeometry {
 
         var radialSegments = this.flatSegments
         var thetaSegments = this.curvedSegments
-        var generator: SpinorE3 = new MutableSpinorE3().dual(this.axis)
+        var generator: SpinorE3 = new SpinG3().dual(this.axis)
 
-        var vertices: MutableVectorE3[] = []
-        var uvs: MutableVectorE2[] = []
+        var vertices: R3[] = []
+        var uvs: R2[] = []
 
         computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs)
         switch (this.k) {

@@ -3,8 +3,8 @@ import VectorE3 = require('../math/VectorE3')
 import Simplex = require('../geometries/Simplex')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Symbolic = require('../core/Symbolic')
-import MutableVectorE2 = require('../math/MutableVectorE2')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R2 = require('../math/R2')
+import R3 = require('../math/R3')
 import expectArg = require('../checks/expectArg')
 import mustBeFunction = require('../checks/mustBeFunction')
 import mustBeInteger = require('../checks/mustBeInteger')
@@ -27,7 +27,7 @@ class GridSimplexGeometry extends SimplexGeometry {
     /**
      * Temporary array of points.
      */
-    let points: MutableVectorE3[] = [];
+    let points: R3[] = [];
 
     var i: number;
     var j: number;
@@ -44,7 +44,7 @@ class GridSimplexGeometry extends SimplexGeometry {
 
         let point: VectorE3 = parametricFunction( u, v );
         // Make a copy just in case the function is returning mutable references.
-        points.push(MutableVectorE3.copy(point));
+        points.push(R3.copy(point));
       }
     }
 
@@ -52,10 +52,10 @@ class GridSimplexGeometry extends SimplexGeometry {
     var b: number;
     var c: number;
     var d: number;
-    var uva: MutableVectorE2;
-    var uvb: MutableVectorE2;
-    var uvc: MutableVectorE2;
-    var uvd: MutableVectorE2;
+    var uva: R2;
+    var uvb: R2;
+    var uvc: R2;
+    var uvd: R2;
 
     for ( i = 0; i < vSegments; i ++ ) {
 
@@ -66,10 +66,10 @@ class GridSimplexGeometry extends SimplexGeometry {
         c = (i + 1) * sliceCount + j + 1;
         d = (i + 1) * sliceCount + j;
 
-        uva = new MutableVectorE2([j / uSegments, i / vSegments]);
-        uvb = new MutableVectorE2([(j + 1) / uSegments, i / vSegments]);
-        uvc = new MutableVectorE2([(j + 1) / uSegments, (i + 1) / vSegments]);
-        uvd = new MutableVectorE2([j / uSegments, (i + 1) / vSegments]);
+        uva = new R2([j / uSegments, i / vSegments]);
+        uvb = new R2([(j + 1) / uSegments, i / vSegments]);
+        uvc = new R2([(j + 1) / uSegments, (i + 1) / vSegments]);
+        uvd = new R2([j / uSegments, (i + 1) / vSegments]);
 
         var simplex = new Simplex(Simplex.TRIANGLE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a]

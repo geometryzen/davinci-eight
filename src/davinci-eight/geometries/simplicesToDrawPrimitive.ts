@@ -1,3 +1,5 @@
+import copyToArray = require('../collections/copyToArray')
+import dataFromVectorN = require('../geometries/dataFromVectorN')
 import DrawMode = require('../core/DrawMode')
 import simplicesToGeometryMeta = require('../geometries/simplicesToGeometryMeta');
 import computeUniqueVertices = require('../geometries/computeUniqueVertices');
@@ -94,11 +96,13 @@ function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryM
         for (k = 0; k < keysLen; k++) {
             let output = outputs[k]
             let size = output.dimensions
-            let data: VectorN<number> = vertexAttribs[keys[k]]
-            if (!data) {
-                data = new VectorN<number>(numberList(size, 0), false, size)
+            let value: VectorN<number> = vertexAttribs[keys[k]]
+            if (!value) {
+                value = new VectorN<number>(numberList(size, 0), false, size)
             }
-            data.toArray(output.data, i * output.dimensions)
+            // TODO: Merge functions to avoid creating temporary array.
+            let data: number[] = dataFromVectorN(value)
+            copyToArray(data, output.data, i * output.dimensions)
         }
     }
 

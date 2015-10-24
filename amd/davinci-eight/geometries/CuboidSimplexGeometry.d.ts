@@ -1,5 +1,5 @@
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class CuboidSimplexGeometry
@@ -9,21 +9,21 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
     /**
      * Parameter is private so that we can detect assignments.
      * @property _a
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @private
      */
     private _a;
     /**
      * Parameter is private so that we can detect assignments.
      * @property _b
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @private
      */
     private _b;
     /**
      * Parameter is private so that we can detect assignments.
      * @property _c
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @private
      */
     private _c;
@@ -43,9 +43,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * </p>
      * @class CuboidSimplexGeometry
      * @constructor
-     * @param a [VectorE3 = MutableVectorE3.e1]
-     * @param b [VectorE3 = MutableVectorE3.e1]
-     * @param c [VectorE3 = MutableVectorE3.e1]
+     * @param a [VectorE3 = R3.e1]
+     * @param b [VectorE3 = R3.e1]
+     * @param c [VectorE3 = R3.e1]
      * @param k [number = Simplex.TRIANGLE]
      * @param subdivide [number = 0]
      * @param boundary [number = 0]
@@ -64,9 +64,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * Assignment is by reference making it possible for parameters to be shared references.
      * </p>
      * @property a
-     * @type {MutableVectorE3}
+     * @type {R3}
      */
-    a: MutableVectorE3;
+    a: R3;
     /**
      * <p>
      * A vector parameterizing the shape of the cuboid.
@@ -74,9 +74,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * Assignment is by reference making it possible for parameters to be shared references.
      * </p>
      * @property b
-     * @type {MutableVectorE3}
+     * @type {R3}
      */
-    b: MutableVectorE3;
+    b: R3;
     /**
      * <p>
      * A vector parameterizing the shape of the cuboid.
@@ -84,9 +84,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * Assignment is by reference making it possible for parameters to be shared references.
      * </p>
      * @property c
-     * @type {MutableVectorE3}
+     * @type {R3}
      */
-    c: MutableVectorE3;
+    c: R3;
     isModified(): boolean;
     /**
      * @method setModified

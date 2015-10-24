@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/MutableVectorE3'], function (require, exports, readOnly, Shareable, MutableVectorE3) {
+define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/R3'], function (require, exports, readOnly, Shareable, R3) {
     /**
      * @class EulerFacet
      */
@@ -15,7 +15,7 @@ define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math
          */
         function EulerFacet() {
             _super.call(this, 'EulerFacet');
-            this._rotation = new MutableVectorE3();
+            this._rotation = new R3();
         }
         EulerFacet.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
@@ -37,7 +37,7 @@ define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math
         Object.defineProperty(EulerFacet.prototype, "rotation", {
             /**
              * @property rotation
-             * @type {MutableVectorE3}
+             * @type {R3}
              * @readOnly
              */
             get: function () {

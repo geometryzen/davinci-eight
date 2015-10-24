@@ -1,13 +1,13 @@
-define(["require", "exports", '../math/Euclidean3', '../math/MutableVectorE3', '../math/Matrix4', '../checks/mustBeNumber', '../checks/mustBeObject', '../core/Symbolic', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Euclidean3, MutableVectorE3, Matrix4, mustBeNumber, mustBeObject, Symbolic, isUndefined, computeViewMatrix) {
+define(["require", "exports", '../math/Euclidean3', '../math/R3', '../math/Matrix4', '../checks/mustBeNumber', '../checks/mustBeObject', '../core/Symbolic', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Euclidean3, R3, Matrix4, mustBeNumber, mustBeObject, Symbolic, isUndefined, computeViewMatrix) {
     /**
      * @class createView
      * @constructor
      */
     var createView = function (options) {
         var refCount = 1;
-        var eye = new MutableVectorE3();
-        var look = new MutableVectorE3();
-        var up = MutableVectorE3.copy(Euclidean3.e2);
+        var eye = new R3();
+        var look = new R3();
+        var up = R3.copy(Euclidean3.e2);
         var viewMatrix = Matrix4.identity();
         var viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
         // Force an update of the view matrix.
@@ -39,7 +39,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/MutableVectorE3', '
             },
             /**
              * @method setEye
-             * @param eye {MutableVectorE3}
+             * @param eye {R3}
              * @return {View} `this` instance.
              */
             setEye: function (eye_) {

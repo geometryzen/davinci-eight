@@ -1,4 +1,5 @@
 import GeometricE3 = require('../math/GeometricE3');
+import GeometricOperators = require('../math/GeometricOperators');
 import MutableGeometricElement = require('../math/MutableGeometricElement');
 import SpinorE3 = require('../math/SpinorE3');
 import VectorE3 = require('../math/VectorE3');
@@ -8,7 +9,7 @@ import VectorN = require('../math/VectorN');
  * @extends GeometricE3
  * @beta
  */
-declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement<GeometricE3, G3, SpinorE3, VectorE3, GeometricE3> {
+declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement<GeometricE3, G3, SpinorE3, VectorE3, GeometricE3>, GeometricOperators<G3> {
     /**
      * Constructs a <code>G3</code>.
      * The multivector is initialized to zero.
@@ -78,6 +79,17 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     add(M: GeometricE3, α?: number): G3;
     /**
      * <p>
+     * <code>this ⟼ this + v * α</code>
+     * </p>
+     * @method addVector
+     * @param v {VectorE3}
+     * @param α [number = 1]
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    addVector(v: VectorE3, α?: number): G3;
+    /**
+     * <p>
      * <code>this ⟼ a + b</code>
      * </p>
      * @method add2
@@ -105,12 +117,12 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * <p>
      * <code>this ⟼ this << m</code>
      * </p>
-     * @method conL
+     * @method lco
      * @param m {GeometricE3}
      * @return {G3} <code>this</code>
      * @chainable
      */
-    conL(m: GeometricE3): G3;
+    lco(m: GeometricE3): G3;
     /**
      * <p>
      * <code>this ⟼ a << b</code>
@@ -126,12 +138,12 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * <p>
      * <code>this ⟼ this >> m</code>
      * </p>
-     * @method conR
+     * @method rco
      * @param m {GeometricE3}
      * @return {G3} <code>this</code>
      * @chainable
      */
-    conR(m: GeometricE3): G3;
+    rco(m: GeometricE3): G3;
     /**
      * <p>
      * <code>this ⟼ a >> b</code>
@@ -153,6 +165,26 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * @chainable
      */
     copy(M: GeometricE3): G3;
+    /**
+     * <p>
+     * <code>this ⟼ copy(spinor)</code>
+     * </p>
+     * @method copySpinor
+     * @param spinor {SpinorE3}
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    copySpinor(spinor: SpinorE3): G3;
+    /**
+     * <p>
+     * <code>this ⟼ copyVector(vector)</code>
+     * </p>
+     * @method copyVector
+     * @param vector {VectorE3}
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    copyVector(vector: VectorE3): G3;
     /**
      * <p>
      * <code>this ⟼ this / m</code>
@@ -268,6 +300,15 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      */
     mul2(a: GeometricE3, b: GeometricE3): G3;
     /**
+     * <p>
+     * <code>this ⟼ -1 * this</code>
+     * </p>
+     * @method neg
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    neg(): G3;
+    /**
     * <p>
     * <code>this ⟼ sqrt(this * conj(this))</code>
     * </p>
@@ -300,6 +341,20 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * @chainable
      */
     reflect(n: VectorE3): G3;
+    /**
+     * <p>
+     * <code>this ⟼ reverse(this)</code>
+     * </p>
+     * @method reverse
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    reverse(): G3;
+    /**
+     * @method __tilde__
+     * @return {G3}
+     */
+    __tilde__(): G3;
     /**
      * <p>
      * <code>this ⟼ R * this * reverse(R)</code>
@@ -369,7 +424,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * @method spinor
      * @param a {VectorE3}
      * @param b {VectorE3}
-     * @return {G3}
+     * @return {G3} <code>this</code>
      */
     spinor(a: VectorE3, b: VectorE3): G3;
     /**
@@ -415,5 +470,91 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * @chainable
      */
     wedge2(a: GeometricE3, b: GeometricE3): G3;
+    /**
+     * @method __add__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __add__(other: any): G3;
+    /**
+     * @method __div__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __div__(other: any): G3;
+    /**
+     * @method __mul__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __mul__(other: any): G3;
+    /**
+     * @method __radd__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __radd__(other: any): G3;
+    /**
+     * @method __sub__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __sub__(other: any): G3;
+    /**
+     * @method __rsub__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __rsub__(other: any): G3;
+    /**
+     * @method __pos__
+     * @return {G3}
+     * @private
+     * @chainable
+     */
+    __pos__(): G3;
+    /**
+     * @method __neg__
+     * @return {G3}
+     * @private
+     * @chainable
+     */
+    __neg__(): G3;
+    /**
+     * @method copy
+     * @param M {GeometricE3}
+     * @return {G3}
+     * @static
+     */
+    static copy(M: GeometricE3): G3;
+    /**
+     * @method fromSpinor
+     * @param spinor {SpinorE3}
+     * @return {G3}
+     * @static
+     */
+    static fromSpinor(spinor: SpinorE3): G3;
+    /**
+     * @method fromVector
+     * @param vector {VectorE3}
+     * @return {G3}
+     * @static
+     */
+    static fromVector(vector: VectorE3): G3;
+    /**
+    * @method lerp
+    * @param A {GeometricE3}
+    * @param B {GeometricE3}
+    * @param α {number}
+    * @return {G3} <code>A + α * (B - A)</code>
+    * @static
+    */
+    static lerp(A: GeometricE3, B: GeometricE3, α: number): G3;
 }
 export = G3;

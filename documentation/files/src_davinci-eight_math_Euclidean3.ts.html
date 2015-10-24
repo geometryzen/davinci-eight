@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.139.0</em>
+            <em>API Docs for: 2.140.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,10 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -124,11 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
-                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
-                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
-                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
-                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -140,7 +135,11 @@
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1.html">R1</a></li>
+                                <li><a href="../classes/R2.html">R2</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
+                                <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
@@ -156,6 +155,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -227,6 +227,7 @@ import extG3 = require(&#x27;../math/extG3&#x27;)
 import GeometricE3 = require(&#x27;../math/GeometricE3&#x27;)
 import isDefined = require(&#x27;../checks/isDefined&#x27;)
 import lcoG3 = require(&#x27;../math/lcoG3&#x27;)
+import GeometricOperators = require(&#x27;../math/GeometricOperators&#x27;)
 import mathcore = require(&#x27;../math/mathcore&#x27;);
 import Measure = require(&#x27;../math/Measure&#x27;);
 import mulE3 = require(&#x27;../math/mulE3&#x27;)
@@ -237,6 +238,7 @@ import rcoG3 = require(&#x27;../math/rcoG3&#x27;)
 import scpG3 = require(&#x27;../math/scpG3&#x27;)
 import subE3 = require(&#x27;../math/subE3&#x27;)
 import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
+import TrigMethods = require(&#x27;../math/TrigMethods&#x27;)
 import Unit = require(&#x27;../math/Unit&#x27;);
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 
@@ -502,7 +504,7 @@ function stringFromCoordinates(
  * @class Euclidean3
  * @extends GeometricE3
  */
-class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricElement&lt;Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3&gt; {
+class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricElement&lt;Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3&gt;, GeometricOperators&lt;Euclidean3&gt;, TrigMethods&lt;Euclidean3&gt; {
     public static zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
     public static one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
     public static e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
@@ -827,7 +829,7 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
         }
     }
 
-    conL(rhs: Euclidean3): Euclidean3 {
+    lco(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
         return lcoG3(this, rhs, out)
@@ -835,23 +837,23 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
 
     __lshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return this.conL(other);
+            return this.lco(other);
         }
         else if (typeof other === &#x27;number&#x27;) {
-            return this.conL(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+            return this.lco(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rlshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return (&lt;Euclidean3&gt;other).conL(this);
+            return (&lt;Euclidean3&gt;other).lco(this);
         }
         else if (typeof other === &#x27;number&#x27;) {
-            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conL(this);
+            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).lco(this);
         }
     }
 
-    conR(rhs: Euclidean3): Euclidean3 {
+    rco(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
         return rcoG3(this, rhs, out)
@@ -859,19 +861,19 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
 
     __rshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return this.conR(other);
+            return this.rco(other);
         }
         else if (typeof other === &#x27;number&#x27;) {
-            return this.conR(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+            return this.rco(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rrshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return (&lt;Euclidean3&gt;other).conR(this);
+            return (&lt;Euclidean3&gt;other).rco(this);
         }
         else if (typeof other === &#x27;number&#x27;) {
-            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conR(this);
+            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).rco(this);
         }
     }
 
@@ -880,19 +882,49 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
         throw new Euclidean3Error(&#x27;pow&#x27;);
     }
 
+    /**
+     * Unary plus(+).
+     * @method __pos__
+     * @return {Euclidean3}
+     * @private
+     */
     __pos__(): Euclidean3 {
         return this;
     }
 
-    __neg__(): Euclidean3 {
+    /**
+     * @method neg
+     * @return {Euclidean3} &lt;code&gt;-1 * this&lt;/code&gt;
+     */
+    neg(): Euclidean3 {
         return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+    }
+    /**
+     * Unary minus (-).
+     * @method __neg__
+     * @return {Euclidean3}
+     * @private
+     */
+    __neg__(): Euclidean3 {
+        return this.neg()
+    }
+
+    /**
+     * @method reverse
+     * @return {Euclidean3}
+     */
+    reverse(): Euclidean3 {
+        return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
     }
 
     /**
      * ~ (tilde) produces reversion.
+     * @method __tilde__
+     * @return {Euclidean3}
+     * @private
      */
     __tilde__(): Euclidean3 {
-        return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+        return this.reverse()
     }
 
     grade(index: number): Euclidean3 {

@@ -1,7 +1,7 @@
 import IFacet = require('../core/IFacet');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 import VectorE3 = require('../math/VectorE3');
-import MutableSpinorE3 = require('../math/MutableSpinorE3');
+import SpinG3 = require('../math/SpinG3');
 import SpinorE3 = require('../math/SpinorE3');
 
 /**
@@ -10,19 +10,19 @@ import SpinorE3 = require('../math/SpinorE3');
 interface View extends IFacet {
   /**
    * @property eye
-   * @type MutableVectorE3
+   * @type R3
    */
-  eye: MutableVectorE3;
+  eye: R3;
   /**
    * @property look
-   * @type MutableVectorE3
+   * @type R3
    */
-  look: MutableVectorE3;
+  look: R3;
   /**
    * @property up
-   * @type MutableVectorE3
+   * @type R3
    */
-  up: MutableVectorE3;
+  up: R3;
   /**
    * Convenience method for setting the eye property allowing chainable method calls.
    * @method setEye

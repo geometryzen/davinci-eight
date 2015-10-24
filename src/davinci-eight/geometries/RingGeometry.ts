@@ -4,11 +4,10 @@ import GridTopology = require('../topologies/GridTopology')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import AxialGeometry = require('../geometries/AxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
-import MutableNumber = require('../math/MutableNumber')
-import MutableSpinorE3 = require('../math/MutableSpinorE3')
+import R1 = require('../math/R1')
 import Symbolic = require('../core/Symbolic')
-import MutableVectorE2 = require('../math/MutableVectorE2')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R2 = require('../math/R2')
+import G3 = require('../math/G3')
 
 /**
  * @class RingGeometry
@@ -66,9 +65,9 @@ class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry>
         let topo = new GridTopology(uSegments, vSegments)
         let a = this.outerRadius
         let b = this.innerRadius
-        let axis = MutableVectorE3.copy(this.axis)
-        let start = MutableVectorE3.copy(this.sliceStart)
-        let generator = new MutableSpinorE3().dual(this.axis)
+        let axis = G3.fromVector(this.axis)
+        let start = G3.fromVector(this.sliceStart)
+        let generator = new G3().dual(this.axis)
 
         for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
             let u = uIndex / uSegments
@@ -77,10 +76,10 @@ class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry>
                 let v = vIndex / vSegments
                 let position = start.clone().rotate(rotor).scale(b + (a - b) * v)
                 let vertex = topo.vertex(uIndex, vIndex)
-                vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position)
+                vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.addVector(this.position)
                 vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = axis
                 if (this.useTextureCoords) {
-                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new MutableVectorE2([u, v])
+                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
                 }
             }
         }

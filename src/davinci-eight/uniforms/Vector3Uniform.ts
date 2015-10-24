@@ -3,7 +3,7 @@ import IFacetVisitor = require('../core/IFacetVisitor')
 import mustBeObject = require('../checks/mustBeObject')
 import mustBeString = require('../checks/mustBeString')
 import Shareable = require('../utils/Shareable')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R3 = require('../math/R3')
 
 var LOGGING_NAME = 'Vector3Uniform'
 
@@ -16,14 +16,14 @@ function contextBuilder() {
  */
 class Vector3Uniform extends Shareable implements IFacet {
   private _name: string;
-  private _vector: MutableVectorE3;
+  private _vector: R3;
   /**
    * @class Vector3Uniform
    * @constructor
    * @param name {string}
-   * @param vector {MutableVectorE3}
+   * @param vector {R3}
    */
-  constructor(name: string, vector: MutableVectorE3) {
+  constructor(name: string, vector: R3) {
     super('Vector3Uniform')
     this._name = mustBeString('name', name, contextBuilder)
     this._vector = mustBeObject('vector', vector, contextBuilder)

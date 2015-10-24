@@ -318,7 +318,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'MutableVectorE2', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'R2', name, canvasId);
                     }
                 }
             }
@@ -336,7 +336,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'MutableVectorE3', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'R3', name, canvasId);
                     }
                 }
             }
@@ -354,7 +354,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'MutableVectorE4', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'R4', name, canvasId);
                     }
                 }
             }

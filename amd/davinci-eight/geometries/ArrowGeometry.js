@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/ConeGeometry', '../geometries/CylinderGeometry', '../geometries/AxialGeometry', '../geometries/RingGeometry', '../math/MutableVectorE3'], function (require, exports, ConeGeometry, CylinderGeometry, AxialGeometry, RingGeometry, MutableVectorE3) {
+define(["require", "exports", '../geometries/ConeGeometry', '../geometries/CylinderGeometry', '../geometries/AxialGeometry', '../geometries/RingGeometry', '../math/R3'], function (require, exports, ConeGeometry, CylinderGeometry, AxialGeometry, RingGeometry, R3) {
     /**
      * @class ArrowGeometry
      */
@@ -66,15 +66,15 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
             /**
              * The opposite direction to the axis.
              */
-            var back = MutableVectorE3.copy(this.axis).scale(-1);
+            var back = R3.copy(this.axis).scale(-1);
             /**
              * The neck is the place where the cone meets the shaft.
              */
-            var neck = MutableVectorE3.copy(this.axis).scale(heightShaft).add(this.position);
+            var neck = R3.copy(this.axis).scale(heightShaft).add(this.position);
             /**
              * The tail is the the position of the blunt end of the arrow.
              */
-            var tail = MutableVectorE3.copy(this.position);
+            var tail = R3.copy(this.position);
             var cone = new ConeGeometry();
             cone.radius = this.radiusCone;
             cone.height = this.heightCone;

@@ -1,4 +1,4 @@
-define(["require", "exports", '../geometries/DrawAttribute', '../geometries/DrawPrimitive', '../checks/mustBeInteger', '../geometries/Vertex'], function (require, exports, DrawAttribute, DrawPrimitive, mustBeInteger, Vertex) {
+define(["require", "exports", '../geometries/DrawAttribute', '../geometries/DrawPrimitive', '../checks/mustBeInteger', '../geometries/Vertex', '../geometries/dataFromVectorN'], function (require, exports, DrawAttribute, DrawPrimitive, mustBeInteger, Vertex, dataFromVectorN) {
     function attributes(elements, vertices) {
         var attribs = {};
         for (var vertexIndex = 0; vertexIndex < vertices.length; vertexIndex++) {
@@ -6,7 +6,7 @@ define(["require", "exports", '../geometries/DrawAttribute', '../geometries/Draw
             var names = Object.keys(vertex.attributes);
             for (var namesIndex = 0; namesIndex < names.length; namesIndex++) {
                 var name = names[namesIndex];
-                var data = vertex.attributes[name].data;
+                var data = dataFromVectorN(vertex.attributes[name]);
                 var chunkSize = data.length;
                 var attrib = attribs[name];
                 if (!attrib) {

@@ -1,7 +1,7 @@
 import IContextProvider = require('../core/IContextProvider');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
-import MutableNumber = require('../math/MutableNumber');
+import R1 = require('../math/R1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
@@ -16,9 +16,9 @@ import Shareable = require('../utils/Shareable')
 import StringIUnknownMap = require('../collections/StringIUnknownMap');
 import uuid4 = require('../utils/uuid4');
 import IFacet = require('../core/IFacet');
-import MutableVectorE2 = require('../math/MutableVectorE2');
-import MutableVectorE3 = require('../math/MutableVectorE3');
-import MutableVectorE4 = require('../math/MutableVectorE4');
+import R2 = require('../math/R2');
+import R3 = require('../math/R3');
+import R4 = require('../math/R4');
 
 let CLASS_NAME_DRAWLIST = "createDrawList";
 let CLASS_NAME_GROUP = "DrawableGroup";

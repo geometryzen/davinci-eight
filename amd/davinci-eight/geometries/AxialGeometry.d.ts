@@ -1,6 +1,6 @@
 import Geometry = require('../geometries/Geometry');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class AxialGeometry
@@ -8,10 +8,10 @@ import VectorE3 = require('../math/VectorE3');
 declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * @property _axis
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @protected
      */
-    protected _axis: MutableVectorE3;
+    protected _axis: R3;
     /**
      * @property _sliceAngle
      * @type {number}
@@ -20,7 +20,7 @@ declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeom
     private _sliceAngle;
     /**
      * @property _sliceStart
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @private
      */
     private _sliceStart;

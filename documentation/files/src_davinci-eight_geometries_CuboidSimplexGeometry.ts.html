@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.139.0</em>
+            <em>API Docs for: 2.140.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,10 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -124,11 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
-                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
-                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
-                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
-                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -140,7 +135,11 @@
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1.html">R1</a></li>
+                                <li><a href="../classes/R2.html">R2</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
+                                <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
@@ -156,6 +155,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -234,8 +234,8 @@ import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 import triangle = require(&#x27;../geometries/triangle&#x27;)
-import MutableNumber = require(&#x27;../math/MutableNumber&#x27;)
-import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;)
+import R1 = require(&#x27;../math/R1&#x27;)
+import R3 = require(&#x27;../math/R3&#x27;)
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 import VectorN = require(&#x27;../math/VectorN&#x27;)
 
@@ -247,24 +247,24 @@ class CuboidSimplexGeometry extends SimplexGeometry {
   /**
    * Parameter is private so that we can detect assignments.
    * @property _a
-   * @type {MutableVectorE3}
+   * @type {R3}
    * @private
    */
-  private _a: MutableVectorE3;
+  private _a: R3;
   /**
    * Parameter is private so that we can detect assignments.
    * @property _b
-   * @type {MutableVectorE3}
+   * @type {R3}
    * @private
    */
-  private _b: MutableVectorE3;
+  private _b: R3;
   /**
    * Parameter is private so that we can detect assignments.
    * @property _c
-   * @type {MutableVectorE3}
+   * @type {R3}
    * @private
    */
-  private _c: MutableVectorE3;
+  private _c: R3;
   /**
    * Used to mark the parameters of this object dirty when they are possibly shared.
    * @property _isModified
@@ -281,9 +281,9 @@ class CuboidSimplexGeometry extends SimplexGeometry {
    * &lt;/p&gt;
    * @class CuboidSimplexGeometry
    * @constructor
-   * @param a [VectorE3 = MutableVectorE3.e1]
-   * @param b [VectorE3 = MutableVectorE3.e1]
-   * @param c [VectorE3 = MutableVectorE3.e1]
+   * @param a [VectorE3 = R3.e1]
+   * @param b [VectorE3 = R3.e1]
+   * @param c [VectorE3 = R3.e1]
    * @param k [number = Simplex.TRIANGLE]
    * @param subdivide [number = 0]
    * @param boundary [number = 0]
@@ -293,12 +293,12 @@ class CuboidSimplexGeometry extends SimplexGeometry {
        var material = new EIGHT.MeshMaterial();
        var cube = new EIGHT.Drawable([primitive], material);
    */
-  constructor(a: VectorE3 = MutableVectorE3.e1, b: VectorE3 = MutableVectorE3.e2, c: VectorE3 = MutableVectorE3.e3, k: number = Simplex.TRIANGLE, subdivide: number = 0, boundary: number = 0)
+  constructor(a: VectorE3 = R3.e1, b: VectorE3 = R3.e2, c: VectorE3 = R3.e3, k: number = Simplex.TRIANGLE, subdivide: number = 0, boundary: number = 0)
   {
     super(&#x27;CuboidSimplexGeometry&#x27;)
-    this.a = MutableVectorE3.copy(a)
-    this.b = MutableVectorE3.copy(b)
-    this.c = MutableVectorE3.copy(c)
+    this.a = R3.copy(a)
+    this.b = R3.copy(b)
+    this.c = R3.copy(c)
     this.k = k
     this.subdivide(subdivide)
     this.boundary(boundary)
@@ -314,13 +314,13 @@ class CuboidSimplexGeometry extends SimplexGeometry {
    * Assignment is by reference making it possible for parameters to be shared references.
    * &lt;/p&gt;
    * @property a
-   * @type {MutableVectorE3}
+   * @type {R3}
    */
-  public get a(): MutableVectorE3 {
+  public get a(): R3 {
     return this._a
   }
-  public set a(a: MutableVectorE3) {
-    if (a instanceof MutableVectorE3) {
+  public set a(a: R3) {
+    if (a instanceof R3) {
       this._a = a
       this._isModified = true
     }
@@ -335,13 +335,13 @@ class CuboidSimplexGeometry extends SimplexGeometry {
    * Assignment is by reference making it possible for parameters to be shared references.
    * &lt;/p&gt;
    * @property b
-   * @type {MutableVectorE3}
+   * @type {R3}
    */
-  public get b(): MutableVectorE3 {
+  public get b(): R3 {
     return this._b
   }
-  public set b(b: MutableVectorE3) {
-    if (b instanceof MutableVectorE3) {
+  public set b(b: R3) {
+    if (b instanceof R3) {
       this._b = b
       this._isModified = true
     }
@@ -356,13 +356,13 @@ class CuboidSimplexGeometry extends SimplexGeometry {
    * Assignment is by reference making it possible for parameters to be shared references.
    * &lt;/p&gt;
    * @property c
-   * @type {MutableVectorE3}
+   * @type {R3}
    */
-  public get c(): MutableVectorE3 {
+  public get c(): R3 {
     return this._c
   }
-  public set c(c: MutableVectorE3) {
-    if (c instanceof MutableVectorE3) {
+  public set c(c: R3) {
+    if (c instanceof R3) {
       this._c = c
       this._isModified = true
     }
@@ -394,21 +394,21 @@ class CuboidSimplexGeometry extends SimplexGeometry {
   public regenerate(): void {
     this.setModified(false)
 
-    var pos: MutableVectorE3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})
-    pos[0] = new MutableVectorE3().sub(this._a).sub(this._b).add(this._c).divideByScalar(2)
-    pos[1] = new MutableVectorE3().add(this._a).sub(this._b).add(this._c).divideByScalar(2)
-    pos[2] = new MutableVectorE3().add(this._a).add(this._b).add(this._c).divideByScalar(2)
-    pos[3] = new MutableVectorE3().sub(this._a).add(this._b).add(this._c).divideByScalar(2)
-    pos[4] = new MutableVectorE3().copy(pos[3]).sub(this._c)
-    pos[5] = new MutableVectorE3().copy(pos[2]).sub(this._c)
-    pos[6] = new MutableVectorE3().copy(pos[1]).sub(this._c)
-    pos[7] = new MutableVectorE3().copy(pos[0]).sub(this._c)
+    var pos: R3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})
+    pos[0] = new R3().sub(this._a).sub(this._b).add(this._c).divideByScalar(2)
+    pos[1] = new R3().add(this._a).sub(this._b).add(this._c).divideByScalar(2)
+    pos[2] = new R3().add(this._a).add(this._b).add(this._c).divideByScalar(2)
+    pos[3] = new R3().sub(this._a).add(this._b).add(this._c).divideByScalar(2)
+    pos[4] = new R3().copy(pos[3]).sub(this._c)
+    pos[5] = new R3().copy(pos[2]).sub(this._c)
+    pos[6] = new R3().copy(pos[1]).sub(this._c)
+    pos[7] = new R3().copy(pos[0]).sub(this._c)
 
     function simplex(indices: number[]): Simplex {
       let simplex = new Simplex(indices.length - 1)
       for (var i = 0; i &lt; indices.length; i++) {
         simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]]
-        simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = new MutableNumber([i])
+        simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = new R1([i])
       }
       return simplex
     }

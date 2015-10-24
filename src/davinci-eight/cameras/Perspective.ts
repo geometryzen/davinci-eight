@@ -1,6 +1,6 @@
 import View = require('../cameras/View');
 import VectorE3 = require('../math/VectorE3');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 
 /**
  * @class Perspective

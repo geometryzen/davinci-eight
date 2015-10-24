@@ -5,8 +5,8 @@ import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Simplex = require('../geometries/Simplex')
 import Sphere = require('../math/Sphere')
 import Symbolic = require('../core/Symbolic')
-import MutableVectorE2 = require('../math/MutableVectorE2')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R2 = require('../math/R2')
+import R3 = require('../math/R3')
 
 // Angle around the Y axis, counter-clockwise when looking from above.
 function azimuth(vector: VectorE3): number {
@@ -22,24 +22,24 @@ function inclination(pos: VectorE3): number {
  * Modifies the incoming point by projecting it onto the unit sphere.
  * Add the point to the array of points
  * Sets a hidden `index` property to the index in `points`
- * Computes the texture coordinates and sticks them in the hidden `uv` property as a MutableVectorE2.
+ * Computes the texture coordinates and sticks them in the hidden `uv` property as a R2.
  * OK!
  */
-function prepare(point: VectorE3, points: MutableVectorE3[]): VectorE3 {
-    let vertex: MutableVectorE3 = MutableVectorE3.copy(point).normalize()
+function prepare(point: VectorE3, points: R3[]): VectorE3 {
+    let vertex: R3 = R3.copy(point).normalize()
     points.push(vertex)
     // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
     let u = azimuth(point) / 2 / Math.PI + 0.5;
     let v = inclination(point) / Math.PI + 0.5;
     var something: any = vertex
-    something['uv'] = new MutableVectorE2([u, 1 - v]);
+    something['uv'] = new R2([u, 1 - v]);
     return vertex;
 }
 
 // Texture fixing helper. Spheres have some odd behaviours.
-function correctUV(uv: MutableVectorE2, vector: VectorE3, azimuth: number): MutableVectorE2 {
-    if ((azimuth < 0) && (uv.x === 1)) uv = new MutableVectorE2([uv.x - 1, uv.y]);
-    if ((vector.x === 0) && (vector.z === 0)) uv = new MutableVectorE2([azimuth / 2 / Math.PI + 0.5, uv.y]);
+function correctUV(uv: R2, vector: VectorE3, azimuth: number): R2 {
+    if ((azimuth < 0) && (uv.x === 1)) uv = new R2([uv.x - 1, uv.y]);
+    if ((vector.x === 0) && (vector.z === 0)) uv = new R2([azimuth / 2 / Math.PI + 0.5, uv.y]);
     return uv.clone();
 }
 
@@ -58,10 +58,10 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
 
         var that = this;
 
-        var points: MutableVectorE3[] = []
+        var points: R3[] = []
 
         for (var i = 0, l = vertices.length; i < l; i += 3) {
-            prepare(new MutableVectorE3([vertices[i], vertices[i + 1], vertices[i + 2]]), points)
+            prepare(new R3([vertices[i], vertices[i + 1], vertices[i + 2]]), points)
         }
 
         var faces: Simplex[] = [];
@@ -76,11 +76,11 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
             // TODO: Optimize vector copies.
             var simplex = new Simplex(Simplex.TRIANGLE)
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = v1
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v1)
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v1)
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = v2
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v2)
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v2)
             simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = v3
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v3)
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v3)
             faces[j] = simplex
         }
 
@@ -129,7 +129,7 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
 
         //    this.computeFaceNormals();
 
-        //    this.boundingSphere = new Sphere(new MutableVectorE3([0, 0, 0]), radius);
+        //    this.boundingSphere = new Sphere(new R3([0, 0, 0]), radius);
 
 
         function centroid(v1: VectorE3, v2: VectorE3, v3: VectorE3): VectorE3 {
@@ -154,26 +154,26 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
             var uv3 = correctUV(something3['uv'], v3, azi);
 
             var simplex = new Simplex(Simplex.TRIANGLE)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(v1)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v1)
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v1)
+            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v1)
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(v2)
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v2)
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v2)
+            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v2)
             simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = MutableVectorE3.copy(v3)
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = MutableVectorE3.copy(v3)
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v3)
+            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v3)
             simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3
             that.data.push(simplex)
         }
 
         // Analytically subdivide a face to the required detail level.
 
-        function subdivide(face: Simplex, detail: number, points: MutableVectorE3[]) {
+        function subdivide(face: Simplex, detail: number, points: R3[]) {
 
             var cols = Math.pow(2, detail);
-            var a: VectorE3 = prepare(<MutableVectorE3>face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION], points);
-            var b: VectorE3 = prepare(<MutableVectorE3>face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION], points);
-            var c: VectorE3 = prepare(<MutableVectorE3>face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION], points);
+            var a: VectorE3 = prepare(<R3>face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION], points);
+            var b: VectorE3 = prepare(<R3>face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION], points);
+            var c: VectorE3 = prepare(<R3>face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION], points);
             var v: VectorE3[][] = [];
 
             // Construct all of the vertices for this subdivision.
@@ -182,8 +182,8 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
 
                 v[i] = [];
 
-                var aj: VectorE3 = prepare(MutableVectorE3.copy(a).lerp(c, i / cols), points);
-                var bj: VectorE3 = prepare(MutableVectorE3.copy(b).lerp(c, i / cols), points);
+                var aj: VectorE3 = prepare(R3.copy(a).lerp(c, i / cols), points);
+                var bj: VectorE3 = prepare(R3.copy(b).lerp(c, i / cols), points);
                 var rows = cols - i;
 
                 for (var j = 0; j <= rows; j++) {
@@ -192,7 +192,7 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
                         v[i][j] = aj;
                     }
                     else {
-                        v[i][j] = prepare(MutableVectorE3.copy(aj).lerp(bj, j / rows), points);
+                        v[i][j] = prepare(R3.copy(aj).lerp(bj, j / rows), points);
                     }
 
                 }

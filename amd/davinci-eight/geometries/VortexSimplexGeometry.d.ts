@@ -1,5 +1,5 @@
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import MutableSpinorE3 = require('../math/MutableSpinorE3');
+import SpinG3 = require('../math/SpinG3');
 /**
  * @class VortexSimplexGeometry
  */
@@ -11,7 +11,7 @@ declare class VortexSimplexGeometry extends SimplexGeometry {
     lengthShaft: number;
     arrowSegments: number;
     radialSegments: number;
-    generator: MutableSpinorE3;
+    generator: SpinG3;
     /**
      * @class VortexSimplexGeometry
      * @constructor

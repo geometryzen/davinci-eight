@@ -3,8 +3,8 @@ import GeometryMeta = require('../geometries/GeometryMeta');
 import IGeometry = require('../geometries/IGeometry');
 import Shareable = require('../utils/Shareable');
 import Simplex = require('../geometries/Simplex');
-import MutableVectorE3 = require('../math/MutableVectorE3');
-import MutableVectorE2 = require('../math/MutableVectorE2');
+import R3 = require('../math/R3');
+import R2 = require('../math/R2');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class SimplexGeometry
@@ -168,16 +168,16 @@ declare class SimplexGeometry extends Shareable implements IGeometry<SimplexGeom
     /**
      * Convenience method for pushing attribute data as a triangular simplex
      * @method triangle
-     * @param positions {MutableVectorE3[]}
-     * @param normals {MutableVectorE3[]}
-     * @param uvs {MutableVectorE2[]}
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
      * @return {number}
      * @beta
      */
-    triangle(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number;
-    lineSegment(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number;
-    point(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number;
-    empty(positions: MutableVectorE3[], normals: MutableVectorE3[], uvs: MutableVectorE2[]): number;
+    triangle(positions: R3[], normals: R3[], uvs: R2[]): number;
+    lineSegment(positions: R3[], normals: R3[], uvs: R2[]): number;
+    point(positions: R3[], normals: R3[], uvs: R2[]): number;
+    empty(positions: R3[], normals: R3[], uvs: R2[]): number;
     enableTextureCoords(enable: boolean): SimplexGeometry;
 }
 export = SimplexGeometry;

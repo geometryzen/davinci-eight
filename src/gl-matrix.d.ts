@@ -30,12 +30,12 @@ interface Matrix4Service {
   translate(m1: number[], m2: number[], displacement: number[]): void;
 }
 
-interface MutableVectorE3 {
+interface R3 {
 
 }
 
 interface Vector3Service {
-  fromValues(x: number, y: number, z: number): MutableVectorE3;
+  fromValues(x: number, y: number, z: number): R3;
 }
 
 interface glMatrix {

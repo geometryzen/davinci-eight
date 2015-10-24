@@ -1,8 +1,8 @@
 import VectorE3 = require('../math/VectorE3');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
-import MutableNumber = require('../math/MutableNumber');
+import R1 = require('../math/R1');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 /**
  * @class SphericalPolarSimplexGeometry
  * @extends SliceSimplexGeometry
@@ -10,10 +10,10 @@ import MutableVectorE3 = require('../math/MutableVectorE3');
 declare class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxialGeometry<SphericalPolarSimplexGeometry> {
     /**
      * @property _radius
-     * @type {MutableNumber}
+     * @type {R1}
      * @private
      */
-    _radius: MutableNumber;
+    _radius: R1;
     /**
      * @property thetaLength
      * @type {number}
@@ -56,9 +56,9 @@ declare class SphericalPolarSimplexGeometry extends SliceSimplexGeometry impleme
     /**
      * Defines a start half-plane relative to the <code>axis</code> property.
      * @property phiStart
-     * @type {MutableVectorE3}
+     * @type {R3}
      */
-    phiStart: MutableVectorE3;
+    phiStart: R3;
     /**
      * @method setAxis
      * @param axis {VectorE3}

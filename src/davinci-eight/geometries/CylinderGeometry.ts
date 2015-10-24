@@ -5,11 +5,11 @@ import GridTopology = require('../topologies/GridTopology')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustBeNumber = require('../checks/mustBeNumber')
-import MutableNumber = require('../math/MutableNumber')
-import MutableSpinorE3 = require('../math/MutableSpinorE3')
+import R1 = require('../math/R1')
+import SpinG3 = require('../math/SpinG3')
 import Symbolic = require('../core/Symbolic')
-import MutableVectorE2 = require('../math/MutableVectorE2')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R2 = require('../math/R2')
+import R3 = require('../math/R3')
 
 /**
  * @class CylinderGeometry
@@ -53,20 +53,20 @@ class CylinderGeometry extends AxialGeometry implements IAxialGeometry<CylinderG
         let vSegments = 1
         let topo = new GridTopology(uSegments, vSegments)
         let axis = this.axis
-        let generator = new MutableSpinorE3().dual(axis)
+        let generator = new SpinG3().dual(axis)
 
         for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
             let u = uIndex / uSegments
             let rotor = generator.clone().scale(this.sliceAngle * u / 2).exp()
             for (let vIndex = 0; vIndex < topo.vLength; vIndex++) {
                 let v = vIndex / vSegments
-                let normal = MutableVectorE3.copy(this.sliceStart).rotate(rotor)
+                let normal = R3.copy(this.sliceStart).rotate(rotor)
                 let position = normal.clone().scale(this.radius).add(this.axis, v * this.height)
                 let vertex = topo.vertex(uIndex, vIndex)
                 vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position)
                 vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal
                 if (this.useTextureCoords) {
-                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new MutableVectorE2([u, v])
+                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
                 }
             }
         }

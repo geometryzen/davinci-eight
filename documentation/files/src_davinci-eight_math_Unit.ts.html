@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.139.0</em>
+            <em>API Docs for: 2.140.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,10 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -124,11 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
-                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
-                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
-                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
-                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -140,7 +135,11 @@
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1.html">R1</a></li>
+                                <li><a href="../classes/R2.html">R2</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
+                                <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
@@ -156,6 +155,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -221,63 +221,63 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Dimensions = require(&#x27;../math/Dimensions&#x27;);
-import Rational = require(&#x27;../math/Rational&#x27;);
+import QQ = require(&#x27;../math/QQ&#x27;);
 import UnitError = require(&#x27;../math/UnitError&#x27;);
 
 var LABELS_SI = [&#x27;kg&#x27;, &#x27;m&#x27;, &#x27;s&#x27;, &#x27;C&#x27;, &#x27;K&#x27;, &#x27;mol&#x27;, &#x27;candela&#x27;];
 
 function assertArgNumber(name: string, x: number): number {
-  if (typeof x === &#x27;number&#x27;) {
-    return x;
-  }
-  else {
-    throw new UnitError(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
-  }
+    if (typeof x === &#x27;number&#x27;) {
+        return x;
+    }
+    else {
+        throw new UnitError(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
+    }
 }
 
 function assertArgDimensions(name: string, arg: Dimensions): Dimensions {
-  if (arg instanceof Dimensions) {
-    return arg;
-  }
-  else {
-    throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Dimensions&quot;);
-  }
+    if (arg instanceof Dimensions) {
+        return arg;
+    }
+    else {
+        throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Dimensions&quot;);
+    }
 }
 
-function assertArgRational(name: string, arg: Rational): Rational {
-  if (arg instanceof Rational) {
-    return arg;
-  }
-  else {
-    throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Rational&quot;);
-  }
+function assertArgRational(name: string, arg: QQ): QQ {
+    if (arg instanceof QQ) {
+        return arg;
+    }
+    else {
+        throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a QQ&quot;);
+    }
 }
 
 function assertArgUnit(name: string, arg: Unit): Unit {
-  if (arg instanceof Unit) {
-    return arg;
-  }
-  else {
-    throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Unit&quot;);
-  }
+    if (arg instanceof Unit) {
+        return arg;
+    }
+    else {
+        throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Unit&quot;);
+    }
 }
 
 function assertArgUnitOrUndefined(name: string, arg: Unit): Unit {
-  if (typeof arg === &#x27;undefined&#x27;) {
-    return arg;
-  }
-  else {
-    return assertArgUnit(name, arg);
-  }
+    if (typeof arg === &#x27;undefined&#x27;) {
+        return arg;
+    }
+    else {
+        return assertArgUnit(name, arg);
+    }
 }
 
 var dumbString = function(scale: number, dimensions: Dimensions, labels: string[]) {
-  assertArgNumber(&#x27;scale&#x27;, scale);
-  assertArgDimensions(&#x27;dimensions&#x27;, dimensions);
+    assertArgNumber(&#x27;scale&#x27;, scale);
+    assertArgDimensions(&#x27;dimensions&#x27;, dimensions);
     var operatorStr: string;
     var scaleString: string;
     var unitsString: string;
-    var stringify = function(rational: Rational, label: string): string {
+    var stringify = function(rational: QQ, label: string): string {
         if (rational.numer === 0) {
             return null;
         } else if (rational.denom === 1) {
@@ -300,134 +300,125 @@ var dumbString = function(scale: number, dimensions: Dimensions, labels: string[
 
 var unitString = function(scale: number, dimensions: Dimensions, labels: string[]): string {
     var patterns =
-    [
-      [-1,1,-3,1, 2,1, 2,1, 0,1, 0,1, 0,1],
-      [-1,1,-2,1, 1,1, 2,1, 0,1, 0,1, 0,1],
-      [-1,1,-2,1, 2,1, 2,1, 0,1, 0,1, 0,1],
-      [-1,1, 3,1,-2,1, 0,1, 0,1, 0,1, 0,1],
-      [ 0,1, 0,1,-1,1, 0,1, 0,1, 0,1, 0,1],
-      [ 0,1, 0,1,-1,1, 1,1, 0,1, 0,1, 0,1],
-      [ 0,1, 1,1,-2,1, 0,1, 0,1, 0,1, 0,1],
-      [ 0,1, 1,1,-1,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1, 1,1,-1,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1,-1,1,-2,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1,-1,1,-1,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1, 0,1,-3,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1, 0,1,-2,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1, 0,1,-1,1,-1,1, 0,1, 0,1, 0,1],
-      [ 1,1, 1,1,-3,1, 0,1,-1,1, 0,1, 0,1],
-      [ 1,1, 1,1,-2,1,-1,1, 0,1, 0,1, 0,1],
-      [ 1,1, 1,1,-2,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1, 1,1, 0,1,-2,1, 0,1, 0,1, 0,1],
-      [ 1,1, 2,1,-2,1, 0,1,-1,1, 0,1, 0,1],
-      [ 0,1, 2,1,-2,1, 0,1,-1,1, 0,1, 0,1],
-      [ 1,1, 2,1,-2,1, 0,1,-1,1,-1,1, 0,1],
-      [ 1,1, 2,1,-2,1, 0,1, 0,1,-1,1, 0,1],
-      [ 1,1, 2,1,-2,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1, 2,1,-1,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1, 2,1,-3,1, 0,1, 0,1, 0,1, 0,1],
-      [ 1,1, 2,1,-2,1,-1,1, 0,1, 0,1, 0,1],
-      [ 1,1, 2,1,-1,1,-2,1, 0,1, 0,1, 0,1],
-      [ 1,1, 2,1, 0,1,-2,1, 0,1, 0,1, 0,1],
-      [ 1,1, 2,1,-1,1,-1,1, 0,1, 0,1, 0,1]
-    ];
+        [
+            [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+            [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+            [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+            [-1, 1, 3, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+            [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
+        ];
     var decodes =
-    [
-      [&quot;F/m&quot;],
-      [&quot;S&quot;],
-      [&quot;F&quot;],
-      [&quot;N·m ** 2/kg ** 2&quot;],
-      [&quot;Hz&quot;],
-      [&quot;A&quot;],
-      [&quot;m/s ** 2&quot;],
-      [&quot;m/s&quot;],
-      [&quot;kg·m/s&quot;],
-      [&quot;Pa&quot;],
-      [&quot;Pa·s&quot;],
-      [&quot;W/m ** 2&quot;],
-      [&quot;N/m&quot;],
-      [&quot;T&quot;],
-      [&quot;W/(m·K)&quot;],
-      [&quot;V/m&quot;],
-      [&quot;N&quot;],
-      [&quot;H/m&quot;],
-      [&quot;J/K&quot;],
-      [&quot;J/(kg·K)&quot;],
-      [&quot;J/(mol·K)&quot;],
-      [&quot;J/mol&quot;],
-      [&quot;J&quot;],
-      [&quot;J·s&quot;],
-      [&quot;W&quot;],
-      [&quot;V&quot;],
-      [&quot;Ω&quot;],
-      [&quot;H&quot;],
-      [&quot;Wb&quot;]
-    ];
-    var M           = dimensions.M;
-    var L           = dimensions.L;
-    var T           = dimensions.T;
-    var Q           = dimensions.Q;
+        [
+            [&quot;F/m&quot;],
+            [&quot;S&quot;],
+            [&quot;F&quot;],
+            [&quot;N·m ** 2/kg ** 2&quot;],
+            [&quot;Hz&quot;],
+            [&quot;A&quot;],
+            [&quot;m/s ** 2&quot;],
+            [&quot;m/s&quot;],
+            [&quot;kg·m/s&quot;],
+            [&quot;Pa&quot;],
+            [&quot;Pa·s&quot;],
+            [&quot;W/m ** 2&quot;],
+            [&quot;N/m&quot;],
+            [&quot;T&quot;],
+            [&quot;W/(m·K)&quot;],
+            [&quot;V/m&quot;],
+            [&quot;N&quot;],
+            [&quot;H/m&quot;],
+            [&quot;J/K&quot;],
+            [&quot;J/(kg·K)&quot;],
+            [&quot;J/(mol·K)&quot;],
+            [&quot;J/mol&quot;],
+            [&quot;J&quot;],
+            [&quot;J·s&quot;],
+            [&quot;W&quot;],
+            [&quot;V&quot;],
+            [&quot;Ω&quot;],
+            [&quot;H&quot;],
+            [&quot;Wb&quot;]
+        ];
+    var M = dimensions.M;
+    var L = dimensions.L;
+    var T = dimensions.T;
+    var Q = dimensions.Q;
     var temperature = dimensions.temperature;
-    var amount      = dimensions.amount;
-    var intensity   = dimensions.intensity;
-    for (var i = 0, len = patterns.length; i &lt; len; i++)
-    {
+    var amount = dimensions.amount;
+    var intensity = dimensions.intensity;
+    for (var i = 0, len = patterns.length; i &lt; len; i++) {
         var pattern = patterns[i];
-        if (M.numer           === pattern[0]  &amp;&amp; M.denom           === pattern[1]  &amp;&amp;
-            L.numer           === pattern[2]  &amp;&amp; L.denom           === pattern[3]  &amp;&amp;
-            T.numer           === pattern[4]  &amp;&amp; T.denom           === pattern[5]  &amp;&amp;
-            Q.numer           === pattern[6]  &amp;&amp; Q.denom           === pattern[7]  &amp;&amp;
-            temperature.numer === pattern[8]  &amp;&amp; temperature.denom === pattern[9]  &amp;&amp;
-            amount.numer      === pattern[10] &amp;&amp; amount.denom      === pattern[11] &amp;&amp;
-            intensity.numer   === pattern[12] &amp;&amp; intensity.denom   === pattern[13])
-        {
-            if (scale !== 1)
-            {
-               return scale + &quot; * &quot; + decodes[i][0];
+        if (M.numer === pattern[0] &amp;&amp; M.denom === pattern[1] &amp;&amp;
+            L.numer === pattern[2] &amp;&amp; L.denom === pattern[3] &amp;&amp;
+            T.numer === pattern[4] &amp;&amp; T.denom === pattern[5] &amp;&amp;
+            Q.numer === pattern[6] &amp;&amp; Q.denom === pattern[7] &amp;&amp;
+            temperature.numer === pattern[8] &amp;&amp; temperature.denom === pattern[9] &amp;&amp;
+            amount.numer === pattern[10] &amp;&amp; amount.denom === pattern[11] &amp;&amp;
+            intensity.numer === pattern[12] &amp;&amp; intensity.denom === pattern[13]) {
+            if (scale !== 1) {
+                return scale + &quot; * &quot; + decodes[i][0];
             }
-            else
-            {
-              return decodes[i][0];
+            else {
+                return decodes[i][0];
             }
         }
     }
     return dumbString(scale, dimensions, labels);
 };
 
-function add(lhs: Unit, rhs: Unit): Unit
-{
-  return new Unit(lhs.scale + rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+function add(lhs: Unit, rhs: Unit): Unit {
+    return new Unit(lhs.scale + rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
 }
 
-function sub(lhs: Unit, rhs: Unit): Unit
-{
-  return new Unit(lhs.scale - rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+function sub(lhs: Unit, rhs: Unit): Unit {
+    return new Unit(lhs.scale - rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
 }
 
-function mul(lhs: Unit, rhs: Unit): Unit
-{
-  return new Unit(lhs.scale * rhs.scale, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
+function mul(lhs: Unit, rhs: Unit): Unit {
+    return new Unit(lhs.scale * rhs.scale, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
 }
 
-function scalarMultiply(alpha: number, unit: Unit): Unit
-{
-  return new Unit(alpha * unit.scale, unit.dimensions, unit.labels);
+function scalarMultiply(alpha: number, unit: Unit): Unit {
+    return new Unit(alpha * unit.scale, unit.dimensions, unit.labels);
 }
 
-function div(lhs: Unit, rhs: Unit): Unit
-{
-  return new Unit(lhs.scale / rhs.scale, lhs.dimensions.div(rhs.dimensions), lhs.labels);
+function div(lhs: Unit, rhs: Unit): Unit {
+    return new Unit(lhs.scale / rhs.scale, lhs.dimensions.div(rhs.dimensions), lhs.labels);
 }
 
 class Unit {
-    public static KILOGRAM = new Unit(1.0, Dimensions.MASS,        LABELS_SI);
-    public static METER    = new Unit(1.0, Dimensions.LENGTH,      LABELS_SI);
-    public static SECOND   = new Unit(1.0, Dimensions.TIME,        LABELS_SI);
-    public static COULOMB  = new Unit(1.0, Dimensions.CHARGE,      LABELS_SI);
-    public static AMPERE   = new Unit(1.0, Dimensions.CURRENT,     LABELS_SI);
-    public static KELVIN   = new Unit(1.0, Dimensions.TEMPERATURE, LABELS_SI);
-    public static MOLE     = new Unit(1.0, Dimensions.AMOUNT,      LABELS_SI);
-    public static CANDELA  = new Unit(1.0, Dimensions.INTENSITY,   LABELS_SI);
+    public static KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
+    public static METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
+    public static SECOND = new Unit(1.0, Dimensions.TIME, LABELS_SI);
+    public static COULOMB = new Unit(1.0, Dimensions.CHARGE, LABELS_SI);
+    public static AMPERE = new Unit(1.0, Dimensions.CURRENT, LABELS_SI);
+    public static KELVIN = new Unit(1.0, Dimensions.TEMPERATURE, LABELS_SI);
+    public static MOLE = new Unit(1.0, Dimensions.AMOUNT, LABELS_SI);
+    public static CANDELA = new Unit(1.0, Dimensions.INTENSITY, LABELS_SI);
     /**
      * The Unit class represents the units for a measure.
      *
@@ -447,280 +438,245 @@ class Unit {
     }
 
     compatible(rhs: Unit): Unit {
-      if (rhs instanceof Unit) {
-        this.dimensions.compatible(rhs.dimensions);
-        return this;
-      }
-      else {
-        throw new Error(&quot;Illegal Argument for Unit.compatible: &quot; + rhs);
-      }
+        if (rhs instanceof Unit) {
+            this.dimensions.compatible(rhs.dimensions);
+            return this;
+        }
+        else {
+            throw new Error(&quot;Illegal Argument for Unit.compatible: &quot; + rhs);
+        }
     }
 
-    add(rhs: Unit): Unit
-    {
-      assertArgUnit(&#x27;rhs&#x27;, rhs);
-      return add(this, rhs);
+    add(rhs: Unit): Unit {
+        assertArgUnit(&#x27;rhs&#x27;, rhs);
+        return add(this, rhs);
     }
 
-    __add__(other: any)
-    {
-      if (other instanceof Unit)
-      {
-        return add(this, other);
-      }
-      else
-      {
-        return;
-      }
+    __add__(other: any) {
+        if (other instanceof Unit) {
+            return add(this, other);
+        }
+        else {
+            return;
+        }
     }
 
-    __radd__(other: any)
-    {
-      if (other instanceof Unit)
-      {
-        return add(other, this);
-      }
-      else
-      {
-        return;
-      }
+    __radd__(other: any) {
+        if (other instanceof Unit) {
+            return add(other, this);
+        }
+        else {
+            return;
+        }
     }
 
-    sub(rhs: Unit): Unit
-    {
-      assertArgUnit(&#x27;rhs&#x27;, rhs);
-      return sub(this, rhs);
+    sub(rhs: Unit): Unit {
+        assertArgUnit(&#x27;rhs&#x27;, rhs);
+        return sub(this, rhs);
     }
 
-    __sub__(other: any)
-    {
-      if (other instanceof Unit)
-      {
-        return sub(this, other);
-      }
-      else
-      {
-        return;
-      }
+    __sub__(other: any) {
+        if (other instanceof Unit) {
+            return sub(this, other);
+        }
+        else {
+            return;
+        }
     }
 
-    __rsub__(other: any)
-    {
-      if (other instanceof Unit)
-      {
-        return sub(other, this);
-      }
-      else
-      {
-        return;
-      }
+    __rsub__(other: any) {
+        if (other instanceof Unit) {
+            return sub(other, this);
+        }
+        else {
+            return;
+        }
     }
 
-    mul(rhs: any): Unit
-    {
-      assertArgUnit(&#x27;rhs&#x27;, rhs);
-      return mul(this, rhs);
+    mul(rhs: any): Unit {
+        assertArgUnit(&#x27;rhs&#x27;, rhs);
+        return mul(this, rhs);
     }
 
-    __mul__(other: any)
-    {
-      if (other instanceof Unit)
-      {
-        return mul(this, other);
-      }
-      else if (typeof other === &#x27;number&#x27;)
-      {
-        return scalarMultiply(other, this);
-      }
-      else
-      {
-        return;
-      }
+    __mul__(other: any) {
+        if (other instanceof Unit) {
+            return mul(this, other);
+        }
+        else if (typeof other === &#x27;number&#x27;) {
+            return scalarMultiply(other, this);
+        }
+        else {
+            return;
+        }
     }
 
-    __rmul__(other: any)
-    {
-      if (other instanceof Unit)
-      {
-        return mul(other, this);
-      }
-      else if (typeof other === &#x27;number&#x27;)
-      {
-        return scalarMultiply(other, this);
-      }
-      else
-      {
-        return;
-      }
+    __rmul__(other: any) {
+        if (other instanceof Unit) {
+            return mul(other, this);
+        }
+        else if (typeof other === &#x27;number&#x27;) {
+            return scalarMultiply(other, this);
+        }
+        else {
+            return;
+        }
     }
 
-    div(rhs: Unit): Unit
-    {
-      assertArgUnit(&#x27;rhs&#x27;, rhs);
-      return div(this, rhs);
+    div(rhs: Unit): Unit {
+        assertArgUnit(&#x27;rhs&#x27;, rhs);
+        return div(this, rhs);
     }
 
-    __div__(other: any)
-    {
-      if (other instanceof Unit)
-      {
-        return div(this, other);
-      }
-      else if (typeof other === &#x27;number&#x27;)
-      {
-        return new Unit(this.scale / other, this.dimensions, this.labels);
-      }
-      else
-      {
-        return;
-      }
+    __div__(other: any) {
+        if (other instanceof Unit) {
+            return div(this, other);
+        }
+        else if (typeof other === &#x27;number&#x27;) {
+            return new Unit(this.scale / other, this.dimensions, this.labels);
+        }
+        else {
+            return;
+        }
     }
 
-    __rdiv__(other: any)
-    {
-      if (other instanceof Unit)
-      {
-        return div(other, this);
-      }
-      else if (typeof other === &#x27;number&#x27;)
-      {
-        return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
-      }
-      else
-      {
-        return;
-      }
+    __rdiv__(other: any) {
+        if (other instanceof Unit) {
+            return div(other, this);
+        }
+        else if (typeof other === &#x27;number&#x27;) {
+            return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
+        }
+        else {
+            return;
+        }
     }
 
-    pow(exponent: Rational): Unit
-    {
-      assertArgRational(&#x27;exponent&#x27;, exponent);
-      return new Unit(Math.pow(this.scale, exponent.numer/exponent.denom), this.dimensions.pow(exponent), this.labels);
+    pow(exponent: QQ): Unit {
+        assertArgRational(&#x27;exponent&#x27;, exponent);
+        return new Unit(Math.pow(this.scale, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
     }
 
-    inverse(): Unit
-    {
-      return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
+    inverse(): Unit {
+        return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
     }
 
     isUnity(): boolean {
-      return this.dimensions.dimensionless() &amp;&amp; (this.scale === 1);
-    } 
+        return this.dimensions.dimensionless() &amp;&amp; (this.scale === 1);
+    }
 
     norm(): Unit {
-      return new Unit(Math.abs(this.scale), this.dimensions, this.labels);
+        return new Unit(Math.abs(this.scale), this.dimensions, this.labels);
     }
 
     quad(): Unit {
-      return new Unit(this.scale * this.scale, this.dimensions.mul(this.dimensions), this.labels);
+        return new Unit(this.scale * this.scale, this.dimensions.mul(this.dimensions), this.labels);
     }
 
-    toString(): string
-    {
-      return unitString(this.scale, this.dimensions, this.labels);
+    toString(): string {
+        return unitString(this.scale, this.dimensions, this.labels);
     }
 
     static isUnity(uom: Unit): boolean {
-      if (typeof uom === &#x27;undefined&#x27;) {
-        return true;
-      }
-      else if (uom instanceof Unit) {
-        return uom.isUnity();
-      }
-      else {
-        throw new Error(&quot;isUnity argument must be a Unit or undefined.&quot;);
-      }
+        if (typeof uom === &#x27;undefined&#x27;) {
+            return true;
+        }
+        else if (uom instanceof Unit) {
+            return uom.isUnity();
+        }
+        else {
+            throw new Error(&quot;isUnity argument must be a Unit or undefined.&quot;);
+        }
     }
 
     static assertDimensionless(uom: Unit) {
-      if (!Unit.isUnity(uom)) {
-        throw new UnitError(&quot;uom must be dimensionless.&quot;);
-      }
+        if (!Unit.isUnity(uom)) {
+            throw new UnitError(&quot;uom must be dimensionless.&quot;);
+        }
     }
 
     static compatible(lhs: Unit, rhs: Unit): Unit {
-      assertArgUnitOrUndefined(&#x27;lhs&#x27;, lhs);
-      assertArgUnitOrUndefined(&#x27;rhs&#x27;, rhs);
-      if (lhs) {
-        if (rhs) {
-          return lhs.compatible(rhs);
+        assertArgUnitOrUndefined(&#x27;lhs&#x27;, lhs);
+        assertArgUnitOrUndefined(&#x27;rhs&#x27;, rhs);
+        if (lhs) {
+            if (rhs) {
+                return lhs.compatible(rhs);
+            }
+            else {
+                if (lhs.isUnity()) {
+                    return void 0;
+                }
+                else {
+                    throw new UnitError(lhs + &quot; is incompatible with 1&quot;);
+                }
+            }
         }
         else {
-          if (lhs.isUnity()) {
-            return void 0;
-          }
-          else {
-            throw new UnitError(lhs + &quot; is incompatible with 1&quot;);
-          }
+            if (rhs) {
+                if (rhs.isUnity()) {
+                    return void 0;
+                }
+                else {
+                    throw new UnitError(&quot;1 is incompatible with &quot; + rhs);
+                }
+            }
+            else {
+                return void 0;
+            }
         }
-      }
-      else {
-        if (rhs) {
-          if (rhs.isUnity()) {
-            return void 0;
-          }
-          else {
-            throw new UnitError(&quot;1 is incompatible with &quot; + rhs);
-          }
-        }
-        else {
-          return void 0;
-        }
-      }
     }
 
     static mul(lhs: Unit, rhs: Unit): Unit {
-      if (lhs instanceof Unit) {
-        if (rhs instanceof Unit) {
-          return lhs.mul(rhs);
+        if (lhs instanceof Unit) {
+            if (rhs instanceof Unit) {
+                return lhs.mul(rhs);
+            }
+            else if (Unit.isUnity(rhs)) {
+                return lhs;
+            }
+            else {
+                return void 0;
+            }
         }
-        else if (Unit.isUnity(rhs)) {
-          return lhs;
+        else if (Unit.isUnity(lhs)) {
+            return rhs;
         }
         else {
-          return void 0;
+            return void 0;
         }
-      }
-      else if (Unit.isUnity(lhs)) {
-        return rhs;
-      }
-      else {
-        return void 0;
-      }
     }
 
     static div(lhs: Unit, rhs: Unit): Unit {
-      if (lhs instanceof Unit) {
-        if (rhs instanceof Unit) {
-          return lhs.div(rhs);
+        if (lhs instanceof Unit) {
+            if (rhs instanceof Unit) {
+                return lhs.div(rhs);
+            }
+            else {
+                return lhs;
+            }
         }
         else {
-          return lhs;
+            if (rhs instanceof Unit) {
+                return rhs.inverse();
+            }
+            else {
+                return void 0;
+            }
         }
-      }
-      else {
-        if (rhs instanceof Unit) {
-          return rhs.inverse();
-        }
-        else {
-          return void 0;
-        }
-      }
     }
 
     static sqrt(uom: Unit): Unit {
-      if (typeof uom !== &#x27;undefined&#x27;) {
-        assertArgUnit(&#x27;uom&#x27;, uom);
-        if (!uom.isUnity()) {
-          return new Unit(Math.sqrt(uom.scale), uom.dimensions.sqrt(), uom.labels);
+        if (typeof uom !== &#x27;undefined&#x27;) {
+            assertArgUnit(&#x27;uom&#x27;, uom);
+            if (!uom.isUnity()) {
+                return new Unit(Math.sqrt(uom.scale), uom.dimensions.sqrt(), uom.labels);
+            }
+            else {
+                return void 0;
+            }
         }
         else {
-          return void 0;
+            return void 0;
         }
-      }
-      else {
-        return void 0;
-      }
     }
 }
 export = Unit;

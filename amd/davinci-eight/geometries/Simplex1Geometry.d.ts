@@ -1,11 +1,11 @@
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 /**
  * @class Simplex1Geometry
  */
 declare class Simplex1Geometry extends SimplexGeometry {
-    head: MutableVectorE3;
-    tail: MutableVectorE3;
+    head: R3;
+    tail: R3;
     /**
      * @class Simplex1Geometry
      * @constructor

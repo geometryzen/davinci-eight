@@ -3,9 +3,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../checks/mustBeString', '../math/MutableSpinorE3', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, Euclidean3, SimplexGeometry, mustBeInteger, mustBeString, MutableSpinorE3, MutableVectorE2, MutableVectorE3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../checks/mustBeString', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3, SimplexGeometry, mustBeInteger, mustBeString, SpinG3, R2, R3) {
     function perpendicular(to) {
-        var random = new MutableVectorE3([Math.random(), Math.random(), Math.random()]);
+        var random = new R3([Math.random(), Math.random(), Math.random()]);
         random.cross(to).normalize();
         return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0);
     }
@@ -29,7 +29,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
             this.lengthShaft = 0.8;
             this.arrowSegments = 8;
             this.radialSegments = 12;
-            this.generator = new MutableSpinorE3([0, 0, 1, 0]);
+            this.generator = new SpinG3([0, 0, 1, 0]);
             this.setModified(true);
         }
         VortexSimplexGeometry.prototype.isModified = function () {
@@ -63,7 +63,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
             var n = 9;
             var circleSegments = this.arrowSegments * n;
             var tau = Math.PI * 2;
-            var center = new MutableVectorE3([0, 0, 0]);
+            var center = new R3([0, 0, 0]);
             var normals = [];
             var points = [];
             var uvs = [];
@@ -99,15 +99,15 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
                     var u = computeAngle(i);
                     var Rmajor = generator.scalarMultiply(-u / 2).exp();
                     center.copy(R0).rotate(Rmajor);
-                    var vertex = MutableVectorE3.copy(center);
+                    var vertex = R3.copy(center);
                     var r0 = axis.scalarMultiply(computeRadius(i));
                     var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scalarMultiply(-v / 2).exp();
                     // var Rminor = Rminor0.clone().rotate(Rmajor).scale(-v/2).exp()
                     var r = Rminor.mul(r0).mul(Rminor.__tilde__());
                     vertex.add2(center, r);
                     points.push(vertex);
-                    uvs.push(new MutableVectorE2([i / circleSegments, j / radialSegments]));
-                    normals.push(MutableVectorE3.copy(r).normalize());
+                    uvs.push(new R2([i / circleSegments, j / radialSegments]));
+                    normals.push(R3.copy(r).normalize());
                 }
             }
             for (var j = 1; j <= radialSegments; j++) {

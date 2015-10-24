@@ -1,12 +1,12 @@
 import GridSimplexGeometry = require('../geometries/GridSimplexGeometry');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 
 let cos = Math.cos;
 let sin = Math.sin;
 let pi = Math.PI;
 
-function klein(u: number, v: number): MutableVectorE3 {
-  var point = new MutableVectorE3();
+function klein(u: number, v: number): R3 {
+  var point = new R3();
 
   u = u * 2 * pi;
   v = v * 2 * pi;

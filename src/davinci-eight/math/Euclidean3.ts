@@ -5,6 +5,7 @@ import extG3 = require('../math/extG3')
 import GeometricE3 = require('../math/GeometricE3')
 import isDefined = require('../checks/isDefined')
 import lcoG3 = require('../math/lcoG3')
+import GeometricOperators = require('../math/GeometricOperators')
 import mathcore = require('../math/mathcore');
 import Measure = require('../math/Measure');
 import mulE3 = require('../math/mulE3')
@@ -15,6 +16,7 @@ import rcoG3 = require('../math/rcoG3')
 import scpG3 = require('../math/scpG3')
 import subE3 = require('../math/subE3')
 import SpinorE3 = require('../math/SpinorE3')
+import TrigMethods = require('../math/TrigMethods')
 import Unit = require('../math/Unit');
 import VectorE3 = require('../math/VectorE3')
 
@@ -280,7 +282,7 @@ function stringFromCoordinates(
  * @class Euclidean3
  * @extends GeometricE3
  */
-class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3> {
+class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
     public static zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
     public static one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
     public static e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
@@ -605,7 +607,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         }
     }
 
-    conL(rhs: Euclidean3): Euclidean3 {
+    lco(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
         return lcoG3(this, rhs, out)
@@ -613,23 +615,23 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
 
     __lshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return this.conL(other);
+            return this.lco(other);
         }
         else if (typeof other === 'number') {
-            return this.conL(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+            return this.lco(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rlshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return (<Euclidean3>other).conL(this);
+            return (<Euclidean3>other).lco(this);
         }
         else if (typeof other === 'number') {
-            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conL(this);
+            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).lco(this);
         }
     }
 
-    conR(rhs: Euclidean3): Euclidean3 {
+    rco(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
         return rcoG3(this, rhs, out)
@@ -637,19 +639,19 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
 
     __rshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return this.conR(other);
+            return this.rco(other);
         }
         else if (typeof other === 'number') {
-            return this.conR(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+            return this.rco(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rrshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return (<Euclidean3>other).conR(this);
+            return (<Euclidean3>other).rco(this);
         }
         else if (typeof other === 'number') {
-            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conR(this);
+            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).rco(this);
         }
     }
 
@@ -658,19 +660,49 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         throw new Euclidean3Error('pow');
     }
 
+    /**
+     * Unary plus(+).
+     * @method __pos__
+     * @return {Euclidean3}
+     * @private
+     */
     __pos__(): Euclidean3 {
         return this;
     }
 
-    __neg__(): Euclidean3 {
+    /**
+     * @method neg
+     * @return {Euclidean3} <code>-1 * this</code>
+     */
+    neg(): Euclidean3 {
         return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+    }
+    /**
+     * Unary minus (-).
+     * @method __neg__
+     * @return {Euclidean3}
+     * @private
+     */
+    __neg__(): Euclidean3 {
+        return this.neg()
+    }
+
+    /**
+     * @method reverse
+     * @return {Euclidean3}
+     */
+    reverse(): Euclidean3 {
+        return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
     }
 
     /**
      * ~ (tilde) produces reversion.
+     * @method __tilde__
+     * @return {Euclidean3}
+     * @private
      */
     __tilde__(): Euclidean3 {
-        return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+        return this.reverse()
     }
 
     grade(index: number): Euclidean3 {

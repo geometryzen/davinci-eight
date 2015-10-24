@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.139.0</em>
+            <em>API Docs for: 2.140.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,10 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -124,11 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
-                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
-                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
-                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
-                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -140,7 +135,11 @@
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1.html">R1</a></li>
+                                <li><a href="../classes/R2.html">R2</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
+                                <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
@@ -156,6 +155,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -221,7 +221,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:46</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:78</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -242,16 +242,16 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>mass</code>
+                        <code>M</code>
                 </li>
                 <li class="arg">
-                        <code>length</code>
+                        <code>L</code>
                 </li>
                 <li class="arg">
-                        <code>time</code>
+                        <code>T</code>
                 </li>
                 <li class="arg">
-                        <code>charge</code>
+                        <code>Q</code>
                 </li>
                 <li class="arg">
                         <code>temperature</code>
@@ -275,7 +275,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:46</code></a>
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:78</code></a>
         </p>
 
 
@@ -291,8 +291,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">mass</code>
-                        <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
+                        <code class="param-name">M</code>
+                        <span class="type"><a href="../classes/QQ.html" class="crosslink">QQ</a></span>
 
 
                     <div class="param-description">
@@ -302,8 +302,8 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">length</code>
-                        <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
+                        <code class="param-name">L</code>
+                        <span class="type"><a href="../classes/QQ.html" class="crosslink">QQ</a></span>
 
 
                     <div class="param-description">
@@ -313,8 +313,8 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">time</code>
-                        <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
+                        <code class="param-name">T</code>
+                        <span class="type"><a href="../classes/QQ.html" class="crosslink">QQ</a></span>
 
 
                     <div class="param-description">
@@ -324,8 +324,8 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">charge</code>
-                        <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
+                        <code class="param-name">Q</code>
+                        <span class="type"><a href="../classes/QQ.html" class="crosslink">QQ</a></span>
 
 
                     <div class="param-description">
@@ -336,7 +336,7 @@
                 </li>
                 <li class="param">
                         <code class="param-name">temperature</code>
-                        <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
+                        <span class="type"><a href="../classes/QQ.html" class="crosslink">QQ</a></span>
 
 
                     <div class="param-description">
@@ -347,7 +347,7 @@
                 </li>
                 <li class="param">
                         <code class="param-name">amount</code>
-                        <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
+                        <span class="type"><a href="../classes/QQ.html" class="crosslink">QQ</a></span>
 
 
                     <div class="param-description">
@@ -358,7 +358,7 @@
                 </li>
                 <li class="param">
                         <code class="param-name">intensity</code>
-                        <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
+                        <span class="type"><a href="../classes/QQ.html" class="crosslink">QQ</a></span>
 
 
                     <div class="param-description">
@@ -392,7 +392,39 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
+                                <a href="#method_compatible">compatible</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_dimensionless">dimensionless</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_div">div</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_div">div</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_isZero">isZero</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mul">mul</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_negative">negative</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_sqrt">sqrt</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
 
                             </li>
                     </ul>
@@ -403,8 +435,44 @@
 
                     <ul class="index-list properties">
                             <li class="index-item property">
-                                <a href="#property_M">M</a>
+                                <a href="#property_AMOUNT">AMOUNT</a>
 
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_CHARGE">CHARGE</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_CURRENT">CURRENT</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_INTENSITY">INTENSITY</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_LENGTH">LENGTH</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_MASS">MASS</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_TEMPERATURE">TEMPERATURE</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_TIME">TIME</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
@@ -415,6 +483,242 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_compatible" class="method item">
+    <h3 class="name"><code>compatible</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:103</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns the dimensions if they are all equal, otherwise throws an <code>Error</code></p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_dimensionless" class="method item">
+    <h3 class="name"><code>dimensionless</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l152"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:152</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Determines whether the quantity is dimensionless (all rational components must be zero).</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_div" class="method item">
+    <h3 class="name"><code>div</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:126</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Divides dimensions by subtracting rational exponents.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>:
+                    <p><code>this / rhs</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_div" class="method item">
+    <h3 class="name"><code>div</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l135"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:135</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes the power function by multiplying rational exponents.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>:
+                    <p><code>pow(this, rhs)</code></p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_isZero" class="method item">
     <h3 class="name"><code>isZero</code></h3>
 
@@ -433,7 +737,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:173</code></a>
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l160"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:160</code></a>
         </p>
 
 
@@ -458,14 +762,22 @@
 
 
 </div>
-            </div>
+<div id="method_mul" class="method item">
+    <h3 class="name"><code>mul</code></h3>
 
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
-<div id="property_M" class="property item">
-    <h3 class="name"><code>M</code></h3>
-    <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+        </span>
+
+
 
 
 
@@ -474,15 +786,370 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l134"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:134</code></a>
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:117</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Multiplies dimensions by adding rational exponents.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>:
+                    <p><code>this * rhs</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_negative" class="method item">
+    <h3 class="name"><code>negative</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:169</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes the inverse by multiplying all exponents by <code>-1</code>.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_sqrt" class="method item">
+    <h3 class="name"><code>sqrt</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l144"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:144</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes the square root by dividing each rational component by two.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l177"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:177</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates a representation of this <code>Dimensions</code> instance.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_AMOUNT" class="property item">
+    <h3 class="name"><code>AMOUNT</code></h3>
+    <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:66</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The <em>mass</em> component of this dimensions instance.</p>
+        
+    </div>
 
+
+
+</div>
+<div id="property_CHARGE" class="property item">
+    <h3 class="name"><code>CHARGE</code></h3>
+    <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:48</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_CURRENT" class="property item">
+    <h3 class="name"><code>CURRENT</code></h3>
+    <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:54</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_INTENSITY" class="property item">
+    <h3 class="name"><code>INTENSITY</code></h3>
+    <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:72</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_LENGTH" class="property item">
+    <h3 class="name"><code>LENGTH</code></h3>
+    <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:36</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_MASS" class="property item">
+    <h3 class="name"><code>MASS</code></h3>
+    <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:30</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_TEMPERATURE" class="property item">
+    <h3 class="name"><code>TEMPERATURE</code></h3>
+    <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:60</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_TIME" class="property item">
+    <h3 class="name"><code>TIME</code></h3>
+    <span class="type"><a href="../classes/Dimensions.html" class="crosslink">Dimensions</a></span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Dimensions.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Dimensions.ts:42</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 

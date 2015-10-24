@@ -670,7 +670,7 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
             var x3 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
             return [x0, x1, x2, x3];
         };
-        Euclidean2.prototype.conL = function (rhs) {
+        Euclidean2.prototype.lco = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
             var xs = Euclidean2.lshift(this.coordinates(), rhs.coordinates());
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
@@ -678,21 +678,21 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
         Euclidean2.prototype.__lshift__ = function (other) {
             if (other instanceof Euclidean2) {
                 var rhs = other;
-                return this.conL(rhs);
+                return this.lco(rhs);
             }
             else if (typeof other === 'number') {
                 var w = other;
-                return this.conL(new Euclidean2(w, 0, 0, 0, undefined));
+                return this.lco(new Euclidean2(w, 0, 0, 0, undefined));
             }
         };
         Euclidean2.prototype.__rlshift__ = function (other) {
             if (other instanceof Euclidean2) {
                 var lhs = other;
-                return lhs.conL(this);
+                return lhs.lco(this);
             }
             else if (typeof other === 'number') {
                 var w = other;
-                return new Euclidean2(w, 0, 0, 0, undefined).conL(this);
+                return new Euclidean2(w, 0, 0, 0, undefined).lco(this);
             }
         };
         Euclidean2.rshift = function (a, b) {
@@ -710,25 +710,25 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
             var x3 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
             return [x0, x1, x2, x3];
         };
-        Euclidean2.prototype.conR = function (rhs) {
+        Euclidean2.prototype.rco = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
             var xs = Euclidean2.rshift(this.coordinates(), rhs.coordinates());
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
         };
         Euclidean2.prototype.__rshift__ = function (other) {
             if (other instanceof Euclidean2) {
-                return this.conR(other);
+                return this.rco(other);
             }
             else if (typeof other === 'number') {
-                return this.conR(new Euclidean2(other, 0, 0, 0, undefined));
+                return this.rco(new Euclidean2(other, 0, 0, 0, undefined));
             }
         };
         Euclidean2.prototype.__rrshift__ = function (other) {
             if (other instanceof Euclidean2) {
-                return other.conR(this);
+                return other.rco(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean2(other, 0, 0, 0, undefined).conR(this);
+                return new Euclidean2(other, 0, 0, 0, undefined).rco(this);
             }
         };
         Euclidean2.prototype.__vbar__ = function (other) {

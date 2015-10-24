@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.139.0</em>
+            <em>API Docs for: 2.140.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,10 +50,10 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
+                                <li><a href="../classes/CC.html">CC</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ConeGeometry.html">ConeGeometry</a></li>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -124,11 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
-                                <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
-                                <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
-                                <li><a href="../classes/MutableVectorE3.html">MutableVectorE3</a></li>
-                                <li><a href="../classes/MutableVectorE4.html">MutableVectorE4</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
@@ -140,7 +135,11 @@
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/R1.html">R1</a></li>
+                                <li><a href="../classes/R2.html">R2</a></li>
+                                <li><a href="../classes/R3.html">R3</a></li>
+                                <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
@@ -156,6 +155,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -223,12 +223,12 @@
 import Simplex = require(&#x27;../geometries/Simplex&#x27;);
 import quadrilateral = require(&#x27;../geometries/quadrilateral&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
-import MutableVectorE2 = require(&#x27;../math/MutableVectorE2&#x27;);
-import MutableVectorE3 = require(&#x27;../math/MutableVectorE3&#x27;);
+import R2 = require(&#x27;../math/R2&#x27;);
+import R3 = require(&#x27;../math/R3&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
 
 function vector3(data: number[]): VectorN&lt;number&gt; {
-  return new MutableVectorE3([]);
+  return new R3([]);
 }
 
 /**
@@ -246,19 +246,19 @@ function cube(size: number = 1): Simplex[] {
 
   let s = size / 2;
 
-  let vec0 = new MutableVectorE3([+s, +s, +s]);
-  let vec1 = new MutableVectorE3([-s, +s, +s]);
-  let vec2 = new MutableVectorE3([-s, -s, +s]);
-  let vec3 = new MutableVectorE3([+s, -s, +s]);
-  let vec4 = new MutableVectorE3([+s, -s, -s]);
-  let vec5 = new MutableVectorE3([+s, +s, -s]);
-  let vec6 = new MutableVectorE3([-s, +s, -s]);
-  let vec7 = new MutableVectorE3([-s, -s, -s]);
+  let vec0 = new R3([+s, +s, +s]);
+  let vec1 = new R3([-s, +s, +s]);
+  let vec2 = new R3([-s, -s, +s]);
+  let vec3 = new R3([+s, -s, +s]);
+  let vec4 = new R3([+s, -s, -s]);
+  let vec5 = new R3([+s, +s, -s]);
+  let vec6 = new R3([-s, +s, -s]);
+  let vec7 = new R3([-s, -s, -s]);
 
-  let c00 = new MutableVectorE2([0, 0]);
-  let c01 = new MutableVectorE2([0, 1]);
-  let c10 = new MutableVectorE2([1, 0]);
-  let c11 = new MutableVectorE2([1, 1]);
+  let c00 = new R2([0, 0]);
+  let c01 = new R2([0, 1]);
+  let c10 = new R2([1, 0]);
+  let c11 = new R2([1, 1]);
 
   let attributes: { [name: string]: VectorN&lt;number&gt;[] } = {};
 

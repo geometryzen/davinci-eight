@@ -6,7 +6,7 @@ import AxialGeometry = require('../geometries/AxialGeometry')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import RingGeometry = require('../geometries/RingGeometry')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R3 = require('../math/R3')
 
 /**
  * @class ArrowGeometry
@@ -69,15 +69,15 @@ class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometr
         /**
          * The opposite direction to the axis.
          */
-        let back = MutableVectorE3.copy(this.axis).scale(-1)
+        let back = R3.copy(this.axis).scale(-1)
         /**
          * The neck is the place where the cone meets the shaft. 
          */
-        let neck = MutableVectorE3.copy(this.axis).scale(heightShaft).add(this.position)
+        let neck = R3.copy(this.axis).scale(heightShaft).add(this.position)
         /**
          * The tail is the the position of the blunt end of the arrow.
          */
-        let tail = MutableVectorE3.copy(this.position)
+        let tail = R3.copy(this.position)
 
         let cone = new ConeGeometry()
         cone.radius = this.radiusCone

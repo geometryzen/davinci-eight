@@ -3,19 +3,19 @@ import VectorE3 = require('../math/VectorE3')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeNumber = require('../checks/mustBeNumber')
-import MutableNumber = require('../math/MutableNumber')
+import R1 = require('../math/R1')
 import Simplex = require('../geometries/Simplex');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry')
 import Sphere = require('../math/Sphere')
-import MutableSpinorE3 = require('../math/MutableSpinorE3')
+import SpinG3 = require('../math/SpinG3')
 import SpinorE3 = require('../math/SpinorE3')
 import Symbolic = require('../core/Symbolic')
-import MutableVectorE2 = require('../math/MutableVectorE2')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R2 = require('../math/R2')
+import R3 = require('../math/R3')
 
-function computeVertices(radius: number, axis: MutableVectorE3, phiStart: MutableVectorE3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: MutableVectorE3[], uvs: MutableVectorE2[]) {
+function computeVertices(radius: number, axis: R3, phiStart: R3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3[], uvs: R2[]) {
 
-    let generator: SpinorE3 = new MutableSpinorE3().dual(axis)
+    let generator: SpinorE3 = new SpinG3().dual(axis)
     let iLength = heightSegments + 1
     let jLength = widthSegments + 1
 
@@ -24,7 +24,7 @@ function computeVertices(radius: number, axis: MutableVectorE3, phiStart: Mutabl
 
         let θ = thetaStart + v * thetaLength
         let arcRadius = radius * Math.sin(θ)
-        let begin = MutableVectorE3.copy(phiStart).scale(arcRadius)
+        let begin = R3.copy(phiStart).scale(arcRadius)
 
         let arcPoints = arc3(begin, phiLength, generator, widthSegments)
         /**
@@ -37,7 +37,7 @@ function computeVertices(radius: number, axis: MutableVectorE3, phiStart: Mutabl
             var u = j / widthSegments;
             var point = arcPoints[j].add(axis, cosθ)
             points.push(point)
-            uvs.push(new MutableVectorE2([u, 1 - v]))
+            uvs.push(new R2([u, 1 - v]))
         }
     }
 }
@@ -55,7 +55,7 @@ function vertexIndex(qIndex: number, n: number, innerSegments: number) {
     }
 }
 
-function makeTriangles(points: MutableVectorE3[], uvs: MutableVectorE2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexGeometry) {
+function makeTriangles(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexGeometry) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -66,16 +66,16 @@ function makeTriangles(points: MutableVectorE3[], uvs: MutableVectorE2[], radius
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: MutableVectorE3 = MutableVectorE3.copy(points[v0]).normalize();
-            var n1: MutableVectorE3 = MutableVectorE3.copy(points[v1]).normalize();
-            var n2: MutableVectorE3 = MutableVectorE3.copy(points[v2]).normalize();
-            var n3: MutableVectorE3 = MutableVectorE3.copy(points[v3]).normalize();
+            var n0: R3 = R3.copy(points[v0]).normalize();
+            var n1: R3 = R3.copy(points[v1]).normalize();
+            var n2: R3 = R3.copy(points[v2]).normalize();
+            var n3: R3 = R3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
-            var uv0: MutableVectorE2 = uvs[v0].clone();
-            var uv1: MutableVectorE2 = uvs[v1].clone();
-            var uv2: MutableVectorE2 = uvs[v2].clone();
-            var uv3: MutableVectorE2 = uvs[v3].clone();
+            var uv0: R2 = uvs[v0].clone();
+            var uv1: R2 = uvs[v1].clone();
+            var uv2: R2 = uvs[v2].clone();
+            var uv3: R2 = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What's the geometric equivalent here?
@@ -96,7 +96,7 @@ function makeTriangles(points: MutableVectorE3[], uvs: MutableVectorE2[], radius
     }
 }
 
-function makeLineSegments(points: MutableVectorE3[], uvs: MutableVectorE2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexGeometry) {
+function makeLineSegments(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexGeometry) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -106,16 +106,16 @@ function makeLineSegments(points: MutableVectorE3[], uvs: MutableVectorE2[], rad
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: MutableVectorE3 = MutableVectorE3.copy(points[v0]).normalize();
-            var n1: MutableVectorE3 = MutableVectorE3.copy(points[v1]).normalize();
-            var n2: MutableVectorE3 = MutableVectorE3.copy(points[v2]).normalize();
-            var n3: MutableVectorE3 = MutableVectorE3.copy(points[v3]).normalize();
+            var n0: R3 = R3.copy(points[v0]).normalize();
+            var n1: R3 = R3.copy(points[v1]).normalize();
+            var n2: R3 = R3.copy(points[v2]).normalize();
+            var n3: R3 = R3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
-            var uv0: MutableVectorE2 = uvs[v0].clone();
-            var uv1: MutableVectorE2 = uvs[v1].clone();
-            var uv2: MutableVectorE2 = uvs[v2].clone();
-            var uv3: MutableVectorE2 = uvs[v3].clone();
+            var uv0: R2 = uvs[v0].clone();
+            var uv1: R2 = uvs[v1].clone();
+            var uv2: R2 = uvs[v2].clone();
+            var uv3: R2 = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What's the geometric equivalent here?
@@ -137,7 +137,7 @@ function makeLineSegments(points: MutableVectorE3[], uvs: MutableVectorE2[], rad
     }
 }
 
-function makePoints(points: MutableVectorE3[], uvs: MutableVectorE2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexGeometry) {
+function makePoints(points: R3[], uvs: R2[], radius: number, heightSegments: number, widthSegments: number, geometry: SimplexGeometry) {
     for (var i = 0; i < heightSegments; i++) {
         for (var j = 0; j < widthSegments; j++) {
             let qIndex = quadIndex(i, j, widthSegments)
@@ -147,16 +147,16 @@ function makePoints(points: MutableVectorE3[], uvs: MutableVectorE2[], radius: n
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: MutableVectorE3 = MutableVectorE3.copy(points[v0]).normalize();
-            var n1: MutableVectorE3 = MutableVectorE3.copy(points[v1]).normalize();
-            var n2: MutableVectorE3 = MutableVectorE3.copy(points[v2]).normalize();
-            var n3: MutableVectorE3 = MutableVectorE3.copy(points[v3]).normalize();
+            var n0: R3 = R3.copy(points[v0]).normalize();
+            var n1: R3 = R3.copy(points[v1]).normalize();
+            var n2: R3 = R3.copy(points[v2]).normalize();
+            var n3: R3 = R3.copy(points[v3]).normalize();
 
             // Grab the uv coordinates too.
-            var uv0: MutableVectorE2 = uvs[v0].clone();
-            var uv1: MutableVectorE2 = uvs[v1].clone();
-            var uv2: MutableVectorE2 = uvs[v2].clone();
-            var uv3: MutableVectorE2 = uvs[v3].clone();
+            var uv0: R2 = uvs[v0].clone();
+            var uv1: R2 = uvs[v1].clone();
+            var uv2: R2 = uvs[v2].clone();
+            var uv3: R2 = uvs[v3].clone();
 
             // Special case the north and south poles by only creating one triangle.
             // FIXME: What's the geometric equivalent here?
@@ -185,10 +185,10 @@ function makePoints(points: MutableVectorE3[], uvs: MutableVectorE2[], radius: n
 class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxialGeometry<SphericalPolarSimplexGeometry> {
     /**
      * @property _radius
-     * @type {MutableNumber}
+     * @type {R1}
      * @private
      */
-    public _radius: MutableNumber;
+    public _radius: R1;
     /**
      * @property thetaLength
      * @type {number}
@@ -220,7 +220,7 @@ class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxi
         thetaLength: number = Math.PI
     ) {
         super('SphericalPolarSimplexGeometry', axis, phiStart, phiLength)
-        this._radius = new MutableNumber([radius])
+        this._radius = new R1([radius])
         this.thetaLength = thetaLength
         this.thetaStart = thetaStart
 
@@ -259,12 +259,12 @@ class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxi
     /**
      * Defines a start half-plane relative to the <code>axis</code> property.
      * @property phiStart
-     * @type {MutableVectorE3}
+     * @type {R3}
      */
-    get phiStart(): MutableVectorE3 {
+    get phiStart(): R3 {
         return this.sliceStart
     }
-    set phiStart(phiStart: MutableVectorE3) {
+    set phiStart(phiStart: R3) {
         this.sliceStart.copy(phiStart)
     }
     /**
@@ -320,8 +320,8 @@ class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxi
         let widthSegments = this.curvedSegments
 
         // Output. Could this be {[name:string]:VertexN<number>}[]
-        var points: MutableVectorE3[] = []
-        var uvs: MutableVectorE2[] = []
+        var points: R3[] = []
+        var uvs: R2[] = []
         computeVertices(this.radius, this.axis, this.phiStart, this.phiLength, this.thetaStart, this.thetaLength, heightSegments, widthSegments, points, uvs)
 
         switch (this.k) {

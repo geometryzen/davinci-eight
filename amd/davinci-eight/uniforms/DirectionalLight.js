@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Symbolic', '../math/MutableVectorE3'], function (require, exports, Color, Shareable, Symbolic, MutableVectorE3) {
+define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Symbolic', '../math/R3'], function (require, exports, Color, Shareable, Symbolic, R3) {
     var LOGGING_NAME = 'DirectionalLight';
     function contextBuilder() {
         return LOGGING_NAME;
@@ -21,7 +21,7 @@ define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Sy
          */
         function DirectionalLight() {
             _super.call(this, 'DirectionalLight');
-            this.direction = new MutableVectorE3([-1, -1, -1]).normalize();
+            this.direction = new R3([-1, -1, -1]).normalize();
             this.color = Color.white.clone();
         }
         /**

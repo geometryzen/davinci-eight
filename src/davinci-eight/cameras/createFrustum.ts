@@ -3,11 +3,11 @@ import Frustum = require('davinci-eight/cameras/Frustum');
 import View = require('davinci-eight/cameras/View');
 import createView  = require('davinci-eight/cameras/createView');
 import Matrix4 = require('davinci-eight/math/Matrix4');
-import MutableSpinorE3 = require('davinci-eight/math/MutableSpinorE3');
+import SpinG3 = require('davinci-eight/math/SpinG3');
 import Symbolic = require('davinci-eight/core/Symbolic');
 import VectorE3 = require('davinci-eight/math/VectorE3');
-import MutableNumber = require('../math/MutableNumber');
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R1 = require('../math/R1');
+import R3 = require('../math/R3');
 
 /**
  * @function createFrustum
@@ -18,12 +18,12 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
 
   let refCount = 1;
   let base: View = createView(viewMatrixName);
-  let left: MutableNumber = new MutableNumber();
-  let right: MutableNumber = new MutableNumber();
-  let bottom: MutableNumber = new MutableNumber();
-  let top: MutableNumber = new MutableNumber();
-  let near: MutableNumber = new MutableNumber();
-  let far: MutableNumber = new MutableNumber();
+  let left: R1 = new R1();
+  let right: R1 = new R1();
+  let bottom: R1 = new R1();
+  let top: R1 = new R1();
+  let near: R1 = new R1();
+  let far: R1 = new R1();
   // TODO: We should immediately create with a frustum static constructor?
   let projectionMatrix: Matrix4 = Matrix4.identity();
 
@@ -51,30 +51,30 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
     setProperty(name: string, value: number[]): void {
     },
     // Delegate to the base camera.
-    get eye(): MutableVectorE3 {
+    get eye(): R3 {
       return base.eye;
     },
-    set eye(value: MutableVectorE3) {
+    set eye(value: R3) {
       base.eye = value;
     },
     setEye(eye: VectorE3) {
       base.setEye(eye);
       return self;
     },
-    get look(): MutableVectorE3 {
+    get look(): R3 {
       return base.look;
     },
-    set look(value: MutableVectorE3) {
+    set look(value: R3) {
       base.look = value;
     },
     setLook(look: VectorE3) {
       base.setLook(look);
       return self;
     },
-    get up(): MutableVectorE3 {
+    get up(): R3 {
       return base.up;
     },
-    set up(up: MutableVectorE3) {
+    set up(up: R3) {
       base.setUp(up);
     },
     setUp(up: VectorE3): Frustum {

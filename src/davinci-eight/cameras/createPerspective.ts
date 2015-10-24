@@ -6,11 +6,11 @@ import Perspective        = require('../cameras/Perspective');
 import View               = require('../cameras/View');
 import createView         = require('../cameras/createView');
 import Matrix4            = require('../math/Matrix4');
-import MutableSpinorE3            = require('../math/MutableSpinorE3');
+import SpinG3            = require('../math/SpinG3');
 import Symbolic           = require('../core/Symbolic');
 import VectorE3         = require('../math/VectorE3');
-import MutableNumber            = require('../math/MutableNumber');
-import MutableVectorE3            = require('../math/MutableVectorE3');
+import R1            = require('../math/R1');
+import R3            = require('../math/R3');
 import isDefined          = require('../checks/isDefined');
 import isUndefined        = require('../checks/isUndefined');
 import expectArg          = require('../checks/expectArg');
@@ -28,10 +28,10 @@ import computePerspectiveMatrix = require('../cameras/perspectiveMatrix');
 let createPerspective = function(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string;}): Perspective {
 
   options = options || {};
-  let fov: MutableNumber = new MutableNumber([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-  let aspect: MutableNumber = new MutableNumber([isUndefined(options.aspect) ? 1 : options.aspect]);
-  let near: MutableNumber = new MutableNumber([isUndefined(options.near) ? 0.1 : options.near]);
-  let far: MutableNumber = new MutableNumber([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
+  let fov: R1 = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+  let aspect: R1 = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
+  let near: R1 = new R1([isUndefined(options.near) ? 0.1 : options.near]);
+  let far: R1 = new R1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
   let projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
   var refCount = 1
@@ -57,30 +57,30 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
     setProperty(name: string, value: number[]): void {
     },
     // Delegate to the base camera.
-    get eye(): MutableVectorE3 {
+    get eye(): R3 {
       return base.eye;
     },
-    set eye(eye: MutableVectorE3) {
+    set eye(eye: R3) {
       base.eye = eye;
     },
     setEye(eye: VectorE3) {
       base.setEye(eye);
       return self;
     },
-    get look(): MutableVectorE3 {
+    get look(): R3 {
       return base.look;
     },
-    set look(value: MutableVectorE3) {
+    set look(value: R3) {
       base.look = value;
     },
     setLook(look: VectorE3) {
       base.setLook(look);
       return self;
     },
-    get up(): MutableVectorE3 {
+    get up(): R3 {
       return base.up;
     },
-    set up(value: MutableVectorE3) {
+    set up(value: R3) {
       base.up = value;
     },
     setUp(up: VectorE3) {

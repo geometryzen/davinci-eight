@@ -6,8 +6,8 @@ import quad = require('../geometries/quadrilateral')
 import Simplex = require('../geometries/Simplex')
 import Symbolic = require('../core/Symbolic')
 import triangle = require('../geometries/triangle')
-import MutableNumber = require('../math/MutableNumber')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R1 = require('../math/R1')
+import G3 = require('../math/G3')
 import VectorN = require('../math/VectorN')
 
 /**
@@ -16,15 +16,12 @@ import VectorN = require('../math/VectorN')
  * @class BarnSimplexGeometry
  */
 class BarnSimplexGeometry extends SimplexGeometry {
-    public a: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e1);
-    public b: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e2);
-    public c: MutableVectorE3 = MutableVectorE3.copy(Euclidean3.e3);
+    // FIXME: decouple from Euclidean3
+    public a: G3 = G3.fromVector(Euclidean3.e1);
+    public b: G3 = G3.fromVector(Euclidean3.e2);
+    public c: G3 = G3.fromVector(Euclidean3.e3);
     /**
-     * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
-     * Ten (10) vertices are used to define the barn.
-     * The floor vertices are lablled 0, 1, 6, 5.
-     * The corresponding ceiling vertices are labelled 4, 2, 7, 9.
-     * The roof peak vertices are labelled 3, 8.
+     * A barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
      * @class BarnSimplexGeometry
      * @constructor
      */
@@ -48,20 +45,20 @@ class BarnSimplexGeometry extends SimplexGeometry {
     public regenerate(): void {
         this.setModified(false)
 
-        var points: MutableVectorE3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(index) { return void 0 })
+        var points: G3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(index) { return void 0 })
 
-        points[0] = new MutableVectorE3().sub(this.a).sub(this.b).sub(this.c).divideByScalar(2)
-        points[1] = new MutableVectorE3().add(this.a).sub(this.b).sub(this.c).divideByScalar(2)
-        points[6] = new MutableVectorE3().add(this.a).sub(this.b).add(this.c).divideByScalar(2)
-        points[5] = new MutableVectorE3().sub(this.a).sub(this.b).add(this.c).divideByScalar(2)
+        points[0] = new G3().sub(this.a).sub(this.b).sub(this.c).divideByScalar(2)
+        points[1] = new G3().add(this.a).sub(this.b).sub(this.c).divideByScalar(2)
+        points[6] = new G3().add(this.a).sub(this.b).add(this.c).divideByScalar(2)
+        points[5] = new G3().sub(this.a).sub(this.b).add(this.c).divideByScalar(2)
 
-        points[4] = new MutableVectorE3().copy(points[0]).add(this.b)
-        points[2] = new MutableVectorE3().copy(points[1]).add(this.b)
-        points[7] = new MutableVectorE3().copy(points[6]).add(this.b)
-        points[9] = new MutableVectorE3().copy(points[5]).add(this.b)
+        points[4] = new G3().copy(points[0]).add(this.b)
+        points[2] = new G3().copy(points[1]).add(this.b)
+        points[7] = new G3().copy(points[6]).add(this.b)
+        points[9] = new G3().copy(points[5]).add(this.b)
 
-        points[3] = MutableVectorE3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideByScalar(2)
-        points[8] = MutableVectorE3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideByScalar(2)
+        points[3] = G3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideByScalar(2)
+        points[8] = G3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideByScalar(2)
 
         function simplex(indices: number[]): Simplex {
             let simplex = new Simplex(indices.length - 1)

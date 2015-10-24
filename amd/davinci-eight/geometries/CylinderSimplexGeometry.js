@@ -3,20 +3,20 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexGeometry', '../math/MutableSpinorE3', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, arc3, SliceSimplexGeometry, MutableSpinorE3, MutableVectorE2, MutableVectorE3) {
+define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexGeometry', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, arc3, SliceSimplexGeometry, SpinG3, R2, R3) {
     // TODO: The caps don't have radial segments!
     function computeVertices(radius, height, axis, start, angle, generator, heightSegments, thetaSegments, points, vertices, uvs) {
-        var begin = MutableVectorE3.copy(start).scale(radius);
-        var halfHeight = MutableVectorE3.copy(axis).scale(0.5 * height);
+        var begin = R3.copy(start).scale(radius);
+        var halfHeight = R3.copy(axis).scale(0.5 * height);
         /**
          * A displacement in the direction of axis that we must move for each height step.
          */
-        var stepH = MutableVectorE3.copy(axis).normalize().scale(height / heightSegments);
+        var stepH = R3.copy(axis).normalize().scale(height / heightSegments);
         for (var i = 0; i <= heightSegments; i++) {
             /**
              * The displacement to the current level.
              */
-            var dispH = MutableVectorE3.copy(stepH).scale(i).sub(halfHeight);
+            var dispH = R3.copy(stepH).scale(i).sub(halfHeight);
             var verticesRow = [];
             var uvsRow = [];
             /**
@@ -39,7 +39,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
                 var u = j / thetaSegments;
                 points.push(point);
                 verticesRow.push(points.length - 1);
-                uvsRow.push(new MutableVectorE2([u, v]));
+                uvsRow.push(new R2([u, v]));
             }
             vertices.push(verticesRow);
             uvs.push(uvsRow);
@@ -62,14 +62,14 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
          * @constructor
          * @param radius [number = 1]
          * @param height [number = 1]
-         * @param axis [VectorE3 = MutableVectorE3.e2]
+         * @param axis [VectorE3 = R3.e2]
          * @param openTop [boolean = false]
          * @param openBottom [boolean = false]
          */
         function CylinderSimplexGeometry(radius, height, axis, openTop, openBottom) {
             if (radius === void 0) { radius = 1; }
             if (height === void 0) { height = 1; }
-            if (axis === void 0) { axis = MutableVectorE3.e2; }
+            if (axis === void 0) { axis = R3.e2; }
             if (openTop === void 0) { openTop = false; }
             if (openBottom === void 0) { openBottom = false; }
             _super.call(this, 'CylinderSimplexGeometry', axis, void 0, void 0);
@@ -85,7 +85,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
             //let height = this.height
             var heightSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = new MutableSpinorE3().dual(this.axis);
+            var generator = new SpinG3().dual(this.axis);
             var heightHalf = this.height / 2;
             var points = [];
             // The double array allows us to manage the i,j indexing more naturally.
@@ -98,12 +98,12 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
             // sides
             for (var j = 0; j < thetaSegments; j++) {
                 if (radius !== 0) {
-                    na = MutableVectorE3.copy(points[vertices[0][j]]);
-                    nb = MutableVectorE3.copy(points[vertices[0][j + 1]]);
+                    na = R3.copy(points[vertices[0][j]]);
+                    nb = R3.copy(points[vertices[0][j + 1]]);
                 }
                 else {
-                    na = MutableVectorE3.copy(points[vertices[1][j]]);
-                    nb = MutableVectorE3.copy(points[vertices[1][j + 1]]);
+                    na = R3.copy(points[vertices[1][j]]);
+                    nb = R3.copy(points[vertices[1][j + 1]]);
                 }
                 // FIXME: This isn't geometric.
                 na.setY(0).normalize();
@@ -147,7 +147,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
                     var n3 = this.axis.clone();
                     var uv1 = uvs[heightSegments][j + 1].clone();
                     // Check this
-                    var uv2 = new MutableVectorE2([uv1.x, 1]);
+                    var uv2 = new R2([uv1.x, 1]);
                     var uv3 = uvs[heightSegments][j].clone();
                     this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                 }
@@ -165,7 +165,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
                     var n3 = this.axis.clone().scale(-1);
                     var uv1 = uvs[0][j].clone();
                     // TODO: Check this
-                    var uv2 = new MutableVectorE2([uv1.x, 1]);
+                    var uv2 = new R2([uv1.x, 1]);
                     var uv3 = uvs[0][j + 1].clone();
                     this.triangle([points[v1], points[v2], points[v3]], [n1, n2, n3], [uv1, uv2, uv3]);
                 }

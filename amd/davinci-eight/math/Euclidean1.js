@@ -89,11 +89,11 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
         Euclidean1.prototype.wedge = function (rhs) {
             throw new Euclidean1Error('wedge');
         };
-        Euclidean1.prototype.conL = function (rhs) {
+        Euclidean1.prototype.lco = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
             throw new Euclidean1Error('lshift');
         };
-        Euclidean1.prototype.conR = function (rhs) {
+        Euclidean1.prototype.rco = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
             throw new Euclidean1Error('rshift');
         };

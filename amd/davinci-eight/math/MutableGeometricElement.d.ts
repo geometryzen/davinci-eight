@@ -7,6 +7,8 @@ import MutableLinearElement = require('../math/MutableLinearElement');
 interface MutableGeometricElement<I, M, S, V, D> extends GeometricElement<I, M, S, V, D>, MutableLinearElement<I, M, S, V> {
     conL2(a: I, b: I): M;
     conR2(a: I, b: I): M;
+    copySpinor(spinor: S): M;
+    copyVector(vector: V): M;
     div2(a: I, b: I): M;
     mul2(a: I, b: I): M;
     normalize(): void;

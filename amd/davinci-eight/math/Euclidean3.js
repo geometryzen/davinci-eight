@@ -478,63 +478,92 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).wedge(this);
             }
         };
-        Euclidean3.prototype.conL = function (rhs) {
+        Euclidean3.prototype.lco = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             return lcoG3(this, rhs, out);
         };
         Euclidean3.prototype.__lshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.conL(other);
+                return this.lco(other);
             }
             else if (typeof other === 'number') {
-                return this.conL(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.lco(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rlshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.conL(this);
+                return other.lco(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conL(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).lco(this);
             }
         };
-        Euclidean3.prototype.conR = function (rhs) {
+        Euclidean3.prototype.rco = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             return rcoG3(this, rhs, out);
         };
         Euclidean3.prototype.__rshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.conR(other);
+                return this.rco(other);
             }
             else if (typeof other === 'number') {
-                return this.conR(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.rco(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rrshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.conR(this);
+                return other.rco(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conR(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).rco(this);
             }
         };
         Euclidean3.prototype.pow = function (exponent) {
             // assertArgEuclidean3('exponent', exponent);
             throw new Euclidean3Error('pow');
         };
+        /**
+         * Unary plus(+).
+         * @method __pos__
+         * @return {Euclidean3}
+         * @private
+         */
         Euclidean3.prototype.__pos__ = function () {
             return this;
         };
-        Euclidean3.prototype.__neg__ = function () {
+        /**
+         * @method neg
+         * @return {Euclidean3} <code>-1 * this</code>
+         */
+        Euclidean3.prototype.neg = function () {
             return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
         };
         /**
+         * Unary minus (-).
+         * @method __neg__
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__neg__ = function () {
+            return this.neg();
+        };
+        /**
+         * @method reverse
+         * @return {Euclidean3}
+         */
+        Euclidean3.prototype.reverse = function () {
+            return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+        };
+        /**
          * ~ (tilde) produces reversion.
+         * @method __tilde__
+         * @return {Euclidean3}
+         * @private
          */
         Euclidean3.prototype.__tilde__ = function () {
-            return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+            return this.reverse();
         };
         Euclidean3.prototype.grade = function (index) {
             assertArgNumber('index', index);

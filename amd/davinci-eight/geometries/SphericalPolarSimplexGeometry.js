@@ -3,16 +3,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '../math/MutableNumber', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/MutableSpinorE3', '../math/MutableVectorE2', '../math/MutableVectorE3'], function (require, exports, arc3, mustBeNumber, MutableNumber, Simplex, SliceSimplexGeometry, MutableSpinorE3, MutableVectorE2, MutableVectorE3) {
+define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '../math/R1', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, arc3, mustBeNumber, R1, Simplex, SliceSimplexGeometry, SpinG3, R2, R3) {
     function computeVertices(radius, axis, phiStart, phiLength, thetaStart, thetaLength, heightSegments, widthSegments, points, uvs) {
-        var generator = new MutableSpinorE3().dual(axis);
+        var generator = new SpinG3().dual(axis);
         var iLength = heightSegments + 1;
         var jLength = widthSegments + 1;
         for (var i = 0; i < iLength; i++) {
             var v = i / heightSegments;
             var θ = thetaStart + v * thetaLength;
             var arcRadius = radius * Math.sin(θ);
-            var begin = MutableVectorE3.copy(phiStart).scale(arcRadius);
+            var begin = R3.copy(phiStart).scale(arcRadius);
             var arcPoints = arc3(begin, phiLength, generator, widthSegments);
             /**
              * Displacement that we need to add to each arc point to get the
@@ -23,7 +23,7 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var u = j / widthSegments;
                 var point = arcPoints[j].add(axis, cosθ);
                 points.push(point);
-                uvs.push(new MutableVectorE2([u, 1 - v]));
+                uvs.push(new R2([u, 1 - v]));
             }
         }
     }
@@ -48,10 +48,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = MutableVectorE3.copy(points[v0]).normalize();
-                var n1 = MutableVectorE3.copy(points[v1]).normalize();
-                var n2 = MutableVectorE3.copy(points[v2]).normalize();
-                var n3 = MutableVectorE3.copy(points[v3]).normalize();
+                var n0 = R3.copy(points[v0]).normalize();
+                var n1 = R3.copy(points[v1]).normalize();
+                var n2 = R3.copy(points[v2]).normalize();
+                var n3 = R3.copy(points[v3]).normalize();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -84,10 +84,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = MutableVectorE3.copy(points[v0]).normalize();
-                var n1 = MutableVectorE3.copy(points[v1]).normalize();
-                var n2 = MutableVectorE3.copy(points[v2]).normalize();
-                var n3 = MutableVectorE3.copy(points[v3]).normalize();
+                var n0 = R3.copy(points[v0]).normalize();
+                var n1 = R3.copy(points[v1]).normalize();
+                var n2 = R3.copy(points[v2]).normalize();
+                var n3 = R3.copy(points[v3]).normalize();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -121,10 +121,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = MutableVectorE3.copy(points[v0]).normalize();
-                var n1 = MutableVectorE3.copy(points[v1]).normalize();
-                var n2 = MutableVectorE3.copy(points[v2]).normalize();
-                var n3 = MutableVectorE3.copy(points[v3]).normalize();
+                var n0 = R3.copy(points[v0]).normalize();
+                var n1 = R3.copy(points[v1]).normalize();
+                var n2 = R3.copy(points[v2]).normalize();
+                var n3 = R3.copy(points[v3]).normalize();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -172,7 +172,7 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
             if (thetaStart === void 0) { thetaStart = 0; }
             if (thetaLength === void 0) { thetaLength = Math.PI; }
             _super.call(this, 'SphericalPolarSimplexGeometry', axis, phiStart, phiLength);
-            this._radius = new MutableNumber([radius]);
+            this._radius = new R1([radius]);
             this.thetaLength = thetaLength;
             this.thetaStart = thetaStart;
             this.setModified(true);
@@ -219,7 +219,7 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
             /**
              * Defines a start half-plane relative to the <code>axis</code> property.
              * @property phiStart
-             * @type {MutableVectorE3}
+             * @type {R3}
              */
             get: function () {
                 return this.sliceStart;

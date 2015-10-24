@@ -4,13 +4,13 @@ import SimplexGeometry = require('../geometries/SimplexGeometry')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeString = require('../checks/mustBeString')
 import Simplex = require('../geometries/Simplex')
-import MutableSpinorE3 = require('../math/MutableSpinorE3')
+import SpinG3 = require('../math/SpinG3')
 import Symbolic = require('../core/Symbolic')
-import MutableVectorE2 = require('../math/MutableVectorE2')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R2 = require('../math/R2')
+import R3 = require('../math/R3')
 
 function perpendicular(to: VectorE3): Euclidean3 {
-    var random = new MutableVectorE3([Math.random(), Math.random(), Math.random()])
+    var random = new R3([Math.random(), Math.random(), Math.random()])
     random.cross(to).normalize()
     return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0)
 }
@@ -27,7 +27,7 @@ class VortexSimplexGeometry extends SimplexGeometry {
     public lengthShaft: number = 0.8;
     public arrowSegments: number = 8;
     public radialSegments: number = 12;
-    public generator: MutableSpinorE3 = new MutableSpinorE3([0, 0, 1, 0]);
+    public generator: SpinG3 = new SpinG3([0, 0, 1, 0]);
     /**
      * @class VortexSimplexGeometry
      * @constructor
@@ -73,11 +73,11 @@ class VortexSimplexGeometry extends SimplexGeometry {
         var circleSegments = this.arrowSegments * n;
 
         var tau = Math.PI * 2;
-        var center = new MutableVectorE3([0, 0, 0]);
+        var center = new R3([0, 0, 0]);
 
-        var normals: MutableVectorE3[] = [];
-        var points: MutableVectorE3[] = [];
-        var uvs: MutableVectorE2[] = [];
+        var normals: R3[] = [];
+        var points: R3[] = [];
+        var uvs: R2[] = [];
 
         var alpha = this.lengthShaft / (this.lengthCone + this.lengthShaft);
         var factor = tau / this.arrowSegments;
@@ -120,7 +120,7 @@ class VortexSimplexGeometry extends SimplexGeometry {
 
                 center.copy(R0).rotate(Rmajor)
 
-                var vertex = MutableVectorE3.copy(center)
+                var vertex = R3.copy(center)
                 var r0: Euclidean3 = axis.scalarMultiply(computeRadius(i))
 
                 var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scalarMultiply(-v / 2).exp()
@@ -133,8 +133,8 @@ class VortexSimplexGeometry extends SimplexGeometry {
 
                 points.push(vertex);
 
-                uvs.push(new MutableVectorE2([i / circleSegments, j / radialSegments]));
-                normals.push(MutableVectorE3.copy(r).normalize());
+                uvs.push(new R2([i / circleSegments, j / radialSegments]));
+                normals.push(R3.copy(r).normalize());
             }
         }
 

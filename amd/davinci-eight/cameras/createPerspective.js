@@ -1,4 +1,4 @@
-define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../core/Symbolic', '../math/MutableNumber', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, createView, Matrix4, Symbolic, MutableNumber, isUndefined, expectArg, computePerspectiveMatrix) {
+define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../core/Symbolic', '../math/R1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, createView, Matrix4, Symbolic, R1, isUndefined, expectArg, computePerspectiveMatrix) {
     /**
      * @function createPerspective
      * @constructor
@@ -10,10 +10,10 @@ define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../co
      */
     var createPerspective = function (options) {
         options = options || {};
-        var fov = new MutableNumber([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-        var aspect = new MutableNumber([isUndefined(options.aspect) ? 1 : options.aspect]);
-        var near = new MutableNumber([isUndefined(options.near) ? 0.1 : options.near]);
-        var far = new MutableNumber([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
+        var fov = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+        var aspect = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
+        var near = new R1([isUndefined(options.near) ? 0.1 : options.near]);
+        var far = new R1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
         var refCount = 1;
         var base = createView(options);

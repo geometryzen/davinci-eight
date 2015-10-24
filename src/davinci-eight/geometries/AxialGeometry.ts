@@ -3,7 +3,7 @@ import Geometry = require('../geometries/Geometry')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
-import MutableVectorE3 = require('../math/MutableVectorE3')
+import R3 = require('../math/R3')
 import VectorE3 = require('../math/VectorE3')
 
 /**
@@ -12,10 +12,10 @@ import VectorE3 = require('../math/VectorE3')
 class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * @property _axis
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @protected
      */
-    protected _axis: MutableVectorE3;
+    protected _axis: R3;
     /**
      * @property _sliceAngle
      * @type {number}
@@ -24,18 +24,18 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     private _sliceAngle: number = 2 * Math.PI;
     /**
      * @property _sliceStart
-     * @type {MutableVectorE3}
+     * @type {R3}
      * @private
      */
-    private _sliceStart: MutableVectorE3;
+    private _sliceStart: R3;
     /**
      * @class SliceGeometry
      * @constructor
      */
     constructor() {
         super()
-        this._axis = MutableVectorE3.copy(Euclidean3.e2)
-        this._sliceStart = MutableVectorE3.copy(Euclidean3.e1)
+        this._axis = R3.copy(Euclidean3.e2)
+        this._sliceStart = R3.copy(Euclidean3.e1)
     }
     /**
      * @property axis
@@ -57,7 +57,7 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
         mustBeObject('axis', axis)
         this._axis.copy(axis).normalize()
         // FIXME: randomize
-        this._sliceStart.copy(MutableVectorE3.random()).cross(this._axis).normalize()
+        this._sliceStart.copy(R3.random()).cross(this._axis).normalize()
         return this;
     }
     /**

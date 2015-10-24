@@ -1,4 +1,4 @@
-import MutableVectorE3 = require('../math/MutableVectorE3');
+import R3 = require('../math/R3');
 /**
  * @author zz85 / http://www.lab4games.net/zz85/blog
  * Extensible curve object
@@ -31,34 +31,34 @@ class Curve {
    * Virtual base class method to overwrite and implement in subclasses
    * t belongs to [0, 1]
    */
-  getPoint(t: number): MutableVectorE3 {
+  getPoint(t: number): R3 {
     throw new Error( "Curve.getPoint() not implemented!" );
   }
   /**
    * Get point at relative position in curve according to arc length
    */
- getPointAt(u: number): MutableVectorE3 {
+ getPointAt(u: number): R3 {
     var t = this.getUtoTmapping( u );
     return this.getPoint( t );
   }
-  getPoints(divisions?: number): MutableVectorE3[] {
+  getPoints(divisions?: number): R3[] {
     if ( ! divisions ) {
       divisions = 5;
     } 
     var d: number;
-    var pts: MutableVectorE3[] = [];
+    var pts: R3[] = [];
     for ( d = 0; d <= divisions; d ++ )
     {
       pts.push( this.getPoint( d / divisions ) );
     }
     return pts;
   }
-  getSpacedPoints(divisions?: number): MutableVectorE3[] {
+  getSpacedPoints(divisions?: number): R3[] {
     if ( ! divisions ) {
       divisions = 5;
     }
     var d: number;
-    var pts: MutableVectorE3[] = [];
+    var pts: R3[] = [];
     for ( d = 0; d <= divisions; d ++ )
     {
       pts.push( this.getPointAt( d / divisions ) );
@@ -84,8 +84,8 @@ class Curve {
     this.needsUpdate = false;
 
     var cache: number[] = [];
-    var current: MutableVectorE3;
-    var last: MutableVectorE3 = this.getPoint( 0 );
+    var current: R3;
+    var last: R3 = this.getPoint( 0 );
     var p:  number;
     var sum: number = 0;
 
@@ -197,7 +197,7 @@ class Curve {
    * 2 points a small delta apart will be used to find its gradient
    * which seems to give a reasonable approximation
    */
-  getTangent(t: number): MutableVectorE3 {
+  getTangent(t: number): R3 {
 
     var delta = 0.0001;
     var t1 = t - delta;
@@ -217,7 +217,7 @@ class Curve {
 
   }
 
-  getTangentAt(u: number): MutableVectorE3 {
+  getTangentAt(u: number): R3 {
     var t: number = this.getUtoTmapping(u);
     return this.getTangent( t );
   }

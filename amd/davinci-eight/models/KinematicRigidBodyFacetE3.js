@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../models/ModelFacet', '../math/MutableVectorE3', '../math/MutableSpinorE3'], function (require, exports, Euclidean3, ModelFacet, MutableVectorE3, MutableSpinorE3) {
+define(["require", "exports", '../math/Euclidean3', '../models/ModelFacet', '../math/G3'], function (require, exports, Euclidean3, ModelFacet, G3) {
     /**
      * @class KinematicRigidBodyFacetE3
      * @extends ModelFacet
@@ -26,17 +26,17 @@ define(["require", "exports", '../math/Euclidean3', '../models/ModelFacet', '../
              * The <em>linear velocity</em>, a vector.
              * </p>
              * @property V
-             * @type {MutableVectorE3}
+             * @type {G3}
              */
-            this.V = new MutableVectorE3().copy(Euclidean3.zero);
+            this.V = new G3().copy(Euclidean3.zero);
             /**
              * <p>
              * The <em>rotational velocity</em>, a spinor.
              * </p>
              * @property Ω
-             * @type {MutableSpinorE3}
+             * @type {G3}
              */
-            this.Ω = new MutableSpinorE3();
+            this.Ω = new G3();
         }
         /**
          * @method destructor

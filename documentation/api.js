@@ -12,11 +12,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "BarnSimplexGeometry",
         "BoxBuilder",
         "BoxMesh",
+        "CC",
         "Canvas3D",
         "Color",
         "ColorFacet",
         "ColorRGB",
-        "Complex",
         "ConeGeometry",
         "ConeSimplexGeometry",
         "ContextAttributesLogger",
@@ -84,11 +84,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "MeshTopology",
         "ModelFacet",
         "Mutable",
-        "MutableNumber",
-        "MutableSpinorE3",
-        "MutableVectorE2",
-        "MutableVectorE3",
-        "MutableVectorE4",
         "NumberIUnknownMap<V>",
         "OcosahedronGeometry",
         "OctahedronSimplexGeometry",
@@ -100,7 +95,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "PointTopology",
         "PolyhedronSimplexGeometry",
         "PseudoscalarE3",
-        "Rational",
+        "QQ",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
         "RevolutionSimplexGeometry",
         "RingGeometry",
         "RingSimplexGeometry",
@@ -116,6 +115,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "SmartMaterial",
         "SmartMaterialBuilder",
         "SphericalPolarSimplexGeometry",
+        "SpinG3",
         "StringIUnknownMap",
         "Symbolic",
         "TetrahedronSimplexGeometry",
@@ -152,7 +152,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "geometries",
             "name": "geometries",
-            "description": "The basic barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly.\nTen (10) vertices are used to define the barn.\nThe floor vertices are lablled 0, 1, 6, 5.\nThe corresponding ceiling vertices are labelled 4, 2, 7, 9.\nThe roof peak vertices are labelled 3, 8."
+            "description": "A barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly."
         }
     ]
 } };

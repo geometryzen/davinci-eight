@@ -116,7 +116,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         /**
          * @method matrix1
          * @param transpose {boolean}
-         * @param matrix {MutableNumber}
+         * @param matrix {R1}
          */
         UniformLocation.prototype.matrix1 = function (transpose, matrix) {
             this._context.useProgram(this._program);
