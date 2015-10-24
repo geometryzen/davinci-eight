@@ -1,5 +1,5 @@
 import VectorE2 = require('../math/VectorE2');
-import LinearElement = require('../math/LinearElement');
+import MutableLinearElement = require('../math/MutableLinearElement');
 import SpinorE2 = require('../math/SpinorE2');
 import VectorN = require('../math/VectorN');
 import expectArg = require('../checks/expectArg');
@@ -7,7 +7,7 @@ import expectArg = require('../checks/expectArg');
 /**
  * @class MutableVectorE2
  */
-class MutableVectorE2 extends VectorN<number> implements VectorE2, LinearElement<VectorE2, MutableVectorE2, SpinorE2, VectorE2> {
+class MutableVectorE2 extends VectorN<number> implements VectorE2, MutableLinearElement<VectorE2, MutableVectorE2, SpinorE2, VectorE2> {
     /**
      * @class MutableVectorE2
      * @constructor
@@ -82,19 +82,9 @@ class MutableVectorE2 extends VectorN<number> implements VectorE2, LinearElement
         this.y = a.y - b.y;
         return this;
     }
-    multiply(v: VectorE2) {
-        this.x *= v.x;
-        this.y *= v.y;
-        return this;
-    }
     scale(s: number) {
         this.x *= s;
         this.y *= s;
-        return this;
-    }
-    divide(v: VectorE2) {
-        this.x /= v.x;
-        this.y /= v.y;
         return this;
     }
     divideByScalar(scalar: number) {

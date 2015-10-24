@@ -47,10 +47,10 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         Matrix2.prototype.identity = function () {
             return this;
         };
-        Matrix2.prototype.multiply = function (rhs) {
-            return this.product(this, rhs);
+        Matrix2.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
         };
-        Matrix2.prototype.product = function (a, b) {
+        Matrix2.prototype.mul2 = function (a, b) {
             return this;
         };
         return Matrix2;

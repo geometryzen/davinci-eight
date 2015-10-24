@@ -77,8 +77,8 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         Matrix3.prototype.identity = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
         };
-        Matrix3.prototype.multiply = function (rhs) {
-            return this.product(this, rhs);
+        Matrix3.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
         };
         /**
          * @method row
@@ -102,7 +102,7 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             m[8] *= s;
             return this;
         };
-        Matrix3.prototype.product = function (a, b) {
+        Matrix3.prototype.mul2 = function (a, b) {
             return this;
         };
         Matrix3.prototype.normalFromMatrix4 = function (m) {

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.138.0</em>
+            <em>API Docs for: 2.139.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,6 +83,7 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
@@ -123,7 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableG3.html">MutableG3</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
                                 <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
@@ -221,7 +221,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import VectorE2 = require(&#x27;../math/VectorE2&#x27;);
-import LinearElement = require(&#x27;../math/LinearElement&#x27;);
+import MutableLinearElement = require(&#x27;../math/MutableLinearElement&#x27;);
 import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
@@ -229,7 +229,7 @@ import expectArg = require(&#x27;../checks/expectArg&#x27;);
 /**
  * @class MutableVectorE2
  */
-class MutableVectorE2 extends VectorN&lt;number&gt; implements VectorE2, LinearElement&lt;VectorE2, MutableVectorE2, SpinorE2, VectorE2&gt; {
+class MutableVectorE2 extends VectorN&lt;number&gt; implements VectorE2, MutableLinearElement&lt;VectorE2, MutableVectorE2, SpinorE2, VectorE2&gt; {
     /**
      * @class MutableVectorE2
      * @constructor
@@ -304,19 +304,9 @@ class MutableVectorE2 extends VectorN&lt;number&gt; implements VectorE2, LinearE
         this.y = a.y - b.y;
         return this;
     }
-    multiply(v: VectorE2) {
-        this.x *= v.x;
-        this.y *= v.y;
-        return this;
-    }
     scale(s: number) {
         this.x *= s;
         this.y *= s;
-        return this;
-    }
-    divide(v: VectorE2) {
-        this.x /= v.x;
-        this.y /= v.y;
         return this;
     }
     divideByScalar(scalar: number) {

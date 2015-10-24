@@ -1,10 +1,19 @@
+import addE3 = require('../math/addE3')
 import Dimensions = require('../math/Dimensions')
 import Euclidean3Error = require('../math/Euclidean3Error')
+import extG3 = require('../math/extG3')
 import GeometricE3 = require('../math/GeometricE3')
 import isDefined = require('../checks/isDefined')
+import lcoG3 = require('../math/lcoG3')
 import mathcore = require('../math/mathcore');
 import Measure = require('../math/Measure');
+import mulE3 = require('../math/mulE3')
+import mulG3 = require('../math/mulG3')
+import GeometricElement = require('../math/GeometricElement')
 import NotImplementedError = require('../math/NotImplementedError');
+import rcoG3 = require('../math/rcoG3')
+import scpG3 = require('../math/scpG3')
+import subE3 = require('../math/subE3')
 import SpinorE3 = require('../math/SpinorE3')
 import Unit = require('../math/Unit');
 import VectorE3 = require('../math/VectorE3')
@@ -74,422 +83,6 @@ function compute(
     var x6 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
     var x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
     return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
-}
-
-function addE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 + b0);
-        }
-            break;
-        case 1: {
-            x = +(a1 + b1);
-        }
-            break;
-        case 2: {
-            x = +(a2 + b2);
-        }
-            break;
-        case 3: {
-            x = +(a3 + b3);
-        }
-            break;
-        case 4: {
-            x = +(a4 + b4);
-        }
-            break;
-        case 5: {
-            x = +(a5 + b5);
-        }
-            break;
-        case 6: {
-            x = +(a6 + b6);
-        }
-            break;
-        case 7: {
-            x = +(a7 + b7);
-        }
-            break;
-        default: {
-            throw new Euclidean3Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-}
-
-function subE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 - b0);
-        }
-            break;
-        case 1: {
-            x = +(a1 - b1);
-        }
-            break;
-        case 2: {
-            x = +(a2 - b2);
-        }
-            break;
-        case 3: {
-            x = +(a3 - b3);
-        }
-            break;
-        case 4: {
-            x = +(a4 - b4);
-        }
-            break;
-        case 5: {
-            x = +(a5 - b5);
-        }
-            break;
-        case 6: {
-            x = +(a6 - b6);
-        }
-            break;
-        case 7: {
-            x = +(a7 - b7);
-        }
-            break;
-        default: {
-            throw new Euclidean3Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-}
-
-/**
- * 
- */
-function mulE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-        }
-            break;
-        case 1: {
-            x = +(a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5);
-        }
-            break;
-        case 2: {
-            x = +(a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6);
-        }
-            break;
-        case 3: {
-            x = +(a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4);
-        }
-            break;
-        case 4: {
-            x = +(a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3);
-        }
-            break;
-        case 5: {
-            x = +(a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1);
-        }
-            break;
-        case 6: {
-            x = +(a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2);
-        }
-            break;
-        case 7: {
-            x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-        }
-            break;
-        default: {
-            throw new Euclidean3Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-}
-
-function scpE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-        }
-            break;
-        case 1: {
-            x = 0;
-        }
-            break;
-        case 2: {
-            x = 0;
-        }
-            break;
-        case 3: {
-            x = 0;
-        }
-            break;
-        case 4: {
-            x = 0;
-        }
-            break;
-        case 5: {
-            x = 0;
-        }
-            break;
-        case 6: {
-            x = 0;
-        }
-            break;
-        case 7: {
-            x = 0;
-        }
-            break;
-        default: {
-            throw new Euclidean3Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-}
-
-function extE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0);
-        }
-            break;
-        case 1: {
-            x = +(a0 * b1 + a1 * b0);
-        }
-            break;
-        case 2: {
-            x = +(a0 * b2 + a2 * b0);
-        }
-            break;
-        case 3: {
-            x = +(a0 * b3 + a3 * b0);
-        }
-            break;
-        case 4: {
-            x = +(a0 * b4 + a1 * b2 - a2 * b1 + a4 * b0);
-        }
-            break;
-        case 5: {
-            x = +(a0 * b5 + a2 * b3 - a3 * b2 + a5 * b0);
-        }
-            break;
-        case 6: {
-            x = +(a0 * b6 - a1 * b3 + a3 * b1 + a6 * b0);
-        }
-            break;
-        case 7: {
-            x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-        }
-            break;
-        default: {
-            throw new Euclidean3Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-}
-
-function lcoE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-        }
-            break;
-        case 1: {
-            x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
-        }
-            break;
-        case 2: {
-            x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
-        }
-            break;
-        case 3: {
-            x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
-        }
-            break;
-        case 4: {
-            x = +(a0 * b4 + a3 * b7);
-        }
-            break;
-        case 5: {
-            x = +(a0 * b5 + a1 * b7);
-        }
-            break;
-        case 6: {
-            x = +(a0 * b6 + a2 * b7);
-        }
-            break;
-        case 7: {
-            x = +(a0 * b7);
-        }
-            break;
-        default: {
-            throw new Euclidean3Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
-}
-
-function rcoE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    a4 = +a4;
-    a5 = +a5;
-    a6 = +a6;
-    a7 = +a7;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    b4 = +b4;
-    b5 = +b5;
-    b6 = +b6;
-    b7 = +b7;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-        }
-            break;
-        case 1: {
-            x = +(+ a1 * b0 + a4 * b2 - a6 * b3 - a7 * b5);
-        }
-            break;
-        case 2: {
-            x = +(+ a2 * b0 - a4 * b1 + a5 * b3 - a7 * b6);
-        }
-            break;
-        case 3: {
-            x = +(+ a3 * b0 - a5 * b2 + a6 * b1 - a7 * b4);
-        }
-            break;
-        case 4: {
-            x = +(+ a4 * b0 + a7 * b3);
-        }
-            break;
-        case 5: {
-            x = +(+ a5 * b0 + a7 * b1);
-        }
-            break;
-        case 6: {
-            x = +(+ a6 * b0 + a7 * b2);
-        }
-            break;
-        case 7: {
-            x = +(+ a7 * b0);
-        }
-            break;
-        default: {
-            throw new Euclidean3Error("index must be in the range [0..7]");
-        }
-    }
-    return +x;
 }
 
 var divide = function(
@@ -687,7 +280,7 @@ function stringFromCoordinates(
  * @class Euclidean3
  * @extends GeometricE3
  */
-class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
+class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3> {
     public static zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
     public static one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
     public static e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
@@ -859,11 +452,19 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
 
     __radd__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return other.add(this);
+            return (<Euclidean3>other).add(this);
         }
         else if (typeof other === 'number') {
             return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).add(this);
         }
+    }
+    /**
+     * @method conj
+     * @return {Euclidean3}
+     */
+    conj(): Euclidean3 {
+        // FIXME; What kind of conjugation?
+        return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
     }
 
     /**
@@ -892,7 +493,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
 
     __rsub__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return other.sub(this);
+            return (<Euclidean3>other).sub(this);
         }
         else if (typeof other === 'number') {
             return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).sub(this);
@@ -900,9 +501,9 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
     }
 
     mul(rhs: Euclidean3): Euclidean3 {
-        var coord = function(x: number[], n: number): number { return x[n]; };
-        var pack = function(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit) { return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom); };
-        return compute(mulE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
+        var w = out.w
+        return mulG3(this, rhs, out)
     }
 
     __mul__(other: any): any {
@@ -916,7 +517,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
 
     __rmul__(other: any): any {
         if (other instanceof Euclidean3) {
-            return other.mul(this);
+            return (<Euclidean3>other).mul(this);
         }
         else if (typeof other === 'number') {
             return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).mul(this);
@@ -937,54 +538,52 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
             return this.div(other);
         }
         else if (typeof other === 'number') {
+            // FIXME divByScalar would be good?
             return this.div(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rdiv__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return other.div(this);
+            return (<Euclidean3>other).div(this);
         }
         else if (typeof other === 'number') {
             return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).div(this);
         }
     }
 
-    splat(rhs: Euclidean3): Euclidean3 {
-        var coord = function(x: number[], n: number): number {
-            return x[n];
-        };
-        var pack = function(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit): Euclidean3 {
-            return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-        };
-        return compute(scpE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+    dual(): Euclidean3 {
+        // FIXME: TODO
+        return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom)
+    }
+
+    align(rhs: Euclidean3): Euclidean3 {
+        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
+        var w = out.w
+        return scpG3(this, rhs, out)
     }
 
     wedge(rhs: Euclidean3): Euclidean3 {
-        var coord = function(x: number[], n: number): number {
-            return x[n];
-        };
-        var pack = function(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit): Euclidean3 {
-            return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-        };
-        return compute(extE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
+        var w = out.w
+        return extG3(this, rhs, out)
     }
 
     __vbar__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return this.splat(other);
+            return this.align(other);
         }
         else if (typeof other === 'number') {
-            return this.splat(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+            return this.align(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rvbar__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return other.splat(this);
+            return (<Euclidean3>other).align(this);
         }
         else if (typeof other === 'number') {
-            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).splat(this);
+            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).align(this);
         }
     }
 
@@ -999,66 +598,58 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
 
     __rwedge__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return other.wedge(this);
+            return (<Euclidean3>other).wedge(this);
         }
         else if (typeof other === 'number') {
             return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).wedge(this);
         }
     }
 
-    lshift(rhs: Euclidean3): Euclidean3 {
-        var coord = function(x: number[], n: number): number {
-            return x[n];
-        };
-        var pack = function(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit) {
-            return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-        };
-        return compute(lcoE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+    conL(rhs: Euclidean3): Euclidean3 {
+        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
+        var w = out.w
+        return lcoG3(this, rhs, out)
     }
 
     __lshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return this.lshift(other);
+            return this.conL(other);
         }
         else if (typeof other === 'number') {
-            return this.lshift(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+            return this.conL(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rlshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return other.lshift(this);
+            return (<Euclidean3>other).conL(this);
         }
         else if (typeof other === 'number') {
-            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).lshift(this);
+            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conL(this);
         }
     }
 
-    rshift(rhs: Euclidean3): Euclidean3 {
-        var coord = function(x: number[], n: number): number {
-            return x[n];
-        };
-        var pack = function(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit) {
-            return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-        };
-        return compute(rcoE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack, Unit.mul(this.uom, rhs.uom));
+    conR(rhs: Euclidean3): Euclidean3 {
+        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
+        var w = out.w
+        return rcoG3(this, rhs, out)
     }
 
     __rshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return this.rshift(other);
+            return this.conR(other);
         }
         else if (typeof other === 'number') {
-            return this.rshift(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+            return this.conR(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rrshift__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return other.rshift(this);
+            return (<Euclidean3>other).conR(this);
         }
         else if (typeof other === 'number') {
-            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).rshift(this);
+            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conR(this);
         }
     }
 
@@ -1132,6 +723,11 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
         return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
     }
 
+    lerp(target: Euclidean3, α: number): Euclidean3 {
+        // FIXME: TODO
+        return this
+    }
+
     cos(): Euclidean3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
@@ -1151,12 +747,27 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
         if (!a.isZero()) {
             var c = a.cos();
             var s = a.sin();
-            var B = bivector.unit();
+            var B = bivector.unitary();
             return c.add(B.mul(s));
         }
         else {
             return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
         }
+    }
+
+    inv(): Euclidean3 {
+        // FIXME: TODO
+        return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+    }
+
+    log(): Euclidean3 {
+        // FIXME: TODO
+        return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+    }
+
+    magnitude(): number {
+        // FIXME: TODO
+        return 0
     }
 
     /**
@@ -1168,9 +779,21 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
      * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
      */
     quad(): Euclidean3 {
-        return new Euclidean3(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        return new Euclidean3(this.quaditude(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
     }
 
+    quaditude(): number {
+        // FIXME: The shortcoming of this method is that it drops the units.
+        return this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz
+    }
+    reflect(n: VectorE3): Euclidean3 {
+        // TODO
+        return this
+    }
+    rotate(s: SpinorE3): Euclidean3 {
+        // TODO
+        return this
+    }
     sin(): Euclidean3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
@@ -1183,11 +806,14 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
         throw new Euclidean3Error('sinh');
     }
 
-    unit(): Euclidean3 {
+    unitary(): Euclidean3 {
         return this.div(this.norm());
     }
-
-    scalar(): number {
+    /**
+     * @method gradeZero
+     * @return {number}
+     */
+    gradeZero(): number {
         return this.w;
     }
 

@@ -32,7 +32,7 @@ declare class Matrix2 extends AbstractMatrix implements Matrix<Matrix2> {
     static zero(): Matrix2;
     determinant(): number;
     identity(): Matrix2;
-    multiply(rhs: Matrix2): Matrix2;
-    product(a: Matrix2, b: Matrix2): Matrix2;
+    mul(rhs: Matrix2): Matrix2;
+    mul2(a: Matrix2, b: Matrix2): Matrix2;
 }
 export = Matrix2;

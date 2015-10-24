@@ -57,8 +57,8 @@ declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
      */
     frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4;
     rotationAxis(axis: VectorE3, angle: number): Matrix4;
-    multiply(rhs: Matrix4): Matrix4;
-    product(a: Matrix4, b: Matrix4): Matrix4;
+    mul(rhs: Matrix4): Matrix4;
+    mul2(a: Matrix4, b: Matrix4): Matrix4;
     rotate(spinor: SpinorE3): Matrix4;
     /**
      * @method rotate

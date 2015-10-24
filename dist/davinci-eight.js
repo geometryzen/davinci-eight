@@ -1434,6 +1434,76 @@ define('davinci-eight/math/euclidean3Quaditude2Arg',["require", "exports", '../c
     return euclidean3Quaditude1Arg2Arg;
 });
 
+define('davinci-eight/math/addE3',["require", "exports"], function (require, exports) {
+    function addE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        a4 = +a4;
+        a5 = +a5;
+        a6 = +a6;
+        a7 = +a7;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        b4 = +b4;
+        b5 = +b5;
+        b6 = +b6;
+        b7 = +b7;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 + b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a1 + b1);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a2 + b2);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a3 + b3);
+                }
+                break;
+            case 4:
+                {
+                    x = +(a4 + b4);
+                }
+                break;
+            case 5:
+                {
+                    x = +(a5 + b5);
+                }
+                break;
+            case 6:
+                {
+                    x = +(a6 + b6);
+                }
+                break;
+            case 7:
+                {
+                    x = +(a7 + b7);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..7]");
+            }
+        }
+        return +x;
+    }
+    return addE3;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -1449,6 +1519,286 @@ define('davinci-eight/math/Euclidean3Error',["require", "exports"], function (re
         return Euclidean3Error;
     })(Error);
     return Euclidean3Error;
+});
+
+define('davinci-eight/math/compG3Get',["require", "exports"], function (require, exports) {
+    // Symbolic constants for the coordinate indices into the data array.
+    // These are chosen to match those used by Euclidean3.
+    // TODO: The goal should be to protect the user from changes in ordering.
+    var COORD_W = 0;
+    var COORD_X = 1;
+    var COORD_Y = 2;
+    var COORD_Z = 3;
+    var COORD_XY = 4;
+    var COORD_YZ = 5;
+    var COORD_ZX = 6;
+    var COORD_XYZ = 7;
+    function gcompE3(m, index) {
+        switch (index) {
+            case COORD_W: {
+                return m.w;
+            }
+            case COORD_X: {
+                return m.x;
+            }
+            case COORD_Y: {
+                return m.y;
+            }
+            case COORD_Z: {
+                return m.z;
+            }
+            case COORD_XY: {
+                return m.xy;
+            }
+            case COORD_YZ: {
+                return m.yz;
+            }
+            case COORD_ZX: {
+                return m.zx;
+            }
+            case COORD_XYZ: {
+                return m.xyz;
+            }
+            default: {
+                throw new Error("index => " + index);
+            }
+        }
+    }
+    return gcompE3;
+});
+
+define('davinci-eight/math/extE3',["require", "exports"], function (require, exports) {
+    function extE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        a4 = +a4;
+        a5 = +a5;
+        a6 = +a6;
+        a7 = +a7;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        b4 = +b4;
+        b5 = +b5;
+        b6 = +b6;
+        b7 = +b7;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a0 * b1 + a1 * b0);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a0 * b2 + a2 * b0);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a0 * b3 + a3 * b0);
+                }
+                break;
+            case 4:
+                {
+                    x = +(a0 * b4 + a1 * b2 - a2 * b1 + a4 * b0);
+                }
+                break;
+            case 5:
+                {
+                    x = +(a0 * b5 + a2 * b3 - a3 * b2 + a5 * b0);
+                }
+                break;
+            case 6:
+                {
+                    x = +(a0 * b6 - a1 * b3 + a3 * b1 + a6 * b0);
+                }
+                break;
+            case 7:
+                {
+                    x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..7]");
+            }
+        }
+        return +x;
+    }
+    return extE3;
+});
+
+define('davinci-eight/math/compG3Set',["require", "exports"], function (require, exports) {
+    var COORD_W = 0;
+    var COORD_X = 1;
+    var COORD_Y = 2;
+    var COORD_Z = 3;
+    var COORD_XY = 4;
+    var COORD_YZ = 5;
+    var COORD_ZX = 6;
+    var COORD_XYZ = 7;
+    function compG3Set(m, index, value) {
+        switch (index) {
+            case COORD_W:
+                m.w = value;
+                break;
+            case COORD_X:
+                m.x = value;
+                break;
+            case COORD_Y:
+                m.y = value;
+                break;
+            case COORD_Z:
+                m.z = value;
+                break;
+            case COORD_XY:
+                m.xy = value;
+                break;
+            case COORD_YZ:
+                m.yz = value;
+                break;
+            case COORD_ZX:
+                m.zx = value;
+                break;
+            case COORD_XYZ:
+                m.xyz = value;
+                break;
+            default:
+                throw new Error("index => " + index);
+        }
+    }
+    return compG3Set;
+});
+
+define('davinci-eight/math/extG3',["require", "exports", '../math/compG3Get', '../math/extE3', '../math/compG3Set'], function (require, exports, get, extE3, set) {
+    function extG3(a, b, out) {
+        var a0 = get(a, 0);
+        var a1 = get(a, 1);
+        var a2 = get(a, 2);
+        var a3 = get(a, 3);
+        var a4 = get(a, 4);
+        var a5 = get(a, 5);
+        var a6 = get(a, 6);
+        var a7 = get(a, 7);
+        var b0 = get(b, 0);
+        var b1 = get(b, 1);
+        var b2 = get(b, 2);
+        var b3 = get(b, 3);
+        var b4 = get(b, 4);
+        var b5 = get(b, 5);
+        var b6 = get(b, 6);
+        var b7 = get(b, 7);
+        for (var i = 0; i < 8; i++) {
+            set(out, i, extE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
+        }
+        return out;
+    }
+    return extG3;
+});
+
+define('davinci-eight/math/lcoE3',["require", "exports"], function (require, exports) {
+    function lcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        a4 = +a4;
+        a5 = +a5;
+        a6 = +a6;
+        a7 = +a7;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        b4 = +b4;
+        b5 = +b5;
+        b6 = +b6;
+        b7 = +b7;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
+                }
+                break;
+            case 4:
+                {
+                    x = +(a0 * b4 + a3 * b7);
+                }
+                break;
+            case 5:
+                {
+                    x = +(a0 * b5 + a1 * b7);
+                }
+                break;
+            case 6:
+                {
+                    x = +(a0 * b6 + a2 * b7);
+                }
+                break;
+            case 7:
+                {
+                    x = +(a0 * b7);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..7]");
+            }
+        }
+        return +x;
+    }
+    return lcoE3;
+});
+
+define('davinci-eight/math/lcoG3',["require", "exports", '../math/compG3Get', '../math/lcoE3', '../math/compG3Set'], function (require, exports, get, lcoE3, set) {
+    function lcoG3(a, b, out) {
+        var a0 = get(a, 0);
+        var a1 = get(a, 1);
+        var a2 = get(a, 2);
+        var a3 = get(a, 3);
+        var a4 = get(a, 4);
+        var a5 = get(a, 5);
+        var a6 = get(a, 6);
+        var a7 = get(a, 7);
+        var b0 = get(b, 0);
+        var b1 = get(b, 1);
+        var b2 = get(b, 2);
+        var b3 = get(b, 3);
+        var b4 = get(b, 4);
+        var b5 = get(b, 5);
+        var b6 = get(b, 6);
+        var b7 = get(b, 7);
+        for (var i = 0; i < 8; i++) {
+            set(out, i, lcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
+        }
+        return out;
+    }
+    return lcoG3;
 });
 
 define('davinci-eight/math/mathcore',["require", "exports"], function (require, exports) {
@@ -1500,6 +1850,106 @@ define('davinci-eight/math/mathcore',["require", "exports"], function (require, 
     return mathcore;
 });
 
+define('davinci-eight/math/mulE3',["require", "exports"], function (require, exports) {
+    /**
+     * Multiplication of G3.
+     * This was originally written for asm.
+     */
+    function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        a4 = +a4;
+        a5 = +a5;
+        a6 = +a6;
+        a7 = +a7;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        b4 = +b4;
+        b5 = +b5;
+        b6 = +b6;
+        b7 = +b7;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4);
+                }
+                break;
+            case 4:
+                {
+                    x = +(a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3);
+                }
+                break;
+            case 5:
+                {
+                    x = +(a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1);
+                }
+                break;
+            case 6:
+                {
+                    x = +(a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2);
+                }
+                break;
+            case 7:
+                {
+                    x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..7]");
+            }
+        }
+        return +x;
+    }
+    return mulE3;
+});
+
+define('davinci-eight/math/mulG3',["require", "exports", '../math/compG3Get', '../math/mulE3', '../math/compG3Set'], function (require, exports, get, mulE3, set) {
+    function mulG3(a, b, out) {
+        var a0 = get(a, 0);
+        var a1 = get(a, 1);
+        var a2 = get(a, 2);
+        var a3 = get(a, 3);
+        var a4 = get(a, 4);
+        var a5 = get(a, 5);
+        var a6 = get(a, 6);
+        var a7 = get(a, 7);
+        var b0 = get(b, 0);
+        var b1 = get(b, 1);
+        var b2 = get(b, 2);
+        var b3 = get(b, 3);
+        var b4 = get(b, 4);
+        var b5 = get(b, 5);
+        var b6 = get(b, 6);
+        var b7 = get(b, 7);
+        for (var i = 0; i < 8; i++) {
+            set(out, i, mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
+        }
+        return out;
+    }
+    return mulG3;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -1515,6 +1965,203 @@ define('davinci-eight/math/NotImplementedError',["require", "exports"], function
         return NotImplementedError;
     })(Error);
     return NotImplementedError;
+});
+
+define('davinci-eight/math/rcoE3',["require", "exports"], function (require, exports) {
+    function rcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        a4 = +a4;
+        a5 = +a5;
+        a6 = +a6;
+        a7 = +a7;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        b4 = +b4;
+        b5 = +b5;
+        b6 = +b6;
+        b7 = +b7;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+                }
+                break;
+            case 1:
+                {
+                    x = +(+a1 * b0 + a4 * b2 - a6 * b3 - a7 * b5);
+                }
+                break;
+            case 2:
+                {
+                    x = +(+a2 * b0 - a4 * b1 + a5 * b3 - a7 * b6);
+                }
+                break;
+            case 3:
+                {
+                    x = +(+a3 * b0 - a5 * b2 + a6 * b1 - a7 * b4);
+                }
+                break;
+            case 4:
+                {
+                    x = +(+a4 * b0 + a7 * b3);
+                }
+                break;
+            case 5:
+                {
+                    x = +(+a5 * b0 + a7 * b1);
+                }
+                break;
+            case 6:
+                {
+                    x = +(+a6 * b0 + a7 * b2);
+                }
+                break;
+            case 7:
+                {
+                    x = +(+a7 * b0);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..7]");
+            }
+        }
+        return +x;
+    }
+    return rcoE3;
+});
+
+define('davinci-eight/math/rcoG3',["require", "exports", '../math/compG3Get', '../math/rcoE3', '../math/compG3Set'], function (require, exports, get, rcoE3, set) {
+    function rcoG3(a, b, out) {
+        var a0 = get(a, 0);
+        var a1 = get(a, 1);
+        var a2 = get(a, 2);
+        var a3 = get(a, 3);
+        var a4 = get(a, 4);
+        var a5 = get(a, 5);
+        var a6 = get(a, 6);
+        var a7 = get(a, 7);
+        var b0 = get(b, 0);
+        var b1 = get(b, 1);
+        var b2 = get(b, 2);
+        var b3 = get(b, 3);
+        var b4 = get(b, 4);
+        var b5 = get(b, 5);
+        var b6 = get(b, 6);
+        var b7 = get(b, 7);
+        for (var i = 0; i < 8; i++) {
+            set(out, i, rcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, i));
+        }
+        return out;
+    }
+    return rcoG3;
+});
+
+define('davinci-eight/math/scpG3',["require", "exports", '../math/compG3Get', '../math/mulE3', '../math/compG3Set'], function (require, exports, get, mulE3, set) {
+    function scpG3(a, b, out) {
+        var a0 = get(a, 0);
+        var a1 = get(a, 1);
+        var a2 = get(a, 2);
+        var a3 = get(a, 3);
+        var a4 = get(a, 4);
+        var a5 = get(a, 5);
+        var a6 = get(a, 6);
+        var a7 = get(a, 7);
+        var b0 = get(b, 0);
+        var b1 = get(b, 1);
+        var b2 = get(b, 2);
+        var b3 = get(b, 3);
+        var b4 = get(b, 4);
+        var b5 = get(b, 5);
+        var b6 = get(b, 6);
+        var b7 = get(b, 7);
+        set(out, 0, mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0));
+        set(out, 1, 0);
+        set(out, 2, 0);
+        set(out, 3, 0);
+        set(out, 4, 0);
+        set(out, 5, 0);
+        set(out, 6, 0);
+        set(out, 7, 0);
+        return out;
+    }
+    return scpG3;
+});
+
+define('davinci-eight/math/subE3',["require", "exports"], function (require, exports) {
+    function subE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        a4 = +a4;
+        a5 = +a5;
+        a6 = +a6;
+        a7 = +a7;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        b4 = +b4;
+        b5 = +b5;
+        b6 = +b6;
+        b7 = +b7;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 - b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a1 - b1);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a2 - b2);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a3 - b3);
+                }
+                break;
+            case 4:
+                {
+                    x = +(a4 - b4);
+                }
+                break;
+            case 5:
+                {
+                    x = +(a5 - b5);
+                }
+                break;
+            case 6:
+                {
+                    x = +(a6 - b6);
+                }
+                break;
+            case 7:
+                {
+                    x = +(a7 - b7);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..7]");
+            }
+        }
+        return +x;
+    }
+    return subE3;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -2334,7 +2981,7 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
     return Unit;
 });
 
-define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', '../math/mathcore', '../math/NotImplementedError', '../math/Unit'], function (require, exports, Euclidean3Error, isDefined, mathcore, NotImplementedError, Unit) {
+define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../math/NotImplementedError', '../math/rcoG3', '../math/scpG3', '../math/subE3', '../math/Unit'], function (require, exports, addE3, Euclidean3Error, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, NotImplementedError, rcoG3, scpG3, subE3, Unit) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -2390,471 +3037,6 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
         var x6 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
         var x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
         return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
-    }
-    function addE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 + b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a1 + b1);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a2 + b2);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 + b3);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a4 + b4);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a5 + b5);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a6 + b6);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a7 + b7);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function subE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 - b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a1 - b1);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a2 - b2);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 - b3);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a4 - b4);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a5 - b5);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a6 - b6);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a7 - b7);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    /**
-     *
-     */
-    function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function scpE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = 0;
-                }
-                break;
-            case 2:
-                {
-                    x = 0;
-                }
-                break;
-            case 3:
-                {
-                    x = 0;
-                }
-                break;
-            case 4:
-                {
-                    x = 0;
-                }
-                break;
-            case 5:
-                {
-                    x = 0;
-                }
-                break;
-            case 6:
-                {
-                    x = 0;
-                }
-                break;
-            case 7:
-                {
-                    x = 0;
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function extE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a2 * b0);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 + a3 * b0);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a0 * b4 + a1 * b2 - a2 * b1 + a4 * b0);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a0 * b5 + a2 * b3 - a3 * b2 + a5 * b0);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a0 * b6 - a1 * b3 + a3 * b1 + a6 * b0);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function lcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a0 * b4 + a3 * b7);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a0 * b5 + a1 * b7);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a0 * b6 + a2 * b7);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a0 * b7);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function rcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = +(+a1 * b0 + a4 * b2 - a6 * b3 - a7 * b5);
-                }
-                break;
-            case 2:
-                {
-                    x = +(+a2 * b0 - a4 * b1 + a5 * b3 - a7 * b6);
-                }
-                break;
-            case 3:
-                {
-                    x = +(+a3 * b0 - a5 * b2 + a6 * b1 - a7 * b4);
-                }
-                break;
-            case 4:
-                {
-                    x = +(+a4 * b0 + a7 * b3);
-                }
-                break;
-            case 5:
-                {
-                    x = +(+a5 * b0 + a7 * b1);
-                }
-                break;
-            case 6:
-                {
-                    x = +(+a6 * b0 + a7 * b2);
-                }
-                break;
-            case 7:
-                {
-                    x = +(+a7 * b0);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
     }
     var divide = function (a000, a001, a010, a011, a100, a101, a110, a111, b000, b001, b010, b011, b100, b101, b110, b111, uom, dst) {
         var c000;
@@ -3151,6 +3333,14 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
             }
         };
         /**
+         * @method conj
+         * @return {Euclidean3}
+         */
+        Euclidean3.prototype.conj = function () {
+            // FIXME; What kind of conjugation?
+            return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+        };
+        /**
          * @method sub
          * @param rhs {Euclidean3}
          * @return {Euclidean3}
@@ -3181,9 +3371,9 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
             }
         };
         Euclidean3.prototype.mul = function (rhs) {
-            var coord = function (x, n) { return x[n]; };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) { return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom); };
-            return compute(mulE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return mulG3(this, rhs, out);
         };
         Euclidean3.prototype.__mul__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -3213,6 +3403,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
                 return this.div(other);
             }
             else if (typeof other === 'number') {
+                // FIXME divByScalar would be good?
                 return this.div(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
@@ -3224,38 +3415,34 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).div(this);
             }
         };
-        Euclidean3.prototype.splat = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(scpE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+        Euclidean3.prototype.dual = function () {
+            // FIXME: TODO
+            return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+        };
+        Euclidean3.prototype.align = function (rhs) {
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return scpG3(this, rhs, out);
         };
         Euclidean3.prototype.wedge = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(extE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return extG3(this, rhs, out);
         };
         Euclidean3.prototype.__vbar__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.splat(other);
+                return this.align(other);
             }
             else if (typeof other === 'number') {
-                return this.splat(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.align(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rvbar__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.splat(this);
+                return other.align(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).splat(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).align(this);
             }
         };
         Euclidean3.prototype.__wedge__ = function (other) {
@@ -3274,54 +3461,46 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).wedge(this);
             }
         };
-        Euclidean3.prototype.lshift = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(lcoE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+        Euclidean3.prototype.conL = function (rhs) {
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return lcoG3(this, rhs, out);
         };
         Euclidean3.prototype.__lshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.lshift(other);
+                return this.conL(other);
             }
             else if (typeof other === 'number') {
-                return this.lshift(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.conL(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rlshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.lshift(this);
+                return other.conL(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).lshift(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conL(this);
             }
         };
-        Euclidean3.prototype.rshift = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(rcoE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack, Unit.mul(this.uom, rhs.uom));
+        Euclidean3.prototype.conR = function (rhs) {
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return rcoG3(this, rhs, out);
         };
         Euclidean3.prototype.__rshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.rshift(other);
+                return this.conR(other);
             }
             else if (typeof other === 'number') {
-                return this.rshift(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.conR(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rrshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.rshift(this);
+                return other.conR(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).rshift(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conR(this);
             }
         };
         Euclidean3.prototype.pow = function (exponent) {
@@ -3386,6 +3565,10 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
         Euclidean3.prototype.length = function () {
             return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
         };
+        Euclidean3.prototype.lerp = function (target, α) {
+            // FIXME: TODO
+            return this;
+        };
         Euclidean3.prototype.cos = function () {
             // TODO: Generalize to full multivector.
             Unit.assertDimensionless(this.uom);
@@ -3403,12 +3586,24 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
             if (!a.isZero()) {
                 var c = a.cos();
                 var s = a.sin();
-                var B = bivector.unit();
+                var B = bivector.unitary();
                 return c.add(B.mul(s));
             }
             else {
                 return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
             }
+        };
+        Euclidean3.prototype.inv = function () {
+            // FIXME: TODO
+            return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+        };
+        Euclidean3.prototype.log = function () {
+            // FIXME: TODO
+            return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+        };
+        Euclidean3.prototype.magnitude = function () {
+            // FIXME: TODO
+            return 0;
         };
         /**
          * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
@@ -3418,7 +3613,19 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
          * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
          */
         Euclidean3.prototype.quad = function () {
-            return new Euclidean3(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+            return new Euclidean3(this.quaditude(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        Euclidean3.prototype.quaditude = function () {
+            // FIXME: The shortcoming of this method is that it drops the units.
+            return this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz;
+        };
+        Euclidean3.prototype.reflect = function (n) {
+            // TODO
+            return this;
+        };
+        Euclidean3.prototype.rotate = function (s) {
+            // TODO
+            return this;
         };
         Euclidean3.prototype.sin = function () {
             // TODO: Generalize to full multivector.
@@ -3430,10 +3637,14 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
             //Unit.assertDimensionless(this.uom);
             throw new Euclidean3Error('sinh');
         };
-        Euclidean3.prototype.unit = function () {
+        Euclidean3.prototype.unitary = function () {
             return this.div(this.norm());
         };
-        Euclidean3.prototype.scalar = function () {
+        /**
+         * @method gradeZero
+         * @return {number}
+         */
+        Euclidean3.prototype.gradeZero = function () {
             return this.w;
         };
         Euclidean3.prototype.sqrt = function () {
@@ -4610,6 +4821,22 @@ define('davinci-eight/math/MutableSpinorE3',["require", "exports", '../math/cart
             this.xy = -this.xy;
             return this;
         };
+        MutableSpinorE3.prototype.conL = function (rhs) {
+            return this.conL2(this, rhs);
+        };
+        MutableSpinorE3.prototype.conL2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
+        };
+        MutableSpinorE3.prototype.conR = function (rhs) {
+            return this.conR2(this, rhs);
+        };
+        MutableSpinorE3.prototype.conR2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
+        };
         /**
          * <p>
          * <code>this ⟼ copy(spinor)</code>
@@ -4631,25 +4858,25 @@ define('davinci-eight/math/MutableSpinorE3',["require", "exports", '../math/cart
          * <p>
          * <code>this ⟼ this / s</code>
          * </p>
-         * @method divide
+         * @method div
          * @param s {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.divide = function (s) {
-            return this.multiply2(this, s);
+        MutableSpinorE3.prototype.div = function (s) {
+            return this.div2(this, s);
         };
         /**
          * <p>
          * <code>this ⟼ a / b</code>
          * </p>
-         * @method divide2
+         * @method div2
          * @param a {SpinorE3}
          * @param b {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.divide2 = function (a, b) {
+        MutableSpinorE3.prototype.div2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.yz;
             var a2 = a.zx;
@@ -4659,6 +4886,7 @@ define('davinci-eight/math/MutableSpinorE3',["require", "exports", '../math/cart
             var b2 = b.zx;
             var b3 = b.xy;
             // Compare this to the product for Quaternions
+            // How does this compare to G3
             // It would be interesting to DRY this out.
             this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
             // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
@@ -4752,7 +4980,7 @@ define('davinci-eight/math/MutableSpinorE3',["require", "exports", '../math/cart
         MutableSpinorE3.prototype.lerp = function (target, α) {
             var R2 = MutableSpinorE3.copy(target);
             var R1 = this.clone();
-            var R = R2.multiply(R1.inv());
+            var R = R2.mul(R1.inv());
             R.log();
             R.scale(α);
             R.exp();
@@ -4805,25 +5033,25 @@ define('davinci-eight/math/MutableSpinorE3',["require", "exports", '../math/cart
          * <p>
          * <code>this ⟼ this * s</code>
          * </p>
-         * @method multiply
+         * @method mul
          * @param s {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.multiply = function (s) {
-            return this.multiply2(this, s);
+        MutableSpinorE3.prototype.mul = function (s) {
+            return this.mul2(this, s);
         };
         /**
          * <p>
          * <code>this ⟼ a * b</code>
          * </p>
-         * @method multiply2
+         * @method mul2
          * @param a {SpinorE3}
          * @param b {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.multiply2 = function (a, b) {
+        MutableSpinorE3.prototype.mul2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.yz;
             var a2 = a.zx;
@@ -4861,7 +5089,7 @@ define('davinci-eight/math/MutableSpinorE3',["require", "exports", '../math/cart
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
          * @method normalize
-         * @return {MutableQuaternion} <code>this</code>
+         * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
         MutableSpinorE3.prototype.normalize = function () {
@@ -4870,22 +5098,6 @@ define('davinci-eight/math/MutableSpinorE3',["require", "exports", '../math/cart
             this.zx = this.zx / modulus;
             this.xy = this.xy / modulus;
             this.w = this.w / modulus;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this * α</code>
-         * </p>
-         * @method scale
-         * @param α {number}
-         * @return {MutableSpinorE3} <code>this</code>
-         */
-        MutableSpinorE3.prototype.scale = function (α) {
-            mustBeNumber('α', α);
-            this.yz *= α;
-            this.zx *= α;
-            this.xy *= α;
-            this.w *= α;
             return this;
         };
         /**
@@ -4986,6 +5198,30 @@ define('davinci-eight/math/MutableSpinorE3',["require", "exports", '../math/cart
             this.w = cos(φ);
             return this;
         };
+        MutableSpinorE3.prototype.align = function (rhs) {
+            return this.align2(this, rhs);
+        };
+        MutableSpinorE3.prototype.align2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this * α</code>
+         * </p>
+         * @method scale
+         * @param α {number}
+         * @return {MutableSpinorE3} <code>this</code>
+         */
+        MutableSpinorE3.prototype.scale = function (α) {
+            mustBeNumber('α', α);
+            this.yz *= α;
+            this.zx *= α;
+            this.xy *= α;
+            this.w *= α;
+            return this;
+        };
         /**
          * <p>
          * <code>this ⟼ this - s * α</code>
@@ -5052,6 +5288,14 @@ define('davinci-eight/math/MutableSpinorE3',["require", "exports", '../math/cart
          */
         MutableSpinorE3.prototype.toString = function () {
             return "MutableSpinorE3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
+        };
+        MutableSpinorE3.prototype.wedge = function (rhs) {
+            return this.wedge2(this, rhs);
+        };
+        MutableSpinorE3.prototype.wedge2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
         };
         /**
          * @method copy
@@ -5534,7 +5778,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-10-23',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.138.0'
+        VERSION: '2.139.0'
     };
     return core;
 });
@@ -6250,7 +6494,7 @@ define('davinci-eight/math/MutableNumber',["require", "exports", '../math/Vector
             this.x = 1;
             return this;
         };
-        MutableNumber.prototype.multiply = function (v) {
+        MutableNumber.prototype.mul = function (v) {
             this.x *= v.x;
             return this;
         };
@@ -6310,7 +6554,7 @@ define('davinci-eight/math/MutableNumber',["require", "exports", '../math/Vector
         MutableNumber.prototype.normalize = function () {
             return this.divideByScalar(this.magnitude());
         };
-        MutableNumber.prototype.product = function (a, b) {
+        MutableNumber.prototype.mul2 = function (a, b) {
             return this;
         };
         MutableNumber.prototype.quaditude = function () {
@@ -9331,8 +9575,8 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
         Matrix3.prototype.identity = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
         };
-        Matrix3.prototype.multiply = function (rhs) {
-            return this.product(this, rhs);
+        Matrix3.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
         };
         /**
          * @method row
@@ -9356,7 +9600,7 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             m[8] *= s;
             return this;
         };
-        Matrix3.prototype.product = function (a, b) {
+        Matrix3.prototype.mul2 = function (a, b) {
             return this;
         };
         Matrix3.prototype.normalFromMatrix4 = function (m) {
@@ -9664,10 +9908,10 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
             var tx = t * x, ty = t * y;
             return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
         };
-        Matrix4.prototype.multiply = function (rhs) {
-            return this.product(this, rhs);
+        Matrix4.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
         };
-        Matrix4.prototype.product = function (a, b) {
+        Matrix4.prototype.mul2 = function (a, b) {
             _M4_x_M4_(a.data, b.data, this.data);
             return this;
         };
@@ -9769,7 +10013,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
         };
         Matrix4.prototype.__mul__ = function (other) {
             if (other instanceof Matrix4) {
-                return Matrix4.identity().product(this, other);
+                return Matrix4.identity().mul2(this, other);
             }
             else if (typeof other === 'number') {
                 return this.clone().scale(other);
@@ -9777,7 +10021,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
         };
         Matrix4.prototype.__rmul__ = function (other) {
             if (other instanceof Matrix4) {
-                return Matrix4.identity().product(other, this);
+                return Matrix4.identity().mul2(other, this);
             }
             else if (typeof other === 'number') {
                 return this.clone().scale(other);
@@ -9968,7 +10212,7 @@ define('davinci-eight/models/ModelFacet',["require", "exports", '../math/Euclide
                 this.matS.scaling(this.scaleXYZ);
                 this.scaleXYZ.modified = false;
             }
-            this.matM.copy(this.matT).multiply(this.matR).multiply(this.matS);
+            this.matM.copy(this.matT).mul(this.matR).mul(this.matS);
             this.matN.normalFromMatrix4(this.matM);
             visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId);
             visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId);
@@ -11988,19 +12232,9 @@ define('davinci-eight/math/MutableVectorE2',["require", "exports", '../math/Vect
             this.y = a.y - b.y;
             return this;
         };
-        MutableVectorE2.prototype.multiply = function (v) {
-            this.x *= v.x;
-            this.y *= v.y;
-            return this;
-        };
         MutableVectorE2.prototype.scale = function (s) {
             this.x *= s;
             this.y *= s;
-            return this;
-        };
-        MutableVectorE2.prototype.divide = function (v) {
-            this.x /= v.x;
-            this.y /= v.y;
             return this;
         };
         MutableVectorE2.prototype.divideByScalar = function (scalar) {
@@ -17394,39 +17628,37 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN'], function (require, exports, mustBeNumber, mustBeObject, VectorN) {
+define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/rcoG3', '../math/scpG3', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, extG3, lcoG3, mulG3, mustBeNumber, mustBeObject, rcoG3, scpG3, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
     var COORD_Y = 2;
     var COORD_Z = 3;
-    var COORD_YZ = 4;
-    var COORD_ZX = 5;
-    var COORD_XY = 6;
+    var COORD_XY = 4;
+    var COORD_YZ = 5;
+    var COORD_ZX = 6;
     var COORD_XYZ = 7;
+    var exp = Math.exp;
+    var cos = Math.cos;
+    var sin = Math.sin;
     /**
-     * @class MutableG3
+     * @class G3
      * @extends GeometricE3
      * @beta
      */
-    var MutableG3 = (function (_super) {
-        __extends(MutableG3, _super);
+    var G3 = (function (_super) {
+        __extends(G3, _super);
         /**
-         * Constructs a <code>MutableG3</code> from Cartesian coordinates.
-         * The coordinates are provided as an array of 8 <code>number</code>s.
-         * The corresponding basis is generated by the standard linear space basis, {<b>e</b><sub>1</sub>, <b>e</b><sub>2</sub>, <b>e</b><sub>3</sub>}.
-         * The geometric space basis, ordered to correspond with the coordinates, is
-         * [1, <b>e</b><sub>1</sub>, <b>e</b><sub>2</sub>, <b>e</b><sub>3</sub>, <b>e</b><sub>2</sub><b>e</b><sub>3</sub>, <b>e</b><sub>3</sub><b>e</b><sub>1</sub>, <b>e</b><sub>1</sub><b>e</b><sub>2</sub>, <b>e</b><sub>1</sub><b>e</b><sub>2</sub><b>e</b><sub>3</sub>].
-         * @class MutableG3
+         * Constructs a <code>G3</code>.
+         * The multivector is initialized to zero.
+         * @class G3
          * @beta
          * @constructor
-         * @param data [number[] = [0, 0, 0, 0, 0, 0, 0, 0]] The Cartesian coordinates of the multivector.
          */
-        function MutableG3(data) {
-            if (data === void 0) { data = [0, 0, 0, 0, 0, 0, 0, 0]; }
-            _super.call(this, data, false, 8);
+        function G3() {
+            _super.call(this, [0, 0, 0, 0, 0, 0, 0, 0], false, 8);
         }
-        Object.defineProperty(MutableG3.prototype, "w", {
+        Object.defineProperty(G3.prototype, "w", {
             /**
              * The coordinate corresponding to the unit standard basis scalar.
              * @property w
@@ -17443,7 +17675,7 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MutableG3.prototype, "x", {
+        Object.defineProperty(G3.prototype, "x", {
             /**
              * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
              * @property x
@@ -17460,7 +17692,7 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MutableG3.prototype, "y", {
+        Object.defineProperty(G3.prototype, "y", {
             /**
              * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
              * @property y
@@ -17477,7 +17709,7 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MutableG3.prototype, "z", {
+        Object.defineProperty(G3.prototype, "z", {
             /**
              * The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.
              * @property z
@@ -17494,7 +17726,7 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MutableG3.prototype, "yz", {
+        Object.defineProperty(G3.prototype, "yz", {
             /**
              * The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.
              * @property yz
@@ -17511,7 +17743,7 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MutableG3.prototype, "zx", {
+        Object.defineProperty(G3.prototype, "zx", {
             /**
              * The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.
              * @property zx
@@ -17528,7 +17760,7 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MutableG3.prototype, "xy", {
+        Object.defineProperty(G3.prototype, "xy", {
             /**
              * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
              * @property xy
@@ -17545,7 +17777,7 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(MutableG3.prototype, "xyz", {
+        Object.defineProperty(G3.prototype, "xyz", {
             /**
              * The coordinate corresponding to the I<sub>3</sub> <code>=</code> <b>e</b><sub>1</sub><b>e</b><sub>2</sub><b>e</b><sub>2</sub> standard basis pseudoscalar.
              * @property xyz
@@ -17569,10 +17801,10 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
          * @method add
          * @param M {GeometricE3}
          * @param α [number = 1]
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.add = function (M, α) {
+        G3.prototype.add = function (M, α) {
             if (α === void 0) { α = 1; }
             mustBeObject('M', M);
             mustBeNumber('α', α);
@@ -17593,10 +17825,10 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
          * @method add2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.add2 = function (a, b) {
+        G3.prototype.add2 = function (a, b) {
             mustBeObject('a', a);
             mustBeObject('b', b);
             this.w = a.w + b.w;
@@ -17611,10 +17843,78 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
         };
         /**
          * @method clone
-         * @return {MutableG3} <code>copy(this)</code>
+         * @return {G3} <code>copy(this)</code>
          */
-        MutableG3.prototype.clone = function () {
-            return new MutableG3([this.w, this.x, this.y, this.z, this.yz, this.zx, this.xy, this.xyz]);
+        G3.prototype.clone = function () {
+            var m = new G3();
+            m.copy(this);
+            return m;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ conjugate(this)</code>
+         * </p>
+         * @method conj
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.conj = function () {
+            // FIXME: This is only the bivector part.
+            // Also need to think about various involutions.
+            this.yz = -this.yz;
+            this.zx = -this.zx;
+            this.xy = -this.xy;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this << m</code>
+         * </p>
+         * @method conL
+         * @param m {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.conL = function (m) {
+            return this.conL2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a << b</code>
+         * </p>
+         * @method conL2
+         * @param a {GeometricE3}
+         * @param b {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.conL2 = function (a, b) {
+            return lcoG3(a, b, this);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this >> m</code>
+         * </p>
+         * @method conR
+         * @param m {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.conR = function (m) {
+            return this.conR2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a >> b</code>
+         * </p>
+         * @method conR2
+         * @param a {GeometricE3}
+         * @param b {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.conR2 = function (a, b) {
+            return rcoG3(a, b, this);
         };
         /**
          * <p>
@@ -17622,10 +17922,10 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
          * </p>
          * @method copy
          * @param M {VectorE3}
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.copy = function (M) {
+        G3.prototype.copy = function (M) {
             mustBeObject('M', M);
             this.w = M.w;
             this.x = M.x;
@@ -17639,14 +17939,26 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
         };
         /**
          * <p>
+         * <code>this ⟼ this / m</code>
+         * </p>
+         * @method div
+         * @param m {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.div = function (m) {
+            return this.div2(this, m);
+        };
+        /**
+         * <p>
          * <code>this ⟼ this / α</code>
          * </p>
          * @method divideByScalar
          * @param α {number}
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.divideByScalar = function (α) {
+        G3.prototype.divideByScalar = function (α) {
             mustBeNumber('α', α);
             this.w /= α;
             this.x /= α;
@@ -17660,15 +17972,101 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
         };
         /**
          * <p>
+         * <code>this ⟼ a / b</code>
+         * </p>
+         * @method div2
+         * @param a {GeometricE3}
+         * @param b {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.div2 = function (a, b) {
+            // FIXME: Generalize
+            var a0 = a.w;
+            var a1 = a.yz;
+            var a2 = a.zx;
+            var a3 = a.xy;
+            var b0 = b.w;
+            var b1 = b.yz;
+            var b2 = b.zx;
+            var b3 = b.xy;
+            // Compare this to the product for Quaternions
+            // It would be interesting to DRY this out.
+            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+            // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+            this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+            this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+            this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ dual(m) = I * m</code>
+         * </p>
+         * Notice that the dual of a vector is related to the spinor by the right-hand rule.
+         * @method dual
+         * @param m {GeometricE3} The vector whose dual will be used to set this spinor.
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.dual = function (m) {
+            // FIXME: TODO
+            mustBeObject('m', m);
+            this.yz = mustBeNumber('m.x', m.x);
+            this.zx = mustBeNumber('m.y', m.y);
+            this.xy = mustBeNumber('m.z', m.z);
+            this.w = 0;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ e<sup>this</sup></code>
+         * </p>
+         * @method exp
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.exp = function () {
+            var w = this.w;
+            var x = this.yz;
+            var y = this.zx;
+            var z = this.xy;
+            var expW = exp(w);
+            // φ is actually the absolute value of one half the rotation angle.
+            // The orientation of the rotation gets carried in the bivector components.
+            var φ = Math.sqrt(x * x + y * y + z * z);
+            var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
+            this.w = expW * cos(φ);
+            this.yz = x * s;
+            this.zx = y * s;
+            this.xy = z * s;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ conj(this) / quad(this)</code>
+         * </p>
+         * @method inv
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.inv = function () {
+            // FIXME: TODO
+            this.conj();
+            // this.divideByScalar(this.quaditude());
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ this + α * (target - this)</code>
          * </p>
          * @method lerp
          * @param target {GeometricE3}
          * @param α {number}
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.lerp = function (target, α) {
+        G3.prototype.lerp = function (target, α) {
             mustBeObject('target', target);
             mustBeNumber('α', α);
             this.w += (target.w - this.w) * α;
@@ -17689,10 +18087,10 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @param α {number}
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.lerp2 = function (a, b, α) {
+        G3.prototype.lerp2 = function (a, b, α) {
             mustBeObject('a', a);
             mustBeObject('b', b);
             mustBeNumber('α', α);
@@ -17701,22 +18099,100 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
         };
         /**
          * <p>
-         * <code>this ⟼ this * α</code>
+         * <code>this ⟼ log(this)</code>
          * </p>
-         * @method scale
-         * @param α {number}
+         * @method log
+         * @return {G3} <code>this</code>
+         * @chainable
          */
-        MutableG3.prototype.scale = function (α) {
-            mustBeNumber('α', α);
-            this.w *= α;
-            this.x *= α;
-            this.y *= α;
-            this.z *= α;
-            this.yz *= α;
-            this.zx *= α;
-            this.xy *= α;
-            this.xyz *= α;
+        G3.prototype.log = function () {
+            // FIXME: TODO
+            var w = this.w;
+            var x = this.yz;
+            var y = this.zx;
+            var z = this.xy;
+            var bb = x * x + y * y + z * z;
+            var R2 = Math.sqrt(bb);
+            var R0 = Math.abs(w);
+            var R = Math.sqrt(w * w + bb);
+            this.w = Math.log(R);
+            var f = Math.atan2(R2, R0) / R2;
+            this.yz = x * f;
+            this.zx = y * f;
+            this.xy = z * f;
             return this;
+        };
+        G3.prototype.magnitude = function () {
+            return Math.sqrt(this.quaditude());
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this * s</code>
+         * </p>
+         * @method mul
+         * @param m {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.mul = function (m) {
+            return this.mul2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * @method mul2
+         * @param a {GeometricE3}
+         * @param b {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.mul2 = function (a, b) {
+            return mulG3(a, b, this);
+        };
+        /**
+        * <p>
+        * <code>this ⟼ sqrt(this * conj(this))</code>
+        * </p>
+        * @method norm
+        * @return {G3} <code>this</code>
+        * @chainable
+        */
+        G3.prototype.norm = function () {
+            // FIXME: TODO
+            this.w = this.magnitude();
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this / magnitude(this)</code>
+         * </p>
+         * @method normalize
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.normalize = function () {
+            // FIXME: TODO
+            var modulus = this.magnitude();
+            this.yz = this.yz / modulus;
+            this.zx = this.zx / modulus;
+            this.xy = this.xy / modulus;
+            this.w = this.w / modulus;
+            return this;
+        };
+        /**
+         * @method quaditude
+         * @return {number} <code>this * conj(this)</code>
+         */
+        G3.prototype.quaditude = function () {
+            var w = this.w;
+            var yz = this.yz;
+            var zx = this.zx;
+            var xy = this.xy;
+            return w * w + yz * yz + zx * zx + xy * xy;
         };
         /**
          * <p>
@@ -17724,10 +18200,10 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
          * </p>
          * @method reflect
          * @param n {VectorE3}
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.reflect = function (n) {
+        G3.prototype.reflect = function (n) {
             // FIXME: This inly reflects the vector components.
             mustBeObject('n', n);
             var x = this.x;
@@ -17748,10 +18224,10 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
          * </p>
          * @method rotate
          * @param R {SpinorE3}
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.rotate = function (R) {
+        G3.prototype.rotate = function (R) {
             mustBeObject('R', R);
             // FIXME: This only rotates the vector components.
             var x = this.x;
@@ -17772,15 +18248,120 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
         };
         /**
          * <p>
+         * Computes a rotor, R, from two unit vectors, where
+         * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+         * </p>
+         * @method rotor
+         * @param b {VectorE3} The ending unit vector
+         * @param a {VectorE3} The starting unit vector
+         * @return {G3} <code>this</code> The rotor representing a rotation from a to b.
+         * @chainable
+         */
+        G3.prototype.rotor = function (b, a) {
+            this.spinor(b, a);
+            this.w += 1;
+            var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
+            this.divideByScalar(denom);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
+         * </p>
+         * @method rotorFromAxisAngle
+         * @param axis {VectorE3}
+         * @param θ {number}
+         * @return {G3} <code>this</code>
+         */
+        G3.prototype.rotorFromAxisAngle = function (axis, θ) {
+            // FIXME: TODO
+            var φ = θ / 2;
+            var s = sin(φ);
+            this.yz = -axis.x * s;
+            this.zx = -axis.y * s;
+            this.xy = -axis.z * s;
+            this.w = cos(φ);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ align(this, m)</code>
+         * </p>
+         * @method align
+         * @param m {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.align = function (m) {
+            return this.align2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ align(a, b)</code>
+         * </p>
+         * @method align2
+         * @param a {GeometricE3}
+         * @param b {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.align2 = function (a, b) {
+            return scpG3(a, b, this);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this * α</code>
+         * </p>
+         * @method scale
+         * @param α {number}
+         */
+        G3.prototype.scale = function (α) {
+            mustBeNumber('α', α);
+            this.w *= α;
+            this.x *= α;
+            this.y *= α;
+            this.z *= α;
+            this.yz *= α;
+            this.zx *= α;
+            this.xy *= α;
+            this.xyz *= α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * Sets this G3 to the geometric product a * b of the vector arguments.
+         * @method spinor
+         * @param a {VectorE3}
+         * @param b {VectorE3}
+         * @return {G3}
+         */
+        G3.prototype.spinor = function (a, b) {
+            // FIXME: TODO
+            var ax = a.x;
+            var ay = a.y;
+            var az = a.z;
+            var bx = b.x;
+            var by = b.y;
+            var bz = b.z;
+            this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz);
+            this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
+            this.zx = wedgeZX(ax, ay, az, bx, by, bz);
+            this.xy = wedgeXY(ax, ay, az, bx, by, bz);
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ this - M * α</code>
          * </p>
          * @method sub
          * @param M {GeometricE3}
          * @param α [number = 1]
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.sub = function (M, α) {
+        G3.prototype.sub = function (M, α) {
             if (α === void 0) { α = 1; }
             mustBeObject('M', M);
             mustBeNumber('α', α);
@@ -17801,10 +18382,10 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
          * @method sub2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
-         * @return {MutableG3} <code>this</code>
+         * @return {G3} <code>this</code>
          * @chainable
          */
-        MutableG3.prototype.sub2 = function (a, b) {
+        G3.prototype.sub2 = function (a, b) {
             mustBeObject('a', a);
             mustBeObject('b', b);
             this.w = a.w - b.w;
@@ -17817,9 +18398,34 @@ define('davinci-eight/math/MutableG3',["require", "exports", '../checks/mustBeNu
             this.xyz = a.xyz - b.xyz;
             return this;
         };
-        return MutableG3;
+        /**
+         * <p>
+         * <code>this ⟼ this ^ m</code>
+         * </p>
+         * @method wedge
+         * @param m {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.wedge = function (m) {
+            return this.wedge2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a ^ b</code>
+         * </p>
+         * @method wedge2
+         * @param a {GeometricE3}
+         * @param b {GeometricE3}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.wedge2 = function (a, b) {
+            return extG3(a, b, this);
+        };
+        return G3;
     })(VectorN);
-    return MutableG3;
+    return G3;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -18491,7 +19097,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/ArrowSimplexGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/MutableNumber', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/MutableG3', 'davinci-eight/math/MutableSpinorE3', 'davinci-eight/math/MutableVectorE2', 'davinci-eight/math/MutableVectorE3', 'davinci-eight/math/MutableVectorE4', 'davinci-eight/math/VectorN', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/KinematicRigidBodyFacetE3', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, ArrowGeometry, ArrowSimplexGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, MutableNumber, Matrix3, Matrix4, MutableG3, MutableSpinorE3, MutableVectorE2, MutableVectorE3, MutableVectorE4, VectorN, EulerFacet, KinematicRigidBodyFacetE3, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/ArrowSimplexGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/MutableNumber', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/G3', 'davinci-eight/math/MutableSpinorE3', 'davinci-eight/math/MutableVectorE2', 'davinci-eight/math/MutableVectorE3', 'davinci-eight/math/MutableVectorE4', 'davinci-eight/math/VectorN', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/KinematicRigidBodyFacetE3', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, ArrowGeometry, ArrowSimplexGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, MutableNumber, Matrix3, Matrix4, G3, MutableSpinorE3, MutableVectorE2, MutableVectorE3, MutableVectorE4, VectorN, EulerFacet, KinematicRigidBodyFacetE3, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -18610,7 +19216,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get Euclidean3() { return Euclidean3; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
-        get MutableG3() { return MutableG3; },
+        get G3() { return G3; },
         get MutableNumber() { return MutableNumber; },
         get MutableSpinorE3() { return MutableSpinorE3; },
         get MutableVectorE2() { return MutableVectorE2; },

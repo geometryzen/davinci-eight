@@ -46,6 +46,18 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
         MutableQuaternion.prototype.clone = function () {
             return new MutableQuaternion(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0));
         };
+        MutableQuaternion.prototype.conL = function (rhs) {
+            return this.conL2(this, rhs);
+        };
+        MutableQuaternion.prototype.conL2 = function (a, b) {
+            return this;
+        };
+        MutableQuaternion.prototype.conR = function (rhs) {
+            return this.conR2(this, rhs);
+        };
+        MutableQuaternion.prototype.conR2 = function (a, b) {
+            return this;
+        };
         MutableQuaternion.prototype.conj = function () {
             this.x *= -1;
             this.y *= -1;
@@ -59,10 +71,10 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.t = quaternion.t;
             return this;
         };
-        MutableQuaternion.prototype.divide = function (q) {
-            return this.divide2(this, q);
+        MutableQuaternion.prototype.div = function (q) {
+            return this.div2(this, q);
         };
-        MutableQuaternion.prototype.divide2 = function (a, b) {
+        MutableQuaternion.prototype.div2 = function (a, b) {
             var qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
             var qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
             this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
@@ -108,10 +120,10 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
         MutableQuaternion.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());
         };
-        MutableQuaternion.prototype.multiply = function (q) {
-            return this.multiply2(this, q);
+        MutableQuaternion.prototype.mul = function (q) {
+            return this.mul2(this, q);
         };
-        MutableQuaternion.prototype.multiply2 = function (a, b) {
+        MutableQuaternion.prototype.mul2 = function (a, b) {
             var qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
             var qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
             this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
@@ -151,8 +163,8 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             throw new Error();
         };
         MutableQuaternion.prototype.rotate = function (rotor) {
-            // TODO: This would require creating a temporary so we fall back to components.
-            return this.multiply2(rotor, this);
+            // FIXME: This would require creating a temporary so we fall back to components.
+            return this.mul2(rotor, this);
         };
         MutableQuaternion.prototype.rotor = function (a, b) {
             return this;
@@ -264,6 +276,12 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z = (z * ratioA + this.z * ratioB);
             return this;
         };
+        MutableQuaternion.prototype.align = function (rhs) {
+            return this.align2(this, rhs);
+        };
+        MutableQuaternion.prototype.align2 = function (a, b) {
+            return this;
+        };
         MutableQuaternion.prototype.sub = function (q, α) {
             if (α === void 0) { α = 1; }
             this.x -= q.x * α;
@@ -298,6 +316,12 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             array[offset + 2] = this.z;
             array[offset + 3] = this.t;
             return array;
+        };
+        MutableQuaternion.prototype.wedge = function (rhs) {
+            return this.wedge2(this, rhs);
+        };
+        MutableQuaternion.prototype.wedge2 = function (a, b) {
+            return this;
         };
         MutableQuaternion.slerp = function (qa, qb, qm, t) {
             return qm.copy(qa).slerp(qb, t);

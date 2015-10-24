@@ -79,7 +79,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x = 1;
             return this;
         };
-        MutableNumber.prototype.multiply = function (v) {
+        MutableNumber.prototype.mul = function (v) {
             this.x *= v.x;
             return this;
         };
@@ -139,7 +139,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         MutableNumber.prototype.normalize = function () {
             return this.divideByScalar(this.magnitude());
         };
-        MutableNumber.prototype.product = function (a, b) {
+        MutableNumber.prototype.mul2 = function (a, b) {
             return this;
         };
         MutableNumber.prototype.quaditude = function () {

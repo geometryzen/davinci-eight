@@ -1,7 +1,7 @@
 import cartesianQuaditudeE3 = require('../math/cartesianQuaditudeE3')
 import Euclidean3 = require('../math/Euclidean3')
 import euclidean3Quaditude2Arg = require('../math/euclidean3Quaditude2Arg')
-import GeometricElement = require('../math/GeometricElement')
+import MutableGeometricElement = require('../math/MutableGeometricElement')
 import Matrix4 = require('../math/Matrix4')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
@@ -14,7 +14,7 @@ let exp = Math.exp
 
 var EPS = 0.000001;
 
-class MutableQuaternion implements GeometricElement<MutableQuaternion, MutableQuaternion, MutableQuaternion, VectorE3, VectorE3> {
+class MutableQuaternion implements MutableGeometricElement<MutableQuaternion, MutableQuaternion, MutableQuaternion, VectorE3, VectorE3> {
     private x: number;
     private y: number;
     private z: number;
@@ -54,6 +54,18 @@ class MutableQuaternion implements GeometricElement<MutableQuaternion, MutableQu
     clone(): MutableQuaternion {
         return new MutableQuaternion(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0))
     }
+    conL(rhs: MutableQuaternion): MutableQuaternion {
+        return this.conL2(this, rhs)
+    }
+    conL2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion {
+        return this
+    }
+    conR(rhs: MutableQuaternion): MutableQuaternion {
+        return this.conR2(this, rhs)
+    }
+    conR2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion {
+        return this
+    }
     conj(): MutableQuaternion {
         this.x *= - 1
         this.y *= - 1
@@ -67,10 +79,10 @@ class MutableQuaternion implements GeometricElement<MutableQuaternion, MutableQu
         this.t = quaternion.t;
         return this;
     }
-    divide(q: MutableQuaternion): MutableQuaternion {
-        return this.divide2(this, q);
+    div(q: MutableQuaternion): MutableQuaternion {
+        return this.div2(this, q);
     }
-    divide2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion {
+    div2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion {
         let qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
         let qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
         this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
@@ -116,10 +128,10 @@ class MutableQuaternion implements GeometricElement<MutableQuaternion, MutableQu
     magnitude(): number {
         return Math.sqrt(this.quaditude());
     }
-    multiply(q: MutableQuaternion): MutableQuaternion {
-        return this.multiply2(this, q);
+    mul(q: MutableQuaternion): MutableQuaternion {
+        return this.mul2(this, q);
     }
-    multiply2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion {
+    mul2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion {
         let qax = a.x, qay = a.y, qaz = a.z, qaw = a.t;
         let qbx = b.x, qby = b.y, qbz = b.z, qbw = b.t;
         this.x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
@@ -159,8 +171,8 @@ class MutableQuaternion implements GeometricElement<MutableQuaternion, MutableQu
         throw new Error();
     }
     rotate(rotor: MutableQuaternion): MutableQuaternion {
-        // TODO: This would require creating a temporary so we fall back to components.
-        return this.multiply2(rotor, this);
+        // FIXME: This would require creating a temporary so we fall back to components.
+        return this.mul2(rotor, this);
     }
     rotor(a: VectorE3, b: VectorE3): MutableQuaternion {
         return this
@@ -287,6 +299,12 @@ class MutableQuaternion implements GeometricElement<MutableQuaternion, MutableQu
         this.z = (z * ratioA + this.z * ratioB);
         return this;
     }
+    align(rhs: MutableQuaternion): MutableQuaternion {
+        return this.align2(this, rhs)
+    }
+    align2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion {
+        return this
+    }
     sub(q: MutableQuaternion, α: number = 1) {
         this.x -= q.x * α
         this.y -= q.y * α
@@ -317,6 +335,12 @@ class MutableQuaternion implements GeometricElement<MutableQuaternion, MutableQu
         array[offset + 2] = this.z;
         array[offset + 3] = this.t;
         return array;
+    }
+    wedge(rhs: MutableQuaternion): MutableQuaternion {
+        return this.wedge2(this, rhs)
+    }
+    wedge2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion {
+        return this
     }
     public static slerp(qa: MutableQuaternion, qb: MutableQuaternion, qm: MutableQuaternion, t: number): MutableQuaternion {
         return qm.copy(qa).slerp(qb, t);

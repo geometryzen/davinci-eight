@@ -230,10 +230,10 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             var tx = t * x, ty = t * y;
             return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
         };
-        Matrix4.prototype.multiply = function (rhs) {
-            return this.product(this, rhs);
+        Matrix4.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
         };
-        Matrix4.prototype.product = function (a, b) {
+        Matrix4.prototype.mul2 = function (a, b) {
             _M4_x_M4_(a.data, b.data, this.data);
             return this;
         };
@@ -335,7 +335,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         };
         Matrix4.prototype.__mul__ = function (other) {
             if (other instanceof Matrix4) {
-                return Matrix4.identity().product(this, other);
+                return Matrix4.identity().mul2(this, other);
             }
             else if (typeof other === 'number') {
                 return this.clone().scale(other);
@@ -343,7 +343,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         };
         Matrix4.prototype.__rmul__ = function (other) {
             if (other instanceof Matrix4) {
-                return Matrix4.identity().product(other, this);
+                return Matrix4.identity().mul2(other, this);
             }
             else if (typeof other === 'number') {
                 return this.clone().scale(other);

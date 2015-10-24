@@ -1,4 +1,4 @@
-import GeometricElement = require('../math/GeometricElement');
+import MutableGeometricElement = require('../math/MutableGeometricElement');
 import Mutable = require('../math/Mutable');
 import SpinorE3 = require('../math/SpinorE3');
 import VectorE3 = require('../math/VectorE3');
@@ -7,7 +7,7 @@ import VectorN = require('../math/VectorN');
  * @class MutableSpinorE3
  * @extends VectorN<number>
  */
-declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, GeometricElement<SpinorE3, MutableSpinorE3, MutableSpinorE3, VectorE3, VectorE3> {
+declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement<SpinorE3, MutableSpinorE3, MutableSpinorE3, VectorE3, VectorE3> {
     /**
      * @class MutableSpinorE3
      * @constructor
@@ -72,6 +72,10 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
      * @chainable
      */
     conj(): MutableSpinorE3;
+    conL(rhs: SpinorE3): MutableSpinorE3;
+    conL2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
+    conR(rhs: SpinorE3): MutableSpinorE3;
+    conR2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
     /**
      * <p>
      * <code>this ⟼ copy(spinor)</code>
@@ -86,23 +90,23 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
      * <p>
      * <code>this ⟼ this / s</code>
      * </p>
-     * @method divide
+     * @method div
      * @param s {SpinorE3}
      * @return {MutableSpinorE3} <code>this</code>
      * @chainable
      */
-    divide(s: SpinorE3): MutableSpinorE3;
+    div(s: SpinorE3): MutableSpinorE3;
     /**
      * <p>
      * <code>this ⟼ a / b</code>
      * </p>
-     * @method divide2
+     * @method div2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
      * @return {MutableSpinorE3} <code>this</code>
      * @chainable
      */
-    divide2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
+    div2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
     /**
      * <p>
      * <code>this ⟼ this / α</code>
@@ -179,23 +183,23 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
      * <p>
      * <code>this ⟼ this * s</code>
      * </p>
-     * @method multiply
+     * @method mul
      * @param s {SpinorE3}
      * @return {MutableSpinorE3} <code>this</code>
      * @chainable
      */
-    multiply(s: SpinorE3): MutableSpinorE3;
+    mul(s: SpinorE3): MutableSpinorE3;
     /**
      * <p>
      * <code>this ⟼ a * b</code>
      * </p>
-     * @method multiply2
+     * @method mul2
      * @param a {SpinorE3}
      * @param b {SpinorE3}
      * @return {MutableSpinorE3} <code>this</code>
      * @chainable
      */
-    multiply2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
+    mul2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
     /**
     * <p>
     * <code>this ⟼ sqrt(this * conj(this))</code>
@@ -210,19 +214,10 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
      * @method normalize
-     * @return {MutableQuaternion} <code>this</code>
+     * @return {MutableSpinorE3} <code>this</code>
      * @chainable
      */
     normalize(): MutableSpinorE3;
-    /**
-     * <p>
-     * <code>this ⟼ this * α</code>
-     * </p>
-     * @method scale
-     * @param α {number}
-     * @return {MutableSpinorE3} <code>this</code>
-     */
-    scale(α: number): MutableSpinorE3;
     /**
      * @method quaditude
      * @return {number} <code>this * conj(this)</code>
@@ -278,6 +273,17 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
      * @return {MutableSpinorE3} <code>this</code>
      */
     rotorFromAxisAngle(axis: VectorE3, θ: number): MutableSpinorE3;
+    align(rhs: SpinorE3): MutableSpinorE3;
+    align2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
+    /**
+     * <p>
+     * <code>this ⟼ this * α</code>
+     * </p>
+     * @method scale
+     * @param α {number}
+     * @return {MutableSpinorE3} <code>this</code>
+     */
+    scale(α: number): MutableSpinorE3;
     /**
      * <p>
      * <code>this ⟼ this - s * α</code>
@@ -316,6 +322,8 @@ declare class MutableSpinorE3 extends VectorN<number> implements SpinorE3, Mutab
      * @return {string} A non-normative string representation of the target.
      */
     toString(): string;
+    wedge(rhs: SpinorE3): MutableSpinorE3;
+    wedge2(a: SpinorE3, b: SpinorE3): MutableSpinorE3;
     /**
      * @method copy
      * @param spinor {SpinorE3}

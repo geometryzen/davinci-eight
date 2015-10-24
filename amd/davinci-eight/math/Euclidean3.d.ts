@@ -1,12 +1,14 @@
 import GeometricE3 = require('../math/GeometricE3');
 import Measure = require('../math/Measure');
+import GeometricElement = require('../math/GeometricElement');
 import SpinorE3 = require('../math/SpinorE3');
 import Unit = require('../math/Unit');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class Euclidean3
  * @extends GeometricE3
  */
-declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
+declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3> {
     static zero: Euclidean3;
     static one: Euclidean3;
     static e1: Euclidean3;
@@ -93,6 +95,11 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
     __add__(other: any): Euclidean3;
     __radd__(other: any): Euclidean3;
     /**
+     * @method conj
+     * @return {Euclidean3}
+     */
+    conj(): Euclidean3;
+    /**
      * @method sub
      * @param rhs {Euclidean3}
      * @return {Euclidean3}
@@ -107,16 +114,17 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
     div(rhs: Euclidean3): Euclidean3;
     __div__(other: any): Euclidean3;
     __rdiv__(other: any): Euclidean3;
-    splat(rhs: Euclidean3): Euclidean3;
+    dual(): Euclidean3;
+    align(rhs: Euclidean3): Euclidean3;
     wedge(rhs: Euclidean3): Euclidean3;
     __vbar__(other: any): Euclidean3;
     __rvbar__(other: any): Euclidean3;
     __wedge__(other: any): Euclidean3;
     __rwedge__(other: any): Euclidean3;
-    lshift(rhs: Euclidean3): Euclidean3;
+    conL(rhs: Euclidean3): Euclidean3;
     __lshift__(other: any): Euclidean3;
     __rlshift__(other: any): Euclidean3;
-    rshift(rhs: Euclidean3): Euclidean3;
+    conR(rhs: Euclidean3): Euclidean3;
     __rshift__(other: any): Euclidean3;
     __rrshift__(other: any): Euclidean3;
     pow(exponent: Euclidean3): Euclidean3;
@@ -131,9 +139,13 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
     cross(vector: Euclidean3): Euclidean3;
     isZero(): boolean;
     length(): number;
+    lerp(target: Euclidean3, α: number): Euclidean3;
     cos(): Euclidean3;
     cosh(): Euclidean3;
     exp(): Euclidean3;
+    inv(): Euclidean3;
+    log(): Euclidean3;
+    magnitude(): number;
     /**
      * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
      */
@@ -142,10 +154,17 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3 {
      * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
      */
     quad(): Euclidean3;
+    quaditude(): number;
+    reflect(n: VectorE3): Euclidean3;
+    rotate(s: SpinorE3): Euclidean3;
     sin(): Euclidean3;
     sinh(): Euclidean3;
-    unit(): Euclidean3;
-    scalar(): number;
+    unitary(): Euclidean3;
+    /**
+     * @method gradeZero
+     * @return {number}
+     */
+    gradeZero(): number;
     sqrt(): Euclidean3;
     toStringCustom(coordToString: (x: number) => string, labels: string[]): string;
     toExponential(): string;

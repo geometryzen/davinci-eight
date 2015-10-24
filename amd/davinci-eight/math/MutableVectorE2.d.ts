@@ -1,11 +1,11 @@
 import VectorE2 = require('../math/VectorE2');
-import LinearElement = require('../math/LinearElement');
+import MutableLinearElement = require('../math/MutableLinearElement');
 import SpinorE2 = require('../math/SpinorE2');
 import VectorN = require('../math/VectorN');
 /**
  * @class MutableVectorE2
  */
-declare class MutableVectorE2 extends VectorN<number> implements VectorE2, LinearElement<VectorE2, MutableVectorE2, SpinorE2, VectorE2> {
+declare class MutableVectorE2 extends VectorN<number> implements VectorE2, MutableLinearElement<VectorE2, MutableVectorE2, SpinorE2, VectorE2> {
     /**
      * @class MutableVectorE2
      * @constructor
@@ -32,9 +32,7 @@ declare class MutableVectorE2 extends VectorN<number> implements VectorE2, Linea
     sub(v: VectorE2): MutableVectorE2;
     subScalar(s: number): MutableVectorE2;
     sub2(a: VectorE2, b: VectorE2): MutableVectorE2;
-    multiply(v: VectorE2): MutableVectorE2;
     scale(s: number): MutableVectorE2;
-    divide(v: VectorE2): MutableVectorE2;
     divideByScalar(scalar: number): MutableVectorE2;
     min(v: VectorE2): MutableVectorE2;
     max(v: VectorE2): MutableVectorE2;

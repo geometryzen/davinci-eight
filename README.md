@@ -238,7 +238,8 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.135.0: 2015-10-19 ArrowGeometry
 * 2.136.0: 2015-10-20 Quaternion
 * 2.137.0: 2015-10-21 KinematicRigidBodyFacetE3
-* 2.138.0: 2015-10-23 MutableG3
+* 2.138.0: 2015-10-23 G3
+* 2.139.0: 2015-10-23 align
 
 ## License
 Copyright (c) 2014-2015 David Holmes

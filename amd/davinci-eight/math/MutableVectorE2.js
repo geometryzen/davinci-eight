@@ -94,19 +94,9 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y = a.y - b.y;
             return this;
         };
-        MutableVectorE2.prototype.multiply = function (v) {
-            this.x *= v.x;
-            this.y *= v.y;
-            return this;
-        };
         MutableVectorE2.prototype.scale = function (s) {
             this.x *= s;
             this.y *= s;
-            return this;
-        };
-        MutableVectorE2.prototype.divide = function (v) {
-            this.x /= v.x;
-            this.y /= v.y;
             return this;
         };
         MutableVectorE2.prototype.divideByScalar = function (scalar) {

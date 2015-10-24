@@ -10,7 +10,7 @@ declare class Euclidean1 implements Measure<Euclidean1> {
      *
      * @class Euclidean1
      * @constructor
-     * @param {number} w The scalar part of the multivector.
+     * @param {number} w The grade zero part of the multivector.
      * @param {number} x The vector component of the multivector in the x-direction.
      * @param uom The optional unit of measure.
      */
@@ -27,9 +27,10 @@ declare class Euclidean1 implements Measure<Euclidean1> {
     sub(rhs: Euclidean1): Euclidean1;
     mul(rhs: Euclidean1): Euclidean1;
     div(rhs: Euclidean1): Euclidean1;
+    align(rhs: Euclidean1): Euclidean1;
     wedge(rhs: Euclidean1): Euclidean1;
-    lshift(rhs: Euclidean1): Euclidean1;
-    rshift(rhs: Euclidean1): Euclidean1;
+    conL(rhs: Euclidean1): Euclidean1;
+    conR(rhs: Euclidean1): Euclidean1;
     pow(exponent: Euclidean1): Euclidean1;
     cos(): Euclidean1;
     cosh(): Euclidean1;
@@ -38,8 +39,8 @@ declare class Euclidean1 implements Measure<Euclidean1> {
     quad(): Euclidean1;
     sin(): Euclidean1;
     sinh(): Euclidean1;
-    unit(): Euclidean1;
-    scalar(): number;
+    unitary(): Euclidean1;
+    gradeZero(): number;
     toExponential(): string;
     toFixed(digits?: number): string;
     toString(): string;

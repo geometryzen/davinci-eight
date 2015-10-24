@@ -5,27 +5,22 @@ import LinearElement = require('../math/LinearElement');
  */
 interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
   conj(): M;
+  conL(rhs: I): M;
+  conR(rhs: I): M;
   /**
    * divide really only applies to division algebras.
    */
-  divide(rhs: I): M;
-  divide2(a: I, b: I): M;
+  div(rhs: I): M;
   dual(m: D): M;  // Probably should move out since 3D
   exp(): M;
   inv(): M;
   log(): M;
-  magnitude(): number;
-  multiply(rhs: I): M;
-  multiply2(a: I, b: I): M;
+  magnitude(): number; // FIXME: This method drops units.
+  mul(rhs: I): M;
   norm(): M;
-  normalize(): void;
-  quaditude(): number;
-  rotor(b: V, a: V): M;
-  rotorFromAxisAngle(axis: V, θ: number): M;
-  /**
-   * The geometric product of the vectors.
-   */
-  spinor(a: V, b: V): M;
+  quaditude(): number; // FIXME: This method drops units
+  align(rhs: I): M;
+  wedge(rhs: I): M;
 }
 
 export = GeometricElement;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.138.0</em>
+            <em>API Docs for: 2.139.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,6 +83,7 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
@@ -123,7 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableG3.html">MutableG3</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
                                 <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
@@ -224,7 +224,7 @@ import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
 import euclidean3Quaditude2Arg = require(&#x27;../math/euclidean3Quaditude2Arg&#x27;)
 import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;)
-import LinearElement = require(&#x27;../math/LinearElement&#x27;)
+import MutableLinearElement = require(&#x27;../math/MutableLinearElement&#x27;)
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
 import isDefined = require(&#x27;../checks/isDefined&#x27;)
@@ -241,7 +241,7 @@ import wedgeZX = require(&#x27;../math/wedgeZX&#x27;)
  * @class MutableVectorE3
  * @extends VectorN&lt;number&gt;
  */
-class MutableVectorE3 extends VectorN&lt;number&gt; implements VectorE3, LinearElement&lt;VectorE3, MutableVectorE3, SpinorE3, VectorE3&gt; {
+class MutableVectorE3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement&lt;VectorE3, MutableVectorE3, SpinorE3, VectorE3&gt; {
     /**
      * @property e1
      * @type {Euclidean3}

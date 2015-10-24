@@ -13,18 +13,18 @@ interface Matrix<M> {
      */
     identity(): M;
     /**
-     * @method multiply
+     * @method mul
      * @param rhs {M}
      * @return {M}
      */
-    multiply(rhs: M): M;
+    mul(rhs: M): M;
     /**
-     * @method product
+     * @method mul2
      * @param a {M}
      * @param b {M}
      * @return {M}
      */
-    product(a: M, b: M): M;
+    mul2(a: M, b: M): M;
 }
 
 export = Matrix;

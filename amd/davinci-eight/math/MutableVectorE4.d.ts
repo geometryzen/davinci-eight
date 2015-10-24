@@ -1,11 +1,11 @@
 import VectorE4 = require('../math/VectorE4');
-import LinearElement = require('../math/LinearElement');
+import MutableLinearElement = require('../math/MutableLinearElement');
 import SpinorE4 = require('../math/SpinorE4');
 import VectorN = require('../math/VectorN');
 /**
  * @class MutableVectorE4
  */
-declare class MutableVectorE4 extends VectorN<number> implements VectorE4, LinearElement<VectorE4, MutableVectorE4, SpinorE4, VectorE4> {
+declare class MutableVectorE4 extends VectorN<number> implements VectorE4, MutableLinearElement<VectorE4, MutableVectorE4, SpinorE4, VectorE4> {
     /**
      * @class MutableVectorE4
      * @constructor

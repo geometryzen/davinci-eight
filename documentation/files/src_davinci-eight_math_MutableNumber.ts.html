@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.138.0</em>
+            <em>API Docs for: 2.139.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,6 +83,7 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G3.html">G3</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
@@ -123,7 +124,6 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/MutableG3.html">MutableG3</a></li>
                                 <li><a href="../classes/MutableNumber.html">MutableNumber</a></li>
                                 <li><a href="../classes/MutableSpinorE3.html">MutableSpinorE3</a></li>
                                 <li><a href="../classes/MutableVectorE2.html">MutableVectorE2</a></li>
@@ -222,14 +222,14 @@
     <pre class="code prettyprint linenums">
 import VectorE1 = require(&#x27;../math/VectorE1&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;)
-import LinearElement = require(&#x27;../math/LinearElement&#x27;)
+import MutableLinearElement = require(&#x27;../math/MutableLinearElement&#x27;)
 import Matrix = require(&#x27;../math/Matrix&#x27;)
 import SpinorE1 = require(&#x27;../math/SpinorE1&#x27;)
 import VectorN = require(&#x27;../math/VectorN&#x27;)
 /**
  * @class MutableNumber
  */
-class MutableNumber extends VectorN&lt;number&gt; implements VectorE1, LinearElement&lt;VectorE1, MutableNumber, SpinorE1, VectorE1&gt;, Matrix&lt;MutableNumber&gt; {
+class MutableNumber extends VectorN&lt;number&gt; implements VectorE1, MutableLinearElement&lt;VectorE1, MutableNumber, SpinorE1, VectorE1&gt;, Matrix&lt;MutableNumber&gt; {
     /**
      * @class MutableNumber
      * @constructor
@@ -293,7 +293,7 @@ class MutableNumber extends VectorN&lt;number&gt; implements VectorE1, LinearEle
         this.x = 1
         return this
     }
-    multiply(v: VectorE1) {
+    mul(v: VectorE1) {
         this.x *= v.x
         return this
     }
@@ -353,7 +353,7 @@ class MutableNumber extends VectorN&lt;number&gt; implements VectorE1, LinearEle
     normalize() {
         return this.divideByScalar(this.magnitude());
     }
-    product(a: VectorE1, b: VectorE1) {
+    mul2(a: VectorE1, b: VectorE1) {
         return this
     }
     quaditude(): number {

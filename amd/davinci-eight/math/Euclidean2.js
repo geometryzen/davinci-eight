@@ -595,7 +595,7 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
                 return new Euclidean2(w, 0, 0, 0, undefined).div(this);
             }
         };
-        Euclidean2.splat = function (a, b) {
+        Euclidean2.align = function (a, b) {
             var a0 = a[0];
             var a1 = a[1];
             var a2 = a[2];
@@ -610,9 +610,9 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
             var x3 = 0;
             return [x0, x1, x2, x3];
         };
-        Euclidean2.prototype.splat = function (rhs) {
+        Euclidean2.prototype.align = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.splat(this.coordinates(), rhs.coordinates());
+            var xs = Euclidean2.align(this.coordinates(), rhs.coordinates());
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
         };
         Euclidean2.wedge = function (a, b) {
@@ -670,7 +670,7 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
             var x3 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
             return [x0, x1, x2, x3];
         };
-        Euclidean2.prototype.lshift = function (rhs) {
+        Euclidean2.prototype.conL = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
             var xs = Euclidean2.lshift(this.coordinates(), rhs.coordinates());
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
@@ -678,21 +678,21 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
         Euclidean2.prototype.__lshift__ = function (other) {
             if (other instanceof Euclidean2) {
                 var rhs = other;
-                return this.lshift(rhs);
+                return this.conL(rhs);
             }
             else if (typeof other === 'number') {
                 var w = other;
-                return this.lshift(new Euclidean2(w, 0, 0, 0, undefined));
+                return this.conL(new Euclidean2(w, 0, 0, 0, undefined));
             }
         };
         Euclidean2.prototype.__rlshift__ = function (other) {
             if (other instanceof Euclidean2) {
                 var lhs = other;
-                return lhs.lshift(this);
+                return lhs.conL(this);
             }
             else if (typeof other === 'number') {
                 var w = other;
-                return new Euclidean2(w, 0, 0, 0, undefined).lshift(this);
+                return new Euclidean2(w, 0, 0, 0, undefined).conL(this);
             }
         };
         Euclidean2.rshift = function (a, b) {
@@ -710,41 +710,41 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
             var x3 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
             return [x0, x1, x2, x3];
         };
-        Euclidean2.prototype.rshift = function (rhs) {
+        Euclidean2.prototype.conR = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
             var xs = Euclidean2.rshift(this.coordinates(), rhs.coordinates());
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
         };
         Euclidean2.prototype.__rshift__ = function (other) {
             if (other instanceof Euclidean2) {
-                return this.rshift(other);
+                return this.conR(other);
             }
             else if (typeof other === 'number') {
-                return this.rshift(new Euclidean2(other, 0, 0, 0, undefined));
+                return this.conR(new Euclidean2(other, 0, 0, 0, undefined));
             }
         };
         Euclidean2.prototype.__rrshift__ = function (other) {
             if (other instanceof Euclidean2) {
-                return other.rshift(this);
+                return other.conR(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean2(other, 0, 0, 0, undefined).rshift(this);
+                return new Euclidean2(other, 0, 0, 0, undefined).conR(this);
             }
         };
         Euclidean2.prototype.__vbar__ = function (other) {
             if (other instanceof Euclidean2) {
-                return this.splat(other);
+                return this.align(other);
             }
             else if (typeof other === 'number') {
-                return this.splat(new Euclidean2(other, 0, 0, 0, undefined));
+                return this.align(new Euclidean2(other, 0, 0, 0, undefined));
             }
         };
         Euclidean2.prototype.__rvbar__ = function (other) {
             if (other instanceof Euclidean2) {
-                return other.splat(this);
+                return other.align(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean2(other, 0, 0, 0, undefined).splat(this);
+                return new Euclidean2(other, 0, 0, 0, undefined).align(this);
             }
         };
         Euclidean2.prototype.pow = function (exponent) {
@@ -801,10 +801,14 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
         Euclidean2.prototype.sinh = function () {
             throw new Euclidean2Error('sinh');
         };
-        Euclidean2.prototype.unit = function () {
-            throw new Euclidean2Error('unit');
+        Euclidean2.prototype.unitary = function () {
+            throw new Euclidean2Error('unitary');
         };
-        Euclidean2.prototype.scalar = function () {
+        /**
+         * @method gradeZero
+         * @return {number}
+         */
+        Euclidean2.prototype.gradeZero = function () {
             return this.w;
         };
         Euclidean2.prototype.isNaN = function () { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy); };

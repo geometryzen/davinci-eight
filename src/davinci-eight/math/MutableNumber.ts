@@ -1,13 +1,13 @@
 import VectorE1 = require('../math/VectorE1')
 import expectArg = require('../checks/expectArg')
-import LinearElement = require('../math/LinearElement')
+import MutableLinearElement = require('../math/MutableLinearElement')
 import Matrix = require('../math/Matrix')
 import SpinorE1 = require('../math/SpinorE1')
 import VectorN = require('../math/VectorN')
 /**
  * @class MutableNumber
  */
-class MutableNumber extends VectorN<number> implements VectorE1, LinearElement<VectorE1, MutableNumber, SpinorE1, VectorE1>, Matrix<MutableNumber> {
+class MutableNumber extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, MutableNumber, SpinorE1, VectorE1>, Matrix<MutableNumber> {
     /**
      * @class MutableNumber
      * @constructor
@@ -71,7 +71,7 @@ class MutableNumber extends VectorN<number> implements VectorE1, LinearElement<V
         this.x = 1
         return this
     }
-    multiply(v: VectorE1) {
+    mul(v: VectorE1) {
         this.x *= v.x
         return this
     }
@@ -131,7 +131,7 @@ class MutableNumber extends VectorN<number> implements VectorE1, LinearElement<V
     normalize() {
         return this.divideByScalar(this.magnitude());
     }
-    product(a: VectorE1, b: VectorE1) {
+    mul2(a: VectorE1, b: VectorE1) {
         return this
     }
     quaditude(): number {

@@ -2,7 +2,7 @@ import Mutable = require('../math/Mutable');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import isUndefined = require('../checks/isUndefined');
-import LinearElement = require('../math/LinearElement');
+import MutableLinearElement = require('../math/MutableLinearElement');
 
 function constructorString(T: string): string {
     return "new VectorN<" + T + ">(data: " + T + "[], modified: boolean = false, size?: number)";

@@ -1,6 +1,6 @@
 import VectorE3 = require('../math/VectorE3');
 import Euclidean3 = require('../math/Euclidean3');
-import LinearElement = require('../math/LinearElement');
+import MutableLinearElement = require('../math/MutableLinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import SpinorE3 = require('../math/SpinorE3');
@@ -9,7 +9,7 @@ import VectorN = require('../math/VectorN');
  * @class MutableVectorE3
  * @extends VectorN<number>
  */
-declare class MutableVectorE3 extends VectorN<number> implements VectorE3, LinearElement<VectorE3, MutableVectorE3, SpinorE3, VectorE3> {
+declare class MutableVectorE3 extends VectorN<number> implements VectorE3, MutableLinearElement<VectorE3, MutableVectorE3, SpinorE3, VectorE3> {
     /**
      * @property e1
      * @type {Euclidean3}

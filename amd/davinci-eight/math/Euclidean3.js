@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', '../math/mathcore', '../math/NotImplementedError', '../math/Unit'], function (require, exports, Euclidean3Error, isDefined, mathcore, NotImplementedError, Unit) {
+define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../math/NotImplementedError', '../math/rcoG3', '../math/scpG3', '../math/subE3', '../math/Unit'], function (require, exports, addE3, Euclidean3Error, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, NotImplementedError, rcoG3, scpG3, subE3, Unit) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -54,471 +54,6 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
         var x6 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
         var x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
         return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
-    }
-    function addE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 + b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a1 + b1);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a2 + b2);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 + b3);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a4 + b4);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a5 + b5);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a6 + b6);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a7 + b7);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function subE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 - b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a1 - b1);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a2 - b2);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 - b3);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a4 - b4);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a5 - b5);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a6 - b6);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a7 - b7);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    /**
-     *
-     */
-    function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function scpE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = 0;
-                }
-                break;
-            case 2:
-                {
-                    x = 0;
-                }
-                break;
-            case 3:
-                {
-                    x = 0;
-                }
-                break;
-            case 4:
-                {
-                    x = 0;
-                }
-                break;
-            case 5:
-                {
-                    x = 0;
-                }
-                break;
-            case 6:
-                {
-                    x = 0;
-                }
-                break;
-            case 7:
-                {
-                    x = 0;
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function extE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a2 * b0);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 + a3 * b0);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a0 * b4 + a1 * b2 - a2 * b1 + a4 * b0);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a0 * b5 + a2 * b3 - a3 * b2 + a5 * b0);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a0 * b6 - a1 * b3 + a3 * b1 + a6 * b0);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function lcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a0 * b4 + a3 * b7);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a0 * b5 + a1 * b7);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a0 * b6 + a2 * b7);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a0 * b7);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function rcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = +(+a1 * b0 + a4 * b2 - a6 * b3 - a7 * b5);
-                }
-                break;
-            case 2:
-                {
-                    x = +(+a2 * b0 - a4 * b1 + a5 * b3 - a7 * b6);
-                }
-                break;
-            case 3:
-                {
-                    x = +(+a3 * b0 - a5 * b2 + a6 * b1 - a7 * b4);
-                }
-                break;
-            case 4:
-                {
-                    x = +(+a4 * b0 + a7 * b3);
-                }
-                break;
-            case 5:
-                {
-                    x = +(+a5 * b0 + a7 * b1);
-                }
-                break;
-            case 6:
-                {
-                    x = +(+a6 * b0 + a7 * b2);
-                }
-                break;
-            case 7:
-                {
-                    x = +(+a7 * b0);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
     }
     var divide = function (a000, a001, a010, a011, a100, a101, a110, a111, b000, b001, b010, b011, b100, b101, b110, b111, uom, dst) {
         var c000;
@@ -815,6 +350,14 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
             }
         };
         /**
+         * @method conj
+         * @return {Euclidean3}
+         */
+        Euclidean3.prototype.conj = function () {
+            // FIXME; What kind of conjugation?
+            return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+        };
+        /**
          * @method sub
          * @param rhs {Euclidean3}
          * @return {Euclidean3}
@@ -845,9 +388,9 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
             }
         };
         Euclidean3.prototype.mul = function (rhs) {
-            var coord = function (x, n) { return x[n]; };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) { return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom); };
-            return compute(mulE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return mulG3(this, rhs, out);
         };
         Euclidean3.prototype.__mul__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -877,6 +420,7 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
                 return this.div(other);
             }
             else if (typeof other === 'number') {
+                // FIXME divByScalar would be good?
                 return this.div(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
@@ -888,38 +432,34 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).div(this);
             }
         };
-        Euclidean3.prototype.splat = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(scpE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+        Euclidean3.prototype.dual = function () {
+            // FIXME: TODO
+            return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+        };
+        Euclidean3.prototype.align = function (rhs) {
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return scpG3(this, rhs, out);
         };
         Euclidean3.prototype.wedge = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(extE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return extG3(this, rhs, out);
         };
         Euclidean3.prototype.__vbar__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.splat(other);
+                return this.align(other);
             }
             else if (typeof other === 'number') {
-                return this.splat(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.align(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rvbar__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.splat(this);
+                return other.align(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).splat(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).align(this);
             }
         };
         Euclidean3.prototype.__wedge__ = function (other) {
@@ -938,54 +478,46 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).wedge(this);
             }
         };
-        Euclidean3.prototype.lshift = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(lcoE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
+        Euclidean3.prototype.conL = function (rhs) {
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return lcoG3(this, rhs, out);
         };
         Euclidean3.prototype.__lshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.lshift(other);
+                return this.conL(other);
             }
             else if (typeof other === 'number') {
-                return this.lshift(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.conL(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rlshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.lshift(this);
+                return other.conL(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).lshift(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conL(this);
             }
         };
-        Euclidean3.prototype.rshift = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(rcoE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack, Unit.mul(this.uom, rhs.uom));
+        Euclidean3.prototype.conR = function (rhs) {
+            var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+            var w = out.w;
+            return rcoG3(this, rhs, out);
         };
         Euclidean3.prototype.__rshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.rshift(other);
+                return this.conR(other);
             }
             else if (typeof other === 'number') {
-                return this.rshift(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.conR(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rrshift__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.rshift(this);
+                return other.conR(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).rshift(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).conR(this);
             }
         };
         Euclidean3.prototype.pow = function (exponent) {
@@ -1050,6 +582,10 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
         Euclidean3.prototype.length = function () {
             return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
         };
+        Euclidean3.prototype.lerp = function (target, α) {
+            // FIXME: TODO
+            return this;
+        };
         Euclidean3.prototype.cos = function () {
             // TODO: Generalize to full multivector.
             Unit.assertDimensionless(this.uom);
@@ -1067,12 +603,24 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
             if (!a.isZero()) {
                 var c = a.cos();
                 var s = a.sin();
-                var B = bivector.unit();
+                var B = bivector.unitary();
                 return c.add(B.mul(s));
             }
             else {
                 return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
             }
+        };
+        Euclidean3.prototype.inv = function () {
+            // FIXME: TODO
+            return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+        };
+        Euclidean3.prototype.log = function () {
+            // FIXME: TODO
+            return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+        };
+        Euclidean3.prototype.magnitude = function () {
+            // FIXME: TODO
+            return 0;
         };
         /**
          * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
@@ -1082,7 +630,19 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
          * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
          */
         Euclidean3.prototype.quad = function () {
-            return new Euclidean3(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+            return new Euclidean3(this.quaditude(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        Euclidean3.prototype.quaditude = function () {
+            // FIXME: The shortcoming of this method is that it drops the units.
+            return this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz;
+        };
+        Euclidean3.prototype.reflect = function (n) {
+            // TODO
+            return this;
+        };
+        Euclidean3.prototype.rotate = function (s) {
+            // TODO
+            return this;
         };
         Euclidean3.prototype.sin = function () {
             // TODO: Generalize to full multivector.
@@ -1094,10 +654,14 @@ define(["require", "exports", '../math/Euclidean3Error', '../checks/isDefined', 
             //Unit.assertDimensionless(this.uom);
             throw new Euclidean3Error('sinh');
         };
-        Euclidean3.prototype.unit = function () {
+        Euclidean3.prototype.unitary = function () {
             return this.div(this.norm());
         };
-        Euclidean3.prototype.scalar = function () {
+        /**
+         * @method gradeZero
+         * @return {number}
+         */
+        Euclidean3.prototype.gradeZero = function () {
             return this.w;
         };
         Euclidean3.prototype.sqrt = function () {

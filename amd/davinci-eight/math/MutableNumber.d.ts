@@ -1,12 +1,12 @@
 import VectorE1 = require('../math/VectorE1');
-import LinearElement = require('../math/LinearElement');
+import MutableLinearElement = require('../math/MutableLinearElement');
 import Matrix = require('../math/Matrix');
 import SpinorE1 = require('../math/SpinorE1');
 import VectorN = require('../math/VectorN');
 /**
  * @class MutableNumber
  */
-declare class MutableNumber extends VectorN<number> implements VectorE1, LinearElement<VectorE1, MutableNumber, SpinorE1, VectorE1>, Matrix<MutableNumber> {
+declare class MutableNumber extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, MutableNumber, SpinorE1, VectorE1>, Matrix<MutableNumber> {
     /**
      * @class MutableNumber
      * @constructor
@@ -30,7 +30,7 @@ declare class MutableNumber extends VectorN<number> implements VectorE1, LinearE
     subScalar(s: number): MutableNumber;
     sub2(a: VectorE1, b: VectorE1): MutableNumber;
     identity(): MutableNumber;
-    multiply(v: VectorE1): MutableNumber;
+    mul(v: VectorE1): MutableNumber;
     scale(scalar: number): MutableNumber;
     divide(v: VectorE1): MutableNumber;
     divideByScalar(scalar: number): MutableNumber;
@@ -45,7 +45,7 @@ declare class MutableNumber extends VectorN<number> implements VectorE1, LinearE
     dot(v: VectorE1): number;
     magnitude(): number;
     normalize(): MutableNumber;
-    product(a: VectorE1, b: VectorE1): MutableNumber;
+    mul2(a: VectorE1, b: VectorE1): MutableNumber;
     quaditude(): number;
     quadranceTo(position: VectorE1): number;
     reflect(n: VectorE1): MutableNumber;

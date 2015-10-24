@@ -29,7 +29,7 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
          *
          * @class Euclidean1
          * @constructor
-         * @param {number} w The scalar part of the multivector.
+         * @param {number} w The grade zero part of the multivector.
          * @param {number} x The vector component of the multivector in the x-direction.
          * @param uom The optional unit of measure.
          */
@@ -83,15 +83,17 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
             // assertArgEuclidean1('rhs', rhs)
             throw new Euclidean1Error('div');
         };
-        Euclidean1.prototype.wedge = function (rhs) {
-            // assertArgEuclidean1('rhs', rhs)
+        Euclidean1.prototype.align = function (rhs) {
             throw new Euclidean1Error('wedge');
         };
-        Euclidean1.prototype.lshift = function (rhs) {
+        Euclidean1.prototype.wedge = function (rhs) {
+            throw new Euclidean1Error('wedge');
+        };
+        Euclidean1.prototype.conL = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
             throw new Euclidean1Error('lshift');
         };
-        Euclidean1.prototype.rshift = function (rhs) {
+        Euclidean1.prototype.conR = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
             throw new Euclidean1Error('rshift');
         };
@@ -120,10 +122,10 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
         Euclidean1.prototype.sinh = function () {
             throw new Euclidean1Error('sinh');
         };
-        Euclidean1.prototype.unit = function () {
-            throw new Euclidean1Error('unit');
+        Euclidean1.prototype.unitary = function () {
+            throw new Euclidean1Error('unitary');
         };
-        Euclidean1.prototype.scalar = function () {
+        Euclidean1.prototype.gradeZero = function () {
             return this.w;
         };
         Euclidean1.prototype.toExponential = function () {

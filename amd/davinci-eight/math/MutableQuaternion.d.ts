@@ -1,7 +1,7 @@
-import GeometricElement = require('../math/GeometricElement');
+import MutableGeometricElement = require('../math/MutableGeometricElement');
 import Matrix4 = require('../math/Matrix4');
 import VectorE3 = require('../math/VectorE3');
-declare class MutableQuaternion implements GeometricElement<MutableQuaternion, MutableQuaternion, MutableQuaternion, VectorE3, VectorE3> {
+declare class MutableQuaternion implements MutableGeometricElement<MutableQuaternion, MutableQuaternion, MutableQuaternion, VectorE3, VectorE3> {
     private x;
     private y;
     private z;
@@ -12,10 +12,14 @@ declare class MutableQuaternion implements GeometricElement<MutableQuaternion, M
     add2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
     dual(m: VectorE3): MutableQuaternion;
     clone(): MutableQuaternion;
+    conL(rhs: MutableQuaternion): MutableQuaternion;
+    conL2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
+    conR(rhs: MutableQuaternion): MutableQuaternion;
+    conR2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
     conj(): MutableQuaternion;
     copy(quaternion: MutableQuaternion): MutableQuaternion;
-    divide(q: MutableQuaternion): MutableQuaternion;
-    divide2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
+    div(q: MutableQuaternion): MutableQuaternion;
+    div2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
     divideByScalar(scalar: number): MutableQuaternion;
     dot(v: MutableQuaternion): number;
     exp(): MutableQuaternion;
@@ -24,8 +28,8 @@ declare class MutableQuaternion implements GeometricElement<MutableQuaternion, M
     lerp2(a: MutableQuaternion, b: MutableQuaternion, α: number): MutableQuaternion;
     log(): MutableQuaternion;
     magnitude(): number;
-    multiply(q: MutableQuaternion): MutableQuaternion;
-    multiply2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
+    mul(q: MutableQuaternion): MutableQuaternion;
+    mul2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
     norm(): MutableQuaternion;
     scale(α: number): MutableQuaternion;
     normalize(): MutableQuaternion;
@@ -37,11 +41,15 @@ declare class MutableQuaternion implements GeometricElement<MutableQuaternion, M
     setFromRotationMatrix(m: Matrix4): MutableQuaternion;
     spinor(a: VectorE3, b: VectorE3): MutableQuaternion;
     slerp(qb: MutableQuaternion, t: number): MutableQuaternion;
+    align(rhs: MutableQuaternion): MutableQuaternion;
+    align2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
     sub(q: MutableQuaternion, α?: number): MutableQuaternion;
     sub2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
     equals(quaternion: MutableQuaternion): boolean;
     fromArray(array: number[], offset?: number): MutableQuaternion;
     toArray(array?: number[], offset?: number): number[];
+    wedge(rhs: MutableQuaternion): MutableQuaternion;
+    wedge2(a: MutableQuaternion, b: MutableQuaternion): MutableQuaternion;
     static slerp(qa: MutableQuaternion, qb: MutableQuaternion, qm: MutableQuaternion, t: number): MutableQuaternion;
 }
 export = MutableQuaternion;

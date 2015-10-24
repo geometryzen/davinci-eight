@@ -4,7 +4,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
     var exp = Math.exp;
     var sin = Math.sin;
     var sinh = mathcore.Math.sinh;
-    function multiply(a, b) {
+    function mul(a, b) {
         var x = a.x * b.x - a.y * b.y;
         var y = a.x * b.y + a.y * b.x;
         return new Complex(x, y, Unit.mul(a.uom, b.uom));
@@ -94,11 +94,11 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
             }
         };
         Complex.prototype.mul = function (rhs) {
-            return multiply(this, rhs);
+            return mul(this, rhs);
         };
         Complex.prototype.__mul__ = function (other) {
             if (other instanceof Complex) {
-                return multiply(this, other);
+                return mul(this, other);
             }
             else if (typeof other === 'number') {
                 var x = other;
@@ -107,7 +107,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
         };
         Complex.prototype.__rmul__ = function (other) {
             if (other instanceof Complex) {
-                return multiply(other, this);
+                return mul(other, this);
             }
             else if (typeof other === 'number') {
                 var x = other;
@@ -133,14 +133,22 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
                 return divide(new Complex(other, 0), this);
             }
         };
+        /**
+         * @method align
+         * @param rhs {Complex}
+         * @return {Complex}
+         */
+        Complex.prototype.align = function (rhs) {
+            return new Complex(this.x * rhs.x - this.y * rhs.y, 0, Unit.mul(this.uom, this.uom));
+        };
         Complex.prototype.wedge = function (rhs) {
             throw new Error('wedge');
         };
-        Complex.prototype.lshift = function (rhs) {
-            throw new Error('lshift');
+        Complex.prototype.conL = function (rhs) {
+            throw new Error('conL');
         };
-        Complex.prototype.rshift = function (rhs) {
-            throw new Error('rshift');
+        Complex.prototype.conR = function (rhs) {
+            throw new Error('conR');
         };
         Complex.prototype.pow = function (exponent) {
             throw new Error('pow');
@@ -186,13 +194,17 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
             var y = this.y;
             return new Complex(sinh(x) * cos(y), cosh(x) * sin(y));
         };
-        Complex.prototype.unit = function () {
+        Complex.prototype.unitary = function () {
             var x = this.x;
             var y = this.y;
             var divisor = norm(x, y);
             return new Complex(x / divisor, y / divisor);
         };
-        Complex.prototype.scalar = function () {
+        /**
+         * @method gradeZero
+         * @return {number}
+         */
+        Complex.prototype.gradeZero = function () {
             return this.x;
         };
         Complex.prototype.arg = function () {

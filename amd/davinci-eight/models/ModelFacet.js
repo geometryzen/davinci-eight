@@ -178,7 +178,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
                 this.matS.scaling(this.scaleXYZ);
                 this.scaleXYZ.modified = false;
             }
-            this.matM.copy(this.matT).multiply(this.matR).multiply(this.matS);
+            this.matM.copy(this.matT).mul(this.matR).mul(this.matS);
             this.matN.normalFromMatrix4(this.matM);
             visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId);
             visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId);

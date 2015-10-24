@@ -2,7 +2,7 @@ import VectorE3 = require('../math/VectorE3');
 import euclidean3Quaditude2Arg = require('../math/euclidean3Quaditude2Arg')
 import Euclidean3 = require('../math/Euclidean3')
 import expectArg = require('../checks/expectArg')
-import LinearElement = require('../math/LinearElement')
+import MutableLinearElement = require('../math/MutableLinearElement')
 import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
 import isDefined = require('../checks/isDefined')
@@ -19,7 +19,7 @@ import wedgeZX = require('../math/wedgeZX')
  * @class MutableVectorE3
  * @extends VectorN<number>
  */
-class MutableVectorE3 extends VectorN<number> implements VectorE3, LinearElement<VectorE3, MutableVectorE3, SpinorE3, VectorE3> {
+class MutableVectorE3 extends VectorN<number> implements VectorE3, MutableLinearElement<VectorE3, MutableVectorE3, SpinorE3, VectorE3> {
     /**
      * @property e1
      * @type {Euclidean3}

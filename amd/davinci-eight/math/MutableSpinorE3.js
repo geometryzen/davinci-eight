@@ -147,6 +147,22 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.xy = -this.xy;
             return this;
         };
+        MutableSpinorE3.prototype.conL = function (rhs) {
+            return this.conL2(this, rhs);
+        };
+        MutableSpinorE3.prototype.conL2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
+        };
+        MutableSpinorE3.prototype.conR = function (rhs) {
+            return this.conR2(this, rhs);
+        };
+        MutableSpinorE3.prototype.conR2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
+        };
         /**
          * <p>
          * <code>this ⟼ copy(spinor)</code>
@@ -168,25 +184,25 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * <p>
          * <code>this ⟼ this / s</code>
          * </p>
-         * @method divide
+         * @method div
          * @param s {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.divide = function (s) {
-            return this.multiply2(this, s);
+        MutableSpinorE3.prototype.div = function (s) {
+            return this.div2(this, s);
         };
         /**
          * <p>
          * <code>this ⟼ a / b</code>
          * </p>
-         * @method divide2
+         * @method div2
          * @param a {SpinorE3}
          * @param b {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.divide2 = function (a, b) {
+        MutableSpinorE3.prototype.div2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.yz;
             var a2 = a.zx;
@@ -196,6 +212,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             var b2 = b.zx;
             var b3 = b.xy;
             // Compare this to the product for Quaternions
+            // How does this compare to G3
             // It would be interesting to DRY this out.
             this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
             // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
@@ -289,7 +306,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         MutableSpinorE3.prototype.lerp = function (target, α) {
             var R2 = MutableSpinorE3.copy(target);
             var R1 = this.clone();
-            var R = R2.multiply(R1.inv());
+            var R = R2.mul(R1.inv());
             R.log();
             R.scale(α);
             R.exp();
@@ -342,25 +359,25 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * <p>
          * <code>this ⟼ this * s</code>
          * </p>
-         * @method multiply
+         * @method mul
          * @param s {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.multiply = function (s) {
-            return this.multiply2(this, s);
+        MutableSpinorE3.prototype.mul = function (s) {
+            return this.mul2(this, s);
         };
         /**
          * <p>
          * <code>this ⟼ a * b</code>
          * </p>
-         * @method multiply2
+         * @method mul2
          * @param a {SpinorE3}
          * @param b {SpinorE3}
          * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
-        MutableSpinorE3.prototype.multiply2 = function (a, b) {
+        MutableSpinorE3.prototype.mul2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.yz;
             var a2 = a.zx;
@@ -398,7 +415,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
          * @method normalize
-         * @return {MutableQuaternion} <code>this</code>
+         * @return {MutableSpinorE3} <code>this</code>
          * @chainable
          */
         MutableSpinorE3.prototype.normalize = function () {
@@ -407,22 +424,6 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.zx = this.zx / modulus;
             this.xy = this.xy / modulus;
             this.w = this.w / modulus;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this * α</code>
-         * </p>
-         * @method scale
-         * @param α {number}
-         * @return {MutableSpinorE3} <code>this</code>
-         */
-        MutableSpinorE3.prototype.scale = function (α) {
-            mustBeNumber('α', α);
-            this.yz *= α;
-            this.zx *= α;
-            this.xy *= α;
-            this.w *= α;
             return this;
         };
         /**
@@ -523,6 +524,30 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.w = cos(φ);
             return this;
         };
+        MutableSpinorE3.prototype.align = function (rhs) {
+            return this.align2(this, rhs);
+        };
+        MutableSpinorE3.prototype.align2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this * α</code>
+         * </p>
+         * @method scale
+         * @param α {number}
+         * @return {MutableSpinorE3} <code>this</code>
+         */
+        MutableSpinorE3.prototype.scale = function (α) {
+            mustBeNumber('α', α);
+            this.yz *= α;
+            this.zx *= α;
+            this.xy *= α;
+            this.w *= α;
+            return this;
+        };
         /**
          * <p>
          * <code>this ⟼ this - s * α</code>
@@ -589,6 +614,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          */
         MutableSpinorE3.prototype.toString = function () {
             return "MutableSpinorE3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
+        };
+        MutableSpinorE3.prototype.wedge = function (rhs) {
+            return this.wedge2(this, rhs);
+        };
+        MutableSpinorE3.prototype.wedge2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
         };
         /**
          * @method copy

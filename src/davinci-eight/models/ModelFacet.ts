@@ -193,7 +193,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
             this.matS.scaling(this.scaleXYZ)
             this.scaleXYZ.modified = false
         }
-        this.matM.copy(this.matT).multiply(this.matR).multiply(this.matS)
+        this.matM.copy(this.matT).mul(this.matR).mul(this.matS)
 
         this.matN.normalFromMatrix4(this.matM)
 

@@ -38,18 +38,18 @@ declare class Euclidean2 implements Measure<Euclidean2> {
     div(rhs: Euclidean2): Euclidean2;
     __div__(other: any): Euclidean2;
     __rdiv__(other: any): Euclidean2;
-    static splat(a: number[], b: number[]): number[];
-    splat(rhs: Euclidean2): Euclidean2;
+    static align(a: number[], b: number[]): number[];
+    align(rhs: Euclidean2): Euclidean2;
     static wedge(a: number[], b: number[]): number[];
     wedge(rhs: Euclidean2): Euclidean2;
     __wedge__(other: any): Euclidean2;
     __rwedge__(other: any): Euclidean2;
     static lshift(a: number[], b: number[]): number[];
-    lshift(rhs: Euclidean2): Euclidean2;
+    conL(rhs: Euclidean2): Euclidean2;
     __lshift__(other: any): Euclidean2;
     __rlshift__(other: any): Euclidean2;
     static rshift(a: number[], b: number[]): number[];
-    rshift(rhs: Euclidean2): Euclidean2;
+    conR(rhs: Euclidean2): Euclidean2;
     __rshift__(other: any): Euclidean2;
     __rrshift__(other: any): Euclidean2;
     __vbar__(other: any): Euclidean2;
@@ -69,8 +69,12 @@ declare class Euclidean2 implements Measure<Euclidean2> {
     quad(): Euclidean2;
     sin(): Euclidean2;
     sinh(): Euclidean2;
-    unit(): Euclidean2;
-    scalar(): number;
+    unitary(): Euclidean2;
+    /**
+     * @method gradeZero
+     * @return {number}
+     */
+    gradeZero(): number;
     isNaN(): boolean;
     toStringCustom(coordToString: (x: number) => string, labels: string[]): string;
     toExponential(): string;
