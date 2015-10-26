@@ -24,6 +24,11 @@ declare class R1 extends VectorN<number> implements VectorE1, GeometricElement<V
     add(vector: VectorE1, alpha?: number): R1;
     add2(a: VectorE1, b: VectorE1): R1;
     align(v: VectorE1): R1;
+    /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number;
     conj(): R1;
     copy(v: VectorE1): R1;
     determinant(): number;

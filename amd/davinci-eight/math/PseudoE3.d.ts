@@ -1,11 +1,11 @@
 /**
- * @class PseudoscalarE3
+ * @class PseudoE3
  */
-interface PseudoscalarE3 {
+interface PseudoE3 {
     /**
      * @property xyz
      * @type number
      */
     xyz: number;
 }
-export = PseudoscalarE3;
+export = PseudoE3;

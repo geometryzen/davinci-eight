@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.140.0</em>
+            <em>API Docs for: 2.141.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,7 +83,9 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
@@ -134,7 +136,8 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
+                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
+                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
@@ -220,9 +223,16 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Euclidean2Error = require(&#x27;../math/Euclidean2Error&#x27;);
-import Measure = require(&#x27;../math/Measure&#x27;);
-import Unit = require(&#x27;../math/Unit&#x27;);
+import Euclidean2Error = require(&#x27;../math/Euclidean2Error&#x27;)
+import extE2 = require(&#x27;../math/extE2&#x27;)
+import lcoE2 = require(&#x27;../math/lcoE2&#x27;)
+import rcoE2 = require(&#x27;../math/rcoE2&#x27;)
+import Measure = require(&#x27;../math/Measure&#x27;)
+import mulE2 = require(&#x27;../math/mulE2&#x27;)
+import mulG2 = require(&#x27;../math/mulG2&#x27;)
+import scpE2 = require(&#x27;../math/scpE2&#x27;)
+import stringFromCoordinates = require(&#x27;../math/stringFromCoordinates&#x27;)
+import Unit = require(&#x27;../math/Unit&#x27;)
 
 function assertArgNumber(name: string, x: number): number {
     if (typeof x === &#x27;number&#x27;) {
@@ -367,186 +377,6 @@ function subE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: n
         }
     }
     return +x;
-}
-
-function mulE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-        }
-            break;
-        case 1: {
-            x = +(a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2);
-        }
-            break;
-        case 2: {
-            x = +(a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1);
-        }
-            break;
-        case 3: {
-            x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-        }
-            break;
-        default: {
-            throw new Error(&quot;index must be in the range [0..3]&quot;);
-        }
-    }
-    return +x;
-}
-
-function extE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0);
-        }
-            break;
-        case 1: {
-            x = +(a0 * b1 + a1 * b0);
-        }
-            break;
-        case 2: {
-            x = +(a0 * b2 + a2 * b0);
-        }
-            break;
-        case 3: {
-            x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-        }
-            break;
-        default: {
-            throw new Error(&quot;index must be in the range [0..3]&quot;);
-        }
-    }
-    return +x;
-}
-
-function lcoE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-        }
-            break;
-        case 1: {
-            x = +(a0 * b1 - a2 * b3);
-        }
-            break;
-        case 2: {
-            x = +(a0 * b2 + a1 * b3);
-        }
-            break;
-        case 3: {
-            x = +(a0 * b3);
-        }
-            break;
-        default: {
-            throw new Error(&quot;index must be in the range [0..3]&quot;);
-        }
-    }
-    return +x;
-}
-
-function rcoE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-        }
-            break;
-        case 1: {
-            x = +(- a1 * b0 - a3 * b2);
-        }
-            break;
-        case 2: {
-            x = +(- a2 * b0 + a3 * b1);
-        }
-            break;
-        case 3: {
-            x = +(a3 * b0);
-        }
-            break;
-        default: {
-            throw new Error(&quot;index must be in the range [0..3]&quot;);
-        }
-    }
-    return +x;
-}
-
-function stringFromCoordinates(
-    coordinates: number[],
-    numberToString: (x: number) =&gt; string,
-    labels: string[]): string {
-    var i: number, _i: number, _ref: number;
-    var str: string;
-    var sb: string[] = [];
-    var append = function(coord: number, label: string): void {
-        var n: number;
-        if (coord !== 0) {
-            if (coord &gt;= 0) {
-                if (sb.length &gt; 0) {
-                    sb.push(&quot;+&quot;);
-                }
-            } else {
-                sb.push(&quot;-&quot;);
-            }
-            n = Math.abs(coord);
-            if (n === 1) {
-                sb.push(label);
-            } else {
-                sb.push(numberToString(n));
-                if (label !== &quot;1&quot;) {
-                    sb.push(&quot;*&quot;);
-                    sb.push(label);
-                }
-            }
-        }
-    };
-    for (i = _i = 0, _ref = coordinates.length - 1; 0 &lt;= _ref ? _i &lt;= _ref : _i &gt;= _ref; i = 0 &lt;= _ref ? ++_i : --_i) {
-        append(coordinates[i], labels[i]);
-    }
-    if (sb.length &gt; 0) {
-        str = sb.join(&quot;&quot;);
-    } else {
-        str = &quot;0&quot;;
-    }
-    return str;
 }
 
 var divide = function(
@@ -775,26 +605,21 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         }
     }
 
-    static mul(a: number[], b: number[]): number[] {
-        var a0 = a[0];
-        var a1 = a[1];
-        var a2 = a[2];
-        var a3 = a[3];
-        var b0 = b[0];
-        var b1 = b[1];
-        var b2 = b[2];
-        var b3 = b[3];
-        var x0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-        var x1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-        var x2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-        var x3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-        return [x0, x1, x2, x3];
-    }
-
     mul(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
-        var xs = Euclidean2.mul(this.coordinates(), rhs.coordinates());
-        return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        assertArgEuclidean2(&#x27;rhs&#x27;, rhs)
+        let a0 = this.w
+        let a1 = this.x
+        let a2 = this.y
+        let a3 = this.xy
+        let b0 = rhs.w
+        let b1 = rhs.x
+        let b2 = rhs.y
+        let b3 = rhs.xy
+        let c0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        let c1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        let c2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        let c3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return new Euclidean2(c0, c1, c2, c3, Unit.mul(this.uom, rhs.uom))
     }
 
     __mul__(other: any): Euclidean2 {
@@ -802,8 +627,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
             return this.mul(other);
         }
         else if (typeof other === &#x27;number&#x27;) {
-            var w: number = other;
-            return this.mul(new Euclidean2(w, 0, 0, 0, undefined));
+            return this.mul(new Euclidean2(other, 0, 0, 0, undefined));
         }
     }
 
@@ -865,9 +689,17 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
     }
 
     align(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
-        var xs = Euclidean2.align(this.coordinates(), rhs.coordinates());
-        return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        assertArgEuclidean2(&#x27;rhs&#x27;, rhs)
+        let a0 = this.w
+        let a1 = this.x
+        let a2 = this.y
+        let a3 = this.xy
+        let b0 = this.w
+        let b1 = this.x
+        let b2 = this.y
+        let b3 = this.xy
+        let c0 = scpE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        return new Euclidean2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
     }
 
     static wedge(a: number[], b: number[]): number[] {

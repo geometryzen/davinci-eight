@@ -4,6 +4,10 @@ import LinearElement = require('../math/LinearElement');
  * It is not part of the documented API.
  */
 interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
+  /**
+   * The principle value of the rotation angle caused by a rotor.
+   */
+  arg(): number;
   // conjugate multiplied by norm (similar to inv).
   // adj(): M;
   /**
@@ -22,7 +26,7 @@ interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
    * divide really only applies to division algebras.
    */
   div(rhs: I): M;
-  dual(m: D): M;  // Probably should move out since 3D
+  dual(m: D): M;
   exp(): M;
   inv(): M;
   log(): M;
@@ -30,6 +34,9 @@ interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
    * abs(x) = |x|
    */
   magnitude(): number; // FIXME: This method drops units.
+  /**
+   *
+   */
   mul(rhs: I): M;
   /**
    * squared norm, ||x|| = align(x, reverse(x))

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.140.0</em>
+            <em>API Docs for: 2.141.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,7 +83,9 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
@@ -134,7 +136,8 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
+                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
+                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
@@ -220,17 +223,17 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import PseudoscalarE3 = require(&#x27;../math/PseudoscalarE3&#x27;)
+import PseudoE3 = require(&#x27;../math/PseudoE3&#x27;)
 import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 
 /**
  * @class GeometricE3
- * @extends PseudoscalarE3
+ * @extends PseudoE3
  * @extends SpinorE3
  * @extends VectorE3
  */
-interface GeometricE3 extends PseudoscalarE3, SpinorE3, VectorE3 {
+interface GeometricE3 extends PseudoE3, SpinorE3, VectorE3 {
 }
 
 export = GeometricE3;

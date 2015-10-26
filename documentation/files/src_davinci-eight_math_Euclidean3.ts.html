@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.140.0</em>
+            <em>API Docs for: 2.141.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,7 +83,9 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
@@ -134,7 +136,8 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
+                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
+                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
@@ -236,8 +239,9 @@ import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
 import NotImplementedError = require(&#x27;../math/NotImplementedError&#x27;);
 import rcoG3 = require(&#x27;../math/rcoG3&#x27;)
 import scpG3 = require(&#x27;../math/scpG3&#x27;)
-import subE3 = require(&#x27;../math/subE3&#x27;)
 import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
+import stringFromCoordinates = require(&#x27;../math/stringFromCoordinates&#x27;)
+import subE3 = require(&#x27;../math/subE3&#x27;)
 import TrigMethods = require(&#x27;../math/TrigMethods&#x27;)
 import Unit = require(&#x27;../math/Unit&#x27;);
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
@@ -459,47 +463,6 @@ var divide = function(
     }
 };
 
-function stringFromCoordinates(
-    coordinates: number[],
-    numberToString: (x: number) =&gt; string,
-    labels: string[]
-): string {
-    var i: number, _i: number, _ref: number;
-    var str: string;
-    var sb: string[] = [];
-    var append = function(coord: number, label: string): void {
-        var n: number;
-        if (coord !== 0) {
-            if (coord &gt;= 0) {
-                if (sb.length &gt; 0) {
-                    sb.push(&quot;+&quot;);
-                }
-            } else {
-                sb.push(&quot;-&quot;);
-            }
-            n = Math.abs(coord);
-            if (n === 1) {
-                sb.push(label);
-            } else {
-                sb.push(numberToString(n));
-                if (label !== &quot;1&quot;) {
-                    sb.push(&quot;*&quot;);
-                    sb.push(label);
-                }
-            }
-        }
-    };
-    for (i = _i = 0, _ref = coordinates.length - 1; 0 &lt;= _ref ? _i &lt;= _ref : _i &gt;= _ref; i = 0 &lt;= _ref ? ++_i : --_i) {
-        append(coordinates[i], labels[i]);
-    }
-    if (sb.length &gt; 0) {
-        str = sb.join(&quot;&quot;);
-    } else {
-        str = &quot;0&quot;;
-    }
-    return str;
-}
-
 /**
  * @class Euclidean3
  * @extends GeometricE3
@@ -682,6 +645,15 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
             return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).add(this);
         }
     }
+
+    /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number {
+        throw new Error(&#x27;TODO: Euclidean3.arg&#x27;)
+    }
+
     /**
      * @method conj
      * @return {Euclidean3}

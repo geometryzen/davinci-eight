@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.140.0</em>
+            <em>API Docs for: 2.141.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,7 +83,9 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
@@ -134,7 +136,8 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
+                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
+                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
@@ -226,6 +229,10 @@ import LinearElement = require(&#x27;../math/LinearElement&#x27;);
  * It is not part of the documented API.
  */
 interface GeometricElement&lt;I, M, S, V, D&gt; extends LinearElement&lt;I, M, S, V&gt; {
+  /**
+   * The principle value of the rotation angle caused by a rotor.
+   */
+  arg(): number;
   // conjugate multiplied by norm (similar to inv).
   // adj(): M;
   /**
@@ -244,7 +251,7 @@ interface GeometricElement&lt;I, M, S, V, D&gt; extends LinearElement&lt;I, M, S
    * divide really only applies to division algebras.
    */
   div(rhs: I): M;
-  dual(m: D): M;  // Probably should move out since 3D
+  dual(m: D): M;
   exp(): M;
   inv(): M;
   log(): M;
@@ -252,6 +259,9 @@ interface GeometricElement&lt;I, M, S, V, D&gt; extends LinearElement&lt;I, M, S
    * abs(x) = |x|
    */
   magnitude(): number; // FIXME: This method drops units.
+  /**
+   *
+   */
   mul(rhs: I): M;
   /**
    * squared norm, ||x|| = align(x, reverse(x))

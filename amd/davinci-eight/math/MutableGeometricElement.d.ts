@@ -13,7 +13,7 @@ interface MutableGeometricElement<I, M, S, V, D> extends GeometricElement<I, M, 
     mul2(a: I, b: I): M;
     normalize(): void;
     rotor(b: V, a: V): M;
-    rotorFromAxisAngle(axis: V, θ: number): M;
+    rotorFromGeneratorAngle(B: S, θ: number): M;
     align2(a: I, b: I): M;
     /**
      * The geometric product of the vectors.

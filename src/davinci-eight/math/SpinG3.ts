@@ -3,7 +3,7 @@ import Euclidean3 = require('../math/Euclidean3')
 import euclidean3Quaditude1Arg = require('../math/euclidean3Quaditude1Arg')
 import euclidean3Quaditude2Arg = require('../math/euclidean3Quaditude2Arg')
 import expectArg = require('../checks/expectArg')
-import MutableGeometricElement = require('../math/MutableGeometricElement')
+import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
 import GeometricE3 = require('../math/GeometricE3')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
@@ -25,7 +25,7 @@ let sin = Math.sin
  * @class SpinG3
  * @extends VectorN<number>
  */
-class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement<SpinorE3, SpinG3, SpinG3, VectorE3, VectorE3>
+class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3, VectorE3>
 {
     /**
      * @class SpinG3
@@ -120,6 +120,15 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         this.xy = a.xy + b.xy
         return this;
     }
+
+    /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number {
+        throw new Error('TODO: SpinG3.arg')
+    }
+
     /**
      * @method clone
      * @return {SpinG3} A copy of <code>this</code>.
@@ -246,18 +255,17 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
      * <p>
      * <code>this ⟼ dual(v) = I * v</code>
      * </p>
-     * Notice that the dual of a vector is related to the spinor by the right-hand rule.
      * @method dual
      * @param v {VectorE3} The vector whose dual will be used to set this spinor.
      * @return {SpinG3} <code>this</code>
      * @chainable
      */
-    dual(v: VectorE3): SpinG3 {
+    dual(v: VectorE3) {
         mustBeObject('v', v)
+        this.w = 0
         this.yz = mustBeNumber('v.x', v.x)
         this.zx = mustBeNumber('v.y', v.y)
         this.xy = mustBeNumber('v.z', v.z)
-        this.w = 0
         return this
     }
     /**
@@ -523,6 +531,7 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         this.divideByScalar(denom)
         return this;
     }
+
     /**
      * <p>
      * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
@@ -541,6 +550,26 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         this.w = cos(φ)
         return this
     }
+  
+    /**
+     * <p>
+     * <code>this = ⟼ exp(- B * θ / 2)</code>
+     * </p>
+     * @method rotorFromGeneratorAngle
+     * @param B {SpinorE3}
+     * @param θ {number}
+     * @return {SpinG3} <code>this</code>
+     */
+    rotorFromGeneratorAngle(B: SpinorE3, θ: number): SpinG3 {
+        let φ = θ / 2
+        let s = sin(φ)
+        this.yz = -B.yz * s
+        this.zx = -B.zx * s
+        this.xy = -B.xy * s
+        this.w = cos(φ)
+        return this
+    }
+
     align(rhs: SpinorE3): SpinG3 {
         return this.align2(this, rhs)
     }

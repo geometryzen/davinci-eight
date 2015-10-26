@@ -63,7 +63,7 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Axial
             var b = this.innerRadius;
             var axis = G3.fromVector(this.axis);
             var start = G3.fromVector(this.sliceStart);
-            var generator = new G3().dual(this.axis);
+            var generator = new G3().dual(axis);
             for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
                 var u = uIndex / uSegments;
                 var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();

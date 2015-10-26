@@ -5,6 +5,10 @@ import LinearElement = require('../math/LinearElement');
  */
 interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
     /**
+     * The principle value of the rotation angle caused by a rotor.
+     */
+    arg(): number;
+    /**
      * Conjugate
      */
     conj(): M;
@@ -28,6 +32,9 @@ interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
      * abs(x) = |x|
      */
     magnitude(): number;
+    /**
+     *
+     */
     mul(rhs: I): M;
     /**
      * squared norm, ||x|| = align(x, reverse(x))

@@ -1,6 +1,13 @@
-import Euclidean2Error = require('../math/Euclidean2Error');
-import Measure = require('../math/Measure');
-import Unit = require('../math/Unit');
+import Euclidean2Error = require('../math/Euclidean2Error')
+import extE2 = require('../math/extE2')
+import lcoE2 = require('../math/lcoE2')
+import rcoE2 = require('../math/rcoE2')
+import Measure = require('../math/Measure')
+import mulE2 = require('../math/mulE2')
+import mulG2 = require('../math/mulG2')
+import scpE2 = require('../math/scpE2')
+import stringFromCoordinates = require('../math/stringFromCoordinates')
+import Unit = require('../math/Unit')
 
 function assertArgNumber(name: string, x: number): number {
     if (typeof x === 'number') {
@@ -145,186 +152,6 @@ function subE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: n
         }
     }
     return +x;
-}
-
-function mulE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-        }
-            break;
-        case 1: {
-            x = +(a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2);
-        }
-            break;
-        case 2: {
-            x = +(a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1);
-        }
-            break;
-        case 3: {
-            x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-        }
-            break;
-        default: {
-            throw new Error("index must be in the range [0..3]");
-        }
-    }
-    return +x;
-}
-
-function extE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0);
-        }
-            break;
-        case 1: {
-            x = +(a0 * b1 + a1 * b0);
-        }
-            break;
-        case 2: {
-            x = +(a0 * b2 + a2 * b0);
-        }
-            break;
-        case 3: {
-            x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-        }
-            break;
-        default: {
-            throw new Error("index must be in the range [0..3]");
-        }
-    }
-    return +x;
-}
-
-function lcoE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-        }
-            break;
-        case 1: {
-            x = +(a0 * b1 - a2 * b3);
-        }
-            break;
-        case 2: {
-            x = +(a0 * b2 + a1 * b3);
-        }
-            break;
-        case 3: {
-            x = +(a0 * b3);
-        }
-            break;
-        default: {
-            throw new Error("index must be in the range [0..3]");
-        }
-    }
-    return +x;
-}
-
-function rcoE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
-    a0 = +a0;
-    a1 = +a1;
-    a2 = +a2;
-    a3 = +a3;
-    b0 = +b0;
-    b1 = +b1;
-    b2 = +b2;
-    b3 = +b3;
-    index = index | 0;
-    var x = 0.0;
-    switch (~(~index)) {
-        case 0: {
-            x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-        }
-            break;
-        case 1: {
-            x = +(- a1 * b0 - a3 * b2);
-        }
-            break;
-        case 2: {
-            x = +(- a2 * b0 + a3 * b1);
-        }
-            break;
-        case 3: {
-            x = +(a3 * b0);
-        }
-            break;
-        default: {
-            throw new Error("index must be in the range [0..3]");
-        }
-    }
-    return +x;
-}
-
-function stringFromCoordinates(
-    coordinates: number[],
-    numberToString: (x: number) => string,
-    labels: string[]): string {
-    var i: number, _i: number, _ref: number;
-    var str: string;
-    var sb: string[] = [];
-    var append = function(coord: number, label: string): void {
-        var n: number;
-        if (coord !== 0) {
-            if (coord >= 0) {
-                if (sb.length > 0) {
-                    sb.push("+");
-                }
-            } else {
-                sb.push("-");
-            }
-            n = Math.abs(coord);
-            if (n === 1) {
-                sb.push(label);
-            } else {
-                sb.push(numberToString(n));
-                if (label !== "1") {
-                    sb.push("*");
-                    sb.push(label);
-                }
-            }
-        }
-    };
-    for (i = _i = 0, _ref = coordinates.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-        append(coordinates[i], labels[i]);
-    }
-    if (sb.length > 0) {
-        str = sb.join("");
-    } else {
-        str = "0";
-    }
-    return str;
 }
 
 var divide = function(
@@ -553,26 +380,21 @@ class Euclidean2 implements Measure<Euclidean2> {
         }
     }
 
-    static mul(a: number[], b: number[]): number[] {
-        var a0 = a[0];
-        var a1 = a[1];
-        var a2 = a[2];
-        var a3 = a[3];
-        var b0 = b[0];
-        var b1 = b[1];
-        var b2 = b[2];
-        var b3 = b[3];
-        var x0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-        var x1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-        var x2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-        var x3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-        return [x0, x1, x2, x3];
-    }
-
     mul(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs);
-        var xs = Euclidean2.mul(this.coordinates(), rhs.coordinates());
-        return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        assertArgEuclidean2('rhs', rhs)
+        let a0 = this.w
+        let a1 = this.x
+        let a2 = this.y
+        let a3 = this.xy
+        let b0 = rhs.w
+        let b1 = rhs.x
+        let b2 = rhs.y
+        let b3 = rhs.xy
+        let c0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        let c1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        let c2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        let c3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return new Euclidean2(c0, c1, c2, c3, Unit.mul(this.uom, rhs.uom))
     }
 
     __mul__(other: any): Euclidean2 {
@@ -580,8 +402,7 @@ class Euclidean2 implements Measure<Euclidean2> {
             return this.mul(other);
         }
         else if (typeof other === 'number') {
-            var w: number = other;
-            return this.mul(new Euclidean2(w, 0, 0, 0, undefined));
+            return this.mul(new Euclidean2(other, 0, 0, 0, undefined));
         }
     }
 
@@ -643,9 +464,17 @@ class Euclidean2 implements Measure<Euclidean2> {
     }
 
     align(rhs: Euclidean2): Euclidean2 {
-        assertArgEuclidean2('rhs', rhs);
-        var xs = Euclidean2.align(this.coordinates(), rhs.coordinates());
-        return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        assertArgEuclidean2('rhs', rhs)
+        let a0 = this.w
+        let a1 = this.x
+        let a2 = this.y
+        let a3 = this.xy
+        let b0 = this.w
+        let b1 = this.x
+        let b2 = this.y
+        let b3 = this.xy
+        let c0 = scpE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        return new Euclidean2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
     }
 
     static wedge(a: number[], b: number[]): number[] {

@@ -1,8 +1,8 @@
-import MutableGeometricElement = require('../math/MutableGeometricElement');
+import MutableGeometricElement3D = require('../math/MutableGeometricElement3D');
 import Matrix4 = require('../math/Matrix4');
 import TrigMethods = require('../math/TrigMethods');
 import VectorE3 = require('../math/VectorE3');
-declare class HH implements MutableGeometricElement<HH, HH, HH, VectorE3, VectorE3>, TrigMethods<HH> {
+declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, TrigMethods<HH> {
     private x;
     private y;
     private z;
@@ -11,7 +11,12 @@ declare class HH implements MutableGeometricElement<HH, HH, HH, VectorE3, Vector
     v: VectorE3;
     add(q: HH, α?: number): HH;
     add2(a: HH, b: HH): HH;
-    dual(m: VectorE3): HH;
+    /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number;
+    dual(vector: VectorE3): HH;
     clone(): HH;
     lco(rhs: HH): HH;
     conL2(a: HH, b: HH): HH;
@@ -47,6 +52,7 @@ declare class HH implements MutableGeometricElement<HH, HH, HH, VectorE3, Vector
     rotate(rotor: HH): HH;
     rotor(a: VectorE3, b: VectorE3): HH;
     rotorFromAxisAngle(axis: VectorE3, θ: number): HH;
+    rotorFromGeneratorAngle(B: HH, θ: number): HH;
     setFromRotationMatrix(m: Matrix4): HH;
     spinor(a: VectorE3, b: VectorE3): HH;
     slerp(qb: HH, t: number): HH;

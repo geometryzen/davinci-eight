@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.140.0",
+        "version": "2.141.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -981,11 +981,29 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/math/G2.ts": {
+            "name": "src/davinci-eight/math/G2.ts",
+            "modules": {},
+            "classes": {
+                "G2": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/math/G3.ts": {
             "name": "src/davinci-eight/math/G3.ts",
             "modules": {},
             "classes": {
                 "G3": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/GeometricE2.ts": {
+            "name": "src/davinci-eight/math/GeometricE2.ts",
+            "modules": {},
+            "classes": {
+                "GeometricE2": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1008,6 +1026,13 @@
         },
         "src/davinci-eight/math/GeometricOperators.ts": {
             "name": "src/davinci-eight/math/GeometricOperators.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/HH.ts": {
+            "name": "src/davinci-eight/math/HH.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1079,11 +1104,27 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/PseudoscalarE3.ts": {
-            "name": "src/davinci-eight/math/PseudoscalarE3.ts",
+        "src/davinci-eight/math/MutableGeometricElement3D.ts": {
+            "name": "src/davinci-eight/math/MutableGeometricElement3D.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/PseudoE2.ts": {
+            "name": "src/davinci-eight/math/PseudoE2.ts",
             "modules": {},
             "classes": {
-                "PseudoscalarE3": 1
+                "PseudoE2": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/PseudoE3.ts": {
+            "name": "src/davinci-eight/math/PseudoE3.ts",
+            "modules": {},
+            "classes": {
+                "PseudoE3": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1750,14 +1791,17 @@
                 "Euclidean1": 1,
                 "Euclidean2": 1,
                 "Euclidean3": 1,
+                "G2": 1,
                 "G3": 1,
+                "GeometricE2": 1,
                 "GeometricE3": 1,
                 "Matrix<M>": 1,
                 "Matrix2": 1,
                 "Matrix3": 1,
                 "Matrix4": 1,
                 "Mutable": 1,
-                "PseudoscalarE3": 1,
+                "PseudoE2": 1,
+                "PseudoE3": 1,
                 "QQ": 1,
                 "R1": 1,
                 "R2": 1,
@@ -3593,7 +3637,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 411,
+            "line": 238,
             "description": "The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.",
             "is_constructor": 1,
             "params": [
@@ -3634,8 +3678,25 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 281,
+            "line": 241,
             "extends": "GeometricE3"
+        },
+        "G2": {
+            "name": "G2",
+            "shortname": "G2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 129,
+            "extends": "GeometricE2",
+            "beta": 1,
+            "description": "Constructs a <code>G2</code>.\nThe multivector is initialized to zero.",
+            "is_constructor": 1
         },
         "G3": {
             "name": "G3",
@@ -3648,11 +3709,25 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 43,
+            "line": 52,
             "extends": "GeometricE3",
             "beta": 1,
             "description": "Constructs a <code>G3</code>.\nThe multivector is initialized to zero.",
             "is_constructor": 1
+        },
+        "GeometricE2": {
+            "name": "GeometricE2",
+            "shortname": "GeometricE2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/GeometricE2.ts",
+            "line": 5,
+            "extends": "VectorE2"
         },
         "GeometricE3": {
             "name": "GeometricE3",
@@ -3742,9 +3817,9 @@
             "file": "src/davinci-eight/math/Mutable.ts",
             "line": 1
         },
-        "PseudoscalarE3": {
-            "name": "PseudoscalarE3",
-            "shortname": "PseudoscalarE3",
+        "PseudoE2": {
+            "name": "PseudoE2",
+            "shortname": "PseudoE2",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -3752,7 +3827,20 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/math/PseudoscalarE3.ts",
+            "file": "src/davinci-eight/math/PseudoE2.ts",
+            "line": 1
+        },
+        "PseudoE3": {
+            "name": "PseudoE3",
+            "shortname": "PseudoE3",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/math/PseudoE3.ts",
             "line": 1
         },
         "QQ": {
@@ -10247,14 +10335,14 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 810,
+            "line": 639,
             "description": "~ (tilde) produces reversion.",
             "class": "Euclidean2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean2.ts",
-            "line": 866,
+            "line": 695,
             "itemtype": "method",
             "name": "gradeZero",
             "return": {
@@ -10266,7 +10354,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 299,
+            "line": 259,
             "description": "The `w` property is the grade zero (scalar) part of the Euclidean3 multivector.",
             "itemtype": "property",
             "name": "w",
@@ -10276,63 +10364,63 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 305,
+            "line": 265,
             "description": "The `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 309,
+            "line": 269,
             "description": "The `y` property is the y coordinate of the grade one (vector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 313,
+            "line": 273,
             "description": "The `z` property is the z coordinate of the grade one (vector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 317,
+            "line": 277,
             "description": "The `xy` property is the xy coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 321,
+            "line": 281,
             "description": "The `yz` property is the yz coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 325,
+            "line": 285,
             "description": "The `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 329,
+            "line": 289,
             "description": "The `xyz` property is the grade three (pseudoscalar) part of the Euclidean3 multivector.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 333,
+            "line": 293,
             "description": "The optional unit of measure.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 337,
+            "line": 297,
             "description": "The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.\nConstructs a Euclidean3 from its coordinates.",
             "is_constructor": 1,
             "params": [
@@ -10386,7 +10474,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 388,
+            "line": 348,
             "itemtype": "method",
             "name": "fromSpinorE3",
             "params": [
@@ -10405,7 +10493,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 429,
+            "line": 389,
             "description": "Computes the sum of this Euclidean3 and another considered to be the rhs of the binary addition, `+`, operator.\nThis method does not change this Euclidean3.",
             "itemtype": "method",
             "name": "add",
@@ -10425,7 +10513,19 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 463,
+            "line": 424,
+            "itemtype": "method",
+            "name": "arg",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Euclidean3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 432,
             "itemtype": "method",
             "name": "conj",
             "return": {
@@ -10437,7 +10537,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 472,
+            "line": 441,
             "itemtype": "method",
             "name": "sub",
             "params": [
@@ -10456,7 +10556,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 663,
+            "line": 632,
             "description": "Unary plus(+).",
             "itemtype": "method",
             "name": "__pos__",
@@ -10471,7 +10571,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 673,
+            "line": 642,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -10483,7 +10583,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 680,
+            "line": 649,
             "description": "Unary minus (-).",
             "itemtype": "method",
             "name": "__neg__",
@@ -10498,7 +10598,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 690,
+            "line": 659,
             "itemtype": "method",
             "name": "reverse",
             "return": {
@@ -10510,7 +10610,7 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 698,
+            "line": 667,
             "description": "~ (tilde) produces reversion.",
             "itemtype": "method",
             "name": "__tilde__",
@@ -10525,21 +10625,21 @@
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 805,
+            "line": 774,
             "description": "Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 810,
+            "line": 779,
             "description": "Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
             "class": "Euclidean3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Euclidean3.ts",
-            "line": 844,
+            "line": 813,
             "itemtype": "method",
             "name": "gradeZero",
             "return": {
@@ -10550,8 +10650,1453 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 40,
+            "description": "Coordinates corresponding to basis labels.",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 47,
+            "description": "Promotes an unknown value to a G2, or returns undefined.",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 139,
+            "description": "The coordinate corresponding to the unit standard basis scalar.",
+            "itemtype": "property",
+            "name": "w",
+            "type": "{number}",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 152,
+            "description": "The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.",
+            "itemtype": "property",
+            "name": "x",
+            "type": "{number}",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 165,
+            "description": "The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.",
+            "itemtype": "property",
+            "name": "y",
+            "type": "{number}",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 178,
+            "description": "The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.",
+            "itemtype": "property",
+            "name": "xy",
+            "type": "{number}",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 191,
+            "description": "<p>\n<code>this ⟼ this + M * α</code>\n</p>",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "M",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "α",
+                    "description": "[number = 1]"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 210,
+            "description": "<p>\n<code>this ⟼ this + v * α</code>\n</p>",
+            "itemtype": "method",
+            "name": "addVector",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "",
+                    "type": "VectorE2"
+                },
+                {
+                    "name": "α",
+                    "description": "[number = 1]"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 227,
+            "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
+            "itemtype": "method",
+            "name": "add2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 247,
+            "description": "Assuming <code>this = A * exp(B * θ)</code>, returns the <em>principal value</em> of θ.",
+            "itemtype": "method",
+            "name": "arg",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 256,
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "<code>copy(this)</code>",
+                "type": "G2"
+            },
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 265,
+            "description": "<p>\n<code>this ⟼ conjugate(this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "conj",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 279,
+            "description": "<p>\n<code>this ⟼ this << m</code>\n</p>",
+            "itemtype": "method",
+            "name": "lco",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 291,
+            "description": "<p>\n<code>this ⟼ a << b</code>\n</p>",
+            "itemtype": "method",
+            "name": "conL2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 316,
+            "description": "<p>\n<code>this ⟼ this >> m</code>\n</p>",
+            "itemtype": "method",
+            "name": "rco",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 328,
+            "description": "<p>\n<code>this ⟼ a >> b</code>\n</p>",
+            "itemtype": "method",
+            "name": "conR2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 354,
+            "description": "<p>\n<code>this ⟼ copy(M)</code>\n</p>",
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "M",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 372,
+            "description": "<p>\n<code>this ⟼ copy(spinor)</code>\n</p>",
+            "itemtype": "method",
+            "name": "copySpinor",
+            "params": [
+                {
+                    "name": "spinor",
+                    "description": "",
+                    "type": "SpinorE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 390,
+            "description": "<p>\n<code>this ⟼ copyVector(vector)</code>\n</p>",
+            "itemtype": "method",
+            "name": "copyVector",
+            "params": [
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "VectorE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 408,
+            "description": "<p>\n<code>this ⟼ this / m</code>\n</p>",
+            "itemtype": "method",
+            "name": "div",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 420,
+            "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
+            "itemtype": "method",
+            "name": "divideByScalar",
+            "params": [
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 437,
+            "description": "<p>\n<code>this ⟼ a / b</code>\n</p>",
+            "itemtype": "method",
+            "name": "div2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 451,
+            "description": "<p>\n<code>this ⟼ dual(m) = I * m</code>\n</p>",
+            "itemtype": "method",
+            "name": "dual",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 472,
+            "description": "<p>\n<code>this ⟼ e<sup>this</sup></code>\n</p>",
+            "itemtype": "method",
+            "name": "exp",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 492,
+            "description": "<p>\n<code>this ⟼ conj(this) / quad(this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "inv",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 506,
+            "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "lerp",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 525,
+            "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
+            "itemtype": "method",
+            "name": "lerp2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 543,
+            "description": "<p>\n<code>this ⟼ log(sqrt(w * w + xy * xy)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(xy, w)</code>\n</p>",
+            "itemtype": "method",
+            "name": "log",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 563,
+            "itemtype": "method",
+            "name": "magnitude",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 571,
+            "description": "<p>\n<code>this ⟼ this * s</code>\n</p>",
+            "itemtype": "method",
+            "name": "mul",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 583,
+            "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
+            "itemtype": "method",
+            "name": "mul2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 608,
+            "description": "<p>\n<code>this ⟼ -1 * this</code>\n</p>",
+            "itemtype": "method",
+            "name": "neg",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 623,
+            "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
+            "itemtype": "method",
+            "name": "norm",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 638,
+            "description": "<p>\n<code>this ⟼ this / magnitude(this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "normalize",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 655,
+            "itemtype": "method",
+            "name": "quaditude",
+            "return": {
+                "description": "<code>this * conj(this)</code>",
+                "type": "Number"
+            },
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 665,
+            "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
+            "itemtype": "method",
+            "name": "reflect",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "VectorE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 687,
+            "description": "<p>\n<code>this ⟼ reverse(this)</code>\n</p>",
+            "itemtype": "method",
+            "name": "reverse",
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 703,
+            "itemtype": "method",
+            "name": "__tilde__",
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 710,
+            "description": "<p>\n<code>this ⟼ R * this * reverse(R)</code>\n</p>",
+            "itemtype": "method",
+            "name": "rotate",
+            "params": [
+                {
+                    "name": "R",
+                    "description": "",
+                    "type": "SpinorE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 736,
+            "description": "<p>\nComputes a rotor, R, from two unit vectors, where\nR = (1 + b * a) / sqrt(2 * (1 + b << a))\n</p>",
+            "itemtype": "method",
+            "name": "rotor",
+            "params": [
+                {
+                    "name": "b",
+                    "description": "The ending unit vector",
+                    "type": "VectorE2"
+                },
+                {
+                    "name": "a",
+                    "description": "The starting unit vector",
+                    "type": "VectorE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code> The rotor representing a rotation from a to b.",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 752,
+            "description": "<p>\n<code>this = ⟼ exp(- B * θ / 2)</code>\n</p>",
+            "itemtype": "method",
+            "name": "rotorFromGeneratorAngle",
+            "params": [
+                {
+                    "name": "B",
+                    "description": "",
+                    "type": "SpinorE2"
+                },
+                {
+                    "name": "θ",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 772,
+            "description": "Sandwich operation means we need the half-angle.",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 776,
+            "description": "scalar part = cos(|B| * θ / 2)",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 782,
+            "description": "pseudo part = -unit(B) * sin(|B| * θ / 2)",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 789,
+            "description": "<p>\n<code>this ⟼ align(this, m)</code>\n</p>",
+            "itemtype": "method",
+            "name": "align",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 801,
+            "description": "<p>\n<code>this ⟼ align(a, b)</code>\n</p>",
+            "itemtype": "method",
+            "name": "align2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 819,
+            "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
+            "itemtype": "method",
+            "name": "scale",
+            "params": [
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 834,
+            "description": "<p>\n<code>this ⟼ a * b = a · b + a ^ b</code>\n</p>\nSets this G2 to the geometric product a * b of the vector arguments.",
+            "itemtype": "method",
+            "name": "spinor",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 857,
+            "description": "<p>\n<code>this ⟼ this - M * α</code>\n</p>",
+            "itemtype": "method",
+            "name": "sub",
+            "params": [
+                {
+                    "name": "M",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "α",
+                    "description": "[number = 1]"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 876,
+            "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
+            "itemtype": "method",
+            "name": "sub2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 896,
+            "description": "Returns a string representing the number in fixed-point notation.",
+            "itemtype": "method",
+            "name": "toFixed",
+            "params": [
+                {
+                    "name": "fractionDigits",
+                    "description": "[number]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 907,
+            "description": "Returns a string representation of the number.",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 917,
+            "description": "<p>\n<code>this ⟼ this ^ m</code>\n</p>",
+            "itemtype": "method",
+            "name": "wedge",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 929,
+            "description": "<p>\n<code>this ⟼ a ^ b</code>\n</p>",
+            "itemtype": "method",
+            "name": "wedge2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G2"
+            },
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 955,
+            "itemtype": "method",
+            "name": "__add__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 980,
+            "itemtype": "method",
+            "name": "__div__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 998,
+            "itemtype": "method",
+            "name": "__mul__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1024,
+            "itemtype": "method",
+            "name": "__rmul__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1050,
+            "itemtype": "method",
+            "name": "__radd__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1075,
+            "itemtype": "method",
+            "name": "__sub__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1093,
+            "itemtype": "method",
+            "name": "__rsub__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1112,
+            "itemtype": "method",
+            "name": "__wedge__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1131,
+            "itemtype": "method",
+            "name": "__rwedge__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1150,
+            "itemtype": "method",
+            "name": "__lshift__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1168,
+            "itemtype": "method",
+            "name": "__rshift__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1186,
+            "itemtype": "method",
+            "name": "__vbar__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1204,
+            "itemtype": "method",
+            "name": "__pos__",
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1214,
+            "itemtype": "method",
+            "name": "__neg__",
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "access": "private",
+            "tagname": "",
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1224,
+            "description": "The identity element for addition.",
+            "itemtype": "property",
+            "name": "zero",
+            "type": "{G2}",
+            "readonly": "",
+            "static": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1233,
+            "description": "The identity element for multiplication.",
+            "itemtype": "property",
+            "name": "one",
+            "type": "{G2}",
+            "readonly": "",
+            "static": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1242,
+            "description": "Basis vector corresponding to the <code>x</code> coordinate.",
+            "itemtype": "property",
+            "name": "e1",
+            "type": "{G2}",
+            "readonly": "",
+            "static": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1251,
+            "description": "Basis vector corresponding to the <code>y</code> coordinate.",
+            "itemtype": "property",
+            "name": "e2",
+            "type": "{G2}",
+            "readonly": "",
+            "static": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1260,
+            "description": "Basis vector corresponding to the <code>xy</code> coordinate.",
+            "itemtype": "property",
+            "name": "I",
+            "type": "{G2}",
+            "readonly": "",
+            "static": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1269,
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "M",
+                    "description": "",
+                    "type": "GeometricE2"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "static": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1284,
+            "itemtype": "method",
+            "name": "fromScalar",
+            "params": [
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "static": 1,
+            "chainable": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1297,
+            "itemtype": "method",
+            "name": "fromSpinor",
+            "params": [
+                {
+                    "name": "spinor",
+                    "description": "",
+                    "type": "SpinorE2"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "static": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1312,
+            "itemtype": "method",
+            "name": "fromVector",
+            "params": [
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "VectorE2"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G2"
+            },
+            "static": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G2.ts",
+            "line": 1326,
+            "itemtype": "method",
+            "name": "lerp",
+            "params": [
+                {
+                    "name": "A",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "B",
+                    "description": "",
+                    "type": "GeometricE2"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>A + α * (B - A)</code>",
+                "type": "G2"
+            },
+            "static": 1,
+            "class": "G2",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 53,
+            "line": 39,
+            "description": "Coordinates corresponding to basis labels.",
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 62,
             "description": "The coordinate corresponding to the unit standard basis scalar.",
             "itemtype": "property",
             "name": "w",
@@ -10561,7 +12106,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 66,
+            "line": 75,
             "description": "The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.",
             "itemtype": "property",
             "name": "x",
@@ -10571,7 +12116,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 79,
+            "line": 88,
             "description": "The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.",
             "itemtype": "property",
             "name": "y",
@@ -10581,7 +12126,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 92,
+            "line": 101,
             "description": "The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.",
             "itemtype": "property",
             "name": "z",
@@ -10591,7 +12136,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 105,
+            "line": 114,
             "description": "The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "yz",
@@ -10601,7 +12146,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 118,
+            "line": 127,
             "description": "The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "zx",
@@ -10611,7 +12156,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 131,
+            "line": 140,
             "description": "The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.",
             "itemtype": "property",
             "name": "xy",
@@ -10621,7 +12166,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 144,
+            "line": 153,
             "description": "The coordinate corresponding to the I<sub>3</sub> <code>=</code> <b>e</b><sub>1</sub><b>e</b><sub>2</sub><b>e</b><sub>2</sub> standard basis pseudoscalar.",
             "itemtype": "property",
             "name": "xyz",
@@ -10631,7 +12176,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 157,
+            "line": 166,
             "description": "<p>\n<code>this ⟼ this + M * α</code>\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -10656,7 +12201,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 180,
+            "line": 189,
             "description": "<p>\n<code>this ⟼ this + v * α</code>\n</p>",
             "itemtype": "method",
             "name": "addVector",
@@ -10681,7 +12226,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 198,
+            "line": 207,
             "description": "<p>\n<code>this ⟼ a + b</code>\n</p>",
             "itemtype": "method",
             "name": "add2",
@@ -10707,7 +12252,19 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 221,
+            "line": 231,
+            "itemtype": "method",
+            "name": "arg",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 239,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -10719,7 +12276,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 230,
+            "line": 248,
             "description": "<p>\n<code>this ⟼ conjugate(this)</code>\n</p>",
             "itemtype": "method",
             "name": "conj",
@@ -10733,7 +12290,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 246,
+            "line": 264,
             "description": "<p>\n<code>this ⟼ this << m</code>\n</p>",
             "itemtype": "method",
             "name": "lco",
@@ -10754,7 +12311,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 258,
+            "line": 276,
             "description": "<p>\n<code>this ⟼ a << b</code>\n</p>",
             "itemtype": "method",
             "name": "conL2",
@@ -10780,7 +12337,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 271,
+            "line": 289,
             "description": "<p>\n<code>this ⟼ this >> m</code>\n</p>",
             "itemtype": "method",
             "name": "rco",
@@ -10801,7 +12358,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 283,
+            "line": 301,
             "description": "<p>\n<code>this ⟼ a >> b</code>\n</p>",
             "itemtype": "method",
             "name": "conR2",
@@ -10827,7 +12384,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 297,
+            "line": 315,
             "description": "<p>\n<code>this ⟼ copy(v)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -10848,7 +12405,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 319,
+            "line": 337,
             "description": "<p>\n<code>this ⟼ copy(spinor)</code>\n</p>",
             "itemtype": "method",
             "name": "copySpinor",
@@ -10869,7 +12426,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 341,
+            "line": 359,
             "description": "<p>\n<code>this ⟼ copyVector(vector)</code>\n</p>",
             "itemtype": "method",
             "name": "copyVector",
@@ -10890,7 +12447,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 363,
+            "line": 381,
             "description": "<p>\n<code>this ⟼ this / m</code>\n</p>",
             "itemtype": "method",
             "name": "div",
@@ -10911,7 +12468,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 375,
+            "line": 393,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divideByScalar",
@@ -10932,7 +12489,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 396,
+            "line": 414,
             "description": "<p>\n<code>this ⟼ a / b</code>\n</p>",
             "itemtype": "method",
             "name": "div2",
@@ -10958,14 +12515,14 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 425,
-            "description": "<p>\n<code>this ⟼ dual(m) = I * m</code>\n</p>\nNotice that the dual of a vector is related to the spinor by the right-hand rule.",
+            "line": 443,
+            "description": "<p>\n<code>this ⟼ dual(m) = I * m</code>\n</p>",
             "itemtype": "method",
             "name": "dual",
             "params": [
                 {
                     "name": "m",
-                    "description": "The vector whose dual will be used to set this spinor.",
+                    "description": "",
                     "type": "GeometricE3"
                 }
             ],
@@ -10979,7 +12536,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 444,
+            "line": 473,
             "description": "<p>\n<code>this ⟼ e<sup>this</sup></code>\n</p>",
             "itemtype": "method",
             "name": "exp",
@@ -10993,7 +12550,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 468,
+            "line": 497,
             "description": "<p>\n<code>this ⟼ conj(this) / quad(this)</code>\n</p>",
             "itemtype": "method",
             "name": "inv",
@@ -11007,7 +12564,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 482,
+            "line": 511,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -11033,7 +12590,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 505,
+            "line": 534,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -11064,7 +12621,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 523,
+            "line": 552,
             "description": "<p>\n<code>this ⟼ log(this)</code>\n</p>",
             "itemtype": "method",
             "name": "log",
@@ -11078,7 +12635,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 552,
+            "line": 581,
             "description": "<p>\n<code>this ⟼ this * s</code>\n</p>",
             "itemtype": "method",
             "name": "mul",
@@ -11099,7 +12656,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 564,
+            "line": 593,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
             "itemtype": "method",
             "name": "mul2",
@@ -11125,7 +12682,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 577,
+            "line": 606,
             "description": "<p>\n<code>this ⟼ -1 * this</code>\n</p>",
             "itemtype": "method",
             "name": "neg",
@@ -11139,7 +12696,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 596,
+            "line": 625,
             "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
             "itemtype": "method",
             "name": "norm",
@@ -11153,7 +12710,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 612,
+            "line": 642,
             "description": "<p>\n<code>this ⟼ this / magnitude(this)</code>\n</p>",
             "itemtype": "method",
             "name": "normalize",
@@ -11167,7 +12724,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 629,
+            "line": 663,
             "itemtype": "method",
             "name": "quaditude",
             "return": {
@@ -11179,7 +12736,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 640,
+            "line": 675,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -11200,7 +12757,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 665,
+            "line": 700,
             "description": "<p>\n<code>this ⟼ reverse(this)</code>\n</p>",
             "itemtype": "method",
             "name": "reverse",
@@ -11214,7 +12771,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 685,
+            "line": 720,
             "itemtype": "method",
             "name": "__tilde__",
             "return": {
@@ -11226,7 +12783,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 692,
+            "line": 727,
             "description": "<p>\n<code>this ⟼ R * this * reverse(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -11247,7 +12804,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 724,
+            "line": 759,
             "description": "<p>\nComputes a rotor, R, from two unit vectors, where\nR = (1 + b * a) / sqrt(2 * (1 + b << a))\n</p>",
             "itemtype": "method",
             "name": "rotor",
@@ -11273,7 +12830,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 742,
+            "line": 778,
             "description": "<p>\n<code>this = ⟼ exp(- dual(a) * θ / 2)</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromAxisAngle",
@@ -11293,12 +12850,39 @@
                 "description": "<code>this</code>",
                 "type": "G3"
             },
+            "chainable": 1,
             "class": "G3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 761,
+            "line": 799,
+            "description": "<p>\n<code>this = ⟼ exp(- B * θ / 2)</code>\n</p>",
+            "itemtype": "method",
+            "name": "rotorFromGeneratorAngle",
+            "params": [
+                {
+                    "name": "B",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "θ",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "G3"
+            },
+            "chainable": 1,
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 820,
             "description": "<p>\n<code>this ⟼ align(this, m)</code>\n</p>",
             "itemtype": "method",
             "name": "align",
@@ -11319,7 +12903,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 773,
+            "line": 832,
             "description": "<p>\n<code>this ⟼ align(a, b)</code>\n</p>",
             "itemtype": "method",
             "name": "align2",
@@ -11345,7 +12929,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 787,
+            "line": 846,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -11361,7 +12945,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 806,
+            "line": 865,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>\nSets this G3 to the geometric product a * b of the vector arguments.",
             "itemtype": "method",
             "name": "spinor",
@@ -11386,7 +12970,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 835,
+            "line": 894,
             "description": "<p>\n<code>this ⟼ this - M * α</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -11411,7 +12995,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 858,
+            "line": 917,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -11437,7 +13021,39 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 881,
+            "line": 941,
+            "description": "Returns a string representing the number in fixed-point notation.",
+            "itemtype": "method",
+            "name": "toFixed",
+            "params": [
+                {
+                    "name": "fractionDigits",
+                    "description": "[number]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 952,
+            "description": "Returns a string representation of the number.",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 962,
             "description": "<p>\n<code>this ⟼ this ^ m</code>\n</p>",
             "itemtype": "method",
             "name": "wedge",
@@ -11458,7 +13074,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 893,
+            "line": 974,
             "description": "<p>\n<code>this ⟼ a ^ b</code>\n</p>",
             "itemtype": "method",
             "name": "wedge2",
@@ -11484,7 +13100,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 907,
+            "line": 988,
             "itemtype": "method",
             "name": "__add__",
             "params": [
@@ -11505,7 +13121,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 928,
+            "line": 1009,
             "itemtype": "method",
             "name": "__div__",
             "params": [
@@ -11526,7 +13142,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 946,
+            "line": 1027,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
@@ -11547,7 +13163,28 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 964,
+            "line": 1045,
+            "itemtype": "method",
+            "name": "__rmul__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 1063,
             "itemtype": "method",
             "name": "__radd__",
             "params": [
@@ -11568,7 +13205,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 984,
+            "line": 1083,
             "itemtype": "method",
             "name": "__sub__",
             "params": [
@@ -11589,7 +13226,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 1004,
+            "line": 1103,
             "itemtype": "method",
             "name": "__rsub__",
             "params": [
@@ -11610,7 +13247,112 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 1025,
+            "line": 1124,
+            "itemtype": "method",
+            "name": "__wedge__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 1143,
+            "itemtype": "method",
+            "name": "__rwedge__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 1162,
+            "itemtype": "method",
+            "name": "__lshift__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 1180,
+            "itemtype": "method",
+            "name": "__rshift__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 1198,
+            "itemtype": "method",
+            "name": "__vbar__",
+            "params": [
+                {
+                    "name": "other",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 1216,
             "itemtype": "method",
             "name": "__pos__",
             "return": {
@@ -11625,7 +13367,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 1035,
+            "line": 1226,
             "itemtype": "method",
             "name": "__neg__",
             "return": {
@@ -11640,7 +13382,7 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 1045,
+            "line": 1236,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -11660,7 +13402,28 @@
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 1064,
+            "line": 1255,
+            "itemtype": "method",
+            "name": "fromScalar",
+            "params": [
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "G3"
+            },
+            "static": 1,
+            "chainable": 1,
+            "class": "G3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/G3.ts",
+            "line": 1268,
             "itemtype": "method",
             "name": "fromSpinor",
             "params": [
@@ -11675,12 +13438,13 @@
                 "type": "G3"
             },
             "static": 1,
+            "chainable": 1,
             "class": "G3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 1083,
+            "line": 1284,
             "itemtype": "method",
             "name": "fromVector",
             "params": [
@@ -11695,12 +13459,13 @@
                 "type": "G3"
             },
             "static": 1,
+            "chainable": 1,
             "class": "G3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/G3.ts",
-            "line": 1101,
+            "line": 1299,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -11725,6 +13490,7 @@
                 "type": "G3"
             },
             "static": 1,
+            "chainable": 1,
             "class": "G3",
             "module": "EIGHT"
         },
@@ -11737,70 +13503,83 @@
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 9,
-            "description": "Conjugate",
+            "line": 7,
+            "description": "The principle value of the rotation angle caused by a rotor.",
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 13,
-            "description": "Left contraction",
+            "description": "Conjugate",
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 17,
-            "description": "Right contraction",
+            "description": "Left contraction",
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 21,
+            "description": "Right contraction",
+            "class": "Matrix<M>",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/GeometricElement.ts",
+            "line": 25,
             "description": "divide really only applies to division algebras.",
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 29,
+            "line": 33,
             "description": "abs(x) = |x|",
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 34,
+            "line": 37,
+            "class": "Matrix<M>",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/GeometricElement.ts",
+            "line": 41,
             "description": "squared norm, ||x|| = align(x, reverse(x))",
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 38,
+            "line": 45,
             "description": "squared norm, ||x|| = align(x, reverse(x))",
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 42,
+            "line": 49,
             "description": "Reverse",
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 46,
+            "line": 53,
             "description": "Scalar Product",
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
-            "line": 50,
+            "line": 57,
             "description": "Outer Product.",
             "class": "Matrix<M>",
             "module": "EIGHT"
@@ -11808,6 +13587,18 @@
         {
             "file": "src/davinci-eight/math/GeometricOperators.ts",
             "line": 3,
+            "class": "Matrix<M>",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/HH.ts",
+            "line": 52,
+            "itemtype": "method",
+            "name": "arg",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
             "class": "Matrix<M>",
             "module": "EIGHT"
         },
@@ -12080,23 +13871,46 @@
             "file": "src/davinci-eight/math/MutableGeometricElement.ts",
             "line": 4,
             "description": "This interface is provided to ensure consistency.\nIt is not part of the documented API.",
-            "class": "PseudoscalarE3",
+            "class": "PseudoE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/MutableGeometricElement.ts",
             "line": 19,
             "description": "The geometric product of the vectors.",
-            "class": "PseudoscalarE3",
+            "class": "PseudoE2",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/PseudoscalarE3.ts",
+            "file": "src/davinci-eight/math/MutableGeometricElement3D.ts",
+            "line": 4,
+            "description": "This interface is provided to ensure consistency.\nIt is not part of the documented API.",
+            "class": "PseudoE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/MutableGeometricElement3D.ts",
+            "line": 9,
+            "description": "In 3D the dual of the axis is well defined.",
+            "class": "PseudoE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/PseudoE2.ts",
+            "line": 5,
+            "itemtype": "property",
+            "name": "xy",
+            "type": "number",
+            "class": "PseudoE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/PseudoE3.ts",
             "line": 5,
             "itemtype": "property",
             "name": "xyz",
             "type": "number",
-            "class": "PseudoscalarE3",
+            "class": "PseudoE3",
             "module": "EIGHT"
         },
         {
@@ -12319,7 +14133,19 @@
         },
         {
             "file": "src/davinci-eight/math/R1.ts",
-            "line": 147,
+            "line": 51,
+            "itemtype": "method",
+            "name": "arg",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "R1",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/R1.ts",
+            "line": 156,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -12331,7 +14157,7 @@
         },
         {
             "file": "src/davinci-eight/math/R1.ts",
-            "line": 191,
+            "line": 200,
             "description": "this ⟼ this + α * (v - this)</code>",
             "itemtype": "method",
             "name": "lerp",
@@ -12357,7 +14183,7 @@
         },
         {
             "file": "src/davinci-eight/math/R1.ts",
-            "line": 203,
+            "line": 212,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -13342,7 +15168,19 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 123,
+            "line": 124,
+            "itemtype": "method",
+            "name": "arg",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "SpinG3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/SpinG3.ts",
+            "line": 132,
             "itemtype": "method",
             "name": "clone",
             "return": {
@@ -13355,7 +15193,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 131,
+            "line": 140,
             "description": "<p>\n<code>this ⟼ (w, -B)</code>\n</p>",
             "itemtype": "method",
             "name": "conj",
@@ -13369,7 +15207,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 161,
+            "line": 170,
             "description": "<p>\n<code>this ⟼ copy(spinor)</code>\n</p>",
             "itemtype": "method",
             "name": "copy",
@@ -13390,7 +15228,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 188,
+            "line": 197,
             "description": "<p>\n<code>this ⟼ this / s</code>\n</p>",
             "itemtype": "method",
             "name": "div",
@@ -13411,7 +15249,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 200,
+            "line": 209,
             "description": "<p>\n<code>this ⟼ a / b</code>\n</p>",
             "itemtype": "method",
             "name": "div2",
@@ -13437,7 +15275,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 229,
+            "line": 238,
             "description": "<p>\n<code>this ⟼ this / α</code>\n</p>",
             "itemtype": "method",
             "name": "divideByScalar",
@@ -13458,8 +15296,8 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 245,
-            "description": "<p>\n<code>this ⟼ dual(v) = I * v</code>\n</p>\nNotice that the dual of a vector is related to the spinor by the right-hand rule.",
+            "line": 254,
+            "description": "<p>\n<code>this ⟼ dual(v) = I * v</code>\n</p>",
             "itemtype": "method",
             "name": "dual",
             "params": [
@@ -13479,7 +15317,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 263,
+            "line": 271,
             "description": "<p>\n<code>this ⟼ e<sup>this</sup></code>\n</p>",
             "itemtype": "method",
             "name": "exp",
@@ -13493,7 +15331,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 287,
+            "line": 295,
             "description": "<p>\n<code>this ⟼ conj(this) / quad(this)</code>\n</p>",
             "itemtype": "method",
             "name": "inv",
@@ -13507,7 +15345,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 300,
+            "line": 308,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -13533,7 +15371,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 321,
+            "line": 329,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n<p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -13564,7 +15402,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 336,
+            "line": 344,
             "description": "<p>\n<code>this ⟼ log(this)</code>\n</p>",
             "itemtype": "method",
             "name": "log",
@@ -13578,7 +15416,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 363,
+            "line": 371,
             "description": "<p>\n<code>this ⟼ this * s</code>\n</p>",
             "itemtype": "method",
             "name": "mul",
@@ -13599,7 +15437,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 375,
+            "line": 383,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
             "itemtype": "method",
             "name": "mul2",
@@ -13625,7 +15463,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 403,
+            "line": 411,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -13638,7 +15476,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 415,
+            "line": 423,
             "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
             "itemtype": "method",
             "name": "norm",
@@ -13652,7 +15490,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 430,
+            "line": 438,
             "description": "<p>\n<code>this ⟼ this / magnitude(this)</code>\n</p>",
             "itemtype": "method",
             "name": "normalize",
@@ -13666,7 +15504,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 446,
+            "line": 454,
             "itemtype": "method",
             "name": "quaditude",
             "return": {
@@ -13678,7 +15516,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 457,
+            "line": 465,
             "description": "<p>\n<code>this = (w, B) ⟼ (w, -B)</code>\n</p>",
             "itemtype": "method",
             "name": "reverse",
@@ -13692,7 +15530,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 471,
+            "line": 479,
             "description": "Sets this Spinor to the value of its reflection in the plane orthogonal to n.\nThe geometric formula for bivector reflection is B' = n * B * n.",
             "itemtype": "method",
             "name": "reflect",
@@ -13713,7 +15551,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 495,
+            "line": 503,
             "description": "<p>\n<code>this = ⟼ rotor * this * reverse(rotor)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -13734,7 +15572,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 508,
+            "line": 516,
             "description": "<p>\nComputes a rotor, R, from two unit vectors, where\nR = (1 + b * a) / sqrt(2 * (1 + b << a))\n</p>",
             "itemtype": "method",
             "name": "rotor",
@@ -13760,7 +15598,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 526,
+            "line": 535,
             "description": "<p>\n<code>this = ⟼ exp(- dual(a) * θ / 2)</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromAxisAngle",
@@ -13785,7 +15623,32 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 552,
+            "line": 554,
+            "description": "<p>\n<code>this = ⟼ exp(- B * θ / 2)</code>\n</p>",
+            "itemtype": "method",
+            "name": "rotorFromGeneratorAngle",
+            "params": [
+                {
+                    "name": "B",
+                    "description": "",
+                    "type": "SpinorE3"
+                },
+                {
+                    "name": "θ",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>this</code>",
+                "type": "SpinG3"
+            },
+            "class": "SpinG3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/SpinG3.ts",
+            "line": 581,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -13805,7 +15668,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 568,
+            "line": 597,
             "description": "<p>\n<code>this ⟼ this - s * α</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -13830,7 +15693,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 587,
+            "line": 616,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -13856,7 +15719,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 604,
+            "line": 633,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>\nSets this SpinG3 to the geometric product a * b of the vector arguments.",
             "itemtype": "method",
             "name": "spinor",
@@ -13881,7 +15744,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 630,
+            "line": 659,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -13893,7 +15756,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 645,
+            "line": 674,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -13913,7 +15776,7 @@
         },
         {
             "file": "src/davinci-eight/math/SpinG3.ts",
-            "line": 654,
+            "line": 683,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -16459,95 +18322,127 @@
         },
         {
             "message": "Missing item type\n~ (tilde) produces reversion.",
-            "line": " src/davinci-eight/math/Euclidean2.ts:810"
+            "line": " src/davinci-eight/math/Euclidean2.ts:639"
         },
         {
             "message": "Missing item type\nThe `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:305"
+            "line": " src/davinci-eight/math/Euclidean3.ts:265"
         },
         {
             "message": "Missing item type\nThe `y` property is the y coordinate of the grade one (vector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:309"
+            "line": " src/davinci-eight/math/Euclidean3.ts:269"
         },
         {
             "message": "Missing item type\nThe `z` property is the z coordinate of the grade one (vector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:313"
+            "line": " src/davinci-eight/math/Euclidean3.ts:273"
         },
         {
             "message": "Missing item type\nThe `xy` property is the xy coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:317"
+            "line": " src/davinci-eight/math/Euclidean3.ts:277"
         },
         {
             "message": "Missing item type\nThe `yz` property is the yz coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:321"
+            "line": " src/davinci-eight/math/Euclidean3.ts:281"
         },
         {
             "message": "Missing item type\nThe `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:325"
+            "line": " src/davinci-eight/math/Euclidean3.ts:285"
         },
         {
             "message": "Missing item type\nThe `xyz` property is the grade three (pseudoscalar) part of the Euclidean3 multivector.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:329"
+            "line": " src/davinci-eight/math/Euclidean3.ts:289"
         },
         {
             "message": "Missing item type\nThe optional unit of measure.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:333"
+            "line": " src/davinci-eight/math/Euclidean3.ts:293"
         },
         {
             "message": "Missing item type\nThe Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.\nConstructs a Euclidean3 from its coordinates.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:337"
+            "line": " src/davinci-eight/math/Euclidean3.ts:297"
         },
         {
             "message": "Missing item type\nComputes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:805"
+            "line": " src/davinci-eight/math/Euclidean3.ts:774"
         },
         {
             "message": "Missing item type\nComputes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
-            "line": " src/davinci-eight/math/Euclidean3.ts:810"
+            "line": " src/davinci-eight/math/Euclidean3.ts:779"
+        },
+        {
+            "message": "Missing item type\nCoordinates corresponding to basis labels.",
+            "line": " src/davinci-eight/math/G2.ts:40"
+        },
+        {
+            "message": "Missing item type\nPromotes an unknown value to a G2, or returns undefined.",
+            "line": " src/davinci-eight/math/G2.ts:47"
+        },
+        {
+            "message": "Missing item type\nSandwich operation means we need the half-angle.",
+            "line": " src/davinci-eight/math/G2.ts:772"
+        },
+        {
+            "message": "Missing item type\nscalar part = cos(|B| * θ / 2)",
+            "line": " src/davinci-eight/math/G2.ts:776"
+        },
+        {
+            "message": "Missing item type\npseudo part = -unit(B) * sin(|B| * θ / 2)",
+            "line": " src/davinci-eight/math/G2.ts:782"
+        },
+        {
+            "message": "Missing item type\nCoordinates corresponding to basis labels.",
+            "line": " src/davinci-eight/math/G3.ts:39"
         },
         {
             "message": "Missing item type\nThis interface is provided to ensure consistency.\nIt is not part of the documented API.",
             "line": " src/davinci-eight/math/GeometricElement.ts:2"
         },
         {
-            "message": "Missing item type\nConjugate",
-            "line": " src/davinci-eight/math/GeometricElement.ts:9"
+            "message": "Missing item type\nThe principle value of the rotation angle caused by a rotor.",
+            "line": " src/davinci-eight/math/GeometricElement.ts:7"
         },
         {
-            "message": "Missing item type\nLeft contraction",
+            "message": "Missing item type\nConjugate",
             "line": " src/davinci-eight/math/GeometricElement.ts:13"
         },
         {
-            "message": "Missing item type\nRight contraction",
+            "message": "Missing item type\nLeft contraction",
             "line": " src/davinci-eight/math/GeometricElement.ts:17"
         },
         {
-            "message": "Missing item type\ndivide really only applies to division algebras.",
+            "message": "Missing item type\nRight contraction",
             "line": " src/davinci-eight/math/GeometricElement.ts:21"
         },
         {
+            "message": "Missing item type\ndivide really only applies to division algebras.",
+            "line": " src/davinci-eight/math/GeometricElement.ts:25"
+        },
+        {
             "message": "Missing item type\nabs(x) = |x|",
-            "line": " src/davinci-eight/math/GeometricElement.ts:29"
+            "line": " src/davinci-eight/math/GeometricElement.ts:33"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/math/GeometricElement.ts:37"
         },
         {
             "message": "Missing item type\nsquared norm, ||x|| = align(x, reverse(x))",
-            "line": " src/davinci-eight/math/GeometricElement.ts:34"
+            "line": " src/davinci-eight/math/GeometricElement.ts:41"
         },
         {
             "message": "Missing item type\nsquared norm, ||x|| = align(x, reverse(x))",
-            "line": " src/davinci-eight/math/GeometricElement.ts:38"
+            "line": " src/davinci-eight/math/GeometricElement.ts:45"
         },
         {
             "message": "Missing item type\nReverse",
-            "line": " src/davinci-eight/math/GeometricElement.ts:42"
+            "line": " src/davinci-eight/math/GeometricElement.ts:49"
         },
         {
             "message": "Missing item type\nScalar Product",
-            "line": " src/davinci-eight/math/GeometricElement.ts:46"
+            "line": " src/davinci-eight/math/GeometricElement.ts:53"
         },
         {
             "message": "Missing item type\nOuter Product.",
-            "line": " src/davinci-eight/math/GeometricElement.ts:50"
+            "line": " src/davinci-eight/math/GeometricElement.ts:57"
         },
         {
             "message": "Missing item type",
@@ -16572,6 +18467,14 @@
         {
             "message": "Missing item type\nThe geometric product of the vectors.",
             "line": " src/davinci-eight/math/MutableGeometricElement.ts:19"
+        },
+        {
+            "message": "Missing item type\nThis interface is provided to ensure consistency.\nIt is not part of the documented API.",
+            "line": " src/davinci-eight/math/MutableGeometricElement3D.ts:4"
+        },
+        {
+            "message": "Missing item type\nIn 3D the dual of the axis is well defined.",
+            "line": " src/davinci-eight/math/MutableGeometricElement3D.ts:9"
         },
         {
             "message": "Missing item type\nComputes a non-normative string representation of this rational.",

@@ -30,7 +30,6 @@ declare class Euclidean2 implements Measure<Euclidean2> {
     sub(rhs: Euclidean2): Euclidean2;
     __sub__(other: any): Euclidean2;
     __rsub__(other: any): Euclidean2;
-    static mul(a: number[], b: number[]): number[];
     mul(rhs: Euclidean2): Euclidean2;
     __mul__(other: any): Euclidean2;
     __rmul__(other: any): Euclidean2;

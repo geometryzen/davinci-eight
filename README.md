@@ -241,6 +241,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.138.0: 2015-10-23 G3
 * 2.139.0: 2015-10-23 align
 * 2.140.0: 2015-10-24 operators
+* 2.141.0: 2015-10-26 G2
 
 ## License
 Copyright (c) 2014-2015 David Holmes

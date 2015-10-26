@@ -1,7 +1,7 @@
 interface SpinorE3 {
+    w: number;
     yz: number;
     zx: number;
     xy: number;
-    w: number;
 }
 export = SpinorE3;

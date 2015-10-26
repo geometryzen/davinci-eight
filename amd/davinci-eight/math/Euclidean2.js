@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], function (require, exports, Euclidean2Error, Unit) {
+define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, Euclidean2Error, extE2, lcoE2, rcoE2, mulE2, scpE2, stringFromCoordinates, Unit) {
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
@@ -142,197 +142,6 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
             }
         }
         return +x;
-    }
-    function mulE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    function extE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a2 * b0);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    function lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 - a2 * b3);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b3);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    function rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-                }
-                break;
-            case 1:
-                {
-                    x = +(-a1 * b0 - a3 * b2);
-                }
-                break;
-            case 2:
-                {
-                    x = +(-a2 * b0 + a3 * b1);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 * b0);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    function stringFromCoordinates(coordinates, numberToString, labels) {
-        var i, _i, _ref;
-        var str;
-        var sb = [];
-        var append = function (coord, label) {
-            var n;
-            if (coord !== 0) {
-                if (coord >= 0) {
-                    if (sb.length > 0) {
-                        sb.push("+");
-                    }
-                }
-                else {
-                    sb.push("-");
-                }
-                n = Math.abs(coord);
-                if (n === 1) {
-                    sb.push(label);
-                }
-                else {
-                    sb.push(numberToString(n));
-                    if (label !== "1") {
-                        sb.push("*");
-                        sb.push(label);
-                    }
-                }
-            }
-        };
-        for (i = _i = 0, _ref = coordinates.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-            append(coordinates[i], labels[i]);
-        }
-        if (sb.length > 0) {
-            str = sb.join("");
-        }
-        else {
-            str = "0";
-        }
-        return str;
     }
     var divide = function (a00, a01, a10, a11, b00, b01, b10, b11, uom, m) {
         var c00;
@@ -530,33 +339,28 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
                 return new Euclidean2(other, 0, 0, 0, undefined).sub(this);
             }
         };
-        Euclidean2.mul = function (a, b) {
-            var a0 = a[0];
-            var a1 = a[1];
-            var a2 = a[2];
-            var a3 = a[3];
-            var b0 = b[0];
-            var b1 = b[1];
-            var b2 = b[2];
-            var b3 = b[3];
-            var x0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            var x1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            var x2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            var x3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return [x0, x1, x2, x3];
-        };
         Euclidean2.prototype.mul = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.mul(this.coordinates(), rhs.coordinates());
-            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+            var a0 = this.w;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.xy;
+            var b0 = rhs.w;
+            var b1 = rhs.x;
+            var b2 = rhs.y;
+            var b3 = rhs.xy;
+            var c0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var c1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var c2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var c3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return new Euclidean2(c0, c1, c2, c3, Unit.mul(this.uom, rhs.uom));
         };
         Euclidean2.prototype.__mul__ = function (other) {
             if (other instanceof Euclidean2) {
                 return this.mul(other);
             }
             else if (typeof other === 'number') {
-                var w = other;
-                return this.mul(new Euclidean2(w, 0, 0, 0, undefined));
+                return this.mul(new Euclidean2(other, 0, 0, 0, undefined));
             }
         };
         Euclidean2.prototype.__rmul__ = function (other) {
@@ -612,8 +416,16 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/Unit'], functi
         };
         Euclidean2.prototype.align = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.align(this.coordinates(), rhs.coordinates());
-            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+            var a0 = this.w;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.xy;
+            var b0 = this.w;
+            var b1 = this.x;
+            var b2 = this.y;
+            var b3 = this.xy;
+            var c0 = scpE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            return new Euclidean2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
         };
         Euclidean2.wedge = function (a, b) {
             var a0 = a[0];

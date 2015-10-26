@@ -47,6 +47,15 @@ class R1 extends VectorN<number> implements VectorE1, GeometricElement<VectorE1,
     align(v: VectorE1) {
         return this
     }
+
+    /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number {
+        throw new Error('TODO: R1.arg')
+    }
+
     conj() {
         return this
     }

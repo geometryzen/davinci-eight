@@ -1,7 +1,7 @@
 import cartesianQuaditudeE3 = require('../math/cartesianQuaditudeE3')
 import Euclidean3 = require('../math/Euclidean3')
 import euclidean3Quaditude2Arg = require('../math/euclidean3Quaditude2Arg')
-import MutableGeometricElement = require('../math/MutableGeometricElement')
+import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
 import Matrix4 = require('../math/Matrix4')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
@@ -15,7 +15,7 @@ let exp = Math.exp
 
 var EPS = 0.000001;
 
-class HH implements MutableGeometricElement<HH, HH, HH, VectorE3, VectorE3>, TrigMethods<HH> {
+class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, TrigMethods<HH> {
     private x: number;
     private y: number;
     private z: number;
@@ -48,7 +48,16 @@ class HH implements MutableGeometricElement<HH, HH, HH, VectorE3, VectorE3>, Tri
         this.z = a.z + b.z
         return this
     }
-    dual(m: VectorE3): HH {
+
+    /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number {
+        throw new Error('TODO: HH.arg')
+    }
+
+    dual(vector: VectorE3): HH {
         // TODO
         return this
     }
@@ -223,6 +232,15 @@ class HH implements MutableGeometricElement<HH, HH, HH, VectorE3, VectorE3>, Tri
         this.x = axis.x * s
         this.y = axis.y * s
         this.z = axis.z * s
+        this.t = cos(φ)
+        return this;
+    }
+    rotorFromGeneratorAngle(B: HH, θ: number): HH {
+        let φ = θ / 2
+        let s = sin(φ)
+        this.x = B.x * s
+        this.y = B.y * s
+        this.z = B.z * s
         this.t = cos(φ)
         return this;
     }

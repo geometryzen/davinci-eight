@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.140.0</em>
+            <em>API Docs for: 2.141.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,7 +83,9 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/G2.html">G2</a></li>
                                 <li><a href="../classes/G3.html">G3</a></li>
+                                <li><a href="../classes/GeometricE2.html">GeometricE2</a></li>
                                 <li><a href="../classes/GeometricE3.html">GeometricE3</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
@@ -134,7 +136,8 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoscalarE3.html">PseudoscalarE3</a></li>
+                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
+                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
@@ -224,7 +227,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_G3.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:43</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_G3.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:52</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -255,7 +258,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:43</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:52</code></a>
         </p>
 
 
@@ -297,6 +300,10 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method private">
+                                <a href="#method___lshift__">__lshift__</a>
+
+                            </li>
+                            <li class="index-item method private">
                                 <a href="#method___mul__">__mul__</a>
 
                             </li>
@@ -313,7 +320,19 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method private">
+                                <a href="#method___rmul__">__rmul__</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method___rshift__">__rshift__</a>
+
+                            </li>
+                            <li class="index-item method private">
                                 <a href="#method___rsub__">__rsub__</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method___rwedge__">__rwedge__</a>
 
                             </li>
                             <li class="index-item method private">
@@ -322,6 +341,14 @@ The multivector is initialized to zero.</p>
                             </li>
                             <li class="index-item method">
                                 <a href="#method___tilde__">__tilde__</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method___vbar__">__vbar__</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method___wedge__">__wedge__</a>
 
                             </li>
                             <li class="index-item method">
@@ -345,6 +372,10 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_arg">arg</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_clone">clone</a>
 
                             </li>
@@ -363,11 +394,11 @@ The multivector is initialized to zero.</p>
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_copySpinor">copySpinor</a>
@@ -398,6 +429,11 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_fromScalar">fromScalar</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_fromSpinor">fromSpinor</a>
 
                                     <span class="flag static">static</span>
@@ -418,11 +454,11 @@ The multivector is initialized to zero.</p>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp2">lerp2</a>
@@ -481,6 +517,10 @@ The multivector is initialized to zero.</p>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_rotorFromGeneratorAngle">rotorFromGeneratorAngle</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_scale">scale</a>
 
                             </li>
@@ -494,6 +534,14 @@ The multivector is initialized to zero.</p>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_sub2">sub2</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toFixed">toFixed</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
 
                             </li>
                             <li class="index-item method">
@@ -577,7 +625,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l907"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:907</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l988"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:988</code></a>
         </p>
 
 
@@ -640,7 +688,70 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l928"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:928</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1009"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1009</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">other</code>
+                        <span class="type">Any</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method___lshift__" class="method item private">
+    <h3 class="name"><code>__lshift__</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>other</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1162"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1162</code></a>
         </p>
 
 
@@ -703,7 +814,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l946"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:946</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1027"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1027</code></a>
         </p>
 
 
@@ -761,7 +872,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1035"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1035</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1226"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1226</code></a>
         </p>
 
 
@@ -803,7 +914,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1025"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1025</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1216"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1216</code></a>
         </p>
 
 
@@ -850,7 +961,133 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l964"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:964</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1063"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1063</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">other</code>
+                        <span class="type">Any</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method___rmul__" class="method item private">
+    <h3 class="name"><code>__rmul__</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>other</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1045"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1045</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">other</code>
+                        <span class="type">Any</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method___rshift__" class="method item private">
+    <h3 class="name"><code>__rshift__</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>other</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1180"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1180</code></a>
         </p>
 
 
@@ -913,7 +1150,70 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1004"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1004</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1103"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1103</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">other</code>
+                        <span class="type">Any</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method___rwedge__" class="method item private">
+    <h3 class="name"><code>__rwedge__</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>other</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1143"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1143</code></a>
         </p>
 
 
@@ -976,7 +1276,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l984"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:984</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1083"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1083</code></a>
         </p>
 
 
@@ -1032,7 +1332,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l685"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:685</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l720"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:720</code></a>
         </p>
 
 
@@ -1043,6 +1343,132 @@ The multivector is initialized to zero.</p>
         
     </div>
 
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method___vbar__" class="method item private">
+    <h3 class="name"><code>__vbar__</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>other</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1198"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1198</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">other</code>
+                        <span class="type">Any</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method___wedge__" class="method item private">
+    <h3 class="name"><code>__wedge__</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>other</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1124"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1124</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">other</code>
+                        <span class="type">Any</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -1082,7 +1508,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l157"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:157</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l166"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:166</code></a>
         </p>
 
 
@@ -1163,7 +1589,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l198"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:198</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l207"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:207</code></a>
         </p>
 
 
@@ -1243,7 +1669,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:180</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l189"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:189</code></a>
         </p>
 
 
@@ -1321,7 +1747,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l761"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:761</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l820"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:820</code></a>
         </p>
 
 
@@ -1391,7 +1817,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l773"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:773</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l832"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:832</code></a>
         </p>
 
 
@@ -1443,6 +1869,46 @@ The multivector is initialized to zero.</p>
 
 
 </div>
+<div id="method_arg" class="method item">
+    <h3 class="name"><code>arg</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l231"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:231</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_clone" class="method item">
     <h3 class="name"><code>clone</code></h3>
 
@@ -1461,7 +1927,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l221"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:221</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l239"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:239</code></a>
         </p>
 
 
@@ -1504,7 +1970,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:230</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l248"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:248</code></a>
         </p>
 
 
@@ -1558,7 +2024,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l258"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:258</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l276"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:276</code></a>
         </p>
 
 
@@ -1638,7 +2104,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l283"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:283</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l301"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:301</code></a>
         </p>
 
 
@@ -1708,6 +2174,69 @@ The multivector is initialized to zero.</p>
 
 
 
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1236"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1236</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">M</code>
+                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_copy" class="method item">
+    <h3 class="name"><code>copy</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>M</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+
+
 
         <span class="flag chainable">chainable</span>
 
@@ -1715,7 +2244,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l297"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:297</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l315"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:315</code></a>
         </p>
 
 
@@ -1757,69 +2286,6 @@ The multivector is initialized to zero.</p>
 
 
 </div>
-<div id="method_copy" class="method item">
-    <h3 class="name"><code>copy</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>M</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1045"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1045</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">M</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
-            </div>
-        </div>
-
-
-</div>
 <div id="method_copySpinor" class="method item">
     <h3 class="name"><code>copySpinor</code></h3>
 
@@ -1845,7 +2311,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l319"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:319</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l337"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:337</code></a>
         </p>
 
 
@@ -1912,7 +2378,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l341"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:341</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l359"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:359</code></a>
         </p>
 
 
@@ -1979,7 +2445,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l363"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:363</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l381"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:381</code></a>
         </p>
 
 
@@ -2049,7 +2515,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l396"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:396</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l414"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:414</code></a>
         </p>
 
 
@@ -2126,7 +2592,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l375"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:375</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l393"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:393</code></a>
         </p>
 
 
@@ -2193,7 +2659,7 @@ The multivector is initialized to zero.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l425"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:425</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l443"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:443</code></a>
         </p>
 
 
@@ -2204,7 +2670,6 @@ The multivector is initialized to zero.</p>
         <p>
 <code>this ⟼ dual(m) = I * m</code>
 </p>
-Notice that the dual of a vector is related to the spinor by the right-hand rule.
     </div>
 
         <div class="params">
@@ -2217,8 +2682,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
 
                     <div class="param-description">
-                        <p>The vector whose dual will be used to set this spinor.</p>
-
+                         
                     </div>
 
                 </li>
@@ -2256,7 +2720,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l444"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:444</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l473"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:473</code></a>
         </p>
 
 
@@ -2282,6 +2746,70 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
 
 </div>
+<div id="method_fromScalar" class="method item">
+    <h3 class="name"><code>fromScalar</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1255"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1255</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_fromSpinor" class="method item">
     <h3 class="name"><code>fromSpinor</code></h3>
 
@@ -2302,12 +2830,13 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1064"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1064</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1268"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1268</code></a>
         </p>
 
 
@@ -2365,12 +2894,13 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1083"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1083</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1284"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1284</code></a>
         </p>
 
 
@@ -2427,7 +2957,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l468"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:468</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l497"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:497</code></a>
         </p>
 
 
@@ -2478,7 +3008,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l246"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:246</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l264"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:264</code></a>
         </p>
 
 
@@ -2498,6 +3028,86 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
                 <li class="param">
                         <code class="param-name">m</code>
                         <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_lerp" class="method item">
+    <h3 class="name"><code>lerp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>target</code>
+                </li>
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l511"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:511</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this + α * (target - this)</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">target</code>
+                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
 
 
                     <div class="param-description">
@@ -2546,12 +3156,13 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l1101"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1101</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l1299"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:1299</code></a>
         </p>
 
 
@@ -2611,86 +3222,6 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
 
 
 </div>
-<div id="method_lerp" class="method item">
-    <h3 class="name"><code>lerp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>target</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l482"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:482</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + α * (target - this)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">target</code>
-                        <span class="type"><a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_lerp2" class="method item">
     <h3 class="name"><code>lerp2</code></h3>
 
@@ -2722,7 +3253,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l505"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:505</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l534"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:534</code></a>
         </p>
 
 
@@ -2803,7 +3334,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l523"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:523</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l552"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:552</code></a>
         </p>
 
 
@@ -2854,7 +3385,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l552"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:552</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l581"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:581</code></a>
         </p>
 
 
@@ -2924,7 +3455,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l564"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:564</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l593"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:593</code></a>
         </p>
 
 
@@ -2995,7 +3526,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l577"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:577</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l606"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:606</code></a>
         </p>
 
 
@@ -3040,7 +3571,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l596"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:596</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l625"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:625</code></a>
         </p>
 
 
@@ -3085,7 +3616,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l612"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:612</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l642"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:642</code></a>
         </p>
 
 
@@ -3129,7 +3660,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l629"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:629</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l663"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:663</code></a>
         </p>
 
 
@@ -3178,7 +3709,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l271"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:271</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l289"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:289</code></a>
         </p>
 
 
@@ -3245,7 +3776,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l640"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:640</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l675"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:675</code></a>
         </p>
 
 
@@ -3306,7 +3837,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l665"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:665</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l700"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:700</code></a>
         </p>
 
 
@@ -3357,7 +3888,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l692"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:692</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l727"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:727</code></a>
         </p>
 
 
@@ -3427,7 +3958,7 @@ Notice that the dual of a vector is related to the spinor by the right-hand rule
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l724"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:724</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l759"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:759</code></a>
         </p>
 
 
@@ -3504,12 +4035,13 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l742"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:742</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l778"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:778</code></a>
         </p>
 
 
@@ -3529,6 +4061,86 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
                 <li class="param">
                         <code class="param-name">axis</code>
                         <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">θ</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_rotorFromGeneratorAngle" class="method item">
+    <h3 class="name"><code>rotorFromGeneratorAngle</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>B</code>
+                </li>
+                <li class="arg">
+                        <code>θ</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l799"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:799</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this = ⟼ exp(- B * θ / 2)</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">B</code>
+                        <span class="type">SpinorE3</span>
 
 
                     <div class="param-description">
@@ -3582,7 +4194,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l787"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:787</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l846"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:846</code></a>
         </p>
 
 
@@ -3642,7 +4254,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l806"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:806</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l865"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:865</code></a>
         </p>
 
 
@@ -3723,7 +4335,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l835"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:835</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l894"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:894</code></a>
         </p>
 
 
@@ -3804,7 +4416,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l858"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:858</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l917"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:917</code></a>
         </p>
 
 
@@ -3856,6 +4468,111 @@ Sets this G3 to the geometric product a * b of the vector arguments.
 
 
 </div>
+<div id="method_toFixed" class="method item">
+    <h3 class="name"><code>toFixed</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>fractionDigits</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l941"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:941</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns a string representing the number in fixed-point notation.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">fractionDigits</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>[number]</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l952"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:952</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns a string representation of the number.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_wedge" class="method item">
     <h3 class="name"><code>wedge</code></h3>
 
@@ -3881,7 +4598,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l881"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:881</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l962"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:962</code></a>
         </p>
 
 
@@ -3951,7 +4668,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l893"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:893</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l974"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:974</code></a>
         </p>
 
 
@@ -4019,7 +4736,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:53</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:62</code></a>
         </p>
 
 
@@ -4047,7 +4764,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
                 VectorE3
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:66</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:75</code></a>
         </p>
 
 
@@ -4072,7 +4789,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:131</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:140</code></a>
         </p>
 
 
@@ -4097,7 +4814,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l144"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:144</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:153</code></a>
         </p>
 
 
@@ -4125,7 +4842,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
                 VectorE3
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:79</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:88</code></a>
         </p>
 
 
@@ -4150,7 +4867,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:105</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:114</code></a>
         </p>
 
 
@@ -4178,7 +4895,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
                 VectorE3
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:92</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:101</code></a>
         </p>
 
 
@@ -4203,7 +4920,7 @@ Sets this G3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_G3.ts.html#l118"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:118</code></a>
+        <a href="../files/src_davinci-eight_math_G3.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;G3.ts:127</code></a>
         </p>
 
 

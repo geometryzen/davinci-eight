@@ -97,6 +97,11 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     __add__(other: any): Euclidean3;
     __radd__(other: any): Euclidean3;
     /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number;
+    /**
      * @method conj
      * @return {Euclidean3}
      */

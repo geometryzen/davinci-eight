@@ -67,7 +67,7 @@ class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry>
         let b = this.innerRadius
         let axis = G3.fromVector(this.axis)
         let start = G3.fromVector(this.sliceStart)
-        let generator = new G3().dual(this.axis)
+        let generator = new G3().dual(axis)
 
         for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
             let u = uIndex / uSegments

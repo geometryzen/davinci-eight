@@ -1,4 +1,4 @@
-import MutableGeometricElement = require('../math/MutableGeometricElement');
+import MutableGeometricElement3D = require('../math/MutableGeometricElement3D');
 import Mutable = require('../math/Mutable');
 import SpinorE3 = require('../math/SpinorE3');
 import VectorE3 = require('../math/VectorE3');
@@ -7,7 +7,7 @@ import VectorN = require('../math/VectorN');
  * @class SpinG3
  * @extends VectorN<number>
  */
-declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement<SpinorE3, SpinG3, SpinG3, VectorE3, VectorE3> {
+declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3, VectorE3> {
     /**
      * @class SpinG3
      * @constructor
@@ -57,6 +57,11 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @chainable
      */
     add2(a: SpinorE3, b: SpinorE3): SpinG3;
+    /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number;
     /**
      * @method clone
      * @return {SpinG3} A copy of <code>this</code>.
@@ -123,7 +128,6 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * <p>
      * <code>this ⟼ dual(v) = I * v</code>
      * </p>
-     * Notice that the dual of a vector is related to the spinor by the right-hand rule.
      * @method dual
      * @param v {VectorE3} The vector whose dual will be used to set this spinor.
      * @return {SpinG3} <code>this</code>
@@ -281,6 +285,16 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @return {SpinG3} <code>this</code>
      */
     rotorFromAxisAngle(axis: VectorE3, θ: number): SpinG3;
+    /**
+     * <p>
+     * <code>this = ⟼ exp(- B * θ / 2)</code>
+     * </p>
+     * @method rotorFromGeneratorAngle
+     * @param B {SpinorE3}
+     * @param θ {number}
+     * @return {SpinG3} <code>this</code>
+     */
+    rotorFromGeneratorAngle(B: SpinorE3, θ: number): SpinG3;
     align(rhs: SpinorE3): SpinG3;
     align2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**

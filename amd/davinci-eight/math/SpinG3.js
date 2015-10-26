@@ -126,6 +126,13 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return this;
         };
         /**
+         * @method arg
+         * @return {number}
+         */
+        SpinG3.prototype.arg = function () {
+            throw new Error('TODO: SpinG3.arg');
+        };
+        /**
          * @method clone
          * @return {SpinG3} A copy of <code>this</code>.
          * @chainable
@@ -251,7 +258,6 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * <p>
          * <code>this ⟼ dual(v) = I * v</code>
          * </p>
-         * Notice that the dual of a vector is related to the spinor by the right-hand rule.
          * @method dual
          * @param v {VectorE3} The vector whose dual will be used to set this spinor.
          * @return {SpinG3} <code>this</code>
@@ -259,10 +265,10 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          */
         SpinG3.prototype.dual = function (v) {
             mustBeObject('v', v);
+            this.w = 0;
             this.yz = mustBeNumber('v.x', v.x);
             this.zx = mustBeNumber('v.y', v.y);
             this.xy = mustBeNumber('v.z', v.z);
-            this.w = 0;
             return this;
         };
         /**
@@ -543,6 +549,24 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.yz = -axis.x * s;
             this.zx = -axis.y * s;
             this.xy = -axis.z * s;
+            this.w = cos(φ);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this = ⟼ exp(- B * θ / 2)</code>
+         * </p>
+         * @method rotorFromGeneratorAngle
+         * @param B {SpinorE3}
+         * @param θ {number}
+         * @return {SpinG3} <code>this</code>
+         */
+        SpinG3.prototype.rotorFromGeneratorAngle = function (B, θ) {
+            var φ = θ / 2;
+            var s = sin(φ);
+            this.yz = -B.yz * s;
+            this.zx = -B.zx * s;
+            this.xy = -B.xy * s;
             this.w = cos(φ);
             return this;
         };

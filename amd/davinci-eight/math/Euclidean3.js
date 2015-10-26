@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../math/NotImplementedError', '../math/rcoG3', '../math/scpG3', '../math/subE3', '../math/Unit'], function (require, exports, addE3, Euclidean3Error, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, NotImplementedError, rcoG3, scpG3, subE3, Unit) {
+define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../math/NotImplementedError', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, Euclidean3Error, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, NotImplementedError, rcoG3, scpG3, stringFromCoordinates, subE3, Unit) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -185,45 +185,6 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
             return new Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom);
         }
     };
-    function stringFromCoordinates(coordinates, numberToString, labels) {
-        var i, _i, _ref;
-        var str;
-        var sb = [];
-        var append = function (coord, label) {
-            var n;
-            if (coord !== 0) {
-                if (coord >= 0) {
-                    if (sb.length > 0) {
-                        sb.push("+");
-                    }
-                }
-                else {
-                    sb.push("-");
-                }
-                n = Math.abs(coord);
-                if (n === 1) {
-                    sb.push(label);
-                }
-                else {
-                    sb.push(numberToString(n));
-                    if (label !== "1") {
-                        sb.push("*");
-                        sb.push(label);
-                    }
-                }
-            }
-        };
-        for (i = _i = 0, _ref = coordinates.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-            append(coordinates[i], labels[i]);
-        }
-        if (sb.length > 0) {
-            str = sb.join("");
-        }
-        else {
-            str = "0";
-        }
-        return str;
-    }
     /**
      * @class Euclidean3
      * @extends GeometricE3
@@ -348,6 +309,13 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
             else if (typeof other === 'number') {
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).add(this);
             }
+        };
+        /**
+         * @method arg
+         * @return {number}
+         */
+        Euclidean3.prototype.arg = function () {
+            throw new Error('TODO: Euclidean3.arg');
         };
         /**
          * @method conj

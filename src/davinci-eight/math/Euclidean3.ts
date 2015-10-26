@@ -14,8 +14,9 @@ import GeometricElement = require('../math/GeometricElement')
 import NotImplementedError = require('../math/NotImplementedError');
 import rcoG3 = require('../math/rcoG3')
 import scpG3 = require('../math/scpG3')
-import subE3 = require('../math/subE3')
 import SpinorE3 = require('../math/SpinorE3')
+import stringFromCoordinates = require('../math/stringFromCoordinates')
+import subE3 = require('../math/subE3')
 import TrigMethods = require('../math/TrigMethods')
 import Unit = require('../math/Unit');
 import VectorE3 = require('../math/VectorE3')
@@ -237,47 +238,6 @@ var divide = function(
     }
 };
 
-function stringFromCoordinates(
-    coordinates: number[],
-    numberToString: (x: number) => string,
-    labels: string[]
-): string {
-    var i: number, _i: number, _ref: number;
-    var str: string;
-    var sb: string[] = [];
-    var append = function(coord: number, label: string): void {
-        var n: number;
-        if (coord !== 0) {
-            if (coord >= 0) {
-                if (sb.length > 0) {
-                    sb.push("+");
-                }
-            } else {
-                sb.push("-");
-            }
-            n = Math.abs(coord);
-            if (n === 1) {
-                sb.push(label);
-            } else {
-                sb.push(numberToString(n));
-                if (label !== "1") {
-                    sb.push("*");
-                    sb.push(label);
-                }
-            }
-        }
-    };
-    for (i = _i = 0, _ref = coordinates.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-        append(coordinates[i], labels[i]);
-    }
-    if (sb.length > 0) {
-        str = sb.join("");
-    } else {
-        str = "0";
-    }
-    return str;
-}
-
 /**
  * @class Euclidean3
  * @extends GeometricE3
@@ -460,6 +420,15 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
             return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).add(this);
         }
     }
+
+    /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number {
+        throw new Error('TODO: Euclidean3.arg')
+    }
+
     /**
      * @method conj
      * @return {Euclidean3}

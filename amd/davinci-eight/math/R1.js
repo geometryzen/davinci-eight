@@ -55,6 +55,13 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         R1.prototype.align = function (v) {
             return this;
         };
+        /**
+         * @method arg
+         * @return {number}
+         */
+        R1.prototype.arg = function () {
+            throw new Error('TODO: R1.arg');
+        };
         R1.prototype.conj = function () {
             return this;
         };

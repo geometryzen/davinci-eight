@@ -39,7 +39,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z = a.z + b.z;
             return this;
         };
-        HH.prototype.dual = function (m) {
+        /**
+         * @method arg
+         * @return {number}
+         */
+        HH.prototype.arg = function () {
+            throw new Error('TODO: HH.arg');
+        };
+        HH.prototype.dual = function (vector) {
             // TODO
             return this;
         };
@@ -214,6 +221,15 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.x = axis.x * s;
             this.y = axis.y * s;
             this.z = axis.z * s;
+            this.t = cos(φ);
+            return this;
+        };
+        HH.prototype.rotorFromGeneratorAngle = function (B, θ) {
+            var φ = θ / 2;
+            var s = sin(φ);
+            this.x = B.x * s;
+            this.y = B.y * s;
+            this.z = B.z * s;
             this.t = cos(φ);
             return this;
         };

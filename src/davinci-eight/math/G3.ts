@@ -9,11 +9,12 @@ import GeometricOperators = require('../math/GeometricOperators')
 import mulG3 = require('../math/mulG3')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
-import MutableGeometricElement = require('../math/MutableGeometricElement')
-import PseudoscalarEe = require('../math/PseudoscalarE3')
+import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
+import PseudoscalarEe = require('../math/PseudoE3')
 import rcoG3 = require('../math/rcoG3')
 import scpG3 = require('../math/scpG3')
 import SpinorE3 = require('../math/SpinorE3')
+import stringFromCoordinates = require('../math/stringFromCoordinates')
 import VectorE3 = require('../math/VectorE3')
 import VectorN = require('../math/VectorN')
 import wedgeXY = require('../math/wedgeXY')
@@ -34,12 +35,20 @@ let exp = Math.exp
 let cos = Math.cos
 let sin = Math.sin
 
+let BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]
+/**
+ * Coordinates corresponding to basis labels.
+ */
+function coordinates(m: GeometricE3): number[] {
+    return [m.w, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.xyz]
+}
+
 /**
  * @class G3
  * @extends GeometricE3
  * @beta
  */
-class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement<GeometricE3, G3, SpinorE3, VectorE3, GeometricE3>, GeometricOperators<G3> {
+class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement3D<GeometricE3, G3, SpinorE3, VectorE3, GeometricE3>, GeometricOperators<G3> {
     /**
      * Constructs a <code>G3</code>.
      * The multivector is initialized to zero.
@@ -218,6 +227,15 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         this.xyz = a.xyz + b.xyz
         return this
     }
+
+    /**
+     * @method arg
+     * @return {number}
+     */
+    arg(): number {
+        throw new Error('TODO: G3.arg')
+    }
+
     /**
      * @method clone
      * @return {G3} <code>copy(this)</code>
@@ -426,19 +444,30 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * <p>
      * <code>this ⟼ dual(m) = I * m</code>
      * </p>
-     * Notice that the dual of a vector is related to the spinor by the right-hand rule.
      * @method dual
-     * @param m {GeometricE3} The vector whose dual will be used to set this spinor.
+     * @param m {GeometricE3}
      * @return {G3} <code>this</code>
      * @chainable
      */
-    dual(m: VectorE3): G3 {
-        // FIXME: TODO
-        mustBeObject('m', m)
-        this.yz = mustBeNumber('m.x', m.x)
-        this.zx = mustBeNumber('m.y', m.y)
-        this.xy = mustBeNumber('m.z', m.z)
-        this.w = 0
+    dual(m: GeometricE3) {
+        let w = -m.xyz
+        let x = -m.yz
+        let y = -m.zx
+        let z = -m.xy
+        let yz = m.x
+        let zx = m.y
+        let xy = m.z
+        let xyz = m.w
+
+        this.w = w
+        this.x = x
+        this.y = y
+        this.z = z
+        this.yz = yz
+        this.zx = zx
+        this.xy = xy
+        this.xyz = xyz
+
         return this
     }
     /**
@@ -609,6 +638,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         this.xy = 0
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
@@ -618,12 +648,16 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @chainable
      */
     normalize(): G3 {
-        // FIXME: TODO
-        let modulus = this.magnitude()
-        this.yz = this.yz / modulus
-        this.zx = this.zx / modulus
-        this.xy = this.xy / modulus
-        this.w = this.w / modulus
+        // The quaditude is the squared norm.
+        let norm = Math.sqrt(this.quaditude())
+        this.w = this.w / norm
+        this.x = this.x / norm
+        this.y = this.y / norm
+        this.z = this.z / norm
+        this.yz = this.yz / norm
+        this.zx = this.zx / norm
+        this.xy = this.xy / norm
+        this.xyz = this.xyz / norm
         return this
     }
     /**
@@ -631,6 +665,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @return {number} <code>this * conj(this)</code>
      */
     quaditude(): number {
+        // FIXME: TODO
         let w = this.w;
         let yz = this.yz;
         let zx = this.zx;
@@ -739,6 +774,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         this.divideByScalar(denom)
         return this;
     }
+
     /**
      * <p>
      * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
@@ -747,6 +783,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @param axis {VectorE3}
      * @param θ {number}
      * @return {G3} <code>this</code>
+     * @chainable
      */
     rotorFromAxisAngle(axis: VectorE3, θ: number): G3 {
         // FIXME: TODO
@@ -758,6 +795,28 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         this.w = cos(φ)
         return this
     }
+
+    /**
+     * <p>
+     * <code>this = ⟼ exp(- B * θ / 2)</code>
+     * </p>
+     * @method rotorFromGeneratorAngle
+     * @param B {SpinorE3}
+     * @param θ {number}
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    rotorFromGeneratorAngle(B: SpinorE3, θ: number): G3 {
+        // FIXME: TODO
+        let φ = θ / 2
+        let s = sin(φ)
+        this.yz = -B.yz * s
+        this.zx = -B.zx * s
+        this.xy = -B.xy * s
+        this.w = cos(φ)
+        return this
+    }
+
     /**
      * <p>
      * <code>this ⟼ align(this, m)</code>
@@ -878,6 +937,28 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         this.xyz = a.xyz - b.xyz
         return this
     }
+
+    /**
+     * Returns a string representing the number in fixed-point notation.
+     * @method toFixed
+     * @param fractionDigits [number]
+     * @return {string}
+     */
+    toFixed(fractionDigits?: number): string {
+        var coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
+        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
+    /**
+     * Returns a string representation of the number.
+     * @method toString
+     * @return {string} 
+     */
+    toString(): string {
+        let coordToString = function(coord: number): string { return coord.toString() };
+        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
     /**
      * <p>
      * <code>this ⟼ this ^ m</code>
@@ -962,6 +1043,24 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
+     * @method __rmul__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __rmul__(other: any) {
+        if (other instanceof G3) {
+            return G3.copy(other).mul(this)
+        }
+        else if (typeof other === 'number') {
+            return G3.copy(this).scale(other)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
      * @method __radd__
      * @param other {any}
      * @return {G3}
@@ -1023,6 +1122,98 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
+     * @method __wedge__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __wedge__(other: any) {
+        if (other instanceof G3) {
+            return G3.copy(this).wedge(other)
+        }
+        else if (typeof other === 'number') {
+            // The outer product with a scalar is simply scalar multiplication.
+            return G3.copy(this).scale(other)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rwedge__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __rwedge__(other: any) {
+        if (other instanceof G3) {
+            return G3.copy(other).wedge(this)
+        }
+        else if (typeof other === 'number') {
+            // The outer product with a scalar is simply scalar multiplication, and commutes
+            return G3.copy(this).scale(other)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __lshift__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __lshift__(other: any) {
+        if (other instanceof G3) {
+            return G3.copy(this).lco(other)
+        }
+        else if (typeof other === 'number') {
+            return G3.fromScalar(other).lco(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rshift__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __rshift__(other: any) {
+        if (other instanceof G3) {
+            return G3.copy(this).rco(other)
+        }
+        else if (typeof other === 'number') {
+            return G3.fromScalar(other).rco(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __vbar__
+     * @param other {any}
+     * @return {G3}
+     * @private
+     */
+    __vbar__(other: any) {
+        if (other instanceof G3) {
+            return G3.copy(this).align(other)
+        }
+        else if (typeof other === 'number') {
+            return G3.fromScalar(other).align(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
      * @method __pos__
      * @return {G3}
      * @private
@@ -1062,21 +1253,31 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
+     * @method fromScalar
+     * @param α {number}
+     * @return {G3}
+     * @static
+     * @chainable
+     */
+    static fromScalar(α: number): G3 {
+        var copy = new G3()
+        copy.w = α
+        return copy
+    }
+
+    /**
      * @method fromSpinor
      * @param spinor {SpinorE3}
      * @return {G3}
      * @static
+     * @chainable
      */
     static fromSpinor(spinor: SpinorE3): G3 {
         var copy = new G3()
         copy.w = spinor.w
-        copy.x = 0
-        copy.y = 0
-        copy.z = 0
         copy.yz = spinor.yz
         copy.zx = spinor.yz
         copy.xy = spinor.xy
-        copy.xyz = 0
         return copy
     }
 
@@ -1085,19 +1286,16 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @param vector {VectorE3}
      * @return {G3}
      * @static
+     * @chainable
      */
     static fromVector(vector: VectorE3): G3 {
         var copy = new G3()
-        copy.w = 0
         copy.x = vector.x
         copy.y = vector.y
         copy.z = vector.z
-        copy.yz = 0
-        copy.zx = 0
-        copy.xy = 0
-        copy.xyz = 0
         return copy
     }
+
     /**
     * @method lerp
     * @param A {GeometricE3}
@@ -1105,10 +1303,10 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     * @param α {number}
     * @return {G3} <code>A + α * (B - A)</code>
     * @static
+    * @chainable
     */
     static lerp(A: GeometricE3, B: GeometricE3, α: number): G3 {
         return G3.copy(A).lerp(B, α)
-        // return G3.copy(B).sub(A).scale(α).add(A)
     }
 
 }

@@ -151,6 +151,7 @@ import SpinorE2 = require('davinci-eight/math/SpinorE2')
 import SpinorE3 = require('davinci-eight/math/SpinorE3')
 import Unit = require('davinci-eight/math/Unit')
 import UnitError = require('davinci-eight/math/UnitError')
+import G2 = require('davinci-eight/math/G2')
 import G3 = require('davinci-eight/math/G3')
 import SpinG2 = require('davinci-eight/math/SpinG2')
 import SpinG3 = require('davinci-eight/math/SpinG3')
@@ -318,6 +319,7 @@ var eight = {
     get Euclidean3() { return Euclidean3 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
+    get G2() { return G2 },
     get G3() { return G3 },
     get R1() { return R1 },
     get SpinG3() { return SpinG3 },
