@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -642,13 +642,17 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         }
     }
 
-    scalarMultiply(rhs: number): Euclidean2 {
-        return new Euclidean2(this.w * rhs, this.x * rhs, this.y * rhs, this.xy * rhs, this.uom);
+    scale(α: number): Euclidean2 {
+        return new Euclidean2(this.w * α, this.x * α, this.y * α, this.xy * α, this.uom);
     }
 
     div(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
         return divide(this.w, this.x, this.y, this.xy, rhs.w, rhs.x, rhs.y, rhs.xy, Unit.div(this.uom, rhs.uom), undefined);
+    }
+
+    divByScalar(α: number): Euclidean2 {
+        return new Euclidean2(this.w / α, this.x / α, this.y / α, this.xy / α, this.uom);
     }
 
     __div__(other: any): Euclidean2 {
@@ -672,7 +676,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         }
     }
 
-    static align(a: number[], b: number[]): number[] {
+    static scp(a: number[], b: number[]): number[] {
         var a0 = a[0];
         var a1 = a[1];
         var a2 = a[2];
@@ -688,7 +692,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         return [x0, x1, x2, x3];
     }
 
-    align(rhs: Euclidean2): Euclidean2 {
+    scp(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2(&#x27;rhs&#x27;, rhs)
         let a0 = this.w
         let a1 = this.x
@@ -702,7 +706,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         return new Euclidean2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
     }
 
-    static wedge(a: number[], b: number[]): number[] {
+    static ext(a: number[], b: number[]): number[] {
         var a0: number = a[0];
         var a1: number = a[1];
         var a2: number = a[2];
@@ -718,31 +722,31 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         return [x0, x1, x2, x3];
     }
 
-    wedge(rhs: Euclidean2): Euclidean2 {
+    ext(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
-        var xs = Euclidean2.wedge(this.coordinates(), rhs.coordinates());
+        var xs = Euclidean2.ext(this.coordinates(), rhs.coordinates());
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
     }
 
     __wedge__(other: any): Euclidean2 {
         if (other instanceof Euclidean2) {
             var rhs: Euclidean2 = other;
-            return this.wedge(rhs);
+            return this.ext(rhs);
         }
         else if (typeof other === &#x27;number&#x27;) {
             var w: number = other;
-            return this.wedge(new Euclidean2(w, 0, 0, 0, undefined));
+            return this.ext(new Euclidean2(w, 0, 0, 0, undefined));
         }
     }
 
     __rwedge__(other: any): Euclidean2 {
         if (other instanceof Euclidean2) {
             var lhs: Euclidean2 = other;
-            return lhs.wedge(this);
+            return lhs.ext(this);
         }
         else if (typeof other === &#x27;number&#x27;) {
             var w: number = other;
-            return new Euclidean2(w, 0, 0, 0, undefined).wedge(this);
+            return new Euclidean2(w, 0, 0, 0, undefined).ext(this);
         }
     }
 
@@ -760,6 +764,11 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         var x2 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
         var x3 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
         return [x0, x1, x2, x3];
+    }
+
+    lerp(target: Euclidean2, α: number): Euclidean2 {
+        // FIXME: TODO
+        return this
     }
 
     lco(rhs: Euclidean2): Euclidean2 {
@@ -832,19 +841,19 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
 
     __vbar__(other: any): Euclidean2 {
         if (other instanceof Euclidean2) {
-            return this.align(other);
+            return this.scp(other);
         }
         else if (typeof other === &#x27;number&#x27;) {
-            return this.align(new Euclidean2(other, 0, 0, 0, undefined));
+            return this.scp(new Euclidean2(other, 0, 0, 0, undefined));
         }
     }
 
     __rvbar__(other: any): Euclidean2 {
         if (other instanceof Euclidean2) {
-            return (&lt;Euclidean2&gt;other).align(this);
+            return (&lt;Euclidean2&gt;other).scp(this);
         }
         else if (typeof other === &#x27;number&#x27;) {
-            return new Euclidean2(other, 0, 0, 0, undefined).align(this);
+            return new Euclidean2(other, 0, 0, 0, undefined).scp(this);
         }
     }
 
@@ -914,6 +923,10 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         throw new Euclidean2Error(&#x27;sinh&#x27;);
     }
 
+    slerp(target: Euclidean2, α: number): Euclidean2 {
+        // FIXME: TODO
+        return this
+    }
     unitary(): Euclidean2 {
         throw new Euclidean2Error(&#x27;unitary&#x27;);
     }

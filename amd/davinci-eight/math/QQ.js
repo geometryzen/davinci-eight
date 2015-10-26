@@ -129,18 +129,33 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly'], fu
             }
         };
         /**
+         * @method isOne
+         * @return {boolean}
+         */
+        QQ.prototype.isOne = function () {
+            return this._numer === 1 && this._denom === 1;
+        };
+        /**
          * @method isZero
          * @return {boolean}
          */
         QQ.prototype.isZero = function () {
-            return this._numer === 0;
+            return this._numer === 0 && this._denom === 1;
         };
         /**
-         * Computes the additive inverse of this rational.
-         * @method negative
+         * Computes the multiplicative inverse of this rational number.
+         * @method inv
          * @return {QQ}
          */
-        QQ.prototype.negative = function () {
+        QQ.prototype.inv = function () {
+            return new QQ(this._denom, this._numer);
+        };
+        /**
+         * Computes the additive inverse of this rational number.
+         * @method neg
+         * @return {QQ}
+         */
+        QQ.prototype.neg = function () {
             return new QQ(-this._numer, this._denom);
         };
         /**
@@ -161,6 +176,134 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly'], fu
          */
         QQ.prototype.toString = function () {
             return "" + this._numer + "/" + this._denom + "";
+        };
+        /**
+         * @method __add__
+         * @param rhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__add__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.add(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __radd__
+         * @param lhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.add(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __sub__
+         * @param rhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.sub(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rsub__
+         * @param lhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.sub(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __mul__
+         * @param rhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.mul(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rmul__
+         * @param lhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.mul(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __div__
+         * @param div {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__div__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.div(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.div(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __pos__
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__pos__ = function () {
+            return this;
+        };
+        /**
+         * @method __neg__
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__neg__ = function () {
+            return this.neg();
         };
         /**
          * @property ONE

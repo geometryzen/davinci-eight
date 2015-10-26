@@ -236,6 +236,9 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
             this.xy = a.xy + b.xy;
             return this;
         };
+        G2.prototype.adj = function () {
+            throw new Error('TODO: G2.adj');
+        };
         /**
          * Assuming <code>this = A * exp(B * θ)</code>, returns the <em>principal value</em> of θ.
          * @method arg
@@ -277,19 +280,19 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
          * @chainable
          */
         G2.prototype.lco = function (m) {
-            return this.conL2(this, m);
+            return this.lco2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a << b</code>
          * </p>
-         * @method conL2
+         * @method lco2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.conL2 = function (a, b) {
+        G2.prototype.lco2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.x;
             var a2 = a.y;
@@ -314,19 +317,19 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
          * @chainable
          */
         G2.prototype.rco = function (m) {
-            return this.conR2(this, m);
+            return this.rco2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a >> b</code>
          * </p>
-         * @method conR2
+         * @method rco2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.conR2 = function (a, b) {
+        G2.prototype.rco2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.x;
             var a2 = a.y;
@@ -408,12 +411,12 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.divideByScalar = function (α) {
+        G2.prototype.divByScalar = function (α) {
             mustBeNumber('α', α);
             this.w /= α;
             this.x /= α;
@@ -486,8 +489,22 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         G2.prototype.inv = function () {
             // FIXME: TODO
             this.conj();
-            // this.divideByScalar(this.quaditude());
+            // this.divByScalar(this.quaditude());
             return this;
+        };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
+        G2.prototype.isOne = function () {
+            return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0;
+        };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
+        G2.prototype.isZero = function () {
+            return this.w === 0 && this.x === 0 && this.y === 0 && this.xy === 0;
         };
         /**
          * <p>
@@ -689,13 +706,13 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * <p>
-         * <code>this ⟼ reverse(this)</code>
+         * <code>this ⟼ rev(this)</code>
          * </p>
          * @method reverse
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.reverse = function () {
+        G2.prototype.rev = function () {
             // reverse has a ++-- structure.
             this.w = this.w;
             this.x = this.x;
@@ -708,11 +725,11 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
          * @return {G2}
          */
         G2.prototype.__tilde__ = function () {
-            return G2.copy(this).reverse();
+            return G2.copy(this).rev();
         };
         /**
          * <p>
-         * <code>this ⟼ R * this * reverse(R)</code>
+         * <code>this ⟼ R * this * rev(R)</code>
          * </p>
          * @method rotate
          * @param R {SpinorE2}
@@ -746,7 +763,7 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         G2.prototype.rotor = function (b, a) {
             this.spinor(b, a);
             this.w += 1; // FIXME: addScalar would make this all chainable
-            return this.divideByScalar(Math.sqrt(2 * (1 + dotVectorsE2(b, a))));
+            return this.divByScalar(Math.sqrt(2 * (1 + dotVectorsE2(b, a))));
         };
         /**
          * <p>
@@ -786,27 +803,27 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * <p>
-         * <code>this ⟼ align(this, m)</code>
+         * <code>this ⟼ scp(this, m)</code>
          * </p>
          * @method align
          * @param m {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.align = function (m) {
-            return this.align2(this, m);
+        G2.prototype.scp = function (m) {
+            return this.scp2(this, m);
         };
         /**
          * <p>
-         * <code>this ⟼ align(a, b)</code>
+         * <code>this ⟼ scp(a, b)</code>
          * </p>
-         * @method align2
+         * @method scp2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.align2 = function (a, b) {
+        G2.prototype.scp2 = function (a, b) {
             this.w = scpE2(a.w, a.x, a.y, a.xy, b.w, b.x, b.y, b.xy, 0);
             this.x = 0;
             this.y = 0;
@@ -826,6 +843,11 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
             this.x *= α;
             this.y *= α;
             this.xy *= α;
+            return this;
+        };
+        G2.prototype.slerp = function (target, α) {
+            mustBeObject('target', target);
+            mustBeNumber('α', α);
             return this;
         };
         /**
@@ -889,6 +911,15 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
             return this;
         };
         /**
+         * Returns a string representing the number in exponential notation.
+         * @method toExponential
+         * @return {string}
+         */
+        G2.prototype.toExponential = function () {
+            var coordToString = function (coord) { return coord.toExponential(); };
+            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+        };
+        /**
          * Returns a string representing the number in fixed-point notation.
          * @method toFixed
          * @param fractionDigits [number]
@@ -916,20 +947,20 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.wedge = function (m) {
-            return this.wedge2(this, m);
+        G2.prototype.ext = function (m) {
+            return this.ext2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a ^ b</code>
          * </p>
-         * @method wedge2
+         * @method ext2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.wedge2 = function (a, b) {
+        G2.prototype.ext2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.x;
             var a2 = a.y;
@@ -946,22 +977,23 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __add__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__add__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).add(other);
+        G2.prototype.__add__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).add(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).add(this);
+            else if (typeof rhs === 'number') {
+                // Addition commutes, but addScalar might be useful.
+                return G2.fromScalar(rhs).add(this);
             }
             else {
-                var rhs = duckCopy(other);
-                if (rhs) {
+                var rhsCopy = duckCopy(rhs);
+                if (rhsCopy) {
                     // rhs is a copy and addition commutes.
-                    return rhs.add(this);
+                    return rhsCopy.add(this);
                 }
                 else {
                     return void 0;
@@ -970,16 +1002,33 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __div__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__div__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).div(other);
+        G2.prototype.__div__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).div(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.copy(this).divideByScalar(other);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).divByScalar(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).div(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).div(this);
             }
             else {
                 return void 0;
@@ -987,23 +1036,23 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __mul__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__mul__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).mul(other);
+        G2.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).mul(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.copy(this).scale(other);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).scale(rhs);
             }
             else {
-                var rhs = duckCopy(other);
-                if (rhs) {
-                    // rhs is a copy but multiplication does not commute.
+                var rhsCopy = duckCopy(rhs);
+                if (rhsCopy) {
+                    // rhsCopy is a copy but multiplication does not commute.
                     // If we had rmul then we could mutate the rhs!
-                    return this.__mul__(rhs);
+                    return this.__mul__(rhsCopy);
                 }
                 else {
                     return void 0;
@@ -1012,23 +1061,23 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __rmul__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__rmul__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(other).mul(this);
+        G2.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).mul(this);
             }
-            else if (typeof other === 'number') {
+            else if (typeof lhs === 'number') {
                 // Scalar multiplication commutes.
-                return G2.copy(this).scale(other);
+                return G2.copy(this).scale(lhs);
             }
             else {
-                var lhs = duckCopy(other);
-                if (lhs) {
-                    // lhs is a copy, so we can mutate it.
-                    return lhs.mul(this);
+                var lhsCopy = duckCopy(lhs);
+                if (lhsCopy) {
+                    // lhs is a copy, so we can mutate it, and use it on the left.
+                    return lhsCopy.mul(this);
                 }
                 else {
                     return void 0;
@@ -1037,23 +1086,22 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __radd__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__radd__ = function (other) {
-            if (other instanceof G2) {
-                var rhs = other;
-                return G2.copy(other).add(this);
+        G2.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).add(this);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).add(this);
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).add(this);
             }
             else {
-                var lhs = duckCopy(other);
-                if (lhs) {
+                var lhsCopy = duckCopy(lhs);
+                if (lhsCopy) {
                     // lhs is a copy, so we can mutate it.
-                    return lhs.add(this);
+                    return lhsCopy.add(this);
                 }
                 else {
                     return void 0;
@@ -1062,17 +1110,16 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __sub__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__sub__ = function (other) {
-            if (other instanceof G2) {
-                var rhs = other;
+        G2.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof G2) {
                 return G2.copy(this).sub(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(-other).add(this);
+            else if (typeof rhs === 'number') {
+                return G2.fromScalar(-rhs).add(this);
             }
             else {
                 return void 0;
@@ -1080,17 +1127,16 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __rsub__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__rsub__ = function (other) {
-            if (other instanceof G2) {
-                var rhs = other;
-                return G2.copy(other).sub(this);
+        G2.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).sub(this);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).sub(this);
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).sub(this);
             }
             else {
                 return void 0;
@@ -1098,17 +1144,17 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __wedge__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__wedge__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).wedge(other);
+        G2.prototype.__wedge__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).ext(rhs);
             }
-            else if (typeof other === 'number') {
+            else if (typeof rhs === 'number') {
                 // The outer product with a scalar is simply scalar multiplication.
-                return G2.copy(this).scale(other);
+                return G2.copy(this).scale(rhs);
             }
             else {
                 return void 0;
@@ -1116,17 +1162,17 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __rwedge__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__rwedge__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(other).wedge(this);
+        G2.prototype.__rwedge__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).ext(this);
             }
-            else if (typeof other === 'number') {
-                // The outer product with a scalar is simply scalar multiplication, and commutes
-                return G2.copy(this).scale(other);
+            else if (typeof lhs === 'number') {
+                // The outer product with a scalar is simply scalar multiplication, and commutes.
+                return G2.copy(this).scale(lhs);
             }
             else {
                 return void 0;
@@ -1138,12 +1184,29 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
          * @return {G2}
          * @private
          */
-        G2.prototype.__lshift__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).lco(other);
+        G2.prototype.__lshift__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).lco(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).lco(this);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).lco(G2.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rlshift__
+         * @param other {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rlshift__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).lco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).lco(this);
             }
             else {
                 return void 0;
@@ -1151,16 +1214,33 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __rshift__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__rshift__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).rco(other);
+        G2.prototype.__rshift__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).rco(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).rco(this);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).rco(G2.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rrshift__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rrshift__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).rco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).rco(this);
             }
             else {
                 return void 0;
@@ -1168,16 +1248,33 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         };
         /**
          * @method __vbar__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__vbar__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).align(other);
+        G2.prototype.__vbar__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).scp(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).align(this);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).scp(G2.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rvbar__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rvbar__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).scp(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).scp(this);
             }
             else {
                 return void 0;

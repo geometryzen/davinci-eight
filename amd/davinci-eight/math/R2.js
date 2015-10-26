@@ -99,7 +99,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y *= s;
             return this;
         };
-        R2.prototype.divideByScalar = function (scalar) {
+        R2.prototype.divByScalar = function (scalar) {
             if (scalar !== 0) {
                 var invScalar = 1 / scalar;
                 this.x *= invScalar;
@@ -169,7 +169,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return Math.sqrt(this.quaditude());
         };
         R2.prototype.normalize = function () {
-            return this.divideByScalar(this.magnitude());
+            return this.divByScalar(this.magnitude());
         };
         R2.prototype.quaditude = function () {
             return this.x * this.x + this.y * this.y;
@@ -223,6 +223,15 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         };
         R2.prototype.equals = function (v) {
             return ((v.x === this.x) && (v.y === this.y));
+        };
+        R2.prototype.slerp = function (v, α) {
+            return this;
+        };
+        R2.prototype.toExponential = function () {
+            return "TODO: R2.toExponential";
+        };
+        R2.prototype.toFixed = function (digits) {
+            return "TODO: R2.toString";
         };
         R2.prototype.fromArray = function (array, offset) {
             if (offset === void 0) { offset = 0; }

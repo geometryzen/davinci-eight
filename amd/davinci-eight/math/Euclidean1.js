@@ -44,13 +44,6 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
-        /**
-         * @method clone
-         * @return {Euclidean1}
-         */
-        Euclidean1.prototype.clone = function () {
-            return new Euclidean1(this.w, this.x, this.uom);
-        };
         Euclidean1.prototype.coordinates = function () {
             return [this.w, this.x];
         };
@@ -83,11 +76,18 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
             // assertArgEuclidean1('rhs', rhs)
             throw new Euclidean1Error('div');
         };
-        Euclidean1.prototype.align = function (rhs) {
+        Euclidean1.prototype.divByScalar = function (α) {
+            return new Euclidean1(this.w / α, this.x / α, this.uom);
+        };
+        Euclidean1.prototype.scp = function (rhs) {
             throw new Euclidean1Error('wedge');
         };
-        Euclidean1.prototype.wedge = function (rhs) {
+        Euclidean1.prototype.ext = function (rhs) {
             throw new Euclidean1Error('wedge');
+        };
+        Euclidean1.prototype.lerp = function (target, α) {
+            // FIXME: TODO
+            return this;
         };
         Euclidean1.prototype.lco = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
@@ -116,11 +116,18 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
         Euclidean1.prototype.quad = function () {
             return new Euclidean1(this.w * this.w + this.x * this.x, 0, Unit.mul(this.uom, this.uom));
         };
+        Euclidean1.prototype.scale = function (α) {
+            return new Euclidean1(α * this.w, α * this.x, this.uom);
+        };
         Euclidean1.prototype.sin = function () {
             throw new Euclidean1Error('sin');
         };
         Euclidean1.prototype.sinh = function () {
             throw new Euclidean1Error('sinh');
+        };
+        Euclidean1.prototype.slerp = function (target, α) {
+            // FIXME: TODO
+            return this;
         };
         Euclidean1.prototype.unitary = function () {
             throw new Euclidean1Error('unitary');

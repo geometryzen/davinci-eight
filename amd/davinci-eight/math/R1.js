@@ -52,12 +52,16 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x = a.x + b.x;
             return this;
         };
-        R1.prototype.align = function (v) {
+        R1.prototype.scp = function (v) {
             return this;
+        };
+        R1.prototype.adj = function () {
+            throw new Error('TODO: R1.adj');
         };
         /**
          * @method arg
          * @return {number}
+         * @beta
          */
         R1.prototype.arg = function () {
             throw new Error('TODO: R1.arg');
@@ -105,7 +109,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x /= v.x;
             return this;
         };
-        R1.prototype.divideByScalar = function (scalar) {
+        R1.prototype.divByScalar = function (scalar) {
             this.x /= scalar;
             return this;
         };
@@ -129,7 +133,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x = Math.ceil(this.x);
             return this;
         };
-        R1.prototype.reverse = function () {
+        R1.prototype.rev = function () {
             return this;
         };
         R1.prototype.rco = function (v) {
@@ -177,7 +181,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return Math.sqrt(this.quaditude());
         };
         R1.prototype.normalize = function () {
-            return this.divideByScalar(this.magnitude());
+            return this.divByScalar(this.magnitude());
         };
         R1.prototype.mul2 = function (a, b) {
             return this;
@@ -243,11 +247,20 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x = array[offset];
             return this;
         };
+        R1.prototype.slerp = function (v, α) {
+            return this;
+        };
         R1.prototype.toArray = function (array, offset) {
             if (array === void 0) { array = []; }
             if (offset === void 0) { offset = 0; }
             array[offset] = this.x;
             return array;
+        };
+        R1.prototype.toExponential = function () {
+            return "TODO: R1.toExponential";
+        };
+        R1.prototype.toFixed = function (digits) {
+            return "TODO: R1.toFixed";
         };
         R1.prototype.fromAttribute = function (attribute, index, offset) {
             if (offset === void 0) { offset = 0; }
@@ -258,7 +271,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         R1.prototype.clone = function () {
             return new R1([this.x]);
         };
-        R1.prototype.wedge = function (v) {
+        R1.prototype.ext = function (v) {
             return this;
         };
         return R1;

@@ -121,7 +121,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.w = v.w;
             return this;
         };
-        R4.prototype.divideByScalar = function (α) {
+        R4.prototype.divByScalar = function (α) {
             this.x /= α;
             this.y /= α;
             this.z /= α;
@@ -161,6 +161,9 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             // TODO
             return this;
         };
+        R4.prototype.slerp = function (target, α) {
+            return this;
+        };
         R4.prototype.sub = function (v, α) {
             this.x -= v.x * α;
             this.y -= v.y * α;
@@ -174,6 +177,12 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.z = a.z - b.z;
             this.w = a.w - b.w;
             return this;
+        };
+        R4.prototype.toExponential = function () {
+            return "TODO R4.toExponential";
+        };
+        R4.prototype.toFixed = function (digits) {
+            return "TODO R4.toFixed";
         };
         return R4;
     })(VectorN);

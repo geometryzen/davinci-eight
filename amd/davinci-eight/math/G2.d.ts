@@ -75,6 +75,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     add2(a: GeometricE2, b: GeometricE2): G2;
+    adj(): G2;
     /**
      * Assuming <code>this = A * exp(B * θ)</code>, returns the <em>principal value</em> of θ.
      * @method arg
@@ -109,13 +110,13 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * <p>
      * <code>this ⟼ a << b</code>
      * </p>
-     * @method conL2
+     * @method lco2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    conL2(a: GeometricE2, b: GeometricE2): G2;
+    lco2(a: GeometricE2, b: GeometricE2): G2;
     /**
      * <p>
      * <code>this ⟼ this >> m</code>
@@ -130,13 +131,13 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * <p>
      * <code>this ⟼ a >> b</code>
      * </p>
-     * @method conR2
+     * @method rco2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    conR2(a: GeometricE2, b: GeometricE2): G2;
+    rco2(a: GeometricE2, b: GeometricE2): G2;
     /**
      * <p>
      * <code>this ⟼ copy(M)</code>
@@ -181,12 +182,12 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * <p>
      * <code>this ⟼ this / α</code>
      * </p>
-     * @method divideByScalar
+     * @method divByScalar
      * @param α {number}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    divideByScalar(α: number): G2;
+    divByScalar(α: number): G2;
     /**
      * <p>
      * <code>this ⟼ a / b</code>
@@ -226,6 +227,16 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     inv(): G2;
+    /**
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean;
+    /**
+     * @method isZero
+     * @return {boolean}
+     */
+    isZero(): boolean;
     /**
      * <p>
      * <code>this ⟼ this + α * (target - this)</code>
@@ -341,13 +352,13 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     reflect(n: VectorE2): G2;
     /**
      * <p>
-     * <code>this ⟼ reverse(this)</code>
+     * <code>this ⟼ rev(this)</code>
      * </p>
      * @method reverse
      * @return {G2} <code>this</code>
      * @chainable
      */
-    reverse(): G2;
+    rev(): G2;
     /**
      * @method __tilde__
      * @return {G2}
@@ -355,7 +366,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     __tilde__(): G2;
     /**
      * <p>
-     * <code>this ⟼ R * this * reverse(R)</code>
+     * <code>this ⟼ R * this * rev(R)</code>
      * </p>
      * @method rotate
      * @param R {SpinorE2}
@@ -387,25 +398,25 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     rotorFromGeneratorAngle(B: SpinorE2, θ: number): G2;
     /**
      * <p>
-     * <code>this ⟼ align(this, m)</code>
+     * <code>this ⟼ scp(this, m)</code>
      * </p>
      * @method align
      * @param m {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    align(m: GeometricE2): G2;
+    scp(m: GeometricE2): G2;
     /**
      * <p>
-     * <code>this ⟼ align(a, b)</code>
+     * <code>this ⟼ scp(a, b)</code>
      * </p>
-     * @method align2
+     * @method scp2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    align2(a: GeometricE2, b: GeometricE2): G2;
+    scp2(a: GeometricE2, b: GeometricE2): G2;
     /**
      * <p>
      * <code>this ⟼ this * α</code>
@@ -414,6 +425,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @param α {number}
      */
     scale(α: number): G2;
+    slerp(target: GeometricE2, α: number): G2;
     /**
      * <p>
      * <code>this ⟼ a * b = a · b + a ^ b</code>
@@ -448,6 +460,12 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     sub2(a: GeometricE2, b: GeometricE2): G2;
     /**
+     * Returns a string representing the number in exponential notation.
+     * @method toExponential
+     * @return {string}
+     */
+    toExponential(): string;
+    /**
      * Returns a string representing the number in fixed-point notation.
      * @method toFixed
      * @param fractionDigits [number]
@@ -469,102 +487,130 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @return {G2} <code>this</code>
      * @chainable
      */
-    wedge(m: GeometricE2): G2;
+    ext(m: GeometricE2): G2;
     /**
      * <p>
      * <code>this ⟼ a ^ b</code>
      * </p>
-     * @method wedge2
+     * @method ext2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    wedge2(a: GeometricE2, b: GeometricE2): G2;
+    ext2(a: GeometricE2, b: GeometricE2): G2;
     /**
      * @method __add__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __add__(other: any): G2;
+    __add__(rhs: any): G2;
     /**
      * @method __div__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __div__(other: any): G2;
+    __div__(rhs: any): G2;
+    /**
+     * @method __rdiv__
+     * @param lhs {any}
+     * @return {G2}
+     * @private
+     */
+    __rdiv__(lhs: any): G2;
     /**
      * @method __mul__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __mul__(other: any): G2;
+    __mul__(rhs: any): G2;
     /**
      * @method __rmul__
-     * @param other {any}
+     * @param lhs {any}
      * @return {G2}
      * @private
      */
-    __rmul__(other: any): G2;
+    __rmul__(lhs: any): G2;
     /**
      * @method __radd__
-     * @param other {any}
+     * @param lhs {any}
      * @return {G2}
      * @private
      */
-    __radd__(other: any): G2;
+    __radd__(lhs: any): G2;
     /**
      * @method __sub__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __sub__(other: any): G2;
+    __sub__(rhs: any): G2;
     /**
      * @method __rsub__
-     * @param other {any}
+     * @param lhs {any}
      * @return {G2}
      * @private
      */
-    __rsub__(other: any): G2;
+    __rsub__(lhs: any): G2;
     /**
      * @method __wedge__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __wedge__(other: any): G2;
+    __wedge__(rhs: any): G2;
     /**
      * @method __rwedge__
-     * @param other {any}
+     * @param lhs {any}
      * @return {G2}
      * @private
      */
-    __rwedge__(other: any): G2;
+    __rwedge__(lhs: any): G2;
     /**
      * @method __lshift__
      * @param other {any}
      * @return {G2}
      * @private
      */
-    __lshift__(other: any): G2;
+    __lshift__(rhs: any): G2;
+    /**
+     * @method __rlshift__
+     * @param other {any}
+     * @return {G2}
+     * @private
+     */
+    __rlshift__(lhs: any): G2;
     /**
      * @method __rshift__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __rshift__(other: any): G2;
+    __rshift__(rhs: any): G2;
+    /**
+     * @method __rrshift__
+     * @param lhs {any}
+     * @return {G2}
+     * @private
+     */
+    __rrshift__(lhs: any): G2;
     /**
      * @method __vbar__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __vbar__(other: any): G2;
+    __vbar__(rhs: any): G2;
+    /**
+     * @method __rvbar__
+     * @param lhs {any}
+     * @return {G2}
+     * @private
+     */
+    __rvbar__(lhs: any): G2;
     /**
      * @method __pos__
      * @return {G2}

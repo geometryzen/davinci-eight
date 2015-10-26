@@ -49,6 +49,10 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         return this
     }
 
+    adj(): HH {
+        throw new Error('TODO: HH.adj')
+    }
+
     /**
      * @method arg
      * @return {number}
@@ -65,15 +69,15 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         return new HH(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0))
     }
     lco(rhs: HH): HH {
-        return this.conL2(this, rhs)
+        return this.lco2(this, rhs)
     }
-    conL2(a: HH, b: HH): HH {
+    lco2(a: HH, b: HH): HH {
         return this
     }
     rco(rhs: HH): HH {
-        return this.conR2(this, rhs)
+        return this.rco2(this, rhs)
     }
-    conR2(a: HH, b: HH): HH {
+    rco2(a: HH, b: HH): HH {
         return this
     }
     conj(): HH {
@@ -121,7 +125,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         this.t = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
         return this;
     }
-    divideByScalar(scalar: number) {
+    divByScalar(scalar: number) {
         return this;
     }
     dot(v: HH): number {
@@ -229,7 +233,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         // FIXME: What does this mean?
         throw new Error();
     }
-    reverse(): HH {
+    rev(): HH {
         this.x *= -1
         this.y *= -1
         this.z *= -1
@@ -373,10 +377,10 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         this.z = (z * ratioA + this.z * ratioB);
         return this;
     }
-    align(rhs: HH): HH {
-        return this.align2(this, rhs)
+    scp(rhs: HH): HH {
+        return this.scp2(this, rhs)
     }
-    align2(a: HH, b: HH): HH {
+    scp2(a: HH, b: HH): HH {
         return this
     }
     sub(q: HH, α: number = 1) {
@@ -392,6 +396,14 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         this.z = a.z - b.z
         this.t = a.t - b.t
         return this;
+    }
+    toExponential(): string {
+        // FIXME
+        return "TODO HH.toExponential";
+    }
+    toFixed(digits?: number): string {
+        // FIXME
+        return "TODO HH.toFixed";
     }
     equals(quaternion: HH) {
         return (quaternion.x === this.x) && (quaternion.y === this.y) && (quaternion.z === this.z) && (quaternion.t === this.t);
@@ -410,10 +422,10 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         array[offset + 3] = this.t;
         return array;
     }
-    wedge(rhs: HH): HH {
-        return this.wedge2(this, rhs)
+    ext(rhs: HH): HH {
+        return this.ext2(this, rhs)
     }
-    wedge2(a: HH, b: HH): HH {
+    ext2(a: HH, b: HH): HH {
         return this
     }
     public static slerp(qa: HH, qb: HH, qm: HH, t: number): HH {

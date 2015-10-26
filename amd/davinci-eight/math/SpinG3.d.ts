@@ -58,6 +58,12 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      */
     add2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
+     * @method adj
+     * @return {number}
+     * @beta
+     */
+    adj(): SpinG3;
+    /**
      * @method arg
      * @return {number}
      */
@@ -78,9 +84,9 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      */
     conj(): SpinG3;
     lco(rhs: SpinorE3): SpinG3;
-    conL2(a: SpinorE3, b: SpinorE3): SpinG3;
+    lco2(a: SpinorE3, b: SpinorE3): SpinG3;
     rco(rhs: SpinorE3): SpinG3;
-    conR2(a: SpinorE3, b: SpinorE3): SpinG3;
+    rco2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
      * <p>
      * <code>this ⟼ copy(spinor)</code>
@@ -118,12 +124,12 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * <p>
      * <code>this ⟼ this / α</code>
      * </p>
-     * @method divideByScalar
+     * @method divByScalar
      * @param α {number}
      * @return {SpinG3} <code>this</code>
      * @chainable
      */
-    divideByScalar(α: number): SpinG3;
+    divByScalar(α: number): SpinG3;
     /**
      * <p>
      * <code>this ⟼ dual(v) = I * v</code>
@@ -252,7 +258,7 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @return {SpinG3} <code>this</code>
      * @chainable
      */
-    reverse(): SpinG3;
+    rev(): SpinG3;
     /**
      * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
      * The geometric formula for bivector reflection is B' = n * B * n.
@@ -264,7 +270,7 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
     reflect(n: VectorE3): SpinG3;
     /**
      * <p>
-     * <code>this = ⟼ rotor * this * reverse(rotor)</code>
+     * <code>this = ⟼ rotor * this * rev(rotor)</code>
      * </p>
      * @method rotate
      * @param rotor {SpinorE3}
@@ -304,8 +310,8 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @return {SpinG3} <code>this</code>
      */
     rotorFromGeneratorAngle(B: SpinorE3, θ: number): SpinG3;
-    align(rhs: SpinorE3): SpinG3;
-    align2(a: SpinorE3, b: SpinorE3): SpinG3;
+    scp(rhs: SpinorE3): SpinG3;
+    scp2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
      * <p>
      * <code>this ⟼ this * α</code>
@@ -315,6 +321,7 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @return {SpinG3} <code>this</code>
      */
     scale(α: number): SpinG3;
+    slerp(target: SpinorE3, α: number): SpinG3;
     /**
      * <p>
      * <code>this ⟼ this - s * α</code>
@@ -348,13 +355,15 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @return {SpinG3}
      */
     spinor(a: VectorE3, b: VectorE3): SpinG3;
+    toExponential(): string;
+    toFixed(digits?: number): string;
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.
      */
     toString(): string;
-    wedge(rhs: SpinorE3): SpinG3;
-    wedge2(a: SpinorE3, b: SpinorE3): SpinG3;
+    ext(rhs: SpinorE3): SpinG3;
+    ext2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
      * @method copy
      * @param spinor {SpinorE3}

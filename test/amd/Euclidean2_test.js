@@ -548,91 +548,91 @@ define([
       });
     });
 
-    it('Should implement wedge function', function() {
+    it('Should implement ext function', function() {
       var u = new Euclidean2(1, 0, 0, 0)
       var i = new Euclidean2(0, 1, 0, 0)
       var j = new Euclidean2(0, 0, 1, 0)
       var I = new Euclidean2(0, 0, 0, 1)
 
-      expect(u.wedge(u).coordinate(0)).toBe(1);
-      expect(u.wedge(u).coordinate(1)).toBe(0);
-      expect(u.wedge(u).coordinate(2)).toBe(0);
-      expect(u.wedge(u).coordinate(3)).toBe(0);
+      expect(u.ext(u).coordinate(0)).toBe(1);
+      expect(u.ext(u).coordinate(1)).toBe(0);
+      expect(u.ext(u).coordinate(2)).toBe(0);
+      expect(u.ext(u).coordinate(3)).toBe(0);
 
-      expect(u.wedge(i).coordinate(0)).toBe(0);
-      expect(u.wedge(i).coordinate(1)).toBe(1);
-      expect(u.wedge(i).coordinate(2)).toBe(0);
-      expect(u.wedge(i).coordinate(3)).toBe(0);
+      expect(u.ext(i).coordinate(0)).toBe(0);
+      expect(u.ext(i).coordinate(1)).toBe(1);
+      expect(u.ext(i).coordinate(2)).toBe(0);
+      expect(u.ext(i).coordinate(3)).toBe(0);
 
-      expect(u.wedge(j).coordinate(0)).toBe(0);
-      expect(u.wedge(j).coordinate(1)).toBe(0);
-      expect(u.wedge(j).coordinate(2)).toBe(1);
-      expect(u.wedge(j).coordinate(3)).toBe(0);
+      expect(u.ext(j).coordinate(0)).toBe(0);
+      expect(u.ext(j).coordinate(1)).toBe(0);
+      expect(u.ext(j).coordinate(2)).toBe(1);
+      expect(u.ext(j).coordinate(3)).toBe(0);
 
-      expect(u.wedge(I).coordinate(0)).toBe(0);
-      expect(u.wedge(I).coordinate(1)).toBe(0);
-      expect(u.wedge(I).coordinate(2)).toBe(0);
-      expect(u.wedge(I).coordinate(3)).toBe(1);
+      expect(u.ext(I).coordinate(0)).toBe(0);
+      expect(u.ext(I).coordinate(1)).toBe(0);
+      expect(u.ext(I).coordinate(2)).toBe(0);
+      expect(u.ext(I).coordinate(3)).toBe(1);
 
-      expect(i.wedge(u).coordinate(0)).toBe(0);
-      expect(i.wedge(u).coordinate(1)).toBe(1);
-      expect(i.wedge(u).coordinate(2)).toBe(0);
-      expect(i.wedge(u).coordinate(3)).toBe(0);
+      expect(i.ext(u).coordinate(0)).toBe(0);
+      expect(i.ext(u).coordinate(1)).toBe(1);
+      expect(i.ext(u).coordinate(2)).toBe(0);
+      expect(i.ext(u).coordinate(3)).toBe(0);
 
-      expect(i.wedge(i).coordinate(0)).toBe(0);
-      expect(i.wedge(i).coordinate(1)).toBe(0);
-      expect(i.wedge(i).coordinate(2)).toBe(0);
-      expect(i.wedge(i).coordinate(3)).toBe(0);
+      expect(i.ext(i).coordinate(0)).toBe(0);
+      expect(i.ext(i).coordinate(1)).toBe(0);
+      expect(i.ext(i).coordinate(2)).toBe(0);
+      expect(i.ext(i).coordinate(3)).toBe(0);
 
-      expect(i.wedge(j).coordinate(0)).toBe(0);
-      expect(i.wedge(j).coordinate(1)).toBe(0);
-      expect(i.wedge(j).coordinate(2)).toBe(0);
-      expect(i.wedge(j).coordinate(3)).toBe(1);
+      expect(i.ext(j).coordinate(0)).toBe(0);
+      expect(i.ext(j).coordinate(1)).toBe(0);
+      expect(i.ext(j).coordinate(2)).toBe(0);
+      expect(i.ext(j).coordinate(3)).toBe(1);
 
-      expect(i.wedge(I).coordinate(0)).toBe(0);
-      expect(i.wedge(I).coordinate(1)).toBe(0);
-      expect(i.wedge(I).coordinate(2)).toBe(0);
-      expect(i.wedge(I).coordinate(3)).toBe(0);
+      expect(i.ext(I).coordinate(0)).toBe(0);
+      expect(i.ext(I).coordinate(1)).toBe(0);
+      expect(i.ext(I).coordinate(2)).toBe(0);
+      expect(i.ext(I).coordinate(3)).toBe(0);
 
-      expect(j.wedge(u).coordinate(0)).toBe(0);
-      expect(j.wedge(u).coordinate(1)).toBe(0);
-      expect(j.wedge(u).coordinate(2)).toBe(1);
-      expect(j.wedge(u).coordinate(3)).toBe(0);
+      expect(j.ext(u).coordinate(0)).toBe(0);
+      expect(j.ext(u).coordinate(1)).toBe(0);
+      expect(j.ext(u).coordinate(2)).toBe(1);
+      expect(j.ext(u).coordinate(3)).toBe(0);
 
-      expect(j.wedge(i).coordinate(0)).toBe(0);
-      expect(j.wedge(i).coordinate(1)).toBe(0);
-      expect(j.wedge(i).coordinate(2)).toBe(0);
-      expect(j.wedge(i).coordinate(3)).toBe(-1);
+      expect(j.ext(i).coordinate(0)).toBe(0);
+      expect(j.ext(i).coordinate(1)).toBe(0);
+      expect(j.ext(i).coordinate(2)).toBe(0);
+      expect(j.ext(i).coordinate(3)).toBe(-1);
 
-      expect(j.wedge(j).coordinate(0)).toBe(0);
-      expect(j.wedge(j).coordinate(1)).toBe(0);
-      expect(j.wedge(j).coordinate(2)).toBe(0);
-      expect(j.wedge(j).coordinate(3)).toBe(0);
+      expect(j.ext(j).coordinate(0)).toBe(0);
+      expect(j.ext(j).coordinate(1)).toBe(0);
+      expect(j.ext(j).coordinate(2)).toBe(0);
+      expect(j.ext(j).coordinate(3)).toBe(0);
 
-      expect(j.wedge(I).coordinate(0)).toBe(0);
-      expect(j.wedge(I).coordinate(1)).toBe(0);
-      expect(j.wedge(I).coordinate(2)).toBe(0);
-      expect(j.wedge(I).coordinate(3)).toBe(0);
+      expect(j.ext(I).coordinate(0)).toBe(0);
+      expect(j.ext(I).coordinate(1)).toBe(0);
+      expect(j.ext(I).coordinate(2)).toBe(0);
+      expect(j.ext(I).coordinate(3)).toBe(0);
 
-      expect(I.wedge(u).coordinate(0)).toBe(0);
-      expect(I.wedge(u).coordinate(1)).toBe(0);
-      expect(I.wedge(u).coordinate(2)).toBe(0);
-      expect(I.wedge(u).coordinate(3)).toBe(1);
+      expect(I.ext(u).coordinate(0)).toBe(0);
+      expect(I.ext(u).coordinate(1)).toBe(0);
+      expect(I.ext(u).coordinate(2)).toBe(0);
+      expect(I.ext(u).coordinate(3)).toBe(1);
 
-      expect(I.wedge(i).coordinate(0)).toBe(0);
-      expect(I.wedge(i).coordinate(1)).toBe(0);
-      expect(I.wedge(i).coordinate(2)).toBe(0);
-      expect(I.wedge(i).coordinate(3)).toBe(0);
+      expect(I.ext(i).coordinate(0)).toBe(0);
+      expect(I.ext(i).coordinate(1)).toBe(0);
+      expect(I.ext(i).coordinate(2)).toBe(0);
+      expect(I.ext(i).coordinate(3)).toBe(0);
 
-      expect(I.wedge(j).coordinate(0)).toBe(0);
-      expect(I.wedge(j).coordinate(1)).toBe(0);
-      expect(I.wedge(j).coordinate(2)).toBe(0);
-      expect(I.wedge(j).coordinate(3)).toBe(0);
+      expect(I.ext(j).coordinate(0)).toBe(0);
+      expect(I.ext(j).coordinate(1)).toBe(0);
+      expect(I.ext(j).coordinate(2)).toBe(0);
+      expect(I.ext(j).coordinate(3)).toBe(0);
 
-      expect(I.wedge(I).coordinate(0)).toBe(0);
-      expect(I.wedge(I).coordinate(1)).toBe(0);
-      expect(I.wedge(I).coordinate(2)).toBe(0);
-      expect(I.wedge(I).coordinate(3)).toBe(0);
+      expect(I.ext(I).coordinate(0)).toBe(0);
+      expect(I.ext(I).coordinate(1)).toBe(0);
+      expect(I.ext(I).coordinate(2)).toBe(0);
+      expect(I.ext(I).coordinate(3)).toBe(0);
     });
 
     it('Should implement lco function', function() {

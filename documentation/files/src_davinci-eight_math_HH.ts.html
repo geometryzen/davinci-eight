@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -274,6 +274,10 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3, VectorE3&
         return this
     }
 
+    adj(): HH {
+        throw new Error(&#x27;TODO: HH.adj&#x27;)
+    }
+
     /**
      * @method arg
      * @return {number}
@@ -290,15 +294,15 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3, VectorE3&
         return new HH(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0))
     }
     lco(rhs: HH): HH {
-        return this.conL2(this, rhs)
+        return this.lco2(this, rhs)
     }
-    conL2(a: HH, b: HH): HH {
+    lco2(a: HH, b: HH): HH {
         return this
     }
     rco(rhs: HH): HH {
-        return this.conR2(this, rhs)
+        return this.rco2(this, rhs)
     }
-    conR2(a: HH, b: HH): HH {
+    rco2(a: HH, b: HH): HH {
         return this
     }
     conj(): HH {
@@ -346,7 +350,7 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3, VectorE3&
         this.t = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
         return this;
     }
-    divideByScalar(scalar: number) {
+    divByScalar(scalar: number) {
         return this;
     }
     dot(v: HH): number {
@@ -454,7 +458,7 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3, VectorE3&
         // FIXME: What does this mean?
         throw new Error();
     }
-    reverse(): HH {
+    rev(): HH {
         this.x *= -1
         this.y *= -1
         this.z *= -1
@@ -598,10 +602,10 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3, VectorE3&
         this.z = (z * ratioA + this.z * ratioB);
         return this;
     }
-    align(rhs: HH): HH {
-        return this.align2(this, rhs)
+    scp(rhs: HH): HH {
+        return this.scp2(this, rhs)
     }
-    align2(a: HH, b: HH): HH {
+    scp2(a: HH, b: HH): HH {
         return this
     }
     sub(q: HH, α: number = 1) {
@@ -617,6 +621,14 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3, VectorE3&
         this.z = a.z - b.z
         this.t = a.t - b.t
         return this;
+    }
+    toExponential(): string {
+        // FIXME
+        return &quot;TODO HH.toExponential&quot;;
+    }
+    toFixed(digits?: number): string {
+        // FIXME
+        return &quot;TODO HH.toFixed&quot;;
     }
     equals(quaternion: HH) {
         return (quaternion.x === this.x) &amp;&amp; (quaternion.y === this.y) &amp;&amp; (quaternion.z === this.z) &amp;&amp; (quaternion.t === this.t);
@@ -635,10 +647,10 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3, VectorE3&
         array[offset + 3] = this.t;
         return array;
     }
-    wedge(rhs: HH): HH {
-        return this.wedge2(this, rhs)
+    ext(rhs: HH): HH {
+        return this.ext2(this, rhs)
     }
-    wedge2(a: HH, b: HH): HH {
+    ext2(a: HH, b: HH): HH {
         return this
     }
     public static slerp(qa: HH, qb: HH, qm: HH, t: number): HH {

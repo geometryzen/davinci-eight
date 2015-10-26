@@ -87,7 +87,7 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
         this.y *= s;
         return this;
     }
-    divideByScalar(scalar: number) {
+    divByScalar(scalar: number) {
         if (scalar !== 0) {
             var invScalar = 1 / scalar;
             this.x *= invScalar;
@@ -157,7 +157,7 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
         return Math.sqrt(this.quaditude());
     }
     normalize() {
-        return this.divideByScalar(this.magnitude());
+        return this.divByScalar(this.magnitude());
     }
     quaditude(): number {
         return this.x * this.x + this.y * this.y;
@@ -211,6 +211,15 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
     }
     equals(v: VectorE2) {
         return ((v.x === this.x) && (v.y === this.y));
+    }
+    slerp(v: VectorE2, α: number) {
+        return this;
+    }
+    toExponential(): string {
+        return "TODO: R2.toExponential"
+    }
+    toFixed(digits?: number): string {
+        return "TODO: R2.toString"
     }
     fromArray(array: number[], offset: number = 0) {
         this.x = array[offset];

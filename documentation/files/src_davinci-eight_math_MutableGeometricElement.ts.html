@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -231,8 +231,8 @@ import MutableLinearElement = require(&#x27;../math/MutableLinearElement&#x27;);
  * It is not part of the documented API.
  */
 interface MutableGeometricElement&lt;I, M, S, V, D&gt; extends GeometricElement&lt;I, M, S, V, D&gt;, MutableLinearElement&lt;I, M, S, V&gt; {
-    conL2(a: I, b: I): M;
-    conR2(a: I, b: I): M;
+    lco2(a: I, b: I): M;
+    rco2(a: I, b: I): M;
     copySpinor(spinor: S): M;
     copyVector(vector: V): M;
     div2(a: I, b: I): M;
@@ -240,12 +240,12 @@ interface MutableGeometricElement&lt;I, M, S, V, D&gt; extends GeometricElement&
     normalize(): void;
     rotor(b: V, a: V): M;
     rotorFromGeneratorAngle(B: S, θ: number): M;
-    align2(a: I, b: I): M;
+    scp2(a: I, b: I): M;
     /**
-     * The geometric product of the vectors.
+     * The geometric product of the vectors. mulVector2?
      */
     spinor(a: V, b: V): M;
-    wedge2(a: I, b: I): M;
+    ext2(a: I, b: I): M;
 }
 
 export = MutableGeometricElement;

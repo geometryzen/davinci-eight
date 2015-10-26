@@ -322,7 +322,7 @@ class Unit {
             return div(other, this);
         }
         else if (typeof other === 'number') {
-            return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
+            return new Unit(other / this.scale, this.dimensions.neg(), this.labels);
         }
         else {
             return;
@@ -334,8 +334,9 @@ class Unit {
         return new Unit(Math.pow(this.scale, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
     }
 
+    // FIXME: Rename inverse
     inverse(): Unit {
-        return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
+        return new Unit(1 / this.scale, this.dimensions.neg(), this.labels);
     }
 
     isUnity(): boolean {

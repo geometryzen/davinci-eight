@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -393,11 +393,12 @@ class Dimensions {
     }
     /**
      * Computes the inverse by multiplying all exponents by &lt;code&gt;-1&lt;/code&gt;.
-     * @method negative
+     * @method neg
      * @return {Dimensions}
      */
-    negative(): Dimensions {
-        return new Dimensions(this.M.negative(), this.L.negative(), this.T.negative(), this.Q.negative(), this.temperature.negative(), this.amount.negative(), this.intensity.negative());
+    // FIXME: Probably should call the outer method inv because it is the multiplicative inverse.
+    neg(): Dimensions {
+        return new Dimensions(this.M.neg(), this.L.neg(), this.T.neg(), this.Q.neg(), this.temperature.neg(), this.amount.neg(), this.intensity.neg());
     }
     /**
      * Creates a representation of this &lt;code&gt;Dimensions&lt;/code&gt; instance.

@@ -101,7 +101,7 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
         this.w = v.w;
         return this;
     }
-    divideByScalar(α: number) {
+    divByScalar(α: number) {
         this.x /= α;
         this.y /= α;
         this.z /= α;
@@ -141,6 +141,9 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
         // TODO
         return this;
     }
+    slerp(target: VectorE4, α: number) {
+        return this;
+    }
     sub(v: VectorE4, α: number) {
         this.x -= v.x * α
         this.y -= v.y * α
@@ -154,6 +157,12 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
         this.z = a.z - b.z
         this.w = a.w - b.w
         return this;
+    }
+    toExponential(): string {
+        return "TODO R4.toExponential"
+    }
+    toFixed(digits?: number): string {
+        return "TODO R4.toFixed"
     }
 }
 

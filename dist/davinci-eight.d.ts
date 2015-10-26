@@ -423,8 +423,70 @@ declare module EIGHT {
      * A rational number.
      */
     class QQ {
+
+        /**
+         * The numerator.
+         * @property numer
+         * @type {number}
+         */
         numer: number;
+
+        /**
+         * The denominator.
+         * @property denom
+         * @type {number}
+         */
         denom: number;
+
+        /**
+         * Constructs a rational number from an ordered pair of integers.
+         * @param numer {number} The numerator.
+         * @param denom {number} The denominator.
+         */
+        constructor(numer: number, denom: number);
+
+        /**
+         * Computes the multiplicative inverse of this rational number.
+         * @method inv
+         * @return {QQ}
+         */
+        inv(): QQ;
+
+        /**
+         * Determines whether this rational number is the multiplicative identity (1).
+         */
+        isOne(): boolean;
+
+        /**
+         * Determines whether this rational number is the additive identity (0).
+         */
+        isZero(): boolean;
+
+        /**
+         * Computes the additive inverse of this rational number.
+         * @method neg
+         * @return {QQ}
+         */
+        neg(): QQ;
+
+        static MINUS_ONE: QQ;
+
+        /**
+         * The multiplicative identity (1) for rational numbers.
+         * @property ONE
+         * @type {QQ}
+         * @static
+         */
+        static ONE: QQ;
+        static TWO: QQ;
+
+        /**
+         * The additive identity (0) for rational numbers.
+         * @property ZERO
+         * @type {QQ}
+         * @static
+         */
+        static ZERO: QQ;
     }
 
     /**
@@ -704,13 +766,13 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ a << b</code>
          * </p>
-         * @method conL2
+         * @method lco2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        conL2(a: GeometricE2, b: GeometricE2): G2;
+        lco2(a: GeometricE2, b: GeometricE2): G2;
         /**
          * <p>
          * <code>this ⟼ this >> m</code>
@@ -725,13 +787,13 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ a >> b</code>
          * </p>
-         * @method conR2
+         * @method rco2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        conR2(a: GeometricE2, b: GeometricE2): G2;
+        rco2(a: GeometricE2, b: GeometricE2): G2;
         /**
          * <p>
          * <code>this ⟼ copy(M)</code>
@@ -776,12 +838,12 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        divideByScalar(α: number): G2;
+        divByScalar(α: number): G2;
         /**
          * <p>
          * <code>this ⟼ a / b</code>
@@ -940,16 +1002,16 @@ declare module EIGHT {
         reflect(n: VectorE2): G2;
         /**
          * <p>
-         * <code>this ⟼ reverse(this)</code>
+         * <code>this ⟼ rev(this)</code>
          * </p>
          * @method reverse
          * @return {G2} <code>this</code>
          * @chainable
          */
-        reverse(): G2;
+        rev(): G2;
         /**
          * <p>
-         * <code>this ⟼ R * this * reverse(R)</code>
+         * <code>this ⟼ R * this * rev(R)</code>
          * </p>
          * @method rotate
          * @param R {SpinorE2}
@@ -982,25 +1044,25 @@ declare module EIGHT {
         rotorFromGeneratorAngle(B: SpinorE2, θ: number): G2;
         /**
          * <p>
-         * <code>this ⟼ align(this, m)</code>
+         * <code>this ⟼ scp(this, m)</code>
          * </p>
          * @method align
          * @param m {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        align(m: GeometricE2): G2;
+        scp(m: GeometricE2): G2;
         /**
          * <p>
-         * <code>this ⟼ align(a, b)</code>
+         * <code>this ⟼ scp(a, b)</code>
          * </p>
-         * @method align2
+         * @method scp2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        align2(a: GeometricE2, b: GeometricE2): G2;
+        scp2(a: GeometricE2, b: GeometricE2): G2;
         /**
          * <p>
          * <code>this ⟼ this * α</code>
@@ -1064,18 +1126,18 @@ declare module EIGHT {
          * @return {G2} <code>this</code>
          * @chainable
          */
-        wedge(m: GeometricE2): G2;
+        ext(m: GeometricE2): G2;
         /**
          * <p>
          * <code>this ⟼ a ^ b</code>
          * </p>
-         * @method wedge2
+         * @method ext2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        wedge2(a: GeometricE2, b: GeometricE2): G2;
+        ext2(a: GeometricE2, b: GeometricE2): G2;
     
         /**
          * The identity element for addition.
@@ -1356,12 +1418,12 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        divideByScalar(α: number): G3;
+        divByScalar(α: number): G3;
 
         /**
          * <p>
@@ -1432,13 +1494,13 @@ declare module EIGHT {
 
         /**
          * <p>
-         * <code>this ⟼ reverse(this)</code>
+         * <code>this ⟼ rev(this)</code>
          * </p>
          * @method reverse
          * @return {G3} <code>this</code>
          * @chainable
          */
-        reverse(): G3;
+        rev(): G3;
 
         /**
          * <p>
@@ -1460,7 +1522,7 @@ declare module EIGHT {
         reflect(n: VectorE3): G3;
         /**
          * <p>
-         * <code>this ⟼ R * this * reverse(R)</code>
+         * <code>this ⟼ R * this * rev(R)</code>
          * </p>
          * @method rotate
          * @param R {SpinorE3}
@@ -1578,7 +1640,7 @@ declare module EIGHT {
          */
         copy(spinor: SpinorE3): SpinG3;
         diff(a: SpinorE3, b: SpinorE3): SpinG3;
-        divideByScalar(scalar: number): SpinG3;
+        divByScalar(scalar: number): SpinG3;
         /**
          * this ⟼ dual(v) = I * v
          */
@@ -1606,10 +1668,10 @@ declare module EIGHT {
          */
         mul2(a: SpinorE3, b: SpinorE3): SpinG3;
         quaditude(): number;
-        reverse(): SpinG3;
+        rev(): SpinG3;
         reflect(n: VectorE3): SpinG3;
         /**
-         * this ⟼ R * this * reverse(R)
+         * this ⟼ R * this * rev(R)
          */
         rotate(R: SpinorE3): SpinG3;
         /**
@@ -1674,7 +1736,7 @@ declare module EIGHT {
         cross2(a: VectorE3, b: VectorE3): R3;
         diff(a: VectorE3, b: VectorE3): R3;
         distanceTo(position: VectorE3): number;
-        divideByScalar(rhs: number): R3;
+        divByScalar(rhs: number): R3;
         magnitude(): number;
         lerp(target: VectorE3, alpha: number): R3;
         scale(rhs: number): R3;

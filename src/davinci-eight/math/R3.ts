@@ -198,7 +198,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
     }
     /**
      * <p>
-     * <code>this ⟼ R * this * reverse(R)</code>
+     * <code>this ⟼ R * this * rev(R)</code>
      * </p>
      * @method rotate
      * @param R {SpinorE3}
@@ -319,12 +319,12 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
      * <p>
      * <code>this ⟼ this / α</code>
      * </p>
-     * @method divideByScalar
+     * @method divByScalar
      * @param α {number}
      * @return {R3} <code>this</code>
      * @chainable
      */
-    divideByScalar(α: number) {
+    divByScalar(α: number) {
         mustBeNumber('α', α);
         if (α !== 0) {
             let invScalar = 1 / α;
@@ -419,7 +419,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
      * @chainable
      */
     normalize(): R3 {
-        return this.divideByScalar(this.magnitude());
+        return this.divByScalar(this.magnitude());
     }
     /**
      * <p>
@@ -512,6 +512,13 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
         this.z = z;
         return this;
     }
+
+    slerp(target: VectorE3, α: number) {
+        mustBeObject('target', target)
+        mustBeNumber('α', α)
+        return this;
+    }
+
     /**
      * <p>
      * <code>this ⟼ this - v</code>
@@ -547,6 +554,12 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
         this.y = a.y - b.y
         this.z = a.z - b.z
         return this
+    }
+    toExponential(): string {
+        return "TODO R2.toExponential"
+    }
+    toFixed(digits?: number): string {
+        return "TODO R2.toFixed"
     }
     /**
      * @method toString

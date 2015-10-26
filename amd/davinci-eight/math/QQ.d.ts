@@ -1,7 +1,8 @@
+import DivisionRingOperators = require('../math/DivisionRingOperators');
 /**
  * @class QQ
  */
-declare class QQ {
+declare class QQ implements DivisionRingOperators<QQ> {
     /**
      * @property _numer
      * @type {number}
@@ -64,16 +65,27 @@ declare class QQ {
      */
     div(rhs: any): QQ;
     /**
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean;
+    /**
      * @method isZero
      * @return {boolean}
      */
     isZero(): boolean;
     /**
-     * Computes the additive inverse of this rational.
-     * @method negative
+     * Computes the multiplicative inverse of this rational number.
+     * @method inv
      * @return {QQ}
      */
-    negative(): QQ;
+    inv(): QQ;
+    /**
+     * Computes the additive inverse of this rational number.
+     * @method neg
+     * @return {QQ}
+     */
+    neg(): QQ;
     /**
      * @method equals
      * @param other {QQ}
@@ -84,6 +96,74 @@ declare class QQ {
      * Computes a non-normative string representation of this rational.
      */
     toString(): string;
+    /**
+     * @method __add__
+     * @param rhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __add__(rhs: any): QQ;
+    /**
+     * @method __radd__
+     * @param lhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __radd__(lhs: any): QQ;
+    /**
+     * @method __sub__
+     * @param rhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __sub__(rhs: any): QQ;
+    /**
+     * @method __rsub__
+     * @param lhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __rsub__(lhs: any): QQ;
+    /**
+     * @method __mul__
+     * @param rhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __mul__(rhs: any): QQ;
+    /**
+     * @method __rmul__
+     * @param lhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __rmul__(lhs: any): QQ;
+    /**
+     * @method __div__
+     * @param div {any}
+     * @return {QQ}
+     * @private
+     */
+    __div__(rhs: any): QQ;
+    /**
+     * @method __rdiv__
+     * @param lhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __rdiv__(lhs: any): QQ;
+    /**
+     * @method __pos__
+     * @return {QQ}
+     * @private
+     */
+    __pos__(): QQ;
+    /**
+     * @method __neg__
+     * @return {QQ}
+     * @private
+     */
+    __neg__(): QQ;
     /**
      * @property ONE
      * @type {QQ}

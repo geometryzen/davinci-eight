@@ -116,7 +116,7 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
     reflect(n: VectorE3): R3;
     /**
      * <p>
-     * <code>this ⟼ R * this * reverse(R)</code>
+     * <code>this ⟼ R * this * rev(R)</code>
      * </p>
      * @method rotate
      * @param R {SpinorE3}
@@ -176,12 +176,12 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      * <p>
      * <code>this ⟼ this / α</code>
      * </p>
-     * @method divideByScalar
+     * @method divByScalar
      * @param α {number}
      * @return {R3} <code>this</code>
      * @chainable
      */
-    divideByScalar(α: number): R3;
+    divByScalar(α: number): R3;
     /**
      * @method dot
      * @param v {VectorE3}
@@ -292,6 +292,7 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      * @deprecated
      */
     setZ(z: number): R3;
+    slerp(target: VectorE3, α: number): R3;
     /**
      * <p>
      * <code>this ⟼ this - v</code>
@@ -314,6 +315,8 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      * @chainable
      */
     sub2(a: VectorE3, b: VectorE3): R3;
+    toExponential(): string;
+    toFixed(digits?: number): string;
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.

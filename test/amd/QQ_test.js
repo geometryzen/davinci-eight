@@ -76,17 +76,17 @@ define(['davinci-eight/math/QQ'], function(QQ)
               expect(y.numer).toBe(2);
               return expect(y.denom).toBe(1);
             });
-            it("negative() should change the sign of the numerator", function() {
+            it("neg() should change the sign of the numerator", function() {
               var n, x;
               x = new QQ(1, 3);
-              n = x.negative();
+              n = x.neg();
               expect(x.numer).toBe(+1);
               return expect(n.numer).toBe(-1);
             });
-            it("negative() should leave the denominator unchanged", function() {
+            it("neg() should leave the denominator unchanged", function() {
               var n, x;
               x = new QQ(1, 3);
-              n = x.negative();
+              n = x.neg();
               expect(x.denom).toBe(+3);
               return expect(n.denom).toBe(+3);
             });

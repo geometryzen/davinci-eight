@@ -39,6 +39,9 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z = a.z + b.z;
             return this;
         };
+        HH.prototype.adj = function () {
+            throw new Error('TODO: HH.adj');
+        };
         /**
          * @method arg
          * @return {number}
@@ -54,15 +57,15 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             return new HH(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0));
         };
         HH.prototype.lco = function (rhs) {
-            return this.conL2(this, rhs);
+            return this.lco2(this, rhs);
         };
-        HH.prototype.conL2 = function (a, b) {
+        HH.prototype.lco2 = function (a, b) {
             return this;
         };
         HH.prototype.rco = function (rhs) {
-            return this.conR2(this, rhs);
+            return this.rco2(this, rhs);
         };
-        HH.prototype.conR2 = function (a, b) {
+        HH.prototype.rco2 = function (a, b) {
             return this;
         };
         HH.prototype.conj = function () {
@@ -110,7 +113,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.t = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
             return this;
         };
-        HH.prototype.divideByScalar = function (scalar) {
+        HH.prototype.divByScalar = function (scalar) {
             return this;
         };
         HH.prototype.dot = function (v) {
@@ -217,7 +220,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             // FIXME: What does this mean?
             throw new Error();
         };
-        HH.prototype.reverse = function () {
+        HH.prototype.rev = function () {
             this.x *= -1;
             this.y *= -1;
             this.z *= -1;
@@ -346,10 +349,10 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z = (z * ratioA + this.z * ratioB);
             return this;
         };
-        HH.prototype.align = function (rhs) {
-            return this.align2(this, rhs);
+        HH.prototype.scp = function (rhs) {
+            return this.scp2(this, rhs);
         };
-        HH.prototype.align2 = function (a, b) {
+        HH.prototype.scp2 = function (a, b) {
             return this;
         };
         HH.prototype.sub = function (q, α) {
@@ -366,6 +369,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z = a.z - b.z;
             this.t = a.t - b.t;
             return this;
+        };
+        HH.prototype.toExponential = function () {
+            // FIXME
+            return "TODO HH.toExponential";
+        };
+        HH.prototype.toFixed = function (digits) {
+            // FIXME
+            return "TODO HH.toFixed";
         };
         HH.prototype.equals = function (quaternion) {
             return (quaternion.x === this.x) && (quaternion.y === this.y) && (quaternion.z === this.z) && (quaternion.t === this.t);
@@ -387,10 +398,10 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             array[offset + 3] = this.t;
             return array;
         };
-        HH.prototype.wedge = function (rhs) {
-            return this.wedge2(this, rhs);
+        HH.prototype.ext = function (rhs) {
+            return this.ext2(this, rhs);
         };
-        HH.prototype.wedge2 = function (a, b) {
+        HH.prototype.ext2 = function (a, b) {
             return this;
         };
         HH.slerp = function (qa, qb, qm, t) {

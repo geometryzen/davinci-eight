@@ -121,10 +121,10 @@ declare class Dimensions {
     isZero(): boolean;
     /**
      * Computes the inverse by multiplying all exponents by <code>-1</code>.
-     * @method negative
+     * @method neg
      * @return {Dimensions}
      */
-    negative(): Dimensions;
+    neg(): Dimensions;
     /**
      * Creates a representation of this <code>Dimensions</code> instance.
      * @method toString

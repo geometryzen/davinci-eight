@@ -178,6 +178,15 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
         return divide(this, rhs);
     }
 
+    /**
+     * @method divByScalar
+     * @param α {number}
+     * @return {CC}
+     */
+    divByScalar(α: number): CC {
+        return new CC(this.x / α, this.y / α, this.uom)
+    }
+
     __div__(other: any): CC {
         if (other instanceof CC) {
             return divide(this, other);
@@ -200,7 +209,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
      * @param rhs {CC}
      * @return {CC}
      */
-    align(rhs: CC): CC {
+    scp(rhs: CC): CC {
         return new CC(this.x * rhs.x - this.y * rhs.y, 0, Unit.mul(this.uom, this.uom))
     }
 
@@ -216,7 +225,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
      * @param rhs {CC}
      * @return {CC}
      */
-    wedge(rhs: CC): CC {
+    ext(rhs: CC): CC {
         throw new Error('wedge');
     }
 
@@ -226,6 +235,10 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
 
     __rwedge__(other: any): CC {
         throw new Error("")
+    }
+
+    lerp(target: CC, α: number): CC {
+        return this
     }
 
     /**
@@ -290,6 +303,43 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
     }
 
     /**
+     * Computes the multiplicative inverse of this complex number.
+     * @method inv
+     * @return {CC}
+     */
+    inv(): CC {
+        let x = this.x
+        let y = this.y
+        let d = x * x + y * y
+        return new CC(this.x / d, -this.y / d, this.uom ? this.uom.inverse() : void 0)
+    }
+
+    /**
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean {
+        return this.x === 1 && this.y === 0
+    }
+
+    /**
+     * @method isZero
+     * @return {boolean}
+     */
+    isZero(): boolean {
+        return this.x === 0 && this.y === 0
+    }
+
+    /**
+     * Computes the additive inverse of this complex number.
+     * @method neg
+     * @return {CC}
+     */
+    neg(): CC {
+        return new CC(-this.x, -this.y, this.uom)
+    }
+
+    /**
      * @method norm
      * @return {CC}
      */
@@ -307,6 +357,15 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
         var x = this.x;
         var y = this.y;
         return new CC(x * x + y * y, 0, Unit.mul(this.uom, this.uom));
+    }
+
+    /**
+     * @method scale
+     * @param α {number}
+     * @return {CC}
+     */
+    scale(α: number): CC {
+        return new CC(α * this.x, α * this.y, this.uom)
     }
 
     /**
@@ -329,6 +388,10 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
         var x = this.x;
         var y = this.y;
         return new CC(sinh(x) * cos(y), cosh(x) * sin(y));
+    }
+
+    slerp(target: CC, α: number): CC {
+        return this
     }
 
     /**
@@ -429,7 +492,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
      * @private
      */
     __neg__(): CC {
-        return new CC(-this.x, -this.y)
+        return this.neg()
     }
 
     /**

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -223,17 +223,16 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-
+import AbelianOperators = require(&#x27;../math/AbelianOperators&#x27;)
 /**
- *
+ * Special methods for operators on elements of linear spaces.
+ * This is provided for interface consistency.
+ * It may not adhere to strict mathematical definitions.
  */
-interface LinearOperators&lt;T&gt; {
-    __add__(other: number | T): T
-    __radd__(other: number | T): T
-    __sub__(other: number | T): T
-    __rsub__(other: number | T): T
-    __pos__(): T
-    __neg__(): T
+interface LinearOperators&lt;T&gt; extends AbelianOperators&lt;T&gt; {
+    /**
+     * Unary ~
+     */
     __tilde__(): T
 }
 

@@ -126,6 +126,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return this;
         };
         /**
+         * @method adj
+         * @return {number}
+         * @beta
+         */
+        SpinG3.prototype.adj = function () {
+            throw new Error('TODO: SpinG3.adj');
+        };
+        /**
          * @method arg
          * @return {number}
          */
@@ -155,17 +163,17 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return this;
         };
         SpinG3.prototype.lco = function (rhs) {
-            return this.conL2(this, rhs);
+            return this.lco2(this, rhs);
         };
-        SpinG3.prototype.conL2 = function (a, b) {
+        SpinG3.prototype.lco2 = function (a, b) {
             // FIXME: How to leverage? Maybe break up? Don't want performance hit.
             // scpG3(a, b, this)
             return this;
         };
         SpinG3.prototype.rco = function (rhs) {
-            return this.conR2(this, rhs);
+            return this.rco2(this, rhs);
         };
-        SpinG3.prototype.conR2 = function (a, b) {
+        SpinG3.prototype.rco2 = function (a, b) {
             // FIXME: How to leverage? Maybe break up? Don't want performance hit.
             // scpG3(a, b, this)
             return this;
@@ -242,12 +250,12 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {SpinG3} <code>this</code>
          * @chainable
          */
-        SpinG3.prototype.divideByScalar = function (α) {
+        SpinG3.prototype.divByScalar = function (α) {
             this.yz /= α;
             this.zx /= α;
             this.xy /= α;
@@ -305,7 +313,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          */
         SpinG3.prototype.inv = function () {
             this.conj();
-            this.divideByScalar(this.quaditude());
+            this.divByScalar(this.quaditude());
             return this;
         };
         /**
@@ -488,7 +496,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @return {SpinG3} <code>this</code>
          * @chainable
          */
-        SpinG3.prototype.reverse = function () {
+        SpinG3.prototype.rev = function () {
             this.yz *= -1;
             this.zx *= -1;
             this.xy *= -1;
@@ -520,7 +528,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
-         * <code>this = ⟼ rotor * this * reverse(rotor)</code>
+         * <code>this = ⟼ rotor * this * rev(rotor)</code>
          * </p>
          * @method rotate
          * @param rotor {SpinorE3}
@@ -546,7 +554,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.spinor(b, a);
             this.w += 1;
             var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
-            this.divideByScalar(denom);
+            this.divByScalar(denom);
             return this;
         };
         /**
@@ -585,10 +593,10 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.w = cos(φ);
             return this;
         };
-        SpinG3.prototype.align = function (rhs) {
-            return this.align2(this, rhs);
+        SpinG3.prototype.scp = function (rhs) {
+            return this.scp2(this, rhs);
         };
-        SpinG3.prototype.align2 = function (a, b) {
+        SpinG3.prototype.scp2 = function (a, b) {
             // FIXME: How to leverage? Maybe break up? Don't want performance hit.
             // scpG3(a, b, this)
             return this;
@@ -607,6 +615,16 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.zx *= α;
             this.xy *= α;
             this.w *= α;
+            return this;
+        };
+        SpinG3.prototype.slerp = function (target, α) {
+            var R2 = SpinG3.copy(target);
+            var R1 = this.clone();
+            var R = R2.mul(R1.inv());
+            R.log();
+            R.scale(α);
+            R.exp();
+            this.copy(R);
             return this;
         };
         /**
@@ -669,6 +687,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
             return this;
         };
+        SpinG3.prototype.toExponential = function () {
+            // FIXME: Do like others.
+            return this.toString();
+        };
+        SpinG3.prototype.toFixed = function (digits) {
+            // FIXME: Do like others.
+            return this.toString();
+        };
         /**
          * @method toString
          * @return {string} A non-normative string representation of the target.
@@ -676,10 +702,10 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         SpinG3.prototype.toString = function () {
             return "SpinG3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
         };
-        SpinG3.prototype.wedge = function (rhs) {
-            return this.wedge2(this, rhs);
+        SpinG3.prototype.ext = function (rhs) {
+            return this.ext2(this, rhs);
         };
-        SpinG3.prototype.wedge2 = function (a, b) {
+        SpinG3.prototype.ext2 = function (a, b) {
             // FIXME: How to leverage? Maybe break up? Don't want performance hit.
             // scpG3(a, b, this)
             return this;

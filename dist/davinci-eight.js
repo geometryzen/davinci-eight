@@ -2358,18 +2358,33 @@ define('davinci-eight/math/QQ',["require", "exports", '../checks/mustBeInteger',
             }
         };
         /**
+         * @method isOne
+         * @return {boolean}
+         */
+        QQ.prototype.isOne = function () {
+            return this._numer === 1 && this._denom === 1;
+        };
+        /**
          * @method isZero
          * @return {boolean}
          */
         QQ.prototype.isZero = function () {
-            return this._numer === 0;
+            return this._numer === 0 && this._denom === 1;
         };
         /**
-         * Computes the additive inverse of this rational.
-         * @method negative
+         * Computes the multiplicative inverse of this rational number.
+         * @method inv
          * @return {QQ}
          */
-        QQ.prototype.negative = function () {
+        QQ.prototype.inv = function () {
+            return new QQ(this._denom, this._numer);
+        };
+        /**
+         * Computes the additive inverse of this rational number.
+         * @method neg
+         * @return {QQ}
+         */
+        QQ.prototype.neg = function () {
             return new QQ(-this._numer, this._denom);
         };
         /**
@@ -2390,6 +2405,134 @@ define('davinci-eight/math/QQ',["require", "exports", '../checks/mustBeInteger',
          */
         QQ.prototype.toString = function () {
             return "" + this._numer + "/" + this._denom + "";
+        };
+        /**
+         * @method __add__
+         * @param rhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__add__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.add(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __radd__
+         * @param lhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.add(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __sub__
+         * @param rhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.sub(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rsub__
+         * @param lhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.sub(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __mul__
+         * @param rhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.mul(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rmul__
+         * @param lhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.mul(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __div__
+         * @param div {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__div__ = function (rhs) {
+            if (rhs instanceof QQ) {
+                return this.div(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof QQ) {
+                return lhs.div(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __pos__
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__pos__ = function () {
+            return this;
+        };
+        /**
+         * @method __neg__
+         * @return {QQ}
+         * @private
+         */
+        QQ.prototype.__neg__ = function () {
+            return this.neg();
         };
         /**
          * @property ONE
@@ -2544,11 +2687,12 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/QQ'], fun
         };
         /**
          * Computes the inverse by multiplying all exponents by <code>-1</code>.
-         * @method negative
+         * @method neg
          * @return {Dimensions}
          */
-        Dimensions.prototype.negative = function () {
-            return new Dimensions(this.M.negative(), this.L.negative(), this.T.negative(), this.Q.negative(), this.temperature.negative(), this.amount.negative(), this.intensity.negative());
+        // FIXME: Probably should call the outer method inv because it is the multiplicative inverse.
+        Dimensions.prototype.neg = function () {
+            return new Dimensions(this.M.neg(), this.L.neg(), this.T.neg(), this.Q.neg(), this.temperature.neg(), this.amount.neg(), this.intensity.neg());
         };
         /**
          * Creates a representation of this <code>Dimensions</code> instance.
@@ -2933,7 +3077,7 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
                 return div(other, this);
             }
             else if (typeof other === 'number') {
-                return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
+                return new Unit(other / this.scale, this.dimensions.neg(), this.labels);
             }
             else {
                 return;
@@ -2943,8 +3087,9 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
             assertArgRational('exponent', exponent);
             return new Unit(Math.pow(this.scale, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
         };
+        // FIXME: Rename inverse
         Unit.prototype.inverse = function () {
-            return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
+            return new Unit(1 / this.scale, this.dimensions.neg(), this.labels);
         };
         Unit.prototype.isUnity = function () {
             return this.dimensions.dimensionless() && (this.scale === 1);
@@ -3380,6 +3525,10 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).add(this);
             }
         };
+        Euclidean3.prototype.adj = function () {
+            // TODO
+            return this;
+        };
         /**
          * @method arg
          * @return {number}
@@ -3446,12 +3595,15 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).mul(this);
             }
         };
-        Euclidean3.prototype.scalarMultiply = function (rhs) {
-            return new Euclidean3(this.w * rhs, this.x * rhs, this.y * rhs, this.z * rhs, this.xy * rhs, this.yz * rhs, this.zx * rhs, this.xyz * rhs, this.uom);
+        Euclidean3.prototype.scale = function (α) {
+            return new Euclidean3(this.w * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.xyz * α, this.uom);
         };
         Euclidean3.prototype.div = function (rhs) {
             assertArgEuclidean3('rhs', rhs);
             return divide(this.w, this.x, this.y, this.xy, this.z, -this.zx, this.yz, this.xyz, rhs.w, rhs.x, rhs.y, rhs.xy, rhs.z, -rhs.zx, rhs.yz, rhs.xyz, Unit.div(this.uom, rhs.uom));
+        };
+        Euclidean3.prototype.divByScalar = function (α) {
+            return new Euclidean3(this.w / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.xyz / α, this.uom);
         };
         Euclidean3.prototype.__div__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -3474,46 +3626,46 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             // FIXME: TODO
             return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
         };
-        Euclidean3.prototype.align = function (rhs) {
+        Euclidean3.prototype.scp = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             return scpG3(this, rhs, out);
         };
-        Euclidean3.prototype.wedge = function (rhs) {
+        Euclidean3.prototype.ext = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             return extG3(this, rhs, out);
         };
         Euclidean3.prototype.__vbar__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.align(other);
+                return this.scp(other);
             }
             else if (typeof other === 'number') {
-                return this.align(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.scp(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rvbar__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.align(this);
+                return other.scp(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).align(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).scp(this);
             }
         };
         Euclidean3.prototype.__wedge__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.wedge(other);
+                return this.ext(other);
             }
             else if (typeof other === 'number') {
-                return this.wedge(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.ext(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rwedge__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.wedge(this);
+                return other.ext(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).wedge(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).ext(this);
             }
         };
         Euclidean3.prototype.lco = function (rhs) {
@@ -3591,7 +3743,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          * @method reverse
          * @return {Euclidean3}
          */
-        Euclidean3.prototype.reverse = function () {
+        Euclidean3.prototype.rev = function () {
             return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
         };
         /**
@@ -3601,7 +3753,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          * @private
          */
         Euclidean3.prototype.__tilde__ = function () {
-            return this.reverse();
+            return this.rev();
         };
         Euclidean3.prototype.grade = function (index) {
             assertArgNumber('index', index);
@@ -3642,6 +3794,9 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             y = z1 * x2 - x1 * z2;
             z = x1 * y2 - y1 * x2;
             return new Euclidean3(0, x, y, z, 0, 0, 0, 0, Unit.mul(this.uom, vector.uom));
+        };
+        Euclidean3.prototype.isOne = function () {
+            return (this.w === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
         };
         Euclidean3.prototype.isZero = function () {
             return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
@@ -3720,6 +3875,10 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         Euclidean3.prototype.sinh = function () {
             //Unit.assertDimensionless(this.uom);
             throw new Euclidean3Error('sinh');
+        };
+        Euclidean3.prototype.slerp = function (target, α) {
+            // FIXME: TODO
+            return this;
         };
         Euclidean3.prototype.unitary = function () {
             return this.div(this.norm());
@@ -4231,7 +4390,7 @@ define('davinci-eight/math/R3',["require", "exports", '../math/euclidean3Quaditu
         };
         /**
          * <p>
-         * <code>this ⟼ R * this * reverse(R)</code>
+         * <code>this ⟼ R * this * rev(R)</code>
          * </p>
          * @method rotate
          * @param R {SpinorE3}
@@ -4345,12 +4504,12 @@ define('davinci-eight/math/R3',["require", "exports", '../math/euclidean3Quaditu
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {R3} <code>this</code>
          * @chainable
          */
-        R3.prototype.divideByScalar = function (α) {
+        R3.prototype.divByScalar = function (α) {
             mustBeNumber('α', α);
             if (α !== 0) {
                 var invScalar = 1 / α;
@@ -4445,7 +4604,7 @@ define('davinci-eight/math/R3',["require", "exports", '../math/euclidean3Quaditu
          * @chainable
          */
         R3.prototype.normalize = function () {
-            return this.divideByScalar(this.magnitude());
+            return this.divByScalar(this.magnitude());
         };
         /**
          * <p>
@@ -4538,6 +4697,11 @@ define('davinci-eight/math/R3',["require", "exports", '../math/euclidean3Quaditu
             this.z = z;
             return this;
         };
+        R3.prototype.slerp = function (target, α) {
+            mustBeObject('target', target);
+            mustBeNumber('α', α);
+            return this;
+        };
         /**
          * <p>
          * <code>this ⟼ this - v</code>
@@ -4574,6 +4738,12 @@ define('davinci-eight/math/R3',["require", "exports", '../math/euclidean3Quaditu
             this.y = a.y - b.y;
             this.z = a.z - b.z;
             return this;
+        };
+        R3.prototype.toExponential = function () {
+            return "TODO R2.toExponential";
+        };
+        R3.prototype.toFixed = function (digits) {
+            return "TODO R2.toFixed";
         };
         /**
          * @method toString
@@ -4895,6 +5065,14 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             return this;
         };
         /**
+         * @method adj
+         * @return {number}
+         * @beta
+         */
+        SpinG3.prototype.adj = function () {
+            throw new Error('TODO: SpinG3.adj');
+        };
+        /**
          * @method arg
          * @return {number}
          */
@@ -4924,17 +5102,17 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             return this;
         };
         SpinG3.prototype.lco = function (rhs) {
-            return this.conL2(this, rhs);
+            return this.lco2(this, rhs);
         };
-        SpinG3.prototype.conL2 = function (a, b) {
+        SpinG3.prototype.lco2 = function (a, b) {
             // FIXME: How to leverage? Maybe break up? Don't want performance hit.
             // scpG3(a, b, this)
             return this;
         };
         SpinG3.prototype.rco = function (rhs) {
-            return this.conR2(this, rhs);
+            return this.rco2(this, rhs);
         };
-        SpinG3.prototype.conR2 = function (a, b) {
+        SpinG3.prototype.rco2 = function (a, b) {
             // FIXME: How to leverage? Maybe break up? Don't want performance hit.
             // scpG3(a, b, this)
             return this;
@@ -5011,12 +5189,12 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {SpinG3} <code>this</code>
          * @chainable
          */
-        SpinG3.prototype.divideByScalar = function (α) {
+        SpinG3.prototype.divByScalar = function (α) {
             this.yz /= α;
             this.zx /= α;
             this.xy /= α;
@@ -5074,7 +5252,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
          */
         SpinG3.prototype.inv = function () {
             this.conj();
-            this.divideByScalar(this.quaditude());
+            this.divByScalar(this.quaditude());
             return this;
         };
         /**
@@ -5257,7 +5435,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
          * @return {SpinG3} <code>this</code>
          * @chainable
          */
-        SpinG3.prototype.reverse = function () {
+        SpinG3.prototype.rev = function () {
             this.yz *= -1;
             this.zx *= -1;
             this.xy *= -1;
@@ -5289,7 +5467,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
         };
         /**
          * <p>
-         * <code>this = ⟼ rotor * this * reverse(rotor)</code>
+         * <code>this = ⟼ rotor * this * rev(rotor)</code>
          * </p>
          * @method rotate
          * @param rotor {SpinorE3}
@@ -5315,7 +5493,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             this.spinor(b, a);
             this.w += 1;
             var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
-            this.divideByScalar(denom);
+            this.divByScalar(denom);
             return this;
         };
         /**
@@ -5354,10 +5532,10 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             this.w = cos(φ);
             return this;
         };
-        SpinG3.prototype.align = function (rhs) {
-            return this.align2(this, rhs);
+        SpinG3.prototype.scp = function (rhs) {
+            return this.scp2(this, rhs);
         };
-        SpinG3.prototype.align2 = function (a, b) {
+        SpinG3.prototype.scp2 = function (a, b) {
             // FIXME: How to leverage? Maybe break up? Don't want performance hit.
             // scpG3(a, b, this)
             return this;
@@ -5376,6 +5554,16 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             this.zx *= α;
             this.xy *= α;
             this.w *= α;
+            return this;
+        };
+        SpinG3.prototype.slerp = function (target, α) {
+            var R2 = SpinG3.copy(target);
+            var R1 = this.clone();
+            var R = R2.mul(R1.inv());
+            R.log();
+            R.scale(α);
+            R.exp();
+            this.copy(R);
             return this;
         };
         /**
@@ -5438,6 +5626,14 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
             return this;
         };
+        SpinG3.prototype.toExponential = function () {
+            // FIXME: Do like others.
+            return this.toString();
+        };
+        SpinG3.prototype.toFixed = function (digits) {
+            // FIXME: Do like others.
+            return this.toString();
+        };
         /**
          * @method toString
          * @return {string} A non-normative string representation of the target.
@@ -5445,10 +5641,10 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
         SpinG3.prototype.toString = function () {
             return "SpinG3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
         };
-        SpinG3.prototype.wedge = function (rhs) {
-            return this.wedge2(this, rhs);
+        SpinG3.prototype.ext = function (rhs) {
+            return this.ext2(this, rhs);
         };
-        SpinG3.prototype.wedge2 = function (a, b) {
+        SpinG3.prototype.ext2 = function (a, b) {
             // FIXME: How to leverage? Maybe break up? Don't want performance hit.
             // scpG3(a, b, this)
             return this;
@@ -5934,7 +6130,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-10-26',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.142.0'
+        VERSION: '2.143.0'
     };
     return core;
 });
@@ -6282,7 +6478,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../math/extG3', '../checks/isNumber', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, extG3, isNumber, lcoG3, mulG3, mustBeNumber, mustBeObject, rcoG3, scpG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, extG3, lcoG3, mulG3, mustBeNumber, mustBeObject, rcoG3, scpG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -6521,6 +6717,9 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
             this.xyz = a.xyz + b.xyz;
             return this;
         };
+        G3.prototype.adj = function () {
+            throw new Error('TODO: G3.adj');
+        };
         /**
          * @method arg
          * @return {number}
@@ -6563,19 +6762,19 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
          * @chainable
          */
         G3.prototype.lco = function (m) {
-            return this.conL2(this, m);
+            return this.lco2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a << b</code>
          * </p>
-         * @method conL2
+         * @method lco2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.conL2 = function (a, b) {
+        G3.prototype.lco2 = function (a, b) {
             return lcoG3(a, b, this);
         };
         /**
@@ -6588,19 +6787,19 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
          * @chainable
          */
         G3.prototype.rco = function (m) {
-            return this.conR2(this, m);
+            return this.rco2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a >> b</code>
          * </p>
-         * @method conR2
+         * @method rco2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.conR2 = function (a, b) {
+        G3.prototype.rco2 = function (a, b) {
             return rcoG3(a, b, this);
         };
         /**
@@ -6682,12 +6881,12 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.divideByScalar = function (α) {
+        G3.prototype.divByScalar = function (α) {
             mustBeNumber('α', α);
             this.w /= α;
             this.x /= α;
@@ -6791,8 +6990,22 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         G3.prototype.inv = function () {
             // FIXME: TODO
             this.conj();
-            // this.divideByScalar(this.quaditude());
+            // this.divByScalar(this.quaditude());
             return this;
+        };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
+        G3.prototype.isOne = function () {
+            return this.w === 1 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.xyz === 0;
+        };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
+        G3.prototype.isZero = function () {
+            return this.w === 0 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.xyz === 0;
         };
         /**
          * <p>
@@ -6998,13 +7211,13 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * <p>
-         * <code>this ⟼ reverse(this)</code>
+         * <code>this ⟼ rev(this)</code>
          * </p>
          * @method reverse
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.reverse = function () {
+        G3.prototype.rev = function () {
             // reverse has a ++-- structure.
             this.w = this.w;
             this.x = this.x;
@@ -7021,11 +7234,11 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
          * @return {G3}
          */
         G3.prototype.__tilde__ = function () {
-            return G3.copy(this).reverse();
+            return G3.copy(this).rev();
         };
         /**
          * <p>
-         * <code>this ⟼ R * this * reverse(R)</code>
+         * <code>this ⟼ R * this * rev(R)</code>
          * </p>
          * @method rotate
          * @param R {SpinorE3}
@@ -7066,7 +7279,7 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
             this.spinor(b, a);
             this.w += 1;
             var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
-            this.divideByScalar(denom);
+            this.divByScalar(denom);
             return this;
         };
         /**
@@ -7111,27 +7324,27 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * <p>
-         * <code>this ⟼ align(this, m)</code>
+         * <code>this ⟼ scp(this, m)</code>
          * </p>
          * @method align
          * @param m {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.align = function (m) {
-            return this.align2(this, m);
+        G3.prototype.scp = function (m) {
+            return this.scp2(this, m);
         };
         /**
          * <p>
-         * <code>this ⟼ align(a, b)</code>
+         * <code>this ⟼ scp(a, b)</code>
          * </p>
-         * @method align2
+         * @method scp2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.align2 = function (a, b) {
+        G3.prototype.scp2 = function (a, b) {
             return scpG3(a, b, this);
         };
         /**
@@ -7151,6 +7364,12 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
             this.zx *= α;
             this.xy *= α;
             this.xyz *= α;
+            return this;
+        };
+        G3.prototype.slerp = function (target, α) {
+            mustBeObject('target', target);
+            mustBeNumber('α', α);
+            // TODO
             return this;
         };
         /**
@@ -7228,6 +7447,15 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
             return this;
         };
         /**
+         * Returns a string representing the number in exponential notation.
+         * @method toExponential
+         * @return {string}
+         */
+        G3.prototype.toExponential = function () {
+            var coordToString = function (coord) { return coord.toExponential(); };
+            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+        };
+        /**
          * Returns a string representing the number in fixed-point notation.
          * @method toFixed
          * @param fractionDigits [number]
@@ -7255,37 +7483,34 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.wedge = function (m) {
-            return this.wedge2(this, m);
+        G3.prototype.ext = function (m) {
+            return this.ext2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a ^ b</code>
          * </p>
-         * @method wedge2
+         * @method ext2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.wedge2 = function (a, b) {
+        G3.prototype.ext2 = function (a, b) {
             return extG3(a, b, this);
         };
         /**
          * @method __add__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__add__ = function (other) {
-            if (other instanceof G3) {
-                var rhs = other;
+        G3.prototype.__add__ = function (rhs) {
+            if (rhs instanceof G3) {
                 return G3.copy(this).add(rhs);
             }
-            else if (isNumber(other)) {
-                var m = G3.copy(this);
-                m.w += other;
-                return m;
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).add(G3.fromScalar(rhs));
             }
             else {
                 return void 0;
@@ -7293,16 +7518,33 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __div__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__div__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).div(other);
+        G3.prototype.__div__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).div(rhs);
             }
-            else if (isNumber(other)) {
-                return G3.copy(this).divideByScalar(other);
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).divByScalar(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).div(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).div(this);
             }
             else {
                 return void 0;
@@ -7310,16 +7552,16 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __mul__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__mul__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).mul(other);
+        G3.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).mul(rhs);
             }
-            else if (isNumber(other)) {
-                return G3.copy(this).scale(other);
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).scale(rhs);
             }
             else {
                 return void 0;
@@ -7327,16 +7569,17 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __rmul__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__rmul__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(other).mul(this);
+        G3.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).mul(this);
             }
-            else if (typeof other === 'number') {
-                return G3.copy(this).scale(other);
+            else if (typeof lhs === 'number') {
+                // Scalar multiplication commutes.
+                return G3.copy(this).scale(lhs);
             }
             else {
                 return void 0;
@@ -7344,19 +7587,16 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __radd__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__radd__ = function (other) {
-            if (other instanceof G3) {
-                var rhs = other;
-                return G3.copy(other).add(this);
+        G3.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).add(this);
             }
-            else if (isNumber(other)) {
-                var m = G3.copy(this); /*.pos()*/
-                m.w += other;
-                return m;
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).add(this);
             }
             else {
                 return void 0;
@@ -7364,19 +7604,16 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __sub__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__sub__ = function (other) {
-            if (other instanceof G3) {
-                var rhs = other;
+        G3.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof G3) {
                 return G3.copy(this).sub(rhs);
             }
-            else if (isNumber(other)) {
-                var m = G3.copy(this);
-                m.w -= other;
-                return m;
+            else if (typeof rhs === 'number') {
+                return G3.fromScalar(rhs).neg().add(this);
             }
             else {
                 return void 0;
@@ -7384,19 +7621,16 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __rsub__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__rsub__ = function (other) {
-            if (other instanceof G3) {
-                var rhs = other;
-                return G3.copy(other).sub(this);
+        G3.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).sub(this);
             }
-            else if (isNumber(other)) {
-                var m = G3.copy(this).neg();
-                m.w += other;
-                return m;
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).sub(this);
             }
             else {
                 return void 0;
@@ -7404,17 +7638,17 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __wedge__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__wedge__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).wedge(other);
+        G3.prototype.__wedge__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).ext(rhs);
             }
-            else if (typeof other === 'number') {
-                // The outer product with a scalar is simply scalar multiplication.
-                return G3.copy(this).scale(other);
+            else if (typeof rhs === 'number') {
+                // The outer product with a scalar is scalar multiplication.
+                return G3.copy(this).scale(rhs);
             }
             else {
                 return void 0;
@@ -7422,17 +7656,17 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __rwedge__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__rwedge__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(other).wedge(this);
+        G3.prototype.__rwedge__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).ext(this);
             }
-            else if (typeof other === 'number') {
-                // The outer product with a scalar is simply scalar multiplication, and commutes
-                return G3.copy(this).scale(other);
+            else if (typeof lhs === 'number') {
+                // The outer product with a scalar is scalar multiplication, and commutes.
+                return G3.copy(this).scale(lhs);
             }
             else {
                 return void 0;
@@ -7440,16 +7674,33 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __lshift__
+         * @param rhs {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__lshift__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).lco(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).lco(G3.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rlshift__
          * @param other {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__lshift__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).lco(other);
+        G3.prototype.__rlshift__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).lco(this);
             }
-            else if (typeof other === 'number') {
-                return G3.fromScalar(other).lco(this);
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).lco(this);
             }
             else {
                 return void 0;
@@ -7457,16 +7708,33 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __rshift__
+         * @param rhs {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__rshift__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).rco(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).rco(G3.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rrshift__
          * @param other {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__rshift__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).rco(other);
+        G3.prototype.__rrshift__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).rco(this);
             }
-            else if (typeof other === 'number') {
-                return G3.fromScalar(other).rco(this);
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).rco(this);
             }
             else {
                 return void 0;
@@ -7474,16 +7742,33 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * @method __vbar__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__vbar__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).align(other);
+        G3.prototype.__vbar__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).scp(rhs);
             }
-            else if (typeof other === 'number') {
-                return G3.fromScalar(other).align(this);
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).scp(G3.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rvbar__
+         * @param lhs {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__rvbar__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).scp(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).scp(this);
             }
             else {
                 return void 0;
@@ -7684,7 +7969,7 @@ define('davinci-eight/math/R2',["require", "exports", '../math/VectorN'], functi
             this.y *= s;
             return this;
         };
-        R2.prototype.divideByScalar = function (scalar) {
+        R2.prototype.divByScalar = function (scalar) {
             if (scalar !== 0) {
                 var invScalar = 1 / scalar;
                 this.x *= invScalar;
@@ -7754,7 +8039,7 @@ define('davinci-eight/math/R2',["require", "exports", '../math/VectorN'], functi
             return Math.sqrt(this.quaditude());
         };
         R2.prototype.normalize = function () {
-            return this.divideByScalar(this.magnitude());
+            return this.divByScalar(this.magnitude());
         };
         R2.prototype.quaditude = function () {
             return this.x * this.x + this.y * this.y;
@@ -7808,6 +8093,15 @@ define('davinci-eight/math/R2',["require", "exports", '../math/VectorN'], functi
         };
         R2.prototype.equals = function (v) {
             return ((v.x === this.x) && (v.y === this.y));
+        };
+        R2.prototype.slerp = function (v, α) {
+            return this;
+        };
+        R2.prototype.toExponential = function () {
+            return "TODO: R2.toExponential";
+        };
+        R2.prototype.toFixed = function (digits) {
+            return "TODO: R2.toString";
         };
         R2.prototype.fromArray = function (array, offset) {
             if (offset === void 0) { offset = 0; }
@@ -8247,12 +8541,16 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             this.x = a.x + b.x;
             return this;
         };
-        R1.prototype.align = function (v) {
+        R1.prototype.scp = function (v) {
             return this;
+        };
+        R1.prototype.adj = function () {
+            throw new Error('TODO: R1.adj');
         };
         /**
          * @method arg
          * @return {number}
+         * @beta
          */
         R1.prototype.arg = function () {
             throw new Error('TODO: R1.arg');
@@ -8300,7 +8598,7 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             this.x /= v.x;
             return this;
         };
-        R1.prototype.divideByScalar = function (scalar) {
+        R1.prototype.divByScalar = function (scalar) {
             this.x /= scalar;
             return this;
         };
@@ -8324,7 +8622,7 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             this.x = Math.ceil(this.x);
             return this;
         };
-        R1.prototype.reverse = function () {
+        R1.prototype.rev = function () {
             return this;
         };
         R1.prototype.rco = function (v) {
@@ -8372,7 +8670,7 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             return Math.sqrt(this.quaditude());
         };
         R1.prototype.normalize = function () {
-            return this.divideByScalar(this.magnitude());
+            return this.divByScalar(this.magnitude());
         };
         R1.prototype.mul2 = function (a, b) {
             return this;
@@ -8438,11 +8736,20 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             this.x = array[offset];
             return this;
         };
+        R1.prototype.slerp = function (v, α) {
+            return this;
+        };
         R1.prototype.toArray = function (array, offset) {
             if (array === void 0) { array = []; }
             if (offset === void 0) { offset = 0; }
             array[offset] = this.x;
             return array;
+        };
+        R1.prototype.toExponential = function () {
+            return "TODO: R1.toExponential";
+        };
+        R1.prototype.toFixed = function (digits) {
+            return "TODO: R1.toFixed";
         };
         R1.prototype.fromAttribute = function (attribute, index, offset) {
             if (offset === void 0) { offset = 0; }
@@ -8453,7 +8760,7 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
         R1.prototype.clone = function () {
             return new R1([this.x]);
         };
-        R1.prototype.wedge = function (v) {
+        R1.prototype.ext = function (v) {
             return this;
         };
         return R1;
@@ -8962,10 +9269,10 @@ define('davinci-eight/geometries/CuboidSimplexGeometry',["require", "exports", '
         CuboidSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
-            pos[0] = new R3().sub(this._a).sub(this._b).add(this._c).divideByScalar(2);
-            pos[1] = new R3().add(this._a).sub(this._b).add(this._c).divideByScalar(2);
-            pos[2] = new R3().add(this._a).add(this._b).add(this._c).divideByScalar(2);
-            pos[3] = new R3().sub(this._a).add(this._b).add(this._c).divideByScalar(2);
+            pos[0] = new R3().sub(this._a).sub(this._b).add(this._c).divByScalar(2);
+            pos[1] = new R3().add(this._a).sub(this._b).add(this._c).divByScalar(2);
+            pos[2] = new R3().add(this._a).add(this._b).add(this._c).divByScalar(2);
+            pos[3] = new R3().sub(this._a).add(this._b).add(this._c).divByScalar(2);
             pos[4] = new R3().copy(pos[3]).sub(this._c);
             pos[5] = new R3().copy(pos[2]).sub(this._c);
             pos[6] = new R3().copy(pos[1]).sub(this._c);
@@ -17060,16 +17367,16 @@ define('davinci-eight/geometries/BarnSimplexGeometry',["require", "exports", '..
         BarnSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
-            points[0] = new G3().sub(this.a).sub(this.b).sub(this.c).divideByScalar(2);
-            points[1] = new G3().add(this.a).sub(this.b).sub(this.c).divideByScalar(2);
-            points[6] = new G3().add(this.a).sub(this.b).add(this.c).divideByScalar(2);
-            points[5] = new G3().sub(this.a).sub(this.b).add(this.c).divideByScalar(2);
+            points[0] = new G3().sub(this.a).sub(this.b).sub(this.c).divByScalar(2);
+            points[1] = new G3().add(this.a).sub(this.b).sub(this.c).divByScalar(2);
+            points[6] = new G3().add(this.a).sub(this.b).add(this.c).divByScalar(2);
+            points[5] = new G3().sub(this.a).sub(this.b).add(this.c).divByScalar(2);
             points[4] = new G3().copy(points[0]).add(this.b);
             points[2] = new G3().copy(points[1]).add(this.b);
             points[7] = new G3().copy(points[6]).add(this.b);
             points[9] = new G3().copy(points[5]).add(this.b);
-            points[3] = G3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideByScalar(2);
-            points[8] = G3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideByScalar(2);
+            points[3] = G3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divByScalar(2);
+            points[8] = G3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divByScalar(2);
             function simplex(indices) {
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {
@@ -18835,9 +19142,9 @@ define('davinci-eight/geometries/VortexSimplexGeometry',["require", "exports", '
             var axis = new Euclidean3(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0);
             var radial = perpendicular(axis);
             // FIXME: Change to scale
-            var R0 = radial.scalarMultiply(this.radius);
+            var R0 = radial.scale(this.radius);
             var generator = new Euclidean3(this.generator.w, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0);
-            var Rminor0 = axis.wedge(radial);
+            var Rminor0 = axis.ext(radial);
             var n = 9;
             var circleSegments = this.arrowSegments * n;
             var tau = Math.PI * 2;
@@ -18875,11 +19182,11 @@ define('davinci-eight/geometries/VortexSimplexGeometry',["require", "exports", '
                 for (var i = 0; i <= circleSegments; i++) {
                     // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
                     var u = computeAngle(i);
-                    var Rmajor = generator.scalarMultiply(-u / 2).exp();
+                    var Rmajor = generator.scale(-u / 2).exp();
                     center.copy(R0).rotate(Rmajor);
                     var vertex = R3.copy(center);
-                    var r0 = axis.scalarMultiply(computeRadius(i));
-                    var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scalarMultiply(-v / 2).exp();
+                    var r0 = axis.scale(computeRadius(i));
+                    var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scale(-v / 2).exp();
                     // var Rminor = Rminor0.clone().rotate(Rmajor).scale(-v/2).exp()
                     var r = Rminor.mul(r0).mul(Rminor.__tilde__());
                     vertex.add2(center, r);
@@ -19650,6 +19957,9 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
             this.xy = a.xy + b.xy;
             return this;
         };
+        G2.prototype.adj = function () {
+            throw new Error('TODO: G2.adj');
+        };
         /**
          * Assuming <code>this = A * exp(B * θ)</code>, returns the <em>principal value</em> of θ.
          * @method arg
@@ -19691,19 +20001,19 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
          * @chainable
          */
         G2.prototype.lco = function (m) {
-            return this.conL2(this, m);
+            return this.lco2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a << b</code>
          * </p>
-         * @method conL2
+         * @method lco2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.conL2 = function (a, b) {
+        G2.prototype.lco2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.x;
             var a2 = a.y;
@@ -19728,19 +20038,19 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
          * @chainable
          */
         G2.prototype.rco = function (m) {
-            return this.conR2(this, m);
+            return this.rco2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a >> b</code>
          * </p>
-         * @method conR2
+         * @method rco2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.conR2 = function (a, b) {
+        G2.prototype.rco2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.x;
             var a2 = a.y;
@@ -19822,12 +20132,12 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.divideByScalar = function (α) {
+        G2.prototype.divByScalar = function (α) {
             mustBeNumber('α', α);
             this.w /= α;
             this.x /= α;
@@ -19900,8 +20210,22 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         G2.prototype.inv = function () {
             // FIXME: TODO
             this.conj();
-            // this.divideByScalar(this.quaditude());
+            // this.divByScalar(this.quaditude());
             return this;
+        };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
+        G2.prototype.isOne = function () {
+            return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0;
+        };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
+        G2.prototype.isZero = function () {
+            return this.w === 0 && this.x === 0 && this.y === 0 && this.xy === 0;
         };
         /**
          * <p>
@@ -20103,13 +20427,13 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * <p>
-         * <code>this ⟼ reverse(this)</code>
+         * <code>this ⟼ rev(this)</code>
          * </p>
          * @method reverse
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.reverse = function () {
+        G2.prototype.rev = function () {
             // reverse has a ++-- structure.
             this.w = this.w;
             this.x = this.x;
@@ -20122,11 +20446,11 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
          * @return {G2}
          */
         G2.prototype.__tilde__ = function () {
-            return G2.copy(this).reverse();
+            return G2.copy(this).rev();
         };
         /**
          * <p>
-         * <code>this ⟼ R * this * reverse(R)</code>
+         * <code>this ⟼ R * this * rev(R)</code>
          * </p>
          * @method rotate
          * @param R {SpinorE2}
@@ -20160,7 +20484,7 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         G2.prototype.rotor = function (b, a) {
             this.spinor(b, a);
             this.w += 1; // FIXME: addScalar would make this all chainable
-            return this.divideByScalar(Math.sqrt(2 * (1 + dotVectorsE2(b, a))));
+            return this.divByScalar(Math.sqrt(2 * (1 + dotVectorsE2(b, a))));
         };
         /**
          * <p>
@@ -20200,27 +20524,27 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * <p>
-         * <code>this ⟼ align(this, m)</code>
+         * <code>this ⟼ scp(this, m)</code>
          * </p>
          * @method align
          * @param m {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.align = function (m) {
-            return this.align2(this, m);
+        G2.prototype.scp = function (m) {
+            return this.scp2(this, m);
         };
         /**
          * <p>
-         * <code>this ⟼ align(a, b)</code>
+         * <code>this ⟼ scp(a, b)</code>
          * </p>
-         * @method align2
+         * @method scp2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.align2 = function (a, b) {
+        G2.prototype.scp2 = function (a, b) {
             this.w = scpE2(a.w, a.x, a.y, a.xy, b.w, b.x, b.y, b.xy, 0);
             this.x = 0;
             this.y = 0;
@@ -20240,6 +20564,11 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
             this.x *= α;
             this.y *= α;
             this.xy *= α;
+            return this;
+        };
+        G2.prototype.slerp = function (target, α) {
+            mustBeObject('target', target);
+            mustBeNumber('α', α);
             return this;
         };
         /**
@@ -20303,6 +20632,15 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
             return this;
         };
         /**
+         * Returns a string representing the number in exponential notation.
+         * @method toExponential
+         * @return {string}
+         */
+        G2.prototype.toExponential = function () {
+            var coordToString = function (coord) { return coord.toExponential(); };
+            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+        };
+        /**
          * Returns a string representing the number in fixed-point notation.
          * @method toFixed
          * @param fractionDigits [number]
@@ -20330,20 +20668,20 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.wedge = function (m) {
-            return this.wedge2(this, m);
+        G2.prototype.ext = function (m) {
+            return this.ext2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a ^ b</code>
          * </p>
-         * @method wedge2
+         * @method ext2
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.wedge2 = function (a, b) {
+        G2.prototype.ext2 = function (a, b) {
             var a0 = a.w;
             var a1 = a.x;
             var a2 = a.y;
@@ -20360,22 +20698,23 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __add__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__add__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).add(other);
+        G2.prototype.__add__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).add(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).add(this);
+            else if (typeof rhs === 'number') {
+                // Addition commutes, but addScalar might be useful.
+                return G2.fromScalar(rhs).add(this);
             }
             else {
-                var rhs = duckCopy(other);
-                if (rhs) {
+                var rhsCopy = duckCopy(rhs);
+                if (rhsCopy) {
                     // rhs is a copy and addition commutes.
-                    return rhs.add(this);
+                    return rhsCopy.add(this);
                 }
                 else {
                     return void 0;
@@ -20384,16 +20723,33 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __div__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__div__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).div(other);
+        G2.prototype.__div__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).div(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.copy(this).divideByScalar(other);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).divByScalar(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).div(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).div(this);
             }
             else {
                 return void 0;
@@ -20401,23 +20757,23 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __mul__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__mul__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).mul(other);
+        G2.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).mul(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.copy(this).scale(other);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).scale(rhs);
             }
             else {
-                var rhs = duckCopy(other);
-                if (rhs) {
-                    // rhs is a copy but multiplication does not commute.
+                var rhsCopy = duckCopy(rhs);
+                if (rhsCopy) {
+                    // rhsCopy is a copy but multiplication does not commute.
                     // If we had rmul then we could mutate the rhs!
-                    return this.__mul__(rhs);
+                    return this.__mul__(rhsCopy);
                 }
                 else {
                     return void 0;
@@ -20426,23 +20782,23 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __rmul__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__rmul__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(other).mul(this);
+        G2.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).mul(this);
             }
-            else if (typeof other === 'number') {
+            else if (typeof lhs === 'number') {
                 // Scalar multiplication commutes.
-                return G2.copy(this).scale(other);
+                return G2.copy(this).scale(lhs);
             }
             else {
-                var lhs = duckCopy(other);
-                if (lhs) {
-                    // lhs is a copy, so we can mutate it.
-                    return lhs.mul(this);
+                var lhsCopy = duckCopy(lhs);
+                if (lhsCopy) {
+                    // lhs is a copy, so we can mutate it, and use it on the left.
+                    return lhsCopy.mul(this);
                 }
                 else {
                     return void 0;
@@ -20451,23 +20807,22 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __radd__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__radd__ = function (other) {
-            if (other instanceof G2) {
-                var rhs = other;
-                return G2.copy(other).add(this);
+        G2.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).add(this);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).add(this);
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).add(this);
             }
             else {
-                var lhs = duckCopy(other);
-                if (lhs) {
+                var lhsCopy = duckCopy(lhs);
+                if (lhsCopy) {
                     // lhs is a copy, so we can mutate it.
-                    return lhs.add(this);
+                    return lhsCopy.add(this);
                 }
                 else {
                     return void 0;
@@ -20476,17 +20831,16 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __sub__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__sub__ = function (other) {
-            if (other instanceof G2) {
-                var rhs = other;
+        G2.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof G2) {
                 return G2.copy(this).sub(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(-other).add(this);
+            else if (typeof rhs === 'number') {
+                return G2.fromScalar(-rhs).add(this);
             }
             else {
                 return void 0;
@@ -20494,17 +20848,16 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __rsub__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__rsub__ = function (other) {
-            if (other instanceof G2) {
-                var rhs = other;
-                return G2.copy(other).sub(this);
+        G2.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).sub(this);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).sub(this);
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).sub(this);
             }
             else {
                 return void 0;
@@ -20512,17 +20865,17 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __wedge__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__wedge__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).wedge(other);
+        G2.prototype.__wedge__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).ext(rhs);
             }
-            else if (typeof other === 'number') {
+            else if (typeof rhs === 'number') {
                 // The outer product with a scalar is simply scalar multiplication.
-                return G2.copy(this).scale(other);
+                return G2.copy(this).scale(rhs);
             }
             else {
                 return void 0;
@@ -20530,17 +20883,17 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __rwedge__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__rwedge__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(other).wedge(this);
+        G2.prototype.__rwedge__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).ext(this);
             }
-            else if (typeof other === 'number') {
-                // The outer product with a scalar is simply scalar multiplication, and commutes
-                return G2.copy(this).scale(other);
+            else if (typeof lhs === 'number') {
+                // The outer product with a scalar is simply scalar multiplication, and commutes.
+                return G2.copy(this).scale(lhs);
             }
             else {
                 return void 0;
@@ -20552,12 +20905,29 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
          * @return {G2}
          * @private
          */
-        G2.prototype.__lshift__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).lco(other);
+        G2.prototype.__lshift__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).lco(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).lco(this);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).lco(G2.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rlshift__
+         * @param other {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rlshift__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).lco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).lco(this);
             }
             else {
                 return void 0;
@@ -20565,16 +20935,33 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __rshift__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__rshift__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).rco(other);
+        G2.prototype.__rshift__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).rco(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).rco(this);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).rco(G2.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rrshift__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rrshift__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).rco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).rco(this);
             }
             else {
                 return void 0;
@@ -20582,16 +20969,33 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         };
         /**
          * @method __vbar__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G2}
          * @private
          */
-        G2.prototype.__vbar__ = function (other) {
-            if (other instanceof G2) {
-                return G2.copy(this).align(other);
+        G2.prototype.__vbar__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).scp(rhs);
             }
-            else if (typeof other === 'number') {
-                return G2.fromScalar(other).align(this);
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).scp(G2.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rvbar__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rvbar__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).scp(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).scp(this);
             }
             else {
                 return void 0;
@@ -20875,7 +21279,7 @@ define('davinci-eight/math/R4',["require", "exports", '../math/VectorN'], functi
             this.w = v.w;
             return this;
         };
-        R4.prototype.divideByScalar = function (α) {
+        R4.prototype.divByScalar = function (α) {
             this.x /= α;
             this.y /= α;
             this.z /= α;
@@ -20915,6 +21319,9 @@ define('davinci-eight/math/R4',["require", "exports", '../math/VectorN'], functi
             // TODO
             return this;
         };
+        R4.prototype.slerp = function (target, α) {
+            return this;
+        };
         R4.prototype.sub = function (v, α) {
             this.x -= v.x * α;
             this.y -= v.y * α;
@@ -20928,6 +21335,12 @@ define('davinci-eight/math/R4',["require", "exports", '../math/VectorN'], functi
             this.z = a.z - b.z;
             this.w = a.w - b.w;
             return this;
+        };
+        R4.prototype.toExponential = function () {
+            return "TODO R4.toExponential";
+        };
+        R4.prototype.toFixed = function (digits) {
+            return "TODO R4.toFixed";
         };
         return R4;
     })(VectorN);
@@ -21428,7 +21841,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/ArrowSimplexGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/KinematicRigidBodyFacetE3', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, ArrowGeometry, ArrowSimplexGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, R1, Matrix3, Matrix4, G2, G3, SpinG3, R2, R3, R4, VectorN, EulerFacet, KinematicRigidBodyFacetE3, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/ArrowSimplexGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/KinematicRigidBodyFacetE3', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, ArrowGeometry, ArrowSimplexGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, R1, Matrix3, Matrix4, QQ, G2, G3, SpinG3, R2, R3, R4, VectorN, EulerFacet, KinematicRigidBodyFacetE3, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -21547,6 +21960,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get Euclidean3() { return Euclidean3; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
+        get QQ() { return QQ; },
         get G2() { return G2; },
         get G3() { return G3; },
         get R1() { return R1; },

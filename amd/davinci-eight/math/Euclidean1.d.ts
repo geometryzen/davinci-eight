@@ -15,11 +15,6 @@ declare class Euclidean1 implements Measure<Euclidean1> {
      * @param uom The optional unit of measure.
      */
     constructor(w: number, x: number, uom?: Unit);
-    /**
-     * @method clone
-     * @return {Euclidean1}
-     */
-    clone(): Euclidean1;
     coordinates(): number[];
     copy(source: Euclidean1Coords): Euclidean1;
     difference(a: Euclidean1Coords, b: Euclidean1Coords): Euclidean1;
@@ -27,8 +22,10 @@ declare class Euclidean1 implements Measure<Euclidean1> {
     sub(rhs: Euclidean1): Euclidean1;
     mul(rhs: Euclidean1): Euclidean1;
     div(rhs: Euclidean1): Euclidean1;
-    align(rhs: Euclidean1): Euclidean1;
-    wedge(rhs: Euclidean1): Euclidean1;
+    divByScalar(α: number): Euclidean1;
+    scp(rhs: Euclidean1): Euclidean1;
+    ext(rhs: Euclidean1): Euclidean1;
+    lerp(target: Euclidean1, α: number): Euclidean1;
     lco(rhs: Euclidean1): Euclidean1;
     rco(rhs: Euclidean1): Euclidean1;
     pow(exponent: Euclidean1): Euclidean1;
@@ -37,8 +34,10 @@ declare class Euclidean1 implements Measure<Euclidean1> {
     exp(): Euclidean1;
     norm(): Euclidean1;
     quad(): Euclidean1;
+    scale(α: number): Euclidean1;
     sin(): Euclidean1;
     sinh(): Euclidean1;
+    slerp(target: Euclidean1, α: number): Euclidean1;
     unitary(): Euclidean1;
     gradeZero(): number;
     toExponential(): string;

@@ -1,21 +1,24 @@
 import LinearOperators = require('../math/LinearOperators')
+import RingOperators = require('../math/RingOperators')
 
 /**
- *
+ * Special methods for operators on elements of geometric spaces.
  */
-interface GeometricOperators<T> extends LinearOperators<T> {
-    __mul__(other: any): T
-    __rmul__(other: any): T
-    __div__(other: any): T
-    //    __rdiv__(other: any): T
-    __vbar__(other: any): T
-    //    __rvbar__(other: any): T
-    __wedge__(other: any): T
-    __rwedge__(other: any): T
-    __lshift__(other: any): T
-    //    __rlshift__(other: any): T
-    __rshift__(other: any): T
-    //    __rrshift__(other: any): T
+interface GeometricOperators<T> extends LinearOperators<T>, RingOperators<T> {
+  __div__(rhs: any): T
+  __rdiv__(lhs: any): T
+
+  __vbar__(rhs: any): T
+  __rvbar__(lhs: any): T
+
+  __wedge__(rhs: any): T
+  __rwedge__(lhs: any): T
+
+  __lshift__(rhs: any): T
+  __rlshift__(lhs: any): T
+
+  __rshift__(rhs: any): T
+  __rrshift__(lhs: any): T
 }
 
 export = GeometricOperators

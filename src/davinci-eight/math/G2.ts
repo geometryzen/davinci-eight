@@ -244,6 +244,10 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         return this
     }
 
+    adj(): G2 {
+        throw new Error('TODO: G2.adj')
+    }
+
     /**
      * Assuming <code>this = A * exp(B * θ)</code>, returns the <em>principal value</em> of θ.
      * @method arg
@@ -286,19 +290,19 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @chainable
      */
     lco(m: GeometricE2): G2 {
-        return this.conL2(this, m)
+        return this.lco2(this, m)
     }
     /**
      * <p>
      * <code>this ⟼ a << b</code>
      * </p>
-     * @method conL2
+     * @method lco2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    conL2(a: GeometricE2, b: GeometricE2): G2 {
+    lco2(a: GeometricE2, b: GeometricE2): G2 {
         let a0 = a.w
         let a1 = a.x
         let a2 = a.y
@@ -323,19 +327,19 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @chainable
      */
     rco(m: GeometricE2): G2 {
-        return this.conR2(this, m)
+        return this.rco2(this, m)
     }
     /**
      * <p>
      * <code>this ⟼ a >> b</code>
      * </p>
-     * @method conR2
+     * @method rco2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    conR2(a: GeometricE2, b: GeometricE2): G2 {
+    rco2(a: GeometricE2, b: GeometricE2): G2 {
         let a0 = a.w
         let a1 = a.x
         let a2 = a.y
@@ -421,12 +425,12 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * <p>
      * <code>this ⟼ this / α</code>
      * </p>
-     * @method divideByScalar
+     * @method divByScalar
      * @param α {number}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    divideByScalar(α: number): G2 {
+    divByScalar(α: number): G2 {
         mustBeNumber('α', α)
         this.w /= α
         this.x /= α
@@ -489,6 +493,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.xy = z * s;
         return this;
     }
+
     /**
      * <p>
      * <code>this ⟼ conj(this) / quad(this)</code>
@@ -500,9 +505,26 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     inv(): G2 {
         // FIXME: TODO
         this.conj()
-        // this.divideByScalar(this.quaditude());
+        // this.divByScalar(this.quaditude());
         return this
     }
+
+    /**
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean {
+        return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0
+    }
+
+    /**
+     * @method isZero
+     * @return {boolean}
+     */
+    isZero(): boolean {
+        return this.w === 0 && this.x === 0 && this.y === 0 && this.xy === 0
+    }
+
     /**
      * <p>
      * <code>this ⟼ this + α * (target - this)</code>
@@ -710,13 +732,13 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * <p>
-     * <code>this ⟼ reverse(this)</code>
+     * <code>this ⟼ rev(this)</code>
      * </p>
      * @method reverse
      * @return {G2} <code>this</code>
      * @chainable
      */
-    reverse(): G2 {
+    rev(): G2 {
         // reverse has a ++-- structure.
         this.w = this.w
         this.x = this.x
@@ -729,11 +751,11 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @return {G2}
      */
     __tilde__(): G2 {
-        return G2.copy(this).reverse()
+        return G2.copy(this).rev()
     }
     /**
      * <p>
-     * <code>this ⟼ R * this * reverse(R)</code>
+     * <code>this ⟼ R * this * rev(R)</code>
      * </p>
      * @method rotate
      * @param R {SpinorE2}
@@ -771,7 +793,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     rotor(b: VectorE2, a: VectorE2): G2 {
         this.spinor(b, a)
         this.w += 1 // FIXME: addScalar would make this all chainable
-        return this.divideByScalar(Math.sqrt(2 * (1 + dotVectorsE2(b, a))))
+        return this.divByScalar(Math.sqrt(2 * (1 + dotVectorsE2(b, a))))
     }
     /**
      * <p>
@@ -812,27 +834,27 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * <p>
-     * <code>this ⟼ align(this, m)</code>
+     * <code>this ⟼ scp(this, m)</code>
      * </p>
      * @method align
      * @param m {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    align(m: GeometricE2): G2 {
-        return this.align2(this, m)
+    scp(m: GeometricE2): G2 {
+        return this.scp2(this, m)
     }
     /**
      * <p>
-     * <code>this ⟼ align(a, b)</code>
+     * <code>this ⟼ scp(a, b)</code>
      * </p>
-     * @method align2
+     * @method scp2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    align2(a: GeometricE2, b: GeometricE2) {
+    scp2(a: GeometricE2, b: GeometricE2) {
         this.w = scpE2(a.w, a.x, a.y, a.xy, b.w, b.x, b.y, b.xy, 0)
         this.x = 0
         this.y = 0
@@ -855,6 +877,13 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.xy *= α
         return this
     }
+
+    slerp(target: GeometricE2, α: number): G2 {
+        mustBeObject('target', target)
+        mustBeNumber('α', α)
+        return this;
+    }
+
     /**
      * <p>
      * <code>this ⟼ a * b = a · b + a ^ b</code>
@@ -918,6 +947,16 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     }
 
     /**
+     * Returns a string representing the number in exponential notation.
+     * @method toExponential
+     * @return {string}
+     */
+    toExponential(): string {
+        var coordToString = function(coord: number): string { return coord.toExponential() };
+        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
+    /**
      * Returns a string representing the number in fixed-point notation.
      * @method toFixed
      * @param fractionDigits [number]
@@ -947,20 +986,20 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @return {G2} <code>this</code>
      * @chainable
      */
-    wedge(m: GeometricE2): G2 {
-        return this.wedge2(this, m)
+    ext(m: GeometricE2): G2 {
+        return this.ext2(this, m)
     }
     /**
      * <p>
      * <code>this ⟼ a ^ b</code>
      * </p>
-     * @method wedge2
+     * @method ext2
      * @param a {GeometricE2}
      * @param b {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
      */
-    wedge2(a: GeometricE2, b: GeometricE2): G2 {
+    ext2(a: GeometricE2, b: GeometricE2): G2 {
         let a0 = a.w
         let a1 = a.x
         let a2 = a.y
@@ -978,22 +1017,23 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * @method __add__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __add__(other: any) {
-        if (other instanceof G2) {
-            return G2.copy(this).add(other)
+    __add__(rhs: any) {
+        if (rhs instanceof G2) {
+            return G2.copy(this).add(rhs)
         }
-        else if (typeof other === 'number') {
-            return G2.fromScalar(other).add(this)
+        else if (typeof rhs === 'number') {
+            // Addition commutes, but addScalar might be useful.
+            return G2.fromScalar(rhs).add(this)
         }
         else {
-            let rhs = duckCopy(other)
-            if (rhs) {
+            let rhsCopy = duckCopy(rhs)
+            if (rhsCopy) {
                 // rhs is a copy and addition commutes.
-                return rhs.add(this)
+                return rhsCopy.add(this)
             }
             else {
                 return void 0
@@ -1003,16 +1043,34 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * @method __div__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __div__(other: any) {
-        if (other instanceof G2) {
-            return G2.copy(this).div(other)
+    __div__(rhs: any) {
+        if (rhs instanceof G2) {
+            return G2.copy(this).div(rhs)
         }
-        else if (typeof other === 'number') {
-            return G2.copy(this).divideByScalar(other)
+        else if (typeof rhs === 'number') {
+            return G2.copy(this).divByScalar(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rdiv__
+     * @param lhs {any}
+     * @return {G2}
+     * @private
+     */
+    __rdiv__(lhs: any) {
+        if (lhs instanceof G2) {
+            return G2.copy(lhs).div(this)
+        }
+        else if (typeof lhs === 'number') {
+            return G2.fromScalar(lhs).div(this)
         }
         else {
             return void 0
@@ -1021,23 +1079,23 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * @method __mul__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __mul__(other: any): G2 {
-        if (other instanceof G2) {
-            return G2.copy(this).mul(other)
+    __mul__(rhs: any): G2 {
+        if (rhs instanceof G2) {
+            return G2.copy(this).mul(rhs)
         }
-        else if (typeof other === 'number') {
-            return G2.copy(this).scale(other)
+        else if (typeof rhs === 'number') {
+            return G2.copy(this).scale(rhs)
         }
         else {
-            let rhs = duckCopy(other)
-            if (rhs) {
-                // rhs is a copy but multiplication does not commute.
+            let rhsCopy = duckCopy(rhs)
+            if (rhsCopy) {
+                // rhsCopy is a copy but multiplication does not commute.
                 // If we had rmul then we could mutate the rhs!
-                return this.__mul__(rhs);
+                return this.__mul__(rhsCopy);
             }
             else {
                 return void 0
@@ -1047,23 +1105,23 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * @method __rmul__
-     * @param other {any}
+     * @param lhs {any}
      * @return {G2}
      * @private
      */
-    __rmul__(other: any) {
-        if (other instanceof G2) {
-            return G2.copy(other).mul(this)
+    __rmul__(lhs: any) {
+        if (lhs instanceof G2) {
+            return G2.copy(lhs).mul(this)
         }
-        else if (typeof other === 'number') {
+        else if (typeof lhs === 'number') {
             // Scalar multiplication commutes.
-            return G2.copy(this).scale(other)
+            return G2.copy(this).scale(lhs)
         }
         else {
-            let lhs = duckCopy(other)
-            if (lhs) {
-                // lhs is a copy, so we can mutate it.
-                return lhs.mul(this)
+            let lhsCopy = duckCopy(lhs)
+            if (lhsCopy) {
+                // lhs is a copy, so we can mutate it, and use it on the left.
+                return lhsCopy.mul(this)
             }
             else {
                 return void 0
@@ -1073,23 +1131,22 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * @method __radd__
-     * @param other {any}
+     * @param lhs {any}
      * @return {G2}
      * @private
      */
-    __radd__(other: any) {
-        if (other instanceof G2) {
-            var rhs = <G2>other
-            return G2.copy(other).add(this)
+    __radd__(lhs: any) {
+        if (lhs instanceof G2) {
+            return G2.copy(lhs).add(this)
         }
-        else if (typeof other === 'number') {
-            return G2.fromScalar(other).add(this)
+        else if (typeof lhs === 'number') {
+            return G2.fromScalar(lhs).add(this)
         }
         else {
-            let lhs = duckCopy(other)
-            if (lhs) {
+            let lhsCopy = duckCopy(lhs)
+            if (lhsCopy) {
                 // lhs is a copy, so we can mutate it.
-                return lhs.add(this)
+                return lhsCopy.add(this)
             }
             else {
                 return void 0
@@ -1098,17 +1155,16 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     }
     /**
      * @method __sub__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __sub__(other: any) {
-        if (other instanceof G2) {
-            var rhs = <G2>other
+    __sub__(rhs: any) {
+        if (rhs instanceof G2) {
             return G2.copy(this).sub(rhs)
         }
-        else if (typeof other === 'number') {
-            return G2.fromScalar(-other).add(this)
+        else if (typeof rhs === 'number') {
+            return G2.fromScalar(-rhs).add(this)
         }
         else {
             return void 0
@@ -1116,17 +1172,16 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     }
     /**
      * @method __rsub__
-     * @param other {any}
+     * @param lhs {any}
      * @return {G2}
      * @private
      */
-    __rsub__(other: any) {
-        if (other instanceof G2) {
-            var rhs = <G2>other
-            return G2.copy(other).sub(this)
+    __rsub__(lhs: any) {
+        if (lhs instanceof G2) {
+            return G2.copy(lhs).sub(this)
         }
-        else if (typeof other === 'number') {
-            return G2.fromScalar(other).sub(this)
+        else if (typeof lhs === 'number') {
+            return G2.fromScalar(lhs).sub(this)
         }
         else {
             return void 0
@@ -1135,17 +1190,17 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * @method __wedge__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __wedge__(other: any) {
-        if (other instanceof G2) {
-            return G2.copy(this).wedge(other)
+    __wedge__(rhs: any) {
+        if (rhs instanceof G2) {
+            return G2.copy(this).ext(rhs)
         }
-        else if (typeof other === 'number') {
+        else if (typeof rhs === 'number') {
             // The outer product with a scalar is simply scalar multiplication.
-            return G2.copy(this).scale(other)
+            return G2.copy(this).scale(rhs)
         }
         else {
             return void 0
@@ -1154,17 +1209,17 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * @method __rwedge__
-     * @param other {any}
+     * @param lhs {any}
      * @return {G2}
      * @private
      */
-    __rwedge__(other: any) {
-        if (other instanceof G2) {
-            return G2.copy(other).wedge(this)
+    __rwedge__(lhs: any) {
+        if (lhs instanceof G2) {
+            return G2.copy(lhs).ext(this)
         }
-        else if (typeof other === 'number') {
-            // The outer product with a scalar is simply scalar multiplication, and commutes
-            return G2.copy(this).scale(other)
+        else if (typeof lhs === 'number') {
+            // The outer product with a scalar is simply scalar multiplication, and commutes.
+            return G2.copy(this).scale(lhs)
         }
         else {
             return void 0
@@ -1177,12 +1232,30 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @return {G2}
      * @private
      */
-    __lshift__(other: any) {
-        if (other instanceof G2) {
-            return G2.copy(this).lco(other)
+    __lshift__(rhs: any) {
+        if (rhs instanceof G2) {
+            return G2.copy(this).lco(rhs)
         }
-        else if (typeof other === 'number') {
-            return G2.fromScalar(other).lco(this)
+        else if (typeof rhs === 'number') {
+            return G2.copy(this).lco(G2.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rlshift__
+     * @param other {any}
+     * @return {G2}
+     * @private
+     */
+    __rlshift__(lhs: any) {
+        if (lhs instanceof G2) {
+            return G2.copy(lhs).lco(this)
+        }
+        else if (typeof lhs === 'number') {
+            return G2.fromScalar(lhs).lco(this)
         }
         else {
             return void 0
@@ -1191,16 +1264,34 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * @method __rshift__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __rshift__(other: any) {
-        if (other instanceof G2) {
-            return G2.copy(this).rco(other)
+    __rshift__(rhs: any) {
+        if (rhs instanceof G2) {
+            return G2.copy(this).rco(rhs)
         }
-        else if (typeof other === 'number') {
-            return G2.fromScalar(other).rco(this)
+        else if (typeof rhs === 'number') {
+            return G2.copy(this).rco(G2.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rrshift__
+     * @param lhs {any}
+     * @return {G2}
+     * @private
+     */
+    __rrshift__(lhs: any) {
+        if (lhs instanceof G2) {
+            return G2.copy(lhs).rco(this)
+        }
+        else if (typeof lhs === 'number') {
+            return G2.fromScalar(lhs).rco(this)
         }
         else {
             return void 0
@@ -1209,16 +1300,34 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * @method __vbar__
-     * @param other {any}
+     * @param rhs {any}
      * @return {G2}
      * @private
      */
-    __vbar__(other: any) {
-        if (other instanceof G2) {
-            return G2.copy(this).align(other)
+    __vbar__(rhs: any) {
+        if (rhs instanceof G2) {
+            return G2.copy(this).scp(rhs)
         }
-        else if (typeof other === 'number') {
-            return G2.fromScalar(other).align(this)
+        else if (typeof rhs === 'number') {
+            return G2.copy(this).scp(G2.fromScalar(rhs))
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rvbar__
+     * @param lhs {any}
+     * @return {G2}
+     * @private
+     */
+    __rvbar__(lhs: any) {
+        if (lhs instanceof G2) {
+            return G2.copy(lhs).scp(this)
+        }
+        else if (typeof lhs === 'number') {
+            return G2.fromScalar(lhs).scp(this)
         }
         else {
             return void 0

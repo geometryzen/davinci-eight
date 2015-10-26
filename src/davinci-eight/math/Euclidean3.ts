@@ -421,6 +421,11 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         }
     }
 
+    adj(): Euclidean3 {
+        // TODO
+        return this;
+    }
+
     /**
      * @method arg
      * @return {number}
@@ -495,13 +500,17 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         }
     }
 
-    scalarMultiply(rhs: number): Euclidean3 {
-        return new Euclidean3(this.w * rhs, this.x * rhs, this.y * rhs, this.z * rhs, this.xy * rhs, this.yz * rhs, this.zx * rhs, this.xyz * rhs, this.uom);
+    scale(α: number): Euclidean3 {
+        return new Euclidean3(this.w * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.xyz * α, this.uom);
     }
 
     div(rhs: Euclidean3): Euclidean3 {
         assertArgEuclidean3('rhs', rhs);
         return divide(this.w, this.x, this.y, this.xy, this.z, -this.zx, this.yz, this.xyz, rhs.w, rhs.x, rhs.y, rhs.xy, rhs.z, -rhs.zx, rhs.yz, rhs.xyz, Unit.div(this.uom, rhs.uom));
+    }
+
+    divByScalar(α: number): Euclidean3 {
+        return new Euclidean3(this.w / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.xyz / α, this.uom);
     }
 
     __div__(other: any): Euclidean3 {
@@ -528,13 +537,13 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom)
     }
 
-    align(rhs: Euclidean3): Euclidean3 {
+    scp(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
         return scpG3(this, rhs, out)
     }
 
-    wedge(rhs: Euclidean3): Euclidean3 {
+    ext(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
         return extG3(this, rhs, out)
@@ -542,37 +551,37 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
 
     __vbar__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return this.align(other);
+            return this.scp(other);
         }
         else if (typeof other === 'number') {
-            return this.align(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+            return this.scp(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rvbar__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return (<Euclidean3>other).align(this);
+            return (<Euclidean3>other).scp(this);
         }
         else if (typeof other === 'number') {
-            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).align(this);
+            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).scp(this);
         }
     }
 
     __wedge__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return this.wedge(other);
+            return this.ext(other);
         }
         else if (typeof other === 'number') {
-            return this.wedge(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+            return this.ext(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
         }
     }
 
     __rwedge__(other: any): Euclidean3 {
         if (other instanceof Euclidean3) {
-            return (<Euclidean3>other).wedge(this);
+            return (<Euclidean3>other).ext(this);
         }
         else if (typeof other === 'number') {
-            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).wedge(this);
+            return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).ext(this);
         }
     }
 
@@ -660,7 +669,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
      * @method reverse
      * @return {Euclidean3}
      */
-    reverse(): Euclidean3 {
+    rev(): Euclidean3 {
         return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
     }
 
@@ -671,7 +680,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
      * @private
      */
     __tilde__(): Euclidean3 {
-        return this.reverse()
+        return this.rev()
     }
 
     grade(index: number): Euclidean3 {
@@ -716,6 +725,9 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         y = z1 * x2 - x1 * z2;
         z = x1 * y2 - y1 * x2;
         return new Euclidean3(0, x, y, z, 0, 0, 0, 0, Unit.mul(this.uom, vector.uom));
+    }
+    isOne(): boolean {
+        return (this.w === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
     }
     isZero(): boolean {
         return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
@@ -805,6 +817,11 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     sinh(): Euclidean3 {
         //Unit.assertDimensionless(this.uom);
         throw new Euclidean3Error('sinh');
+    }
+
+    slerp(target: Euclidean3, α: number): Euclidean3 {
+        // FIXME: TODO
+        return this
     }
 
     unitary(): Euclidean3 {

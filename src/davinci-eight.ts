@@ -319,6 +319,7 @@ var eight = {
     get Euclidean3() { return Euclidean3 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
+    get QQ() { return QQ },
     get G2() { return G2 },
     get G3() { return G3 },
     get R1() { return R1 },

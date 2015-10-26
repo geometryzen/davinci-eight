@@ -57,9 +57,9 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
             var axis = new Euclidean3(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0);
             var radial = perpendicular(axis);
             // FIXME: Change to scale
-            var R0 = radial.scalarMultiply(this.radius);
+            var R0 = radial.scale(this.radius);
             var generator = new Euclidean3(this.generator.w, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0);
-            var Rminor0 = axis.wedge(radial);
+            var Rminor0 = axis.ext(radial);
             var n = 9;
             var circleSegments = this.arrowSegments * n;
             var tau = Math.PI * 2;
@@ -97,11 +97,11 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
                 for (var i = 0; i <= circleSegments; i++) {
                     // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
                     var u = computeAngle(i);
-                    var Rmajor = generator.scalarMultiply(-u / 2).exp();
+                    var Rmajor = generator.scale(-u / 2).exp();
                     center.copy(R0).rotate(Rmajor);
                     var vertex = R3.copy(center);
-                    var r0 = axis.scalarMultiply(computeRadius(i));
-                    var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scalarMultiply(-v / 2).exp();
+                    var r0 = axis.scale(computeRadius(i));
+                    var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scale(-v / 2).exp();
                     // var Rminor = Rminor0.clone().rotate(Rmajor).scale(-v/2).exp()
                     var r = Rminor.mul(r0).mul(Rminor.__tilde__());
                     vertex.add2(center, r);

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../math/extG3', '../checks/isNumber', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, extG3, isNumber, lcoG3, mulG3, mustBeNumber, mustBeObject, rcoG3, scpG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, extG3, lcoG3, mulG3, mustBeNumber, mustBeObject, rcoG3, scpG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -242,6 +242,9 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.xyz = a.xyz + b.xyz;
             return this;
         };
+        G3.prototype.adj = function () {
+            throw new Error('TODO: G3.adj');
+        };
         /**
          * @method arg
          * @return {number}
@@ -284,19 +287,19 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @chainable
          */
         G3.prototype.lco = function (m) {
-            return this.conL2(this, m);
+            return this.lco2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a << b</code>
          * </p>
-         * @method conL2
+         * @method lco2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.conL2 = function (a, b) {
+        G3.prototype.lco2 = function (a, b) {
             return lcoG3(a, b, this);
         };
         /**
@@ -309,19 +312,19 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @chainable
          */
         G3.prototype.rco = function (m) {
-            return this.conR2(this, m);
+            return this.rco2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a >> b</code>
          * </p>
-         * @method conR2
+         * @method rco2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.conR2 = function (a, b) {
+        G3.prototype.rco2 = function (a, b) {
             return rcoG3(a, b, this);
         };
         /**
@@ -403,12 +406,12 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.divideByScalar = function (α) {
+        G3.prototype.divByScalar = function (α) {
             mustBeNumber('α', α);
             this.w /= α;
             this.x /= α;
@@ -512,8 +515,22 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         G3.prototype.inv = function () {
             // FIXME: TODO
             this.conj();
-            // this.divideByScalar(this.quaditude());
+            // this.divByScalar(this.quaditude());
             return this;
+        };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
+        G3.prototype.isOne = function () {
+            return this.w === 1 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.xyz === 0;
+        };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
+        G3.prototype.isZero = function () {
+            return this.w === 0 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.xyz === 0;
         };
         /**
          * <p>
@@ -719,13 +736,13 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
-         * <code>this ⟼ reverse(this)</code>
+         * <code>this ⟼ rev(this)</code>
          * </p>
          * @method reverse
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.reverse = function () {
+        G3.prototype.rev = function () {
             // reverse has a ++-- structure.
             this.w = this.w;
             this.x = this.x;
@@ -742,11 +759,11 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @return {G3}
          */
         G3.prototype.__tilde__ = function () {
-            return G3.copy(this).reverse();
+            return G3.copy(this).rev();
         };
         /**
          * <p>
-         * <code>this ⟼ R * this * reverse(R)</code>
+         * <code>this ⟼ R * this * rev(R)</code>
          * </p>
          * @method rotate
          * @param R {SpinorE3}
@@ -787,7 +804,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.spinor(b, a);
             this.w += 1;
             var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
-            this.divideByScalar(denom);
+            this.divByScalar(denom);
             return this;
         };
         /**
@@ -832,27 +849,27 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
-         * <code>this ⟼ align(this, m)</code>
+         * <code>this ⟼ scp(this, m)</code>
          * </p>
          * @method align
          * @param m {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.align = function (m) {
-            return this.align2(this, m);
+        G3.prototype.scp = function (m) {
+            return this.scp2(this, m);
         };
         /**
          * <p>
-         * <code>this ⟼ align(a, b)</code>
+         * <code>this ⟼ scp(a, b)</code>
          * </p>
-         * @method align2
+         * @method scp2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.align2 = function (a, b) {
+        G3.prototype.scp2 = function (a, b) {
             return scpG3(a, b, this);
         };
         /**
@@ -872,6 +889,12 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.zx *= α;
             this.xy *= α;
             this.xyz *= α;
+            return this;
+        };
+        G3.prototype.slerp = function (target, α) {
+            mustBeObject('target', target);
+            mustBeNumber('α', α);
+            // TODO
             return this;
         };
         /**
@@ -949,6 +972,15 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return this;
         };
         /**
+         * Returns a string representing the number in exponential notation.
+         * @method toExponential
+         * @return {string}
+         */
+        G3.prototype.toExponential = function () {
+            var coordToString = function (coord) { return coord.toExponential(); };
+            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+        };
+        /**
          * Returns a string representing the number in fixed-point notation.
          * @method toFixed
          * @param fractionDigits [number]
@@ -976,37 +1008,34 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.wedge = function (m) {
-            return this.wedge2(this, m);
+        G3.prototype.ext = function (m) {
+            return this.ext2(this, m);
         };
         /**
          * <p>
          * <code>this ⟼ a ^ b</code>
          * </p>
-         * @method wedge2
+         * @method ext2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.wedge2 = function (a, b) {
+        G3.prototype.ext2 = function (a, b) {
             return extG3(a, b, this);
         };
         /**
          * @method __add__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__add__ = function (other) {
-            if (other instanceof G3) {
-                var rhs = other;
+        G3.prototype.__add__ = function (rhs) {
+            if (rhs instanceof G3) {
                 return G3.copy(this).add(rhs);
             }
-            else if (isNumber(other)) {
-                var m = G3.copy(this);
-                m.w += other;
-                return m;
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).add(G3.fromScalar(rhs));
             }
             else {
                 return void 0;
@@ -1014,16 +1043,33 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __div__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__div__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).div(other);
+        G3.prototype.__div__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).div(rhs);
             }
-            else if (isNumber(other)) {
-                return G3.copy(this).divideByScalar(other);
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).divByScalar(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).div(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).div(this);
             }
             else {
                 return void 0;
@@ -1031,16 +1077,16 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __mul__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__mul__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).mul(other);
+        G3.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).mul(rhs);
             }
-            else if (isNumber(other)) {
-                return G3.copy(this).scale(other);
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).scale(rhs);
             }
             else {
                 return void 0;
@@ -1048,16 +1094,17 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __rmul__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__rmul__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(other).mul(this);
+        G3.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).mul(this);
             }
-            else if (typeof other === 'number') {
-                return G3.copy(this).scale(other);
+            else if (typeof lhs === 'number') {
+                // Scalar multiplication commutes.
+                return G3.copy(this).scale(lhs);
             }
             else {
                 return void 0;
@@ -1065,19 +1112,16 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __radd__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__radd__ = function (other) {
-            if (other instanceof G3) {
-                var rhs = other;
-                return G3.copy(other).add(this);
+        G3.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).add(this);
             }
-            else if (isNumber(other)) {
-                var m = G3.copy(this); /*.pos()*/
-                m.w += other;
-                return m;
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).add(this);
             }
             else {
                 return void 0;
@@ -1085,19 +1129,16 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __sub__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__sub__ = function (other) {
-            if (other instanceof G3) {
-                var rhs = other;
+        G3.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof G3) {
                 return G3.copy(this).sub(rhs);
             }
-            else if (isNumber(other)) {
-                var m = G3.copy(this);
-                m.w -= other;
-                return m;
+            else if (typeof rhs === 'number') {
+                return G3.fromScalar(rhs).neg().add(this);
             }
             else {
                 return void 0;
@@ -1105,19 +1146,16 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __rsub__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__rsub__ = function (other) {
-            if (other instanceof G3) {
-                var rhs = other;
-                return G3.copy(other).sub(this);
+        G3.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).sub(this);
             }
-            else if (isNumber(other)) {
-                var m = G3.copy(this).neg();
-                m.w += other;
-                return m;
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).sub(this);
             }
             else {
                 return void 0;
@@ -1125,17 +1163,17 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __wedge__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__wedge__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).wedge(other);
+        G3.prototype.__wedge__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).ext(rhs);
             }
-            else if (typeof other === 'number') {
-                // The outer product with a scalar is simply scalar multiplication.
-                return G3.copy(this).scale(other);
+            else if (typeof rhs === 'number') {
+                // The outer product with a scalar is scalar multiplication.
+                return G3.copy(this).scale(rhs);
             }
             else {
                 return void 0;
@@ -1143,17 +1181,17 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __rwedge__
-         * @param other {any}
+         * @param lhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__rwedge__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(other).wedge(this);
+        G3.prototype.__rwedge__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).ext(this);
             }
-            else if (typeof other === 'number') {
-                // The outer product with a scalar is simply scalar multiplication, and commutes
-                return G3.copy(this).scale(other);
+            else if (typeof lhs === 'number') {
+                // The outer product with a scalar is scalar multiplication, and commutes.
+                return G3.copy(this).scale(lhs);
             }
             else {
                 return void 0;
@@ -1161,16 +1199,33 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __lshift__
+         * @param rhs {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__lshift__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).lco(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).lco(G3.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rlshift__
          * @param other {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__lshift__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).lco(other);
+        G3.prototype.__rlshift__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).lco(this);
             }
-            else if (typeof other === 'number') {
-                return G3.fromScalar(other).lco(this);
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).lco(this);
             }
             else {
                 return void 0;
@@ -1178,16 +1233,33 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __rshift__
+         * @param rhs {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__rshift__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).rco(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).rco(G3.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rrshift__
          * @param other {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__rshift__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).rco(other);
+        G3.prototype.__rrshift__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).rco(this);
             }
-            else if (typeof other === 'number') {
-                return G3.fromScalar(other).rco(this);
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).rco(this);
             }
             else {
                 return void 0;
@@ -1195,16 +1267,33 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * @method __vbar__
-         * @param other {any}
+         * @param rhs {any}
          * @return {G3}
          * @private
          */
-        G3.prototype.__vbar__ = function (other) {
-            if (other instanceof G3) {
-                return G3.copy(this).align(other);
+        G3.prototype.__vbar__ = function (rhs) {
+            if (rhs instanceof G3) {
+                return G3.copy(this).scp(rhs);
             }
-            else if (typeof other === 'number') {
-                return G3.fromScalar(other).align(this);
+            else if (typeof rhs === 'number') {
+                return G3.copy(this).scp(G3.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rvbar__
+         * @param lhs {any}
+         * @return {G3}
+         * @private
+         */
+        G3.prototype.__rvbar__ = function (lhs) {
+            if (lhs instanceof G3) {
+                return G3.copy(lhs).scp(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G3.fromScalar(lhs).scp(this);
             }
             else {
                 return void 0;

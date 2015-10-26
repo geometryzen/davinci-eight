@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -547,7 +547,7 @@ class Unit {
             return div(other, this);
         }
         else if (typeof other === &#x27;number&#x27;) {
-            return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
+            return new Unit(other / this.scale, this.dimensions.neg(), this.labels);
         }
         else {
             return;
@@ -559,8 +559,9 @@ class Unit {
         return new Unit(Math.pow(this.scale, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
     }
 
+    // FIXME: Rename inverse
     inverse(): Unit {
-        return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
+        return new Unit(1 / this.scale, this.dimensions.neg(), this.labels);
     }
 
     isUnity(): boolean {

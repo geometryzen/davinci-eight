@@ -310,6 +310,10 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).add(this);
             }
         };
+        Euclidean3.prototype.adj = function () {
+            // TODO
+            return this;
+        };
         /**
          * @method arg
          * @return {number}
@@ -376,12 +380,15 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).mul(this);
             }
         };
-        Euclidean3.prototype.scalarMultiply = function (rhs) {
-            return new Euclidean3(this.w * rhs, this.x * rhs, this.y * rhs, this.z * rhs, this.xy * rhs, this.yz * rhs, this.zx * rhs, this.xyz * rhs, this.uom);
+        Euclidean3.prototype.scale = function (α) {
+            return new Euclidean3(this.w * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.xyz * α, this.uom);
         };
         Euclidean3.prototype.div = function (rhs) {
             assertArgEuclidean3('rhs', rhs);
             return divide(this.w, this.x, this.y, this.xy, this.z, -this.zx, this.yz, this.xyz, rhs.w, rhs.x, rhs.y, rhs.xy, rhs.z, -rhs.zx, rhs.yz, rhs.xyz, Unit.div(this.uom, rhs.uom));
+        };
+        Euclidean3.prototype.divByScalar = function (α) {
+            return new Euclidean3(this.w / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.xyz / α, this.uom);
         };
         Euclidean3.prototype.__div__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -404,46 +411,46 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
             // FIXME: TODO
             return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
         };
-        Euclidean3.prototype.align = function (rhs) {
+        Euclidean3.prototype.scp = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             return scpG3(this, rhs, out);
         };
-        Euclidean3.prototype.wedge = function (rhs) {
+        Euclidean3.prototype.ext = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             return extG3(this, rhs, out);
         };
         Euclidean3.prototype.__vbar__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.align(other);
+                return this.scp(other);
             }
             else if (typeof other === 'number') {
-                return this.align(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.scp(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rvbar__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.align(this);
+                return other.scp(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).align(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).scp(this);
             }
         };
         Euclidean3.prototype.__wedge__ = function (other) {
             if (other instanceof Euclidean3) {
-                return this.wedge(other);
+                return this.ext(other);
             }
             else if (typeof other === 'number') {
-                return this.wedge(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
+                return this.ext(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
         Euclidean3.prototype.__rwedge__ = function (other) {
             if (other instanceof Euclidean3) {
-                return other.wedge(this);
+                return other.ext(this);
             }
             else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).wedge(this);
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).ext(this);
             }
         };
         Euclidean3.prototype.lco = function (rhs) {
@@ -521,7 +528,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
          * @method reverse
          * @return {Euclidean3}
          */
-        Euclidean3.prototype.reverse = function () {
+        Euclidean3.prototype.rev = function () {
             return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
         };
         /**
@@ -531,7 +538,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
          * @private
          */
         Euclidean3.prototype.__tilde__ = function () {
-            return this.reverse();
+            return this.rev();
         };
         Euclidean3.prototype.grade = function (index) {
             assertArgNumber('index', index);
@@ -572,6 +579,9 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
             y = z1 * x2 - x1 * z2;
             z = x1 * y2 - y1 * x2;
             return new Euclidean3(0, x, y, z, 0, 0, 0, 0, Unit.mul(this.uom, vector.uom));
+        };
+        Euclidean3.prototype.isOne = function () {
+            return (this.w === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
         };
         Euclidean3.prototype.isZero = function () {
             return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
@@ -650,6 +660,10 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         Euclidean3.prototype.sinh = function () {
             //Unit.assertDimensionless(this.uom);
             throw new Euclidean3Error('sinh');
+        };
+        Euclidean3.prototype.slerp = function (target, α) {
+            // FIXME: TODO
+            return this;
         };
         Euclidean3.prototype.unitary = function () {
             return this.div(this.norm());

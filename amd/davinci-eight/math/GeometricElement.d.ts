@@ -9,6 +9,10 @@ interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
      */
     arg(): number;
     /**
+     * conjugate multiplied by norm (similar to inv)
+     */
+    adj(): M;
+    /**
      * Conjugate
      */
     conj(): M;
@@ -17,45 +21,60 @@ interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
      */
     lco(rhs: I): M;
     /**
+     * divide really only applies to division algebras, may not be defined.
+     */
+    div(rhs: I): M;
+    /**
+     * Duality
+     */
+    dual(m: D): M;
+    /**
+     * Exponential
+     */
+    exp(): M;
+    /**
+     * Exterior or Outer Product.
+     */
+    ext(rhs: I): M;
+    /**
+     * Inverse (may not exist).
+     */
+    inv(): M;
+    /**
+     * Natural logarithm.
+     */
+    log(): M;
+    /**
+     * abs(x) = |x|, absolute value of the norm.
+     */
+    magnitude(): number;
+    /**
+     * Multiplication.
+     */
+    mul(rhs: I): M;
+    /**
+     * norm, ||x|| = sqrt(scp(x, rev(x)))
+     */
+    norm(): M;
+    /**
+     * squared norm, scp(x, rev(x))
+     */
+    quad(): M;
+    /**
+     * squared norm, as a number
+     */
+    quaditude(): number;
+    /**
      * Right contraction
      */
     rco(rhs: I): M;
     /**
-     * divide really only applies to division algebras.
-     */
-    div(rhs: I): M;
-    dual(m: D): M;
-    exp(): M;
-    inv(): M;
-    log(): M;
-    /**
-     * abs(x) = |x|
-     */
-    magnitude(): number;
-    /**
-     *
-     */
-    mul(rhs: I): M;
-    /**
-     * squared norm, ||x|| = align(x, reverse(x))
-     */
-    norm(): M;
-    quad(): M;
-    /**
-     * squared norm, ||x|| = align(x, reverse(x))
-     */
-    quaditude(): number;
-    /**
      * Reverse
      */
-    reverse(): M;
+    rev(): M;
     /**
      * Scalar Product
      */
-    align(rhs: I): M;
-    /**
-     * Outer Product.
-     */
-    wedge(rhs: I): M;
+    scp(rhs: I): M;
 }
 export = GeometricElement;

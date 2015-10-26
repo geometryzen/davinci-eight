@@ -72,6 +72,12 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @return {CC}
      */
     div(rhs: CC): CC;
+    /**
+     * @method divByScalar
+     * @param α {number}
+     * @return {CC}
+     */
+    divByScalar(α: number): CC;
     __div__(other: any): CC;
     __rdiv__(other: any): CC;
     /**
@@ -79,7 +85,7 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @param rhs {CC}
      * @return {CC}
      */
-    align(rhs: CC): CC;
+    scp(rhs: CC): CC;
     __vbar__(other: any): CC;
     __rvbar__(other: any): CC;
     /**
@@ -87,9 +93,10 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @param rhs {CC}
      * @return {CC}
      */
-    wedge(rhs: CC): CC;
+    ext(rhs: CC): CC;
     __wedge__(other: any): CC;
     __rwedge__(other: any): CC;
+    lerp(target: CC, α: number): CC;
     /**
      * @method lco
      * @param rhs {CC}
@@ -124,6 +131,28 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      */
     exp(): CC;
     /**
+     * Computes the multiplicative inverse of this complex number.
+     * @method inv
+     * @return {CC}
+     */
+    inv(): CC;
+    /**
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean;
+    /**
+     * @method isZero
+     * @return {boolean}
+     */
+    isZero(): boolean;
+    /**
+     * Computes the additive inverse of this complex number.
+     * @method neg
+     * @return {CC}
+     */
+    neg(): CC;
+    /**
      * @method norm
      * @return {CC}
      */
@@ -134,6 +163,12 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      */
     quad(): CC;
     /**
+     * @method scale
+     * @param α {number}
+     * @return {CC}
+     */
+    scale(α: number): CC;
+    /**
      * @method sin
      * @return {CC}
      */
@@ -143,6 +178,7 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @return {CC}
      */
     sinh(): CC;
+    slerp(target: CC, α: number): CC;
     /**
      * @method unitary
      * @return {CC}

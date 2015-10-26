@@ -33,17 +33,19 @@ declare class Euclidean2 implements Measure<Euclidean2> {
     mul(rhs: Euclidean2): Euclidean2;
     __mul__(other: any): Euclidean2;
     __rmul__(other: any): Euclidean2;
-    scalarMultiply(rhs: number): Euclidean2;
+    scale(α: number): Euclidean2;
     div(rhs: Euclidean2): Euclidean2;
+    divByScalar(α: number): Euclidean2;
     __div__(other: any): Euclidean2;
     __rdiv__(other: any): Euclidean2;
-    static align(a: number[], b: number[]): number[];
-    align(rhs: Euclidean2): Euclidean2;
-    static wedge(a: number[], b: number[]): number[];
-    wedge(rhs: Euclidean2): Euclidean2;
+    static scp(a: number[], b: number[]): number[];
+    scp(rhs: Euclidean2): Euclidean2;
+    static ext(a: number[], b: number[]): number[];
+    ext(rhs: Euclidean2): Euclidean2;
     __wedge__(other: any): Euclidean2;
     __rwedge__(other: any): Euclidean2;
     static lshift(a: number[], b: number[]): number[];
+    lerp(target: Euclidean2, α: number): Euclidean2;
     lco(rhs: Euclidean2): Euclidean2;
     __lshift__(other: any): Euclidean2;
     __rlshift__(other: any): Euclidean2;
@@ -68,6 +70,7 @@ declare class Euclidean2 implements Measure<Euclidean2> {
     quad(): Euclidean2;
     sin(): Euclidean2;
     sinh(): Euclidean2;
+    slerp(target: Euclidean2, α: number): Euclidean2;
     unitary(): Euclidean2;
     /**
      * @method gradeZero

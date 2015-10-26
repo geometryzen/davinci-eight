@@ -11,6 +11,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, Vect
     v: VectorE3;
     add(q: HH, α?: number): HH;
     add2(a: HH, b: HH): HH;
+    adj(): HH;
     /**
      * @method arg
      * @return {number}
@@ -19,9 +20,9 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, Vect
     dual(vector: VectorE3): HH;
     clone(): HH;
     lco(rhs: HH): HH;
-    conL2(a: HH, b: HH): HH;
+    lco2(a: HH, b: HH): HH;
     rco(rhs: HH): HH;
-    conR2(a: HH, b: HH): HH;
+    rco2(a: HH, b: HH): HH;
     conj(): HH;
     copy(quaternion: HH): HH;
     copySpinor(spinor: HH): HH;
@@ -30,7 +31,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, Vect
     cosh(): HH;
     div(q: HH): HH;
     div2(a: HH, b: HH): HH;
-    divideByScalar(scalar: number): HH;
+    divByScalar(scalar: number): HH;
     dot(v: HH): number;
     exp(): HH;
     inv(): HH;
@@ -57,7 +58,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, Vect
     quad(): HH;
     quaditude(): number;
     reflect(n: VectorE3): HH;
-    reverse(): HH;
+    rev(): HH;
     rotate(rotor: HH): HH;
     rotor(a: VectorE3, b: VectorE3): HH;
     rotorFromAxisAngle(axis: VectorE3, θ: number): HH;
@@ -65,15 +66,17 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, Vect
     setFromRotationMatrix(m: Matrix4): HH;
     spinor(a: VectorE3, b: VectorE3): HH;
     slerp(qb: HH, t: number): HH;
-    align(rhs: HH): HH;
-    align2(a: HH, b: HH): HH;
+    scp(rhs: HH): HH;
+    scp2(a: HH, b: HH): HH;
     sub(q: HH, α?: number): HH;
     sub2(a: HH, b: HH): HH;
+    toExponential(): string;
+    toFixed(digits?: number): string;
     equals(quaternion: HH): boolean;
     fromArray(array: number[], offset?: number): HH;
     toArray(array?: number[], offset?: number): number[];
-    wedge(rhs: HH): HH;
-    wedge2(a: HH, b: HH): HH;
+    ext(rhs: HH): HH;
+    ext2(a: HH, b: HH): HH;
     static slerp(qa: HH, qb: HH, qm: HH, t: number): HH;
 }
 export = HH;

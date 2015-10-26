@@ -178,7 +178,7 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
         };
         /**
          * <p>
-         * <code>this ⟼ R * this * reverse(R)</code>
+         * <code>this ⟼ R * this * rev(R)</code>
          * </p>
          * @method rotate
          * @param R {SpinorE3}
@@ -292,12 +292,12 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divideByScalar
+         * @method divByScalar
          * @param α {number}
          * @return {R3} <code>this</code>
          * @chainable
          */
-        R3.prototype.divideByScalar = function (α) {
+        R3.prototype.divByScalar = function (α) {
             mustBeNumber('α', α);
             if (α !== 0) {
                 var invScalar = 1 / α;
@@ -392,7 +392,7 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
          * @chainable
          */
         R3.prototype.normalize = function () {
-            return this.divideByScalar(this.magnitude());
+            return this.divByScalar(this.magnitude());
         };
         /**
          * <p>
@@ -485,6 +485,11 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
             this.z = z;
             return this;
         };
+        R3.prototype.slerp = function (target, α) {
+            mustBeObject('target', target);
+            mustBeNumber('α', α);
+            return this;
+        };
         /**
          * <p>
          * <code>this ⟼ this - v</code>
@@ -521,6 +526,12 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
             this.y = a.y - b.y;
             this.z = a.z - b.z;
             return this;
+        };
+        R3.prototype.toExponential = function () {
+            return "TODO R2.toExponential";
+        };
+        R3.prototype.toFixed = function (digits) {
+            return "TODO R2.toFixed";
         };
         /**
          * @method toString

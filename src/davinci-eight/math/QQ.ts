@@ -1,10 +1,12 @@
+import DivisionRingOperators = require('../math/DivisionRingOperators')
+import isInteger = require('../checks/isInteger')
 import mustBeInteger = require('../checks/mustBeInteger')
 import readOnly = require('../i18n/readOnly')
 
 /**
  * @class QQ
  */
-class QQ {
+class QQ implements DivisionRingOperators<QQ> {
     /**
      * @property _numer
      * @type {number}
@@ -146,19 +148,36 @@ class QQ {
     }
 
     /**
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean {
+        return this._numer === 1 && this._denom === 1
+    }
+
+    /**
      * @method isZero
      * @return {boolean}
      */
     isZero(): boolean {
-        return this._numer === 0;
+        return this._numer === 0 && this._denom === 1
     }
 
     /**
-     * Computes the additive inverse of this rational.
-     * @method negative
+     * Computes the multiplicative inverse of this rational number.
+     * @method inv
      * @return {QQ}
      */
-    negative(): QQ {
+    inv(): QQ {
+        return new QQ(this._denom, this._numer);
+    }
+
+    /**
+     * Computes the additive inverse of this rational number.
+     * @method neg
+     * @return {QQ}
+     */
+    neg(): QQ {
         return new QQ(-this._numer, this._denom);
     }
 
@@ -182,30 +201,172 @@ class QQ {
     toString(): string {
         return "" + this._numer + "/" + this._denom + ""
     }
+
+    /**
+     * @method __add__
+     * @param rhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __add__(rhs: any): QQ {
+        if (rhs instanceof QQ) {
+            return this.add(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __radd__
+     * @param lhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __radd__(lhs: any): QQ {
+        if (lhs instanceof QQ) {
+            return lhs.add(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __sub__
+     * @param rhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __sub__(rhs: any): QQ {
+        if (rhs instanceof QQ) {
+            return this.sub(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rsub__
+     * @param lhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __rsub__(lhs: any): QQ {
+        if (lhs instanceof QQ) {
+            return lhs.sub(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __mul__
+     * @param rhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __mul__(rhs: any): QQ {
+        if (rhs instanceof QQ) {
+            return this.mul(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rmul__
+     * @param lhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __rmul__(lhs: any): QQ {
+        if (lhs instanceof QQ) {
+            return lhs.mul(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __div__
+     * @param div {any}
+     * @return {QQ}
+     * @private
+     */
+    __div__(rhs: any): QQ {
+        if (rhs instanceof QQ) {
+            return this.div(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rdiv__
+     * @param lhs {any}
+     * @return {QQ}
+     * @private
+     */
+    __rdiv__(lhs: any): QQ {
+        if (lhs instanceof QQ) {
+            return lhs.div(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __pos__
+     * @return {QQ}
+     * @private
+     */
+    __pos__(): QQ {
+        return this
+    }
+
+    /**
+     * @method __neg__
+     * @return {QQ}
+     * @private
+     */
+    __neg__(): QQ {
+        return this.neg()
+    }
+
     /**
      * @property ONE
      * @type {QQ}
      * @static
      */
-    static ONE: QQ = new QQ(1, 1);
+    static ONE: QQ = new QQ(1, 1)
+
     /**
      * @property TWO
      * @type {QQ}
      * @static
      */
-    static TWO: QQ = new QQ(2, 1);
+    static TWO: QQ = new QQ(2, 1)
+
     /**
      * @property MINUS_ONE
      * @type {QQ}
      * @static
      */
-    static MINUS_ONE: QQ = new QQ(-1, 1);
+    static MINUS_ONE: QQ = new QQ(-1, 1)
+
     /**
      * @property ZERO
      * @type {QQ}
      * @static
      */
-    static ZERO: QQ = new QQ(0, 1);
+    static ZERO: QQ = new QQ(0, 1)
 }
 
 export = QQ;

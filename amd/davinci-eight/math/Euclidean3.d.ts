@@ -96,6 +96,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     add(rhs: Euclidean3): Euclidean3;
     __add__(other: any): Euclidean3;
     __radd__(other: any): Euclidean3;
+    adj(): Euclidean3;
     /**
      * @method arg
      * @return {number}
@@ -117,13 +118,14 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     mul(rhs: Euclidean3): Euclidean3;
     __mul__(other: any): any;
     __rmul__(other: any): any;
-    scalarMultiply(rhs: number): Euclidean3;
+    scale(α: number): Euclidean3;
     div(rhs: Euclidean3): Euclidean3;
+    divByScalar(α: number): Euclidean3;
     __div__(other: any): Euclidean3;
     __rdiv__(other: any): Euclidean3;
     dual(): Euclidean3;
-    align(rhs: Euclidean3): Euclidean3;
-    wedge(rhs: Euclidean3): Euclidean3;
+    scp(rhs: Euclidean3): Euclidean3;
+    ext(rhs: Euclidean3): Euclidean3;
     __vbar__(other: any): Euclidean3;
     __rvbar__(other: any): Euclidean3;
     __wedge__(other: any): Euclidean3;
@@ -158,7 +160,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * @method reverse
      * @return {Euclidean3}
      */
-    reverse(): Euclidean3;
+    rev(): Euclidean3;
     /**
      * ~ (tilde) produces reversion.
      * @method __tilde__
@@ -169,6 +171,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     grade(index: number): Euclidean3;
     dot(vector: Euclidean3): number;
     cross(vector: Euclidean3): Euclidean3;
+    isOne(): boolean;
     isZero(): boolean;
     length(): number;
     lerp(target: Euclidean3, α: number): Euclidean3;
@@ -191,6 +194,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     rotate(s: SpinorE3): Euclidean3;
     sin(): Euclidean3;
     sinh(): Euclidean3;
+    slerp(target: Euclidean3, α: number): Euclidean3;
     unitary(): Euclidean3;
     /**
      * @method gradeZero

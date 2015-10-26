@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -280,13 +280,6 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
     }
-    /**
-     * @method clone
-     * @return {Euclidean1}
-     */
-    clone(): Euclidean1 {
-        return new Euclidean1(this.w, this.x, this.uom)
-    }
 
     coordinates(): number[] {
         return [this.w, this.x]
@@ -327,12 +320,21 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
         throw new Euclidean1Error(&#x27;div&#x27;)
     }
 
-    align(rhs: Euclidean1): Euclidean1 {
+    divByScalar(α: number) {
+        return new Euclidean1(this.w / α, this.x / α, this.uom)
+    }
+
+    scp(rhs: Euclidean1): Euclidean1 {
         throw new Euclidean1Error(&#x27;wedge&#x27;)
     }
 
-    wedge(rhs: Euclidean1): Euclidean1 {
+    ext(rhs: Euclidean1): Euclidean1 {
         throw new Euclidean1Error(&#x27;wedge&#x27;)
+    }
+
+    lerp(target: Euclidean1, α: number): Euclidean1 {
+        // FIXME: TODO
+        return this
     }
 
     lco(rhs: Euclidean1): Euclidean1 {
@@ -370,6 +372,10 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
         return new Euclidean1(this.w * this.w + this.x * this.x, 0, Unit.mul(this.uom, this.uom))
     }
 
+    scale(α: number) {
+        return new Euclidean1(α * this.w, α * this.x, this.uom)
+    }
+
     sin(): Euclidean1 {
         throw new Euclidean1Error(&#x27;sin&#x27;)
     }
@@ -378,6 +384,10 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
         throw new Euclidean1Error(&#x27;sinh&#x27;)
     }
 
+    slerp(target: Euclidean1, α: number): Euclidean1 {
+        // FIXME: TODO
+        return this
+    }
     unitary(): Euclidean1 {
         throw new Euclidean1Error(&#x27;unitary&#x27;)
     }

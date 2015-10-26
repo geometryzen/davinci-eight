@@ -168,11 +168,12 @@ class Dimensions {
     }
     /**
      * Computes the inverse by multiplying all exponents by <code>-1</code>.
-     * @method negative
+     * @method neg
      * @return {Dimensions}
      */
-    negative(): Dimensions {
-        return new Dimensions(this.M.negative(), this.L.negative(), this.T.negative(), this.Q.negative(), this.temperature.negative(), this.amount.negative(), this.intensity.negative());
+    // FIXME: Probably should call the outer method inv because it is the multiplicative inverse.
+    neg(): Dimensions {
+        return new Dimensions(this.M.neg(), this.L.neg(), this.T.neg(), this.Q.neg(), this.temperature.neg(), this.amount.neg(), this.intensity.neg());
     }
     /**
      * Creates a representation of this <code>Dimensions</code> instance.

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -423,7 +423,7 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
     }
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ R * this * reverse(R)&lt;/code&gt;
+     * &lt;code&gt;this ⟼ R * this * rev(R)&lt;/code&gt;
      * &lt;/p&gt;
      * @method rotate
      * @param R {SpinorE3}
@@ -544,12 +544,12 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
      * &lt;/p&gt;
-     * @method divideByScalar
+     * @method divByScalar
      * @param α {number}
      * @return {R3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    divideByScalar(α: number) {
+    divByScalar(α: number) {
         mustBeNumber(&#x27;α&#x27;, α);
         if (α !== 0) {
             let invScalar = 1 / α;
@@ -644,7 +644,7 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
      * @chainable
      */
     normalize(): R3 {
-        return this.divideByScalar(this.magnitude());
+        return this.divByScalar(this.magnitude());
     }
     /**
      * &lt;p&gt;
@@ -737,6 +737,13 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
         this.z = z;
         return this;
     }
+
+    slerp(target: VectorE3, α: number) {
+        mustBeObject(&#x27;target&#x27;, target)
+        mustBeNumber(&#x27;α&#x27;, α)
+        return this;
+    }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this - v&lt;/code&gt;
@@ -772,6 +779,12 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
         this.y = a.y - b.y
         this.z = a.z - b.z
         return this
+    }
+    toExponential(): string {
+        return &quot;TODO R2.toExponential&quot;
+    }
+    toFixed(digits?: number): string {
+        return &quot;TODO R2.toFixed&quot;
     }
     /**
      * @method toString

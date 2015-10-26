@@ -23,10 +23,12 @@ declare class R1 extends VectorN<number> implements VectorE1, GeometricElement<V
     setX(x: number): R1;
     add(vector: VectorE1, alpha?: number): R1;
     add2(a: VectorE1, b: VectorE1): R1;
-    align(v: VectorE1): R1;
+    scp(v: VectorE1): R1;
+    adj(): R1;
     /**
      * @method arg
      * @return {number}
+     * @beta
      */
     arg(): number;
     conj(): R1;
@@ -41,12 +43,12 @@ declare class R1 extends VectorN<number> implements VectorE1, GeometricElement<V
     mul(v: VectorE1): R1;
     norm(): R1;
     div(v: VectorE1): R1;
-    divideByScalar(scalar: number): R1;
+    divByScalar(scalar: number): R1;
     min(v: VectorE1): R1;
     max(v: VectorE1): R1;
     floor(): R1;
     ceil(): R1;
-    reverse(): R1;
+    rev(): R1;
     rco(v: VectorE1): R1;
     round(): R1;
     roundToZero(): R1;
@@ -93,12 +95,15 @@ declare class R1 extends VectorN<number> implements VectorE1, GeometricElement<V
     lerp2(a: R1, b: R1, α: number): R1;
     equals(v: VectorE1): boolean;
     fromArray(array: number[], offset?: number): R1;
+    slerp(v: VectorE1, α: number): R1;
     toArray(array?: number[], offset?: number): number[];
+    toExponential(): string;
+    toFixed(digits?: number): string;
     fromAttribute(attribute: {
         itemSize: number;
         array: number[];
     }, index: number, offset?: number): R1;
     clone(): R1;
-    wedge(v: VectorE1): R1;
+    ext(v: VectorE1): R1;
 }
 export = R1;

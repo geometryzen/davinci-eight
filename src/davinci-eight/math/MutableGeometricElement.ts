@@ -6,8 +6,8 @@ import MutableLinearElement = require('../math/MutableLinearElement');
  * It is not part of the documented API.
  */
 interface MutableGeometricElement<I, M, S, V, D> extends GeometricElement<I, M, S, V, D>, MutableLinearElement<I, M, S, V> {
-    conL2(a: I, b: I): M;
-    conR2(a: I, b: I): M;
+    lco2(a: I, b: I): M;
+    rco2(a: I, b: I): M;
     copySpinor(spinor: S): M;
     copyVector(vector: V): M;
     div2(a: I, b: I): M;
@@ -15,12 +15,12 @@ interface MutableGeometricElement<I, M, S, V, D> extends GeometricElement<I, M, 
     normalize(): void;
     rotor(b: V, a: V): M;
     rotorFromGeneratorAngle(B: S, θ: number): M;
-    align2(a: I, b: I): M;
+    scp2(a: I, b: I): M;
     /**
-     * The geometric product of the vectors.
+     * The geometric product of the vectors. mulVector2?
      */
     spinor(a: V, b: V): M;
-    wedge2(a: I, b: I): M;
+    ext2(a: I, b: I): M;
 }
 
 export = MutableGeometricElement;

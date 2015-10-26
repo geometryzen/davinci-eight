@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/Measure.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/AbelianOperators.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -219,41 +219,58 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/Measure.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/AbelianOperators.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Unit = require(&#x27;../math/Unit&#x27;)
-interface Measure&lt;T&gt; {
-    coordinates(): number[]
-    uom: Unit
-    add(rhs: T): T
-    sub(rhs: T): T
-    mul(rhs: T): T
-    div(rhs: T): T
-    wedge(rhs: T): T
-    lco(rhs: T): T
-    rco(rhs: T): T
-    pow(exponent: T): T
-    cos(): T
-    cosh(): T
-    exp(): T
-    //lerp(target: T, α: number): T
+/**
+ * Special methods for operators on elements of abelian groups (additive).
+ * This is provided for interface consistency.
+ * It may not adhere to strict mathematical definitions.
+ */
+interface AbelianOperators&lt;T&gt; {
     /**
-     * The squared norm is defined to be align(A, reverse(A)), or ||A|| = sqrt(align(A, reverse(A))) (Dorst p67)
+     * Binary this + other
      */
-    norm(): T
-    quad(): T
-    sin(): T
-    sinh(): T
-    unitary(): T
-    gradeZero(): number
-    align(rhs: T): T
-    toExponential(): string
-    toFixed(digits?: number): string
-    toString(): string
+    __add__(other: number | T): T
+
+    /**
+     * Binary other + this
+     */
+    __radd__(other: number | T): T
+
+    /**
+     * Binary this - other
+     */
+    __sub__(other: number | T): T
+
+    /**
+     * Binary other - this
+     */
+    __rsub__(other: number | T): T
+
+    /**
+     * Unary +
+     */
+    __pos__(): T
+
+    /**
+     * Unary -
+     */
+    __neg__(): T
+
+    /**
+     * The additive inverse is denoted by neg.
+     */
+     neg(): T
+
+     /**
+      * Determines whether this element is the additive identity (0).
+      */
+     isZero(): boolean
 }
-export = Measure
+
+export = AbelianOperators
     </pre>
 </div>
                     </div>

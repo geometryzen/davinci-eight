@@ -55,13 +55,6 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
     }
-    /**
-     * @method clone
-     * @return {Euclidean1}
-     */
-    clone(): Euclidean1 {
-        return new Euclidean1(this.w, this.x, this.uom)
-    }
 
     coordinates(): number[] {
         return [this.w, this.x]
@@ -102,12 +95,21 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         throw new Euclidean1Error('div')
     }
 
-    align(rhs: Euclidean1): Euclidean1 {
+    divByScalar(α: number) {
+        return new Euclidean1(this.w / α, this.x / α, this.uom)
+    }
+
+    scp(rhs: Euclidean1): Euclidean1 {
         throw new Euclidean1Error('wedge')
     }
 
-    wedge(rhs: Euclidean1): Euclidean1 {
+    ext(rhs: Euclidean1): Euclidean1 {
         throw new Euclidean1Error('wedge')
+    }
+
+    lerp(target: Euclidean1, α: number): Euclidean1 {
+        // FIXME: TODO
+        return this
     }
 
     lco(rhs: Euclidean1): Euclidean1 {
@@ -145,6 +147,10 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         return new Euclidean1(this.w * this.w + this.x * this.x, 0, Unit.mul(this.uom, this.uom))
     }
 
+    scale(α: number) {
+        return new Euclidean1(α * this.w, α * this.x, this.uom)
+    }
+
     sin(): Euclidean1 {
         throw new Euclidean1Error('sin')
     }
@@ -153,6 +159,10 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         throw new Euclidean1Error('sinh')
     }
 
+    slerp(target: Euclidean1, α: number): Euclidean1 {
+        // FIXME: TODO
+        return this
+    }
     unitary(): Euclidean1 {
         throw new Euclidean1Error('unitary')
     }

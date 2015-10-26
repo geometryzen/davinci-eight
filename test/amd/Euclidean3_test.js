@@ -275,155 +275,155 @@ define([
       });
     });
 
-    describe("interior product", function() {
+    describe("scalar product (scp)", function() {
       it("", function() {
-        expect(one.align(one)).toBeNear(one);
-        expect(one.align(i)).toBeNear(zero);
-        expect(one.align(j)).toBeNear(zero);
-        expect(one.align(k)).toBeNear(zero);
-        expect(one.align(ij)).toBeNear(zero);
-        expect(one.align(jk)).toBeNear(zero);
-        expect(one.align(ki)).toBeNear(zero);
-        expect(one.align(I)).toBeNear(zero);
+        expect(one.scp(one)).toBeNear(one);
+        expect(one.scp(i)).toBeNear(zero);
+        expect(one.scp(j)).toBeNear(zero);
+        expect(one.scp(k)).toBeNear(zero);
+        expect(one.scp(ij)).toBeNear(zero);
+        expect(one.scp(jk)).toBeNear(zero);
+        expect(one.scp(ki)).toBeNear(zero);
+        expect(one.scp(I)).toBeNear(zero);
 
-        expect(i.align(one)).toBeNear(zero);
-        expect(i.align(i)).toBeNear(one);
-        expect(i.align(j)).toBeNear(zero);
-        expect(i.align(k)).toBeNear(zero);
-        expect(i.align(ij)).toBeNear(zero);
-        expect(i.align(jk)).toBeNear(zero);
-        expect(i.align(ki)).toBeNear(zero);
-        expect(i.align(I)).toBeNear(zero);
+        expect(i.scp(one)).toBeNear(zero);
+        expect(i.scp(i)).toBeNear(one);
+        expect(i.scp(j)).toBeNear(zero);
+        expect(i.scp(k)).toBeNear(zero);
+        expect(i.scp(ij)).toBeNear(zero);
+        expect(i.scp(jk)).toBeNear(zero);
+        expect(i.scp(ki)).toBeNear(zero);
+        expect(i.scp(I)).toBeNear(zero);
 
-        expect(j.align(one)).toBeNear(zero);
-        expect(j.align(i)).toBeNear(zero);
-        expect(j.align(j)).toBeNear(one);
-        expect(j.align(k)).toBeNear(zero);
-        expect(j.align(ij)).toBeNear(zero);
-        expect(j.align(jk)).toBeNear(zero);
-        expect(j.align(ki)).toBeNear(zero);
-        expect(j.align(I)).toBeNear(zero);
+        expect(j.scp(one)).toBeNear(zero);
+        expect(j.scp(i)).toBeNear(zero);
+        expect(j.scp(j)).toBeNear(one);
+        expect(j.scp(k)).toBeNear(zero);
+        expect(j.scp(ij)).toBeNear(zero);
+        expect(j.scp(jk)).toBeNear(zero);
+        expect(j.scp(ki)).toBeNear(zero);
+        expect(j.scp(I)).toBeNear(zero);
 
-        expect(k.align(one)).toBeNear(zero);
-        expect(k.align(i)).toBeNear(zero);
-        expect(k.align(j)).toBeNear(zero);
-        expect(k.align(k)).toBeNear(one);
-        expect(k.align(ij)).toBeNear(zero);
-        expect(k.align(jk)).toBeNear(zero);
-        expect(k.align(ki)).toBeNear(zero);
-        expect(k.align(I)).toBeNear(zero);
+        expect(k.scp(one)).toBeNear(zero);
+        expect(k.scp(i)).toBeNear(zero);
+        expect(k.scp(j)).toBeNear(zero);
+        expect(k.scp(k)).toBeNear(one);
+        expect(k.scp(ij)).toBeNear(zero);
+        expect(k.scp(jk)).toBeNear(zero);
+        expect(k.scp(ki)).toBeNear(zero);
+        expect(k.scp(I)).toBeNear(zero);
 
-        expect(ij.align(one)).toBeNear(zero);
-        expect(ij.align(i)).toBeNear(zero);
-        expect(ij.align(j)).toBeNear(zero);
-        expect(ij.align(k)).toBeNear(zero);
-        expect(ij.align(ij)).toBeNear(mone);
-        expect(ij.align(jk)).toBeNear(zero);
-        expect(ij.align(ki)).toBeNear(zero);
-        expect(ij.align(I)).toBeNear(zero);
+        expect(ij.scp(one)).toBeNear(zero);
+        expect(ij.scp(i)).toBeNear(zero);
+        expect(ij.scp(j)).toBeNear(zero);
+        expect(ij.scp(k)).toBeNear(zero);
+        expect(ij.scp(ij)).toBeNear(mone);
+        expect(ij.scp(jk)).toBeNear(zero);
+        expect(ij.scp(ki)).toBeNear(zero);
+        expect(ij.scp(I)).toBeNear(zero);
 
-        expect(jk.align(one)).toBeNear(zero);
-        expect(jk.align(i)).toBeNear(zero);
-        expect(jk.align(j)).toBeNear(zero);
-        expect(jk.align(k)).toBeNear(zero);
-        expect(jk.align(ij)).toBeNear(zero);
-        expect(jk.align(jk)).toBeNear(mone);
-        expect(jk.align(ki)).toBeNear(zero);
-        expect(jk.align(I)).toBeNear(zero);
+        expect(jk.scp(one)).toBeNear(zero);
+        expect(jk.scp(i)).toBeNear(zero);
+        expect(jk.scp(j)).toBeNear(zero);
+        expect(jk.scp(k)).toBeNear(zero);
+        expect(jk.scp(ij)).toBeNear(zero);
+        expect(jk.scp(jk)).toBeNear(mone);
+        expect(jk.scp(ki)).toBeNear(zero);
+        expect(jk.scp(I)).toBeNear(zero);
 
-        expect(ki.align(one)).toBeNear(zero);
-        expect(ki.align(i)).toBeNear(zero);
-        expect(ki.align(j)).toBeNear(zero);
-        expect(ki.align(k)).toBeNear(zero);
-        expect(ki.align(ij)).toBeNear(zero);
-        expect(ki.align(jk)).toBeNear(zero);
-        expect(ki.align(ki)).toBeNear(mone);
-        expect(ki.align(I)).toBeNear(zero);
+        expect(ki.scp(one)).toBeNear(zero);
+        expect(ki.scp(i)).toBeNear(zero);
+        expect(ki.scp(j)).toBeNear(zero);
+        expect(ki.scp(k)).toBeNear(zero);
+        expect(ki.scp(ij)).toBeNear(zero);
+        expect(ki.scp(jk)).toBeNear(zero);
+        expect(ki.scp(ki)).toBeNear(mone);
+        expect(ki.scp(I)).toBeNear(zero);
 
-        expect(I.align(one)).toBeNear(zero);
-        expect(I.align(i)).toBeNear(zero);
-        expect(I.align(j)).toBeNear(zero);
-        expect(I.align(k)).toBeNear(zero);
-        expect(I.align(ij)).toBeNear(zero);
-        expect(I.align(jk)).toBeNear(zero);
-        expect(I.align(ki)).toBeNear(zero);
-        expect(I.align(I)).toBeNear(mone);
+        expect(I.scp(one)).toBeNear(zero);
+        expect(I.scp(i)).toBeNear(zero);
+        expect(I.scp(j)).toBeNear(zero);
+        expect(I.scp(k)).toBeNear(zero);
+        expect(I.scp(ij)).toBeNear(zero);
+        expect(I.scp(jk)).toBeNear(zero);
+        expect(I.scp(ki)).toBeNear(zero);
+        expect(I.scp(I)).toBeNear(mone);
       });
     });
 
     describe("exterior product", function() {
       it("", function() {
-        expect(one.wedge(one)).toBeNear(one);
-        expect(one.wedge(i)).toBeNear(i);
-        expect(one.wedge(j)).toBeNear(j);
-        expect(one.wedge(k)).toBeNear(k);
-        expect(one.wedge(ij)).toBeNear(ij);
-        expect(one.wedge(jk)).toBeNear(jk);
-        expect(one.wedge(ki)).toBeNear(ki);
-        expect(one.wedge(I)).toBeNear(I);
+        expect(one.ext(one)).toBeNear(one);
+        expect(one.ext(i)).toBeNear(i);
+        expect(one.ext(j)).toBeNear(j);
+        expect(one.ext(k)).toBeNear(k);
+        expect(one.ext(ij)).toBeNear(ij);
+        expect(one.ext(jk)).toBeNear(jk);
+        expect(one.ext(ki)).toBeNear(ki);
+        expect(one.ext(I)).toBeNear(I);
 
-        expect(i.wedge(one)).toBeNear(i);
-        expect(i.wedge(i)).toBeNear(zero);
-        expect(i.wedge(j)).toBeNear(ij);
-        expect(i.wedge(k)).toBeNear(zero.sub(ki));
-        expect(i.wedge(ij)).toBeNear(zero);
-        expect(i.wedge(jk)).toBeNear(I);
-        expect(i.wedge(ki)).toBeNear(zero);
-        expect(i.wedge(I)).toBeNear(zero);
+        expect(i.ext(one)).toBeNear(i);
+        expect(i.ext(i)).toBeNear(zero);
+        expect(i.ext(j)).toBeNear(ij);
+        expect(i.ext(k)).toBeNear(zero.sub(ki));
+        expect(i.ext(ij)).toBeNear(zero);
+        expect(i.ext(jk)).toBeNear(I);
+        expect(i.ext(ki)).toBeNear(zero);
+        expect(i.ext(I)).toBeNear(zero);
 
-        expect(j.wedge(one)).toBeNear(j);
-        expect(j.wedge(i)).toBeNear(zero.sub(ij));
-        expect(j.wedge(j)).toBeNear(zero);
-        expect(j.wedge(k)).toBeNear(jk);
-        expect(j.wedge(ij)).toBeNear(zero);
-        expect(j.wedge(jk)).toBeNear(zero);
-        expect(j.wedge(ki)).toBeNear(I);
-        expect(j.wedge(I)).toBeNear(zero);
+        expect(j.ext(one)).toBeNear(j);
+        expect(j.ext(i)).toBeNear(zero.sub(ij));
+        expect(j.ext(j)).toBeNear(zero);
+        expect(j.ext(k)).toBeNear(jk);
+        expect(j.ext(ij)).toBeNear(zero);
+        expect(j.ext(jk)).toBeNear(zero);
+        expect(j.ext(ki)).toBeNear(I);
+        expect(j.ext(I)).toBeNear(zero);
 
-        expect(k.wedge(one)).toBeNear(k);
-        expect(k.wedge(i)).toBeNear(ki);
-        expect(k.wedge(j)).toBeNear(zero.sub(jk));
-        expect(k.wedge(k)).toBeNear(zero);
-        expect(k.wedge(ij)).toBeNear(I);
-        expect(k.wedge(jk)).toBeNear(zero);
-        expect(k.wedge(ki)).toBeNear(zero);
-        expect(k.wedge(I)).toBeNear(zero);
+        expect(k.ext(one)).toBeNear(k);
+        expect(k.ext(i)).toBeNear(ki);
+        expect(k.ext(j)).toBeNear(zero.sub(jk));
+        expect(k.ext(k)).toBeNear(zero);
+        expect(k.ext(ij)).toBeNear(I);
+        expect(k.ext(jk)).toBeNear(zero);
+        expect(k.ext(ki)).toBeNear(zero);
+        expect(k.ext(I)).toBeNear(zero);
 
-        expect(ij.wedge(one)).toBeNear(ij);
-        expect(ij.wedge(i)).toBeNear(zero);
-        expect(ij.wedge(j)).toBeNear(zero);
-        expect(ij.wedge(k)).toBeNear(I);
-        expect(ij.wedge(ij)).toBeNear(zero);
-        expect(ij.wedge(jk)).toBeNear(zero);
-        expect(ij.wedge(ki)).toBeNear(zero);
-        expect(ij.wedge(I)).toBeNear(zero);
+        expect(ij.ext(one)).toBeNear(ij);
+        expect(ij.ext(i)).toBeNear(zero);
+        expect(ij.ext(j)).toBeNear(zero);
+        expect(ij.ext(k)).toBeNear(I);
+        expect(ij.ext(ij)).toBeNear(zero);
+        expect(ij.ext(jk)).toBeNear(zero);
+        expect(ij.ext(ki)).toBeNear(zero);
+        expect(ij.ext(I)).toBeNear(zero);
 
-        expect(jk.wedge(one)).toBeNear(jk);
-        expect(jk.wedge(i)).toBeNear(I);
-        expect(jk.wedge(j)).toBeNear(zero);
-        expect(jk.wedge(k)).toBeNear(zero);
-        expect(jk.wedge(ij)).toBeNear(zero);
-        expect(jk.wedge(jk)).toBeNear(zero);
-        expect(jk.wedge(ki)).toBeNear(zero);
-        expect(jk.wedge(I)).toBeNear(zero);
+        expect(jk.ext(one)).toBeNear(jk);
+        expect(jk.ext(i)).toBeNear(I);
+        expect(jk.ext(j)).toBeNear(zero);
+        expect(jk.ext(k)).toBeNear(zero);
+        expect(jk.ext(ij)).toBeNear(zero);
+        expect(jk.ext(jk)).toBeNear(zero);
+        expect(jk.ext(ki)).toBeNear(zero);
+        expect(jk.ext(I)).toBeNear(zero);
 
-        expect(ki.wedge(one)).toBeNear(ki);            // 49
-        expect(ki.wedge(i)).toBeNear(zero);            // 50
-        expect(ki.wedge(j)).toBeNear(I);               // 51
-        expect(ki.wedge(k)).toBeNear(zero);            // 52
-        expect(ki.wedge(ij)).toBeNear(zero);           // 53
-        expect(ki.wedge(jk)).toBeNear(zero);           // 54
-        expect(ki.wedge(ki)).toBeNear(zero);           // 55
-        expect(ki.wedge(I)).toBeNear(zero);            // 56
+        expect(ki.ext(one)).toBeNear(ki);            // 49
+        expect(ki.ext(i)).toBeNear(zero);            // 50
+        expect(ki.ext(j)).toBeNear(I);               // 51
+        expect(ki.ext(k)).toBeNear(zero);            // 52
+        expect(ki.ext(ij)).toBeNear(zero);           // 53
+        expect(ki.ext(jk)).toBeNear(zero);           // 54
+        expect(ki.ext(ki)).toBeNear(zero);           // 55
+        expect(ki.ext(I)).toBeNear(zero);            // 56
 
-        expect(I.wedge(one)).toBeNear(I);              // 57
-        expect(I.wedge(i)).toBeNear(zero);             // 58
-        expect(I.wedge(j)).toBeNear(zero);             // 59
-        expect(I.wedge(k)).toBeNear(zero);             // 60
-        expect(I.wedge(ij)).toBeNear(zero);            // 61
-        expect(I.wedge(jk)).toBeNear(zero);            // 62
-        expect(I.wedge(ki)).toBeNear(zero);            // 63
-        expect(I.wedge(I)).toBeNear(zero);             // 64
+        expect(I.ext(one)).toBeNear(I);              // 57
+        expect(I.ext(i)).toBeNear(zero);             // 58
+        expect(I.ext(j)).toBeNear(zero);             // 59
+        expect(I.ext(k)).toBeNear(zero);             // 60
+        expect(I.ext(ij)).toBeNear(zero);            // 61
+        expect(I.ext(jk)).toBeNear(zero);            // 62
+        expect(I.ext(ki)).toBeNear(zero);            // 63
+        expect(I.ext(I)).toBeNear(zero);             // 64
       });
     });
 
@@ -668,7 +668,7 @@ define([
         expect(e.xyz).toBe(b.xyz);
       });
       it("^", function() {
-        var e = x.wedge(y);
+        var e = x.ext(y);
         var a = x.__wedge__(y);
         var b = y.__rwedge__(x);
         expect(e.w).toBe(a.w);

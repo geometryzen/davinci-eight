@@ -33,7 +33,7 @@ declare class R2 extends VectorN<number> implements VectorE2, MutableLinearEleme
     subScalar(s: number): R2;
     sub2(a: VectorE2, b: VectorE2): R2;
     scale(s: number): R2;
-    divideByScalar(scalar: number): R2;
+    divByScalar(scalar: number): R2;
     min(v: VectorE2): R2;
     max(v: VectorE2): R2;
     floor(): R2;
@@ -77,6 +77,9 @@ declare class R2 extends VectorN<number> implements VectorE2, MutableLinearEleme
      */
     lerp2(a: VectorE2, b: VectorE2, α: number): R2;
     equals(v: VectorE2): boolean;
+    slerp(v: VectorE2, α: number): R2;
+    toExponential(): string;
+    toFixed(digits?: number): string;
     fromArray(array: number[], offset?: number): R2;
     fromAttribute(attribute: {
         itemSize: number;

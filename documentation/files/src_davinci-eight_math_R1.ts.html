@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -269,13 +269,18 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, GeometricElement&lt;
         this.x = a.x + b.x;
         return this;
     }
-    align(v: VectorE1) {
+    scp(v: VectorE1) {
         return this
+    }
+
+    adj(): R1 {
+        throw new Error(&#x27;TODO: R1.adj&#x27;)
     }
 
     /**
      * @method arg
      * @return {number}
+     * @beta
      */
     arg(): number {
         throw new Error(&#x27;TODO: R1.arg&#x27;)
@@ -324,7 +329,7 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, GeometricElement&lt;
         this.x /= v.x
         return this
     }
-    divideByScalar(scalar: number) {
+    divByScalar(scalar: number) {
         this.x /= scalar;
         return this;
     }
@@ -348,7 +353,7 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, GeometricElement&lt;
         this.x = Math.ceil(this.x);
         return this;
     }
-    reverse() {
+    rev() {
         return this
     }
     rco(v: VectorE1) {
@@ -396,7 +401,7 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, GeometricElement&lt;
         return Math.sqrt(this.quaditude());
     }
     normalize() {
-        return this.divideByScalar(this.magnitude());
+        return this.divByScalar(this.magnitude());
     }
     mul2(a: VectorE1, b: VectorE1) {
         return this
@@ -461,9 +466,18 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, GeometricElement&lt;
         this.x = array[offset];
         return this;
     }
+    slerp(v: VectorE1, α: number) {
+        return this;
+    }
     toArray(array: number[] = [], offset: number = 0) {
         array[offset] = this.x;
         return array;
+    }
+    toExponential(): string {
+        return &quot;TODO: R1.toExponential&quot;;
+    }
+    toFixed(digits?: number): string {
+        return &quot;TODO: R1.toFixed&quot;;
     }
     fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset: number = 0) {
         index = index * attribute.itemSize + offset;
@@ -473,7 +487,7 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, GeometricElement&lt;
     clone() {
         return new R1([this.x]);
     }
-    wedge(v: VectorE1) {
+    ext(v: VectorE1) {
         return this
     }
 }

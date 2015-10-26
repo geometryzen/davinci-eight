@@ -143,6 +143,14 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
         CC.prototype.div = function (rhs) {
             return divide(this, rhs);
         };
+        /**
+         * @method divByScalar
+         * @param α {number}
+         * @return {CC}
+         */
+        CC.prototype.divByScalar = function (α) {
+            return new CC(this.x / α, this.y / α, this.uom);
+        };
         CC.prototype.__div__ = function (other) {
             if (other instanceof CC) {
                 return divide(this, other);
@@ -164,7 +172,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
          * @param rhs {CC}
          * @return {CC}
          */
-        CC.prototype.align = function (rhs) {
+        CC.prototype.scp = function (rhs) {
             return new CC(this.x * rhs.x - this.y * rhs.y, 0, Unit.mul(this.uom, this.uom));
         };
         CC.prototype.__vbar__ = function (other) {
@@ -178,7 +186,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
          * @param rhs {CC}
          * @return {CC}
          */
-        CC.prototype.wedge = function (rhs) {
+        CC.prototype.ext = function (rhs) {
             throw new Error('wedge');
         };
         CC.prototype.__wedge__ = function (other) {
@@ -186,6 +194,9 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
         };
         CC.prototype.__rwedge__ = function (other) {
             throw new Error("");
+        };
+        CC.prototype.lerp = function (target, α) {
+            return this;
         };
         /**
          * @method lco
@@ -243,6 +254,39 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
             return new CC(expX * cos(y), expX * sin(y));
         };
         /**
+         * Computes the multiplicative inverse of this complex number.
+         * @method inv
+         * @return {CC}
+         */
+        CC.prototype.inv = function () {
+            var x = this.x;
+            var y = this.y;
+            var d = x * x + y * y;
+            return new CC(this.x / d, -this.y / d, this.uom ? this.uom.inverse() : void 0);
+        };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
+        CC.prototype.isOne = function () {
+            return this.x === 1 && this.y === 0;
+        };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
+        CC.prototype.isZero = function () {
+            return this.x === 0 && this.y === 0;
+        };
+        /**
+         * Computes the additive inverse of this complex number.
+         * @method neg
+         * @return {CC}
+         */
+        CC.prototype.neg = function () {
+            return new CC(-this.x, -this.y, this.uom);
+        };
+        /**
          * @method norm
          * @return {CC}
          */
@@ -259,6 +303,14 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
             var x = this.x;
             var y = this.y;
             return new CC(x * x + y * y, 0, Unit.mul(this.uom, this.uom));
+        };
+        /**
+         * @method scale
+         * @param α {number}
+         * @return {CC}
+         */
+        CC.prototype.scale = function (α) {
+            return new CC(α * this.x, α * this.y, this.uom);
         };
         /**
          * @method sin
@@ -279,6 +331,9 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
             var x = this.x;
             var y = this.y;
             return new CC(sinh(x) * cos(y), cosh(x) * sin(y));
+        };
+        CC.prototype.slerp = function (target, α) {
+            return this;
         };
         /**
          * @method unitary
@@ -366,7 +421,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
          * @private
          */
         CC.prototype.__neg__ = function () {
-            return new CC(-this.x, -this.y);
+            return this.neg();
         };
         /**
          * @method __tilde__

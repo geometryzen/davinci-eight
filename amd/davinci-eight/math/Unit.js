@@ -287,7 +287,7 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitE
                 return div(other, this);
             }
             else if (typeof other === 'number') {
-                return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
+                return new Unit(other / this.scale, this.dimensions.neg(), this.labels);
             }
             else {
                 return;
@@ -297,8 +297,9 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitE
             assertArgRational('exponent', exponent);
             return new Unit(Math.pow(this.scale, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
         };
+        // FIXME: Rename inverse
         Unit.prototype.inverse = function () {
-            return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
+            return new Unit(1 / this.scale, this.dimensions.neg(), this.labels);
         };
         Unit.prototype.isUnity = function () {
             return this.dimensions.dimensionless() && (this.scale === 1);

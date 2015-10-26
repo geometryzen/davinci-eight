@@ -44,13 +44,18 @@ class R1 extends VectorN<number> implements VectorE1, GeometricElement<VectorE1,
         this.x = a.x + b.x;
         return this;
     }
-    align(v: VectorE1) {
+    scp(v: VectorE1) {
         return this
+    }
+
+    adj(): R1 {
+        throw new Error('TODO: R1.adj')
     }
 
     /**
      * @method arg
      * @return {number}
+     * @beta
      */
     arg(): number {
         throw new Error('TODO: R1.arg')
@@ -99,7 +104,7 @@ class R1 extends VectorN<number> implements VectorE1, GeometricElement<VectorE1,
         this.x /= v.x
         return this
     }
-    divideByScalar(scalar: number) {
+    divByScalar(scalar: number) {
         this.x /= scalar;
         return this;
     }
@@ -123,7 +128,7 @@ class R1 extends VectorN<number> implements VectorE1, GeometricElement<VectorE1,
         this.x = Math.ceil(this.x);
         return this;
     }
-    reverse() {
+    rev() {
         return this
     }
     rco(v: VectorE1) {
@@ -171,7 +176,7 @@ class R1 extends VectorN<number> implements VectorE1, GeometricElement<VectorE1,
         return Math.sqrt(this.quaditude());
     }
     normalize() {
-        return this.divideByScalar(this.magnitude());
+        return this.divByScalar(this.magnitude());
     }
     mul2(a: VectorE1, b: VectorE1) {
         return this
@@ -236,9 +241,18 @@ class R1 extends VectorN<number> implements VectorE1, GeometricElement<VectorE1,
         this.x = array[offset];
         return this;
     }
+    slerp(v: VectorE1, α: number) {
+        return this;
+    }
     toArray(array: number[] = [], offset: number = 0) {
         array[offset] = this.x;
         return array;
+    }
+    toExponential(): string {
+        return "TODO: R1.toExponential";
+    }
+    toFixed(digits?: number): string {
+        return "TODO: R1.toFixed";
     }
     fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset: number = 0) {
         index = index * attribute.itemSize + offset;
@@ -248,7 +262,7 @@ class R1 extends VectorN<number> implements VectorE1, GeometricElement<VectorE1,
     clone() {
         return new R1([this.x]);
     }
-    wedge(v: VectorE1) {
+    ext(v: VectorE1) {
         return this
     }
 }

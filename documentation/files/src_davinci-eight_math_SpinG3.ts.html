@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -347,6 +347,15 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
     }
 
     /**
+     * @method adj
+     * @return {number}
+     * @beta
+     */
+    adj(): SpinG3 {
+        throw new Error(&#x27;TODO: SpinG3.adj&#x27;)
+    }
+
+    /**
      * @method arg
      * @return {number}
      */
@@ -377,17 +386,17 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
         return this
     }
     lco(rhs: SpinorE3): SpinG3 {
-        return this.conL2(this, rhs)
+        return this.lco2(this, rhs)
     }
-    conL2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    lco2(a: SpinorE3, b: SpinorE3): SpinG3 {
         // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
         // scpG3(a, b, this)
         return this
     }
     rco(rhs: SpinorE3): SpinG3 {
-        return this.conR2(this, rhs)
+        return this.rco2(this, rhs)
     }
-    conR2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    rco2(a: SpinorE3, b: SpinorE3): SpinG3 {
         // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
         // scpG3(a, b, this)
         return this
@@ -464,12 +473,12 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
      * &lt;/p&gt;
-     * @method divideByScalar
+     * @method divByScalar
      * @param α {number}
      * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    divideByScalar(α: number): SpinG3 {
+    divByScalar(α: number): SpinG3 {
         this.yz /= α
         this.zx /= α
         this.xy /= α
@@ -527,7 +536,7 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
      */
     inv() {
         this.conj()
-        this.divideByScalar(this.quaditude());
+        this.divByScalar(this.quaditude());
         return this
     }
     /**
@@ -710,7 +719,7 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
      * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    reverse(): SpinG3 {
+    rev(): SpinG3 {
         this.yz *= - 1;
         this.zx *= - 1;
         this.xy *= - 1;
@@ -742,7 +751,7 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
     }
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this = ⟼ rotor * this * reverse(rotor)&lt;/code&gt;
+     * &lt;code&gt;this = ⟼ rotor * this * rev(rotor)&lt;/code&gt;
      * &lt;/p&gt;
      * @method rotate
      * @param rotor {SpinorE3}
@@ -768,7 +777,7 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
         this.spinor(b, a)
         this.w += 1
         var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)))
-        this.divideByScalar(denom)
+        this.divByScalar(denom)
         return this;
     }
 
@@ -810,10 +819,10 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
         return this
     }
 
-    align(rhs: SpinorE3): SpinG3 {
-        return this.align2(this, rhs)
+    scp(rhs: SpinorE3): SpinG3 {
+        return this.scp2(this, rhs)
     }
-    align2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    scp2(a: SpinorE3, b: SpinorE3): SpinG3 {
         // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
         // scpG3(a, b, this)
         return this
@@ -834,6 +843,18 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
         this.w *= α;
         return this;
     }
+
+    slerp(target: SpinorE3, α: number): SpinG3 {
+        var R2 = SpinG3.copy(target)
+        var R1 = this.clone()
+        var R = R2.mul(R1.inv())
+        R.log()
+        R.scale(α)
+        R.exp()
+        this.copy(R)
+        return this
+    }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this - s * α&lt;/code&gt;
@@ -896,6 +917,14 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
 
         return this
     }
+    toExponential(): string {
+        // FIXME: Do like others.
+        return this.toString()
+    }
+    toFixed(digits?: number): string {
+        // FIXME: Do like others.
+        return this.toString()
+    }
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.
@@ -903,10 +932,10 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
     toString(): string {
         return &quot;SpinG3({yz: &quot; + this.yz + &quot;, zx: &quot; + this.zx + &quot;, xy: &quot; + this.xy + &quot;, w: &quot; + this.w + &quot;})&quot;
     }
-    wedge(rhs: SpinorE3): SpinG3 {
-        return this.wedge2(this, rhs)
+    ext(rhs: SpinorE3): SpinG3 {
+        return this.ext2(this, rhs)
     }
-    wedge2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    ext2(a: SpinorE3, b: SpinorE3): SpinG3 {
         // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
         // scpG3(a, b, this)
         return this

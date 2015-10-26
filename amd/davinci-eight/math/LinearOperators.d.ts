@@ -1,13 +1,13 @@
+import AbelianOperators = require('../math/AbelianOperators');
 /**
- *
+ * Special methods for operators on elements of linear spaces.
+ * This is provided for interface consistency.
+ * It may not adhere to strict mathematical definitions.
  */
-interface LinearOperators<T> {
-    __add__(other: number | T): T;
-    __radd__(other: number | T): T;
-    __sub__(other: number | T): T;
-    __rsub__(other: number | T): T;
-    __pos__(): T;
-    __neg__(): T;
+interface LinearOperators<T> extends AbelianOperators<T> {
+    /**
+     * Unary ~
+     */
     __tilde__(): T;
 }
 export = LinearOperators;

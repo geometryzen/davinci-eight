@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.142.0</em>
+            <em>API Docs for: 2.143.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -290,9 +290,9 @@ class VortexSimplexGeometry extends SimplexGeometry {
         var axis: Euclidean3 = new Euclidean3(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0)
         var radial: Euclidean3 = perpendicular(axis)
         // FIXME: Change to scale
-        var R0: Euclidean3 = radial.scalarMultiply(this.radius)
+        var R0: Euclidean3 = radial.scale(this.radius)
         var generator = new Euclidean3(this.generator.w, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0)
-        var Rminor0: Euclidean3 = axis.wedge(radial)
+        var Rminor0: Euclidean3 = axis.ext(radial)
 
         var n = 9;
         var circleSegments = this.arrowSegments * n;
@@ -341,14 +341,14 @@ class VortexSimplexGeometry extends SimplexGeometry {
                 // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
                 var u = computeAngle(i)
 
-                var Rmajor: Euclidean3 = generator.scalarMultiply(-u / 2).exp()
+                var Rmajor: Euclidean3 = generator.scale(-u / 2).exp()
 
                 center.copy(R0).rotate(Rmajor)
 
                 var vertex = R3.copy(center)
-                var r0: Euclidean3 = axis.scalarMultiply(computeRadius(i))
+                var r0: Euclidean3 = axis.scale(computeRadius(i))
 
-                var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scalarMultiply(-v / 2).exp()
+                var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scale(-v / 2).exp()
 
                 // var Rminor = Rminor0.clone().rotate(Rmajor).scale(-v/2).exp()
 
