@@ -176,6 +176,11 @@ class R1 extends VectorN<number> implements VectorE1, GeometricElement<VectorE1,
     mul2(a: VectorE1, b: VectorE1) {
         return this
     }
+    quad() {
+        let x = this.x
+        this.x = x * x
+        return this
+    }
     quaditude(): number {
         return this.x * this.x;
     }

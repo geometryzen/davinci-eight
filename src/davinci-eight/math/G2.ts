@@ -620,6 +620,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.xy = -this.xy
         return this;
     }
+
     /**
     * <p>
     * <code>this ⟼ sqrt(this * conj(this))</code>
@@ -629,8 +630,9 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     * @chainable
     */
     norm(): G2 {
-        // FIXME: TODO
         this.w = this.magnitude()
+        this.x = 0
+        this.y = 0
         this.xy = 0
         return this
     }
@@ -652,15 +654,37 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.xy = this.xy / norm
         return this
     }
+
     /**
+     * <p>
+     * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
+     * </p>
+     * <p>
+     * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+     * </p>
+     * @method quad
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    quad(): G2 {
+        this.w = this.quaditude()
+        this.x = 0
+        this.y = 0
+        this.xy = 0
+        return this
+    }
+
+    /**
+     * Computes the <em>squared norm</em> of this <code>G2</code> multivector. 
      * @method quaditude
-     * @return {number} <code>this * conj(this)</code>
+     * @return {number} <code>this | ~this</code>
      */
     quaditude(): number {
-        // FIXME: TODO
-        let w = this.w;
-        let xy = this.xy;
-        return w * w + xy * xy;
+        let w = this.w
+        let x = this.x
+        let y = this.y
+        let B = this.xy
+        return w * w + x * x + y * y + B * B
     }
     /**
      * <p>
@@ -1208,6 +1232,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @chainable
      */
     __pos__() {
+        // It's important that we make a copy whenever using operators.
         return G2.copy(this)/*.pos()*/
     }
 

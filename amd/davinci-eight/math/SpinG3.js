@@ -455,6 +455,21 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return this;
         };
         /**
+        * <p>
+        * <code>this ⟼ this * conj(this)</code>
+        * </p>
+        * @method quad
+        * @return {SpinG3} <code>this</code>
+        * @chainable
+        */
+        SpinG3.prototype.quad = function () {
+            this.w = this.quaditude();
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            return this;
+        };
+        /**
          * @method quaditude
          * @return {number} <code>this * conj(this)</code>
          */

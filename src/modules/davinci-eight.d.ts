@@ -892,15 +892,17 @@ declare module EIGHT {
          * @chainable
          */
         neg(): G2;
+
         /**
-        * <p>
-        * <code>this ⟼ sqrt(this * conj(this))</code>
-        * </p>
-        * @method norm
-        * @return {G2} <code>this</code>
-        * @chainable
-        */
+         * <p>
+         * <code>this ⟼ sqrt(this * conj(this))</code>
+         * </p>
+         * @method norm
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
         norm(): G2;
+
         /**
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
@@ -910,6 +912,17 @@ declare module EIGHT {
          * @chainable
          */
         normalize(): G2;
+
+        /**
+         * <p>
+         * <code>this ⟼ this | ~this = scp(this, rev(this))</code>
+         * </p>
+         * @method quad
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        quad(): G2;
+
         /**
          * @method quaditude
          * @return {number} <code>this * conj(this)</code>
@@ -1116,20 +1129,34 @@ declare module EIGHT {
          * @static
          */
         static copy(M: GeometricE2): G2;
+
+        /**
+         * @method fromScalar
+         * @param α {number}
+         * @return {G2}
+         * @static
+         * @chainable
+         */
+        static fromScalar(α: number): G2;
+
         /**
          * @method fromSpinor
          * @param spinor {SpinorE2}
          * @return {G2}
          * @static
+         * @chainable
          */
         static fromSpinor(spinor: SpinorE2): G2;
+
         /**
          * @method fromVector
          * @param vector {VectorE2}
          * @return {G2}
          * @static
+         * @chainable
          */
         static fromVector(vector: VectorE2): G2;
+
         /**
         * @method lerp
         * @param A {GeometricE2}
@@ -1137,6 +1164,7 @@ declare module EIGHT {
         * @param α {number}
         * @return {G2} <code>A + α * (B - A)</code>
         * @static
+        * @chainable
         */
         static lerp(A: GeometricE2, B: GeometricE2, α: number): G2;
     }

@@ -666,6 +666,22 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return this;
         };
         /**
+        * <p>
+        * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+        * </p>
+        * @method quad
+        * @return {G3} <code>this</code>
+        * @chainable
+        */
+        G3.prototype.quad = function () {
+            // FIXME: TODO
+            this.w = this.quaditude();
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            return this;
+        };
+        /**
          * @method quaditude
          * @return {number} <code>this * conj(this)</code>
          */

@@ -331,6 +331,15 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      */
     normalize(): G3;
     /**
+    * <p>
+    * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+    * </p>
+    * @method quad
+    * @return {G3} <code>this</code>
+    * @chainable
+    */
+    quad(): G3;
+    /**
      * @method quaditude
      * @return {number} <code>this * conj(this)</code>
      */

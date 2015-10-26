@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.141.0</em>
+            <em>API Docs for: 2.142.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -845,6 +845,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         this.xy = -this.xy
         return this;
     }
+
     /**
     * &lt;p&gt;
     * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
@@ -854,8 +855,9 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     * @chainable
     */
     norm(): G2 {
-        // FIXME: TODO
         this.w = this.magnitude()
+        this.x = 0
+        this.y = 0
         this.xy = 0
         return this
     }
@@ -877,15 +879,37 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         this.xy = this.xy / norm
         return this
     }
+
     /**
+     * &lt;p&gt;
+     * Updates &lt;code&gt;this&lt;/code&gt; target to be the &lt;em&gt;quad&lt;/em&gt; or &lt;em&gt;squared norm&lt;/em&gt; of the target.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method quad
+     * @return {G2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    quad(): G2 {
+        this.w = this.quaditude()
+        this.x = 0
+        this.y = 0
+        this.xy = 0
+        return this
+    }
+
+    /**
+     * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this &lt;code&gt;G2&lt;/code&gt; multivector. 
      * @method quaditude
-     * @return {number} &lt;code&gt;this * conj(this)&lt;/code&gt;
+     * @return {number} &lt;code&gt;this | ~this&lt;/code&gt;
      */
     quaditude(): number {
-        // FIXME: TODO
-        let w = this.w;
-        let xy = this.xy;
-        return w * w + xy * xy;
+        let w = this.w
+        let x = this.x
+        let y = this.y
+        let B = this.xy
+        return w * w + x * x + y * y + B * B
     }
     /**
      * &lt;p&gt;
@@ -1433,6 +1457,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     __pos__() {
+        // It&#x27;s important that we make a copy whenever using operators.
         return G2.copy(this)/*.pos()*/
     }
 

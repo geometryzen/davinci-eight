@@ -452,6 +452,21 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         return this
     }
     /**
+    * <p>
+    * <code>this ⟼ this * conj(this)</code>
+    * </p>
+    * @method quad
+    * @return {SpinG3} <code>this</code>
+    * @chainable
+    */
+    quad(): SpinG3 {
+        this.w = this.quaditude()
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        return this
+    }
+    /**
      * @method quaditude
      * @return {number} <code>this * conj(this)</code>
      */

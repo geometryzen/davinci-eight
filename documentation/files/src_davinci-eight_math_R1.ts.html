@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.141.0</em>
+            <em>API Docs for: 2.142.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -399,6 +399,11 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, GeometricElement&lt;
         return this.divideByScalar(this.magnitude());
     }
     mul2(a: VectorE1, b: VectorE1) {
+        return this
+    }
+    quad() {
+        let x = this.x
+        this.x = x * x
         return this
     }
     quaditude(): number {

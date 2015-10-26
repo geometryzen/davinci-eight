@@ -9,7 +9,7 @@ define(["require", "exports"], function (require, exports) {
         LAST_MODIFIED: '2015-10-26',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.141.0'
+        VERSION: '2.142.0'
     };
     return core;
 });

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.141.0</em>
+            <em>API Docs for: 2.142.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -847,6 +847,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
         this.xyz = -this.xyz
         return this;
     }
+
     /**
     * &lt;p&gt;
     * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
@@ -885,6 +886,24 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
         this.xyz = this.xyz / norm
         return this
     }
+
+    /**
+    * &lt;p&gt;
+    * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
+    * &lt;/p&gt;
+    * @method quad
+    * @return {G3} &lt;code&gt;this&lt;/code&gt;
+    * @chainable
+    */
+    quad(): G3 {
+        // FIXME: TODO
+        this.w = this.quaditude()
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        return this
+    }
+
     /**
      * @method quaditude
      * @return {number} &lt;code&gt;this * conj(this)&lt;/code&gt;

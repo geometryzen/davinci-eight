@@ -231,6 +231,15 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      */
     normalize(): SpinG3;
     /**
+    * <p>
+    * <code>this ⟼ this * conj(this)</code>
+    * </p>
+    * @method quad
+    * @return {SpinG3} <code>this</code>
+    * @chainable
+    */
+    quad(): SpinG3;
+    /**
      * @method quaditude
      * @return {number} <code>this * conj(this)</code>
      */

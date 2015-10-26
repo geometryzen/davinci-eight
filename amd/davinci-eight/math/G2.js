@@ -613,8 +613,9 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
         * @chainable
         */
         G2.prototype.norm = function () {
-            // FIXME: TODO
             this.w = this.magnitude();
+            this.x = 0;
+            this.y = 0;
             this.xy = 0;
             return this;
         };
@@ -636,14 +637,34 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
             return this;
         };
         /**
+         * <p>
+         * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
+         * </p>
+         * <p>
+         * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+         * </p>
+         * @method quad
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.quad = function () {
+            this.w = this.quaditude();
+            this.x = 0;
+            this.y = 0;
+            this.xy = 0;
+            return this;
+        };
+        /**
+         * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
          * @method quaditude
-         * @return {number} <code>this * conj(this)</code>
+         * @return {number} <code>this | ~this</code>
          */
         G2.prototype.quaditude = function () {
-            // FIXME: TODO
             var w = this.w;
-            var xy = this.xy;
-            return w * w + xy * xy;
+            var x = this.x;
+            var y = this.y;
+            var B = this.xy;
+            return w * w + x * x + y * y + B * B;
         };
         /**
          * <p>
@@ -1169,6 +1190,7 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
          * @chainable
          */
         G2.prototype.__pos__ = function () {
+            // It's important that we make a copy whenever using operators.
             return G2.copy(this); /*.pos()*/
         };
         /**

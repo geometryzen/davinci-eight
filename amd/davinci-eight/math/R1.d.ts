@@ -64,6 +64,7 @@ declare class R1 extends VectorN<number> implements VectorE1, GeometricElement<V
     magnitude(): number;
     normalize(): R1;
     mul2(a: VectorE1, b: VectorE1): R1;
+    quad(): R1;
     quaditude(): number;
     quadranceTo(position: VectorE1): number;
     reflect(n: VectorE1): R1;

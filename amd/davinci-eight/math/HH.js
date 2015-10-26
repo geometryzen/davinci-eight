@@ -195,6 +195,21 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.t = this.t / modulus;
             return this;
         };
+        /**
+        * <p>
+        * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+        * </p>
+        * @method quad
+        * @return {G3} <code>this</code>
+        * @chainable
+        */
+        HH.prototype.quad = function () {
+            this.t = this.quaditude();
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            return this;
+        };
         HH.prototype.quaditude = function () {
             return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
         };

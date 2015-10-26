@@ -312,8 +312,21 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     normalize(): G2;
     /**
+     * <p>
+     * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
+     * </p>
+     * <p>
+     * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+     * </p>
+     * @method quad
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    quad(): G2;
+    /**
+     * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
      * @method quaditude
-     * @return {number} <code>this * conj(this)</code>
+     * @return {number} <code>this | ~this</code>
      */
     quaditude(): number;
     /**

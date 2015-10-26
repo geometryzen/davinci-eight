@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.141.0</em>
+            <em>API Docs for: 2.142.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -674,6 +674,21 @@ class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;numbe
         this.zx = this.zx / modulus
         this.xy = this.xy / modulus
         this.w = this.w / modulus
+        return this
+    }
+    /**
+    * &lt;p&gt;
+    * &lt;code&gt;this ⟼ this * conj(this)&lt;/code&gt;
+    * &lt;/p&gt;
+    * @method quad
+    * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+    * @chainable
+    */
+    quad(): SpinG3 {
+        this.w = this.quaditude()
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
         return this
     }
     /**

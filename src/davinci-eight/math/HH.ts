@@ -206,6 +206,22 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         this.t = this.t / modulus
         return this
     }
+    /**
+    * <p>
+    * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+    * </p>
+    * @method quad
+    * @return {G3} <code>this</code>
+    * @chainable
+    */
+    quad(): HH {
+        this.t = this.quaditude()
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        return this
+    }
+
     quaditude(): number {
         return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
     }

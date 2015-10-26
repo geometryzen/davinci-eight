@@ -42,6 +42,7 @@ interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
    * squared norm, ||x|| = align(x, reverse(x))
    */
   norm(): M;
+  quad(): M;
   /**
    * squared norm, ||x|| = align(x, reverse(x))
    */

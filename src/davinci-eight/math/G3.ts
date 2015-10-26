@@ -622,6 +622,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         this.xyz = -this.xyz
         return this;
     }
+
     /**
     * <p>
     * <code>this ⟼ sqrt(this * conj(this))</code>
@@ -660,6 +661,24 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         this.xyz = this.xyz / norm
         return this
     }
+
+    /**
+    * <p>
+    * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+    * </p>
+    * @method quad
+    * @return {G3} <code>this</code>
+    * @chainable
+    */
+    quad(): G3 {
+        // FIXME: TODO
+        this.w = this.quaditude()
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        return this
+    }
+
     /**
      * @method quaditude
      * @return {number} <code>this * conj(this)</code>

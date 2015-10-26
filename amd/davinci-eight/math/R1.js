@@ -182,6 +182,11 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         R1.prototype.mul2 = function (a, b) {
             return this;
         };
+        R1.prototype.quad = function () {
+            var x = this.x;
+            this.x = x * x;
+            return this;
+        };
         R1.prototype.quaditude = function () {
             return this.x * this.x;
         };

@@ -5224,6 +5224,21 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             return this;
         };
         /**
+        * <p>
+        * <code>this ⟼ this * conj(this)</code>
+        * </p>
+        * @method quad
+        * @return {SpinG3} <code>this</code>
+        * @chainable
+        */
+        SpinG3.prototype.quad = function () {
+            this.w = this.quaditude();
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            return this;
+        };
+        /**
          * @method quaditude
          * @return {number} <code>this * conj(this)</code>
          */
@@ -5919,7 +5934,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-10-26',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.141.0'
+        VERSION: '2.142.0'
     };
     return core;
 });
@@ -6927,6 +6942,22 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
             this.zx = this.zx / norm;
             this.xy = this.xy / norm;
             this.xyz = this.xyz / norm;
+            return this;
+        };
+        /**
+        * <p>
+        * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+        * </p>
+        * @method quad
+        * @return {G3} <code>this</code>
+        * @chainable
+        */
+        G3.prototype.quad = function () {
+            // FIXME: TODO
+            this.w = this.quaditude();
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
             return this;
         };
         /**
@@ -8344,6 +8375,11 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             return this.divideByScalar(this.magnitude());
         };
         R1.prototype.mul2 = function (a, b) {
+            return this;
+        };
+        R1.prototype.quad = function () {
+            var x = this.x;
+            this.x = x * x;
             return this;
         };
         R1.prototype.quaditude = function () {
@@ -19991,8 +20027,9 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
         * @chainable
         */
         G2.prototype.norm = function () {
-            // FIXME: TODO
             this.w = this.magnitude();
+            this.x = 0;
+            this.y = 0;
             this.xy = 0;
             return this;
         };
@@ -20014,14 +20051,34 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
             return this;
         };
         /**
+         * <p>
+         * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
+         * </p>
+         * <p>
+         * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+         * </p>
+         * @method quad
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.quad = function () {
+            this.w = this.quaditude();
+            this.x = 0;
+            this.y = 0;
+            this.xy = 0;
+            return this;
+        };
+        /**
+         * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
          * @method quaditude
-         * @return {number} <code>this * conj(this)</code>
+         * @return {number} <code>this | ~this</code>
          */
         G2.prototype.quaditude = function () {
-            // FIXME: TODO
             var w = this.w;
-            var xy = this.xy;
-            return w * w + xy * xy;
+            var x = this.x;
+            var y = this.y;
+            var B = this.xy;
+            return w * w + x * x + y * y + B * B;
         };
         /**
          * <p>
@@ -20547,6 +20604,7 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
          * @chainable
          */
         G2.prototype.__pos__ = function () {
+            // It's important that we make a copy whenever using operators.
             return G2.copy(this); /*.pos()*/
         };
         /**

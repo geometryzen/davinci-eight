@@ -46,6 +46,15 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, Vect
     sinh(): HH;
     neg(): HH;
     normalize(): HH;
+    /**
+    * <p>
+    * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+    * </p>
+    * @method quad
+    * @return {G3} <code>this</code>
+    * @chainable
+    */
+    quad(): HH;
     quaditude(): number;
     reflect(n: VectorE3): HH;
     reverse(): HH;

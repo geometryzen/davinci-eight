@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.141.0</em>
+            <em>API Docs for: 2.142.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -431,6 +431,22 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3, VectorE3&
         this.t = this.t / modulus
         return this
     }
+    /**
+    * &lt;p&gt;
+    * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
+    * &lt;/p&gt;
+    * @method quad
+    * @return {G3} &lt;code&gt;this&lt;/code&gt;
+    * @chainable
+    */
+    quad(): HH {
+        this.t = this.quaditude()
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        return this
+    }
+
     quaditude(): number {
         return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
     }
