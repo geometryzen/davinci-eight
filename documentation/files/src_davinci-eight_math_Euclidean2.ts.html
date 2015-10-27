@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.143.0</em>
+            <em>API Docs for: 2.144.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -477,12 +477,12 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         this.y = assertArgNumber(&#x27;y&#x27;, y);
         this.xy = assertArgNumber(&#x27;xy&#x27;, xy);
         this.uom = assertArgUnitOrUndefined(&#x27;uom&#x27;, uom);
-        if (this.uom &amp;&amp; this.uom.scale !== 1) {
-            var scale: number = this.uom.scale;
-            this.w *= scale;
-            this.x *= scale;
-            this.y *= scale;
-            this.xy *= scale;
+        if (this.uom &amp;&amp; this.uom.multiplier !== 1) {
+            var multiplier: number = this.uom.multiplier;
+            this.w *= multiplier;
+            this.x *= multiplier;
+            this.y *= multiplier;
+            this.xy *= multiplier;
             this.uom = new Unit(1, uom.dimensions, uom.labels);
         }
     }

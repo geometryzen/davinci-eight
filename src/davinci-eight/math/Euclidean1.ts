@@ -48,10 +48,10 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         this.w = assertArgNumber('w', w)
         this.x = assertArgNumber('x', x)
         this.uom = assertArgUnitOrUndefined('uom', uom)
-        if (this.uom && this.uom.scale !== 1) {
-            var scale: number = this.uom.scale
-            this.w *= scale
-            this.x *= scale
+        if (this.uom && this.uom.multiplier !== 1) {
+            var multiplier: number = this.uom.multiplier
+            this.w *= multiplier
+            this.x *= multiplier
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
     }

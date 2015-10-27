@@ -244,7 +244,8 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.141.0: 2015-10-26 G2
 * 2.142.0: 2015-10-26 quad
 * 2.143.0: 2015-10-26 QQ
+* 2.144.0: 2015-10-26 Unit
 
-## License
+## Unit
 Copyright (c) 2014-2015 David Holmes
 Licensed under the MIT license.

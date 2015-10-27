@@ -104,30 +104,28 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
             return new Dimensions(this.M.div(QQ.TWO), this.L.div(QQ.TWO), this.T.div(QQ.TWO), this.Q.div(QQ.TWO), this.temperature.div(QQ.TWO), this.amount.div(QQ.TWO), this.intensity.div(QQ.TWO));
         };
         /**
-         * Determines whether the quantity is dimensionless (all rational components must be zero).
-         * @method dimensionless
-         * @return {boolean}
-         */
-        Dimensions.prototype.dimensionless = function () {
-            return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
-        };
-        /**
-         * Determines whether all the components of the Dimensions instance are zero.
+         * Determines whether all the exponents of this dimensions number are zero.
          *
-         * @method isZero
+         * @method isOne
          * @return {boolean} <code>true</code> if all the components are zero, otherwise <code>false</code>.
          */
-        Dimensions.prototype.isZero = function () {
+        Dimensions.prototype.isOne = function () {
             return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
         };
+        Dimensions.prototype.isZero = function () {
+            return false;
+        };
         /**
-         * Computes the inverse by multiplying all exponents by <code>-1</code>.
-         * @method neg
+         * Computes the multiplicative inverse of this dimensions number.
+         * This is achived by changing the signs of all the exponent quantities.
+         * @method inv
          * @return {Dimensions}
          */
-        // FIXME: Probably should call the outer method inv because it is the multiplicative inverse.
-        Dimensions.prototype.neg = function () {
+        Dimensions.prototype.inv = function () {
             return new Dimensions(this.M.neg(), this.L.neg(), this.T.neg(), this.Q.neg(), this.temperature.neg(), this.amount.neg(), this.intensity.neg());
+        };
+        Dimensions.prototype.neg = function () {
+            return this;
         };
         /**
          * Creates a representation of this <code>Dimensions</code> instance.
@@ -153,6 +151,130 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return typeof x === 'string';
             }).join(" * ");
         };
+        /**
+         * @method __add__
+         * @param rhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.compatible(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __radd__
+         * @param lhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.compatible(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __sub__
+         * @param rhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.compatible(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rsub__
+         * @param lhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.compatible(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __mul__
+         * @param rhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.mul(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rmul__
+         * @param lhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.mul(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __div__
+         * @param rhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__div__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.div(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.div(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __pos__
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__pos__ = function () {
+            return this;
+        };
+        /**
+         * @method __neg__
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__neg__ = function () {
+            return this;
+        };
+        /**
+         * @property ONE
+         * @type {Dimensions}
+         * @static
+         */
+        Dimensions.ONE = new Dimensions(R0, R0, R0, R0, R0, R0, R0);
         /**
          * @property MASS
          * @type {Dimensions}

@@ -1,4 +1,6 @@
+import DivisionRingOperators = require('../math/DivisionRingOperators')
 import Dimensions = require('../math/Dimensions');
+import LinearElement = require('../math/LinearElement')
 import QQ = require('../math/QQ');
 import UnitError = require('../math/UnitError');
 
@@ -49,8 +51,8 @@ function assertArgUnitOrUndefined(name: string, arg: Unit): Unit {
     }
 }
 
-var dumbString = function(scale: number, dimensions: Dimensions, labels: string[]) {
-    assertArgNumber('scale', scale);
+var dumbString = function(multiplier: number, dimensions: Dimensions, labels: string[]) {
+    assertArgNumber('multiplier', multiplier);
     assertArgDimensions('dimensions', dimensions);
     var operatorStr: string;
     var scaleString: string;
@@ -68,15 +70,15 @@ var dumbString = function(scale: number, dimensions: Dimensions, labels: string[
         return "" + label + " ** " + rational;
     };
 
-    operatorStr = scale === 1 || dimensions.isZero() ? "" : " ";
-    scaleString = scale === 1 ? "" : "" + scale;
+    operatorStr = multiplier === 1 || dimensions.isOne() ? "" : " ";
+    scaleString = multiplier === 1 ? "" : "" + multiplier;
     unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function(x) {
         return typeof x === 'string';
     }).join(" ");
     return "" + scaleString + operatorStr + unitsString;
 };
 
-var unitString = function(scale: number, dimensions: Dimensions, labels: string[]): string {
+var unitString = function(multiplier: number, dimensions: Dimensions, labels: string[]): string {
     var patterns =
         [
             [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
@@ -157,38 +159,42 @@ var unitString = function(scale: number, dimensions: Dimensions, labels: string[
             temperature.numer === pattern[8] && temperature.denom === pattern[9] &&
             amount.numer === pattern[10] && amount.denom === pattern[11] &&
             intensity.numer === pattern[12] && intensity.denom === pattern[13]) {
-            if (scale !== 1) {
-                return scale + " * " + decodes[i][0];
+            if (multiplier !== 1) {
+                return multiplier + " * " + decodes[i][0];
             }
             else {
                 return decodes[i][0];
             }
         }
     }
-    return dumbString(scale, dimensions, labels);
+    return dumbString(multiplier, dimensions, labels);
 };
 
 function add(lhs: Unit, rhs: Unit): Unit {
-    return new Unit(lhs.scale + rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+    return new Unit(lhs.multiplier + rhs.multiplier, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
 }
 
 function sub(lhs: Unit, rhs: Unit): Unit {
-    return new Unit(lhs.scale - rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+    return new Unit(lhs.multiplier - rhs.multiplier, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
 }
 
 function mul(lhs: Unit, rhs: Unit): Unit {
-    return new Unit(lhs.scale * rhs.scale, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
+    return new Unit(lhs.multiplier * rhs.multiplier, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
 }
 
-function scalarMultiply(alpha: number, unit: Unit): Unit {
-    return new Unit(alpha * unit.scale, unit.dimensions, unit.labels);
+function scale(α: number, unit: Unit): Unit {
+    return new Unit(α * unit.multiplier, unit.dimensions, unit.labels);
 }
 
 function div(lhs: Unit, rhs: Unit): Unit {
-    return new Unit(lhs.scale / rhs.scale, lhs.dimensions.div(rhs.dimensions), lhs.labels);
+    return new Unit(lhs.multiplier / rhs.multiplier, lhs.dimensions.div(rhs.dimensions), lhs.labels);
 }
 
-class Unit {
+/**
+ * @class Unit
+ */
+class Unit implements DivisionRingOperators<Unit>, LinearElement<Unit, Unit, Unit, Unit> {
+    public static ONE = new Unit(1.0, Dimensions.ONE, LABELS_SI);
     public static KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
     public static METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
     public static SECOND = new Unit(1.0, Dimensions.TIME, LABELS_SI);
@@ -202,19 +208,24 @@ class Unit {
      *
      * @class Unit
      * @constructor
-     * @param {number} scale
+     * @param {number} multiplier
      * @param {Dimensions} dimensions
      * @param {string[]} labels The label strings to use for each dimension.
      */
-    constructor(public scale: number, public dimensions: Dimensions, public labels: string[]) {
+    constructor(public multiplier: number, public dimensions: Dimensions, public labels: string[]) {
         if (labels.length !== 7) {
             throw new Error("Expecting 7 elements in the labels array.");
         }
-        this.scale = scale;
+        this.multiplier = multiplier;
         this.dimensions = dimensions;
         this.labels = labels;
     }
 
+    /**
+     * @method compatible
+     * @param rhs {Unit}
+     * @return {Unit}
+     */
     compatible(rhs: Unit): Unit {
         if (rhs instanceof Unit) {
             this.dimensions.compatible(rhs.dimensions);
@@ -225,75 +236,124 @@ class Unit {
         }
     }
 
+    /**
+     * @method add
+     * @param rhs {Unit}
+     * @return {Unit}
+     */
     add(rhs: Unit): Unit {
         assertArgUnit('rhs', rhs);
         return add(this, rhs);
     }
 
-    __add__(other: any) {
-        if (other instanceof Unit) {
-            return add(this, other);
+    /**
+     * @method __add__
+     * @param rhs {Unit}
+     * @return {Unit}
+     * @private
+     */
+    __add__(rhs: any) {
+        if (rhs instanceof Unit) {
+            return add(this, rhs);
         }
         else {
             return;
         }
     }
 
-    __radd__(other: any) {
-        if (other instanceof Unit) {
-            return add(other, this);
+    /**
+     * @method __radd__
+     * @param lhs {Unit}
+     * @return {Unit}
+     * @private
+     */
+    __radd__(lhs: any) {
+        if (lhs instanceof Unit) {
+            return add(lhs, this);
         }
         else {
             return;
         }
     }
 
+
+    /**
+     * @method sub
+     * @param rhs {Unit}
+     * @return {Unit}
+     */
     sub(rhs: Unit): Unit {
         assertArgUnit('rhs', rhs);
         return sub(this, rhs);
     }
 
-    __sub__(other: any) {
-        if (other instanceof Unit) {
-            return sub(this, other);
+    /**
+     * @method __sub__
+     * @param rhs {Unit}
+     * @return {Unit}
+     */
+    __sub__(rhs: any) {
+        if (rhs instanceof Unit) {
+            return sub(this, rhs);
         }
         else {
             return;
         }
     }
 
-    __rsub__(other: any) {
-        if (other instanceof Unit) {
-            return sub(other, this);
+    /**
+     * @method __rsub__
+     * @param lhs {Unit}
+     * @return {Unit}
+     */
+    __rsub__(lhs: any) {
+        if (lhs instanceof Unit) {
+            return sub(lhs, this);
         }
         else {
             return;
         }
     }
 
+
+    /**
+     * @method mul
+     * @param rhs {Unit}
+     * @return {Unit}
+     */
     mul(rhs: any): Unit {
         assertArgUnit('rhs', rhs);
         return mul(this, rhs);
     }
 
-    __mul__(other: any) {
-        if (other instanceof Unit) {
-            return mul(this, other);
+    /**
+     * @method __mul__
+     * @param rhs {Unit}
+     * @return {Unit}
+     */
+    __mul__(rhs: any) {
+        if (rhs instanceof Unit) {
+            return mul(this, rhs);
         }
-        else if (typeof other === 'number') {
-            return scalarMultiply(other, this);
+        else if (typeof rhs === 'number') {
+            return scale(rhs, this);
         }
         else {
             return;
         }
     }
 
-    __rmul__(other: any) {
-        if (other instanceof Unit) {
-            return mul(other, this);
+    /**
+     * @method __rmul__
+     * @param lhs {Unit}
+     * @return {Unit}
+     */
+    __rmul__(lhs: any) {
+        if (lhs instanceof Unit) {
+            return mul(lhs, this);
         }
-        else if (typeof other === 'number') {
-            return scalarMultiply(other, this);
+        else if (typeof lhs === 'number') {
+            return scale(lhs, this);
         }
         else {
             return;
@@ -305,12 +365,16 @@ class Unit {
         return div(this, rhs);
     }
 
+    divByScalar(α: number): Unit {
+        return new Unit(this.multiplier / α, this.dimensions, this.labels);
+    }
+
     __div__(other: any) {
         if (other instanceof Unit) {
             return div(this, other);
         }
         else if (typeof other === 'number') {
-            return new Unit(this.scale / other, this.dimensions, this.labels);
+            return new Unit(this.multiplier / other, this.dimensions, this.labels);
         }
         else {
             return;
@@ -322,7 +386,7 @@ class Unit {
             return div(other, this);
         }
         else if (typeof other === 'number') {
-            return new Unit(other / this.scale, this.dimensions.neg(), this.labels);
+            return new Unit(other / this.multiplier, this.dimensions.inv(), this.labels);
         }
         else {
             return;
@@ -331,44 +395,149 @@ class Unit {
 
     pow(exponent: QQ): Unit {
         assertArgRational('exponent', exponent);
-        return new Unit(Math.pow(this.scale, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
+        return new Unit(Math.pow(this.multiplier, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
     }
 
-    // FIXME: Rename inverse
-    inverse(): Unit {
-        return new Unit(1 / this.scale, this.dimensions.neg(), this.labels);
+    /**
+     * @method inv
+     * @return {Unit}
+     */
+    inv(): Unit {
+        return new Unit(1 / this.multiplier, this.dimensions.inv(), this.labels);
     }
 
-    isUnity(): boolean {
-        return this.dimensions.dimensionless() && (this.scale === 1);
+    /**
+     * @method neg
+     * @return {Unit}
+     */
+    neg(): Unit {
+        return new Unit(-this.multiplier, this.dimensions, this.labels);
     }
 
+    /**
+     * @method isOne
+     * @return {boolean}
+     */
+    isOne(): boolean {
+        return this.dimensions.isOne() && (this.multiplier === 1)
+    }
+
+    /**
+     * @method isZero
+     * @return {boolean}
+     */
+    isZero(): boolean {
+        return this.dimensions.isZero() || (this.multiplier === 0)
+    }
+
+    /**
+     * @method lerp
+     * @param target: {Unit}
+     * @param α {number}
+     * @return {Unit}
+     */
+    lerp(target: Unit, α: number): Unit {
+        return this
+    }
+
+    /**
+     * @method norm
+     * @return {Unit}
+     */
     norm(): Unit {
-        return new Unit(Math.abs(this.scale), this.dimensions, this.labels);
+        return new Unit(Math.abs(this.multiplier), this.dimensions, this.labels);
     }
 
+    /**
+     * @method quad
+     * @return {Unit}
+     */
     quad(): Unit {
-        return new Unit(this.scale * this.scale, this.dimensions.mul(this.dimensions), this.labels);
+        return new Unit(this.multiplier * this.multiplier, this.dimensions.mul(this.dimensions), this.labels);
+    }
+
+    /**
+     * @method reflect
+     * @param n {Unit}
+     * @return {Unit}
+     */
+    reflect(n: Unit): Unit {
+        return this;
+    }
+
+    /**
+     * @method rotate
+     * @param rotor {Unit}
+     * @return {Unit}
+     */
+    rotate(rotor: Unit): Unit {
+        return this;
+    }
+
+    scale(α: number): Unit {
+        return new Unit(this.multiplier * α, this.dimensions, this.labels);
+    }
+
+    /**
+     * @method slerp
+     * @param target: {Unit}
+     * @param α {number}
+     * @return {Unit}
+     */
+    slerp(target: Unit, α: number): Unit {
+        return this
+    }
+
+    toExponential(): string {
+        return unitString(this.multiplier, this.dimensions, this.labels);
+    }
+
+    toFixed(digits?: number): string {
+        return unitString(this.multiplier, this.dimensions, this.labels);
     }
 
     toString(): string {
-        return unitString(this.scale, this.dimensions, this.labels);
+        return unitString(this.multiplier, this.dimensions, this.labels);
     }
 
-    static isUnity(uom: Unit): boolean {
+    /**
+     * @method __pos__
+     * @return {Unit}
+     * @private
+     */
+    __pos__(): Unit {
+        return this
+    }
+
+    /**
+     * @method __neg__
+     * @return {Unit}
+     * @private
+     */
+    __neg__(): Unit {
+        return this.neg()
+    }
+
+    /**
+     * @method isOne
+     * @param uom {Unit}
+     * @return {boolean}
+     * @static
+     */
+    static isOne(uom: Unit): boolean {
         if (typeof uom === 'undefined') {
             return true;
         }
         else if (uom instanceof Unit) {
-            return uom.isUnity();
+            return uom.isOne();
         }
         else {
-            throw new Error("isUnity argument must be a Unit or undefined.");
+            throw new Error("isOne argument must be a Unit or undefined.");
         }
     }
 
     static assertDimensionless(uom: Unit) {
-        if (!Unit.isUnity(uom)) {
+        if (!Unit.isOne(uom)) {
             throw new UnitError("uom must be dimensionless.");
         }
     }
@@ -381,7 +550,7 @@ class Unit {
                 return lhs.compatible(rhs);
             }
             else {
-                if (lhs.isUnity()) {
+                if (lhs.isOne()) {
                     return void 0;
                 }
                 else {
@@ -391,7 +560,7 @@ class Unit {
         }
         else {
             if (rhs) {
-                if (rhs.isUnity()) {
+                if (rhs.isOne()) {
                     return void 0;
                 }
                 else {
@@ -409,14 +578,14 @@ class Unit {
             if (rhs instanceof Unit) {
                 return lhs.mul(rhs);
             }
-            else if (Unit.isUnity(rhs)) {
+            else if (Unit.isOne(rhs)) {
                 return lhs;
             }
             else {
                 return void 0;
             }
         }
-        else if (Unit.isUnity(lhs)) {
+        else if (Unit.isOne(lhs)) {
             return rhs;
         }
         else {
@@ -435,7 +604,7 @@ class Unit {
         }
         else {
             if (rhs instanceof Unit) {
-                return rhs.inverse();
+                return rhs.inv();
             }
             else {
                 return void 0;
@@ -446,8 +615,8 @@ class Unit {
     static sqrt(uom: Unit): Unit {
         if (typeof uom !== 'undefined') {
             assertArgUnit('uom', uom);
-            if (!uom.isUnity()) {
-                return new Unit(Math.sqrt(uom.scale), uom.dimensions.sqrt(), uom.labels);
+            if (!uom.isOne()) {
+                return new Unit(Math.sqrt(uom.multiplier), uom.dimensions.sqrt(), uom.labels);
             }
             else {
                 return void 0;

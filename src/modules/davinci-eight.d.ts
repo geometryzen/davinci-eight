@@ -496,18 +496,137 @@ declare module EIGHT {
         M: QQ;
         L: QQ;
         T: QQ;
-        QQ: QQ;
+        Q: QQ;
         temperature: QQ;
         amount: QQ;
         intensity: QQ;
+        constructor(M: QQ, L: QQ, T: QQ, Q: QQ, temperature: QQ, amount: QQ, intensity);
+        isOne(): boolean;
+        isZero(): boolean;
+        inv(): Dimensions;
+        neg(): Dimensions;
+
+        /**
+         * @property ONE
+         * @type {Dimensions}
+         * @static
+         */
+        public static ONE: Dimensions;
+
+        /**
+         * @property MASS
+         * @type {Dimensions}
+         * @static
+         */
+        public static MASS: Dimensions;
+
+        /**
+         * @property LENGTH
+         * @type {Dimensions}
+         * @static
+         */
+        public static LENGTH: Dimensions;
+
+        /**
+         * @property TIME
+         * @type {Dimensions}
+         * @static
+         */
+        public static TIME: Dimensions;
+
+        /**
+         * @property CHARGE
+         * @type {Dimensions}
+         * @static
+         */
+        public static CHARGE: Dimensions;
+
+        /**
+         * @property CURRENT
+         * @type {Dimensions}
+         * @static
+         */
+        public static CURRENT: Dimensions;
+
+        /**
+         * @property TEMPERATURE
+         * @type {Dimensions}
+         * @static
+         */
+        public static TEMPERATURE: Dimensions;
+
+        /**
+         * @property AMOUNT
+         * @type {Dimensions}
+         * @static
+         */
+        public static AMOUNT: Dimensions;
+
+        /**
+         * @property INTENSITY
+         * @type {Dimensions}
+         * @static
+         */
+        public static INTENSITY: Dimensions;
     }
 
     /**
      * The uinit of measure for a physical quantity.
      */
     class Unit {
-        scale: number;
+        multiplier: number;
         dimensions: Dimensions;
+        labels: string[];
+        constructor(multiplier: number, dimensions: Dimensions, labels: string[]);
+        inv(): Unit;
+        isOne(): boolean;
+        isZero(): boolean;
+        neg(): Unit;
+
+        /**
+         * Tme multiplicative identity (1).
+         */
+        static ONE: Unit;
+
+        /**
+         * The kilogram.
+         */
+        static KILOGRAM: Unit;
+
+        /**
+         * The meter.
+         */
+        static METER: Unit;
+
+        /**
+         * The second.
+         */
+        static SECOND: Unit;
+
+        /**
+         * The coulomb.
+         */
+        static COULOMB: Unit;
+
+        /**
+         * The ampere.
+         */
+        static AMPERE: Unit;
+
+        /**
+         * The kelvin.
+         */
+        static KELVIN: Unit;
+
+        /**
+         * The mole.
+         */
+        static MOLE: Unit;
+
+        /**
+         * The candela.
+         */
+        static CANDELA: Unit;
     }
 
     /**

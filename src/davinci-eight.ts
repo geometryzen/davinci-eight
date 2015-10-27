@@ -316,6 +316,9 @@ var eight = {
     get MeshTopology() { return MeshTopology },
     get GridTopology() { return GridTopology },
 
+    get Dimensions() { return Dimensions },
+    get Unit() { return Unit },
+    get Euclidean2() { return Euclidean2 },
     get Euclidean3() { return Euclidean3 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
@@ -323,6 +326,7 @@ var eight = {
     get G2() { return G2 },
     get G3() { return G3 },
     get R1() { return R1 },
+    get SpinG2() { return SpinG2 },
     get SpinG3() { return SpinG3 },
     get R2() { return R2 },
     get R3() { return R3 },

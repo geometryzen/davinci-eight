@@ -1,3 +1,4 @@
+import DivisionRingOperators = require('../math/DivisionRingOperators')
 import mustBeObject = require('../checks/mustBeObject')
 import QQ = require('../math/QQ')
 
@@ -26,55 +27,71 @@ function assertArgRational(name: string, arg: QQ): QQ {
 /**
  * @class Dimensions
  */
-class Dimensions {
+class Dimensions implements DivisionRingOperators<Dimensions> {
+
+    /**
+     * @property ONE
+     * @type {Dimensions}
+     * @static
+     */
+    public static ONE = new Dimensions(R0, R0, R0, R0, R0, R0, R0);
+
     /**
      * @property MASS
      * @type {Dimensions}
      * @static
      */
     public static MASS = new Dimensions(R1, R0, R0, R0, R0, R0, R0);
+
     /**
      * @property LENGTH
      * @type {Dimensions}
      * @static
      */
     public static LENGTH = new Dimensions(R0, R1, R0, R0, R0, R0, R0);
+
     /**
      * @property TIME
      * @type {Dimensions}
      * @static
      */
     public static TIME = new Dimensions(R0, R0, R1, R0, R0, R0, R0);
+
     /**
      * @property CHARGE
      * @type {Dimensions}
      * @static
      */
     public static CHARGE = new Dimensions(R0, R0, R0, R1, R0, R0, R0);
+
     /**
      * @property CURRENT
      * @type {Dimensions}
      * @static
      */
     public static CURRENT = new Dimensions(R0, R0, M1, R1, R0, R0, R0);
+
     /**
      * @property TEMPERATURE
      * @type {Dimensions}
      * @static
      */
     public static TEMPERATURE = new Dimensions(R0, R0, R0, R0, R1, R0, R0);
+
     /**
      * @property AMOUNT
      * @type {Dimensions}
      * @static
      */
     public static AMOUNT = new Dimensions(R0, R0, R0, R0, R0, R1, R0);
+
     /**
      * @property INTENSITY
      * @type {Dimensions}
      * @static
      */
     public static INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, R1);
+
     /**
      * The Dimensions class captures the physical dimensions associated with a unit of measure.
      *
@@ -100,6 +117,7 @@ class Dimensions {
             throw new Error("Expecting 7 arguments")
         }
     }
+
     /**
      * Returns the dimensions if they are all equal, otherwise throws an <code>Error</code>
      * @method compatible
@@ -114,6 +132,7 @@ class Dimensions {
             throw new Error("Dimensions must be equal (" + this + ", " + rhs + ")");
         }
     }
+
     /**
      * Multiplies dimensions by adding rational exponents.
      * @method mul
@@ -123,6 +142,7 @@ class Dimensions {
     mul(rhs: Dimensions): Dimensions {
         return new Dimensions(this.M.add(rhs.M), this.L.add(rhs.L), this.T.add(rhs.T), this.Q.add(rhs.Q), this.temperature.add(rhs.temperature), this.amount.add(rhs.amount), this.intensity.add(rhs.intensity));
     }
+
     /**
      * Divides dimensions by subtracting rational exponents.
      * @method div
@@ -132,6 +152,7 @@ class Dimensions {
     div(rhs: Dimensions): Dimensions {
         return new Dimensions(this.M.sub(rhs.M), this.L.sub(rhs.L), this.T.sub(rhs.T), this.Q.sub(rhs.Q), this.temperature.sub(rhs.temperature), this.amount.sub(rhs.amount), this.intensity.sub(rhs.intensity));
     }
+
     /**
      * Computes the power function by multiplying rational exponents.
      * @method div
@@ -141,6 +162,7 @@ class Dimensions {
     pow(exponent: QQ): Dimensions {
         return new Dimensions(this.M.mul(exponent), this.L.mul(exponent), this.T.mul(exponent), this.Q.mul(exponent), this.temperature.mul(exponent), this.amount.mul(exponent), this.intensity.mul(exponent));
     }
+
     /**
      * Computes the square root by dividing each rational component by two.
      * @method sqrt
@@ -149,32 +171,35 @@ class Dimensions {
     sqrt(): Dimensions {
         return new Dimensions(this.M.div(QQ.TWO), this.L.div(QQ.TWO), this.T.div(QQ.TWO), this.Q.div(QQ.TWO), this.temperature.div(QQ.TWO), this.amount.div(QQ.TWO), this.intensity.div(QQ.TWO));
     }
+
     /**
-     * Determines whether the quantity is dimensionless (all rational components must be zero).
-     * @method dimensionless
-     * @return {boolean}
-     */
-    dimensionless(): boolean {
-        return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
-    }
-    /**
-     * Determines whether all the components of the Dimensions instance are zero. 
+     * Determines whether all the exponents of this dimensions number are zero. 
      *
-     * @method isZero
+     * @method isOne
      * @return {boolean} <code>true</code> if all the components are zero, otherwise <code>false</code>.
      */
-    isZero(): boolean {
+    isOne(): boolean {
         return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
     }
+
+    isZero(): boolean {
+        return false
+    }
+
     /**
-     * Computes the inverse by multiplying all exponents by <code>-1</code>.
-     * @method neg
+     * Computes the multiplicative inverse of this dimensions number.
+     * This is achived by changing the signs of all the exponent quantities.
+     * @method inv
      * @return {Dimensions}
      */
-    // FIXME: Probably should call the outer method inv because it is the multiplicative inverse.
-    neg(): Dimensions {
+    inv(): Dimensions {
         return new Dimensions(this.M.neg(), this.L.neg(), this.T.neg(), this.Q.neg(), this.temperature.neg(), this.amount.neg(), this.intensity.neg());
     }
+
+    neg(): Dimensions {
+        return this
+    }
+
     /**
      * Creates a representation of this <code>Dimensions</code> instance.
      * @method toString
@@ -197,6 +222,134 @@ class Dimensions {
         return [stringify(this.M, 'mass'), stringify(this.L, 'length'), stringify(this.T, 'time'), stringify(this.Q, 'charge'), stringify(this.temperature, 'thermodynamic temperature'), stringify(this.amount, 'amount of substance'), stringify(this.intensity, 'luminous intensity')].filter(function(x) {
             return typeof x === 'string';
         }).join(" * ");
+    }
+
+    /**
+     * @method __add__
+     * @param rhs {any}
+     * @return {Dimensions}
+     */
+    __add__(rhs: any): Dimensions {
+        if (rhs instanceof Dimensions) {
+            return this.compatible(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __radd__
+     * @param lhs {any}
+     * @return {Dimensions}
+     */
+    __radd__(lhs: any): Dimensions {
+        if (lhs instanceof Dimensions) {
+            return lhs.compatible(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __sub__
+     * @param rhs {any}
+     * @return {Dimensions}
+     */
+    __sub__(rhs: any): Dimensions {
+        if (rhs instanceof Dimensions) {
+            return this.compatible(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rsub__
+     * @param lhs {any}
+     * @return {Dimensions}
+     */
+    __rsub__(lhs: any): Dimensions {
+        if (lhs instanceof Dimensions) {
+            return lhs.compatible(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __mul__
+     * @param rhs {any}
+     * @return {Dimensions}
+     */
+    __mul__(rhs: any): Dimensions {
+        if (rhs instanceof Dimensions) {
+            return this.mul(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rmul__
+     * @param lhs {any}
+     * @return {Dimensions}
+     */
+    __rmul__(lhs: any): Dimensions {
+        if (lhs instanceof Dimensions) {
+            return lhs.mul(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __div__
+     * @param rhs {any}
+     * @return {Dimensions}
+     */
+    __div__(rhs: any): Dimensions {
+        if (rhs instanceof Dimensions) {
+            return this.div(rhs)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __rdiv__
+     * @param lhs {any}
+     * @return {Dimensions}
+     */
+    __rdiv__(lhs: any): Dimensions {
+        if (lhs instanceof Dimensions) {
+            return lhs.div(this)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method __pos__
+     * @return {Dimensions}
+     */
+    __pos__(): Dimensions {
+        return this
+    }
+
+    /**
+     * @method __neg__
+     * @return {Dimensions}
+     */
+    __neg__(): Dimensions {
+        return this
     }
 }
 

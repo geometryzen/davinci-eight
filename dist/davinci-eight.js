@@ -2669,30 +2669,28 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/QQ'], fun
             return new Dimensions(this.M.div(QQ.TWO), this.L.div(QQ.TWO), this.T.div(QQ.TWO), this.Q.div(QQ.TWO), this.temperature.div(QQ.TWO), this.amount.div(QQ.TWO), this.intensity.div(QQ.TWO));
         };
         /**
-         * Determines whether the quantity is dimensionless (all rational components must be zero).
-         * @method dimensionless
-         * @return {boolean}
-         */
-        Dimensions.prototype.dimensionless = function () {
-            return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
-        };
-        /**
-         * Determines whether all the components of the Dimensions instance are zero.
+         * Determines whether all the exponents of this dimensions number are zero.
          *
-         * @method isZero
+         * @method isOne
          * @return {boolean} <code>true</code> if all the components are zero, otherwise <code>false</code>.
          */
-        Dimensions.prototype.isZero = function () {
+        Dimensions.prototype.isOne = function () {
             return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
         };
+        Dimensions.prototype.isZero = function () {
+            return false;
+        };
         /**
-         * Computes the inverse by multiplying all exponents by <code>-1</code>.
-         * @method neg
+         * Computes the multiplicative inverse of this dimensions number.
+         * This is achived by changing the signs of all the exponent quantities.
+         * @method inv
          * @return {Dimensions}
          */
-        // FIXME: Probably should call the outer method inv because it is the multiplicative inverse.
-        Dimensions.prototype.neg = function () {
+        Dimensions.prototype.inv = function () {
             return new Dimensions(this.M.neg(), this.L.neg(), this.T.neg(), this.Q.neg(), this.temperature.neg(), this.amount.neg(), this.intensity.neg());
+        };
+        Dimensions.prototype.neg = function () {
+            return this;
         };
         /**
          * Creates a representation of this <code>Dimensions</code> instance.
@@ -2718,6 +2716,130 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/QQ'], fun
                 return typeof x === 'string';
             }).join(" * ");
         };
+        /**
+         * @method __add__
+         * @param rhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.compatible(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __radd__
+         * @param lhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.compatible(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __sub__
+         * @param rhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.compatible(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rsub__
+         * @param lhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.compatible(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __mul__
+         * @param rhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.mul(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rmul__
+         * @param lhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.mul(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __div__
+         * @param rhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__div__ = function (rhs) {
+            if (rhs instanceof Dimensions) {
+                return this.div(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof Dimensions) {
+                return lhs.div(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __pos__
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__pos__ = function () {
+            return this;
+        };
+        /**
+         * @method __neg__
+         * @return {Dimensions}
+         */
+        Dimensions.prototype.__neg__ = function () {
+            return this;
+        };
+        /**
+         * @property ONE
+         * @type {Dimensions}
+         * @static
+         */
+        Dimensions.ONE = new Dimensions(R0, R0, R0, R0, R0, R0, R0);
         /**
          * @property MASS
          * @type {Dimensions}
@@ -2830,8 +2952,8 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
             return assertArgUnit(name, arg);
         }
     }
-    var dumbString = function (scale, dimensions, labels) {
-        assertArgNumber('scale', scale);
+    var dumbString = function (multiplier, dimensions, labels) {
+        assertArgNumber('multiplier', multiplier);
         assertArgDimensions('dimensions', dimensions);
         var operatorStr;
         var scaleString;
@@ -2850,14 +2972,14 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
             }
             return "" + label + " ** " + rational;
         };
-        operatorStr = scale === 1 || dimensions.isZero() ? "" : " ";
-        scaleString = scale === 1 ? "" : "" + scale;
+        operatorStr = multiplier === 1 || dimensions.isOne() ? "" : " ";
+        scaleString = multiplier === 1 ? "" : "" + multiplier;
         unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function (x) {
             return typeof x === 'string';
         }).join(" ");
         return "" + scaleString + operatorStr + unitsString;
     };
-    var unitString = function (scale, dimensions, labels) {
+    var unitString = function (multiplier, dimensions, labels) {
         var patterns = [
             [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
             [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
@@ -2936,52 +3058,60 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
                 temperature.numer === pattern[8] && temperature.denom === pattern[9] &&
                 amount.numer === pattern[10] && amount.denom === pattern[11] &&
                 intensity.numer === pattern[12] && intensity.denom === pattern[13]) {
-                if (scale !== 1) {
-                    return scale + " * " + decodes[i][0];
+                if (multiplier !== 1) {
+                    return multiplier + " * " + decodes[i][0];
                 }
                 else {
                     return decodes[i][0];
                 }
             }
         }
-        return dumbString(scale, dimensions, labels);
+        return dumbString(multiplier, dimensions, labels);
     };
     function add(lhs, rhs) {
-        return new Unit(lhs.scale + rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+        return new Unit(lhs.multiplier + rhs.multiplier, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
     }
     function sub(lhs, rhs) {
-        return new Unit(lhs.scale - rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+        return new Unit(lhs.multiplier - rhs.multiplier, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
     }
     function mul(lhs, rhs) {
-        return new Unit(lhs.scale * rhs.scale, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
+        return new Unit(lhs.multiplier * rhs.multiplier, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
     }
-    function scalarMultiply(alpha, unit) {
-        return new Unit(alpha * unit.scale, unit.dimensions, unit.labels);
+    function scale(α, unit) {
+        return new Unit(α * unit.multiplier, unit.dimensions, unit.labels);
     }
     function div(lhs, rhs) {
-        return new Unit(lhs.scale / rhs.scale, lhs.dimensions.div(rhs.dimensions), lhs.labels);
+        return new Unit(lhs.multiplier / rhs.multiplier, lhs.dimensions.div(rhs.dimensions), lhs.labels);
     }
+    /**
+     * @class Unit
+     */
     var Unit = (function () {
         /**
          * The Unit class represents the units for a measure.
          *
          * @class Unit
          * @constructor
-         * @param {number} scale
+         * @param {number} multiplier
          * @param {Dimensions} dimensions
          * @param {string[]} labels The label strings to use for each dimension.
          */
-        function Unit(scale, dimensions, labels) {
-            this.scale = scale;
+        function Unit(multiplier, dimensions, labels) {
+            this.multiplier = multiplier;
             this.dimensions = dimensions;
             this.labels = labels;
             if (labels.length !== 7) {
                 throw new Error("Expecting 7 elements in the labels array.");
             }
-            this.scale = scale;
+            this.multiplier = multiplier;
             this.dimensions = dimensions;
             this.labels = labels;
         }
+        /**
+         * @method compatible
+         * @param rhs {Unit}
+         * @return {Unit}
+         */
         Unit.prototype.compatible = function (rhs) {
             if (rhs instanceof Unit) {
                 this.dimensions.compatible(rhs.dimensions);
@@ -2991,67 +3121,114 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
                 throw new Error("Illegal Argument for Unit.compatible: " + rhs);
             }
         };
+        /**
+         * @method add
+         * @param rhs {Unit}
+         * @return {Unit}
+         */
         Unit.prototype.add = function (rhs) {
             assertArgUnit('rhs', rhs);
             return add(this, rhs);
         };
-        Unit.prototype.__add__ = function (other) {
-            if (other instanceof Unit) {
-                return add(this, other);
+        /**
+         * @method __add__
+         * @param rhs {Unit}
+         * @return {Unit}
+         * @private
+         */
+        Unit.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Unit) {
+                return add(this, rhs);
             }
             else {
                 return;
             }
         };
-        Unit.prototype.__radd__ = function (other) {
-            if (other instanceof Unit) {
-                return add(other, this);
+        /**
+         * @method __radd__
+         * @param lhs {Unit}
+         * @return {Unit}
+         * @private
+         */
+        Unit.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Unit) {
+                return add(lhs, this);
             }
             else {
                 return;
             }
         };
+        /**
+         * @method sub
+         * @param rhs {Unit}
+         * @return {Unit}
+         */
         Unit.prototype.sub = function (rhs) {
             assertArgUnit('rhs', rhs);
             return sub(this, rhs);
         };
-        Unit.prototype.__sub__ = function (other) {
-            if (other instanceof Unit) {
-                return sub(this, other);
+        /**
+         * @method __sub__
+         * @param rhs {Unit}
+         * @return {Unit}
+         */
+        Unit.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Unit) {
+                return sub(this, rhs);
             }
             else {
                 return;
             }
         };
-        Unit.prototype.__rsub__ = function (other) {
-            if (other instanceof Unit) {
-                return sub(other, this);
+        /**
+         * @method __rsub__
+         * @param lhs {Unit}
+         * @return {Unit}
+         */
+        Unit.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Unit) {
+                return sub(lhs, this);
             }
             else {
                 return;
             }
         };
+        /**
+         * @method mul
+         * @param rhs {Unit}
+         * @return {Unit}
+         */
         Unit.prototype.mul = function (rhs) {
             assertArgUnit('rhs', rhs);
             return mul(this, rhs);
         };
-        Unit.prototype.__mul__ = function (other) {
-            if (other instanceof Unit) {
-                return mul(this, other);
+        /**
+         * @method __mul__
+         * @param rhs {Unit}
+         * @return {Unit}
+         */
+        Unit.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Unit) {
+                return mul(this, rhs);
             }
-            else if (typeof other === 'number') {
-                return scalarMultiply(other, this);
+            else if (typeof rhs === 'number') {
+                return scale(rhs, this);
             }
             else {
                 return;
             }
         };
-        Unit.prototype.__rmul__ = function (other) {
-            if (other instanceof Unit) {
-                return mul(other, this);
+        /**
+         * @method __rmul__
+         * @param lhs {Unit}
+         * @return {Unit}
+         */
+        Unit.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Unit) {
+                return mul(lhs, this);
             }
-            else if (typeof other === 'number') {
-                return scalarMultiply(other, this);
+            else if (typeof lhs === 'number') {
+                return scale(lhs, this);
             }
             else {
                 return;
@@ -3061,12 +3238,15 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
             assertArgUnit('rhs', rhs);
             return div(this, rhs);
         };
+        Unit.prototype.divByScalar = function (α) {
+            return new Unit(this.multiplier / α, this.dimensions, this.labels);
+        };
         Unit.prototype.__div__ = function (other) {
             if (other instanceof Unit) {
                 return div(this, other);
             }
             else if (typeof other === 'number') {
-                return new Unit(this.scale / other, this.dimensions, this.labels);
+                return new Unit(this.multiplier / other, this.dimensions, this.labels);
             }
             else {
                 return;
@@ -3077,7 +3257,7 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
                 return div(other, this);
             }
             else if (typeof other === 'number') {
-                return new Unit(other / this.scale, this.dimensions.neg(), this.labels);
+                return new Unit(other / this.multiplier, this.dimensions.inv(), this.labels);
             }
             else {
                 return;
@@ -3085,37 +3265,131 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
         };
         Unit.prototype.pow = function (exponent) {
             assertArgRational('exponent', exponent);
-            return new Unit(Math.pow(this.scale, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
+            return new Unit(Math.pow(this.multiplier, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
         };
-        // FIXME: Rename inverse
-        Unit.prototype.inverse = function () {
-            return new Unit(1 / this.scale, this.dimensions.neg(), this.labels);
+        /**
+         * @method inv
+         * @return {Unit}
+         */
+        Unit.prototype.inv = function () {
+            return new Unit(1 / this.multiplier, this.dimensions.inv(), this.labels);
         };
-        Unit.prototype.isUnity = function () {
-            return this.dimensions.dimensionless() && (this.scale === 1);
+        /**
+         * @method neg
+         * @return {Unit}
+         */
+        Unit.prototype.neg = function () {
+            return new Unit(-this.multiplier, this.dimensions, this.labels);
         };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
+        Unit.prototype.isOne = function () {
+            return this.dimensions.isOne() && (this.multiplier === 1);
+        };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
+        Unit.prototype.isZero = function () {
+            return this.dimensions.isZero() || (this.multiplier === 0);
+        };
+        /**
+         * @method lerp
+         * @param target: {Unit}
+         * @param α {number}
+         * @return {Unit}
+         */
+        Unit.prototype.lerp = function (target, α) {
+            return this;
+        };
+        /**
+         * @method norm
+         * @return {Unit}
+         */
         Unit.prototype.norm = function () {
-            return new Unit(Math.abs(this.scale), this.dimensions, this.labels);
+            return new Unit(Math.abs(this.multiplier), this.dimensions, this.labels);
         };
+        /**
+         * @method quad
+         * @return {Unit}
+         */
         Unit.prototype.quad = function () {
-            return new Unit(this.scale * this.scale, this.dimensions.mul(this.dimensions), this.labels);
+            return new Unit(this.multiplier * this.multiplier, this.dimensions.mul(this.dimensions), this.labels);
+        };
+        /**
+         * @method reflect
+         * @param n {Unit}
+         * @return {Unit}
+         */
+        Unit.prototype.reflect = function (n) {
+            return this;
+        };
+        /**
+         * @method rotate
+         * @param rotor {Unit}
+         * @return {Unit}
+         */
+        Unit.prototype.rotate = function (rotor) {
+            return this;
+        };
+        Unit.prototype.scale = function (α) {
+            return new Unit(this.multiplier * α, this.dimensions, this.labels);
+        };
+        /**
+         * @method slerp
+         * @param target: {Unit}
+         * @param α {number}
+         * @return {Unit}
+         */
+        Unit.prototype.slerp = function (target, α) {
+            return this;
+        };
+        Unit.prototype.toExponential = function () {
+            return unitString(this.multiplier, this.dimensions, this.labels);
+        };
+        Unit.prototype.toFixed = function (digits) {
+            return unitString(this.multiplier, this.dimensions, this.labels);
         };
         Unit.prototype.toString = function () {
-            return unitString(this.scale, this.dimensions, this.labels);
+            return unitString(this.multiplier, this.dimensions, this.labels);
         };
-        Unit.isUnity = function (uom) {
+        /**
+         * @method __pos__
+         * @return {Unit}
+         * @private
+         */
+        Unit.prototype.__pos__ = function () {
+            return this;
+        };
+        /**
+         * @method __neg__
+         * @return {Unit}
+         * @private
+         */
+        Unit.prototype.__neg__ = function () {
+            return this.neg();
+        };
+        /**
+         * @method isOne
+         * @param uom {Unit}
+         * @return {boolean}
+         * @static
+         */
+        Unit.isOne = function (uom) {
             if (typeof uom === 'undefined') {
                 return true;
             }
             else if (uom instanceof Unit) {
-                return uom.isUnity();
+                return uom.isOne();
             }
             else {
-                throw new Error("isUnity argument must be a Unit or undefined.");
+                throw new Error("isOne argument must be a Unit or undefined.");
             }
         };
         Unit.assertDimensionless = function (uom) {
-            if (!Unit.isUnity(uom)) {
+            if (!Unit.isOne(uom)) {
                 throw new UnitError("uom must be dimensionless.");
             }
         };
@@ -3127,7 +3401,7 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
                     return lhs.compatible(rhs);
                 }
                 else {
-                    if (lhs.isUnity()) {
+                    if (lhs.isOne()) {
                         return void 0;
                     }
                     else {
@@ -3137,7 +3411,7 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
             }
             else {
                 if (rhs) {
-                    if (rhs.isUnity()) {
+                    if (rhs.isOne()) {
                         return void 0;
                     }
                     else {
@@ -3154,14 +3428,14 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
                 if (rhs instanceof Unit) {
                     return lhs.mul(rhs);
                 }
-                else if (Unit.isUnity(rhs)) {
+                else if (Unit.isOne(rhs)) {
                     return lhs;
                 }
                 else {
                     return void 0;
                 }
             }
-            else if (Unit.isUnity(lhs)) {
+            else if (Unit.isOne(lhs)) {
                 return rhs;
             }
             else {
@@ -3179,7 +3453,7 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
             }
             else {
                 if (rhs instanceof Unit) {
-                    return rhs.inverse();
+                    return rhs.inv();
                 }
                 else {
                     return void 0;
@@ -3189,8 +3463,8 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
         Unit.sqrt = function (uom) {
             if (typeof uom !== 'undefined') {
                 assertArgUnit('uom', uom);
-                if (!uom.isUnity()) {
-                    return new Unit(Math.sqrt(uom.scale), uom.dimensions.sqrt(), uom.labels);
+                if (!uom.isOne()) {
+                    return new Unit(Math.sqrt(uom.multiplier), uom.dimensions.sqrt(), uom.labels);
                 }
                 else {
                     return void 0;
@@ -3200,6 +3474,7 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
                 return void 0;
             }
         };
+        Unit.ONE = new Unit(1.0, Dimensions.ONE, LABELS_SI);
         Unit.KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
         Unit.METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
         Unit.SECOND = new Unit(1.0, Dimensions.TIME, LABELS_SI);
@@ -3429,16 +3704,16 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             this.zx = assertArgNumber('zx', zx);
             this.xyz = assertArgNumber('xyz', xyz);
             this.uom = assertArgUnitOrUndefined('uom', uom);
-            if (this.uom && this.uom.scale !== 1) {
-                var scale = this.uom.scale;
-                this.w *= scale;
-                this.x *= scale;
-                this.y *= scale;
-                this.z *= scale;
-                this.xy *= scale;
-                this.yz *= scale;
-                this.zx *= scale;
-                this.xyz *= scale;
+            if (this.uom && this.uom.multiplier !== 1) {
+                var multiplier = this.uom.multiplier;
+                this.w *= multiplier;
+                this.x *= multiplier;
+                this.y *= multiplier;
+                this.z *= multiplier;
+                this.xy *= multiplier;
+                this.yz *= multiplier;
+                this.zx *= multiplier;
+                this.xyz *= multiplier;
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
@@ -6130,7 +6405,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-10-26',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.143.0'
+        VERSION: '2.144.0'
     };
     return core;
 });
@@ -19521,16 +19796,21 @@ define('davinci-eight/mappers/RoundUniform',["require", "exports"], function (re
     return RoundUniform;
 });
 
-define('davinci-eight/math/dotVectorsE2',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
-    function dotVectorsE2(a, b) {
-        if (isDefined(a) && isDefined(b)) {
-            return a.x * b.x + a.y * b.y;
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/math/Euclidean2Error',["require", "exports"], function (require, exports) {
+    var Euclidean2Error = (function (_super) {
+        __extends(Euclidean2Error, _super);
+        function Euclidean2Error(message) {
+            _super.call(this, message);
+            this.name = 'Euclidean2Error';
         }
-        else {
-            return void 0;
-        }
-    }
-    return dotVectorsE2;
+        return Euclidean2Error;
+    })(Error);
+    return Euclidean2Error;
 });
 
 define('davinci-eight/math/extE2',["require", "exports"], function (require, exports) {
@@ -19617,48 +19897,6 @@ define('davinci-eight/math/lcoE2',["require", "exports"], function (require, exp
     return lcoE2;
 });
 
-define('davinci-eight/math/mulE2',["require", "exports"], function (require, exports) {
-    function mulE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    return mulE2;
-});
-
 define('davinci-eight/math/rcoE2',["require", "exports"], function (require, exports) {
     function rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
         a0 = +a0;
@@ -19701,6 +19939,48 @@ define('davinci-eight/math/rcoE2',["require", "exports"], function (require, exp
     return rcoE2;
 });
 
+define('davinci-eight/math/mulE2',["require", "exports"], function (require, exports) {
+    function mulE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    return mulE2;
+});
+
 define('davinci-eight/math/scpE2',["require", "exports"], function (require, exports) {
     function scpE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
         switch (index) {
@@ -19717,6 +19997,695 @@ define('davinci-eight/math/scpE2',["require", "exports"], function (require, exp
         }
     }
     return scpE2;
+});
+
+define('davinci-eight/math/Euclidean2',["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, Euclidean2Error, extE2, lcoE2, rcoE2, mulE2, scpE2, stringFromCoordinates, Unit) {
+    function assertArgNumber(name, x) {
+        if (typeof x === 'number') {
+            return x;
+        }
+        else {
+            throw new Euclidean2Error("Argument '" + name + "' must be a number");
+        }
+    }
+    function assertArgEuclidean2(name, arg) {
+        if (arg instanceof Euclidean2) {
+            return arg;
+        }
+        else {
+            throw new Euclidean2Error("Argument '" + arg + "' must be a Euclidean2");
+        }
+    }
+    function assertArgUnitOrUndefined(name, uom) {
+        if (typeof uom === 'undefined' || uom instanceof Unit) {
+            return uom;
+        }
+        else {
+            throw new Euclidean2Error("Argument '" + uom + "' must be a Unit or undefined");
+        }
+    }
+    function add00(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a00 + b00);
+    }
+    function add01(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a01 + b01);
+    }
+    function add10(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a10 + b10);
+    }
+    function add11(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a11 + b11);
+    }
+    function addE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 + b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a1 + b1);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a2 + b2);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a3 + b3);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    function subE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 - b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a1 - b1);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a2 - b2);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a3 - b3);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    var divide = function (a00, a01, a10, a11, b00, b01, b10, b11, uom, m) {
+        var c00;
+        var c01;
+        var c10;
+        var c11;
+        var i00;
+        var i01;
+        var i10;
+        var i11;
+        var k00;
+        var m00;
+        var m01;
+        var m10;
+        var m11;
+        var r00;
+        var r01;
+        var r10;
+        var r11;
+        var s00;
+        var s01;
+        var s10;
+        var s11;
+        var x00;
+        var x01;
+        var x10;
+        var x11;
+        r00 = +b00;
+        r01 = +b01;
+        r10 = +b10;
+        r11 = -b11;
+        m00 = b00 * r00 + b01 * r01 + b10 * r10 - b11 * r11;
+        m01 = 0;
+        m10 = 0;
+        m11 = 0;
+        c00 = +m00;
+        c01 = -m01;
+        c10 = -m10;
+        c11 = -m11;
+        s00 = r00 * c00 + r01 * c01 + r10 * c10 - r11 * c11;
+        s01 = r00 * c01 + r01 * c00 - r10 * c11 + r11 * c10;
+        s10 = r00 * c10 + r01 * c11 + r10 * c00 - r11 * c01;
+        s11 = r00 * c11 + r01 * c10 - r10 * c01 + r11 * c00;
+        k00 = b00 * s00 + b01 * s01 + b10 * s10 - b11 * s11;
+        i00 = s00 / k00;
+        i01 = s01 / k00;
+        i10 = s10 / k00;
+        i11 = s11 / k00;
+        x00 = a00 * i00 + a01 * i01 + a10 * i10 - a11 * i11;
+        x01 = a00 * i01 + a01 * i00 - a10 * i11 + a11 * i10;
+        x10 = a00 * i10 + a01 * i11 + a10 * i00 - a11 * i01;
+        x11 = a00 * i11 + a01 * i10 - a10 * i01 + a11 * i00;
+        if (typeof m !== 'undefined') {
+            assertArgEuclidean2('m', m);
+            m.w = x00;
+            m.x = x01;
+            m.y = x10;
+            m.xy = x11;
+            m.uom = uom;
+        }
+        else {
+            return new Euclidean2(x00, x01, x10, x11, uom);
+        }
+    };
+    var Euclidean2 = (function () {
+        /**
+         * The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.
+         *
+         * @class Euclidean2
+         * @constructor
+         * @param {number} w The scalar part of the multivector.
+         * @param {number} x The vector component of the multivector in the x-direction.
+         * @param {number} y The vector component of the multivector in the y-direction.
+         * @param {number} xy The pseudoscalar part of the multivector.
+         * @param uom The optional unit of measure.
+         */
+        function Euclidean2(w, x, y, xy, uom) {
+            this.w = assertArgNumber('w', w);
+            this.x = assertArgNumber('x', x);
+            this.y = assertArgNumber('y', y);
+            this.xy = assertArgNumber('xy', xy);
+            this.uom = assertArgUnitOrUndefined('uom', uom);
+            if (this.uom && this.uom.multiplier !== 1) {
+                var multiplier = this.uom.multiplier;
+                this.w *= multiplier;
+                this.x *= multiplier;
+                this.y *= multiplier;
+                this.xy *= multiplier;
+                this.uom = new Unit(1, uom.dimensions, uom.labels);
+            }
+        }
+        Euclidean2.prototype.fromCartesian = function (w, x, y, xy, uom) {
+            assertArgNumber('w', w);
+            assertArgNumber('x', x);
+            assertArgNumber('y', y);
+            assertArgNumber('xy', xy);
+            assertArgUnitOrUndefined('uom', uom);
+            return new Euclidean2(w, x, y, xy, uom);
+        };
+        Euclidean2.prototype.fromPolar = function (w, r, theta, s, uom) {
+            assertArgNumber('w', w);
+            assertArgNumber('r', r);
+            assertArgNumber('theta', theta);
+            assertArgNumber('s', s);
+            assertArgUnitOrUndefined('uom', uom);
+            return new Euclidean2(w, r * Math.cos(theta), r * Math.sin(theta), s, uom);
+        };
+        Euclidean2.prototype.coordinates = function () {
+            return [this.w, this.x, this.y, this.xy];
+        };
+        Euclidean2.prototype.coordinate = function (index) {
+            assertArgNumber('index', index);
+            switch (index) {
+                case 0:
+                    return this.w;
+                case 1:
+                    return this.x;
+                case 2:
+                    return this.y;
+                case 3:
+                    return this.xy;
+                default:
+                    throw new Euclidean2Error("index must be in the range [0..3]");
+            }
+        };
+        Euclidean2.add = function (a, b) {
+            var a00 = a[0];
+            var a01 = a[1];
+            var a10 = a[2];
+            var a11 = a[3];
+            var b00 = b[0];
+            var b01 = b[1];
+            var b10 = b[2];
+            var b11 = b[3];
+            var x00 = add00(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x01 = add01(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x10 = add10(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x11 = add11(a00, a01, a10, a11, b00, b01, b10, b11);
+            return [x00, x01, x10, x11];
+        };
+        Euclidean2.prototype.add = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.add(this.coordinates(), rhs.coordinates());
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__add__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.add(other);
+            }
+            else if (typeof other === 'number') {
+                return this.add(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__radd__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return other.add(this);
+            }
+            else if (typeof other === 'number') {
+                return new Euclidean2(other, 0, 0, 0, undefined).add(this);
+            }
+        };
+        Euclidean2.sub = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.sub = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.sub(this.coordinates(), rhs.coordinates());
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__sub__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.sub(other);
+            }
+            else if (typeof other === 'number') {
+                return this.sub(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rsub__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return other.sub(this);
+            }
+            else if (typeof other === 'number') {
+                return new Euclidean2(other, 0, 0, 0, undefined).sub(this);
+            }
+        };
+        Euclidean2.prototype.mul = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var a0 = this.w;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.xy;
+            var b0 = rhs.w;
+            var b1 = rhs.x;
+            var b2 = rhs.y;
+            var b3 = rhs.xy;
+            var c0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var c1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var c2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var c3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return new Euclidean2(c0, c1, c2, c3, Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__mul__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.mul(other);
+            }
+            else if (typeof other === 'number') {
+                return this.mul(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rmul__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var lhs = other;
+                return lhs.mul(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new Euclidean2(w, 0, 0, 0, undefined).mul(this);
+            }
+        };
+        Euclidean2.prototype.scale = function (α) {
+            return new Euclidean2(this.w * α, this.x * α, this.y * α, this.xy * α, this.uom);
+        };
+        Euclidean2.prototype.div = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            return divide(this.w, this.x, this.y, this.xy, rhs.w, rhs.x, rhs.y, rhs.xy, Unit.div(this.uom, rhs.uom), undefined);
+        };
+        Euclidean2.prototype.divByScalar = function (α) {
+            return new Euclidean2(this.w / α, this.x / α, this.y / α, this.xy / α, this.uom);
+        };
+        Euclidean2.prototype.__div__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.div(other);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.div(new Euclidean2(w, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rdiv__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var lhs = other;
+                return lhs.div(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new Euclidean2(w, 0, 0, 0, undefined).div(this);
+            }
+        };
+        Euclidean2.scp = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3;
+            var x1 = 0;
+            var x2 = 0;
+            var x3 = 0;
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.scp = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var a0 = this.w;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.xy;
+            var b0 = this.w;
+            var b1 = this.x;
+            var b2 = this.y;
+            var b3 = this.xy;
+            var c0 = scpE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            return new Euclidean2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.ext = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.ext = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.ext(this.coordinates(), rhs.coordinates());
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__wedge__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var rhs = other;
+                return this.ext(rhs);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.ext(new Euclidean2(w, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rwedge__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var lhs = other;
+                return lhs.ext(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new Euclidean2(w, 0, 0, 0, undefined).ext(this);
+            }
+        };
+        Euclidean2.lshift = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.lerp = function (target, α) {
+            // FIXME: TODO
+            return this;
+        };
+        Euclidean2.prototype.lco = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.lshift(this.coordinates(), rhs.coordinates());
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__lshift__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var rhs = other;
+                return this.lco(rhs);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.lco(new Euclidean2(w, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rlshift__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var lhs = other;
+                return lhs.lco(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new Euclidean2(w, 0, 0, 0, undefined).lco(this);
+            }
+        };
+        Euclidean2.rshift = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.rco = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.rshift(this.coordinates(), rhs.coordinates());
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__rshift__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.rco(other);
+            }
+            else if (typeof other === 'number') {
+                return this.rco(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rrshift__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return other.rco(this);
+            }
+            else if (typeof other === 'number') {
+                return new Euclidean2(other, 0, 0, 0, undefined).rco(this);
+            }
+        };
+        Euclidean2.prototype.__vbar__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.scp(other);
+            }
+            else if (typeof other === 'number') {
+                return this.scp(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rvbar__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return other.scp(this);
+            }
+            else if (typeof other === 'number') {
+                return new Euclidean2(other, 0, 0, 0, undefined).scp(this);
+            }
+        };
+        Euclidean2.prototype.pow = function (exponent) {
+            // assertArgEuclidean2('exponent', exponent);
+            throw new Euclidean2Error('pow');
+        };
+        Euclidean2.prototype.__pos__ = function () {
+            return this;
+        };
+        Euclidean2.prototype.__neg__ = function () {
+            return new Euclidean2(-this.w, -this.x, -this.y, -this.xy, this.uom);
+        };
+        /**
+         * ~ (tilde) produces reversion.
+         */
+        Euclidean2.prototype.__tilde__ = function () {
+            return new Euclidean2(this.w, this.x, this.y, -this.xy, this.uom);
+        };
+        Euclidean2.prototype.grade = function (index) {
+            assertArgNumber('index', index);
+            switch (index) {
+                case 0:
+                    return new Euclidean2(this.w, 0, 0, 0, this.uom);
+                case 1:
+                    return new Euclidean2(0, this.x, this.y, 0, this.uom);
+                case 2:
+                    return new Euclidean2(0, 0, 0, this.xy, this.uom);
+                default:
+                    return new Euclidean2(0, 0, 0, 0, this.uom);
+            }
+        };
+        Euclidean2.prototype.cos = function () {
+            throw new Euclidean2Error('cos');
+        };
+        Euclidean2.prototype.cosh = function () {
+            throw new Euclidean2Error('cosh');
+        };
+        Euclidean2.prototype.exp = function () {
+            Unit.assertDimensionless(this.uom);
+            var expW = Math.exp(this.w);
+            var cosXY = Math.cos(this.xy);
+            var sinXY = Math.sin(this.xy);
+            return new Euclidean2(expW * cosXY, 0, 0, expW * sinXY, this.uom);
+        };
+        Euclidean2.prototype.norm = function () {
+            return new Euclidean2(Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy), 0, 0, 0, this.uom);
+        };
+        Euclidean2.prototype.quad = function () {
+            return new Euclidean2(this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        Euclidean2.prototype.sin = function () {
+            throw new Euclidean2Error('sin');
+        };
+        Euclidean2.prototype.sinh = function () {
+            throw new Euclidean2Error('sinh');
+        };
+        Euclidean2.prototype.slerp = function (target, α) {
+            // FIXME: TODO
+            return this;
+        };
+        Euclidean2.prototype.unitary = function () {
+            throw new Euclidean2Error('unitary');
+        };
+        /**
+         * @method gradeZero
+         * @return {number}
+         */
+        Euclidean2.prototype.gradeZero = function () {
+            return this.w;
+        };
+        Euclidean2.prototype.isNaN = function () { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy); };
+        Euclidean2.prototype.toStringCustom = function (coordToString, labels) {
+            var quantityString = stringFromCoordinates(this.coordinates(), coordToString, labels);
+            if (this.uom) {
+                var unitString = this.uom.toString().trim();
+                if (unitString) {
+                    return quantityString + ' ' + unitString;
+                }
+                else {
+                    return quantityString;
+                }
+            }
+            else {
+                return quantityString;
+            }
+        };
+        Euclidean2.prototype.toExponential = function () {
+            var coordToString = function (coord) { return coord.toExponential(); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        Euclidean2.prototype.toFixed = function (digits) {
+            var coordToString = function (coord) { return coord.toFixed(digits); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        Euclidean2.prototype.toString = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        Euclidean2.prototype.toStringIJK = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return this.toStringCustom(coordToString, ["1", "i", "j", "I"]);
+        };
+        Euclidean2.prototype.toStringLATEX = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{12}"]);
+        };
+        return Euclidean2;
+    })();
+    return Euclidean2;
+});
+
+define('davinci-eight/math/dotVectorsE2',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
+    function dotVectorsE2(a, b) {
+        if (isDefined(a) && isDefined(b)) {
+            return a.x * b.x + a.y * b.y;
+        }
+        else {
+            return void 0;
+        }
+    }
+    return dotVectorsE2;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -21156,6 +22125,15 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
     return G2;
 });
 
+define('davinci-eight/math/SpinG2',["require", "exports"], function (require, exports) {
+    var SpinG2 = (function () {
+        function SpinG2() {
+        }
+        return SpinG2;
+    })();
+    return SpinG2;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -21841,7 +22819,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/ArrowSimplexGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/KinematicRigidBodyFacetE3', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, ArrowGeometry, ArrowSimplexGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, R1, Matrix3, Matrix4, QQ, G2, G3, SpinG3, R2, R3, R4, VectorN, EulerFacet, KinematicRigidBodyFacetE3, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/slideshow/commands/AnimateDrawableCommand', 'davinci-eight/slideshow/commands/CreateCuboidDrawable', 'davinci-eight/slideshow/commands/DestroyDrawableCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/TestCommand', 'davinci-eight/slideshow/commands/UseDrawableInSceneCommand', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/ArrowSimplexGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/KinematicRigidBodyFacetE3', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector3Animation, Spinor3Animation, AnimateDrawableCommand, CreateCuboidDrawable, DestroyDrawableCommand, GeometryCommand, TestCommand, UseDrawableInSceneCommand, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLBlendFunc, WebGLClearColor, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, ArrowGeometry, ArrowSimplexGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, R1, Matrix3, Matrix4, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, EulerFacet, KinematicRigidBodyFacetE3, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -21957,6 +22935,9 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get LineTopology() { return LineTopology; },
         get MeshTopology() { return MeshTopology; },
         get GridTopology() { return GridTopology; },
+        get Dimensions() { return Dimensions; },
+        get Unit() { return Unit; },
+        get Euclidean2() { return Euclidean2; },
         get Euclidean3() { return Euclidean3; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
@@ -21964,6 +22945,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get G2() { return G2; },
         get G3() { return G3; },
         get R1() { return R1; },
+        get SpinG2() { return SpinG2; },
         get SpinG3() { return SpinG3; },
         get R2() { return R2; },
         get R3() { return R3; },

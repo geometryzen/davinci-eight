@@ -1,9 +1,11 @@
 define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../math/Unit'], function (require, exports, mathcore, mustBeNumber, Unit) {
+    var atan2 = Math.atan2;
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
     var sin = Math.sin;
     var sinh = mathcore.Math.sinh;
+    var sqrt = Math.sqrt;
     function mul(a, b) {
         var x = a.x * b.x - a.y * b.y;
         var y = a.x * b.y + a.y * b.x;
@@ -16,7 +18,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
         return new CC(x, y, Unit.div(a.uom, b.uom));
     }
     function norm(x, y) {
-        return Math.sqrt(x * x + y * y);
+        return sqrt(x * x + y * y);
     }
     /**
      * @class CC
@@ -33,10 +35,10 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
             this.x = mustBeNumber('x', x);
             this.y = mustBeNumber('y', y);
             this.uom = uom;
-            if (this.uom && this.uom.scale !== 1) {
-                var scale = this.uom.scale;
-                this.x *= scale;
-                this.y *= scale;
+            if (this.uom && this.uom.multiplier !== 1) {
+                var multiplier = this.uom.multiplier;
+                this.x *= multiplier;
+                this.y *= multiplier;
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
@@ -250,7 +252,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
             Unit.assertDimensionless(this.uom);
             var x = this.x;
             var y = this.y;
-            var expX = Math.exp(x);
+            var expX = exp(x);
             return new CC(expX * cos(y), expX * sin(y));
         };
         /**
@@ -262,7 +264,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
             var x = this.x;
             var y = this.y;
             var d = x * x + y * y;
-            return new CC(this.x / d, -this.y / d, this.uom ? this.uom.inverse() : void 0);
+            return new CC(this.x / d, -this.y / d, this.uom ? this.uom.inv() : void 0);
         };
         /**
          * @method isOne
@@ -293,7 +295,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
         CC.prototype.norm = function () {
             var x = this.x;
             var y = this.y;
-            return new CC(Math.sqrt(x * x + y * y), 0, this.uom);
+            return new CC(sqrt(x * x + y * y), 0, this.uom);
         };
         /**
          * @method quad
@@ -357,7 +359,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
          * @return {number}
          */
         CC.prototype.arg = function () {
-            return Math.atan2(this.y, this.x);
+            return atan2(this.y, this.x);
         };
         CC.prototype.toStringCustom = function (coordToString) {
             var quantityString = "CC(" + coordToString(this.x) + ", " + coordToString(this.y) + ")";

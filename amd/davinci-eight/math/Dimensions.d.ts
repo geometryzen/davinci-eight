@@ -1,8 +1,9 @@
+import DivisionRingOperators = require('../math/DivisionRingOperators');
 import QQ = require('../math/QQ');
 /**
  * @class Dimensions
  */
-declare class Dimensions {
+declare class Dimensions implements DivisionRingOperators<Dimensions> {
     M: QQ;
     L: QQ;
     T: QQ;
@@ -10,6 +11,12 @@ declare class Dimensions {
     temperature: QQ;
     amount: QQ;
     intensity: QQ;
+    /**
+     * @property ONE
+     * @type {Dimensions}
+     * @static
+     */
+    static ONE: Dimensions;
     /**
      * @property MASS
      * @type {Dimensions}
@@ -107,23 +114,20 @@ declare class Dimensions {
      */
     sqrt(): Dimensions;
     /**
-     * Determines whether the quantity is dimensionless (all rational components must be zero).
-     * @method dimensionless
-     * @return {boolean}
-     */
-    dimensionless(): boolean;
-    /**
-     * Determines whether all the components of the Dimensions instance are zero.
+     * Determines whether all the exponents of this dimensions number are zero.
      *
-     * @method isZero
+     * @method isOne
      * @return {boolean} <code>true</code> if all the components are zero, otherwise <code>false</code>.
      */
+    isOne(): boolean;
     isZero(): boolean;
     /**
-     * Computes the inverse by multiplying all exponents by <code>-1</code>.
-     * @method neg
+     * Computes the multiplicative inverse of this dimensions number.
+     * This is achived by changing the signs of all the exponent quantities.
+     * @method inv
      * @return {Dimensions}
      */
+    inv(): Dimensions;
     neg(): Dimensions;
     /**
      * Creates a representation of this <code>Dimensions</code> instance.
@@ -131,5 +135,63 @@ declare class Dimensions {
      * @return {string}
      */
     toString(): string;
+    /**
+     * @method __add__
+     * @param rhs {any}
+     * @return {Dimensions}
+     */
+    __add__(rhs: any): Dimensions;
+    /**
+     * @method __radd__
+     * @param lhs {any}
+     * @return {Dimensions}
+     */
+    __radd__(lhs: any): Dimensions;
+    /**
+     * @method __sub__
+     * @param rhs {any}
+     * @return {Dimensions}
+     */
+    __sub__(rhs: any): Dimensions;
+    /**
+     * @method __rsub__
+     * @param lhs {any}
+     * @return {Dimensions}
+     */
+    __rsub__(lhs: any): Dimensions;
+    /**
+     * @method __mul__
+     * @param rhs {any}
+     * @return {Dimensions}
+     */
+    __mul__(rhs: any): Dimensions;
+    /**
+     * @method __rmul__
+     * @param lhs {any}
+     * @return {Dimensions}
+     */
+    __rmul__(lhs: any): Dimensions;
+    /**
+     * @method __div__
+     * @param rhs {any}
+     * @return {Dimensions}
+     */
+    __div__(rhs: any): Dimensions;
+    /**
+     * @method __rdiv__
+     * @param lhs {any}
+     * @return {Dimensions}
+     */
+    __rdiv__(lhs: any): Dimensions;
+    /**
+     * @method __pos__
+     * @return {Dimensions}
+     */
+    __pos__(): Dimensions;
+    /**
+     * @method __neg__
+     * @return {Dimensions}
+     */
+    __neg__(): Dimensions;
 }
 export = Dimensions;

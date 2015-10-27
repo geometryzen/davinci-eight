@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.143.0</em>
+            <em>API Docs for: 2.144.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -273,10 +273,10 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
         this.w = assertArgNumber(&#x27;w&#x27;, w)
         this.x = assertArgNumber(&#x27;x&#x27;, x)
         this.uom = assertArgUnitOrUndefined(&#x27;uom&#x27;, uom)
-        if (this.uom &amp;&amp; this.uom.scale !== 1) {
-            var scale: number = this.uom.scale
-            this.w *= scale
-            this.x *= scale
+        if (this.uom &amp;&amp; this.uom.multiplier !== 1) {
+            var multiplier: number = this.uom.multiplier
+            this.w *= multiplier
+            this.x *= multiplier
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
     }

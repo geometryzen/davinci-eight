@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.143.0",
+        "version": "2.144.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -3558,7 +3558,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 53,
+            "line": 55,
             "is_constructor": 1,
             "params": [
                 {
@@ -3582,7 +3582,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 78,
+            "line": 95,
             "description": "The Dimensions class captures the physical dimensions associated with a unit of measure.",
             "is_constructor": 1,
             "params": [
@@ -4037,12 +4037,12 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Unit.ts",
-            "line": 200,
+            "line": 206,
             "description": "The Unit class represents the units for a measure.",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "scale",
+                    "name": "multiplier",
                     "description": "",
                     "type": "Number"
                 },
@@ -9756,7 +9756,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 35,
+            "line": 37,
             "description": "The real part of the complex number.",
             "itemtype": "property",
             "name": "x",
@@ -9766,7 +9766,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 41,
+            "line": 43,
             "description": "The imaginary part of the complex number.",
             "itemtype": "property",
             "name": "y",
@@ -9776,7 +9776,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 47,
+            "line": 49,
             "description": "The optional unit of measure.",
             "itemtype": "property",
             "name": "uom",
@@ -9786,7 +9786,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 75,
+            "line": 77,
             "itemtype": "method",
             "name": "add",
             "params": [
@@ -9805,7 +9805,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 84,
+            "line": 86,
             "itemtype": "method",
             "name": "__add__",
             "params": [
@@ -9826,14 +9826,14 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 101,
+            "line": 103,
             "description": "__radd__ supports operator +(any, CC)",
             "class": "CC",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 115,
+            "line": 117,
             "itemtype": "method",
             "name": "sub",
             "params": [
@@ -9852,7 +9852,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 143,
+            "line": 145,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -9871,7 +9871,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 172,
+            "line": 174,
             "itemtype": "method",
             "name": "div",
             "params": [
@@ -9890,7 +9890,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 181,
+            "line": 183,
             "itemtype": "method",
             "name": "divByScalar",
             "params": [
@@ -9909,7 +9909,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 207,
+            "line": 209,
             "itemtype": "method",
             "name": "align",
             "params": [
@@ -9928,7 +9928,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 223,
+            "line": 225,
             "itemtype": "method",
             "name": "wedge",
             "params": [
@@ -9947,7 +9947,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 244,
+            "line": 246,
             "itemtype": "method",
             "name": "lco",
             "params": [
@@ -9966,7 +9966,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 253,
+            "line": 255,
             "itemtype": "method",
             "name": "rco",
             "params": [
@@ -9985,7 +9985,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 262,
+            "line": 264,
             "itemtype": "method",
             "name": "pow",
             "params": [
@@ -10004,7 +10004,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 271,
+            "line": 273,
             "itemtype": "method",
             "name": "cos",
             "return": {
@@ -10016,7 +10016,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 282,
+            "line": 284,
             "itemtype": "method",
             "name": "cosh",
             "return": {
@@ -10028,7 +10028,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 293,
+            "line": 295,
             "itemtype": "method",
             "name": "exp",
             "return": {
@@ -10040,7 +10040,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 305,
+            "line": 307,
             "description": "Computes the multiplicative inverse of this complex number.",
             "itemtype": "method",
             "name": "inv",
@@ -10053,7 +10053,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 317,
+            "line": 319,
             "itemtype": "method",
             "name": "isOne",
             "return": {
@@ -10065,7 +10065,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 325,
+            "line": 327,
             "itemtype": "method",
             "name": "isZero",
             "return": {
@@ -10077,7 +10077,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 333,
+            "line": 335,
             "description": "Computes the additive inverse of this complex number.",
             "itemtype": "method",
             "name": "neg",
@@ -10090,7 +10090,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 342,
+            "line": 344,
             "itemtype": "method",
             "name": "norm",
             "return": {
@@ -10102,7 +10102,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 352,
+            "line": 354,
             "itemtype": "method",
             "name": "quad",
             "return": {
@@ -10114,7 +10114,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 362,
+            "line": 364,
             "itemtype": "method",
             "name": "scale",
             "params": [
@@ -10133,7 +10133,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 371,
+            "line": 373,
             "itemtype": "method",
             "name": "sin",
             "return": {
@@ -10145,7 +10145,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 382,
+            "line": 384,
             "itemtype": "method",
             "name": "sinh",
             "return": {
@@ -10157,7 +10157,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 397,
+            "line": 399,
             "itemtype": "method",
             "name": "unitary",
             "return": {
@@ -10169,7 +10169,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 408,
+            "line": 410,
             "itemtype": "method",
             "name": "gradeZero",
             "return": {
@@ -10181,7 +10181,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 416,
+            "line": 418,
             "itemtype": "method",
             "name": "arg",
             "return": {
@@ -10193,7 +10193,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 460,
+            "line": 462,
             "itemtype": "method",
             "name": "__rshift__",
             "params": [
@@ -10214,7 +10214,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 470,
+            "line": 472,
             "itemtype": "method",
             "name": "__rrshift__",
             "params": [
@@ -10235,7 +10235,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 480,
+            "line": 482,
             "itemtype": "method",
             "name": "__pos__",
             "return": {
@@ -10249,7 +10249,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 489,
+            "line": 491,
             "itemtype": "method",
             "name": "__neg__",
             "return": {
@@ -10263,7 +10263,7 @@
         },
         {
             "file": "src/davinci-eight/math/CC.ts",
-            "line": 498,
+            "line": 500,
             "itemtype": "method",
             "name": "__tilde__",
             "return": {
@@ -10277,7 +10277,17 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 30,
+            "line": 32,
+            "itemtype": "property",
+            "name": "ONE",
+            "type": "{Dimensions}",
+            "static": 1,
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 39,
             "itemtype": "property",
             "name": "MASS",
             "type": "{Dimensions}",
@@ -10287,7 +10297,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 36,
+            "line": 46,
             "itemtype": "property",
             "name": "LENGTH",
             "type": "{Dimensions}",
@@ -10297,7 +10307,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 42,
+            "line": 53,
             "itemtype": "property",
             "name": "TIME",
             "type": "{Dimensions}",
@@ -10307,7 +10317,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 48,
+            "line": 60,
             "itemtype": "property",
             "name": "CHARGE",
             "type": "{Dimensions}",
@@ -10317,7 +10327,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 54,
+            "line": 67,
             "itemtype": "property",
             "name": "CURRENT",
             "type": "{Dimensions}",
@@ -10327,7 +10337,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 60,
+            "line": 74,
             "itemtype": "property",
             "name": "TEMPERATURE",
             "type": "{Dimensions}",
@@ -10337,7 +10347,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 66,
+            "line": 81,
             "itemtype": "property",
             "name": "AMOUNT",
             "type": "{Dimensions}",
@@ -10347,7 +10357,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 72,
+            "line": 88,
             "itemtype": "property",
             "name": "INTENSITY",
             "type": "{Dimensions}",
@@ -10357,7 +10367,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 103,
+            "line": 121,
             "description": "Returns the dimensions if they are all equal, otherwise throws an <code>Error</code>",
             "itemtype": "method",
             "name": "compatible",
@@ -10377,7 +10387,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 117,
+            "line": 136,
             "description": "Multiplies dimensions by adding rational exponents.",
             "itemtype": "method",
             "name": "mul",
@@ -10397,7 +10407,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 126,
+            "line": 146,
             "description": "Divides dimensions by subtracting rational exponents.",
             "itemtype": "method",
             "name": "div",
@@ -10417,7 +10427,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 135,
+            "line": 156,
             "description": "Computes the power function by multiplying rational exponents.",
             "itemtype": "method",
             "name": "div",
@@ -10437,7 +10447,7 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 144,
+            "line": 166,
             "description": "Computes the square root by dividing each rational component by two.",
             "itemtype": "method",
             "name": "sqrt",
@@ -10450,23 +10460,10 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 152,
-            "description": "Determines whether the quantity is dimensionless (all rational components must be zero).",
+            "line": 175,
+            "description": "Determines whether all the exponents of this dimensions number are zero.",
             "itemtype": "method",
-            "name": "dimensionless",
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
-            "class": "Dimensions",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 160,
-            "description": "Determines whether all the components of the Dimensions instance are zero.",
-            "itemtype": "method",
-            "name": "isZero",
+            "name": "isOne",
             "return": {
                 "description": "<code>true</code> if all the components are zero, otherwise <code>false</code>.",
                 "type": "Boolean"
@@ -10476,10 +10473,10 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 169,
-            "description": "Computes the inverse by multiplying all exponents by <code>-1</code>.",
+            "line": 189,
+            "description": "Computes the multiplicative inverse of this dimensions number.\nThis is achived by changing the signs of all the exponent quantities.",
             "itemtype": "method",
-            "name": "neg",
+            "name": "inv",
             "return": {
                 "description": "",
                 "type": "Dimensions"
@@ -10489,13 +10486,189 @@
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
-            "line": 178,
+            "line": 203,
             "description": "Creates a representation of this <code>Dimensions</code> instance.",
             "itemtype": "method",
             "name": "toString",
             "return": {
                 "description": "",
                 "type": "String"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 227,
+            "itemtype": "method",
+            "name": "__add__",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Dimensions"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 241,
+            "itemtype": "method",
+            "name": "__radd__",
+            "params": [
+                {
+                    "name": "lhs",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Dimensions"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 255,
+            "itemtype": "method",
+            "name": "__sub__",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Dimensions"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 269,
+            "itemtype": "method",
+            "name": "__rsub__",
+            "params": [
+                {
+                    "name": "lhs",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Dimensions"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 283,
+            "itemtype": "method",
+            "name": "__mul__",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Dimensions"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 297,
+            "itemtype": "method",
+            "name": "__rmul__",
+            "params": [
+                {
+                    "name": "lhs",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Dimensions"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 311,
+            "itemtype": "method",
+            "name": "__div__",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Dimensions"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 325,
+            "itemtype": "method",
+            "name": "__rdiv__",
+            "params": [
+                {
+                    "name": "lhs",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Dimensions"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 339,
+            "itemtype": "method",
+            "name": "__pos__",
+            "return": {
+                "description": "",
+                "type": "Dimensions"
+            },
+            "class": "Dimensions",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 347,
+            "itemtype": "method",
+            "name": "__neg__",
+            "return": {
+                "description": "",
+                "type": "Dimensions"
             },
             "class": "Dimensions",
             "module": "EIGHT"
@@ -16613,6 +16786,406 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 224,
+            "itemtype": "method",
+            "name": "compatible",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 239,
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 249,
+            "itemtype": "method",
+            "name": "__add__",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 264,
+            "itemtype": "method",
+            "name": "__radd__",
+            "params": [
+                {
+                    "name": "lhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 280,
+            "itemtype": "method",
+            "name": "sub",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 290,
+            "itemtype": "method",
+            "name": "__sub__",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 304,
+            "itemtype": "method",
+            "name": "__rsub__",
+            "params": [
+                {
+                    "name": "lhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 319,
+            "itemtype": "method",
+            "name": "mul",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 329,
+            "itemtype": "method",
+            "name": "__mul__",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 346,
+            "itemtype": "method",
+            "name": "__rmul__",
+            "params": [
+                {
+                    "name": "lhs",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 401,
+            "itemtype": "method",
+            "name": "inv",
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 409,
+            "itemtype": "method",
+            "name": "neg",
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 417,
+            "itemtype": "method",
+            "name": "isOne",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 425,
+            "itemtype": "method",
+            "name": "isZero",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 433,
+            "itemtype": "method",
+            "name": "lerp",
+            "params": [
+                {
+                    "name": "target:",
+                    "description": "",
+                    "type": "Unit"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 443,
+            "itemtype": "method",
+            "name": "norm",
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 451,
+            "itemtype": "method",
+            "name": "quad",
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 459,
+            "itemtype": "method",
+            "name": "reflect",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 468,
+            "itemtype": "method",
+            "name": "rotate",
+            "params": [
+                {
+                    "name": "rotor",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 481,
+            "itemtype": "method",
+            "name": "slerp",
+            "params": [
+                {
+                    "name": "target:",
+                    "description": "",
+                    "type": "Unit"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 503,
+            "itemtype": "method",
+            "name": "__pos__",
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 512,
+            "itemtype": "method",
+            "name": "__neg__",
+            "return": {
+                "description": "",
+                "type": "Unit"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 521,
+            "itemtype": "method",
+            "name": "isOne",
+            "params": [
+                {
+                    "name": "uom",
+                    "description": "",
+                    "type": "Unit"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "static": 1,
+            "class": "Unit",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/math/VectorE1.ts",
             "line": 5,
             "itemtype": "property",
@@ -19162,7 +19735,7 @@
         },
         {
             "message": "Missing item type\n__radd__ supports operator +(any, CC)",
-            "line": " src/davinci-eight/math/CC.ts:101"
+            "line": " src/davinci-eight/math/CC.ts:103"
         },
         {
             "message": "Missing item type",

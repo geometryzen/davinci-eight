@@ -5,11 +5,13 @@ import mustBeNumber = require('../checks/mustBeNumber')
 import TrigMethods = require('../math/TrigMethods')
 import Unit = require('../math/Unit')
 
+var atan2 = Math.atan2
 var cos = Math.cos
 var cosh = mathcore.Math.cosh
 var exp = Math.exp
 var sin = Math.sin
 var sinh = mathcore.Math.sinh
+var sqrt = Math.sqrt
 
 function mul(a: CC, b: CC): CC {
     var x = a.x * b.x - a.y * b.y
@@ -25,7 +27,7 @@ function divide(a: CC, b: CC): CC {
 }
 
 function norm(x: number, y: number): number {
-    return Math.sqrt(x * x + y * y)
+    return sqrt(x * x + y * y)
 }
 
 /**
@@ -61,10 +63,10 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
         this.x = mustBeNumber('x', x)
         this.y = mustBeNumber('y', y)
         this.uom = uom
-        if (this.uom && this.uom.scale !== 1) {
-            var scale: number = this.uom.scale
-            this.x *= scale
-            this.y *= scale
+        if (this.uom && this.uom.multiplier !== 1) {
+            var multiplier: number = this.uom.multiplier
+            this.x *= multiplier
+            this.y *= multiplier
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
     }
@@ -298,7 +300,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
         Unit.assertDimensionless(this.uom);
         var x = this.x;
         var y = this.y;
-        var expX = Math.exp(x);
+        var expX = exp(x);
         return new CC(expX * cos(y), expX * sin(y));
     }
 
@@ -311,7 +313,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
         let x = this.x
         let y = this.y
         let d = x * x + y * y
-        return new CC(this.x / d, -this.y / d, this.uom ? this.uom.inverse() : void 0)
+        return new CC(this.x / d, -this.y / d, this.uom ? this.uom.inv() : void 0)
     }
 
     /**
@@ -346,7 +348,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
     norm(): CC {
         var x = this.x;
         var y = this.y;
-        return new CC(Math.sqrt(x * x + y * y), 0, this.uom);
+        return new CC(sqrt(x * x + y * y), 0, this.uom);
     }
 
     /**
@@ -418,7 +420,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
      * @return {number}
      */
     arg(): number {
-        return Math.atan2(this.y, this.x);
+        return atan2(this.y, this.x);
     }
 
     toStringCustom(coordToString: (x: number) => string): string {

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.143.0</em>
+            <em>API Docs for: 2.144.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -230,11 +230,13 @@ import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import TrigMethods = require(&#x27;../math/TrigMethods&#x27;)
 import Unit = require(&#x27;../math/Unit&#x27;)
 
+var atan2 = Math.atan2
 var cos = Math.cos
 var cosh = mathcore.Math.cosh
 var exp = Math.exp
 var sin = Math.sin
 var sinh = mathcore.Math.sinh
+var sqrt = Math.sqrt
 
 function mul(a: CC, b: CC): CC {
     var x = a.x * b.x - a.y * b.y
@@ -250,7 +252,7 @@ function divide(a: CC, b: CC): CC {
 }
 
 function norm(x: number, y: number): number {
-    return Math.sqrt(x * x + y * y)
+    return sqrt(x * x + y * y)
 }
 
 /**
@@ -286,10 +288,10 @@ class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods
         this.x = mustBeNumber(&#x27;x&#x27;, x)
         this.y = mustBeNumber(&#x27;y&#x27;, y)
         this.uom = uom
-        if (this.uom &amp;&amp; this.uom.scale !== 1) {
-            var scale: number = this.uom.scale
-            this.x *= scale
-            this.y *= scale
+        if (this.uom &amp;&amp; this.uom.multiplier !== 1) {
+            var multiplier: number = this.uom.multiplier
+            this.x *= multiplier
+            this.y *= multiplier
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
     }
@@ -523,7 +525,7 @@ class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods
         Unit.assertDimensionless(this.uom);
         var x = this.x;
         var y = this.y;
-        var expX = Math.exp(x);
+        var expX = exp(x);
         return new CC(expX * cos(y), expX * sin(y));
     }
 
@@ -536,7 +538,7 @@ class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods
         let x = this.x
         let y = this.y
         let d = x * x + y * y
-        return new CC(this.x / d, -this.y / d, this.uom ? this.uom.inverse() : void 0)
+        return new CC(this.x / d, -this.y / d, this.uom ? this.uom.inv() : void 0)
     }
 
     /**
@@ -571,7 +573,7 @@ class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods
     norm(): CC {
         var x = this.x;
         var y = this.y;
-        return new CC(Math.sqrt(x * x + y * y), 0, this.uom);
+        return new CC(sqrt(x * x + y * y), 0, this.uom);
     }
 
     /**
@@ -643,7 +645,7 @@ class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods
      * @return {number}
      */
     arg(): number {
-        return Math.atan2(this.y, this.x);
+        return atan2(this.y, this.x);
     }
 
     toStringCustom(coordToString: (x: number) =&gt; string): string {

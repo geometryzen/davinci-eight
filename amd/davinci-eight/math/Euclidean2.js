@@ -224,12 +224,12 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
             this.y = assertArgNumber('y', y);
             this.xy = assertArgNumber('xy', xy);
             this.uom = assertArgUnitOrUndefined('uom', uom);
-            if (this.uom && this.uom.scale !== 1) {
-                var scale = this.uom.scale;
-                this.w *= scale;
-                this.x *= scale;
-                this.y *= scale;
-                this.xy *= scale;
+            if (this.uom && this.uom.multiplier !== 1) {
+                var multiplier = this.uom.multiplier;
+                this.w *= multiplier;
+                this.x *= multiplier;
+                this.y *= multiplier;
+                this.xy *= multiplier;
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }

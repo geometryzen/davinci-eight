@@ -318,16 +318,16 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         this.zx = assertArgNumber('zx', zx);
         this.xyz = assertArgNumber('xyz', xyz);
         this.uom = assertArgUnitOrUndefined('uom', uom);
-        if (this.uom && this.uom.scale !== 1) {
-            var scale: number = this.uom.scale;
-            this.w *= scale;
-            this.x *= scale;
-            this.y *= scale;
-            this.z *= scale;
-            this.xy *= scale;
-            this.yz *= scale;
-            this.zx *= scale;
-            this.xyz *= scale;
+        if (this.uom && this.uom.multiplier !== 1) {
+            var multiplier: number = this.uom.multiplier;
+            this.w *= multiplier;
+            this.x *= multiplier;
+            this.y *= multiplier;
+            this.z *= multiplier;
+            this.xy *= multiplier;
+            this.yz *= multiplier;
+            this.zx *= multiplier;
+            this.xyz *= multiplier;
             this.uom = new Unit(1, uom.dimensions, uom.labels);
         }
     }

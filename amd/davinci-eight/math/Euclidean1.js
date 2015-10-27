@@ -37,10 +37,10 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
             this.w = assertArgNumber('w', w);
             this.x = assertArgNumber('x', x);
             this.uom = assertArgUnitOrUndefined('uom', uom);
-            if (this.uom && this.uom.scale !== 1) {
-                var scale = this.uom.scale;
-                this.w *= scale;
-                this.x *= scale;
+            if (this.uom && this.uom.multiplier !== 1) {
+                var multiplier = this.uom.multiplier;
+                this.w *= multiplier;
+                this.x *= multiplier;
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
