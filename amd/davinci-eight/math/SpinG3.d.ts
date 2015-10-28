@@ -7,8 +7,10 @@ import VectorN = require('../math/VectorN');
  * @class SpinG3
  * @extends VectorN<number>
  */
-declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3, VectorE3> {
+declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3> {
     /**
+     * Constructs a <code>SpinG3</code> from a <code>number[]</code>.
+     * For a <em>geometric</em> implementation, use the static methods.
      * @class SpinG3
      * @constructor
      * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
@@ -58,6 +60,16 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      */
     add2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
+     * <p>
+     * <code>this ⟼ this + α</code>
+     * </p>
+     * @method addScalar
+     * @param α {number}
+     * @return {SpinG3} <code>this</code>
+     * @chainable
+     */
+    addScalar(α: number): SpinG3;
+    /**
      * @method adj
      * @return {number}
      * @beta
@@ -83,10 +95,6 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @chainable
      */
     conj(): SpinG3;
-    lco(rhs: SpinorE3): SpinG3;
-    lco2(a: SpinorE3, b: SpinorE3): SpinG3;
-    rco(rhs: SpinorE3): SpinG3;
-    rco2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
      * <p>
      * <code>this ⟼ copy(spinor)</code>
@@ -158,6 +166,8 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @chainable
      */
     inv(): SpinG3;
+    lco(rhs: SpinorE3): SpinG3;
+    lco2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
      * <p>
      * <code>this ⟼ this + α * (target - this)</code>
@@ -250,6 +260,8 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @return {number} <code>this * conj(this)</code>
      */
     quaditude(): number;
+    rco(rhs: SpinorE3): SpinG3;
+    rco2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
      * <p>
      * <code>this = (w, B) ⟼ (w, -B)</code>
@@ -280,16 +292,16 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
     rotate(rotor: SpinorE3): SpinG3;
     /**
      * <p>
-     * Computes a rotor, R, from two unit vectors, where
-     * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+     * Computes a rotor, R, from two vectors, where
+     * R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b << a))
      * </p>
      * @method rotor
-     * @param b {VectorE3} The ending unit vector
-     * @param a {VectorE3} The starting unit vector
+     * @param a {VectorE3} The <em>from</em> vector.
+     * @param b {VectorE3} The <em>to</em> vector.
      * @return {SpinG3} <code>this</code> The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotor(b: VectorE3, a: VectorE3): SpinG3;
+    rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3;
     /**
      * <p>
      * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
@@ -372,6 +384,13 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      */
     static copy(spinor: SpinorE3): SpinG3;
     /**
+     * Computes I * <code>v</code>, the dual of <code>v</code>.
+     * @method dual
+     * @param v {VectorE3}
+     * @return {SpinG3}
+     */
+    static dual(v: VectorE3): SpinG3;
+    /**
      * @method lerp
      * @param a {SpinorE3}
      * @param b {SpinorE3}
@@ -380,5 +399,14 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @static
      */
     static lerp(a: SpinorE3, b: SpinorE3, α: number): SpinG3;
+    /**
+     * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+     * @method rotorFromDirections
+     * @param a {VectorE3} The <em>from</em> vector.
+     * @param b {VectorE3} The <em>to</em> vector.
+     * @return {SpinG3}
+     * @static
+     */
+    static rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3;
 }
 export = SpinG3;

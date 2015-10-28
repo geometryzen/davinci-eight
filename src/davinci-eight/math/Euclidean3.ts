@@ -4,12 +4,14 @@ import Euclidean3Error = require('../math/Euclidean3Error')
 import extG3 = require('../math/extG3')
 import GeometricE3 = require('../math/GeometricE3')
 import isDefined = require('../checks/isDefined')
+import isNumber = require('../checks/isNumber')
 import lcoG3 = require('../math/lcoG3')
 import GeometricOperators = require('../math/GeometricOperators')
 import mathcore = require('../math/mathcore');
 import Measure = require('../math/Measure');
 import mulE3 = require('../math/mulE3')
 import mulG3 = require('../math/mulG3')
+import mustBeNumber = require('../checks/mustBeNumber')
 import GeometricElement = require('../math/GeometricElement')
 import NotImplementedError = require('../math/NotImplementedError');
 import rcoG3 = require('../math/rcoG3')
@@ -242,7 +244,7 @@ var divide = function(
  * @class Euclidean3
  * @extends GeometricE3
  */
-class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
+class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
     public static zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
     public static one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
     public static e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
@@ -401,6 +403,26 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
             return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
         };
         return compute(addE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.compatible(this.uom, rhs.uom));
+    }
+
+    /**
+     * Computes <code>this + α</code>
+     * @method addScalar
+     * @param α {number}
+     * @return {Euclidean3} <code>this</code>
+     * @chainable
+     */
+    addScalar(α: number): Euclidean3 {
+        if (isDefined(α)) {
+            mustBeNumber('α', α)
+            return new Euclidean3(this.w + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz, this.uom)
+        }
+        else {
+            // Consider returning an undefined sentinel?
+            // This would allow chained methods to continue.
+            // The first check might then be isNumber. 
+            return void 0
+        }
     }
 
     __add__(other: any): Euclidean3 {

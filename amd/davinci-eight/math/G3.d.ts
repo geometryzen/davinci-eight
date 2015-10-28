@@ -9,7 +9,7 @@ import VectorN = require('../math/VectorN');
  * @extends GeometricE3
  * @beta
  */
-declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement3D<GeometricE3, G3, SpinorE3, VectorE3, GeometricE3>, GeometricOperators<G3> {
+declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement3D<GeometricE3, G3, SpinorE3, VectorE3>, GeometricOperators<G3> {
     /**
      * Constructs a <code>G3</code>.
      * The multivector is initialized to zero.
@@ -79,6 +79,16 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     add(M: GeometricE3, α?: number): G3;
     /**
      * <p>
+     * <code>this ⟼ this + α</code>
+     * </p>
+     * @method addScalar
+     * @param α {number}
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    addScalar(α: number): G3;
+    /**
+     * <p>
      * <code>this ⟼ this + v * α</code>
      * </p>
      * @method addVector
@@ -108,6 +118,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     /**
      * @method clone
      * @return {G3} <code>copy(this)</code>
+     * @chainable
      */
     clone(): G3;
     /**
@@ -394,13 +405,13 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * Computes a rotor, R, from two unit vectors, where
      * R = (1 + b * a) / sqrt(2 * (1 + b << a))
      * </p>
-     * @method rotor
+     * @method rotorFromDirections
      * @param b {VectorE3} The ending unit vector
      * @param a {VectorE3} The starting unit vector
      * @return {G3} <code>this</code> The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotor(b: VectorE3, a: VectorE3): G3;
+    rotorFromDirections(b: VectorE3, a: VectorE3): G3;
     /**
      * <p>
      * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>

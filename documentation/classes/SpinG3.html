@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.144.0</em>
+            <em>API Docs for: 2.145.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
@@ -236,7 +237,9 @@
 
 
 <div class="box intro">
-    
+    <p>Constructs a <code>SpinG3</code> from a <code>number[]</code>.
+For a <em>geometric</em> implementation, use the static methods.</p>
+
 </div>
 
     <div class="constructor">
@@ -335,6 +338,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_addScalar">addScalar</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_adj">adj</a>
 
                             </li>
@@ -353,11 +360,11 @@
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_div">div</a>
@@ -376,6 +383,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_dual">dual</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_exp">exp</a>
 
                             </li>
@@ -386,11 +397,11 @@
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp2">lerp2</a>
@@ -447,6 +458,11 @@
                             <li class="index-item method">
                                 <a href="#method_rotorFromAxisAngle">rotorFromAxisAngle</a>
 
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_rotorFromDirections">rotorFromDirections</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_rotorFromGeneratorAngle">rotorFromGeneratorAngle</a>
@@ -532,7 +548,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:87</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:90</code></a>
         </p>
 
 
@@ -613,7 +629,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:106</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l110"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:110</code></a>
         </p>
 
 
@@ -665,6 +681,73 @@
 
 
 </div>
+<div id="method_addScalar" class="method item">
+    <h3 class="name"><code>addScalar</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:128</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this + α</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_adj" class="method item">
     <h3 class="name"><code>adj</code></h3>
 
@@ -683,7 +766,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l124"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:124</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:143</code></a>
         </p>
 
 
@@ -723,7 +806,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:133</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l152"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:152</code></a>
         </p>
 
 
@@ -764,7 +847,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:141</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l160"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:160</code></a>
         </p>
 
 
@@ -807,7 +890,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l149"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:149</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l168"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:168</code></a>
         </p>
 
 
@@ -851,6 +934,71 @@
 
 
 
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l742"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:742</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">spinor</code>
+                        <span class="type">SpinorE3</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>:
+                    <p>A copy of the <code>spinor</code> argument.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_copy" class="method item">
+    <h3 class="name"><code>copy</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>spinor</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>
+        </span>
+
+
+
+
 
         <span class="flag chainable">chainable</span>
 
@@ -858,7 +1006,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l179"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:179</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l182"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:182</code></a>
         </p>
 
 
@@ -900,71 +1048,6 @@
 
 
 </div>
-<div id="method_copy" class="method item">
-    <h3 class="name"><code>copy</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>spinor</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>
-        </span>
-
-
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l718"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:718</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">spinor</code>
-                        <span class="type">SpinorE3</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>:
-                    <p>A copy of the <code>spinor</code> argument.</p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_div" class="method item">
     <h3 class="name"><code>div</code></h3>
 
@@ -990,7 +1073,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:206</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:209</code></a>
         </p>
 
 
@@ -1060,7 +1143,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:218</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l221"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:221</code></a>
         </p>
 
 
@@ -1137,7 +1220,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l247"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:247</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l250"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:250</code></a>
         </p>
 
 
@@ -1198,13 +1281,76 @@
 
 
 
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l752"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:752</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes I * <code>v</code>, the dual of <code>v</code>.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">v</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_dual" class="method item">
+    <h3 class="name"><code>dual</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>v</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>
+        </span>
+
+
+
+
+
         <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l263"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:263</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l266"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:266</code></a>
         </p>
 
 
@@ -1266,7 +1412,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l280"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:280</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l283"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:283</code></a>
         </p>
 
 
@@ -1311,7 +1457,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l304"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:304</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:308</code></a>
         </p>
 
 
@@ -1324,6 +1470,86 @@
 </p>
     </div>
 
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_lerp" class="method item">
+    <h3 class="name"><code>lerp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>target</code>
+                </li>
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l332"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:332</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ this + α * (target - this)</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">target</code>
+                        <span class="type">SpinorE3</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -1368,7 +1594,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l727"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:727</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l762"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:762</code></a>
         </p>
 
 
@@ -1428,86 +1654,6 @@
 
 
 </div>
-<div id="method_lerp" class="method item">
-    <h3 class="name"><code>lerp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>target</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l317"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:317</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ this + α * (target - this)</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">target</code>
-                        <span class="type">SpinorE3</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_lerp2" class="method item">
     <h3 class="name"><code>lerp2</code></h3>
 
@@ -1539,7 +1685,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l338"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:338</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l353"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:353</code></a>
         </p>
 
 
@@ -1620,7 +1766,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l353"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:353</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l368"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:368</code></a>
         </p>
 
 
@@ -1671,7 +1817,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l380"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:380</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l396"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:396</code></a>
         </p>
 
 
@@ -1741,7 +1887,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l392"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:392</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l408"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:408</code></a>
         </p>
 
 
@@ -1812,7 +1958,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l420"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:420</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l436"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:436</code></a>
         </p>
 
 
@@ -1855,7 +2001,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l432"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:432</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l448"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:448</code></a>
         </p>
 
 
@@ -1900,7 +2046,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l447"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:447</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l463"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:463</code></a>
         </p>
 
 
@@ -1945,7 +2091,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l463"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:463</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l479"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:479</code></a>
         </p>
 
 
@@ -1989,7 +2135,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l478"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:478</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l494"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:494</code></a>
         </p>
 
 
@@ -2038,7 +2184,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l503"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:503</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l530"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:530</code></a>
         </p>
 
 
@@ -2099,7 +2245,7 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l489"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:489</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l516"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:516</code></a>
         </p>
 
 
@@ -2150,7 +2296,7 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l527"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:527</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l554"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:554</code></a>
         </p>
 
 
@@ -2198,10 +2344,10 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>b</code>
+                        <code>a</code>
                 </li>
                 <li class="arg">
-                        <code>a</code>
+                        <code>b</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -2220,7 +2366,7 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l540"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:540</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l567"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:567</code></a>
         </p>
 
 
@@ -2229,8 +2375,8 @@ The geometric formula for bivector reflection is B' = n * B * n.</p>
 
     <div class="description">
         <p>
-Computes a rotor, R, from two unit vectors, where
-R = (1 + b * a) / sqrt(2 * (1 + b << a))
+Computes a rotor, R, from two vectors, where
+R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b << a))
 </p>
     </div>
 
@@ -2239,23 +2385,23 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                        <p>The ending unit vector</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
                         <code class="param-name">a</code>
                         <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
 
 
                     <div class="param-description">
-                        <p>The starting unit vector</p>
+                        <p>The <em>from</em> vector.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                        <p>The <em>to</em> vector.</p>
 
                     </div>
 
@@ -2302,7 +2448,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l559"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:559</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l582"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:582</code></a>
         </p>
 
 
@@ -2354,6 +2500,85 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
 
 
 </div>
+<div id="method_rotorFromDirections" class="method item">
+    <h3 class="name"><code>rotorFromDirections</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l774"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:774</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                        <p>The <em>from</em> vector.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                        <p>The <em>to</em> vector.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/SpinG3.html" class="crosslink">SpinG3</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_rotorFromGeneratorAngle" class="method item">
     <h3 class="name"><code>rotorFromGeneratorAngle</code></h3>
 
@@ -2381,7 +2606,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l578"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:578</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l601"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:601</code></a>
         </p>
 
 
@@ -2457,7 +2682,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l605"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:605</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l628"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:628</code></a>
         </p>
 
 
@@ -2526,7 +2751,7 @@ R = (1 + b * a) / sqrt(2 * (1 + b << a))
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l669"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:669</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l692"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:692</code></a>
         </p>
 
 
@@ -2605,7 +2830,7 @@ Sets this SpinG3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l633"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:633</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l656"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:656</code></a>
         </p>
 
 
@@ -2686,7 +2911,7 @@ Sets this SpinG3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l652"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:652</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l675"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:675</code></a>
         </p>
 
 
@@ -2756,7 +2981,7 @@ Sets this SpinG3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l703"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:703</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l726"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:726</code></a>
         </p>
 
 
@@ -2796,7 +3021,7 @@ Sets this SpinG3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:75</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:77</code></a>
         </p>
 
 
@@ -2820,7 +3045,7 @@ Sets this SpinG3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:63</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:65</code></a>
         </p>
 
 
@@ -2844,7 +3069,7 @@ Sets this SpinG3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:39</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:41</code></a>
         </p>
 
 
@@ -2868,7 +3093,7 @@ Sets this SpinG3 to the geometric product a * b of the vector arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:51</code></a>
+        <a href="../files/src_davinci-eight_math_SpinG3.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;SpinG3.ts:53</code></a>
         </p>
 
 

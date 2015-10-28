@@ -1415,6 +1415,16 @@ define('davinci-eight/slideshow/animations/ColorAnimation',["require", "exports"
     return ColorAnimation;
 });
 
+define('davinci-eight/math/dotVectorCartesianE3',["require", "exports"], function (require, exports) {
+    /**
+     * Computes the dot product of the Cartesian components in a Euclidean metric
+     */
+    function dotVectorCartesianE3(ax, ay, az, bx, by, bz) {
+        return ax * bx + ay * by + az * bz;
+    }
+    return dotVectorCartesianE3;
+});
+
 define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
     function isDefined(arg) {
         return (typeof arg !== 'undefined');
@@ -1422,16 +1432,16 @@ define('davinci-eight/checks/isDefined',["require", "exports"], function (requir
     return isDefined;
 });
 
-define('davinci-eight/math/euclidean3Quaditude2Arg',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
-    function euclidean3Quaditude1Arg2Arg(a, b) {
+define('davinci-eight/math/dotVectorE3',["require", "exports", '../math/dotVectorCartesianE3', '../checks/isDefined'], function (require, exports, dotVectorCartesianE3, isDefined) {
+    function dotVectorE3(a, b) {
         if (isDefined(a) && isDefined(b)) {
-            return a.x * b.x + a.y * b.y + a.z * b.z;
+            return dotVectorCartesianE3(a.x, a.y, a.z, b.x, b.y, b.z);
         }
         else {
             return void 0;
         }
     }
-    return euclidean3Quaditude1Arg2Arg;
+    return dotVectorE3;
 });
 
 define('davinci-eight/math/addE3',["require", "exports"], function (require, exports) {
@@ -2094,7 +2104,7 @@ define('davinci-eight/math/scpG3',["require", "exports", '../math/compG3Get', '.
     return scpG3;
 });
 
-define('davinci-eight/math/stringFromCoordinates',["require", "exports"], function (require, exports) {
+define('davinci-eight/math/stringFromCoordinates',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
     function stringFromCoordinates(coordinates, numberToString, labels) {
         var i, _i, _ref;
         var str;
@@ -2124,7 +2134,14 @@ define('davinci-eight/math/stringFromCoordinates',["require", "exports"], functi
             }
         };
         for (i = _i = 0, _ref = coordinates.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-            append(coordinates[i], labels[i]);
+            var coord = coordinates[i];
+            if (isDefined(coord)) {
+                append(coord, labels[i]);
+            }
+            else {
+                // We'll just say that the whole thing is undefined.
+                return void 0;
+            }
         }
         if (sb.length > 0) {
             str = sb.join("");
@@ -3488,7 +3505,7 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
     return Unit;
 });
 
-define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../math/NotImplementedError', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, Euclidean3Error, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, NotImplementedError, rcoG3, scpG3, stringFromCoordinates, subE3, Unit) {
+define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, Euclidean3Error, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeNumber, NotImplementedError, rcoG3, scpG3, stringFromCoordinates, subE3, Unit) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -3783,6 +3800,25 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                 return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
             };
             return compute(addE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.compatible(this.uom, rhs.uom));
+        };
+        /**
+         * Computes <code>this + α</code>
+         * @method addScalar
+         * @param α {number}
+         * @return {Euclidean3} <code>this</code>
+         * @chainable
+         */
+        Euclidean3.prototype.addScalar = function (α) {
+            if (isDefined(α)) {
+                mustBeNumber('α', α);
+                return new Euclidean3(this.w + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz, this.uom);
+            }
+            else {
+                // Consider returning an undefined sentinel?
+                // This would allow chained methods to continue.
+                // The first check might then be isNumber. 
+                return void 0;
+            }
         };
         Euclidean3.prototype.__add__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -4490,7 +4526,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/R3',["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclidean3', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, euclidean3Quaditude2Arg, Euclidean3, isDefined, isNumber, mustBeNumber, mustBeObject, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/R3',["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, isDefined, isNumber, mustBeNumber, mustBeObject, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     /**
      * @class R3
      * @extends VectorN<number>
@@ -4832,7 +4868,9 @@ define('davinci-eight/math/R3',["require", "exports", '../math/euclidean3Quaditu
          * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
          */
         R3.prototype.quaditude = function () {
-            return euclidean3Quaditude2Arg(this, this);
+            // quad = scp(v, rev(v)) = scp(v, v)
+            // TODO: This is correct but could be optimized.
+            return dotVectorE3(this, this);
         };
         /**
          * <p>
@@ -5202,14 +5240,66 @@ define('davinci-eight/slideshow/animations/Vector3Animation',["require", "export
     return Vector3Animation;
 });
 
-define('davinci-eight/math/cartesianQuaditudeE3',["require", "exports"], function (require, exports) {
-    /**
-     * Computes the dot product of the Cartesian components in a Euclidean metric
-     */
-    function cartesianQuaditudeE3(ax, ay, az, bx, by, bz) {
-        return ax * bx + ay * by + az * bz;
+define('davinci-eight/collections/copyToArray',["require", "exports"], function (require, exports) {
+    function copyToArray(source, destination, offset) {
+        if (destination === void 0) { destination = []; }
+        if (offset === void 0) { offset = 0; }
+        var length = source.length;
+        for (var i = 0; i < length; i++) {
+            destination[offset + i] = source[i];
+        }
+        return destination;
     }
-    return cartesianQuaditudeE3;
+    return copyToArray;
+});
+
+define('davinci-eight/math/quadVectorE3',["require", "exports", '../math/dotVectorCartesianE3', '../checks/isDefined', '../checks/isNumber'], function (require, exports, dotVectorCartesianE3, isDefined, isNumber) {
+    function quadVectorE3(vector) {
+        if (isDefined(vector)) {
+            var x = vector.x;
+            var y = vector.y;
+            var z = vector.z;
+            if (isNumber(x) && isNumber(y) && isNumber(z)) {
+                return dotVectorCartesianE3(x, y, z, x, y, z);
+            }
+            else {
+                return void 0;
+            }
+        }
+        else {
+            return void 0;
+        }
+    }
+    return quadVectorE3;
+});
+
+define('davinci-eight/math/rotorFromDirections',["require", "exports"], function (require, exports) {
+    var sqrt = Math.sqrt;
+    /**
+     * Sets this multivector to a rotor representing a rotation from a to b.
+     * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
+     */
+    function rotorFromDirections(a, b, quad, dot, m) {
+        var quadA = quad(a);
+        var absA = sqrt(quadA);
+        var quadB = quad(b);
+        var absB = sqrt(quadB);
+        var BA = absB * absA;
+        var denom = sqrt(2 * (quadB * quadA + BA * dot(b, a)));
+        if (denom !== 0) {
+            m = m.spinor(b, a);
+            m = m.addScalar(BA);
+            m = m.divByScalar(denom);
+            return m;
+        }
+        else {
+            // The denominator is zero when |a||b| + a << b = 0 => cos(θ) = -1 (i.e. a, b anti-parallel)
+            // The plane of the rotation in such a case is ambiguous.
+            console.warn("rotorFromDirections(" + a + ", " + b + ") is undefined.");
+            return void 0;
+        }
+    }
+    return rotorFromDirections;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -5217,10 +5307,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, mustBeNumber, mustBeObject, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/SpinG3',["require", "exports", '../math/dotVectorCartesianE3', '../collections/copyToArray', '../math/dotVectorE3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/rotorFromDirections', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorCartesianE3, copyToArray, dotVector, mustBeNumber, mustBeObject, quadVector, rotorFromDirections, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     var exp = Math.exp;
     var cos = Math.cos;
     var sin = Math.sin;
+    var sqrt = Math.sqrt;
     /**
      * @class SpinG3
      * @extends VectorN<number>
@@ -5228,6 +5319,8 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
     var SpinG3 = (function (_super) {
         __extends(SpinG3, _super);
         /**
+         * Constructs a <code>SpinG3</code> from a <code>number[]</code>.
+         * For a <em>geometric</em> implementation, use the static methods.
          * @class SpinG3
          * @constructor
          * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
@@ -5340,6 +5433,20 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             return this;
         };
         /**
+         * <p>
+         * <code>this ⟼ this + α</code>
+         * </p>
+         * @method addScalar
+         * @param α {number}
+         * @return {SpinG3} <code>this</code>
+         * @chainable
+         */
+        SpinG3.prototype.addScalar = function (α) {
+            mustBeNumber('α', α);
+            this.w += α;
+            return this;
+        };
+        /**
          * @method adj
          * @return {number}
          * @beta
@@ -5360,7 +5467,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
          * @chainable
          */
         SpinG3.prototype.clone = function () {
-            return new SpinG3([this.yz, this.zx, this.xy, this.w]);
+            return new SpinG3(copyToArray(this.data), this.modified);
         };
         /**
          * <p>
@@ -5374,22 +5481,6 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             this.yz = -this.yz;
             this.zx = -this.zx;
             this.xy = -this.xy;
-            return this;
-        };
-        SpinG3.prototype.lco = function (rhs) {
-            return this.lco2(this, rhs);
-        };
-        SpinG3.prototype.lco2 = function (a, b) {
-            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
-            // scpG3(a, b, this)
-            return this;
-        };
-        SpinG3.prototype.rco = function (rhs) {
-            return this.rco2(this, rhs);
-        };
-        SpinG3.prototype.rco2 = function (a, b) {
-            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
-            // scpG3(a, b, this)
             return this;
         };
         /**
@@ -5454,7 +5545,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             // How does this compare to G3
             // It would be interesting to DRY this out.
             this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+            // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -5509,7 +5600,8 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             var expW = exp(w);
             // φ is actually the absolute value of one half the rotation angle.
             // The orientation of the rotation gets carried in the bivector components.
-            var φ = Math.sqrt(x * x + y * y + z * z);
+            // FIXME: DRY
+            var φ = sqrt(x * x + y * y + z * z);
             var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
             this.w = expW * cos(φ);
             this.yz = x * s;
@@ -5528,6 +5620,14 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
         SpinG3.prototype.inv = function () {
             this.conj();
             this.divByScalar(this.quaditude());
+            return this;
+        };
+        SpinG3.prototype.lco = function (rhs) {
+            return this.lco2(this, rhs);
+        };
+        SpinG3.prototype.lco2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
             return this;
         };
         /**
@@ -5579,10 +5679,11 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             var x = this.yz;
             var y = this.zx;
             var z = this.xy;
+            // FIXME: DRY
             var bb = x * x + y * y + z * z;
-            var R2 = Math.sqrt(bb);
+            var R2 = sqrt(bb);
             var R0 = Math.abs(w);
-            var R = Math.sqrt(w * w + bb);
+            var R = sqrt(w * w + bb);
             this.w = Math.log(R);
             var f = Math.atan2(R2, R0) / R2;
             this.yz = x * f;
@@ -5591,7 +5692,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             return this;
         };
         SpinG3.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
+            return sqrt(this.quaditude());
         };
         /**
          * <p>
@@ -5627,7 +5728,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             // Compare this to the product for Quaternions
             // It would be interesting to DRY this out.
             this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+            // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -5702,6 +5803,14 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             var xy = this.xy;
             return w * w + yz * yz + zx * zx + xy * xy;
         };
+        SpinG3.prototype.rco = function (rhs) {
+            return this.rco2(this, rhs);
+        };
+        SpinG3.prototype.rco2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
+        };
         /**
          * <p>
          * <code>this = (w, B) ⟼ (w, -B)</code>
@@ -5755,21 +5864,17 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
         };
         /**
          * <p>
-         * Computes a rotor, R, from two unit vectors, where
-         * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+         * Computes a rotor, R, from two vectors, where
+         * R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b << a))
          * </p>
          * @method rotor
-         * @param b {VectorE3} The ending unit vector
-         * @param a {VectorE3} The starting unit vector
+         * @param a {VectorE3} The <em>from</em> vector.
+         * @param b {VectorE3} The <em>to</em> vector.
          * @return {SpinG3} <code>this</code> The rotor representing a rotation from a to b.
          * @chainable
          */
-        SpinG3.prototype.rotor = function (b, a) {
-            this.spinor(b, a);
-            this.w += 1;
-            var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
-            this.divByScalar(denom);
-            return this;
+        SpinG3.prototype.rotorFromDirections = function (a, b) {
+            return rotorFromDirections(a, b, quadVector, dotVector, this);
         };
         /**
          * <p>
@@ -5895,7 +6000,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             var bx = b.x;
             var by = b.y;
             var bz = b.z;
-            this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz);
+            this.w = dotVectorCartesianE3(ax, ay, az, bx, by, bz);
             this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
             this.zx = wedgeZX(ax, ay, az, bx, by, bz);
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
@@ -5934,6 +6039,15 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
             return new SpinG3().copy(spinor);
         };
         /**
+         * Computes I * <code>v</code>, the dual of <code>v</code>.
+         * @method dual
+         * @param v {VectorE3}
+         * @return {SpinG3}
+         */
+        SpinG3.dual = function (v) {
+            return new SpinG3().dual(v);
+        };
+        /**
          * @method lerp
          * @param a {SpinorE3}
          * @param b {SpinorE3}
@@ -5943,6 +6057,17 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/cartesianQuad
          */
         SpinG3.lerp = function (a, b, α) {
             return SpinG3.copy(a).lerp(b, α);
+        };
+        /**
+         * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+         * @method rotorFromDirections
+         * @param a {VectorE3} The <em>from</em> vector.
+         * @param b {VectorE3} The <em>to</em> vector.
+         * @return {SpinG3}
+         * @static
+         */
+        SpinG3.rotorFromDirections = function (a, b) {
+            return new SpinG3().rotorFromDirections(a, b);
         };
         return SpinG3;
     })(VectorN);
@@ -6402,10 +6527,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-10-26',
+        LAST_MODIFIED: '2015-10-27',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.144.0'
+        VERSION: '2.145.0'
     };
     return core;
 });
@@ -6735,25 +6860,12 @@ define('davinci-eight/geometries/Simplex',["require", "exports", '../checks/expe
     return Simplex;
 });
 
-define('davinci-eight/collections/copyToArray',["require", "exports"], function (require, exports) {
-    function copyToArray(source, destination, offset) {
-        if (destination === void 0) { destination = []; }
-        if (offset === void 0) { offset = 0; }
-        var length = source.length;
-        for (var i = 0; i < length; i++) {
-            destination[offset + i] = source[i];
-        }
-        return destination;
-    }
-    return copyToArray;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, extG3, lcoG3, mulG3, mustBeNumber, mustBeObject, rcoG3, scpG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/rcoG3', '../math/rotorFromDirections', '../math/scpG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, extG3, lcoG3, mulG3, mustBeNumber, mustBeObject, quadVector, rcoG3, rotorFromDirections, scpG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -6952,6 +7064,20 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         };
         /**
          * <p>
+         * <code>this ⟼ this + α</code>
+         * </p>
+         * @method addScalar
+         * @param α {number}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.addScalar = function (α) {
+            mustBeNumber('α', α);
+            this.w += α;
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ this + v * α</code>
          * </p>
          * @method addVector
@@ -7005,11 +7131,10 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
         /**
          * @method clone
          * @return {G3} <code>copy(this)</code>
+         * @chainable
          */
         G3.prototype.clone = function () {
-            var m = new G3();
-            m.copy(this);
-            return m;
+            return G3.copy(this);
         };
         /**
          * <p>
@@ -7196,7 +7321,7 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
             // Compare this to the product for Quaternions
             // It would be interesting to DRY this out.
             this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+            // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -7544,18 +7669,14 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
          * Computes a rotor, R, from two unit vectors, where
          * R = (1 + b * a) / sqrt(2 * (1 + b << a))
          * </p>
-         * @method rotor
+         * @method rotorFromDirections
          * @param b {VectorE3} The ending unit vector
          * @param a {VectorE3} The starting unit vector
          * @return {G3} <code>this</code> The rotor representing a rotation from a to b.
          * @chainable
          */
-        G3.prototype.rotor = function (b, a) {
-            this.spinor(b, a);
-            this.w += 1;
-            var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
-            this.divByScalar(denom);
-            return this;
+        G3.prototype.rotorFromDirections = function (b, a) {
+            return rotorFromDirections(a, b, quadVector, dotVector, this);
         };
         /**
          * <p>
@@ -7664,7 +7785,8 @@ define('davinci-eight/math/G3',["require", "exports", '../math/cartesianQuaditud
             var bx = b.x;
             var by = b.y;
             var bz = b.z;
-            this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz);
+            this.w = 0;
+            this.addScalar(dotVector(a, b));
             this.x = 0;
             this.y = 0;
             this.z = 0;
@@ -17122,7 +17244,7 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../ge
             var vSegments = 1;
             var topo = new GridTopology(uSegments, vSegments);
             var axis = this.axis;
-            var generator = new SpinG3().dual(axis);
+            var generator = SpinG3.dual(axis);
             for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
                 var u = uIndex / uSegments;
                 var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();
@@ -17425,19 +17547,14 @@ define('davinci-eight/geometries/RevolutionSimplexGeometry',["require", "exports
             var j;
             var il;
             var jl;
-            var rotor = new SpinG3();
+            var R = new SpinG3();
             for (i = 0, il = halfPlanes; i < il; i++) {
-                var phi = phiStart + i * phiStep;
-                var halfAngle = phi / 2;
-                //var cosHA = Math.cos( halfAngle );
-                //var sinHA = Math.sin( halfAngle );
-                rotor.copy(generator).scale(halfAngle).exp();
-                // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
-                //var rotor = new SpinG3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
+                var φ = phiStart + i * phiStep;
+                R.rotorFromGeneratorAngle(generator, φ);
                 for (j = 0, jl = points.length; j < jl; j++) {
                     var vertex = points[j].clone();
                     // The generator tells us how to rotate the points.
-                    vertex.rotate(rotor);
+                    vertex.rotate(R);
                     // The attitude tells us where we want the symmetry axis to be.
                     if (attitude) {
                         vertex.rotate(attitude);
@@ -17583,14 +17700,12 @@ define('davinci-eight/geometries/ArrowSimplexGeometry',["require", "exports", '.
                 var points = data.map(function (point) {
                     return new R3([point[i], point[j], point[k]]);
                 });
-                // We're essentially computing the dual of the vector as the rotation generator.
-                var n = nearest(direction);
-                var generator = new SpinG3([n.x, n.y, n.z, 0]);
+                var generator = SpinG3.dual(nearest(direction));
                 return { "points": points, "generator": generator };
             };
             var direction = R3.copy(this.vector).normalize();
             var arrow = computeArrow(direction);
-            var R = new SpinG3().rotor(direction, nearest(direction));
+            var R = SpinG3.rotorFromDirections(nearest(direction), direction);
             this.data = [];
             _super.prototype.revolve.call(this, arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R);
             this.setModified(false);
@@ -18171,7 +18286,7 @@ define('davinci-eight/geometries/CylinderSimplexGeometry',["require", "exports",
             //let height = this.height
             var heightSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = new SpinG3().dual(this.axis);
+            var generator = SpinG3.dual(this.axis);
             var heightHalf = this.height / 2;
             var points = [];
             // The double array allows us to manage the i,j indexing more naturally.
@@ -18962,7 +19077,7 @@ define('davinci-eight/geometries/RingSimplexGeometry',["require", "exports", '..
             this.data = [];
             var radialSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = new SpinG3().dual(this.axis);
+            var generator = SpinG3.dual(this.axis);
             var vertices = [];
             var uvs = [];
             computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);
@@ -19015,7 +19130,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define('davinci-eight/geometries/SphericalPolarSimplexGeometry',["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '../math/R1', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, arc3, mustBeNumber, R1, Simplex, SliceSimplexGeometry, SpinG3, R2, R3) {
     function computeVertices(radius, axis, phiStart, phiLength, thetaStart, thetaLength, heightSegments, widthSegments, points, uvs) {
-        var generator = new SpinG3().dual(axis);
+        var generator = SpinG3.dual(axis);
         var iLength = heightSegments + 1;
         var jLength = widthSegments + 1;
         for (var i = 0; i < iLength; i++) {
@@ -19389,7 +19504,7 @@ define('davinci-eight/geometries/VortexSimplexGeometry',["require", "exports", '
             this.lengthShaft = 0.8;
             this.arrowSegments = 8;
             this.radialSegments = 12;
-            this.generator = new SpinG3([0, 0, 1, 0]);
+            this.generator = SpinG3.dual(R3.e3);
             this.setModified(true);
         }
         VortexSimplexGeometry.prototype.isModified = function () {
@@ -20676,8 +20791,20 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../math/Euclidean
     return Euclidean2;
 });
 
-define('davinci-eight/math/dotVectorsE2',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
-    function dotVectorsE2(a, b) {
+define('davinci-eight/math/argSpinorCartesianE2',["require", "exports"], function (require, exports) {
+    /**
+     * Computes the principal argument of an E2 spinor from its scalar and bivector components.
+     * w: The scalar part.
+     * B: The bivector part.
+     */
+    function argSpinorCartesianE2(w, B) {
+        return Math.atan2(B, w);
+    }
+    return argSpinorCartesianE2;
+});
+
+define('davinci-eight/math/dotVectorE2',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
+    function dotVectorE2(a, b) {
         if (isDefined(a) && isDefined(b)) {
             return a.x * b.x + a.y * b.y;
         }
@@ -20685,7 +20812,55 @@ define('davinci-eight/math/dotVectorsE2',["require", "exports", '../checks/isDef
             return void 0;
         }
     }
-    return dotVectorsE2;
+    return dotVectorE2;
+});
+
+define('davinci-eight/math/quadSpinorE2',["require", "exports", '../checks/isDefined', '../checks/isNumber'], function (require, exports, isDefined, isNumber) {
+    function quadSpinorE2(s) {
+        if (isDefined(s)) {
+            var s0 = s.w;
+            var s1 = s.xy;
+            if (isNumber(s0) && isNumber(s1)) {
+                return s0 * s0 + s1 * s1;
+            }
+            else {
+                return void 0;
+            }
+        }
+        else {
+            return void 0;
+        }
+    }
+    return quadSpinorE2;
+});
+
+define('davinci-eight/math/dotVectorCartesianE2',["require", "exports"], function (require, exports) {
+    /**
+     * Computes the dot product of the Cartesian components in a Euclidean metric
+     */
+    function dotVectorCartesianE2(ax, ay, bx, by) {
+        return ax * bx + ay * by;
+    }
+    return dotVectorCartesianE2;
+});
+
+define('davinci-eight/math/quadVectorE2',["require", "exports", '../math/dotVectorCartesianE2', '../checks/isDefined', '../checks/isNumber'], function (require, exports, dotVectorCartesianE2, isDefined, isNumber) {
+    function quadVectorE2(vector) {
+        if (isDefined(vector)) {
+            var x = vector.x;
+            var y = vector.y;
+            if (isNumber(x) && isNumber(y)) {
+                return dotVectorCartesianE2(x, y, x, y);
+            }
+            else {
+                return void 0;
+            }
+        }
+        else {
+            return void 0;
+        }
+    }
+    return quadVectorE2;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -20693,7 +20868,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../i18n/readOnly', '../math/rcoE2', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, dotVectorsE2, extE2, isNumber, isObject, lcoE2, mulE2, mustBeNumber, mustBeObject, mustBeString, readOnly, rcoE2, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
+define('davinci-eight/math/G2',["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVectorE2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE2', '../math/quadVectorE2', '../i18n/readOnly', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, argSpinorCartesianE2, dotVector, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, readOnly, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -20773,6 +20948,12 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
             set xy(unused) {
                 throw new Error(readOnly(label + '.xy').message);
             },
+            arg: function () {
+                return argSpinorCartesianE2(that.w, that.xy);
+            },
+            quaditude: function () {
+                return quadSpinor(that);
+            },
             toString: function () {
                 return label;
             }
@@ -20811,7 +20992,6 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
                 return this.data[COORD_W];
             },
             set: function (w) {
-                mustBeNumber('w', w);
                 this.modified = this.modified || this.data[COORD_W] !== w;
                 this.data[COORD_W] = w;
             },
@@ -20828,7 +21008,6 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
                 return this.data[COORD_X];
             },
             set: function (x) {
-                mustBeNumber('x', x);
                 this.modified = this.modified || this.data[COORD_X] !== x;
                 this.data[COORD_X] = x;
             },
@@ -20845,7 +21024,6 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
                 return this.data[COORD_Y];
             },
             set: function (y) {
-                mustBeNumber('y', y);
                 this.modified = this.modified || this.data[COORD_Y] !== y;
                 this.data[COORD_Y] = y;
             },
@@ -20862,7 +21040,6 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
                 return this.data[COORD_XY];
             },
             set: function (xy) {
-                mustBeNumber('xy', xy);
                 this.modified = this.modified || this.data[COORD_XY] !== xy;
                 this.data[COORD_XY] = xy;
             },
@@ -20887,6 +21064,20 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
             this.x += M.x * α;
             this.y += M.y * α;
             this.xy += M.xy * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + α</code>
+         * </p>
+         * @method addScalar
+         * @param α {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.addScalar = function (α) {
+            mustBeNumber('α', α);
+            this.w += α;
             return this;
         };
         /**
@@ -20935,7 +21126,7 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
          * @return {number}
          */
         G2.prototype.arg = function () {
-            return atan2(this.xy, this.w);
+            return argSpinorCartesianE2(this.w, this.xy);
         };
         /**
          * @method clone
@@ -21440,20 +21631,24 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
             return this;
         };
         /**
-         * <p>
-         * Computes a rotor, R, from two unit vectors, where
-         * R = (1 + b * a) / sqrt(2 * (1 + b << a))
-         * </p>
-         * @method rotor
-         * @param b {VectorE2} The ending unit vector
-         * @param a {VectorE2} The starting unit vector
+         * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
+         * @method rotorFromDirections
+         * @param a {VectorE2} The starting vector
+         * @param b {VectorE2} The ending vector
          * @return {G2} <code>this</code> The rotor representing a rotation from a to b.
          * @chainable
          */
-        G2.prototype.rotor = function (b, a) {
-            this.spinor(b, a);
-            this.w += 1; // FIXME: addScalar would make this all chainable
-            return this.divByScalar(Math.sqrt(2 * (1 + dotVectorsE2(b, a))));
+        G2.prototype.rotorFromDirections = function (a, b) {
+            if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
+                return this;
+            }
+            else {
+                this.w = void 0;
+                this.x = void 0;
+                this.y = void 0;
+                this.xy = void 0;
+            }
+            return this;
         };
         /**
          * <p>
@@ -21555,7 +21750,7 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
             var ay = a.y;
             var bx = b.x;
             var by = b.y;
-            this.w = dotVectorsE2(a, b);
+            this.w = dotVector(a, b);
             this.x = 0;
             this.y = 0;
             this.xy = wedgeXY(ax, ay, 0, bx, by, 0); // FIXME wedgeVectorsE2
@@ -22125,12 +22320,637 @@ define('davinci-eight/math/G2',["require", "exports", '../math/dotVectorsE2', '.
     return G2;
 });
 
-define('davinci-eight/math/SpinG2',["require", "exports"], function (require, exports) {
-    var SpinG2 = (function () {
-        function SpinG2() {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/math/SpinG2',["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVectorCartesianE2', '../math/dotVectorE2', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadSpinorE2', '../math/quadVectorE2', '../math/VectorN', '../math/wedgeXY'], function (require, exports, argSpinorCartesianE2, dotVectorCartesian, dotVector, mustBeNumber, mustBeObject, quadSpinor, quadVector, VectorN, wedgeXY) {
+    // Symbolic constants for the coordinate indices into the data array.
+    var COORD_W = 1;
+    var COORD_XY = 0;
+    var exp = Math.exp;
+    var cos = Math.cos;
+    var sin = Math.sin;
+    var sqrt = Math.sqrt;
+    /**
+     * @class SpinG2
+     * @extends VectorN<number>
+     */
+    var SpinG2 = (function (_super) {
+        __extends(SpinG2, _super);
+        /**
+         * Constructs a <code>SpinG2</code> from a <code>number[]</code>.
+         * For a <em>geometric</em> implementation, use the static methods.
+         * @class SpinG2
+         * @constructor
+         * @param data {number[]}
+         */
+        function SpinG2(data) {
+            _super.call(this, data, false, 2);
         }
+        Object.defineProperty(SpinG2.prototype, "xy", {
+            /**
+             * @property xy
+             * @type {number}
+             */
+            get: function () {
+                return this.data[COORD_XY];
+            },
+            set: function (xy) {
+                mustBeNumber('xy', xy);
+                this.modified = this.modified || this.xy !== xy;
+                this.data[COORD_XY] = xy;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(SpinG2.prototype, "w", {
+            /**
+             * @property w
+             * @type {number}
+             */
+            get: function () {
+                return this.data[COORD_W];
+            },
+            set: function (w) {
+                mustBeNumber('w', w);
+                this.modified = this.modified || this.w !== w;
+                this.data[COORD_W] = w;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * <p>
+         * <code>this ⟼ this + α * spinor</code>
+         * </p>
+         * @method add
+         * @param spinor {SpinorE2}
+         * @param α [number = 1]
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.add = function (spinor, α) {
+            if (α === void 0) { α = 1; }
+            mustBeObject('spinor', spinor);
+            mustBeNumber('α', α);
+            this.xy += spinor.xy * α;
+            this.w += spinor.w * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a + b</code>
+         * </p>
+         * @method add2
+         * @param a {SpinorE2}
+         * @param b {SpinorE2}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.add2 = function (a, b) {
+            this.w = a.w + b.w;
+            this.xy = a.xy + b.xy;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + α</code>
+         * </p>
+         * @method addScalar
+         * @param α {number}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.addScalar = function (α) {
+            mustBeNumber('α', α);
+            this.w += α;
+            return this;
+        };
+        /**
+         * @method adj
+         * @return {number}
+         * @beta
+         */
+        SpinG2.prototype.adj = function () {
+            throw new Error('TODO: SpinG2.adj');
+        };
+        /**
+         * @method arg
+         * @return {number}
+         */
+        SpinG2.prototype.arg = function () {
+            return argSpinorCartesianE2(this.w, this.xy);
+        };
+        /**
+         * @method clone
+         * @return {SpinG2} A copy of <code>this</code>.
+         * @chainable
+         */
+        SpinG2.prototype.clone = function () {
+            return SpinG2.copy(this);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ (w, -B)</code>
+         * </p>
+         * @method conj
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.conj = function () {
+            this.xy = -this.xy;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ copy(spinor)</code>
+         * </p>
+         * @method copy
+         * @param spinor {SpinorE2}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.copy = function (spinor) {
+            mustBeObject('spinor', spinor);
+            this.xy = mustBeNumber('spinor.xy', spinor.xy);
+            this.w = mustBeNumber('spinor.w', spinor.w);
+            return this;
+        };
+        SpinG2.prototype.copySpinor = function (spinor) {
+            return this.copy(spinor);
+        };
+        SpinG2.prototype.copyVector = function (vector) {
+            this.xy = 0;
+            this.w = 0;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this / s</code>
+         * </p>
+         * @method div
+         * @param s {SpinorE2}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.div = function (s) {
+            return this.div2(this, s);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a / b</code>
+         * </p>
+         * @method div2
+         * @param a {SpinorE2}
+         * @param b {SpinorE2}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.div2 = function (a, b) {
+            var a0 = a.w;
+            var a1 = a.xy;
+            var b0 = b.w;
+            var b1 = b.xy;
+            var quadB = quadSpinor(b);
+            this.w = (a0 * b0 + a1 * b1) / quadB;
+            this.xy = (a1 * b0 - a0 * b1) / quadB;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this / α</code>
+         * </p>
+         * @method divByScalar
+         * @param α {number}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.divByScalar = function (α) {
+            this.xy /= α;
+            this.w /= α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ e<sup>this</sup></code>
+         * </p>
+         * @method exp
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.exp = function () {
+            var w = this.w;
+            var z = this.xy;
+            var expW = exp(w);
+            // φ is actually the absolute value of one half the rotation angle.
+            // The orientation of the rotation gets carried in the bivector components.
+            // FIXME: DRY
+            var φ = sqrt(z * z);
+            var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
+            this.w = expW * cos(φ);
+            this.xy = z * s;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ conj(this) / quad(this)</code>
+         * </p>
+         * @method inv
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.inv = function () {
+            this.conj();
+            this.divByScalar(this.quaditude());
+            return this;
+        };
+        SpinG2.prototype.lco = function (rhs) {
+            return this.lco2(this, rhs);
+        };
+        SpinG2.prototype.lco2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG2(a, b, this)
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + α * (target - this)</code>
+         * </p>
+         * @method lerp
+         * @param target {SpinorE2}
+         * @param α {number}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        // FIXME: Should really be slerp?
+        SpinG2.prototype.lerp = function (target, α) {
+            var R2 = SpinG2.copy(target);
+            var R1 = this.clone();
+            var R = R2.mul(R1.inv());
+            R.log();
+            R.scale(α);
+            R.exp();
+            this.copy(R);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a + α * (b - a)</code>
+         * <p>
+         * @method lerp2
+         * @param a {SpinorE2}
+         * @param b {SpinorE2}
+         * @param α {number}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.lerp2 = function (a, b, α) {
+            this.sub2(b, a).scale(α).add(a);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ log(this)</code>
+         * </p>
+         * @method log
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.log = function () {
+            var w = this.w;
+            var z = this.xy;
+            // FIXME: DRY
+            var bb = z * z;
+            var R2 = sqrt(bb);
+            var R0 = Math.abs(w);
+            var R = sqrt(w * w + bb);
+            this.w = Math.log(R);
+            var f = Math.atan2(R2, R0) / R2;
+            this.xy = z * f;
+            return this;
+        };
+        SpinG2.prototype.magnitude = function () {
+            return sqrt(this.quaditude());
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this * s</code>
+         * </p>
+         * @method mul
+         * @param s {SpinorE2}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.mul = function (s) {
+            return this.mul2(this, s);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * @method mul2
+         * @param a {SpinorE2}
+         * @param b {SpinorE2}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.mul2 = function (a, b) {
+            var a0 = a.w;
+            var a1 = a.xy;
+            var b0 = b.w;
+            var b1 = b.xy;
+            this.w = a0 * b0 - a1 * b1;
+            this.xy = a0 * b1 + a1 * b0;
+            return this;
+        };
+        /**
+         * @method neg
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.neg = function () {
+            this.w = -this.w;
+            this.xy = -this.xy;
+            return this;
+        };
+        /**
+        * <p>
+        * <code>this ⟼ sqrt(this * conj(this))</code>
+        * </p>
+        * @method norm
+        * @return {SpinG2} <code>this</code>
+        * @chainable
+        */
+        SpinG2.prototype.norm = function () {
+            this.w = this.magnitude();
+            this.xy = 0;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this / magnitude(this)</code>
+         * </p>
+         * @method normalize
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.normalize = function () {
+            var modulus = this.magnitude();
+            this.xy = this.xy / modulus;
+            this.w = this.w / modulus;
+            return this;
+        };
+        /**
+        * <p>
+        * <code>this ⟼ this * conj(this)</code>
+        * </p>
+        * @method quad
+        * @return {SpinG2} <code>this</code>
+        * @chainable
+        */
+        SpinG2.prototype.quad = function () {
+            this.w = this.quaditude();
+            this.xy = 0;
+            return this;
+        };
+        /**
+         * @method quaditude
+         * @return {number} <code>this * conj(this)</code>
+         */
+        SpinG2.prototype.quaditude = function () {
+            return quadSpinor(this);
+        };
+        SpinG2.prototype.rco = function (rhs) {
+            return this.rco2(this, rhs);
+        };
+        SpinG2.prototype.rco2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG2(a, b, this)
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this = (w, B) ⟼ (w, -B)</code>
+         * </p>
+         * @method reverse
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.rev = function () {
+            this.xy *= -1;
+            return this;
+        };
+        /**
+         * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
+         * The geometric formula for bivector reflection is B' = n * B * n.
+         * @method reflect
+         * @param n {VectorE2}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.reflect = function (n) {
+            var w = this.w;
+            var xy = this.xy;
+            var nx = n.x;
+            var ny = n.y;
+            var nn = nx * nx + ny * ny;
+            this.w = nn * w;
+            this.xy = -nn * xy;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this = ⟼ rotor * this * rev(rotor)</code>
+         * </p>
+         * @method rotate
+         * @param rotor {SpinorE2}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.rotate = function (rotor) {
+            console.warn("SpinG2.rotate is not implemented");
+            return this;
+        };
+        /**
+         * <p>
+         * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
+         * </p>
+         * @method rotorFromDirections
+         * @param a {VectorE2} The <em>from</em> vector.
+         * @param b {VectorE2} The <em>to</em> vector.
+         * @return {SpinG2} <code>this</code> The rotor representing a rotation from a to b.
+         * @chainable
+         */
+        SpinG2.prototype.rotorFromDirections = function (a, b) {
+            var quadA = quadVector(a);
+            var absA = sqrt(quadA);
+            var quadB = quadVector(b);
+            var absB = sqrt(quadB);
+            var BA = absB * absA;
+            var denom = sqrt(2 * (quadB * quadA + BA * dotVector(b, a)));
+            this.spinor(b, a).addScalar(BA);
+            this.divByScalar(denom);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this = ⟼ exp(- B * θ / 2)</code>
+         * </p>
+         * @method rotorFromGeneratorAngle
+         * @param B {SpinorE2}
+         * @param θ {number}
+         * @return {SpinG2} <code>this</code>
+         */
+        SpinG2.prototype.rotorFromGeneratorAngle = function (B, θ) {
+            var φ = θ / 2;
+            var s = sin(φ);
+            this.xy = -B.xy * s;
+            this.w = cos(φ);
+            return this;
+        };
+        SpinG2.prototype.scp = function (rhs) {
+            return this.scp2(this, rhs);
+        };
+        SpinG2.prototype.scp2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG2(a, b, this)
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this * α</code>
+         * </p>
+         * @method scale
+         * @param α {number}
+         * @return {SpinG2} <code>this</code>
+         */
+        SpinG2.prototype.scale = function (α) {
+            mustBeNumber('α', α);
+            this.xy *= α;
+            this.w *= α;
+            return this;
+        };
+        SpinG2.prototype.slerp = function (target, α) {
+            var R2 = SpinG2.copy(target);
+            var R1 = this.clone();
+            var R = R2.mul(R1.inv());
+            R.log();
+            R.scale(α);
+            R.exp();
+            this.copy(R);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this - s * α</code>
+         * </p>
+         * @method sub
+         * @param s {SpinorE2}
+         * @param α [number = 1]
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.sub = function (s, α) {
+            if (α === void 0) { α = 1; }
+            mustBeObject('s', s);
+            mustBeNumber('α', α);
+            this.xy -= s.xy * α;
+            this.w -= s.w * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a - b</code>
+         * </p>
+         * @method sub2
+         * @param a {SpinorE2}
+         * @param b {SpinorE2}
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.sub2 = function (a, b) {
+            this.xy = a.xy - b.xy;
+            this.w = a.w - b.w;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * Sets this SpinG2 to the geometric product a * b of the vector arguments.
+         * @method spinor
+         * @param a {VectorE2}
+         * @param b {VectorE2}
+         * @return {SpinG2}
+         */
+        SpinG2.prototype.spinor = function (a, b) {
+            var ax = a.x;
+            var ay = a.y;
+            var bx = b.x;
+            var by = b.y;
+            this.w = dotVectorCartesian(ax, ay, bx, by);
+            // TODO: This is a bit wasteful.
+            this.xy = wedgeXY(ax, ay, 0, bx, by, 0);
+            return this;
+        };
+        SpinG2.prototype.toExponential = function () {
+            // FIXME: Do like others.
+            return this.toString();
+        };
+        SpinG2.prototype.toFixed = function (digits) {
+            // FIXME: Do like others.
+            return this.toString();
+        };
+        /**
+         * @method toString
+         * @return {string} A non-normative string representation of the target.
+         */
+        SpinG2.prototype.toString = function () {
+            return "SpinG2({xy: " + this.xy + ", w: " + this.w + "})";
+        };
+        SpinG2.prototype.ext = function (rhs) {
+            return this.ext2(this, rhs);
+        };
+        SpinG2.prototype.ext2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG2(a, b, this)
+            return this;
+        };
+        /**
+         * @method copy
+         * @param spinor {SpinorE2}
+         * @return {SpinG2} A copy of the <code>spinor</code> argument.
+         * @static
+         */
+        SpinG2.copy = function (spinor) {
+            return new SpinG2([0, 0]).copy(spinor);
+        };
+        /**
+         * @method lerp
+         * @param a {SpinorE2}
+         * @param b {SpinorE2}
+         * @param α {number}
+         * @return {SpinG2} <code>a + α * (b - a)</code>
+         * @static
+         */
+        SpinG2.lerp = function (a, b, α) {
+            return SpinG2.copy(a).lerp(b, α);
+        };
+        /**
+         * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+         * @method rotorFromDirections
+         * @param a {VectorE2} The <em>from</em> vector.
+         * @param b {VectorE2} The <em>to</em> vector.
+         * @return {SpinG2}
+         * @static
+         */
+        SpinG2.rotorFromDirections = function (a, b) {
+            return new SpinG2([0, 0]).rotorFromDirections(a, b);
+        };
         return SpinG2;
-    })();
+    })(VectorN);
     return SpinG2;
 });
 

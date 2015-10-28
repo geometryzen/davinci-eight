@@ -115,14 +115,12 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
             var points = data.map(function(point: number[]) {
                 return new R3([point[i], point[j], point[k]])
             })
-            // We're essentially computing the dual of the vector as the rotation generator.
-            var n = nearest(direction)
-            var generator = new SpinG3([n.x, n.y, n.z, 0])
+            var generator = SpinG3.dual(nearest(direction))
             return { "points": points, "generator": generator }
         }
         var direction = R3.copy(this.vector).normalize()
         var arrow = computeArrow(direction)
-        var R = new SpinG3().rotor(direction, nearest(direction))
+        var R = SpinG3.rotorFromDirections(nearest(direction), direction)
         this.data = []
         super.revolve(arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R)
         this.setModified(false)

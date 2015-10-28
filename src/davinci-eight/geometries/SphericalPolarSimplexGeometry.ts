@@ -15,7 +15,7 @@ import R3 = require('../math/R3')
 
 function computeVertices(radius: number, axis: R3, phiStart: R3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3[], uvs: R2[]) {
 
-    let generator: SpinorE3 = new SpinG3().dual(axis)
+    let generator: SpinorE3 = SpinG3.dual(axis)
     let iLength = heightSegments + 1
     let jLength = widthSegments + 1
 

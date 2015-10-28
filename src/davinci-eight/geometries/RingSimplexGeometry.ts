@@ -190,7 +190,7 @@ class RingSimplexGeometry extends SliceSimplexGeometry {
 
         var radialSegments = this.flatSegments
         var thetaSegments = this.curvedSegments
-        var generator: SpinorE3 = new SpinG3().dual(this.axis)
+        var generator: SpinorE3 = SpinG3.dual(this.axis)
 
         var vertices: R3[] = []
         var uvs: R2[] = []

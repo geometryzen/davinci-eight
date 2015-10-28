@@ -47,7 +47,7 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
             var vSegments = 1;
             var topo = new GridTopology(uSegments, vSegments);
             var axis = this.axis;
-            var generator = new SpinG3().dual(axis);
+            var generator = SpinG3.dual(axis);
             for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
                 var u = uIndex / uSegments;
                 var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();

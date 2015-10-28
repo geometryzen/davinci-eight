@@ -160,7 +160,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
             this.data = [];
             var radialSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = new SpinG3().dual(this.axis);
+            var generator = SpinG3.dual(this.axis);
             var vertices = [];
             var uvs = [];
             computeVertices(this.a, this.b, this.axis, this.sliceStart, this.sliceAngle, generator, radialSegments, thetaSegments, vertices, uvs);

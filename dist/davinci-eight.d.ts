@@ -770,6 +770,14 @@ declare module EIGHT {
     interface SpinorE2 {
         w: number;
         xy: number;
+        /**
+         * The principal value of the spinor argument, in radians.
+         */
+        arg(): number;
+        /**
+         * The squared norm
+         */
+        quaditude(): number;
     }
 
     /**
@@ -783,7 +791,7 @@ declare module EIGHT {
      * @extends GeometricE2
      * @beta
      */
-    class G2 extends VectorN<number> {
+    class G2 extends VectorN<number> implements GeometricE2 {
         /**
          * Constructs a <code>G2</code>.
          * The multivector is initialized to zero.
@@ -1138,18 +1146,17 @@ declare module EIGHT {
          * @chainable
          */
         rotate(R: SpinorE2): G2;
+
         /**
          * <p>
-         * Computes a rotor, R, from two unit vectors, where
-         * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+         * Sets this multivector to a rotor representing a rotation from a to b.
+         * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
          * </p>
-         * @method rotor
-         * @param b {VectorE2} The ending unit vector
-         * @param a {VectorE2} The starting unit vector
-         * @return {G2} <code>this</code> The rotor representing a rotation from a to b.
-         * @chainable
+         * @param a {VectorE2} The <em>from</em> vector.
+         * @param b {VectorE2} The <em>to</em> vector.
          */
-        rotor(b: VectorE2, a: VectorE2): G2;
+        rotorFromDirections(a: VectorE2, b: VectorE2): G2;
+
         /**
          * <p>
          * <code>this = ⟼ exp(- B * θ / 2)</code>
@@ -1220,9 +1227,15 @@ declare module EIGHT {
          * @param a {GeometricE2}
          * @param b {GeometricE2}
          * @return {G2} <code>this</code>
-         * @chainable
          */
         sub2(a: GeometricE2, b: GeometricE2): G2;
+
+        /**
+         * Returns a string representing the number in exponential notation.
+         * @param fractionDigits [number]
+         */
+        toExponential(): string;
+
         /**
          * Returns a string representing the number in fixed-point notation.
          * @method toFixed
@@ -1799,10 +1812,17 @@ declare module EIGHT {
          * <code>θ</code> The angle of the rotation, measured in radians.
          */
         rotorFromAxisAngle(axis: VectorE3, θ: number): SpinG3;
+
         /**
-         * Sets this SpinG3 to the rotor corresponding to a rotation from vector a to vector b.
+         * <p>
+         * Sets this multivector to a rotor representing a rotation from a to b.
+         * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
+         * </p>
+         * @param a {VectorE3} The <em>from</em> vector.
+         * @param b {VectorE3} The <em>to</em> vector.
          */
-        rotor(b: VectorE3, a: VectorE3): SpinG3;
+        rotorFromDirections(a: VectorE3, b: VectorE3): G2;
+
         /**
          * this ⟼ this - spinor * α
          */

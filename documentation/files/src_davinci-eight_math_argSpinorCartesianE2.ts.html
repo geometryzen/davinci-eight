@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/cartesianQuaditudeE3.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/argSpinorCartesianE2.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.144.0</em>
+            <em>API Docs for: 2.145.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
@@ -219,19 +220,20 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/cartesianQuaditudeE3.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/argSpinorCartesianE2.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
- * Computes the dot product of the Cartesian components in a Euclidean metric
+ * Computes the principal argument of an E2 spinor from its scalar and bivector components.
+ * w: The scalar part.
+ * B: The bivector part.
  */
-function cartesianQuaditudeE3(ax: number, ay: number, az: number, bx: number, by: number, bz: number): number {
-  return ax * bx + ay * by + az * bz;
+function argSpinorCartesianE2(w: number, B: number): number {
+    return Math.atan2(B, w)
 }
 
-export = cartesianQuaditudeE3
-
+export = argSpinorCartesianE2
     </pre>
 </div>
                     </div>

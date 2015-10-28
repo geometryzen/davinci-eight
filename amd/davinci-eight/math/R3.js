@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclidean3', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, euclidean3Quaditude2Arg, Euclidean3, isDefined, isNumber, mustBeNumber, mustBeObject, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, isDefined, isNumber, mustBeNumber, mustBeObject, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     /**
      * @class R3
      * @extends VectorN<number>
@@ -345,7 +345,9 @@ define(["require", "exports", '../math/euclidean3Quaditude2Arg', '../math/Euclid
          * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
          */
         R3.prototype.quaditude = function () {
-            return euclidean3Quaditude2Arg(this, this);
+            // quad = scp(v, rev(v)) = scp(v, v)
+            // TODO: This is correct but could be optimized.
+            return dotVectorE3(this, this);
         };
         /**
          * <p>

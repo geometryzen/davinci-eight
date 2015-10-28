@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../math/Unit'], function (require, exports, mathcore, mustBeNumber, Unit) {
+define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore', '../checks/mustBeNumber', '../math/Unit'], function (require, exports, argSpinorCartesianE2, mathcore, mustBeNumber, Unit) {
     var atan2 = Math.atan2;
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
@@ -359,7 +359,7 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeNumber', '../
          * @return {number}
          */
         CC.prototype.arg = function () {
-            return atan2(this.y, this.x);
+            return argSpinorCartesianE2(this.x, this.y);
         };
         CC.prototype.toStringCustom = function (coordToString) {
             var quantityString = "CC(" + coordToString(this.x) + ", " + coordToString(this.y) + ")";

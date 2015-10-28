@@ -1,13 +1,13 @@
 import VectorE1 = require('../math/VectorE1')
 import expectArg = require('../checks/expectArg')
-import GeometricElement = require('../math/GeometricElement')
+import MutableLinearElement = require('../math/MutableLinearElement')
 import Matrix = require('../math/Matrix')
 import SpinorE1 = require('../math/SpinorE1')
 import VectorN = require('../math/VectorN')
 /**
  * @class R1
  */
-class R1 extends VectorN<number> implements VectorE1, GeometricElement<VectorE1, R1, SpinorE1, VectorE1, VectorE1>, Matrix<R1> {
+class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, R1, SpinorE1, VectorE1>, Matrix<R1> {
     /**
      * @class R1
      * @constructor

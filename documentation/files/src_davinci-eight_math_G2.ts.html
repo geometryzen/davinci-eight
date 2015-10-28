@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.144.0</em>
+            <em>API Docs for: 2.145.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
@@ -223,11 +224,11 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import dotVectorsE2 = require(&#x27;../math/dotVectorsE2&#x27;)
-import euclidean3Quaditude1Arg = require(&#x27;../math/euclidean3Quaditude1Arg&#x27;)
-import euclidean3Quaditude2Arg = require(&#x27;../math/euclidean3Quaditude2Arg&#x27;)
+import argSpinorCartesianE2 = require(&#x27;../math/argSpinorCartesianE2&#x27;)
+import dotVector = require(&#x27;../math/dotVectorE2&#x27;)
 import extE2 = require(&#x27;../math/extE2&#x27;)
 import GeometricE2 = require(&#x27;../math/GeometricE2&#x27;)
+import isDefined = require(&#x27;../checks/isDefined&#x27;)
 import isNumber = require(&#x27;../checks/isNumber&#x27;)
 import isObject = require(&#x27;../checks/isObject&#x27;)
 import lcoE2 = require(&#x27;../math/lcoE2&#x27;)
@@ -237,9 +238,11 @@ import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import MutableGeometricElement = require(&#x27;../math/MutableGeometricElement&#x27;)
-import PseudoscalarEe = require(&#x27;../math/PseudoE3&#x27;)
+import quadSpinor = require(&#x27;../math/quadSpinorE2&#x27;)
+import quadVector = require(&#x27;../math/quadVectorE2&#x27;)
 import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import rcoE2 = require(&#x27;../math/rcoE2&#x27;)
+import rotorFromDirections = require(&#x27;../math/rotorFromDirections&#x27;)
 import scpE2 = require(&#x27;../math/scpE2&#x27;)
 import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;)
 import stringFromCoordinates = require(&#x27;../math/stringFromCoordinates&#x27;)
@@ -332,6 +335,12 @@ function makeConstantE2(label: string, w: number, x: number, y: number, xy: numb
         set xy(unused: number) {
             throw new Error(readOnly(label + &#x27;.xy&#x27;).message);
         },
+        arg(): number {
+            return argSpinorCartesianE2(that.w, that.xy)
+        },
+        quaditude(): number {
+            return quadSpinor(that)
+        },
         toString() {
             return label;
         }
@@ -350,7 +359,7 @@ let I = makeConstantE2(&#x27;I&#x27;, 0, 0, 0, 1);
  * @extends GeometricE2
  * @beta
  */
-class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricElement&lt;GeometricE2, G2, SpinorE2, VectorE2, GeometricE2&gt;, GeometricOperators&lt;G2&gt; {
+class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricElement&lt;GeometricE2, G2, SpinorE2, VectorE2&gt;, GeometricOperators&lt;G2&gt; {
     /**
      * Constructs a &lt;code&gt;G2&lt;/code&gt;.
      * The multivector is initialized to zero.
@@ -370,7 +379,6 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         return this.data[COORD_W]
     }
     set w(w: number) {
-        mustBeNumber(&#x27;w&#x27;, w)
         this.modified = this.modified || this.data[COORD_W] !== w
         this.data[COORD_W] = w
     }
@@ -383,7 +391,6 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         return this.data[COORD_X]
     }
     set x(x: number) {
-        mustBeNumber(&#x27;x&#x27;, x)
         this.modified = this.modified || this.data[COORD_X] !== x
         this.data[COORD_X] = x
     }
@@ -396,7 +403,6 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         return this.data[COORD_Y]
     }
     set y(y: number) {
-        mustBeNumber(&#x27;y&#x27;, y)
         this.modified = this.modified || this.data[COORD_Y] !== y
         this.data[COORD_Y] = y
     }
@@ -409,7 +415,6 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         return this.data[COORD_XY]
     }
     set xy(xy: number) {
-        mustBeNumber(&#x27;xy&#x27;, xy)
         this.modified = this.modified || this.data[COORD_XY] !== xy
         this.data[COORD_XY] = xy
     }
@@ -432,6 +437,22 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         this.xy += M.xy * α
         return this
     }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + α&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method addScalar
+     * @param α {number}
+     * @return {G2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    addScalar(α: number): G2 {
+        mustBeNumber(&#x27;α&#x27;, α)
+        this.w += α
+        return this
+    }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this + v * α&lt;/code&gt;
@@ -479,7 +500,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @return {number}
      */
     arg(): number {
-        return atan2(this.xy, this.w)
+        return argSpinorCartesianE2(this.w, this.xy)
     }
 
     /**
@@ -1005,20 +1026,24 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         return this;
     }
     /**
-     * &lt;p&gt;
-     * Computes a rotor, R, from two unit vectors, where
-     * R = (1 + b * a) / sqrt(2 * (1 + b &lt;&lt; a))
-     * &lt;/p&gt;
-     * @method rotor
-     * @param b {VectorE2} The ending unit vector
-     * @param a {VectorE2} The starting unit vector
+     * Sets this multivector to a rotation from vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
+     * @method rotorFromDirections
+     * @param a {VectorE2} The starting vector
+     * @param b {VectorE2} The ending vector
      * @return {G2} &lt;code&gt;this&lt;/code&gt; The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotor(b: VectorE2, a: VectorE2): G2 {
-        this.spinor(b, a)
-        this.w += 1 // FIXME: addScalar would make this all chainable
-        return this.divByScalar(Math.sqrt(2 * (1 + dotVectorsE2(b, a))))
+    rotorFromDirections(a: VectorE2, b: VectorE2): G2 {
+        if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
+            return this;
+        }
+        else {
+            this.w = void 0;
+            this.x = void 0;
+            this.y = void 0;
+            this.xy = void 0;
+        }
+        return this;
     }
     /**
      * &lt;p&gt;
@@ -1125,7 +1150,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         let bx = b.x
         let by = b.y
 
-        this.w = dotVectorsE2(a, b)
+        this.w = dotVector(a, b)
         this.x = 0
         this.y = 0
         this.xy = wedgeXY(ax, ay, 0, bx, by, 0) // FIXME wedgeVectorsE2

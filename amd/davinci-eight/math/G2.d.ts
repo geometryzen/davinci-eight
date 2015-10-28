@@ -9,7 +9,7 @@ import VectorN = require('../math/VectorN');
  * @extends GeometricE2
  * @beta
  */
-declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement<GeometricE2, G2, SpinorE2, VectorE2, GeometricE2>, GeometricOperators<G2> {
+declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement<GeometricE2, G2, SpinorE2, VectorE2>, GeometricOperators<G2> {
     /**
      * Constructs a <code>G2</code>.
      * The multivector is initialized to zero.
@@ -53,6 +53,16 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     add(M: GeometricE2, α?: number): G2;
+    /**
+     * <p>
+     * <code>this ⟼ this + α</code>
+     * </p>
+     * @method addScalar
+     * @param α {number}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    addScalar(α: number): G2;
     /**
      * <p>
      * <code>this ⟼ this + v * α</code>
@@ -375,17 +385,14 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     rotate(R: SpinorE2): G2;
     /**
-     * <p>
-     * Computes a rotor, R, from two unit vectors, where
-     * R = (1 + b * a) / sqrt(2 * (1 + b << a))
-     * </p>
-     * @method rotor
-     * @param b {VectorE2} The ending unit vector
-     * @param a {VectorE2} The starting unit vector
+     * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
+     * @method rotorFromDirections
+     * @param a {VectorE2} The starting vector
+     * @param b {VectorE2} The ending vector
      * @return {G2} <code>this</code> The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotor(b: VectorE2, a: VectorE2): G2;
+    rotorFromDirections(a: VectorE2, b: VectorE2): G2;
     /**
      * <p>
      * <code>this = ⟼ exp(- B * θ / 2)</code>

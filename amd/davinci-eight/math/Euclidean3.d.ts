@@ -10,7 +10,7 @@ import VectorE3 = require('../math/VectorE3');
  * @class Euclidean3
  * @extends GeometricE3
  */
-declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3, GeometricE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
+declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
     static zero: Euclidean3;
     static one: Euclidean3;
     static e1: Euclidean3;
@@ -94,6 +94,14 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * @return {Euclidean3} This Euclidean3 plus rhs.
      */
     add(rhs: Euclidean3): Euclidean3;
+    /**
+     * Computes <code>this + α</code>
+     * @method addScalar
+     * @param α {number}
+     * @return {Euclidean3} <code>this</code>
+     * @chainable
+     */
+    addScalar(α: number): Euclidean3;
     __add__(other: any): Euclidean3;
     __radd__(other: any): Euclidean3;
     adj(): Euclidean3;

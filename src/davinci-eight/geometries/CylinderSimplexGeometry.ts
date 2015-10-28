@@ -100,7 +100,7 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
         //let height = this.height
         let heightSegments = this.flatSegments
         let thetaSegments = this.curvedSegments
-        var generator: SpinorE3 = new SpinG3().dual(this.axis)
+        var generator: SpinorE3 = SpinG3.dual(this.axis)
 
         let heightHalf = this.height / 2;
 

@@ -1,13 +1,12 @@
-import cartesianQuaditudeE3 = require('../math/cartesianQuaditudeE3')
-import Euclidean3 = require('../math/Euclidean3')
-import euclidean3Quaditude1Arg = require('../math/euclidean3Quaditude1Arg')
-import euclidean3Quaditude2Arg = require('../math/euclidean3Quaditude2Arg')
-import expectArg = require('../checks/expectArg')
+import dotVectorCartesianE3 = require('../math/dotVectorCartesianE3')
+import copyToArray = require('../collections/copyToArray')
+import dotVector = require('../math/dotVectorE3')
 import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
-import GeometricE3 = require('../math/GeometricE3')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import Mutable = require('../math/Mutable')
+import quadVector = require('../math/quadVectorE3')
+import rotorFromDirections = require('../math/rotorFromDirections')
 import scpG3 = require('../math/scpG3')
 import SpinorE3 = require('../math/SpinorE3')
 import TrigMethods = require('../math/TrigMethods')
@@ -20,14 +19,17 @@ import wedgeZX = require('../math/wedgeZX')
 let exp = Math.exp
 let cos = Math.cos
 let sin = Math.sin
+let sqrt = Math.sqrt
 
 /**
  * @class SpinG3
  * @extends VectorN<number>
  */
-class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3, VectorE3>
+class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3>
 {
     /**
+     * Constructs a <code>SpinG3</code> from a <code>number[]</code>.
+     * For a <em>geometric</em> implementation, use the static methods.
      * @class SpinG3
      * @constructor
      * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
@@ -84,6 +86,7 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         this.modified = this.modified || this.w !== w;
         this.data[3] = w;
     }
+
     /**
      * <p>
      * <code>this ⟼ this + α * spinor</code>
@@ -103,6 +106,7 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         this.w += spinor.w * α
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ a + b</code>
@@ -119,6 +123,21 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         this.zx = a.zx + b.zx
         this.xy = a.xy + b.xy
         return this;
+    }
+
+    /**
+     * <p>
+     * <code>this ⟼ this + α</code>
+     * </p>
+     * @method addScalar
+     * @param α {number}
+     * @return {SpinG3} <code>this</code>
+     * @chainable
+     */
+    addScalar(α: number): SpinG3 {
+        mustBeNumber('α', α)
+        this.w += α
+        return this
     }
 
     /**
@@ -144,7 +163,7 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
      * @chainable
      */
     clone(): SpinG3 {
-        return new SpinG3([this.yz, this.zx, this.xy, this.w])
+        return new SpinG3(copyToArray(this.data), this.modified)
     }
     /**
      * <p>
@@ -158,22 +177,6 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         this.yz = -this.yz
         this.zx = -this.zx
         this.xy = -this.xy
-        return this
-    }
-    lco(rhs: SpinorE3): SpinG3 {
-        return this.lco2(this, rhs)
-    }
-    lco2(a: SpinorE3, b: SpinorE3): SpinG3 {
-        // FIXME: How to leverage? Maybe break up? Don't want performance hit.
-        // scpG3(a, b, this)
-        return this
-    }
-    rco(rhs: SpinorE3): SpinG3 {
-        return this.rco2(this, rhs)
-    }
-    rco2(a: SpinorE3, b: SpinorE3): SpinG3 {
-        // FIXME: How to leverage? Maybe break up? Don't want performance hit.
-        // scpG3(a, b, this)
         return this
     }
     /**
@@ -238,7 +241,7 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         // How does this compare to G3
         // It would be interesting to DRY this out.
         this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-        // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+        // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
         this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
         this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
         this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -293,7 +296,8 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         let expW = exp(w)
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
-        let φ = Math.sqrt(x * x + y * y + z * z)
+        // FIXME: DRY
+        let φ = sqrt(x * x + y * y + z * z)
         let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
         this.w = expW * cos(φ);
         this.yz = x * s;
@@ -314,6 +318,17 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         this.divByScalar(this.quaditude());
         return this
     }
+
+    lco(rhs: SpinorE3): SpinG3 {
+        return this.lco2(this, rhs)
+    }
+
+    lco2(a: SpinorE3, b: SpinorE3): SpinG3 {
+        // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+        // scpG3(a, b, this)
+        return this
+    }
+
     /**
      * <p>
      * <code>this ⟼ this + α * (target - this)</code>
@@ -363,10 +378,11 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         let x = this.yz
         let y = this.zx
         let z = this.xy
+        // FIXME: DRY
         let bb = x * x + y * y + z * z
-        let R2 = Math.sqrt(bb)
+        let R2 = sqrt(bb)
         let R0 = Math.abs(w)
-        let R = Math.sqrt(w * w + bb)
+        let R = sqrt(w * w + bb)
         this.w = Math.log(R)
         let f = Math.atan2(R2, R0) / R2
         this.yz = x * f
@@ -375,7 +391,7 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         return this;
     }
     magnitude() {
-        return Math.sqrt(this.quaditude());
+        return sqrt(this.quaditude());
     }
     /**
      * <p>
@@ -411,7 +427,7 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         // Compare this to the product for Quaternions
         // It would be interesting to DRY this out.
         this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-        // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+        // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
         this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
         this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
         this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -486,6 +502,17 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         let xy = this.xy;
         return w * w + yz * yz + zx * zx + xy * xy;
     }
+
+    rco(rhs: SpinorE3): SpinG3 {
+        return this.rco2(this, rhs)
+    }
+
+    rco2(a: SpinorE3, b: SpinorE3): SpinG3 {
+        // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+        // scpG3(a, b, this)
+        return this
+    }
+
     /**
      * <p>
      * <code>this = (w, B) ⟼ (w, -B)</code>
@@ -539,21 +566,17 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
     }
     /**
      * <p>
-     * Computes a rotor, R, from two unit vectors, where
-     * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+     * Computes a rotor, R, from two vectors, where
+     * R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b << a))
      * </p>
      * @method rotor
-     * @param b {VectorE3} The ending unit vector
-     * @param a {VectorE3} The starting unit vector
+     * @param a {VectorE3} The <em>from</em> vector.
+     * @param b {VectorE3} The <em>to</em> vector.
      * @return {SpinG3} <code>this</code> The rotor representing a rotation from a to b.
      * @chainable
      */
-    rotor(b: VectorE3, a: VectorE3): SpinG3 {
-        this.spinor(b, a)
-        this.w += 1
-        var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)))
-        this.divByScalar(denom)
-        return this;
+    rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3 {
+        return rotorFromDirections(a, b, quadVector, dotVector, this)
     }
 
     /**
@@ -685,7 +708,7 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         let by = b.y
         let bz = b.z
 
-        this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz)
+        this.w = dotVectorCartesianE3(ax, ay, az, bx, by, bz)
         this.yz = wedgeYZ(ax, ay, az, bx, by, bz)
         this.zx = wedgeZX(ax, ay, az, bx, by, bz)
         this.xy = wedgeXY(ax, ay, az, bx, by, bz)
@@ -715,6 +738,7 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         // scpG3(a, b, this)
         return this
     }
+
     /**
      * @method copy
      * @param spinor {SpinorE3}
@@ -722,8 +746,19 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
      * @static
      */
     static copy(spinor: SpinorE3): SpinG3 {
-        return new SpinG3().copy(spinor);
+        return new SpinG3().copy(spinor)
     }
+
+    /**
+     * Computes I * <code>v</code>, the dual of <code>v</code>.
+     * @method dual
+     * @param v {VectorE3}
+     * @return {SpinG3}
+     */
+    static dual(v: VectorE3): SpinG3 {
+        return new SpinG3().dual(v)
+    }
+
     /**
      * @method lerp
      * @param a {SpinorE3}
@@ -734,6 +769,18 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
      */
     static lerp(a: SpinorE3, b: SpinorE3, α: number): SpinG3 {
         return SpinG3.copy(a).lerp(b, α)
+    }
+
+    /**
+     * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+     * @method rotorFromDirections
+     * @param a {VectorE3} The <em>from</em> vector.
+     * @param b {VectorE3} The <em>to</em> vector.
+     * @return {SpinG3}
+     * @static
+     */
+    static rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3 {
+        return new SpinG3().rotorFromDirections(a, b)
     }
 }
 

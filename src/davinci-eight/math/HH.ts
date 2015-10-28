@@ -1,11 +1,13 @@
-import cartesianQuaditudeE3 = require('../math/cartesianQuaditudeE3')
+import dotVectorCartesianE3 = require('../math/dotVectorCartesianE3')
 import Euclidean3 = require('../math/Euclidean3')
-import euclidean3Quaditude2Arg = require('../math/euclidean3Quaditude2Arg')
+import dotVector = require('../math/dotVectorE3')
 import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
 import Matrix4 = require('../math/Matrix4')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
+import quadVector = require('../math/quadVectorE3')
 import R3 = require('../math/R3')
+import rotorFromDirections = require('../math/rotorFromDirections')
 import TrigMethods = require('../math/TrigMethods')
 import VectorE3 = require('../math/VectorE3')
 
@@ -15,7 +17,11 @@ let exp = Math.exp
 
 var EPS = 0.000001;
 
-class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, TrigMethods<HH> {
+// This class is for reference only and will remain undocumented and internal.
+// Notice that it is mutable, betraying a usage with animation loops.
+// But there we want to use the SpinG3 spinor, or the full multivector, G3.
+// For comparison QQ and CC are immutable.
+class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods<HH> {
     private x: number;
     private y: number;
     private z: number;
@@ -30,6 +36,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
     get v(): VectorE3 {
         return new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0)
     }
+
     add(q: HH, α: number = 1): HH {
         mustBeObject('q', q)
         mustBeNumber('α', α)
@@ -39,6 +46,12 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         this.z += q.z * α
         return this
     }
+    addScalar(α: number): HH {
+        mustBeNumber('α', α)
+        this.t += α
+        return this
+    }
+
     add2(a: HH, b: HH): HH {
         mustBeObject('a', a)
         mustBeObject('b', b)
@@ -53,10 +66,6 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         throw new Error('TODO: HH.adj')
     }
 
-    /**
-     * @method arg
-     * @return {number}
-     */
     arg(): number {
         throw new Error('TODO: HH.arg')
     }
@@ -133,7 +142,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
     }
     exp(): HH {
         let expT = exp(this.t)
-        let m = cartesianQuaditudeE3(this.x, this.y, this.z, this.x, this.y, this.z)
+        let m = dotVectorCartesianE3(this.x, this.y, this.z, this.x, this.y, this.z)
         let s = m !== 0 ? sin(m) / m : 1
         this.t = expT * cos(m)
         this.x = expT * this.x * s
@@ -210,14 +219,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         this.t = this.t / modulus
         return this
     }
-    /**
-    * <p>
-    * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
-    * </p>
-    * @method quad
-    * @return {G3} <code>this</code>
-    * @chainable
-    */
+
     quad(): HH {
         this.t = this.quaditude()
         this.x = 0
@@ -230,8 +232,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
     }
     reflect(n: VectorE3): HH {
-        // FIXME: What does this mean?
-        throw new Error();
+        throw new Error("TODO: HH.reflect");
     }
     rev(): HH {
         this.x *= -1
@@ -243,8 +244,8 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         // FIXME: This would require creating a temporary so we fall back to components.
         return this.mul2(rotor, this);
     }
-    rotor(a: VectorE3, b: VectorE3): HH {
-        return this
+    rotorFromDirections(a: VectorE3, b: VectorE3): HH {
+        return rotorFromDirections(a, b, quadVector, dotVector, this)
     }
     rotorFromAxisAngle(axis: VectorE3, θ: number): HH {
         let φ = θ / 2
@@ -310,7 +311,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, T
         // TODO: Could create circularity problems.
         let v1 = new R3();
 
-        var r: number = euclidean3Quaditude2Arg(a, b) + 1;
+        var r: number = dotVector(a, b) + 1;
 
         if (r < EPS) {
             r = 0;

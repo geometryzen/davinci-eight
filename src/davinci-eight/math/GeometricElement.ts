@@ -3,96 +3,97 @@ import LinearElement = require('../math/LinearElement');
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
  */
-interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
+interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
 
-  /**
-   * The principle value of the rotation angle caused by a rotor.
-   */
-  arg(): number;
+    /**
+     *
+     */
+    addScalar(α: number): M;
 
-  /**
-   * conjugate multiplied by norm (similar to inv)
-   */
-  adj(): M;
+    /**
+     * The principle value of the rotation angle caused by a rotor.
+     */
+    arg(): number;
 
-  /**
-   * Conjugate
-   */
-  conj(): M;
+    /**
+     * conjugate multiplied by norm (similar to inv)
+     */
+    adj(): M;
 
-  /**
-   * Left contraction
-   */
-  lco(rhs: I): M;
+    /**
+     * Conjugate
+     */
+    conj(): M;
 
-  /**
-   * divide really only applies to division algebras, may not be defined.
-   */
-  div(rhs: I): M;
+    /**
+     * Left contraction
+     */
+    lco(rhs: I): M;
 
-  /**
-   * Duality
-   */
-  dual(m: D): M;
-  /**
-   * Exponential
-   */
-  exp(): M;
+    /**
+     * divide really only applies to division algebras, may not be defined.
+     */
+    div(rhs: I): M;
 
-  /**
-   * Exterior or Outer Product.
-   */
-  ext(rhs: I): M;
+    /**
+     * Exponential
+     */
+    exp(): M;
 
-  /**
-   * Inverse (may not exist).
-   */
-  inv(): M;
+    /**
+     * Exterior or Outer Product.
+     */
+    ext(rhs: I): M;
 
-  /**
-   * Natural logarithm.
-   */
-  log(): M;
+    /**
+     * Inverse (may not exist).
+     */
+    inv(): M;
 
-  /**
-   * abs(x) = |x|, absolute value of the norm.
-   */
-  magnitude(): number; // FIXME: This method drops units.
+    /**
+     * Natural logarithm.
+     */
+    log(): M;
 
-  /**
-   * Multiplication.
-   */
-  mul(rhs: I): M;
+    /**
+     * abs(x) = |x|, absolute value of the norm.
+     */
+    magnitude(): number; // FIXME: This method drops units.
 
-  /**
-   * norm, ||x|| = sqrt(scp(x, rev(x)))
-   */
-  norm(): M;
+    /**
+     * Multiplication.
+     */
+    mul(rhs: I): M;
 
-  /**
-   * squared norm, scp(x, rev(x))
-   */
-  quad(): M;
+    /**
+     * norm, ||x|| = sqrt(scp(x, rev(x)))
+     */
+    norm(): M;
 
-  /**
-   * squared norm, as a number
-   */
-  quaditude(): number; // FIXME: This method drops units. Some authors might call this `det`
+    /**
+     * squared norm, scp(x, rev(x))
+     */
+    quad(): M;
 
-  /**
-   * Right contraction
-   */
-  rco(rhs: I): M;
+    /**
+     * squared norm, as a number
+     */
+    quaditude(): number; // FIXME: This method drops units. Some authors might call this `det`
 
-  /**
-   * Reverse
-   */
-  rev(): M;
+    /**
+     * Right contraction
+     */
+    rco(rhs: I): M;
 
-  /**
-   * Scalar Product
-   */
-  scp(rhs: I): M;
+    /**
+     * Reverse
+     */
+    rev(): M;
+
+    /**
+     * Scalar Product
+     */
+    scp(rhs: I): M;
 }
 
 export = GeometricElement;

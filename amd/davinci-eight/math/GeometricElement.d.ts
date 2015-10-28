@@ -3,7 +3,11 @@ import LinearElement = require('../math/LinearElement');
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
  */
-interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
+interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
+    /**
+     *
+     */
+    addScalar(α: number): M;
     /**
      * The principle value of the rotation angle caused by a rotor.
      */
@@ -24,10 +28,6 @@ interface GeometricElement<I, M, S, V, D> extends LinearElement<I, M, S, V> {
      * divide really only applies to division algebras, may not be defined.
      */
     div(rhs: I): M;
-    /**
-     * Duality
-     */
-    dual(m: D): M;
     /**
      * Exponential
      */

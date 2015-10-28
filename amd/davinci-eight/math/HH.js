@@ -1,8 +1,12 @@
-define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean3', '../math/euclidean3Quaditude2Arg', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/R3'], function (require, exports, cartesianQuaditudeE3, Euclidean3, euclidean3Quaditude2Arg, mustBeNumber, mustBeObject, R3) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean3', '../math/dotVectorE3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/R3', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3, Euclidean3, dotVector, mustBeNumber, mustBeObject, quadVector, R3, rotorFromDirections) {
     var cos = Math.cos;
     var sin = Math.sin;
     var exp = Math.exp;
     var EPS = 0.000001;
+    // This class is for reference only and will remain undocumented and internal.
+    // Notice that it is mutable, betraying a usage with animation loops.
+    // But there we want to use the SpinG3 spinor, or the full multivector, G3.
+    // For comparison QQ and CC are immutable.
     var HH = (function () {
         function HH(t, v) {
             if (t === void 0) { t = 1; }
@@ -30,6 +34,11 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.z += q.z * α;
             return this;
         };
+        HH.prototype.addScalar = function (α) {
+            mustBeNumber('α', α);
+            this.t += α;
+            return this;
+        };
         HH.prototype.add2 = function (a, b) {
             mustBeObject('a', a);
             mustBeObject('b', b);
@@ -42,10 +51,6 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
         HH.prototype.adj = function () {
             throw new Error('TODO: HH.adj');
         };
-        /**
-         * @method arg
-         * @return {number}
-         */
         HH.prototype.arg = function () {
             throw new Error('TODO: HH.arg');
         };
@@ -121,7 +126,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
         };
         HH.prototype.exp = function () {
             var expT = exp(this.t);
-            var m = cartesianQuaditudeE3(this.x, this.y, this.z, this.x, this.y, this.z);
+            var m = dotVectorCartesianE3(this.x, this.y, this.z, this.x, this.y, this.z);
             var s = m !== 0 ? sin(m) / m : 1;
             this.t = expT * cos(m);
             this.x = expT * this.x * s;
@@ -198,14 +203,6 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             this.t = this.t / modulus;
             return this;
         };
-        /**
-        * <p>
-        * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
-        * </p>
-        * @method quad
-        * @return {G3} <code>this</code>
-        * @chainable
-        */
         HH.prototype.quad = function () {
             this.t = this.quaditude();
             this.x = 0;
@@ -217,8 +214,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
         };
         HH.prototype.reflect = function (n) {
-            // FIXME: What does this mean?
-            throw new Error();
+            throw new Error("TODO: HH.reflect");
         };
         HH.prototype.rev = function () {
             this.x *= -1;
@@ -230,8 +226,8 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
             // FIXME: This would require creating a temporary so we fall back to components.
             return this.mul2(rotor, this);
         };
-        HH.prototype.rotor = function (a, b) {
-            return this;
+        HH.prototype.rotorFromDirections = function (a, b) {
+            return rotorFromDirections(a, b, quadVector, dotVector, this);
         };
         HH.prototype.rotorFromAxisAngle = function (axis, θ) {
             var φ = θ / 2;
@@ -288,7 +284,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/Euclidean
         HH.prototype.spinor = function (a, b) {
             // TODO: Could create circularity problems.
             var v1 = new R3();
-            var r = euclidean3Quaditude2Arg(a, b) + 1;
+            var r = dotVector(a, b) + 1;
             if (r < EPS) {
                 r = 0;
                 if (Math.abs(a.x) > Math.abs(a.z)) {

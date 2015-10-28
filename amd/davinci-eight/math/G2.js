@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../i18n/readOnly', '../math/rcoE2', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, dotVectorsE2, extE2, isNumber, isObject, lcoE2, mulE2, mustBeNumber, mustBeObject, mustBeString, readOnly, rcoE2, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
+define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVectorE2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE2', '../math/quadVectorE2', '../i18n/readOnly', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, argSpinorCartesianE2, dotVector, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, readOnly, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -83,6 +83,12 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
             set xy(unused) {
                 throw new Error(readOnly(label + '.xy').message);
             },
+            arg: function () {
+                return argSpinorCartesianE2(that.w, that.xy);
+            },
+            quaditude: function () {
+                return quadSpinor(that);
+            },
             toString: function () {
                 return label;
             }
@@ -121,7 +127,6 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
                 return this.data[COORD_W];
             },
             set: function (w) {
-                mustBeNumber('w', w);
                 this.modified = this.modified || this.data[COORD_W] !== w;
                 this.data[COORD_W] = w;
             },
@@ -138,7 +143,6 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
                 return this.data[COORD_X];
             },
             set: function (x) {
-                mustBeNumber('x', x);
                 this.modified = this.modified || this.data[COORD_X] !== x;
                 this.data[COORD_X] = x;
             },
@@ -155,7 +159,6 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
                 return this.data[COORD_Y];
             },
             set: function (y) {
-                mustBeNumber('y', y);
                 this.modified = this.modified || this.data[COORD_Y] !== y;
                 this.data[COORD_Y] = y;
             },
@@ -172,7 +175,6 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
                 return this.data[COORD_XY];
             },
             set: function (xy) {
-                mustBeNumber('xy', xy);
                 this.modified = this.modified || this.data[COORD_XY] !== xy;
                 this.data[COORD_XY] = xy;
             },
@@ -197,6 +199,20 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
             this.x += M.x * α;
             this.y += M.y * α;
             this.xy += M.xy * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + α</code>
+         * </p>
+         * @method addScalar
+         * @param α {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.addScalar = function (α) {
+            mustBeNumber('α', α);
+            this.w += α;
             return this;
         };
         /**
@@ -245,7 +261,7 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
          * @return {number}
          */
         G2.prototype.arg = function () {
-            return atan2(this.xy, this.w);
+            return argSpinorCartesianE2(this.w, this.xy);
         };
         /**
          * @method clone
@@ -750,20 +766,24 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
             return this;
         };
         /**
-         * <p>
-         * Computes a rotor, R, from two unit vectors, where
-         * R = (1 + b * a) / sqrt(2 * (1 + b << a))
-         * </p>
-         * @method rotor
-         * @param b {VectorE2} The ending unit vector
-         * @param a {VectorE2} The starting unit vector
+         * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
+         * @method rotorFromDirections
+         * @param a {VectorE2} The starting vector
+         * @param b {VectorE2} The ending vector
          * @return {G2} <code>this</code> The rotor representing a rotation from a to b.
          * @chainable
          */
-        G2.prototype.rotor = function (b, a) {
-            this.spinor(b, a);
-            this.w += 1; // FIXME: addScalar would make this all chainable
-            return this.divByScalar(Math.sqrt(2 * (1 + dotVectorsE2(b, a))));
+        G2.prototype.rotorFromDirections = function (a, b) {
+            if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
+                return this;
+            }
+            else {
+                this.w = void 0;
+                this.x = void 0;
+                this.y = void 0;
+                this.xy = void 0;
+            }
+            return this;
         };
         /**
          * <p>
@@ -865,7 +885,7 @@ define(["require", "exports", '../math/dotVectorsE2', '../math/extE2', '../check
             var ay = a.y;
             var bx = b.x;
             var by = b.y;
-            this.w = dotVectorsE2(a, b);
+            this.w = dotVector(a, b);
             this.x = 0;
             this.y = 0;
             this.xy = wedgeXY(ax, ay, 0, bx, by, 0); // FIXME wedgeVectorsE2

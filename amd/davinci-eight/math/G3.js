@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, extG3, lcoG3, mulG3, mustBeNumber, mustBeObject, rcoG3, scpG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/rcoG3', '../math/rotorFromDirections', '../math/scpG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, extG3, lcoG3, mulG3, mustBeNumber, mustBeObject, quadVector, rcoG3, rotorFromDirections, scpG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -202,6 +202,20 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
+         * <code>this ⟼ this + α</code>
+         * </p>
+         * @method addScalar
+         * @param α {number}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.addScalar = function (α) {
+            mustBeNumber('α', α);
+            this.w += α;
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ this + v * α</code>
          * </p>
          * @method addVector
@@ -255,11 +269,10 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         /**
          * @method clone
          * @return {G3} <code>copy(this)</code>
+         * @chainable
          */
         G3.prototype.clone = function () {
-            var m = new G3();
-            m.copy(this);
-            return m;
+            return G3.copy(this);
         };
         /**
          * <p>
@@ -446,7 +459,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             // Compare this to the product for Quaternions
             // It would be interesting to DRY this out.
             this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+            // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -794,18 +807,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * Computes a rotor, R, from two unit vectors, where
          * R = (1 + b * a) / sqrt(2 * (1 + b << a))
          * </p>
-         * @method rotor
+         * @method rotorFromDirections
          * @param b {VectorE3} The ending unit vector
          * @param a {VectorE3} The starting unit vector
          * @return {G3} <code>this</code> The rotor representing a rotation from a to b.
          * @chainable
          */
-        G3.prototype.rotor = function (b, a) {
-            this.spinor(b, a);
-            this.w += 1;
-            var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
-            this.divByScalar(denom);
-            return this;
+        G3.prototype.rotorFromDirections = function (b, a) {
+            return rotorFromDirections(a, b, quadVector, dotVector, this);
         };
         /**
          * <p>
@@ -914,7 +923,8 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             var bx = b.x;
             var by = b.y;
             var bz = b.z;
-            this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz);
+            this.w = 0;
+            this.addScalar(dotVector(a, b));
             this.x = 0;
             this.y = 0;
             this.z = 0;

@@ -2,7 +2,7 @@ import MutableGeometricElement3D = require('../math/MutableGeometricElement3D');
 import Matrix4 = require('../math/Matrix4');
 import TrigMethods = require('../math/TrigMethods');
 import VectorE3 = require('../math/VectorE3');
-declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, VectorE3>, TrigMethods<HH> {
+declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods<HH> {
     private x;
     private y;
     private z;
@@ -10,12 +10,9 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, Vect
     constructor(t?: number, v?: VectorE3);
     v: VectorE3;
     add(q: HH, α?: number): HH;
+    addScalar(α: number): HH;
     add2(a: HH, b: HH): HH;
     adj(): HH;
-    /**
-     * @method arg
-     * @return {number}
-     */
     arg(): number;
     dual(vector: VectorE3): HH;
     clone(): HH;
@@ -47,20 +44,12 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3, Vect
     sinh(): HH;
     neg(): HH;
     normalize(): HH;
-    /**
-    * <p>
-    * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
-    * </p>
-    * @method quad
-    * @return {G3} <code>this</code>
-    * @chainable
-    */
     quad(): HH;
     quaditude(): number;
     reflect(n: VectorE3): HH;
     rev(): HH;
     rotate(rotor: HH): HH;
-    rotor(a: VectorE3, b: VectorE3): HH;
+    rotorFromDirections(a: VectorE3, b: VectorE3): HH;
     rotorFromAxisAngle(axis: VectorE3, θ: number): HH;
     rotorFromGeneratorAngle(B: HH, θ: number): HH;
     setFromRotationMatrix(m: Matrix4): HH;

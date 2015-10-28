@@ -1,5 +1,5 @@
 import VectorE3 = require('../math/VectorE3');
-import euclidean3Quaditude2Arg = require('../math/euclidean3Quaditude2Arg')
+import dotVectorE3 = require('../math/dotVectorE3')
 import Euclidean3 = require('../math/Euclidean3')
 import expectArg = require('../checks/expectArg')
 import MutableLinearElement = require('../math/MutableLinearElement')
@@ -372,7 +372,9 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
      * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
      */
     quaditude(): number {
-        return euclidean3Quaditude2Arg(this, this)
+        // quad = scp(v, rev(v)) = scp(v, v)
+        // TODO: This is correct but could be optimized.
+        return dotVectorE3(this, this)
     }
     /**
      * <p>

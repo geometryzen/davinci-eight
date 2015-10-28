@@ -118,6 +118,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "SmartMaterial",
         "SmartMaterialBuilder",
         "SphericalPolarSimplexGeometry",
+        "SpinG2",
         "SpinG3",
         "StringIUnknownMap",
         "Symbolic",

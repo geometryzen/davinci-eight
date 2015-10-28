@@ -44,19 +44,14 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/SpinG3',
             var j;
             var il;
             var jl;
-            var rotor = new SpinG3();
+            var R = new SpinG3();
             for (i = 0, il = halfPlanes; i < il; i++) {
-                var phi = phiStart + i * phiStep;
-                var halfAngle = phi / 2;
-                //var cosHA = Math.cos( halfAngle );
-                //var sinHA = Math.sin( halfAngle );
-                rotor.copy(generator).scale(halfAngle).exp();
-                // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
-                //var rotor = new SpinG3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
+                var φ = phiStart + i * phiStep;
+                R.rotorFromGeneratorAngle(generator, φ);
                 for (j = 0, jl = points.length; j < jl; j++) {
                     var vertex = points[j].clone();
                     // The generator tells us how to rotate the points.
-                    vertex.rotate(rotor);
+                    vertex.rotate(R);
                     // The attitude tells us where we want the symmetry axis to be.
                     if (attitude) {
                         vertex.rotate(attitude);

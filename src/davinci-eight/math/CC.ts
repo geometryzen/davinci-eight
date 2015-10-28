@@ -1,3 +1,4 @@
+import argSpinorCartesianE2 = require('../math/argSpinorCartesianE2')
 import GeometricOperators = require('../math/GeometricOperators')
 import mathcore = require('../math/mathcore')
 import Measure = require('../math/Measure')
@@ -420,7 +421,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
      * @return {number}
      */
     arg(): number {
-        return atan2(this.y, this.x);
+        return argSpinorCartesianE2(this.x, this.y)
     }
 
     toStringCustom(coordToString: (x: number) => string): string {

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.144.0</em>
+            <em>API Docs for: 2.145.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
@@ -340,14 +341,12 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
             var points = data.map(function(point: number[]) {
                 return new R3([point[i], point[j], point[k]])
             })
-            // We&#x27;re essentially computing the dual of the vector as the rotation generator.
-            var n = nearest(direction)
-            var generator = new SpinG3([n.x, n.y, n.z, 0])
+            var generator = SpinG3.dual(nearest(direction))
             return { &quot;points&quot;: points, &quot;generator&quot;: generator }
         }
         var direction = R3.copy(this.vector).normalize()
         var arrow = computeArrow(direction)
-        var R = new SpinG3().rotor(direction, nearest(direction))
+        var R = SpinG3.rotorFromDirections(nearest(direction), direction)
         this.data = []
         super.revolve(arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R)
         this.setModified(false)

@@ -3,10 +3,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean3Quaditude2Arg', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, cartesianQuaditudeE3, euclidean3Quaditude2Arg, mustBeNumber, mustBeObject, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/copyToArray', '../math/dotVectorE3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/rotorFromDirections', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorCartesianE3, copyToArray, dotVector, mustBeNumber, mustBeObject, quadVector, rotorFromDirections, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     var exp = Math.exp;
     var cos = Math.cos;
     var sin = Math.sin;
+    var sqrt = Math.sqrt;
     /**
      * @class SpinG3
      * @extends VectorN<number>
@@ -14,6 +15,8 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
     var SpinG3 = (function (_super) {
         __extends(SpinG3, _super);
         /**
+         * Constructs a <code>SpinG3</code> from a <code>number[]</code>.
+         * For a <em>geometric</em> implementation, use the static methods.
          * @class SpinG3
          * @constructor
          * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
@@ -126,6 +129,20 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return this;
         };
         /**
+         * <p>
+         * <code>this ⟼ this + α</code>
+         * </p>
+         * @method addScalar
+         * @param α {number}
+         * @return {SpinG3} <code>this</code>
+         * @chainable
+         */
+        SpinG3.prototype.addScalar = function (α) {
+            mustBeNumber('α', α);
+            this.w += α;
+            return this;
+        };
+        /**
          * @method adj
          * @return {number}
          * @beta
@@ -146,7 +163,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          * @chainable
          */
         SpinG3.prototype.clone = function () {
-            return new SpinG3([this.yz, this.zx, this.xy, this.w]);
+            return new SpinG3(copyToArray(this.data), this.modified);
         };
         /**
          * <p>
@@ -160,22 +177,6 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             this.yz = -this.yz;
             this.zx = -this.zx;
             this.xy = -this.xy;
-            return this;
-        };
-        SpinG3.prototype.lco = function (rhs) {
-            return this.lco2(this, rhs);
-        };
-        SpinG3.prototype.lco2 = function (a, b) {
-            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
-            // scpG3(a, b, this)
-            return this;
-        };
-        SpinG3.prototype.rco = function (rhs) {
-            return this.rco2(this, rhs);
-        };
-        SpinG3.prototype.rco2 = function (a, b) {
-            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
-            // scpG3(a, b, this)
             return this;
         };
         /**
@@ -240,7 +241,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             // How does this compare to G3
             // It would be interesting to DRY this out.
             this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+            // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -295,7 +296,8 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             var expW = exp(w);
             // φ is actually the absolute value of one half the rotation angle.
             // The orientation of the rotation gets carried in the bivector components.
-            var φ = Math.sqrt(x * x + y * y + z * z);
+            // FIXME: DRY
+            var φ = sqrt(x * x + y * y + z * z);
             var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
             this.w = expW * cos(φ);
             this.yz = x * s;
@@ -314,6 +316,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         SpinG3.prototype.inv = function () {
             this.conj();
             this.divByScalar(this.quaditude());
+            return this;
+        };
+        SpinG3.prototype.lco = function (rhs) {
+            return this.lco2(this, rhs);
+        };
+        SpinG3.prototype.lco2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
             return this;
         };
         /**
@@ -365,10 +375,11 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             var x = this.yz;
             var y = this.zx;
             var z = this.xy;
+            // FIXME: DRY
             var bb = x * x + y * y + z * z;
-            var R2 = Math.sqrt(bb);
+            var R2 = sqrt(bb);
             var R0 = Math.abs(w);
-            var R = Math.sqrt(w * w + bb);
+            var R = sqrt(w * w + bb);
             this.w = Math.log(R);
             var f = Math.atan2(R2, R0) / R2;
             this.yz = x * f;
@@ -377,7 +388,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return this;
         };
         SpinG3.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
+            return sqrt(this.quaditude());
         };
         /**
          * <p>
@@ -413,7 +424,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             // Compare this to the product for Quaternions
             // It would be interesting to DRY this out.
             this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            // this.w = a0 * b0 - cartesianQuaditudeE3(a1, a2, a3, b1, b2, b3)
+            // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -488,6 +499,14 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             var xy = this.xy;
             return w * w + yz * yz + zx * zx + xy * xy;
         };
+        SpinG3.prototype.rco = function (rhs) {
+            return this.rco2(this, rhs);
+        };
+        SpinG3.prototype.rco2 = function (a, b) {
+            // FIXME: How to leverage? Maybe break up? Don't want performance hit.
+            // scpG3(a, b, this)
+            return this;
+        };
         /**
          * <p>
          * <code>this = (w, B) ⟼ (w, -B)</code>
@@ -541,21 +560,17 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
         };
         /**
          * <p>
-         * Computes a rotor, R, from two unit vectors, where
-         * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+         * Computes a rotor, R, from two vectors, where
+         * R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b << a))
          * </p>
          * @method rotor
-         * @param b {VectorE3} The ending unit vector
-         * @param a {VectorE3} The starting unit vector
+         * @param a {VectorE3} The <em>from</em> vector.
+         * @param b {VectorE3} The <em>to</em> vector.
          * @return {SpinG3} <code>this</code> The rotor representing a rotation from a to b.
          * @chainable
          */
-        SpinG3.prototype.rotor = function (b, a) {
-            this.spinor(b, a);
-            this.w += 1;
-            var denom = Math.sqrt(2 * (1 + euclidean3Quaditude2Arg(b, a)));
-            this.divByScalar(denom);
-            return this;
+        SpinG3.prototype.rotorFromDirections = function (a, b) {
+            return rotorFromDirections(a, b, quadVector, dotVector, this);
         };
         /**
          * <p>
@@ -681,7 +696,7 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             var bx = b.x;
             var by = b.y;
             var bz = b.z;
-            this.w = cartesianQuaditudeE3(ax, ay, az, bx, by, bz);
+            this.w = dotVectorCartesianE3(ax, ay, az, bx, by, bz);
             this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
             this.zx = wedgeZX(ax, ay, az, bx, by, bz);
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
@@ -720,6 +735,15 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
             return new SpinG3().copy(spinor);
         };
         /**
+         * Computes I * <code>v</code>, the dual of <code>v</code>.
+         * @method dual
+         * @param v {VectorE3}
+         * @return {SpinG3}
+         */
+        SpinG3.dual = function (v) {
+            return new SpinG3().dual(v);
+        };
+        /**
          * @method lerp
          * @param a {SpinorE3}
          * @param b {SpinorE3}
@@ -729,6 +753,17 @@ define(["require", "exports", '../math/cartesianQuaditudeE3', '../math/euclidean
          */
         SpinG3.lerp = function (a, b, α) {
             return SpinG3.copy(a).lerp(b, α);
+        };
+        /**
+         * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+         * @method rotorFromDirections
+         * @param a {VectorE3} The <em>from</em> vector.
+         * @param b {VectorE3} The <em>to</em> vector.
+         * @return {SpinG3}
+         * @static
+         */
+        SpinG3.rotorFromDirections = function (a, b) {
+            return new SpinG3().rotorFromDirections(a, b);
         };
         return SpinG3;
     })(VectorN);

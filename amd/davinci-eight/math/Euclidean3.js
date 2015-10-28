@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../math/NotImplementedError', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, Euclidean3Error, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, NotImplementedError, rcoG3, scpG3, stringFromCoordinates, subE3, Unit) {
+define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, Euclidean3Error, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeNumber, NotImplementedError, rcoG3, scpG3, stringFromCoordinates, subE3, Unit) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -293,6 +293,25 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
                 return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
             };
             return compute(addE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.compatible(this.uom, rhs.uom));
+        };
+        /**
+         * Computes <code>this + α</code>
+         * @method addScalar
+         * @param α {number}
+         * @return {Euclidean3} <code>this</code>
+         * @chainable
+         */
+        Euclidean3.prototype.addScalar = function (α) {
+            if (isDefined(α)) {
+                mustBeNumber('α', α);
+                return new Euclidean3(this.w + α, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz, this.uom);
+            }
+            else {
+                // Consider returning an undefined sentinel?
+                // This would allow chained methods to continue.
+                // The first check might then be isNumber. 
+                return void 0;
+            }
         };
         Euclidean3.prototype.__add__ = function (other) {
             if (other instanceof Euclidean3) {

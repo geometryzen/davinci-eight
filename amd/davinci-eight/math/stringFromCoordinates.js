@@ -1,4 +1,4 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
     function stringFromCoordinates(coordinates, numberToString, labels) {
         var i, _i, _ref;
         var str;
@@ -28,7 +28,14 @@ define(["require", "exports"], function (require, exports) {
             }
         };
         for (i = _i = 0, _ref = coordinates.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-            append(coordinates[i], labels[i]);
+            var coord = coordinates[i];
+            if (isDefined(coord)) {
+                append(coord, labels[i]);
+            }
+            else {
+                // We'll just say that the whole thing is undefined.
+                return void 0;
+            }
         }
         if (sb.length > 0) {
             str = sb.join("");

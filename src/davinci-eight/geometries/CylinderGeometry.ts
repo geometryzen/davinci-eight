@@ -53,7 +53,7 @@ class CylinderGeometry extends AxialGeometry implements IAxialGeometry<CylinderG
         let vSegments = 1
         let topo = new GridTopology(uSegments, vSegments)
         let axis = this.axis
-        let generator = new SpinG3().dual(axis)
+        let generator = SpinG3.dual(axis)
 
         for (let uIndex = 0; uIndex < topo.uLength; uIndex++) {
             let u = uIndex / uSegments

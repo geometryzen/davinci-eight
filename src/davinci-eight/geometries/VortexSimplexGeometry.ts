@@ -27,7 +27,7 @@ class VortexSimplexGeometry extends SimplexGeometry {
     public lengthShaft: number = 0.8;
     public arrowSegments: number = 8;
     public radialSegments: number = 12;
-    public generator: SpinG3 = new SpinG3([0, 0, 1, 0]);
+    public generator: SpinG3 = SpinG3.dual(R3.e3);
     /**
      * @class VortexSimplexGeometry
      * @constructor

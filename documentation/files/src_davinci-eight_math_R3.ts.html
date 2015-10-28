@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.144.0</em>
+            <em>API Docs for: 2.145.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
@@ -224,7 +225,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
-import euclidean3Quaditude2Arg = require(&#x27;../math/euclidean3Quaditude2Arg&#x27;)
+import dotVectorE3 = require(&#x27;../math/dotVectorE3&#x27;)
 import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;)
 import MutableLinearElement = require(&#x27;../math/MutableLinearElement&#x27;)
@@ -597,7 +598,9 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
      * @return {number} &lt;code&gt;this ⋅ this&lt;/code&gt; or &lt;code&gt;norm(this) * norm(this)&lt;/code&gt;
      */
     quaditude(): number {
-        return euclidean3Quaditude2Arg(this, this)
+        // quad = scp(v, rev(v)) = scp(v, v)
+        // TODO: This is correct but could be optimized.
+        return dotVectorE3(this, this)
     }
     /**
      * &lt;p&gt;

@@ -85,7 +85,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
             //let height = this.height
             var heightSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
-            var generator = new SpinG3().dual(this.axis);
+            var generator = SpinG3.dual(this.axis);
             var heightHalf = this.height / 2;
             var points = [];
             // The double array allows us to manage the i,j indexing more naturally.
