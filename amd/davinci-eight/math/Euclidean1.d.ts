@@ -1,8 +1,11 @@
 import Euclidean1Coords = require('../math/Euclidean1Coords');
 import Measure = require('../math/Measure');
 import Unit = require('../math/Unit');
+/**
+ * @class Euclidean1
+ */
 declare class Euclidean1 implements Measure<Euclidean1> {
-    w: number;
+    private w;
     x: number;
     uom: Unit;
     /**
@@ -10,11 +13,17 @@ declare class Euclidean1 implements Measure<Euclidean1> {
      *
      * @class Euclidean1
      * @constructor
-     * @param {number} w The grade zero part of the multivector.
+     * @param {number} α The grade zero part of the multivector.
      * @param {number} x The vector component of the multivector in the x-direction.
      * @param uom The optional unit of measure.
      */
-    constructor(w: number, x: number, uom?: Unit);
+    constructor(α: number, x: number, uom?: Unit);
+    /**
+     * The scalar part of this multivector.
+     * @property α
+     * @return {number}
+     */
+    α: number;
     coordinates(): number[];
     copy(source: Euclidean1Coords): Euclidean1;
     difference(a: Euclidean1Coords, b: Euclidean1Coords): Euclidean1;
@@ -39,7 +48,6 @@ declare class Euclidean1 implements Measure<Euclidean1> {
     sinh(): Euclidean1;
     slerp(target: Euclidean1, α: number): Euclidean1;
     unitary(): Euclidean1;
-    gradeZero(): number;
     toExponential(): string;
     toFixed(digits?: number): string;
     toString(): string;

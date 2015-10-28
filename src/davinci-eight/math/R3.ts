@@ -214,7 +214,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
         let a = R.xy;
         let b = R.yz;
         let c = R.zx;
-        let w = R.w;
+        let w = R.α;
 
         let ix = w * x - c * z + a * y;
         let iy = w * y - a * x + b * z;
@@ -353,7 +353,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
      * @return {number} <code>norm(this)</code>
      */
     magnitude(): number {
-        return Math.sqrt(this.quaditude());
+        return Math.sqrt(this.squaredNorm());
     }
     /**
      * @method neg
@@ -368,10 +368,10 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
     }
     /**
      * Returns the (Euclidean) inner product of this vector with itself.
-     * @method quaditude
+     * @method squaredNorm
      * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
      */
-    quaditude(): number {
+    squaredNorm(): number {
         // quad = scp(v, rev(v)) = scp(v, v)
         // TODO: This is correct but could be optimized.
         return dotVectorE3(this, this)
@@ -570,6 +570,20 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
     toString(): string {
         return "R3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})"
     }
+
+    /**
+     * Sets this vector to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {R3}
+     * @chainable
+     */
+    zero(): R3 {
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        return this
+    }
+
     __add__(rhs: R3): R3 {
         if (rhs instanceof R3) {
             return this.clone().add(rhs, 1.0);

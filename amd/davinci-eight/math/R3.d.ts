@@ -202,10 +202,10 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
     neg(): R3;
     /**
      * Returns the (Euclidean) inner product of this vector with itself.
-     * @method quaditude
+     * @method squaredNorm
      * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
      */
-    quaditude(): number;
+    squaredNorm(): number;
     /**
      * <p>
      * <code>this ⟼ this + α * (target - this)</code>
@@ -322,6 +322,13 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      * @return {string} A non-normative string representation of the target.
      */
     toString(): string;
+    /**
+     * Sets this vector to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {R3}
+     * @chainable
+     */
+    zero(): R3;
     __add__(rhs: R3): R3;
     __sub__(rhs: R3): R3;
     __mul__(rhs: number): R3;

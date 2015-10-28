@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/GeometricElement.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/Measure.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -220,116 +220,44 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/GeometricElement.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/Measure.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import LinearElement = require(&#x27;../math/LinearElement&#x27;);
-/**
- * This interface is provided to ensure consistency.
- * It is not part of the documented API.
- * Notice that the effect on the target depends upon whether the target class in mutable.
- */
-interface GeometricElement&lt;I, M, S, V&gt; extends LinearElement&lt;I, M, S, V&gt; {
-
+import Unit = require(&#x27;../math/Unit&#x27;)
+interface Measure&lt;T&gt; {
     /**
-     * Addition of a pseudoscalar.
+     * The scalar part of the measure, as a &lt;code&gt;number&lt;/code&gt;.
      */
-    addPseudo(β: number): M;
-
-    /**
-     * Addition of a scalar.
-     */
-    addScalar(α: number): M;
-
-    /**
-     * The principle value of the rotation angle caused by a rotor.
-     */
-    arg(): number;
-
-    /**
-     * conjugate multiplied by norm (similar to inv)
-     */
-    adj(): M;
-
-    /**
-     * Conjugate
-     */
-    conj(): M;
-
-    /**
-     * Left contraction
-     */
-    lco(rhs: I): M;
-
-    /**
-     * divide really only applies to division algebras, may not be defined.
-     */
-    div(rhs: I): M;
-
-    /**
-     * Exponential
-     */
-    exp(): M;
-
-    /**
-     * Exterior or Outer Product.
-     */
-    ext(rhs: I): M;
-
-    /**
-     * Inverse (may not exist).
-     */
-    inv(): M;
-
-    /**
-     * Natural logarithm.
-     */
-    log(): M;
-
-    /**
-     * abs(x) = |x|, absolute value of the norm.
-     */
-    magnitude(): number; // FIXME: This method drops units.
-
-    /**
-     * Multiplication.
-     */
-    mul(rhs: I): M;
-
-    /**
-     * norm, ||x|| = sqrt(scp(x, rev(x)))
-     */
-    norm(): M;
-
-    /**
-     * squared norm, scp(x, rev(x))
-     */
-    quad(): M;
-
-    /**
-     * squared norm, as a number
-     */
-    squaredNorm(): number; // FIXME: This method drops units. Some authors might call this &#x60;det&#x60;
-
-    /**
-     * Right contraction
-     */
-    rco(rhs: I): M;
-
-    /**
-     * Reverse
-     */
-    rev(): M;
-
-    /**
-     * Scalar Product
-     */
-    scp(rhs: I): M;
+    α: number
+    coordinates(): number[]
+    uom: Unit
+    add(rhs: T): T
+    cos(): T
+    cosh(): T
+    div(rhs: T): T
+    divByScalar(α: number): T
+    exp(): T
+    ext(rhs: T): T
+    lerp(target: T, α: number): T
+    lco(rhs: T): T
+    mul(rhs: T): T
+    norm(): T
+    pow(exponent: T): T
+    quad(): T
+    rco(rhs: T): T
+    toExponential(): string
+    toFixed(digits?: number): string
+    toString(): string
+    scale(α: number): T
+    scp(rhs: T): T
+    sin(): T
+    sinh(): T
+    slerp(target: T, α: number): T
+    sub(rhs: T): T
+    unitary(): T
 }
-
-export = GeometricElement;
-
+export = Measure
     </pre>
 </div>
                     </div>

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -440,7 +440,7 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
         let a = R.xy;
         let b = R.yz;
         let c = R.zx;
-        let w = R.w;
+        let w = R.α;
 
         let ix = w * x - c * z + a * y;
         let iy = w * y - a * x + b * z;
@@ -579,7 +579,7 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
      * @return {number} &lt;code&gt;norm(this)&lt;/code&gt;
      */
     magnitude(): number {
-        return Math.sqrt(this.quaditude());
+        return Math.sqrt(this.squaredNorm());
     }
     /**
      * @method neg
@@ -594,10 +594,10 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
     }
     /**
      * Returns the (Euclidean) inner product of this vector with itself.
-     * @method quaditude
+     * @method squaredNorm
      * @return {number} &lt;code&gt;this ⋅ this&lt;/code&gt; or &lt;code&gt;norm(this) * norm(this)&lt;/code&gt;
      */
-    quaditude(): number {
+    squaredNorm(): number {
         // quad = scp(v, rev(v)) = scp(v, v)
         // TODO: This is correct but could be optimized.
         return dotVectorE3(this, this)
@@ -796,6 +796,20 @@ class R3 extends VectorN&lt;number&gt; implements VectorE3, MutableLinearElement
     toString(): string {
         return &quot;R3({x: &quot; + this.x + &quot;, y: &quot; + this.y + &quot;, z: &quot; + this.z + &quot;})&quot;
     }
+
+    /**
+     * Sets this vector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+     * @method zero
+     * @return {R3}
+     * @chainable
+     */
+    zero(): R3 {
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        return this
+    }
+
     __add__(rhs: R3): R3 {
         if (rhs instanceof R3) {
             return this.clone().add(rhs, 1.0);

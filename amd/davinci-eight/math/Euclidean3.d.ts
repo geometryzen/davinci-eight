@@ -24,12 +24,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     static kelvin: Euclidean3;
     static mole: Euclidean3;
     static candela: Euclidean3;
-    /**
-     * The `w` property is the grade zero (scalar) part of the Euclidean3 multivector.
-     * @property w
-     * @type number
-     */
-    w: number;
+    private w;
     /**
      * The `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.
      */
@@ -54,10 +49,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * The `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.
      */
     zx: number;
-    /**
-     * The `xyz` property is the grade three (pseudoscalar) part of the Euclidean3 multivector.
-     */
-    xyz: number;
+    private xyz;
     /**
      * The optional unit of measure.
      */
@@ -66,18 +58,30 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
      * Constructs a Euclidean3 from its coordinates.
      * @constructor
-     * @param {number} w The scalar part of the multivector.
+     * @param {number} α The scalar part of the multivector.
      * @param {number} x The vector component of the multivector in the x-direction.
      * @param {number} y The vector component of the multivector in the y-direction.
      * @param {number} z The vector component of the multivector in the z-direction.
      * @param {number} xy The bivector component of the multivector in the xy-plane.
      * @param {number} yz The bivector component of the multivector in the yz-plane.
      * @param {number} zx The bivector component of the multivector in the zx-plane.
-     * @param {number} xyz The pseudoscalar part of the multivector.
+     * @param {number} β The pseudoscalar part of the multivector.
      * @param uom The optional unit of measure.
      */
-    constructor(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom?: Unit);
-    static fromCartesian(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit): Euclidean3;
+    constructor(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom?: Unit);
+    /**
+     * The scalar part of this multivector.
+     * @property α
+     * @return {number}
+     */
+    α: number;
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property β
+     * @return {number}
+     */
+    β: number;
+    static fromCartesian(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom: Unit): Euclidean3;
     /**
      * @method fromSpinorE3
      * @param spinor {SpinorE3}
@@ -94,6 +98,14 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * @return {Euclidean3} This Euclidean3 plus rhs.
      */
     add(rhs: Euclidean3): Euclidean3;
+    /**
+     * Computes <code>this + Iβ</code>
+     * @method addPseudo
+     * @param β {number}
+     * @return {Euclidean3} <code>this</code>
+     * @chainable
+     */
+    addPseudo(β: number): Euclidean3;
     /**
      * Computes <code>this + α</code>
      * @method addScalar
@@ -197,7 +209,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
      */
     quad(): Euclidean3;
-    quaditude(): number;
+    squaredNorm(): number;
     reflect(n: VectorE3): Euclidean3;
     rotate(s: SpinorE3): Euclidean3;
     sin(): Euclidean3;
@@ -216,5 +228,9 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     toString(): string;
     toStringIJK(): string;
     toStringLATEX(): string;
+    /**
+     * Provides access to the internals of Euclidean3 in order to use `product` functions.
+     */
+    private static mutator(M);
 }
 export = Euclidean3;

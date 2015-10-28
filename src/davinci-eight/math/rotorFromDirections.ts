@@ -5,6 +5,7 @@ let sqrt = Math.sqrt
 /**
  * Sets this multivector to a rotor representing a rotation from a to b.
  * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
+ * Returns undefined (void 0) if the vectors are anti-parallel.
  */
 function rotorFromDirections<V, M extends Geometric<any, any, any, any>>(a: V, b: V, quad: (v: V) => number, dot: (a: V, b: V) => number, m: M): M {
     let quadA = quad(a)
@@ -20,9 +21,10 @@ function rotorFromDirections<V, M extends Geometric<any, any, any, any>>(a: V, b
         return m
     }
     else {
-        // The denominator is zero when |a||b| + a << b = 0 => cos(θ) = -1 (i.e. a, b anti-parallel)
-        // The plane of the rotation in such a case is ambiguous.
-        console.warn("rotorFromDirections(" + a + ", " + b + ") is undefined.")
+        // The denominator is zero when |a||b| + a << b = 0.
+        // If θ is the angle between a and b, then  cos(θ) = (a << b) /|a||b| = -1
+        // Then a and b are anti-parallel.
+        // The plane of the rotation is ambiguous.
         return void 0
     }
 }

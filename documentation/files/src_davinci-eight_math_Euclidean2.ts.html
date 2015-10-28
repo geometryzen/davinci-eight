@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -224,23 +224,34 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Euclidean2Error = require(&#x27;../math/Euclidean2Error&#x27;)
 import extE2 = require(&#x27;../math/extE2&#x27;)
+import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
+import GeometricOperators = require(&#x27;../math/GeometricOperators&#x27;)
+import GeometricE2 = require(&#x27;../math/GeometricE2&#x27;)
 import lcoE2 = require(&#x27;../math/lcoE2&#x27;)
 import rcoE2 = require(&#x27;../math/rcoE2&#x27;)
 import Measure = require(&#x27;../math/Measure&#x27;)
 import mulE2 = require(&#x27;../math/mulE2&#x27;)
 import mulG2 = require(&#x27;../math/mulG2&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import scpE2 = require(&#x27;../math/scpE2&#x27;)
+import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;)
 import stringFromCoordinates = require(&#x27;../math/stringFromCoordinates&#x27;)
+import TrigMethods = require(&#x27;../math/TrigMethods&#x27;)
 import Unit = require(&#x27;../math/Unit&#x27;)
+import VectorE2 = require(&#x27;../math/VectorE2&#x27;)
+
+let exp = Math.exp
+let cos = Math.cos
+let sin = Math.sin
+let sqrt = Math.sqrt
 
 function assertArgNumber(name: string, x: number): number {
     if (typeof x === &#x27;number&#x27;) {
         return x;
     }
     else {
-        throw new Euclidean2Error(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
+        throw new Error(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
     }
 }
 
@@ -249,7 +260,7 @@ function assertArgEuclidean2(name: string, arg: Euclidean2): Euclidean2 {
         return arg;
     }
     else {
-        throw new Euclidean2Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Euclidean2&quot;);
+        throw new Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Euclidean2&quot;);
     }
 }
 
@@ -258,7 +269,7 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
         return uom;
     }
     else {
-        throw new Euclidean2Error(&quot;Argument &#x27;&quot; + uom + &quot;&#x27; must be a Unit or undefined&quot;);
+        throw new Error(&quot;Argument &#x27;&quot; + uom + &quot;&#x27; must be a Unit or undefined&quot;);
     }
 }
 
@@ -389,8 +400,7 @@ var divide = function(
     b01: number,
     b10: number,
     b11: number,
-    uom: Unit,
-    m: Euclidean2) {
+    uom: Unit) {
     var c00: number
     var c01: number
     var c10: number
@@ -442,41 +452,34 @@ var divide = function(
     x01 = a00 * i01 + a01 * i00 - a10 * i11 + a11 * i10;
     x10 = a00 * i10 + a01 * i11 + a10 * i00 - a11 * i01;
     x11 = a00 * i11 + a01 * i10 - a10 * i01 + a11 * i00;
-    if (typeof m !== &#x27;undefined&#x27;) {
-        assertArgEuclidean2(&#x27;m&#x27;, m);
-        m.w = x00;
-        m.x = x01;
-        m.y = x10;
-        m.xy = x11;
-        m.uom = uom;
-    }
-    else {
-        return new Euclidean2(x00, x01, x10, x11, uom);
-    }
+    return new Euclidean2(x00, x01, x10, x11, uom);
 };
 
-class Euclidean2 implements Measure&lt;Euclidean2&gt; {
-    public w: number;
+/**
+ * @class Euclidean2
+ */
+class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricElement&lt;Euclidean2, Euclidean2, SpinorE2, VectorE2&gt;, GeometricOperators&lt;Euclidean2&gt;, TrigMethods&lt;Euclidean2&gt; {
+    private w: number;
     public x: number;
     public y: number;
-    public xy: number;
+    private xy: number;
     public uom: Unit;
     /**
      * The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.
      *
      * @class Euclidean2
      * @constructor
-     * @param {number} w The scalar part of the multivector.
+     * @param {number} α The scalar part of the multivector.
      * @param {number} x The vector component of the multivector in the x-direction.
      * @param {number} y The vector component of the multivector in the y-direction.
-     * @param {number} xy The pseudoscalar part of the multivector.
+     * @param {number} β The pseudoscalar part of the multivector.
      * @param uom The optional unit of measure.
      */
-    constructor(w: number, x: number, y: number, xy: number, uom?: Unit) {
-        this.w = assertArgNumber(&#x27;w&#x27;, w);
+    constructor(α: number, x: number, y: number, β: number, uom?: Unit) {
+        this.w = assertArgNumber(&#x27;α&#x27;, α);
         this.x = assertArgNumber(&#x27;x&#x27;, x);
         this.y = assertArgNumber(&#x27;y&#x27;, y);
-        this.xy = assertArgNumber(&#x27;xy&#x27;, xy);
+        this.xy = assertArgNumber(&#x27;β&#x27;, β);
         this.uom = assertArgUnitOrUndefined(&#x27;uom&#x27;, uom);
         if (this.uom &amp;&amp; this.uom.multiplier !== 1) {
             var multiplier: number = this.uom.multiplier;
@@ -488,22 +491,47 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         }
     }
 
-    fromCartesian(w: number, x: number, y: number, xy: number, uom: Unit): Euclidean2 {
-        assertArgNumber(&#x27;w&#x27;, w);
-        assertArgNumber(&#x27;x&#x27;, x);
-        assertArgNumber(&#x27;y&#x27;, y);
-        assertArgNumber(&#x27;xy&#x27;, xy);
-        assertArgUnitOrUndefined(&#x27;uom&#x27;, uom);
-        return new Euclidean2(w, x, y, xy, uom);
+    /**
+     * The scalar part of this multivector.
+     * @property α
+     * @return {number}
+     */
+    get α(): number {
+        return this.w
+    }
+    set α(unused) {
+        throw new Error(readOnly(&#x27;α&#x27;).message)
     }
 
-    fromPolar(w: number, r: number, theta: number, s: number, uom: Unit): Euclidean2 {
-        assertArgNumber(&#x27;w&#x27;, w);
-        assertArgNumber(&#x27;r&#x27;, r);
-        assertArgNumber(&#x27;theta&#x27;, theta);
-        assertArgNumber(&#x27;s&#x27;, s);
-        assertArgUnitOrUndefined(&#x27;uom&#x27;, uom);
-        return new Euclidean2(w, r * Math.cos(theta), r * Math.sin(theta), s, uom);
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property β
+     * @return {number}
+     */
+    get β(): number {
+        return this.xy
+    }
+    set β(unused) {
+        throw new Error(readOnly(&#x27;β&#x27;).message)
+    }
+
+    // FIXME: Replace x &amp; y with a VectorE2, a
+    fromCartesian(α: number, x: number, y: number, β: number, uom: Unit): Euclidean2 {
+        assertArgNumber(&#x27;α&#x27;, α)
+        assertArgNumber(&#x27;x&#x27;, x)
+        assertArgNumber(&#x27;y&#x27;, y)
+        assertArgNumber(&#x27;β&#x27;, β)
+        assertArgUnitOrUndefined(&#x27;uom&#x27;, uom)
+        return new Euclidean2(α, x, y, β, uom)
+    }
+
+    fromPolar(α: number, r: number, θ: number, β: number, uom: Unit): Euclidean2 {
+        assertArgNumber(&#x27;α&#x27;, α)
+        assertArgNumber(&#x27;r&#x27;, r)
+        assertArgNumber(&#x27;θ&#x27;, θ)
+        assertArgNumber(&#x27;β&#x27;, β)
+        assertArgUnitOrUndefined(&#x27;uom&#x27;, uom)
+        return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom)
     }
 
     coordinates(): number[] {
@@ -522,7 +550,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
             case 3:
                 return this.xy;
             default:
-                throw new Euclidean2Error(&quot;index must be in the range [0..3]&quot;);
+                throw new Error(&quot;index must be in the range [0..3]&quot;);
         }
     }
 
@@ -548,6 +576,18 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
     }
 
+    addPseudo(β: number): Euclidean2 {
+        return new Euclidean2(this.α, this.x, this.y, this.β + β, this.uom)
+    }
+
+    addScalar(α: number): Euclidean2 {
+        return new Euclidean2(this.α + α, this.x, this.y, this.β, this.uom)
+    }
+
+    adj(): Euclidean2 {
+        throw new Error(&quot;TODO: adj&quot;)
+    }
+
     __add__(other: any): Euclidean2 {
         if (other instanceof Euclidean2) {
             return this.add(other);
@@ -564,6 +604,14 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         else if (typeof other === &#x27;number&#x27;) {
             return new Euclidean2(other, 0, 0, 0, undefined).add(this);
         }
+    }
+
+    arg(): number {
+        throw new Error(&quot;TODO: Euclidean2.arg&quot;)
+    }
+
+    conj(): Euclidean2 {
+        throw new Error(&quot;TODO: adj&quot;)
     }
 
     static sub(a: number[], b: number[]): number[] {
@@ -649,7 +697,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
 
     div(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
-        return divide(this.w, this.x, this.y, this.xy, rhs.w, rhs.x, rhs.y, rhs.xy, Unit.div(this.uom, rhs.uom), undefined);
+        return divide(this.w, this.x, this.y, this.xy, rhs.w, rhs.x, rhs.y, rhs.xy, Unit.div(this.uom, rhs.uom))
     }
 
     divByScalar(α: number): Euclidean2 {
@@ -860,68 +908,100 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
 
     pow(exponent: Euclidean2): Euclidean2 {
         // assertArgEuclidean2(&#x27;exponent&#x27;, exponent);
-        throw new Euclidean2Error(&#x27;pow&#x27;);
+        throw new Error(&#x27;pow&#x27;);
     }
 
     __pos__(): Euclidean2 {
         return this;
     }
 
+    neg(): Euclidean2 {
+        return new Euclidean2(-this.α, -this.x, -this.y, -this.β, this.uom);
+    }
+
     __neg__(): Euclidean2 {
-        return new Euclidean2(-this.w, -this.x, -this.y, -this.xy, this.uom);
+        return this.neg()
     }
 
     /**
      * ~ (tilde) produces reversion.
      */
     __tilde__(): Euclidean2 {
-        return new Euclidean2(this.w, this.x, this.y, -this.xy, this.uom);
+        return new Euclidean2(this.α, this.x, this.y, -this.β, this.uom);
     }
 
     grade(index: number): Euclidean2 {
         assertArgNumber(&#x27;index&#x27;, index);
         switch (index) {
             case 0:
-                return new Euclidean2(this.w, 0, 0, 0, this.uom);
+                return new Euclidean2(this.α, 0, 0, 0, this.uom);
             case 1:
                 return new Euclidean2(0, this.x, this.y, 0, this.uom);
             case 2:
-                return new Euclidean2(0, 0, 0, this.xy, this.uom);
+                return new Euclidean2(0, 0, 0, this.β, this.uom);
             default:
                 return new Euclidean2(0, 0, 0, 0, this.uom);
         }
     }
 
     cos(): Euclidean2 {
-        throw new Euclidean2Error(&#x27;cos&#x27;);
+        throw new Error(&#x27;cos&#x27;);
     }
 
     cosh(): Euclidean2 {
-        throw new Euclidean2Error(&#x27;cosh&#x27;);
+        throw new Error(&#x27;cosh&#x27;);
     }
 
     exp(): Euclidean2 {
         Unit.assertDimensionless(this.uom);
-        var expW = Math.exp(this.w);
-        var cosXY = Math.cos(this.xy);
-        var sinXY = Math.sin(this.xy);
-        return new Euclidean2(expW * cosXY, 0, 0, expW * sinXY, this.uom);
+        var expα = exp(this.α);
+        var cosβ = cos(this.β);
+        var sinβ = sin(this.β);
+        return new Euclidean2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
+    }
+
+    inv(): Euclidean2 {
+        throw new Error(&#x27;inv&#x27;);
+    }
+
+    log(): Euclidean2 {
+        throw new Error(&#x27;log&#x27;);
+    }
+
+    magnitude(): number {
+        return sqrt(this.squaredNorm())
     }
 
     norm(): Euclidean2 {
-        return new Euclidean2(Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy), 0, 0, 0, this.uom);
+        return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
     }
 
     quad(): Euclidean2 {
-        return new Euclidean2(this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+    }
+
+    squaredNorm(): number {
+        return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
+    }
+
+    reflect(n: VectorE2): Euclidean2 {
+        throw new Error(&#x27;reflect&#x27;);
+    }
+
+    rev(): Euclidean2 {
+        throw new Error(&#x27;rev&#x27;);
+    }
+
+    rotate(R: SpinorE2): Euclidean2 {
+        throw new Error(&#x27;rotate&#x27;);
     }
 
     sin(): Euclidean2 {
-        throw new Euclidean2Error(&#x27;sin&#x27;);
+        throw new Error(&#x27;sin&#x27;);
     }
 
     sinh(): Euclidean2 {
-        throw new Euclidean2Error(&#x27;sinh&#x27;);
+        throw new Error(&#x27;sinh&#x27;);
     }
 
     slerp(target: Euclidean2, α: number): Euclidean2 {
@@ -929,17 +1009,12 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt; {
         return this
     }
     unitary(): Euclidean2 {
-        throw new Euclidean2Error(&#x27;unitary&#x27;);
-    }
-    /**
-     * @method gradeZero
-     * @return {number}
-     */
-    gradeZero(): number {
-        return this.w;
+        throw new Error(&#x27;unitary&#x27;);
     }
 
-    isNaN(): boolean { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy); }
+    isOne(): boolean { return this.w === 1 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.xy === 0 }
+    isNaN(): boolean { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy) }
+    isZero(): boolean { return this.w === 0 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.xy === 0 }
 
     toStringCustom(
         coordToString: (x: number) =&gt; string,

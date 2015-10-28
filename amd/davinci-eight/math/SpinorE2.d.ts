@@ -1,7 +1,7 @@
 interface SpinorE2 {
-    w: number;
-    xy: number;
+    α: number;
+    β: number;
     arg(): number;
-    quaditude(): number;
+    squaredNorm(): number;
 }
 export = SpinorE2;

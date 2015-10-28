@@ -58,7 +58,8 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
             var radial = perpendicular(axis);
             // FIXME: Change to scale
             var R0 = radial.scale(this.radius);
-            var generator = new Euclidean3(this.generator.w, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0);
+            // FIXME: More elegant way to construct a Euclidean3 from a SpinorE3.
+            var generator = new Euclidean3(this.generator.α, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0);
             var Rminor0 = axis.ext(radial);
             var n = 9;
             var circleSegments = this.arrowSegments * n;

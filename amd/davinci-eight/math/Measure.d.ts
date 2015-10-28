@@ -1,5 +1,9 @@
 import Unit = require('../math/Unit');
 interface Measure<T> {
+    /**
+     * The scalar part of the measure, as a <code>number</code>.
+     */
+    α: number;
     coordinates(): number[];
     uom: Unit;
     add(rhs: T): T;
@@ -19,7 +23,6 @@ interface Measure<T> {
     toExponential(): string;
     toFixed(digits?: number): string;
     toString(): string;
-    gradeZero(): number;
     scale(α: number): T;
     scp(rhs: T): T;
     sin(): T;

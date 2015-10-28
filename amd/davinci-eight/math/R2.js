@@ -166,12 +166,12 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return this.x * v.x + this.y * v.y;
         };
         R2.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
+            return Math.sqrt(this.squaredNorm());
         };
         R2.prototype.normalize = function () {
             return this.divByScalar(this.magnitude());
         };
-        R2.prototype.quaditude = function () {
+        R2.prototype.squaredNorm = function () {
             return this.x * this.x + this.y * this.y;
         };
         R2.prototype.quadranceTo = function (position) {
@@ -248,6 +248,17 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         };
         R2.prototype.clone = function () {
             return new R2([this.x, this.y]);
+        };
+        /**
+         * Sets this vector to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {R2}
+         * @chainable
+         */
+        R2.prototype.zero = function () {
+            this.x = 0;
+            this.y = 0;
+            return this;
         };
         return R2;
     })(VectorN);

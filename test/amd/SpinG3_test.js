@@ -59,7 +59,7 @@ define(['davinci-eight/math/SpinG3'], function(SpinG3)
         expect(m.data[0]).toBe(0);
         expect(m.data[1]).toBe(0);
         expect(m.data[2]).toBe(0);
-        expect(m.w).toBe(Math.exp(clone.w));
+        expect(m.α).toBe(Math.exp(clone.α));
         expect(m.modified).toBe(true);
       });
     });

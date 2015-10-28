@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -229,6 +229,8 @@ import GeometricOperators = require(&#x27;../math/GeometricOperators&#x27;)
 import mathcore = require(&#x27;../math/mathcore&#x27;)
 import Measure = require(&#x27;../math/Measure&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
+import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;)
 import TrigMethods = require(&#x27;../math/TrigMethods&#x27;)
 import Unit = require(&#x27;../math/Unit&#x27;)
 
@@ -241,15 +243,15 @@ var sinh = mathcore.Math.sinh
 var sqrt = Math.sqrt
 
 function mul(a: CC, b: CC): CC {
-    var x = a.x * b.x - a.y * b.y
-    var y = a.x * b.y + a.y * b.x
+    let x = a.α * b.α - a.β * b.β
+    let y = a.α * b.β + a.β * b.α
     return new CC(x, y, Unit.mul(a.uom, b.uom))
 }
 
 function divide(a: CC, b: CC): CC {
-    var q = b.x * b.x + b.y * b.y
-    var x = (a.x * b.x + a.y * b.y) / q
-    var y = (a.y * b.x - a.x * b.y) / q
+    let q = b.α * b.α + b.β * b.β
+    let x = (a.α * b.α + a.β * b.β) / q
+    let y = (a.β * b.α - a.α * b.β) / q
     return new CC(x, y, Unit.div(a.uom, b.uom))
 }
 
@@ -260,19 +262,21 @@ function norm(x: number, y: number): number {
 /**
  * @class CC
  */
-class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods&lt;CC&gt; {
+class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods&lt;CC&gt;, SpinorE2 {
     /**
-     * The real part of the complex number.
+     * The &lt;em&gt;real&lt;/em&gt; part of the complex number.
      * @property x
      * @type {number}
+     * @private
      */
-    public x: number;
+    private x: number;
     /**
-     * The imaginary part of the complex number.
+     * The &lt;em&gt;imaginary&lt;/em&gt; part of the complex number.
      * @property y
      * @type {number}
+     * @private
      */
-    public y: number;
+    private y: number;
     /**
      * The optional unit of measure.
      * @property uom
@@ -283,12 +287,12 @@ class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods
      * @class CC
      * @constructor
      * CConstructs a complex number z = (x, y).
-     * @param x The real part of the complex number.
-     * @param y The imaginary part of the complex number.
+     * @param α The &lt;em&gt;scalar&lt;/em&gt; or &lt;em&gt;real&lt;/em&gt; part of the complex number.
+     * @param β The &lt;em&gt;pseudoscalar&lt;/em&gt; or &lt;em&gt;imaginary&lt;/em&gt; part of the complex number.
      */
-    constructor(x: number, y: number, uom?: Unit) {
-        this.x = mustBeNumber(&#x27;x&#x27;, x)
-        this.y = mustBeNumber(&#x27;y&#x27;, y)
+    constructor(α: number, β: number, uom?: Unit) {
+        this.x = mustBeNumber(&#x27;α&#x27;, α)
+        this.y = mustBeNumber(&#x27;β&#x27;, β)
         this.uom = uom
         if (this.uom &amp;&amp; this.uom.multiplier !== 1) {
             var multiplier: number = this.uom.multiplier
@@ -297,6 +301,31 @@ class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
     }
+
+    /**
+     * The &lt;em&gt;real&lt;/em&gt; or &lt;em&gt;scalar&lt;/em&gt; part of this complex number.
+     * @property α
+     * @return {number}
+     */
+    get α(): number {
+        return this.x;
+    }
+    set α(unused) {
+        throw new Error(readOnly(&#x27;α&#x27;).message)
+    }
+
+    /**
+     * The &lt;em&gt;imaginary&lt;/em&gt; or &lt;em&gt;pseudoscalar&lt;/em&gt; part of this complex number.
+     * @property β
+     * @return {number}
+     */
+    get β(): number {
+        return this.y;
+    }
+    set β(unused) {
+        throw new Error(readOnly(&#x27;β&#x27;).message)
+    }
+
     coordinates(): number[] {
         return [this.x, this.y]
     }
@@ -585,7 +614,17 @@ class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods
     quad(): CC {
         var x = this.x;
         var y = this.y;
-        return new CC(x * x + y * y, 0, Unit.mul(this.uom, this.uom));
+        return new CC(this.squaredNorm(), 0, Unit.mul(this.uom, this.uom));
+    }
+
+    /**
+     * @method squaredNorm
+     * @return {number}
+     */
+    squaredNorm(): number {
+        var x = this.x
+        var y = this.y
+        return x * x + y * y
     }
 
     /**
@@ -632,14 +671,6 @@ class CC implements Measure&lt;CC&gt;, GeometricOperators&lt;CC&gt;, TrigMethods
         var y = this.y;
         var divisor = norm(x, y);
         return new CC(x / divisor, y / divisor);
-    }
-
-    /**
-     * @method gradeZero
-     * @return {number}
-     */
-    gradeZero(): number {
-        return this.x;
     }
 
     /**

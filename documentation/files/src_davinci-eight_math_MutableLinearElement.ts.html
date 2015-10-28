@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -226,21 +226,40 @@
     <pre class="code prettyprint linenums">
 import LinearElement = require(&#x27;../math/LinearElement&#x27;)
 
+/**
+ * This interface is provided to ensure consistency.
+ * It is not part of the documented API.
+ */
 interface MutableLinearElement&lt;I, M, S, V&gt; extends LinearElement&lt;I, M, S, V&gt; {
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ a * α + b * β&lt;/code&gt;
-   * &lt;/p&gt;
-   */
-  add2(a: I, b: I, α?: number, β?: number): M;
-  clone(): M;
-  copy(source: I): M;
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ a * α - b * β&lt;/code&gt;
-   * &lt;/p&gt;
-   */
-  sub2(a: I, b: I): M;
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a * α + b * β&lt;/code&gt;
+     * &lt;/p&gt;
+     */
+    add2(a: I, b: I, α?: number, β?: number): M;
+
+    /**
+     * Computes a copy of this element.
+     */
+    clone(): M;
+
+    /**
+     * Copies the source coordinates onto this element.
+     */
+    copy(source: I): M;
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a * α - b * β&lt;/code&gt;
+     * &lt;/p&gt;
+     */
+    sub2(a: I, b: I): M;
+
+    /**
+     * Sets this element to the identity element for addition.
+     */
+    zero(): M;
 }
 
 export = MutableLinearElement;

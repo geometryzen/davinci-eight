@@ -12,11 +12,11 @@ define([
   describe("Euclidean3", function() {
 
     var random = function() {
-      var w = Math.random();
+      var α = Math.random();
       var x = Math.random();
       var y = Math.random();
       var z = Math.random();
-      return new Euclidean3(w, x, y, z, Math.random(), Math.random(), Math.random(), Math.random());
+      return new Euclidean3(α, x, y, z, Math.random(), Math.random(), Math.random(), Math.random());
     }
 
     var zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
@@ -52,7 +52,7 @@ define([
     });
 
     it('constructor', function() {
-      var w = Math.random();
+      var α = Math.random();
       var x = Math.random();
       var y = Math.random();
       var z = Math.random();
@@ -61,9 +61,9 @@ define([
       var zx = Math.random();
       var xyz = Math.random();
 
-      var a = new Euclidean3(w, x, y, z, xy, yz, zx, xyz);
+      var a = new Euclidean3(α, x, y, z, xy, yz, zx, xyz);
 
-      expect(a.coordinate(0)).toBe(w);
+      expect(a.coordinate(0)).toBe(α);
       expect(a.coordinate(1)).toBe(x);
       expect(a.coordinate(2)).toBe(y);
       expect(a.coordinate(3)).toBe(z);
@@ -72,7 +72,7 @@ define([
       expect(a.coordinate(6)).toBe(zx);
       expect(a.coordinate(7)).toBe(xyz);
 
-      expect(a.coordinates()[0]).toBe(w);
+      expect(a.coordinates()[0]).toBe(α);
       expect(a.coordinates()[1]).toBe(x);
       expect(a.coordinates()[2]).toBe(y);
       expect(a.coordinates()[3]).toBe(z);

@@ -1,6 +1,5 @@
 import addE3 = require('../math/addE3')
 import Dimensions = require('../math/Dimensions')
-import Euclidean3Error = require('../math/Euclidean3Error')
 import extG3 = require('../math/extG3')
 import GeometricE3 = require('../math/GeometricE3')
 import isDefined = require('../checks/isDefined')
@@ -15,6 +14,7 @@ import mustBeNumber = require('../checks/mustBeNumber')
 import GeometricElement = require('../math/GeometricElement')
 import NotImplementedError = require('../math/NotImplementedError');
 import rcoG3 = require('../math/rcoG3')
+import readOnly = require('../i18n/readOnly')
 import scpG3 = require('../math/scpG3')
 import SpinorE3 = require('../math/SpinorE3')
 import stringFromCoordinates = require('../math/stringFromCoordinates')
@@ -34,7 +34,7 @@ function assertArgNumber(name: string, x: number): number {
         return x;
     }
     else {
-        throw new Euclidean3Error("Argument '" + name + "' must be a number");
+        throw new Error("Argument '" + name + "' must be a number");
     }
 }
 
@@ -43,7 +43,7 @@ function assertArgEuclidean3(name: string, arg: Euclidean3): Euclidean3 {
         return arg;
     }
     else {
-        throw new Euclidean3Error("Argument '" + arg + "' must be a Euclidean3");
+        throw new Error("Argument '" + arg + "' must be a Euclidean3");
     }
 }
 
@@ -52,7 +52,7 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
         return uom;
     }
     else {
-        throw new Euclidean3Error("Argument '" + uom + "' must be a Unit or undefined");
+        throw new Error("Argument '" + uom + "' must be a Unit or undefined");
     }
 }
 
@@ -107,8 +107,7 @@ var divide = function(
     b101: number,
     b110: number,
     b111: number,
-    uom: Unit,
-    dst?: Euclidean3) {
+    uom: Unit) {
     var c000: number;
     var c001: number;
     var c010: number;
@@ -161,7 +160,7 @@ var divide = function(
     var x110: number;
     var x111: number;
     var xy: number;
-    var xyz: number;
+    var β: number;
     var y: number;
     var yz: number;
     var z: number;
@@ -223,21 +222,8 @@ var divide = function(
     xy = x011;
     yz = x110;
     zx = -x101;
-    xyz = x111;
-    if (typeof dst !== 'undefined') {
-        dst.w = w;
-        dst.x = x;
-        dst.y = y;
-        dst.z = z;
-        dst.xy = xy;
-        dst.yz = yz;
-        dst.zx = zx;
-        dst.xyz = xyz;
-        dst.uom = uom;
-    }
-    else {
-        return new Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom);
-    }
+    β = x111;
+    return new Euclidean3(w, x, y, z, xy, yz, zx, β, uom);
 };
 
 /**
@@ -258,12 +244,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     public static kelvin = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KELVIN);
     public static mole = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.MOLE);
     public static candela = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.CANDELA);
-    /**
-     * The `w` property is the grade zero (scalar) part of the Euclidean3 multivector.
-     * @property w
-     * @type number
-     */
-    public w: number;
+    private w: number;
     /**
      * The `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.
      */
@@ -288,10 +269,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
      * The `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.
      */
     public zx: number;
-    /**
-     * The `xyz` property is the grade three (pseudoscalar) part of the Euclidean3 multivector.
-     */
-    public xyz: number;
+    private xyz: number;
     /**
      * The optional unit of measure.
      */
@@ -300,25 +278,25 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
      * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
      * Constructs a Euclidean3 from its coordinates.
      * @constructor
-     * @param {number} w The scalar part of the multivector.
+     * @param {number} α The scalar part of the multivector.
      * @param {number} x The vector component of the multivector in the x-direction.
      * @param {number} y The vector component of the multivector in the y-direction.
      * @param {number} z The vector component of the multivector in the z-direction.
      * @param {number} xy The bivector component of the multivector in the xy-plane.
      * @param {number} yz The bivector component of the multivector in the yz-plane.
      * @param {number} zx The bivector component of the multivector in the zx-plane.
-     * @param {number} xyz The pseudoscalar part of the multivector.
+     * @param {number} β The pseudoscalar part of the multivector.
      * @param uom The optional unit of measure.
      */
-    constructor(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom?: Unit) {
-        this.w = assertArgNumber('w', w);
+    constructor(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom?: Unit) {
+        this.w = assertArgNumber('α', α);
         this.x = assertArgNumber('x', x);
         this.y = assertArgNumber('y', y);
         this.z = assertArgNumber('z', z);
         this.xy = assertArgNumber('xy', xy);
         this.yz = assertArgNumber('yz', yz);
         this.zx = assertArgNumber('zx', zx);
-        this.xyz = assertArgNumber('xyz', xyz);
+        this.xyz = assertArgNumber('β', β);
         this.uom = assertArgUnitOrUndefined('uom', uom);
         if (this.uom && this.uom.multiplier !== 1) {
             var multiplier: number = this.uom.multiplier;
@@ -334,17 +312,41 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         }
     }
 
-    static fromCartesian(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number, uom: Unit): Euclidean3 {
-        assertArgNumber('w', w);
-        assertArgNumber('x', x);
-        assertArgNumber('y', y);
-        assertArgNumber('z', z);
-        assertArgNumber('xy', xy);
-        assertArgNumber('yz', yz);
-        assertArgNumber('zx', zx);
-        assertArgNumber('xyz', xyz);
-        assertArgUnitOrUndefined('uom', uom);
-        return new Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom);
+    /**
+     * The scalar part of this multivector.
+     * @property α
+     * @return {number}
+     */
+    get α(): number {
+        return this.w
+    }
+    set α(unused) {
+        throw new Error(readOnly('α').message)
+    }
+
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property β
+     * @return {number}
+     */
+    get β(): number {
+        return this.xyz
+    }
+    set β(unused) {
+        throw new Error(readOnly('β').message)
+    }
+
+    static fromCartesian(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom: Unit): Euclidean3 {
+        assertArgNumber('α', α)
+        assertArgNumber('x', x)
+        assertArgNumber('y', y)
+        assertArgNumber('z', z)
+        assertArgNumber('xy', xy)
+        assertArgNumber('yz', yz)
+        assertArgNumber('zx', zx)
+        assertArgNumber('β', β)
+        assertArgUnitOrUndefined('uom', uom)
+        return new Euclidean3(α, x, y, z, xy, yz, zx, β, uom)
     }
 
     /**
@@ -354,7 +356,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
      */
     static fromSpinorE3(spinor: SpinorE3): Euclidean3 {
         if (isDefined(spinor)) {
-            return new Euclidean3(spinor.w, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0);
+            return new Euclidean3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0)
         }
         else {
             return void 0
@@ -385,7 +387,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
             case 7:
                 return this.xyz;
             default:
-                throw new Euclidean3Error("index must be in the range [0..7]");
+                throw new Error("index must be in the range [0..7]");
         }
     }
     /**
@@ -403,6 +405,26 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
             return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
         };
         return compute(addE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.compatible(this.uom, rhs.uom));
+    }
+
+    /**
+     * Computes <code>this + Iβ</code>
+     * @method addPseudo
+     * @param β {number}
+     * @return {Euclidean3} <code>this</code>
+     * @chainable
+     */
+    addPseudo(β: number): Euclidean3 {
+        if (isDefined(β)) {
+            mustBeNumber('β', β)
+            return new Euclidean3(this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz + β, this.uom)
+        }
+        else {
+            // Consider returning an undefined sentinel?
+            // This would allow chained methods to continue.
+            // The first check might then be isNumber. 
+            return void 0
+        }
     }
 
     /**
@@ -501,7 +523,8 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     mul(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
-        return mulG3(this, rhs, out)
+        mulG3(this, rhs, Euclidean3.mutator(out))
+        return out
     }
 
     __mul__(other: any): any {
@@ -562,13 +585,15 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     scp(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
-        return scpG3(this, rhs, out)
+        scpG3(this, rhs, Euclidean3.mutator(out))
+        return out
     }
 
     ext(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
-        return extG3(this, rhs, out)
+        extG3(this, rhs, Euclidean3.mutator(out))
+        return out
     }
 
     __vbar__(other: any): Euclidean3 {
@@ -610,7 +635,8 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     lco(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
-        return lcoG3(this, rhs, out)
+        lcoG3(this, rhs, Euclidean3.mutator(out))
+        return out
     }
 
     __lshift__(other: any): Euclidean3 {
@@ -634,7 +660,8 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     rco(rhs: Euclidean3): Euclidean3 {
         var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         var w = out.w
-        return rcoG3(this, rhs, out)
+        rcoG3(this, rhs, Euclidean3.mutator(out))
+        return out
     }
 
     __rshift__(other: any): Euclidean3 {
@@ -657,7 +684,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
 
     pow(exponent: Euclidean3): Euclidean3 {
         // assertArgEuclidean3('exponent', exponent);
-        throw new Euclidean3Error('pow');
+        throw new Error('pow');
     }
 
     /**
@@ -814,10 +841,10 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
      * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
      */
     quad(): Euclidean3 {
-        return new Euclidean3(this.quaditude(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
     }
 
-    quaditude(): number {
+    squaredNorm(): number {
         // FIXME: The shortcoming of this method is that it drops the units.
         return this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz
     }
@@ -838,7 +865,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
 
     sinh(): Euclidean3 {
         //Unit.assertDimensionless(this.uom);
-        throw new Euclidean3Error('sinh');
+        throw new Error('sinh');
     }
 
     slerp(target: Euclidean3, α: number): Euclidean3 {
@@ -903,6 +930,39 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     toStringLATEX(): string {
         var coordToString = function(coord: number): string { return coord.toString() };
         return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{3}", "e_{12}", "e_{23}", "e_{31}", "e_{123}"]);
+    }
+
+    /**
+     * Provides access to the internals of Euclidean3 in order to use `product` functions.
+     */
+    private static mutator(M: Euclidean3): GeometricE3 {
+        var that: GeometricE3 = {
+            set α(α: number) {
+                M.w = α
+            },
+            set x(x: number) {
+                M.x = x
+            },
+            set y(y: number) {
+                M.y = y
+            },
+            set z(z: number) {
+                M.z = z
+            },
+            set yz(yz: number) {
+                M.yz = yz
+            },
+            set zx(zx: number) {
+                M.zx = zx
+            },
+            set xy(xy: number) {
+                M.xy = xy
+            },
+            set β(β: number) {
+                M.xyz = β
+            }
+        }
+        return that
     }
 }
 

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -471,12 +471,12 @@ class Matrix4 extends AbstractMatrix implements Matrix&lt;Matrix4&gt; {
         let x: number = -expectArg(&#x27;spinor.yz&#x27;, spinor.yz).toBeNumber().value;
         let y: number = -expectArg(&#x27;spinor.zx&#x27;, spinor.zx).toBeNumber().value;
         let z: number = -expectArg(&#x27;spinor.xy&#x27;, spinor.xy).toBeNumber().value;
-        let w: number = expectArg(&#x27;spinor.w&#x27;, spinor.w).toBeNumber().value;
+        let α: number = expectArg(&#x27;spinor.α&#x27;, spinor.α).toBeNumber().value;
 
         let x2 = x + x, y2 = y + y, z2 = z + z;
         let xx = x * x2, xy = x * y2, xz = x * z2;
         let yy = y * y2, yz = y * z2, zz = z * z2;
-        let wx = w * x2, wy = w * y2, wz = w * z2;
+        let wx = α * x2, wy = α * y2, wz = α * z2;
 
         this.set(
             1 - yy - zz, xy - wz, xz + wy, 0,

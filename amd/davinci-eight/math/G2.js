@@ -9,17 +9,20 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
     var COORD_X = 1;
     var COORD_Y = 2;
     var COORD_XY = 3;
+    var PI = Math.PI;
     var abs = Math.abs;
     var atan2 = Math.atan2;
     var exp = Math.exp;
+    var log = Math.log;
     var cos = Math.cos;
     var sin = Math.sin;
+    var sqrt = Math.sqrt;
     var BASIS_LABELS = ["1", "e1", "e2", "I"];
     /**
      * Coordinates corresponding to basis labels.
      */
     function coordinates(m) {
-        return [m.w, m.x, m.y, m.xy];
+        return [m.α, m.x, m.y, m.β];
     }
     /**
      * Promotes an unknown value to a G2, or returns undefined.
@@ -28,7 +31,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         if (isObject(value)) {
             var m = value;
             if (isNumber(m.x) && isNumber(m.y)) {
-                if (isNumber(m.w) && isNumber(m.xy)) {
+                if (isNumber(m.α) && isNumber(m.β)) {
                     console.warn("Copying GeometricE2 to G2");
                     return G2.copy(m);
                 }
@@ -38,7 +41,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
                 }
             }
             else {
-                if (isNumber(m.w) && isNumber(m.xy)) {
+                if (isNumber(m.α) && isNumber(m.β)) {
                     console.warn("Copying SpinorE2 to G2");
                     return G2.fromSpinor(m);
                 }
@@ -51,19 +54,19 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
             return void 0;
         }
     }
-    function makeConstantE2(label, w, x, y, xy) {
+    function makeConstantE2(label, α, x, y, β) {
         mustBeString('label', label);
-        mustBeNumber('w', w);
+        mustBeNumber('α', α);
         mustBeNumber('x', x);
         mustBeNumber('y', y);
-        mustBeNumber('xy', xy);
+        mustBeNumber('β', β);
         var that;
         that = {
-            get w() {
-                return w;
+            get α() {
+                return α;
             },
-            set w(unused) {
-                throw new Error(readOnly(label + '.w').message);
+            set α(unused) {
+                throw new Error(readOnly(label + '.α').message);
             },
             get x() {
                 return x;
@@ -77,16 +80,16 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
             set y(unused) {
                 throw new Error(readOnly(label + '.y').message);
             },
-            get xy() {
-                return xy;
+            get β() {
+                return β;
             },
-            set xy(unused) {
-                throw new Error(readOnly(label + '.xy').message);
+            set β(unused) {
+                throw new Error(readOnly(label + '.β').message);
             },
             arg: function () {
-                return argSpinorCartesianE2(that.w, that.xy);
+                return argSpinorCartesianE2(that.α, that.β);
             },
-            quaditude: function () {
+            squaredNorm: function () {
                 return quadSpinor(that);
             },
             toString: function () {
@@ -117,18 +120,18 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         function G2() {
             _super.call(this, [0, 0, 0, 0], false, 4);
         }
-        Object.defineProperty(G2.prototype, "w", {
+        Object.defineProperty(G2.prototype, "α", {
             /**
              * The coordinate corresponding to the unit standard basis scalar.
-             * @property w
+             * @property α
              * @type {number}
              */
             get: function () {
                 return this.data[COORD_W];
             },
-            set: function (w) {
-                this.modified = this.modified || this.data[COORD_W] !== w;
-                this.data[COORD_W] = w;
+            set: function (α) {
+                this.modified = this.modified || this.data[COORD_W] !== α;
+                this.data[COORD_W] = α;
             },
             enumerable: true,
             configurable: true
@@ -165,18 +168,18 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(G2.prototype, "xy", {
+        Object.defineProperty(G2.prototype, "β", {
             /**
              * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
-             * @property xy
+             * @property β
              * @type {number}
              */
             get: function () {
                 return this.data[COORD_XY];
             },
-            set: function (xy) {
-                this.modified = this.modified || this.data[COORD_XY] !== xy;
-                this.data[COORD_XY] = xy;
+            set: function (β) {
+                this.modified = this.modified || this.data[COORD_XY] !== β;
+                this.data[COORD_XY] = β;
             },
             enumerable: true,
             configurable: true
@@ -195,10 +198,24 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
             if (α === void 0) { α = 1; }
             mustBeObject('M', M);
             mustBeNumber('α', α);
-            this.w += M.w * α;
+            this.α += M.α * α;
             this.x += M.x * α;
             this.y += M.y * α;
-            this.xy += M.xy * α;
+            this.β += M.β * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + Iβ</code>
+         * </p>
+         * @method addPseudo
+         * @param β {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.addPseudo = function (β) {
+            mustBeNumber('β', β);
+            this.β += β;
             return this;
         };
         /**
@@ -212,7 +229,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          */
         G2.prototype.addScalar = function (α) {
             mustBeNumber('α', α);
-            this.w += α;
+            this.α += α;
             return this;
         };
         /**
@@ -246,10 +263,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         G2.prototype.add2 = function (a, b) {
             mustBeObject('a', a);
             mustBeObject('b', b);
-            this.w = a.w + b.w;
+            this.α = a.α + b.α;
             this.x = a.x + b.x;
             this.y = a.y + b.y;
-            this.xy = a.xy + b.xy;
+            this.β = a.β + b.β;
             return this;
         };
         G2.prototype.adj = function () {
@@ -261,7 +278,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @return {number}
          */
         G2.prototype.arg = function () {
-            return argSpinorCartesianE2(this.w, this.xy);
+            return argSpinorCartesianE2(this.α, this.β);
         };
         /**
          * @method clone
@@ -283,7 +300,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         G2.prototype.conj = function () {
             // FIXME: This is only the bivector part.
             // Also need to think about various involutions.
-            this.xy = -this.xy;
+            this.β = -this.β;
             return this;
         };
         /**
@@ -309,18 +326,18 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.lco2 = function (a, b) {
-            var a0 = a.w;
+            var a0 = a.α;
             var a1 = a.x;
             var a2 = a.y;
-            var a3 = a.xy;
-            var b0 = b.w;
+            var a3 = a.β;
+            var b0 = b.α;
             var b1 = b.x;
             var b2 = b.y;
-            var b3 = b.xy;
-            this.w = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var b3 = b.β;
+            this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
             this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
             this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.xy = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
             return this;
         };
         /**
@@ -346,18 +363,18 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.rco2 = function (a, b) {
-            var a0 = a.w;
+            var a0 = a.α;
             var a1 = a.x;
             var a2 = a.y;
-            var a3 = a.xy;
-            var b0 = b.w;
+            var a3 = a.β;
+            var b0 = b.α;
             var b1 = b.x;
             var b2 = b.y;
-            var b3 = b.xy;
-            this.w = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var b3 = b.β;
+            this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
             this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
             this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.xy = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
             return this;
         };
         /**
@@ -371,11 +388,20 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          */
         G2.prototype.copy = function (M) {
             mustBeObject('M', M);
-            this.w = M.w;
+            this.α = M.α;
             this.x = M.x;
             this.y = M.y;
-            this.xy = M.xy;
+            this.β = M.β;
             return this;
+        };
+        /**
+         * Sets this multivector to the value of the scalar, <code>α</code>.
+         * @method copyScalar
+         * @return {G2}
+         * @chainable
+         */
+        G2.prototype.copyScalar = function (α) {
+            return this.zero().addScalar(α);
         };
         /**
          * <p>
@@ -388,10 +414,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          */
         G2.prototype.copySpinor = function (spinor) {
             mustBeObject('spinor', spinor);
-            this.w = spinor.w;
+            this.α = spinor.α;
             this.x = 0;
             this.y = 0;
-            this.xy = spinor.xy;
+            this.β = spinor.β;
             return this;
         };
         /**
@@ -405,10 +431,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          */
         G2.prototype.copyVector = function (vector) {
             mustBeObject('vector', vector);
-            this.w = 0;
+            this.α = 0;
             this.x = vector.x;
             this.y = vector.y;
-            this.xy = 0;
+            this.β = 0;
             return this;
         };
         /**
@@ -434,10 +460,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          */
         G2.prototype.divByScalar = function (α) {
             mustBeNumber('α', α);
-            this.w /= α;
+            this.α /= α;
             this.x /= α;
             this.y /= α;
-            this.xy /= α;
+            this.β /= α;
             return this;
         };
         /**
@@ -464,14 +490,14 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.dual = function (m) {
-            var w = -m.xy;
+            var w = -m.β;
             var x = +m.y;
             var y = -m.x;
-            var xy = +m.w;
-            this.w = w;
+            var β = +m.α;
+            this.α = w;
             this.x = x;
             this.y = y;
-            this.xy = xy;
+            this.β = β;
             return this;
         };
         /**
@@ -483,15 +509,15 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.exp = function () {
-            var w = this.w;
-            var z = this.xy;
+            var w = this.α;
+            var z = this.β;
             var expW = exp(w);
             // φ is actually the absolute value of one half the rotation angle.
             // The orientation of the rotation gets carried in the bivector components.
-            var φ = Math.sqrt(z * z);
+            var φ = sqrt(z * z);
             var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
-            this.w = expW * cos(φ);
-            this.xy = z * s;
+            this.α = expW * cos(φ);
+            this.β = z * s;
             return this;
         };
         /**
@@ -505,7 +531,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         G2.prototype.inv = function () {
             // FIXME: TODO
             this.conj();
-            // this.divByScalar(this.quaditude());
+            // this.divByScalar(this.squaredNorm());
             return this;
         };
         /**
@@ -513,14 +539,14 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @return {boolean}
          */
         G2.prototype.isOne = function () {
-            return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0;
+            return this.α === 1 && this.x === 0 && this.y === 0 && this.β === 0;
         };
         /**
          * @method isZero
          * @return {boolean}
          */
         G2.prototype.isZero = function () {
-            return this.w === 0 && this.x === 0 && this.y === 0 && this.xy === 0;
+            return this.α === 0 && this.x === 0 && this.y === 0 && this.β === 0;
         };
         /**
          * <p>
@@ -535,10 +561,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         G2.prototype.lerp = function (target, α) {
             mustBeObject('target', target);
             mustBeNumber('α', α);
-            this.w += (target.w - this.w) * α;
+            this.α += (target.α - this.α) * α;
             this.x += (target.x - this.x) * α;
             this.y += (target.y - this.y) * α;
-            this.xy += (target.xy - this.xy) * α;
+            this.β += (target.β - this.β) * α;
             return this;
         };
         /**
@@ -561,7 +587,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         };
         /**
          * <p>
-         * <code>this ⟼ log(sqrt(w * w + xy * xy)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(xy, w)</code>
+         * <code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>
          * </p>
          * @method log
          * @return {G2} <code>this</code>
@@ -569,13 +595,13 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          */
         G2.prototype.log = function () {
             // FIXME: This only handles the spinor components.
-            var w = this.w;
-            var xy = this.xy;
-            var r = Math.sqrt(w * w + xy * xy);
-            this.w = Math.log(r);
+            var w = this.α;
+            var β = this.β;
+            var r = sqrt(w * w + β * β);
+            this.α = log(r);
             this.x = 0;
             this.y = 0;
-            this.xy = Math.atan2(xy, w);
+            this.β = atan2(β, w);
             return this;
         };
         /**
@@ -583,7 +609,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @return {number}
          */
         G2.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
+            return sqrt(this.squaredNorm());
         };
         /**
          * <p>
@@ -608,18 +634,18 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.mul2 = function (a, b) {
-            var a0 = a.w;
+            var a0 = a.α;
             var a1 = a.x;
             var a2 = a.y;
-            var a3 = a.xy;
-            var b0 = b.w;
+            var a3 = a.β;
+            var b0 = b.α;
             var b1 = b.x;
             var b2 = b.y;
-            var b3 = b.xy;
-            this.w = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var b3 = b.β;
+            this.α = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
             this.x = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
             this.y = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.xy = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            this.β = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
             return this;
         };
         /**
@@ -631,10 +657,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.neg = function () {
-            this.w = -this.w;
+            this.α = -this.α;
             this.x = -this.x;
             this.y = -this.y;
-            this.xy = -this.xy;
+            this.β = -this.β;
             return this;
         };
         /**
@@ -646,10 +672,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         * @chainable
         */
         G2.prototype.norm = function () {
-            this.w = this.magnitude();
+            this.α = this.magnitude();
             this.x = 0;
             this.y = 0;
-            this.xy = 0;
+            this.β = 0;
             return this;
         };
         /**
@@ -661,12 +687,12 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.normalize = function () {
-            // The quaditude is the squared norm.
-            var norm = Math.sqrt(this.quaditude());
-            this.w = this.w / norm;
+            // The squaredNorm is the squared norm.
+            var norm = sqrt(this.squaredNorm());
+            this.α = this.α / norm;
             this.x = this.x / norm;
             this.y = this.y / norm;
-            this.xy = this.xy / norm;
+            this.β = this.β / norm;
             return this;
         };
         /**
@@ -681,22 +707,22 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.quad = function () {
-            this.w = this.quaditude();
+            this.α = this.squaredNorm();
             this.x = 0;
             this.y = 0;
-            this.xy = 0;
+            this.β = 0;
             return this;
         };
         /**
          * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
-         * @method quaditude
+         * @method squaredNorm
          * @return {number} <code>this | ~this</code>
          */
-        G2.prototype.quaditude = function () {
-            var w = this.w;
+        G2.prototype.squaredNorm = function () {
+            var w = this.α;
             var x = this.x;
             var y = this.y;
-            var B = this.xy;
+            var B = this.β;
             return w * w + x * x + y * y + B * B;
         };
         /**
@@ -730,10 +756,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          */
         G2.prototype.rev = function () {
             // reverse has a ++-- structure.
-            this.w = this.w;
+            this.α = this.α;
             this.x = this.x;
             this.y = this.y;
-            this.xy = -this.xy;
+            this.β = -this.β;
             return this;
         };
         /**
@@ -757,12 +783,12 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
             // FIXME: This only rotates the vector components.
             var x = this.x;
             var y = this.y;
-            var a = R.xy;
-            var w = R.w;
-            var ix = w * x + a * y;
-            var iy = w * y - a * x;
-            this.x = ix * w + iy * a;
-            this.y = iy * w - ix * a;
+            var a = R.β;
+            var α = R.α;
+            var ix = α * x + a * y;
+            var iy = α * y - a * x;
+            this.x = ix * α + iy * a;
+            this.y = iy * α - ix * a;
             return this;
         };
         /**
@@ -778,10 +804,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
                 return this;
             }
             else {
-                this.w = void 0;
-                this.x = void 0;
-                this.y = void 0;
-                this.xy = void 0;
+                // In two dimensions, the rotation plane is not ambiguous.
+                // FIXME: This is a bit dubious.
+                // Probably better to make undefined a first-class concept.
+                this.rotorFromGeneratorAngle(G2.I, PI);
             }
             return this;
         };
@@ -804,7 +830,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
             // The effect will be a scaling of the angle.
             // A non unitary rotor, on the other hand, will scale the transformation.
             // We must also take into account the orientation of B.
-            var xy = B.xy;
+            var β = B.β;
             /**
              * Sandwich operation means we need the half-angle.
              */
@@ -812,13 +838,13 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
             /**
              * scalar part = cos(|B| * θ / 2)
              */
-            this.w = cos(abs(xy) * φ);
+            this.α = cos(abs(β) * φ);
             this.x = 0;
             this.y = 0;
             /**
              * pseudo part = -unit(B) * sin(|B| * θ / 2)
              */
-            this.xy = -sin(xy * φ);
+            this.β = -sin(β * φ);
             return this;
         };
         /**
@@ -844,10 +870,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.scp2 = function (a, b) {
-            this.w = scpE2(a.w, a.x, a.y, a.xy, b.w, b.x, b.y, b.xy, 0);
+            this.α = scpE2(a.α, a.x, a.y, a.β, b.α, b.x, b.y, b.β, 0);
             this.x = 0;
             this.y = 0;
-            this.xy = 0;
+            this.β = 0;
             return this;
         };
         /**
@@ -859,10 +885,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          */
         G2.prototype.scale = function (α) {
             mustBeNumber('α', α);
-            this.w *= α;
+            this.α *= α;
             this.x *= α;
             this.y *= α;
-            this.xy *= α;
+            this.β *= α;
             return this;
         };
         G2.prototype.slerp = function (target, α) {
@@ -885,10 +911,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
             var ay = a.y;
             var bx = b.x;
             var by = b.y;
-            this.w = dotVector(a, b);
+            this.α = dotVector(a, b);
             this.x = 0;
             this.y = 0;
-            this.xy = wedgeXY(ax, ay, 0, bx, by, 0); // FIXME wedgeVectorsE2
+            this.β = wedgeXY(ax, ay, 0, bx, by, 0); // FIXME wedgeVectorsE2
             return this;
         };
         /**
@@ -905,10 +931,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
             if (α === void 0) { α = 1; }
             mustBeObject('M', M);
             mustBeNumber('α', α);
-            this.w -= M.w * α;
+            this.α -= M.α * α;
             this.x -= M.x * α;
             this.y -= M.y * α;
-            this.xy -= M.xy * α;
+            this.β -= M.β * α;
             return this;
         };
         /**
@@ -924,10 +950,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         G2.prototype.sub2 = function (a, b) {
             mustBeObject('a', a);
             mustBeObject('b', b);
-            this.w = a.w - b.w;
+            this.α = a.α - b.α;
             this.x = a.x - b.x;
             this.y = a.y - b.y;
-            this.xy = a.xy - b.xy;
+            this.β = a.β - b.β;
             return this;
         };
         /**
@@ -981,18 +1007,31 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.prototype.ext2 = function (a, b) {
-            var a0 = a.w;
+            var a0 = a.α;
             var a1 = a.x;
             var a2 = a.y;
-            var a3 = a.xy;
-            var b0 = b.w;
+            var a3 = a.β;
+            var b0 = b.α;
             var b1 = b.x;
             var b2 = b.y;
-            var b3 = b.xy;
-            this.w = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var b3 = b.β;
+            this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
             this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
             this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.xy = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return this;
+        };
+        /**
+         * Sets this multivector to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {G2}
+         * @chainable
+         */
+        G2.prototype.zero = function () {
+            this.α = 0;
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
             return this;
         };
         /**
@@ -1373,7 +1412,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         ;
         Object.defineProperty(G2, "I", {
             /**
-             * Basis vector corresponding to the <code>xy</code> coordinate.
+             * Basis vector corresponding to the <code>β</code> coordinate.
              * @property I
              * @type {G2}
              * @readOnly
@@ -1392,10 +1431,10 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          */
         G2.copy = function (M) {
             var copy = new G2();
-            copy.w = M.w;
+            copy.α = M.α;
             copy.x = M.x;
             copy.y = M.y;
-            copy.xy = M.xy;
+            copy.β = M.β;
             return copy;
         };
         /**
@@ -1406,9 +1445,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @chainable
          */
         G2.fromScalar = function (α) {
-            var copy = new G2();
-            copy.w = α;
-            return copy;
+            return new G2().addScalar(α);
         };
         /**
          * @method fromSpinor
@@ -1417,12 +1454,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @static
          */
         G2.fromSpinor = function (spinor) {
-            var copy = new G2();
-            copy.w = spinor.w;
-            copy.x = 0;
-            copy.y = 0;
-            copy.xy = spinor.xy;
-            return copy;
+            return new G2().copySpinor(spinor);
         };
         /**
          * @method fromVector
@@ -1431,12 +1463,13 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
          * @static
          */
         G2.fromVector = function (vector) {
-            var copy = new G2();
-            copy.w = 0;
-            copy.x = vector.x;
-            copy.y = vector.y;
-            copy.xy = 0;
-            return copy;
+            if (isDefined(vector)) {
+                return new G2().copyVector(vector);
+            }
+            else {
+                // We could also return an undefined value here!
+                return void 0;
+            }
         };
         /**
         * @method lerp
@@ -1449,6 +1482,17 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/dotVector
         G2.lerp = function (A, B, α) {
             return G2.copy(A).lerp(B, α);
             // return G2.copy(B).sub(A).scale(α).add(A)
+        };
+        /**
+         * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+         * @method rotorFromDirections
+         * @param a {VectorE2} The <em>from</em> vector.
+         * @param b {VectorE2} The <em>to</em> vector.
+         * @return {G2}
+         * @static
+         */
+        G2.rotorFromDirections = function (a, b) {
+            return new G2().rotorFromDirections(a, b);
         };
         return G2;
     })(VectorN);

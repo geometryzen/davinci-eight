@@ -10,7 +10,7 @@ define(["require", "exports"], function (require, exports) {
     function compG3Set(m, index, value) {
         switch (index) {
             case COORD_W:
-                m.w = value;
+                m.α = value;
                 break;
             case COORD_X:
                 m.x = value;
@@ -31,7 +31,7 @@ define(["require", "exports"], function (require, exports) {
                 m.zx = value;
                 break;
             case COORD_XYZ:
-                m.xyz = value;
+                m.β = value;
                 break;
             default:
                 throw new Error("index => " + index);

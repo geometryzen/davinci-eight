@@ -34,6 +34,13 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             this.z += q.z * α;
             return this;
         };
+        /**
+         * Intentionally undocumented.
+         */
+        HH.prototype.addPseudo = function (β) {
+            mustBeNumber('β', β);
+            return this;
+        };
         HH.prototype.addScalar = function (α) {
             mustBeNumber('α', α);
             this.t += α;
@@ -86,6 +93,9 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             this.t = quaternion.t;
             return this;
         };
+        HH.prototype.copyScalar = function (α) {
+            return this.zero().addScalar(α);
+        };
         HH.prototype.copySpinor = function (spinor) {
             this.x = spinor.x;
             this.y = spinor.y;
@@ -94,11 +104,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.copyVector = function (vector) {
-            this.x = 0;
-            this.y = 0;
-            this.z = 0;
-            this.t = 0;
-            return this;
+            return this.zero();
         };
         HH.prototype.cos = function () {
             return this;
@@ -153,7 +159,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
+            return Math.sqrt(this.squaredNorm());
         };
         HH.prototype.mul = function (q) {
             return this.mul2(this, q);
@@ -168,7 +174,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.norm = function () {
-            this.t = this.quaditude();
+            this.t = this.squaredNorm();
             this.x = 0;
             this.y = 0;
             this.z = 0;
@@ -204,13 +210,13 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.quad = function () {
-            this.t = this.quaditude();
+            this.t = this.squaredNorm();
             this.x = 0;
             this.y = 0;
             this.z = 0;
             return this;
         };
-        HH.prototype.quaditude = function () {
+        HH.prototype.squaredNorm = function () {
             return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
         };
         HH.prototype.reflect = function (n) {
@@ -398,6 +404,19 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this.ext2(this, rhs);
         };
         HH.prototype.ext2 = function (a, b) {
+            return this;
+        };
+        /**
+         * Sets this quaternion to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {HH}
+         * @chainable
+         */
+        HH.prototype.zero = function () {
+            this.t = 0;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
             return this;
         };
         HH.slerp = function (qa, qb, qm, t) {

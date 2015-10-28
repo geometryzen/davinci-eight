@@ -2,7 +2,7 @@ define(["require", "exports"], function (require, exports) {
     function compG2Set(m, index, value) {
         switch (index) {
             case 0:
-                m.w = value;
+                m.α = value;
                 break;
             case 1:
                 m.x = value;
@@ -11,7 +11,7 @@ define(["require", "exports"], function (require, exports) {
                 m.y = value;
                 break;
             case 3:
-                m.xy = value;
+                m.β = value;
                 break;
             default:
                 throw new Error("index => " + index);

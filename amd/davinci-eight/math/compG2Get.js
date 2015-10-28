@@ -2,7 +2,7 @@ define(["require", "exports"], function (require, exports) {
     function compG2Get(m, index) {
         switch (index) {
             case 0: {
-                return m.w;
+                return m.α;
             }
             case 1: {
                 return m.x;
@@ -11,7 +11,7 @@ define(["require", "exports"], function (require, exports) {
                 return m.y;
             }
             case 3: {
-                return m.xy;
+                return m.β;
             }
             default: {
                 throw new Error("index => " + index);

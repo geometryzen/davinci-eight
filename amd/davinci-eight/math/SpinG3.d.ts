@@ -33,10 +33,10 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      */
     xy: number;
     /**
-     * @property w
+     * @property α
      * @type Number
      */
-    w: number;
+    α: number;
     /**
      * <p>
      * <code>this ⟼ this + α * spinor</code>
@@ -59,6 +59,10 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @chainable
      */
     add2(a: SpinorE3, b: SpinorE3): SpinG3;
+    /**
+     * Intentionally undocumented.
+     */
+    addPseudo(β: number): SpinG3;
     /**
      * <p>
      * <code>this ⟼ this + α</code>
@@ -105,7 +109,21 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * @chainable
      */
     copy(spinor: SpinorE3): SpinG3;
-    copySpinor(spinor: SpinorE3): SpinG3;
+    /**
+     * Sets this spinor to the value of the scalar, <code>α</code>.
+     * @method copyScalar
+     * @param α {number} The scalar to be copied.
+     * @return {SpinG3}
+     * @chainable
+     */
+    copyScalar(α: number): SpinG3;
+    /**
+     * Intentionally undocumented.
+     */
+    copySpinor(s: SpinorE3): SpinG3;
+    /**
+     * Intentionally undocumented.
+     */
     copyVector(vector: VectorE3): SpinG3;
     /**
      * <p>
@@ -256,10 +274,10 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
     */
     quad(): SpinG3;
     /**
-     * @method quaditude
+     * @method squaredNorm
      * @return {number} <code>this * conj(this)</code>
      */
-    quaditude(): number;
+    squaredNorm(): number;
     rco(rhs: SpinorE3): SpinG3;
     rco2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
@@ -376,6 +394,12 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
     toString(): string;
     ext(rhs: SpinorE3): SpinG3;
     ext2(a: SpinorE3, b: SpinorE3): SpinG3;
+    /**
+     * Sets this spinor to the identity element for addition.
+     * @return {SpinG3} <code>this</code>
+     * @chainable
+     */
+    zero(): SpinG3;
     /**
      * @method copy
      * @param spinor {SpinorE3}

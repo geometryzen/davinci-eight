@@ -209,7 +209,7 @@ class FrenetFrames {
 
     function initialNormal3() {
         // select an initial normal vector perpendicular to the first tangent vector,
-        // and in the direction of the smallest tangent xyz component
+        // and in the direction of the smallest tangent component
 
         normals[0] = new R3([0, 0, 0]);
         binormals[0] = new R3([0, 0, 0]);

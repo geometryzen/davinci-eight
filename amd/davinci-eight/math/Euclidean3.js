@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../math/scpG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, Euclidean3Error, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeNumber, NotImplementedError, rcoG3, scpG3, stringFromCoordinates, subE3, Unit) {
+define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeNumber, NotImplementedError, rcoG3, readOnly, scpG3, stringFromCoordinates, subE3, Unit) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -9,7 +9,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
             return x;
         }
         else {
-            throw new Euclidean3Error("Argument '" + name + "' must be a number");
+            throw new Error("Argument '" + name + "' must be a number");
         }
     }
     function assertArgEuclidean3(name, arg) {
@@ -17,7 +17,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
             return arg;
         }
         else {
-            throw new Euclidean3Error("Argument '" + arg + "' must be a Euclidean3");
+            throw new Error("Argument '" + arg + "' must be a Euclidean3");
         }
     }
     function assertArgUnitOrUndefined(name, uom) {
@@ -25,7 +25,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
             return uom;
         }
         else {
-            throw new Euclidean3Error("Argument '" + uom + "' must be a Unit or undefined");
+            throw new Error("Argument '" + uom + "' must be a Unit or undefined");
         }
     }
     function compute(f, a, b, coord, pack, uom) {
@@ -55,7 +55,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         var x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
         return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
     }
-    var divide = function (a000, a001, a010, a011, a100, a101, a110, a111, b000, b001, b010, b011, b100, b101, b110, b111, uom, dst) {
+    var divide = function (a000, a001, a010, a011, a100, a101, a110, a111, b000, b001, b010, b011, b100, b101, b110, b111, uom) {
         var c000;
         var c001;
         var c010;
@@ -108,7 +108,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         var x110;
         var x111;
         var xy;
-        var xyz;
+        var β;
         var y;
         var yz;
         var z;
@@ -169,21 +169,8 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         xy = x011;
         yz = x110;
         zx = -x101;
-        xyz = x111;
-        if (typeof dst !== 'undefined') {
-            dst.w = w;
-            dst.x = x;
-            dst.y = y;
-            dst.z = z;
-            dst.xy = xy;
-            dst.yz = yz;
-            dst.zx = zx;
-            dst.xyz = xyz;
-            dst.uom = uom;
-        }
-        else {
-            return new Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom);
-        }
+        β = x111;
+        return new Euclidean3(w, x, y, z, xy, yz, zx, β, uom);
     };
     /**
      * @class Euclidean3
@@ -194,25 +181,25 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
          * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
          * Constructs a Euclidean3 from its coordinates.
          * @constructor
-         * @param {number} w The scalar part of the multivector.
+         * @param {number} α The scalar part of the multivector.
          * @param {number} x The vector component of the multivector in the x-direction.
          * @param {number} y The vector component of the multivector in the y-direction.
          * @param {number} z The vector component of the multivector in the z-direction.
          * @param {number} xy The bivector component of the multivector in the xy-plane.
          * @param {number} yz The bivector component of the multivector in the yz-plane.
          * @param {number} zx The bivector component of the multivector in the zx-plane.
-         * @param {number} xyz The pseudoscalar part of the multivector.
+         * @param {number} β The pseudoscalar part of the multivector.
          * @param uom The optional unit of measure.
          */
-        function Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom) {
-            this.w = assertArgNumber('w', w);
+        function Euclidean3(α, x, y, z, xy, yz, zx, β, uom) {
+            this.w = assertArgNumber('α', α);
             this.x = assertArgNumber('x', x);
             this.y = assertArgNumber('y', y);
             this.z = assertArgNumber('z', z);
             this.xy = assertArgNumber('xy', xy);
             this.yz = assertArgNumber('yz', yz);
             this.zx = assertArgNumber('zx', zx);
-            this.xyz = assertArgNumber('xyz', xyz);
+            this.xyz = assertArgNumber('β', β);
             this.uom = assertArgUnitOrUndefined('uom', uom);
             if (this.uom && this.uom.multiplier !== 1) {
                 var multiplier = this.uom.multiplier;
@@ -227,17 +214,47 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
-        Euclidean3.fromCartesian = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-            assertArgNumber('w', w);
+        Object.defineProperty(Euclidean3.prototype, "α", {
+            /**
+             * The scalar part of this multivector.
+             * @property α
+             * @return {number}
+             */
+            get: function () {
+                return this.w;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('α').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean3.prototype, "β", {
+            /**
+             * The pseudoscalar part of this multivector.
+             * @property β
+             * @return {number}
+             */
+            get: function () {
+                return this.xyz;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('β').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Euclidean3.fromCartesian = function (α, x, y, z, xy, yz, zx, β, uom) {
+            assertArgNumber('α', α);
             assertArgNumber('x', x);
             assertArgNumber('y', y);
             assertArgNumber('z', z);
             assertArgNumber('xy', xy);
             assertArgNumber('yz', yz);
             assertArgNumber('zx', zx);
-            assertArgNumber('xyz', xyz);
+            assertArgNumber('β', β);
             assertArgUnitOrUndefined('uom', uom);
-            return new Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom);
+            return new Euclidean3(α, x, y, z, xy, yz, zx, β, uom);
         };
         /**
          * @method fromSpinorE3
@@ -246,7 +263,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
          */
         Euclidean3.fromSpinorE3 = function (spinor) {
             if (isDefined(spinor)) {
-                return new Euclidean3(spinor.w, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0);
+                return new Euclidean3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0);
             }
             else {
                 return void 0;
@@ -275,7 +292,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
                 case 7:
                     return this.xyz;
                 default:
-                    throw new Euclidean3Error("index must be in the range [0..7]");
+                    throw new Error("index must be in the range [0..7]");
             }
         };
         /**
@@ -293,6 +310,25 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
                 return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
             };
             return compute(addE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.compatible(this.uom, rhs.uom));
+        };
+        /**
+         * Computes <code>this + Iβ</code>
+         * @method addPseudo
+         * @param β {number}
+         * @return {Euclidean3} <code>this</code>
+         * @chainable
+         */
+        Euclidean3.prototype.addPseudo = function (β) {
+            if (isDefined(β)) {
+                mustBeNumber('β', β);
+                return new Euclidean3(this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz + β, this.uom);
+            }
+            else {
+                // Consider returning an undefined sentinel?
+                // This would allow chained methods to continue.
+                // The first check might then be isNumber. 
+                return void 0;
+            }
         };
         /**
          * Computes <code>this + α</code>
@@ -381,7 +417,8 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         Euclidean3.prototype.mul = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
-            return mulG3(this, rhs, out);
+            mulG3(this, rhs, Euclidean3.mutator(out));
+            return out;
         };
         Euclidean3.prototype.__mul__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -433,12 +470,14 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         Euclidean3.prototype.scp = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
-            return scpG3(this, rhs, out);
+            scpG3(this, rhs, Euclidean3.mutator(out));
+            return out;
         };
         Euclidean3.prototype.ext = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
-            return extG3(this, rhs, out);
+            extG3(this, rhs, Euclidean3.mutator(out));
+            return out;
         };
         Euclidean3.prototype.__vbar__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -475,7 +514,8 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         Euclidean3.prototype.lco = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
-            return lcoG3(this, rhs, out);
+            lcoG3(this, rhs, Euclidean3.mutator(out));
+            return out;
         };
         Euclidean3.prototype.__lshift__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -496,7 +536,8 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         Euclidean3.prototype.rco = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
-            return rcoG3(this, rhs, out);
+            rcoG3(this, rhs, Euclidean3.mutator(out));
+            return out;
         };
         Euclidean3.prototype.__rshift__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -516,7 +557,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         };
         Euclidean3.prototype.pow = function (exponent) {
             // assertArgEuclidean3('exponent', exponent);
-            throw new Euclidean3Error('pow');
+            throw new Error('pow');
         };
         /**
          * Unary plus(+).
@@ -656,9 +697,9 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
          * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
          */
         Euclidean3.prototype.quad = function () {
-            return new Euclidean3(this.quaditude(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+            return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
         };
-        Euclidean3.prototype.quaditude = function () {
+        Euclidean3.prototype.squaredNorm = function () {
             // FIXME: The shortcoming of this method is that it drops the units.
             return this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz;
         };
@@ -678,7 +719,7 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         };
         Euclidean3.prototype.sinh = function () {
             //Unit.assertDimensionless(this.uom);
-            throw new Euclidean3Error('sinh');
+            throw new Error('sinh');
         };
         Euclidean3.prototype.slerp = function (target, α) {
             // FIXME: TODO
@@ -732,6 +773,38 @@ define(["require", "exports", '../math/addE3', '../math/Euclidean3Error', '../ma
         Euclidean3.prototype.toStringLATEX = function () {
             var coordToString = function (coord) { return coord.toString(); };
             return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{3}", "e_{12}", "e_{23}", "e_{31}", "e_{123}"]);
+        };
+        /**
+         * Provides access to the internals of Euclidean3 in order to use `product` functions.
+         */
+        Euclidean3.mutator = function (M) {
+            var that = {
+                set α(α) {
+                    M.w = α;
+                },
+                set x(x) {
+                    M.x = x;
+                },
+                set y(y) {
+                    M.y = y;
+                },
+                set z(z) {
+                    M.z = z;
+                },
+                set yz(yz) {
+                    M.yz = yz;
+                },
+                set zx(zx) {
+                    M.zx = zx;
+                },
+                set xy(xy) {
+                    M.xy = xy;
+                },
+                set β(β) {
+                    M.xyz = β;
+                }
+            };
+            return that;
         };
         Euclidean3.zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
         Euclidean3.one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);

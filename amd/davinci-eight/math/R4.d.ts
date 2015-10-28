@@ -53,5 +53,6 @@ declare class R4 extends VectorN<number> implements VectorE4, MutableLinearEleme
     sub2(a: VectorE4, b: VectorE4): R4;
     toExponential(): string;
     toFixed(digits?: number): string;
+    zero(): R4;
 }
 export = R4;

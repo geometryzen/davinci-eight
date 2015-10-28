@@ -1,5 +1,5 @@
 interface SpinorE3 {
-  w: number;
+  α: number;
   yz: number;
   zx: number;
   xy: number;

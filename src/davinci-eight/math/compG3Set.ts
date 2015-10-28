@@ -12,7 +12,7 @@ let COORD_XYZ = 7
 function compG3Set(m: GeometricE3, index: number, value: number): void {
     switch (index) {
         case COORD_W:
-            m.w = value
+            m.α = value
             break
         case COORD_X:
             m.x = value
@@ -33,7 +33,7 @@ function compG3Set(m: GeometricE3, index: number, value: number): void {
             m.zx = value
             break
         case COORD_XYZ:
-            m.xyz = value
+            m.β = value
             break
         default:
             throw new Error("index => " + index)

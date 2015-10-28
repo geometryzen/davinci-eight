@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -242,6 +242,11 @@ interface MutableGeometricElement&lt;I, M, S, V&gt; extends GeometricElement&lt;
      * Sets this multivector to the right contraction of the multivectors.
      */
     rco2(a: I, b: I): M;
+
+    /**
+     * Sets this multivector to the value of the scalar, &lt;code&gt;α&lt;/code&gt;.
+     */
+    copyScalar(α: number): M;
 
     /**
      * Sets this multivector to the value of the spinor.

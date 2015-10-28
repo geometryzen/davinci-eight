@@ -50,7 +50,7 @@ declare class R2 extends VectorN<number> implements VectorE2, MutableLinearEleme
     dot(v: VectorE2): number;
     magnitude(): number;
     normalize(): R2;
-    quaditude(): number;
+    squaredNorm(): number;
     quadranceTo(position: VectorE2): number;
     reflect(n: VectorE2): R2;
     rotate(rotor: SpinorE2): R2;
@@ -86,5 +86,12 @@ declare class R2 extends VectorN<number> implements VectorE2, MutableLinearEleme
         array: number[];
     }, index: number, offset?: number): R2;
     clone(): R2;
+    /**
+     * Sets this vector to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {R2}
+     * @chainable
+     */
+    zero(): R2;
 }
 export = R2;

@@ -15,7 +15,7 @@ let COORD_XYZ = 7
 function gcompE3(m: GeometricE3, index: number): number {
     switch (index) {
         case COORD_W: {
-            return m.w
+            return m.α
         }
         case COORD_X: {
             return m.x
@@ -36,7 +36,7 @@ function gcompE3(m: GeometricE3, index: number): number {
             return m.zx
         }
         case COORD_XYZ: {
-            return m.xyz
+            return m.β
         }
         default: {
             throw new Error("index => " + index)

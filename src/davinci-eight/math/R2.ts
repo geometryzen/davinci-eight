@@ -154,12 +154,12 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
         return this.x * v.x + this.y * v.y;
     }
     magnitude(): number {
-        return Math.sqrt(this.quaditude());
+        return Math.sqrt(this.squaredNorm());
     }
     normalize() {
         return this.divByScalar(this.magnitude());
     }
-    quaditude(): number {
+    squaredNorm(): number {
         return this.x * this.x + this.y * this.y;
     }
     quadranceTo(position: VectorE2) {
@@ -235,6 +235,19 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
     clone() {
         return new R2([this.x, this.y]);
     }
+
+    /**
+     * Sets this vector to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {R2}
+     * @chainable
+     */
+    zero(): R2 {
+        this.x = 0
+        this.y = 0
+        return this
+    }
+
 }
 
 export = R2;

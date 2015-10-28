@@ -21,7 +21,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
      * Coordinates corresponding to basis labels.
      */
     function coordinates(m) {
-        return [m.w, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.xyz];
+        return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β];
     }
     /**
      * @class G3
@@ -40,19 +40,19 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         function G3() {
             _super.call(this, [0, 0, 0, 0, 0, 0, 0, 0], false, 8);
         }
-        Object.defineProperty(G3.prototype, "w", {
+        Object.defineProperty(G3.prototype, "α", {
             /**
-             * The coordinate corresponding to the unit standard basis scalar.
-             * @property w
+             * The scalar part of this multivector.
+             * @property α
              * @type {number}
              */
             get: function () {
                 return this.data[COORD_W];
             },
-            set: function (w) {
-                mustBeNumber('w', w);
-                this.modified = this.modified || this.data[COORD_W] !== w;
-                this.data[COORD_W] = w;
+            set: function (α) {
+                mustBeNumber('α', α);
+                this.modified = this.modified || this.data[COORD_W] !== α;
+                this.data[COORD_W] = α;
             },
             enumerable: true,
             configurable: true
@@ -159,19 +159,19 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(G3.prototype, "xyz", {
+        Object.defineProperty(G3.prototype, "β", {
             /**
-             * The coordinate corresponding to the I<sub>3</sub> <code>=</code> <b>e</b><sub>1</sub><b>e</b><sub>2</sub><b>e</b><sub>2</sub> standard basis pseudoscalar.
-             * @property xyz
+             * The pseudoscalar part of this multivector.
+             * @property β
              * @type {number}
              */
             get: function () {
                 return this.data[COORD_XYZ];
             },
-            set: function (xyz) {
-                mustBeNumber('xyz', xyz);
-                this.modified = this.modified || this.data[COORD_XYZ] !== xyz;
-                this.data[COORD_XYZ] = xyz;
+            set: function (β) {
+                mustBeNumber('β', β);
+                this.modified = this.modified || this.data[COORD_XYZ] !== β;
+                this.data[COORD_XYZ] = β;
             },
             enumerable: true,
             configurable: true
@@ -190,14 +190,28 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             if (α === void 0) { α = 1; }
             mustBeObject('M', M);
             mustBeNumber('α', α);
-            this.w += M.w * α;
+            this.α += M.α * α;
             this.x += M.x * α;
             this.y += M.y * α;
             this.z += M.z * α;
             this.yz += M.yz * α;
             this.zx += M.zx * α;
             this.xy += M.xy * α;
-            this.xyz += M.xyz * α;
+            this.β += M.β * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + Iβ</code>
+         * </p>
+         * @method addPseudo
+         * @param β {number}
+         * @return {G3} <code>this</code>
+         * @chainable
+         */
+        G3.prototype.addPseudo = function (β) {
+            mustBeNumber('β', β);
+            this.β += β;
             return this;
         };
         /**
@@ -211,7 +225,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.addScalar = function (α) {
             mustBeNumber('α', α);
-            this.w += α;
+            this.α += α;
             return this;
         };
         /**
@@ -246,14 +260,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         G3.prototype.add2 = function (a, b) {
             mustBeObject('a', a);
             mustBeObject('b', b);
-            this.w = a.w + b.w;
+            this.α = a.α + b.α;
             this.x = a.x + b.x;
             this.y = a.y + b.y;
             this.z = a.z + b.z;
             this.yz = a.yz + b.yz;
             this.zx = a.zx + b.zx;
             this.xy = a.xy + b.xy;
-            this.xyz = a.xyz + b.xyz;
+            this.β = a.β + b.β;
             return this;
         };
         G3.prototype.adj = function () {
@@ -351,15 +365,24 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.copy = function (M) {
             mustBeObject('M', M);
-            this.w = M.w;
+            this.α = M.α;
             this.x = M.x;
             this.y = M.y;
             this.z = M.z;
             this.yz = M.yz;
             this.zx = M.zx;
             this.xy = M.xy;
-            this.xyz = M.xyz;
+            this.β = M.β;
             return this;
+        };
+        /**
+         * Sets this multivector to the value of the scalar, <code>α</code>.
+         * @method copyScalar
+         * @return {G3}
+         * @chainable
+         */
+        G3.prototype.copyScalar = function (α) {
+            return this.zero().addScalar(α);
         };
         /**
          * <p>
@@ -372,14 +395,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.copySpinor = function (spinor) {
             mustBeObject('spinor', spinor);
-            this.w = spinor.w;
-            this.x = 0;
-            this.y = 0;
-            this.z = 0;
+            this.zero();
+            this.α = spinor.α;
             this.yz = spinor.yz;
             this.zx = spinor.zx;
             this.xy = spinor.xy;
-            this.xyz = 0;
             return this;
         };
         /**
@@ -393,14 +413,10 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.copyVector = function (vector) {
             mustBeObject('vector', vector);
-            this.w = 0;
+            this.zero();
             this.x = vector.x;
             this.y = vector.y;
             this.z = vector.z;
-            this.yz = 0;
-            this.zx = 0;
-            this.xy = 0;
-            this.xyz = 0;
             return this;
         };
         /**
@@ -426,14 +442,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.divByScalar = function (α) {
             mustBeNumber('α', α);
-            this.w /= α;
+            this.α /= α;
             this.x /= α;
             this.y /= α;
             this.z /= α;
             this.yz /= α;
             this.zx /= α;
             this.xy /= α;
-            this.xyz /= α;
+            this.β /= α;
             return this;
         };
         /**
@@ -448,18 +464,18 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.div2 = function (a, b) {
             // FIXME: Generalize
-            var a0 = a.w;
+            var a0 = a.α;
             var a1 = a.yz;
             var a2 = a.zx;
             var a3 = a.xy;
-            var b0 = b.w;
+            var b0 = b.α;
             var b1 = b.yz;
             var b2 = b.zx;
             var b3 = b.xy;
             // Compare this to the product for Quaternions
             // It would be interesting to DRY this out.
-            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
+            this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+            // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -475,22 +491,22 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @chainable
          */
         G3.prototype.dual = function (m) {
-            var w = -m.xyz;
+            var w = -m.β;
             var x = -m.yz;
             var y = -m.zx;
             var z = -m.xy;
             var yz = m.x;
             var zx = m.y;
             var xy = m.z;
-            var xyz = m.w;
-            this.w = w;
+            var β = m.α;
+            this.α = w;
             this.x = x;
             this.y = y;
             this.z = z;
             this.yz = yz;
             this.zx = zx;
             this.xy = xy;
-            this.xyz = xyz;
+            this.β = β;
             return this;
         };
         /**
@@ -502,7 +518,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @chainable
          */
         G3.prototype.exp = function () {
-            var w = this.w;
+            var w = this.α;
             var x = this.yz;
             var y = this.zx;
             var z = this.xy;
@@ -511,7 +527,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             // The orientation of the rotation gets carried in the bivector components.
             var φ = Math.sqrt(x * x + y * y + z * z);
             var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
-            this.w = expW * cos(φ);
+            this.α = expW * cos(φ);
             this.yz = x * s;
             this.zx = y * s;
             this.xy = z * s;
@@ -528,7 +544,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         G3.prototype.inv = function () {
             // FIXME: TODO
             this.conj();
-            // this.divByScalar(this.quaditude());
+            // this.divByScalar(this.squaredNorm());
             return this;
         };
         /**
@@ -536,14 +552,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @return {boolean}
          */
         G3.prototype.isOne = function () {
-            return this.w === 1 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.xyz === 0;
+            return this.α === 1 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.β === 0;
         };
         /**
          * @method isZero
          * @return {boolean}
          */
         G3.prototype.isZero = function () {
-            return this.w === 0 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.xyz === 0;
+            return this.α === 0 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.β === 0;
         };
         /**
          * <p>
@@ -558,14 +574,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         G3.prototype.lerp = function (target, α) {
             mustBeObject('target', target);
             mustBeNumber('α', α);
-            this.w += (target.w - this.w) * α;
+            this.α += (target.α - this.α) * α;
             this.x += (target.x - this.x) * α;
             this.y += (target.y - this.y) * α;
             this.z += (target.z - this.z) * α;
             this.yz += (target.yz - this.yz) * α;
             this.zx += (target.zx - this.zx) * α;
             this.xy += (target.xy - this.xy) * α;
-            this.xyz += (target.xyz - this.xyz) * α;
+            this.β += (target.β - this.β) * α;
             return this;
         };
         /**
@@ -596,7 +612,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.log = function () {
             // FIXME: TODO
-            var w = this.w;
+            var w = this.α;
             var x = this.yz;
             var y = this.zx;
             var z = this.xy;
@@ -604,7 +620,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             var R2 = Math.sqrt(bb);
             var R0 = Math.abs(w);
             var R = Math.sqrt(w * w + bb);
-            this.w = Math.log(R);
+            this.α = Math.log(R);
             var f = Math.atan2(R2, R0) / R2;
             this.yz = x * f;
             this.zx = y * f;
@@ -612,7 +628,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             return this;
         };
         G3.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
+            return Math.sqrt(this.squaredNorm());
         };
         /**
          * <p>
@@ -648,14 +664,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @chainable
          */
         G3.prototype.neg = function () {
-            this.w = -this.w;
+            this.α = -this.α;
             this.x = -this.x;
             this.y = -this.y;
             this.z = -this.z;
             this.yz = this.yz;
             this.zx = -this.zx;
             this.xy = -this.xy;
-            this.xyz = -this.xyz;
+            this.β = -this.β;
             return this;
         };
         /**
@@ -668,7 +684,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         */
         G3.prototype.norm = function () {
             // FIXME: TODO
-            this.w = this.magnitude();
+            this.α = this.magnitude();
             this.yz = 0;
             this.zx = 0;
             this.xy = 0;
@@ -683,16 +699,16 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @chainable
          */
         G3.prototype.normalize = function () {
-            // The quaditude is the squared norm.
-            var norm = Math.sqrt(this.quaditude());
-            this.w = this.w / norm;
+            // The squaredNorm is the squared norm.
+            var norm = Math.sqrt(this.squaredNorm());
+            this.α = this.α / norm;
             this.x = this.x / norm;
             this.y = this.y / norm;
             this.z = this.z / norm;
             this.yz = this.yz / norm;
             this.zx = this.zx / norm;
             this.xy = this.xy / norm;
-            this.xyz = this.xyz / norm;
+            this.β = this.β / norm;
             return this;
         };
         /**
@@ -705,19 +721,19 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         */
         G3.prototype.quad = function () {
             // FIXME: TODO
-            this.w = this.quaditude();
+            this.α = this.squaredNorm();
             this.yz = 0;
             this.zx = 0;
             this.xy = 0;
             return this;
         };
         /**
-         * @method quaditude
+         * @method squaredNorm
          * @return {number} <code>this * conj(this)</code>
          */
-        G3.prototype.quaditude = function () {
+        G3.prototype.squaredNorm = function () {
             // FIXME: TODO
-            var w = this.w;
+            var w = this.α;
             var yz = this.yz;
             var zx = this.zx;
             var xy = this.xy;
@@ -757,14 +773,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.rev = function () {
             // reverse has a ++-- structure.
-            this.w = this.w;
+            this.α = this.α;
             this.x = this.x;
             this.y = this.y;
             this.z = this.z;
             this.yz = -this.yz;
             this.zx = -this.zx;
             this.xy = -this.xy;
-            this.xyz = -this.xyz;
+            this.β = -this.β;
             return this;
         };
         /**
@@ -792,14 +808,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             var a = R.xy;
             var b = R.yz;
             var c = R.zx;
-            var w = R.w;
-            var ix = w * x - c * z + a * y;
-            var iy = w * y - a * x + b * z;
-            var iz = w * z - b * y + c * x;
-            var iw = b * x + c * y + a * z;
-            this.x = ix * w + iw * b + iy * a - iz * c;
-            this.y = iy * w + iw * c + iz * b - ix * a;
-            this.z = iz * w + iw * a + ix * c - iy * b;
+            var α = R.α;
+            var ix = α * x - c * z + a * y;
+            var iy = α * y - a * x + b * z;
+            var iz = α * z - b * y + c * x;
+            var iα = b * x + c * y + a * z;
+            this.x = ix * α + iα * b + iy * a - iz * c;
+            this.y = iy * α + iα * c + iz * b - ix * a;
+            this.z = iz * α + iα * a + ix * c - iy * b;
             return this;
         };
         /**
@@ -833,7 +849,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             this.yz = -axis.x * s;
             this.zx = -axis.y * s;
             this.xy = -axis.z * s;
-            this.w = cos(φ);
+            this.α = cos(φ);
             return this;
         };
         /**
@@ -853,7 +869,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             this.yz = -B.yz * s;
             this.zx = -B.zx * s;
             this.xy = -B.xy * s;
-            this.w = cos(φ);
+            this.α = cos(φ);
             return this;
         };
         /**
@@ -890,14 +906,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.scale = function (α) {
             mustBeNumber('α', α);
-            this.w *= α;
+            this.α *= α;
             this.x *= α;
             this.y *= α;
             this.z *= α;
             this.yz *= α;
             this.zx *= α;
             this.xy *= α;
-            this.xyz *= α;
+            this.β *= α;
             return this;
         };
         G3.prototype.slerp = function (target, α) {
@@ -923,15 +939,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             var bx = b.x;
             var by = b.y;
             var bz = b.z;
-            this.w = 0;
-            this.addScalar(dotVector(a, b));
-            this.x = 0;
-            this.y = 0;
-            this.z = 0;
+            this.zero();
+            this.α = dotVector(a, b);
             this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
             this.zx = wedgeZX(ax, ay, az, bx, by, bz);
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
-            this.xyz = 0;
             return this;
         };
         /**
@@ -948,14 +960,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             if (α === void 0) { α = 1; }
             mustBeObject('M', M);
             mustBeNumber('α', α);
-            this.w -= M.w * α;
+            this.α -= M.α * α;
             this.x -= M.x * α;
             this.y -= M.y * α;
             this.z -= M.z * α;
             this.yz -= M.yz * α;
             this.zx -= M.zx * α;
             this.xy -= M.xy * α;
-            this.xyz -= M.xyz * α;
+            this.β -= M.β * α;
             return this;
         };
         /**
@@ -971,14 +983,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         G3.prototype.sub2 = function (a, b) {
             mustBeObject('a', a);
             mustBeObject('b', b);
-            this.w = a.w - b.w;
+            this.α = a.α - b.α;
             this.x = a.x - b.x;
             this.y = a.y - b.y;
             this.z = a.z - b.z;
             this.yz = a.yz - b.yz;
             this.zx = a.zx - b.zx;
             this.xy = a.xy - b.xy;
-            this.xyz = a.xyz - b.xyz;
+            this.β = a.β - b.β;
             return this;
         };
         /**
@@ -1033,6 +1045,23 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.ext2 = function (a, b) {
             return extG3(a, b, this);
+        };
+        /**
+         * Sets this multivector to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {G3}
+         * @chainable
+         */
+        G3.prototype.zero = function () {
+            this.α = 0;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            this.β = 0;
+            return this;
         };
         /**
          * @method __add__
@@ -1335,14 +1364,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.copy = function (M) {
             var copy = new G3();
-            copy.w = M.w;
+            copy.α = M.α;
             copy.x = M.x;
             copy.y = M.y;
             copy.z = M.z;
             copy.yz = M.yz;
             copy.zx = M.zx;
             copy.xy = M.xy;
-            copy.xyz = M.xyz;
+            copy.β = M.β;
             return copy;
         };
         /**
@@ -1353,9 +1382,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @chainable
          */
         G3.fromScalar = function (α) {
-            var copy = new G3();
-            copy.w = α;
-            return copy;
+            return new G3().copyScalar(α);
         };
         /**
          * @method fromSpinor
@@ -1366,7 +1393,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.fromSpinor = function (spinor) {
             var copy = new G3();
-            copy.w = spinor.w;
+            copy.α = spinor.α;
             copy.yz = spinor.yz;
             copy.zx = spinor.yz;
             copy.xy = spinor.xy;

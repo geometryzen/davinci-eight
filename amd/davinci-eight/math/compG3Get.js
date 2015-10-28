@@ -13,7 +13,7 @@ define(["require", "exports"], function (require, exports) {
     function gcompE3(m, index) {
         switch (index) {
             case COORD_W: {
-                return m.w;
+                return m.α;
             }
             case COORD_X: {
                 return m.x;
@@ -34,7 +34,7 @@ define(["require", "exports"], function (require, exports) {
                 return m.zx;
             }
             case COORD_XYZ: {
-                return m.xyz;
+                return m.β;
             }
             default: {
                 throw new Error("index => " + index);

@@ -13,19 +13,21 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      * For a <em>geometric</em> implementation, use the static methods.
      * @class SpinG2
      * @constructor
-     * @param data {number[]}
+     * @param coordinates {number[]}
      */
-    constructor(data: number[]);
+    constructor(coordinates: number[]);
     /**
-     * @property xy
+     * The pseudoscalar part of this spinor as a number.
+     * @property β
      * @type {number}
      */
-    xy: number;
+    β: number;
     /**
-     * @property w
+     * The scalar part of this spinor as a number.
+     * @property α
      * @type {number}
      */
-    w: number;
+    α: number;
     /**
      * <p>
      * <code>this ⟼ this + α * spinor</code>
@@ -48,6 +50,10 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      * @chainable
      */
     add2(a: SpinorE2, b: SpinorE2): SpinG2;
+    /**
+     * Intentionally undocumented.
+     */
+    addPseudo(β: number): SpinG2;
     /**
      * <p>
      * <code>this ⟼ this + α</code>
@@ -94,7 +100,21 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      * @chainable
      */
     copy(spinor: SpinorE2): SpinG2;
+    /**
+     * Sets this spinor to the value of the scalar, <code>α</code>.
+     * @method copyScalar
+     * @param α {number} The scalar to be copied.
+     * @return {SpinG2}
+     * @chainable
+     */
+    copyScalar(α: number): SpinG2;
+    /**
+     * Intentionally undocumented.
+     */
     copySpinor(spinor: SpinorE2): SpinG2;
+    /**
+     * Intentionally undocumented.
+     */
     copyVector(vector: VectorE2): SpinG2;
     /**
      * <p>
@@ -179,6 +199,10 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      * @chainable
      */
     log(): SpinG2;
+    /**
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number;
     /**
      * <p>
@@ -235,10 +259,10 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
     */
     quad(): SpinG2;
     /**
-     * @method quaditude
+     * @method squaredNorm
      * @return {number} <code>this * conj(this)</code>
      */
-    quaditude(): number;
+    squaredNorm(): number;
     rco(rhs: SpinorE2): SpinG2;
     rco2(a: SpinorE2, b: SpinorE2): SpinG2;
     /**
@@ -344,6 +368,12 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
     toString(): string;
     ext(rhs: SpinorE2): SpinG2;
     ext2(a: SpinorE2, b: SpinorE2): SpinG2;
+    /**
+     * Sets this spinor to the identity element for addition.
+     * @return {SpinG2} <code>this</code>
+     * @chainable
+     */
+    zero(): SpinG2;
     /**
      * @method copy
      * @param spinor {SpinorE2}

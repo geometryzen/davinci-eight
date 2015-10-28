@@ -3,7 +3,7 @@ import GeometricE2 = require('../math/GeometricE2')
 function compG2Get(m: GeometricE2, index: number): number {
     switch (index) {
         case 0: {
-            return m.w
+            return m.α
         }
         case 1: {
             return m.x
@@ -12,7 +12,7 @@ function compG2Get(m: GeometricE2, index: number): number {
             return m.y
         }
         case 3: {
-            return m.xy
+            return m.β
         }
         default: {
             throw new Error("index => " + index)

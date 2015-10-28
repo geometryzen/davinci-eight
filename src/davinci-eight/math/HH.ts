@@ -46,6 +46,15 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         this.z += q.z * α
         return this
     }
+
+    /**
+     * Intentionally undocumented.
+     */
+    addPseudo(β: number): HH {
+        mustBeNumber('β', β)
+        return this
+    }
+
     addScalar(α: number): HH {
         mustBeNumber('α', α)
         this.t += α
@@ -102,6 +111,9 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         this.t = quaternion.t;
         return this;
     }
+    copyScalar(α: number): HH {
+        return this.zero().addScalar(α)
+    }
     copySpinor(spinor: HH) {
         this.x = spinor.x
         this.y = spinor.y
@@ -110,11 +122,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         return this
     }
     copyVector(vector: VectorE3) {
-        this.x = 0
-        this.y = 0
-        this.z = 0
-        this.t = 0
-        return this
+        return this.zero()
     }
     cos(): HH {
         return this;
@@ -169,7 +177,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         return this
     }
     magnitude(): number {
-        return Math.sqrt(this.quaditude());
+        return Math.sqrt(this.squaredNorm());
     }
     mul(q: HH): HH {
         return this.mul2(this, q);
@@ -184,7 +192,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         return this;
     }
     norm(): HH {
-        this.t = this.quaditude()
+        this.t = this.squaredNorm()
         this.x = 0
         this.y = 0
         this.z = 0
@@ -221,14 +229,14 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
     }
 
     quad(): HH {
-        this.t = this.quaditude()
+        this.t = this.squaredNorm()
         this.x = 0
         this.y = 0
         this.z = 0
         return this
     }
 
-    quaditude(): number {
+    squaredNorm(): number {
         return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
     }
     reflect(n: VectorE3): HH {
@@ -429,6 +437,21 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
     ext2(a: HH, b: HH): HH {
         return this
     }
+
+    /**
+     * Sets this quaternion to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {HH}
+     * @chainable
+     */
+    zero(): HH {
+        this.t = 0
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        return this
+    }
+
     public static slerp(qa: HH, qb: HH, qm: HH, t: number): HH {
         return qm.copy(qa).slerp(qb, t);
     }

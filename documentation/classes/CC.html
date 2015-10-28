@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -225,7 +225,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_CC.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:56</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_CC.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:60</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -245,10 +245,10 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>x</code>
+                        <code>α</code>
                 </li>
                 <li class="arg">
-                        <code>y</code>
+                        <code>β</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -263,7 +263,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:56</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:60</code></a>
         </p>
 
 
@@ -279,23 +279,23 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">x</code>
+                        <code class="param-name">α</code>
                         <span class="type">Object</span>
 
 
                     <div class="param-description">
-                        <p>The real part of the complex number.</p>
+                        <p>The <em>scalar</em> or <em>real</em> part of the complex number.</p>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name">y</code>
+                        <code class="param-name">β</code>
                         <span class="type">Object</span>
 
 
                     <div class="param-description">
-                        <p>The imaginary part of the complex number.</p>
+                        <p>The <em>pseudoscalar</em> or <em>imaginary</em> part of the complex number.</p>
 
                     </div>
 
@@ -381,10 +381,6 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_gradeZero">gradeZero</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_inv">inv</a>
 
                             </li>
@@ -437,6 +433,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_squaredNorm">squaredNorm</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_sub">sub</a>
 
                             </li>
@@ -459,12 +459,20 @@
                                 <a href="#property_uom">uom</a>
 
                             </li>
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property_x">x</a>
 
                             </li>
-                            <li class="index-item property">
+                            <li class="index-item property private">
                                 <a href="#property_y">y</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_α">α</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_β">β</a>
 
                             </li>
                     </ul>
@@ -501,7 +509,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:87</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:116</code></a>
         </p>
 
 
@@ -558,7 +566,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l492"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:492</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l523"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:523</code></a>
         </p>
 
 
@@ -599,7 +607,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l483"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:483</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l514"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:514</code></a>
         </p>
 
 
@@ -646,7 +654,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l473"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:473</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l504"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:504</code></a>
         </p>
 
 
@@ -709,7 +717,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l463"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:463</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l494"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:494</code></a>
         </p>
 
 
@@ -766,7 +774,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l501"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:501</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l532"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:532</code></a>
         </p>
 
 
@@ -812,7 +820,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:78</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:107</code></a>
         </p>
 
 
@@ -874,7 +882,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l210"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:210</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l239"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:239</code></a>
         </p>
 
 
@@ -930,7 +938,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l419"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:419</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l450"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:450</code></a>
         </p>
 
 
@@ -970,7 +978,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l274"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:274</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l303"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:303</code></a>
         </p>
 
 
@@ -1010,7 +1018,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l285"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:285</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l314"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:314</code></a>
         </p>
 
 
@@ -1056,7 +1064,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:175</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:204</code></a>
         </p>
 
 
@@ -1118,7 +1126,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l184"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:184</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:213</code></a>
         </p>
 
 
@@ -1174,7 +1182,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l296"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:296</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l325"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:325</code></a>
         </p>
 
 
@@ -1191,46 +1199,6 @@
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/CC.html" class="crosslink">CC</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_gradeZero" class="method item">
-    <h3 class="name"><code>gradeZero</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l411"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:411</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
             </div>
         </div>
 
@@ -1254,7 +1222,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:308</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l337"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:337</code></a>
         </p>
 
 
@@ -1295,7 +1263,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l320"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:320</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l349"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:349</code></a>
         </p>
 
 
@@ -1335,7 +1303,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l328"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:328</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l357"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:357</code></a>
         </p>
 
 
@@ -1381,7 +1349,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l247"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:247</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l276"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:276</code></a>
         </p>
 
 
@@ -1443,7 +1411,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l146"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:146</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:175</code></a>
         </p>
 
 
@@ -1499,7 +1467,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l336"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:336</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l365"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:365</code></a>
         </p>
 
 
@@ -1540,7 +1508,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l345"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:345</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l374"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:374</code></a>
         </p>
 
 
@@ -1586,7 +1554,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l265"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:265</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l294"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:294</code></a>
         </p>
 
 
@@ -1642,7 +1610,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l355"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:355</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l384"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:384</code></a>
         </p>
 
 
@@ -1688,7 +1656,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l256"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:256</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l285"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:285</code></a>
         </p>
 
 
@@ -1750,7 +1718,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l365"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:365</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l404"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:404</code></a>
         </p>
 
 
@@ -1806,7 +1774,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l374"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:374</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l413"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:413</code></a>
         </p>
 
 
@@ -1846,7 +1814,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l385"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:385</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l424"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:424</code></a>
         </p>
 
 
@@ -1863,6 +1831,46 @@
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/CC.html" class="crosslink">CC</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_squaredNorm" class="method item">
+    <h3 class="name"><code>squaredNorm</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l394"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:394</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
             </div>
         </div>
 
@@ -1892,7 +1900,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l118"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:118</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:147</code></a>
         </p>
 
 
@@ -1948,7 +1956,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l400"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:400</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l439"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:439</code></a>
         </p>
 
 
@@ -1994,7 +2002,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l226"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:226</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l255"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:255</code></a>
         </p>
 
 
@@ -2048,7 +2056,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:50</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:54</code></a>
         </p>
 
 
@@ -2062,34 +2070,61 @@
 
 
 </div>
-<div id="property_x" class="property item">
+<div id="property_x" class="property item private">
     <h3 class="name"><code>x</code></h3>
     <span class="type">Number</span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:38</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:40</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The real part of the complex number.</p>
+        <p>The <em>real</em> part of the complex number.</p>
 
     </div>
 
 
 
 </div>
-<div id="property_y" class="property item">
+<div id="property_y" class="property item private">
     <h3 class="name"><code>y</code></h3>
     <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:47</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The <em>imaginary</em> part of the complex number.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_α" class="property item">
+    <h3 class="name"><code>α</code></h3>
+    <span class="type">Unknown</span>
 
 
 
@@ -2098,14 +2133,39 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:44</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:79</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The imaginary part of the complex number.</p>
+        <p>The <em>real</em> or <em>scalar</em> part of this complex number.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_β" class="property item">
+    <h3 class="name"><code>β</code></h3>
+    <span class="type">Unknown</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:91</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The <em>imaginary</em> or <em>pseudoscalar</em> part of this complex number.</p>
 
     </div>
 

@@ -164,6 +164,13 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
     toFixed(digits?: number): string {
         return "TODO R4.toFixed"
     }
+    zero(): R4 {
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        this.w = 0
+        return this
+    }
 }
 
 export = R4;

@@ -18,6 +18,11 @@ interface MutableGeometricElement<I, M, S, V> extends GeometricElement<I, M, S, 
     rco2(a: I, b: I): M;
 
     /**
+     * Sets this multivector to the value of the scalar, <code>α</code>.
+     */
+    copyScalar(α: number): M;
+
+    /**
      * Sets this multivector to the value of the spinor.
      */
     copySpinor(spinor: S): M;

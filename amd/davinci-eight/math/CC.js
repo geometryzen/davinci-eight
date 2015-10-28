@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore', '../checks/mustBeNumber', '../math/Unit'], function (require, exports, argSpinorCartesianE2, mathcore, mustBeNumber, Unit) {
+define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore', '../checks/mustBeNumber', '../i18n/readOnly', '../math/Unit'], function (require, exports, argSpinorCartesianE2, mathcore, mustBeNumber, readOnly, Unit) {
     var atan2 = Math.atan2;
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
@@ -7,14 +7,14 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
     var sinh = mathcore.Math.sinh;
     var sqrt = Math.sqrt;
     function mul(a, b) {
-        var x = a.x * b.x - a.y * b.y;
-        var y = a.x * b.y + a.y * b.x;
+        var x = a.α * b.α - a.β * b.β;
+        var y = a.α * b.β + a.β * b.α;
         return new CC(x, y, Unit.mul(a.uom, b.uom));
     }
     function divide(a, b) {
-        var q = b.x * b.x + b.y * b.y;
-        var x = (a.x * b.x + a.y * b.y) / q;
-        var y = (a.y * b.x - a.x * b.y) / q;
+        var q = b.α * b.α + b.β * b.β;
+        var x = (a.α * b.α + a.β * b.β) / q;
+        var y = (a.β * b.α - a.α * b.β) / q;
         return new CC(x, y, Unit.div(a.uom, b.uom));
     }
     function norm(x, y) {
@@ -28,12 +28,12 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
          * @class CC
          * @constructor
          * CConstructs a complex number z = (x, y).
-         * @param x The real part of the complex number.
-         * @param y The imaginary part of the complex number.
+         * @param α The <em>scalar</em> or <em>real</em> part of the complex number.
+         * @param β The <em>pseudoscalar</em> or <em>imaginary</em> part of the complex number.
          */
-        function CC(x, y, uom) {
-            this.x = mustBeNumber('x', x);
-            this.y = mustBeNumber('y', y);
+        function CC(α, β, uom) {
+            this.x = mustBeNumber('α', α);
+            this.y = mustBeNumber('β', β);
             this.uom = uom;
             if (this.uom && this.uom.multiplier !== 1) {
                 var multiplier = this.uom.multiplier;
@@ -42,6 +42,36 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
+        Object.defineProperty(CC.prototype, "α", {
+            /**
+             * The <em>real</em> or <em>scalar</em> part of this complex number.
+             * @property α
+             * @return {number}
+             */
+            get: function () {
+                return this.x;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('α').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CC.prototype, "β", {
+            /**
+             * The <em>imaginary</em> or <em>pseudoscalar</em> part of this complex number.
+             * @property β
+             * @return {number}
+             */
+            get: function () {
+                return this.y;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('β').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         CC.prototype.coordinates = function () {
             return [this.x, this.y];
         };
@@ -304,7 +334,16 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
         CC.prototype.quad = function () {
             var x = this.x;
             var y = this.y;
-            return new CC(x * x + y * y, 0, Unit.mul(this.uom, this.uom));
+            return new CC(this.squaredNorm(), 0, Unit.mul(this.uom, this.uom));
+        };
+        /**
+         * @method squaredNorm
+         * @return {number}
+         */
+        CC.prototype.squaredNorm = function () {
+            var x = this.x;
+            var y = this.y;
+            return x * x + y * y;
         };
         /**
          * @method scale
@@ -346,13 +385,6 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
             var y = this.y;
             var divisor = norm(x, y);
             return new CC(x / divisor, y / divisor);
-        };
-        /**
-         * @method gradeZero
-         * @return {number}
-         */
-        CC.prototype.gradeZero = function () {
-            return this.x;
         };
         /**
          * @method arg

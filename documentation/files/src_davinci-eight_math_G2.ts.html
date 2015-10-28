@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -258,18 +258,21 @@ let COORD_X = 1
 let COORD_Y = 2
 let COORD_XY = 3
 
+let PI = Math.PI
 let abs = Math.abs
 let atan2 = Math.atan2
 let exp = Math.exp
+let log = Math.log
 let cos = Math.cos
 let sin = Math.sin
+let sqrt = Math.sqrt
 
 let BASIS_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;I&quot;]
 /**
  * Coordinates corresponding to basis labels.
  */
 function coordinates(m: GeometricE2): number[] {
-    return [m.w, m.x, m.y, m.xy]
+    return [m.α, m.x, m.y, m.β]
 }
 
 /**
@@ -279,7 +282,7 @@ function duckCopy(value: any): G2 {
     if (isObject(value)) {
         let m = &lt;GeometricE2&gt;value
         if (isNumber(m.x) &amp;&amp; isNumber(m.y)) {
-            if (isNumber(m.w) &amp;&amp; isNumber(m.xy)) {
+            if (isNumber(m.α) &amp;&amp; isNumber(m.β)) {
                 console.warn(&quot;Copying GeometricE2 to G2&quot;)
                 return G2.copy(m)
             }
@@ -289,7 +292,7 @@ function duckCopy(value: any): G2 {
             }
         }
         else {
-            if (isNumber(m.w) &amp;&amp; isNumber(m.xy)) {
+            if (isNumber(m.α) &amp;&amp; isNumber(m.β)) {
                 console.warn(&quot;Copying SpinorE2 to G2&quot;)
                 return G2.fromSpinor(m)
             }
@@ -303,19 +306,19 @@ function duckCopy(value: any): G2 {
     }
 }
 
-function makeConstantE2(label: string, w: number, x: number, y: number, xy: number): GeometricE2 {
+function makeConstantE2(label: string, α: number, x: number, y: number, β: number): GeometricE2 {
     mustBeString(&#x27;label&#x27;, label)
-    mustBeNumber(&#x27;w&#x27;, w)
+    mustBeNumber(&#x27;α&#x27;, α)
     mustBeNumber(&#x27;x&#x27;, x)
     mustBeNumber(&#x27;y&#x27;, y)
-    mustBeNumber(&#x27;xy&#x27;, xy)
+    mustBeNumber(&#x27;β&#x27;, β)
     var that: GeometricE2;
     that = {
-        get w() {
-            return w;
+        get α() {
+            return α;
         },
-        set w(unused: number) {
-            throw new Error(readOnly(label + &#x27;.w&#x27;).message);
+        set α(unused: number) {
+            throw new Error(readOnly(label + &#x27;.α&#x27;).message);
         },
         get x() {
             return x;
@@ -329,16 +332,16 @@ function makeConstantE2(label: string, w: number, x: number, y: number, xy: numb
         set y(unused: number) {
             throw new Error(readOnly(label + &#x27;.y&#x27;).message);
         },
-        get xy() {
-            return xy;
+        get β() {
+            return β;
         },
-        set xy(unused: number) {
-            throw new Error(readOnly(label + &#x27;.xy&#x27;).message);
+        set β(unused: number) {
+            throw new Error(readOnly(label + &#x27;.β&#x27;).message);
         },
         arg(): number {
-            return argSpinorCartesianE2(that.w, that.xy)
+            return argSpinorCartesianE2(that.α, that.β)
         },
-        quaditude(): number {
+        squaredNorm(): number {
             return quadSpinor(that)
         },
         toString() {
@@ -372,15 +375,15 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     }
     /**
      * The coordinate corresponding to the unit standard basis scalar.
-     * @property w
+     * @property α
      * @type {number}
      */
-    get w(): number {
+    get α(): number {
         return this.data[COORD_W]
     }
-    set w(w: number) {
-        this.modified = this.modified || this.data[COORD_W] !== w
-        this.data[COORD_W] = w
+    set α(α: number) {
+        this.modified = this.modified || this.data[COORD_W] !== α
+        this.data[COORD_W] = α
     }
     /**
      * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt; standard basis vector.
@@ -408,15 +411,15 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     }
     /**
      * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
-     * @property xy
+     * @property β
      * @type {number}
      */
-    get xy(): number {
+    get β(): number {
         return this.data[COORD_XY]
     }
-    set xy(xy: number) {
-        this.modified = this.modified || this.data[COORD_XY] !== xy
-        this.data[COORD_XY] = xy
+    set β(β: number) {
+        this.modified = this.modified || this.data[COORD_XY] !== β
+        this.data[COORD_XY] = β
     }
     /**
      * &lt;p&gt;
@@ -431,10 +434,25 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     add(M: GeometricE2, α: number = 1): G2 {
         mustBeObject(&#x27;M&#x27;, M)
         mustBeNumber(&#x27;α&#x27;, α)
-        this.w += M.w * α
+        this.α += M.α * α
         this.x += M.x * α
         this.y += M.y * α
-        this.xy += M.xy * α
+        this.β += M.β * α
+        return this
+    }
+
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ this + Iβ&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method addPseudo
+     * @param β {number}
+     * @return {G2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    addPseudo(β: number): G2 {
+        mustBeNumber(&#x27;β&#x27;, β)
+        this.β += β
         return this
     }
 
@@ -449,7 +467,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     addScalar(α: number): G2 {
         mustBeNumber(&#x27;α&#x27;, α)
-        this.w += α
+        this.α += α
         return this
     }
 
@@ -483,10 +501,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     add2(a: GeometricE2, b: GeometricE2): G2 {
         mustBeObject(&#x27;a&#x27;, a)
         mustBeObject(&#x27;b&#x27;, b)
-        this.w = a.w + b.w
+        this.α = a.α + b.α
         this.x = a.x + b.x
         this.y = a.y + b.y
-        this.xy = a.xy + b.xy
+        this.β = a.β + b.β
         return this
     }
 
@@ -500,7 +518,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @return {number}
      */
     arg(): number {
-        return argSpinorCartesianE2(this.w, this.xy)
+        return argSpinorCartesianE2(this.α, this.β)
     }
 
     /**
@@ -523,7 +541,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     conj(): G2 {
         // FIXME: This is only the bivector part.
         // Also need to think about various involutions.
-        this.xy = -this.xy;
+        this.β = -this.β;
         return this
     }
     /**
@@ -549,18 +567,18 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     lco2(a: GeometricE2, b: GeometricE2): G2 {
-        let a0 = a.w
+        let a0 = a.α
         let a1 = a.x
         let a2 = a.y
-        let a3 = a.xy
-        let b0 = b.w
+        let a3 = a.β
+        let b0 = b.α
         let b1 = b.x
         let b2 = b.y
-        let b3 = b.xy
-        this.w = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        let b3 = b.β
+        this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
         this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
         this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.xy = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
         return this
     }
     /**
@@ -586,18 +604,18 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     rco2(a: GeometricE2, b: GeometricE2): G2 {
-        let a0 = a.w
+        let a0 = a.α
         let a1 = a.x
         let a2 = a.y
-        let a3 = a.xy
-        let b0 = b.w
+        let a3 = a.β
+        let b0 = b.α
         let b1 = b.x
         let b2 = b.y
-        let b3 = b.xy
-        this.w = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        let b3 = b.β
+        this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
         this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
         this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.xy = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
         return this
     }
 
@@ -612,11 +630,21 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     copy(M: GeometricE2): G2 {
         mustBeObject(&#x27;M&#x27;, M)
-        this.w = M.w
+        this.α = M.α
         this.x = M.x
         this.y = M.y
-        this.xy = M.xy
+        this.β = M.β
         return this
+    }
+
+    /**
+     * Sets this multivector to the value of the scalar, &lt;code&gt;α&lt;/code&gt;.
+     * @method copyScalar
+     * @return {G2}
+     * @chainable
+     */
+    copyScalar(α: number): G2 {
+        return this.zero().addScalar(α)
     }
 
     /**
@@ -630,10 +658,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     copySpinor(spinor: SpinorE2) {
         mustBeObject(&#x27;spinor&#x27;, spinor)
-        this.w = spinor.w
+        this.α = spinor.α
         this.x = 0
         this.y = 0
-        this.xy = spinor.xy
+        this.β = spinor.β
         return this
     }
 
@@ -648,10 +676,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     copyVector(vector: VectorE2) {
         mustBeObject(&#x27;vector&#x27;, vector)
-        this.w = 0
+        this.α = 0
         this.x = vector.x
         this.y = vector.y
-        this.xy = 0
+        this.β = 0
         return this
     }
 
@@ -678,10 +706,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     divByScalar(α: number): G2 {
         mustBeNumber(&#x27;α&#x27;, α)
-        this.w /= α
+        this.α /= α
         this.x /= α
         this.y /= α
-        this.xy /= α
+        this.β /= α
         return this
     }
     /**
@@ -708,15 +736,15 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     dual(m: GeometricE2) {
-        let w = -m.xy
+        let w = -m.β
         let x = +m.y
         let y = -m.x
-        let xy = +m.w
+        let β = +m.α
 
-        this.w = w
+        this.α = w
         this.x = x
         this.y = y
-        this.xy = xy
+        this.β = β
         return this
     }
     /**
@@ -728,15 +756,15 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     exp(): G2 {
-        let w = this.w
-        let z = this.xy
+        let w = this.α
+        let z = this.β
         let expW = exp(w)
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
-        let φ = Math.sqrt(z * z)
+        let φ = sqrt(z * z)
         let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.w = expW * cos(φ);
-        this.xy = z * s;
+        this.α = expW * cos(φ);
+        this.β = z * s;
         return this;
     }
 
@@ -751,7 +779,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     inv(): G2 {
         // FIXME: TODO
         this.conj()
-        // this.divByScalar(this.quaditude());
+        // this.divByScalar(this.squaredNorm());
         return this
     }
 
@@ -760,7 +788,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @return {boolean}
      */
     isOne(): boolean {
-        return this.w === 1 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.xy === 0
+        return this.α === 1 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.β === 0
     }
 
     /**
@@ -768,7 +796,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @return {boolean}
      */
     isZero(): boolean {
-        return this.w === 0 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.xy === 0
+        return this.α === 0 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.β === 0
     }
 
     /**
@@ -784,10 +812,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     lerp(target: GeometricE2, α: number): G2 {
         mustBeObject(&#x27;target&#x27;, target)
         mustBeNumber(&#x27;α&#x27;, α)
-        this.w += (target.w - this.w) * α;
+        this.α += (target.α - this.α) * α;
         this.x += (target.x - this.x) * α;
         this.y += (target.y - this.y) * α;
-        this.xy += (target.xy - this.xy) * α;
+        this.β += (target.β - this.β) * α;
         return this;
     }
     /**
@@ -810,7 +838,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     }
     /**
      * &lt;p&gt;
-     * &lt;code&gt;this ⟼ log(sqrt(w * w + xy * xy)) + &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; * atan2(xy, w)&lt;/code&gt;
+     * &lt;code&gt;this ⟼ log(sqrt(w * w + β * β)) + &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; * atan2(β, w)&lt;/code&gt;
      * &lt;/p&gt;
      * @method log
      * @return {G2} &lt;code&gt;this&lt;/code&gt;
@@ -818,13 +846,13 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     log() {
         // FIXME: This only handles the spinor components.
-        let w = this.w
-        let xy = this.xy
-        let r = Math.sqrt(w * w + xy * xy)
-        this.w = Math.log(r)
+        let w = this.α
+        let β = this.β
+        let r = sqrt(w * w + β * β)
+        this.α = log(r)
         this.x = 0
         this.y = 0
-        this.xy = Math.atan2(xy, w)
+        this.β = atan2(β, w)
         return this;
     }
 
@@ -833,7 +861,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @return {number} 
      */
     magnitude(): number {
-        return Math.sqrt(this.quaditude());
+        return sqrt(this.squaredNorm());
     }
 
     /**
@@ -859,18 +887,18 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     mul2(a: GeometricE2, b: GeometricE2) {
-        let a0 = a.w
+        let a0 = a.α
         let a1 = a.x
         let a2 = a.y
-        let a3 = a.xy
-        let b0 = b.w
+        let a3 = a.β
+        let b0 = b.α
         let b1 = b.x
         let b2 = b.y
-        let b3 = b.xy
-        this.w = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        let b3 = b.β
+        this.α = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
         this.x = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
         this.y = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.xy = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        this.β = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
         return this
     }
     /**
@@ -882,10 +910,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     neg() {
-        this.w = -this.w
+        this.α = -this.α
         this.x = -this.x
         this.y = -this.y
-        this.xy = -this.xy
+        this.β = -this.β
         return this;
     }
 
@@ -898,10 +926,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     * @chainable
     */
     norm(): G2 {
-        this.w = this.magnitude()
+        this.α = this.magnitude()
         this.x = 0
         this.y = 0
-        this.xy = 0
+        this.β = 0
         return this
     }
 
@@ -914,12 +942,12 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     normalize(): G2 {
-        // The quaditude is the squared norm.
-        let norm = Math.sqrt(this.quaditude())
-        this.w = this.w / norm
+        // The squaredNorm is the squared norm.
+        let norm = sqrt(this.squaredNorm())
+        this.α = this.α / norm
         this.x = this.x / norm
         this.y = this.y / norm
-        this.xy = this.xy / norm
+        this.β = this.β / norm
         return this
     }
 
@@ -935,23 +963,23 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     quad(): G2 {
-        this.w = this.quaditude()
+        this.α = this.squaredNorm()
         this.x = 0
         this.y = 0
-        this.xy = 0
+        this.β = 0
         return this
     }
 
     /**
      * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this &lt;code&gt;G2&lt;/code&gt; multivector. 
-     * @method quaditude
+     * @method squaredNorm
      * @return {number} &lt;code&gt;this | ~this&lt;/code&gt;
      */
-    quaditude(): number {
-        let w = this.w
+    squaredNorm(): number {
+        let w = this.α
         let x = this.x
         let y = this.y
-        let B = this.xy
+        let B = this.β
         return w * w + x * x + y * y + B * B
     }
     /**
@@ -986,10 +1014,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     rev(): G2 {
         // reverse has a ++-- structure.
-        this.w = this.w
+        this.α = this.α
         this.x = this.x
         this.y = this.y
-        this.xy = -this.xy
+        this.β = -this.β
         return this
     }
     /**
@@ -1014,14 +1042,14 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         let x = this.x;
         let y = this.y;
 
-        let a = R.xy;
-        let w = R.w;
+        let a = R.β;
+        let α = R.α;
 
-        let ix = w * x + a * y;
-        let iy = w * y - a * x;
+        let ix = α * x + a * y;
+        let iy = α * y - a * x;
 
-        this.x = ix * w + iy * a;
-        this.y = iy * w - ix * a;
+        this.x = ix * α + iy * a;
+        this.y = iy * α - ix * a;
 
         return this;
     }
@@ -1038,10 +1066,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
             return this;
         }
         else {
-            this.w = void 0;
-            this.x = void 0;
-            this.y = void 0;
-            this.xy = void 0;
+            // In two dimensions, the rotation plane is not ambiguous.
+            // FIXME: This is a bit dubious.
+            // Probably better to make undefined a first-class concept.
+            this.rotorFromGeneratorAngle(G2.I, PI)
         }
         return this;
     }
@@ -1064,7 +1092,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         // The effect will be a scaling of the angle.
         // A non unitary rotor, on the other hand, will scale the transformation.
         // We must also take into account the orientation of B.
-        let xy = B.xy
+        let β = B.β
         /**
          * Sandwich operation means we need the half-angle.
          */
@@ -1072,13 +1100,13 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         /**
          * scalar part = cos(|B| * θ / 2)
          */
-        this.w = cos(abs(xy) * φ)
+        this.α = cos(abs(β) * φ)
         this.x = 0
         this.y = 0
         /**
          * pseudo part = -unit(B) * sin(|B| * θ / 2)
          */
-        this.xy = -sin(xy * φ)
+        this.β = -sin(β * φ)
         return this
     }
 
@@ -1105,10 +1133,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     scp2(a: GeometricE2, b: GeometricE2) {
-        this.w = scpE2(a.w, a.x, a.y, a.xy, b.w, b.x, b.y, b.xy, 0)
+        this.α = scpE2(a.α, a.x, a.y, a.β, b.α, b.x, b.y, b.β, 0)
         this.x = 0
         this.y = 0
-        this.xy = 0
+        this.β = 0
         return this
     }
 
@@ -1121,10 +1149,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     scale(α: number): G2 {
         mustBeNumber(&#x27;α&#x27;, α)
-        this.w *= α
+        this.α *= α
         this.x *= α
         this.y *= α
-        this.xy *= α
+        this.β *= α
         return this
     }
 
@@ -1150,10 +1178,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         let bx = b.x
         let by = b.y
 
-        this.w = dotVector(a, b)
+        this.α = dotVector(a, b)
         this.x = 0
         this.y = 0
-        this.xy = wedgeXY(ax, ay, 0, bx, by, 0) // FIXME wedgeVectorsE2
+        this.β = wedgeXY(ax, ay, 0, bx, by, 0) // FIXME wedgeVectorsE2
 
         return this
     }
@@ -1170,10 +1198,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     sub(M: GeometricE2, α: number = 1): G2 {
         mustBeObject(&#x27;M&#x27;, M)
         mustBeNumber(&#x27;α&#x27;, α)
-        this.w -= M.w * α
+        this.α -= M.α * α
         this.x -= M.x * α
         this.y -= M.y * α
-        this.xy -= M.xy * α
+        this.β -= M.β * α
         return this
     }
     /**
@@ -1189,10 +1217,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     sub2(a: GeometricE2, b: GeometricE2): G2 {
         mustBeObject(&#x27;a&#x27;, a)
         mustBeObject(&#x27;b&#x27;, b)
-        this.w = a.w - b.w
+        this.α = a.α - b.α
         this.x = a.x - b.x
         this.y = a.y - b.y
-        this.xy = a.xy - b.xy
+        this.β = a.β - b.β
         return this
     }
 
@@ -1250,18 +1278,32 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     ext2(a: GeometricE2, b: GeometricE2): G2 {
-        let a0 = a.w
+        let a0 = a.α
         let a1 = a.x
         let a2 = a.y
-        let a3 = a.xy
-        let b0 = b.w
+        let a3 = a.β
+        let b0 = b.α
         let b1 = b.x
         let b2 = b.y
-        let b3 = b.xy
-        this.w = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        let b3 = b.β
+        this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
         this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
         this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.xy = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
+    }
+
+    /**
+     * Sets this multivector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+     * @method zero
+     * @return {G2}
+     * @chainable
+     */
+    zero(): G2 {
+        this.α = 0
+        this.x = 0
+        this.y = 0
+        this.β = 0
         return this
     }
 
@@ -1642,7 +1684,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     static get e2(): G2 { return G2.copy(e2); };
 
     /**
-     * Basis vector corresponding to the &lt;code&gt;xy&lt;/code&gt; coordinate.
+     * Basis vector corresponding to the &lt;code&gt;β&lt;/code&gt; coordinate.
      * @property I
      * @type {G2}
      * @readOnly
@@ -1658,10 +1700,10 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     static copy(M: GeometricE2): G2 {
         var copy = new G2()
-        copy.w = M.w
+        copy.α = M.α
         copy.x = M.x
         copy.y = M.y
-        copy.xy = M.xy
+        copy.β = M.β
         return copy
     }
 
@@ -1673,9 +1715,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @chainable
      */
     static fromScalar(α: number): G2 {
-        var copy = new G2()
-        copy.w = α
-        return copy
+        return new G2().addScalar(α)
     }
 
     /**
@@ -1685,12 +1725,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @static
      */
     static fromSpinor(spinor: SpinorE2): G2 {
-        var copy = new G2()
-        copy.w = spinor.w
-        copy.x = 0
-        copy.y = 0
-        copy.xy = spinor.xy
-        return copy
+        return new G2().copySpinor(spinor)
     }
 
     /**
@@ -1700,12 +1735,13 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @static
      */
     static fromVector(vector: VectorE2): G2 {
-        var copy = new G2()
-        copy.w = 0
-        copy.x = vector.x
-        copy.y = vector.y
-        copy.xy = 0
-        return copy
+        if (isDefined(vector)) {
+            return new G2().copyVector(vector)
+        }
+        else {
+            // We could also return an undefined value here!
+            return void 0
+        }
     }
     /**
     * @method lerp
@@ -1718,6 +1754,18 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     static lerp(A: GeometricE2, B: GeometricE2, α: number): G2 {
         return G2.copy(A).lerp(B, α)
         // return G2.copy(B).sub(A).scale(α).add(A)
+    }
+
+    /**
+     * Computes the rotor that rotates vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
+     * @method rotorFromDirections
+     * @param a {VectorE2} The &lt;em&gt;from&lt;/em&gt; vector.
+     * @param b {VectorE2} The &lt;em&gt;to&lt;/em&gt; vector.
+     * @return {G2}
+     * @static
+     */
+    static rotorFromDirections(a: VectorE2, b: VectorE2): G2 {
+        return new G2().rotorFromDirections(a, b)
     }
 
 }

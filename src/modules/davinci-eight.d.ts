@@ -634,14 +634,14 @@ declare module EIGHT {
      */
     class Euclidean3 implements VectorE3, SpinorE3 {
         static fromSpinorE3(spinor: SpinorE3): Euclidean3;
-        w: number;
+        α: number;
         x: number;
         y: number;
         z: number;
         yz: number;
         zx: number;
         xy: number;
-        xyz: number;
+        β: number;
         uom: Unit;
         static zero: Euclidean3;
         static one: Euclidean3;
@@ -768,8 +768,8 @@ declare module EIGHT {
      *
      */
     interface SpinorE2 {
-        w: number;
-        xy: number;
+        α: number;
+        β: number;
         /**
          * The principal value of the spinor argument, in radians.
          */
@@ -777,7 +777,7 @@ declare module EIGHT {
         /**
          * The squared norm
          */
-        quaditude(): number;
+        squaredNorm(): number;
     }
 
     /**
@@ -802,10 +802,10 @@ declare module EIGHT {
         constructor();
         /**
          * The coordinate corresponding to the unit standard basis scalar.
-         * @property w
+         * @property α
          * @type {number}
          */
-        w: number;
+        α: number;
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
          * @property x
@@ -820,10 +820,10 @@ declare module EIGHT {
         y: number;
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
-         * @property xy
+         * @property β
          * @type {number}
          */
-        xy: number;
+        β: number;
         /**
          * <p>
          * <code>this ⟼ this + M * α</code>
@@ -1113,10 +1113,10 @@ declare module EIGHT {
         quad(): G2;
 
         /**
-         * @method quaditude
+         * @method squaredNorm
          * @return {number} <code>this * conj(this)</code>
          */
-        quaditude(): number;
+        squaredNorm(): number;
         /**
          * <p>
          * <code>this ⟼ - n * this * n</code>
@@ -1308,7 +1308,7 @@ declare module EIGHT {
         static e2: G2;
     
         /**
-         * Basis vector corresponding to the <code>xy</code> coordinate.
+         * Basis vector corresponding to the <code>β</code> coordinate.
          * @property I
          * @type {G2}
          * @readOnly
@@ -1361,6 +1361,11 @@ declare module EIGHT {
         * @chainable
         */
         static lerp(A: GeometricE2, B: GeometricE2, α: number): G2;
+
+        /**
+         * Computes the rotor corresponding to a rotation from <code>a</code> to <code>b</code>.
+         */
+        static rotorFromDirections(a: VectorE2, b: VectorE2): G2;
     }
 
     /**
@@ -1401,7 +1406,7 @@ declare module EIGHT {
         copy(v: VectorE2): R2;
         magnitude(): number;
         scale(s: number): R2;
-        quaditude(): number;
+        squaredNorm(): number;
         set(x: number, y: number): R2;
         sub(v: VectorE2): R2;
         diff(a: VectorE2, b: VectorE2): R2;
@@ -1412,10 +1417,10 @@ declare module EIGHT {
     interface PseudoE3 {
         /**
          * The coordinate corresponding to the I<sub>3</sub> <code>=</code> <b>e</b><sub>1</sub><b>e</b><sub>2</sub><b>e</b><sub>2</sub> standard basis pseudoscalar.
-         * @property xyz
+         * @property β
          * @type {number}
          */
-        xyz: number;
+        β: number;
     }
 
     /**
@@ -1425,7 +1430,7 @@ declare module EIGHT {
         yz: number;
         zx: number;
         xy: number;
-        w: number;
+        α: number;
     }
 
     /**
@@ -1440,10 +1445,10 @@ declare module EIGHT {
     class G3 extends VectorN<number> {
         /**
          * The coordinate corresponding to the unit standard basis scalar.
-         * @property w
+         * @property α
          * @type {number}
          */
-        w: number;
+        α: number;
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
          */
@@ -1469,11 +1474,11 @@ declare module EIGHT {
          */
         xy: number;
         /**
-         * The coordinate corresponding to the I<sub>3</sub> <code>=</code> <b>e</b><sub>1</sub><b>e</b><sub>2</sub><b>e</b><sub>2</sub> standard basis pseudoscalar.
-         * @property xyz
+         * The pseudoscalar coordinate of the multivector.
+         * @property β
          * @type {number}
          */
-        xyz: number;
+        β: number;
         /**
          * Constructs a <code>G3</code>.
          * The multivector is initialized to zero.
@@ -1757,7 +1762,7 @@ declare module EIGHT {
         public yz: number;
         public zx: number;
         public xy: number;
-        public w: number;
+        public α: number;
         /**
          *
          */
@@ -1799,7 +1804,7 @@ declare module EIGHT {
          * Sets this SpinG3 to the geometric product of the vectors a and b, a * b.
          */
         mul2(a: SpinorE3, b: SpinorE3): SpinG3;
-        quaditude(): number;
+        squaredNorm(): number;
         rev(): SpinG3;
         reflect(n: VectorE3): SpinG3;
         /**
@@ -1880,7 +1885,7 @@ declare module EIGHT {
         lerp(target: VectorE3, alpha: number): R3;
         scale(rhs: number): R3;
         normalize(): R3;
-        quaditude(): number;
+        squaredNorm(): number;
         quadranceTo(position: VectorE3): number;
         reflect(n: VectorE3): R3;
         rotate(rotor: SpinorE3): R3;

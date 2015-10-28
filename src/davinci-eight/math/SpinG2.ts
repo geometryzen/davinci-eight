@@ -3,13 +3,14 @@ import dotVectorCartesian = require('../math/dotVectorCartesianE2')
 import copyToArray = require('../collections/copyToArray')
 import dotVector = require('../math/dotVectorE2')
 import expectArg = require('../checks/expectArg')
+import isDefined = require('../checks/isDefined')
 import MutableGeometricElement = require('../math/MutableGeometricElement')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import Mutable = require('../math/Mutable')
 import quadSpinor = require('../math/quadSpinorE2')
 import quadVector = require('../math/quadVectorE2')
-//import scpG2 = require('../math/scpG2')
+import rotorFromDirections = require('../math/rotorFromDirections')
 import SpinorE2 = require('../math/SpinorE2')
 import TrigMethods = require('../math/TrigMethods')
 import VectorE2 = require('../math/VectorE2')
@@ -22,7 +23,11 @@ import wedgeZX = require('../math/wedgeZX')
 let COORD_W = 1
 let COORD_XY = 0
 
+let PI = Math.PI
+let abs = Math.abs
+let atan2 = Math.atan2
 let exp = Math.exp
+let log = Math.log
 let cos = Math.cos
 let sin = Math.sin
 let sqrt = Math.sqrt
@@ -38,34 +43,38 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * For a <em>geometric</em> implementation, use the static methods.
      * @class SpinG2
      * @constructor
-     * @param data {number[]}
+     * @param coordinates {number[]}
      */
-    constructor(data: number[]) {
-        super(data, false, 2)
+    constructor(coordinates: number[]) {
+        super(coordinates, false, 2)
     }
+
     /**
-     * @property xy
+     * The pseudoscalar part of this spinor as a number.
+     * @property β
      * @type {number}
      */
-    get xy(): number {
+    get β(): number {
         return this.data[COORD_XY];
     }
-    set xy(xy: number) {
-        mustBeNumber('xy', xy)
-        this.modified = this.modified || this.xy !== xy;
-        this.data[COORD_XY] = xy;
+    set β(β: number) {
+        mustBeNumber('β', β)
+        this.modified = this.modified || this.β !== β;
+        this.data[COORD_XY] = β;
     }
+
     /**
-     * @property w
+     * The scalar part of this spinor as a number.
+     * @property α
      * @type {number}
      */
-    get w(): number {
+    get α(): number {
         return this.data[COORD_W];
     }
-    set w(w: number) {
-        mustBeNumber('w', w)
-        this.modified = this.modified || this.w !== w;
-        this.data[COORD_W] = w;
+    set α(α: number) {
+        mustBeNumber('α', α)
+        this.modified = this.modified || this.α !== α;
+        this.data[COORD_W] = α;
     }
 
     /**
@@ -81,8 +90,8 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     add(spinor: SpinorE2, α: number = 1): SpinG2 {
         mustBeObject('spinor', spinor)
         mustBeNumber('α', α)
-        this.xy += spinor.xy * α
-        this.w += spinor.w * α
+        this.β += spinor.β * α
+        this.α += spinor.α * α
         return this
     }
 
@@ -97,9 +106,18 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     add2(a: SpinorE2, b: SpinorE2): SpinG2 {
-        this.w = a.w + b.w
-        this.xy = a.xy + b.xy
+        this.α = a.α + b.α
+        this.β = a.β + b.β
         return this;
+    }
+
+    /**
+     * Intentionally undocumented.
+     */
+    addPseudo(β: number): SpinG2 {
+        mustBeNumber('β', β)
+        this.β += β
+        return this
     }
 
     /**
@@ -113,7 +131,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      */
     addScalar(α: number): SpinG2 {
         mustBeNumber('α', α)
-        this.w += α
+        this.α += α
         return this
     }
 
@@ -131,7 +149,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @return {number}
      */
     arg(): number {
-        return argSpinorCartesianE2(this.w, this.xy)
+        return argSpinorCartesianE2(this.α, this.β)
     }
 
     /**
@@ -142,6 +160,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     clone(): SpinG2 {
         return SpinG2.copy(this)
     }
+
     /**
      * <p>
      * <code>this ⟼ (w, -B)</code>
@@ -151,9 +170,10 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     conj() {
-        this.xy = -this.xy
+        this.β = -this.β
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ copy(spinor)</code>
@@ -165,18 +185,37 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      */
     copy(spinor: SpinorE2): SpinG2 {
         mustBeObject('spinor', spinor)
-        this.xy = mustBeNumber('spinor.xy', spinor.xy)
-        this.w = mustBeNumber('spinor.w', spinor.w)
+        this.β = mustBeNumber('spinor.β', spinor.β)
+        this.α = mustBeNumber('spinor.α', spinor.α)
         return this;
     }
+
+    /**
+     * Sets this spinor to the value of the scalar, <code>α</code>.
+     * @method copyScalar
+     * @param α {number} The scalar to be copied.
+     * @return {SpinG2}
+     * @chainable
+     */
+    copyScalar(α: number): SpinG2 {
+        return this.zero().addScalar(α)
+    }
+
+    /**
+     * Intentionally undocumented.
+     */
     copySpinor(spinor: SpinorE2): SpinG2 {
         return this.copy(spinor);
     }
+
+    /**
+     * Intentionally undocumented.
+     */
     copyVector(vector: VectorE2): SpinG2 {
-        this.xy = 0
-        this.w = 0
-        return this
+        // The spinor has no vector components.
+        return this.zero()
     }
+
     /**
      * <p>
      * <code>this ⟼ this / s</code>
@@ -201,15 +240,16 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     div2(a: SpinorE2, b: SpinorE2): SpinG2 {
-        let a0 = a.w;
-        let a1 = a.xy;
-        let b0 = b.w;
-        let b1 = b.xy;
+        let a0 = a.α;
+        let a1 = a.β;
+        let b0 = b.α;
+        let b1 = b.β;
         let quadB = quadSpinor(b)
-        this.w = (a0 * b0 + a1 * b1) / quadB
-        this.xy = (a1 * b0 - a0 * b1) / quadB
+        this.α = (a0 * b0 + a1 * b1) / quadB
+        this.β = (a1 * b0 - a0 * b1) / quadB
         return this;
     }
+
     /**
      * <p>
      * <code>this ⟼ this / α</code>
@@ -220,10 +260,11 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     divByScalar(α: number): SpinG2 {
-        this.xy /= α
-        this.w /= α
+        this.β /= α
+        this.α /= α
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ e<sup>this</sup></code>
@@ -233,16 +274,16 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     exp(): SpinG2 {
-        let w = this.w
-        let z = this.xy
+        let w = this.α
+        let z = this.β
         let expW = exp(w)
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
         // FIXME: DRY
         let φ = sqrt(z * z)
         let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.w = expW * cos(φ);
-        this.xy = z * s;
+        this.α = expW * cos(φ);
+        this.β = z * s;
         return this;
     }
     /**
@@ -255,7 +296,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      */
     inv() {
         this.conj()
-        this.divByScalar(this.quaditude());
+        this.divByScalar(this.squaredNorm());
         return this
     }
 
@@ -314,21 +355,27 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     log(): SpinG2 {
-        let w = this.w
-        let z = this.xy
+        let w = this.α
+        let z = this.β
         // FIXME: DRY
         let bb = z * z
         let R2 = sqrt(bb)
-        let R0 = Math.abs(w)
+        let R0 = abs(w)
         let R = sqrt(w * w + bb)
-        this.w = Math.log(R)
-        let f = Math.atan2(R2, R0) / R2
-        this.xy = z * f
+        this.α = log(R)
+        let f = atan2(R2, R0) / R2
+        this.β = z * f
         return this;
     }
-    magnitude() {
-        return sqrt(this.quaditude());
+
+    /**
+     * @method magnitude
+     * @return {number}
+     */
+    magnitude(): number {
+        return sqrt(this.squaredNorm())
     }
+
     /**
      * <p>
      * <code>this ⟼ this * s</code>
@@ -341,6 +388,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     mul(s: SpinorE2): SpinG2 {
         return this.mul2(this, s)
     }
+
     /**
      * <p>
      * <code>this ⟼ a * b</code>
@@ -352,24 +400,26 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     mul2(a: SpinorE2, b: SpinorE2) {
-        let a0 = a.w
-        let a1 = a.xy
-        let b0 = b.w
-        let b1 = b.xy
-        this.w = a0 * b0 - a1 * b1
-        this.xy = a0 * b1 + a1 * b0
+        let a0 = a.α
+        let a1 = a.β
+        let b0 = b.α
+        let b1 = b.β
+        this.α = a0 * b0 - a1 * b1
+        this.β = a0 * b1 + a1 * b0
         return this
     }
+
     /**
      * @method neg
      * @return {SpinG2} <code>this</code>
      * @chainable
      */
     neg(): SpinG2 {
-        this.w = -this.w
-        this.xy = -this.xy
+        this.α = -this.α
+        this.β = -this.β
         return this;
     }
+
     /**
     * <p>
     * <code>this ⟼ sqrt(this * conj(this))</code>
@@ -379,9 +429,8 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     * @chainable
     */
     norm(): SpinG2 {
-        this.w = this.magnitude()
-        this.xy = 0
-        return this
+        let norm = this.magnitude()
+        return this.zero().addScalar(norm)
     }
     /**
      * <p>
@@ -393,8 +442,8 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      */
     normalize(): SpinG2 {
         let modulus = this.magnitude()
-        this.xy = this.xy / modulus
-        this.w = this.w / modulus
+        this.β = this.β / modulus
+        this.α = this.α / modulus
         return this
     }
     /**
@@ -406,15 +455,14 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     * @chainable
     */
     quad(): SpinG2 {
-        this.w = this.quaditude()
-        this.xy = 0
-        return this
+        let squaredNorm = this.squaredNorm()
+        return this.zero().addScalar(squaredNorm)
     }
     /**
-     * @method quaditude
+     * @method squaredNorm
      * @return {number} <code>this * conj(this)</code>
      */
-    quaditude(): number {
+    squaredNorm(): number {
         return quadSpinor(this)
     }
 
@@ -437,7 +485,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     rev(): SpinG2 {
-        this.xy *= - 1;
+        this.β *= - 1;
         return this;
     }
     /**
@@ -449,13 +497,13 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     reflect(n: VectorE2): SpinG2 {
-        let w = this.w;
-        let xy = this.xy;
+        let w = this.α;
+        let β = this.β;
         let nx = n.x;
         let ny = n.y;
         let nn = nx * nx + ny * ny
-        this.w = nn * w
-        this.xy = - nn * xy
+        this.α = nn * w
+        this.β = - nn * β
         return this;
     }
     /**
@@ -482,15 +530,15 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     rotorFromDirections(a: VectorE2, b: VectorE2): SpinG2 {
-        let quadA = quadVector(a)
-        let absA = sqrt(quadA)
-        let quadB = quadVector(b)
-        let absB = sqrt(quadB)
-        let BA = absB * absA
-        let denom = sqrt(2 * (quadB * quadA + BA * dotVector(b, a)))
-        this.spinor(b, a).addScalar(BA)
-        this.divByScalar(denom)
-        return this;
+        if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
+            return this;
+        }
+        else {
+            // In two dimensions, the rotation plane is not ambiguous.
+            // FIXME: This is a bit dubious.
+            // Probably better to make undefined a first-class concept.
+            // ... this.undefined()
+        }
     }
 
     /**
@@ -505,8 +553,8 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     rotorFromGeneratorAngle(B: SpinorE2, θ: number): SpinG2 {
         let φ = θ / 2
         let s = sin(φ)
-        this.xy = -B.xy * s
-        this.w = cos(φ)
+        this.β = -B.β * s
+        this.α = cos(φ)
         return this
     }
 
@@ -528,8 +576,8 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      */
     scale(α: number): SpinG2 {
         mustBeNumber('α', α)
-        this.xy *= α;
-        this.w *= α;
+        this.β *= α;
+        this.α *= α;
         return this;
     }
 
@@ -557,8 +605,8 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     sub(s: SpinorE2, α: number = 1): SpinG2 {
         mustBeObject('s', s)
         mustBeNumber('α', α)
-        this.xy -= s.xy * α
-        this.w -= s.w * α
+        this.β -= s.β * α
+        this.α -= s.α * α
         return this
     }
     /**
@@ -572,8 +620,8 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @chainable
      */
     sub2(a: SpinorE2, b: SpinorE2): SpinG2 {
-        this.xy = a.xy - b.xy
-        this.w = a.w - b.w
+        this.β = a.β - b.β
+        this.α = a.α - b.α
         return this;
     }
     /**
@@ -593,9 +641,9 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
         let bx = b.x
         let by = b.y
 
-        this.w = dotVectorCartesian(ax, ay, bx, by)
+        this.α = dotVectorCartesian(ax, ay, bx, by)
         // TODO: This is a bit wasteful.
-        this.xy = wedgeXY(ax, ay, 0, bx, by, 0)
+        this.β = wedgeXY(ax, ay, 0, bx, by, 0)
 
         return this
     }
@@ -612,7 +660,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @return {string} A non-normative string representation of the target.
      */
     toString(): string {
-        return "SpinG2({xy: " + this.xy + ", w: " + this.w + "})"
+        return "SpinG2({β: " + this.β + ", w: " + this.α + "})"
     }
     ext(rhs: SpinorE2): SpinG2 {
         return this.ext2(this, rhs)
@@ -620,6 +668,17 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     ext2(a: SpinorE2, b: SpinorE2): SpinG2 {
         // FIXME: How to leverage? Maybe break up? Don't want performance hit.
         // scpG2(a, b, this)
+        return this
+    }
+
+    /**
+     * Sets this spinor to the identity element for addition.
+     * @return {SpinG2} <code>this</code>
+     * @chainable
+     */
+    zero(): SpinG2 {
+        this.α = 0
+        this.β = 0
         return this
     }
 

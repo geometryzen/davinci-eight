@@ -2,11 +2,17 @@ import LinearElement = require('../math/LinearElement');
 /**
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
+ * Notice that the effect on the target depends upon whether the target class in mutable.
  */
 interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
 
     /**
-     *
+     * Addition of a pseudoscalar.
+     */
+    addPseudo(β: number): M;
+
+    /**
+     * Addition of a scalar.
      */
     addScalar(α: number): M;
 
@@ -78,7 +84,7 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
     /**
      * squared norm, as a number
      */
-    quaditude(): number; // FIXME: This method drops units. Some authors might call this `det`
+    squaredNorm(): number; // FIXME: This method drops units. Some authors might call this `det`
 
     /**
      * Right contraction

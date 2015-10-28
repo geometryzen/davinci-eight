@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -399,7 +399,7 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, MutableLinearElement
         return this.x * v.x;
     }
     magnitude(): number {
-        return Math.sqrt(this.quaditude());
+        return Math.sqrt(this.squaredNorm());
     }
     normalize() {
         return this.divByScalar(this.magnitude());
@@ -412,7 +412,7 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, MutableLinearElement
         this.x = x * x
         return this
     }
-    quaditude(): number {
+    squaredNorm(): number {
         return this.x * this.x;
     }
     quadranceTo(position: VectorE1) {
@@ -489,6 +489,17 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, MutableLinearElement
         return new R1([this.x]);
     }
     ext(v: VectorE1) {
+        return this
+    }
+
+    /**
+     * Sets this vector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+     * @method zero
+     * @return {R1}
+     * @chainable
+     */
+    zero(): R1 {
+        this.x = 0
         return this
     }
 }

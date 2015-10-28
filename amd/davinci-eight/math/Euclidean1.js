@@ -1,10 +1,10 @@
-define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], function (require, exports, Euclidean1Error, Unit) {
+define(["require", "exports", '../i18n/readOnly', '../math/Unit'], function (require, exports, readOnly, Unit) {
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
         }
         else {
-            throw new Euclidean1Error("Argument '" + name + "' must be a number");
+            throw new Error("Argument '" + name + "' must be a number");
         }
     }
     function assertArgEuclidean1(name, arg) {
@@ -12,7 +12,7 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
             return arg;
         }
         else {
-            throw new Euclidean1Error("Argument '" + arg + "' must be a Euclidean1");
+            throw new Error("Argument '" + arg + "' must be a Euclidean1");
         }
     }
     function assertArgUnitOrUndefined(name, uom) {
@@ -20,21 +20,24 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
             return uom;
         }
         else {
-            throw new Euclidean1Error("Argument '" + uom + "' must be a Unit or undefined");
+            throw new Error("Argument '" + uom + "' must be a Unit or undefined");
         }
     }
+    /**
+     * @class Euclidean1
+     */
     var Euclidean1 = (function () {
         /**
          * The Euclidean1 class represents a multivector for a 1-dimensional linear space with a Euclidean metric.
          *
          * @class Euclidean1
          * @constructor
-         * @param {number} w The grade zero part of the multivector.
+         * @param {number} α The grade zero part of the multivector.
          * @param {number} x The vector component of the multivector in the x-direction.
          * @param uom The optional unit of measure.
          */
-        function Euclidean1(w, x, uom) {
-            this.w = assertArgNumber('w', w);
+        function Euclidean1(α, x, uom) {
+            this.w = assertArgNumber('α', α);
             this.x = assertArgNumber('x', x);
             this.uom = assertArgUnitOrUndefined('uom', uom);
             if (this.uom && this.uom.multiplier !== 1) {
@@ -44,6 +47,21 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
+        Object.defineProperty(Euclidean1.prototype, "α", {
+            /**
+             * The scalar part of this multivector.
+             * @property α
+             * @return {number}
+             */
+            get: function () {
+                return this.w;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('α').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Euclidean1.prototype.coordinates = function () {
             return [this.w, this.x];
         };
@@ -70,20 +88,20 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
         };
         Euclidean1.prototype.mul = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
-            throw new Euclidean1Error('mul');
+            throw new Error('mul');
         };
         Euclidean1.prototype.div = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
-            throw new Euclidean1Error('div');
+            throw new Error('div');
         };
         Euclidean1.prototype.divByScalar = function (α) {
             return new Euclidean1(this.w / α, this.x / α, this.uom);
         };
         Euclidean1.prototype.scp = function (rhs) {
-            throw new Euclidean1Error('wedge');
+            throw new Error('wedge');
         };
         Euclidean1.prototype.ext = function (rhs) {
-            throw new Euclidean1Error('wedge');
+            throw new Error('wedge');
         };
         Euclidean1.prototype.lerp = function (target, α) {
             // FIXME: TODO
@@ -91,24 +109,24 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
         };
         Euclidean1.prototype.lco = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
-            throw new Euclidean1Error('lshift');
+            throw new Error('lshift');
         };
         Euclidean1.prototype.rco = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
-            throw new Euclidean1Error('rshift');
+            throw new Error('rshift');
         };
         Euclidean1.prototype.pow = function (exponent) {
             // assertArgEuclidean1('rhs', rhs)
-            throw new Euclidean1Error('pow');
+            throw new Error('pow');
         };
         Euclidean1.prototype.cos = function () {
-            throw new Euclidean1Error('cos');
+            throw new Error('cos');
         };
         Euclidean1.prototype.cosh = function () {
-            throw new Euclidean1Error('cosh');
+            throw new Error('cosh');
         };
         Euclidean1.prototype.exp = function () {
-            throw new Euclidean1Error('exp');
+            throw new Error('exp');
         };
         Euclidean1.prototype.norm = function () {
             return new Euclidean1(Math.sqrt(this.w * this.w + this.x * this.x), 0, this.uom);
@@ -120,20 +138,17 @@ define(["require", "exports", '../math/Euclidean1Error', '../math/Unit'], functi
             return new Euclidean1(α * this.w, α * this.x, this.uom);
         };
         Euclidean1.prototype.sin = function () {
-            throw new Euclidean1Error('sin');
+            throw new Error('sin');
         };
         Euclidean1.prototype.sinh = function () {
-            throw new Euclidean1Error('sinh');
+            throw new Error('sinh');
         };
         Euclidean1.prototype.slerp = function (target, α) {
             // FIXME: TODO
             return this;
         };
         Euclidean1.prototype.unitary = function () {
-            throw new Euclidean1Error('unitary');
-        };
-        Euclidean1.prototype.gradeZero = function () {
-            return this.w;
+            throw new Error('unitary');
         };
         Euclidean1.prototype.toExponential = function () {
             return "Euclidean1";

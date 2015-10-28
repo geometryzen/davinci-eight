@@ -1,7 +1,7 @@
 /**
  * Computes the principal argument of an E2 spinor from its scalar and bivector components.
- * w: The scalar part.
- * B: The bivector part.
+ * α: The scalar part.
+ * β: The bivector part.
  */
-declare function argSpinorCartesianE2(w: number, B: number): number;
+declare function argSpinorCartesianE2(α: number, β: number): number;
 export = argSpinorCartesianE2;

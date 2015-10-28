@@ -120,7 +120,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
         ModelFacet.prototype.getProperty = function (name) {
             switch (name) {
                 case ModelFacet.PROP_ATTITUDE: {
-                    return [this._attitude.yz, this._attitude.zx, this._attitude.xy, this._attitude.w];
+                    return [this._attitude.yz, this._attitude.zx, this._attitude.xy, this._attitude.α];
                 }
                 case ModelFacet.PROP_POSITION: {
                     return [this._position.x, this._position.y, this._position.z];
@@ -141,26 +141,19 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
             switch (name) {
                 case ModelFacet.PROP_ATTITUDE:
                     {
+                        this._attitude.zero();
                         this._attitude.yz = data[0];
                         this._attitude.zx = data[1];
                         this._attitude.xy = data[2];
-                        this._attitude.w = data[3];
-                        this._attitude.x = 0;
-                        this._attitude.y = 0;
-                        this._attitude.z = 0;
-                        this._attitude.xyz = 0;
+                        this._attitude.α = data[3];
                     }
                     break;
                 case ModelFacet.PROP_POSITION:
                     {
-                        this._position.w = 0;
+                        this._position.zero();
                         this._position.x = data[0];
                         this._position.y = data[1];
                         this._position.z = data[2];
-                        this._position.yz = 0;
-                        this._position.zx = 0;
-                        this._position.xy = 0;
-                        this._position.xyz = 0;
                     }
                     break;
                 default: {

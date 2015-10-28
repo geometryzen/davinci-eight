@@ -3,7 +3,7 @@ import GeometricE2 = require('../math/GeometricE2')
 function compG2Set(m: GeometricE2, index: number, value: number): void {
     switch (index) {
         case 0:
-            m.w = value
+            m.α = value
             break
         case 1:
             m.x = value
@@ -12,7 +12,7 @@ function compG2Set(m: GeometricE2, index: number, value: number): void {
             m.y = value
             break
         case 3:
-            m.xy = value
+            m.β = value
             break
         default:
             throw new Error("index => " + index)

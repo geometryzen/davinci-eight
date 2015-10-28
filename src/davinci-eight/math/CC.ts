@@ -3,6 +3,8 @@ import GeometricOperators = require('../math/GeometricOperators')
 import mathcore = require('../math/mathcore')
 import Measure = require('../math/Measure')
 import mustBeNumber = require('../checks/mustBeNumber')
+import readOnly = require('../i18n/readOnly')
+import SpinorE2 = require('../math/SpinorE2')
 import TrigMethods = require('../math/TrigMethods')
 import Unit = require('../math/Unit')
 
@@ -15,15 +17,15 @@ var sinh = mathcore.Math.sinh
 var sqrt = Math.sqrt
 
 function mul(a: CC, b: CC): CC {
-    var x = a.x * b.x - a.y * b.y
-    var y = a.x * b.y + a.y * b.x
+    let x = a.α * b.α - a.β * b.β
+    let y = a.α * b.β + a.β * b.α
     return new CC(x, y, Unit.mul(a.uom, b.uom))
 }
 
 function divide(a: CC, b: CC): CC {
-    var q = b.x * b.x + b.y * b.y
-    var x = (a.x * b.x + a.y * b.y) / q
-    var y = (a.y * b.x - a.x * b.y) / q
+    let q = b.α * b.α + b.β * b.β
+    let x = (a.α * b.α + a.β * b.β) / q
+    let y = (a.β * b.α - a.α * b.β) / q
     return new CC(x, y, Unit.div(a.uom, b.uom))
 }
 
@@ -34,19 +36,21 @@ function norm(x: number, y: number): number {
 /**
  * @class CC
  */
-class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
+class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, SpinorE2 {
     /**
-     * The real part of the complex number.
+     * The <em>real</em> part of the complex number.
      * @property x
      * @type {number}
+     * @private
      */
-    public x: number;
+    private x: number;
     /**
-     * The imaginary part of the complex number.
+     * The <em>imaginary</em> part of the complex number.
      * @property y
      * @type {number}
+     * @private
      */
-    public y: number;
+    private y: number;
     /**
      * The optional unit of measure.
      * @property uom
@@ -57,12 +61,12 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
      * @class CC
      * @constructor
      * CConstructs a complex number z = (x, y).
-     * @param x The real part of the complex number.
-     * @param y The imaginary part of the complex number.
+     * @param α The <em>scalar</em> or <em>real</em> part of the complex number.
+     * @param β The <em>pseudoscalar</em> or <em>imaginary</em> part of the complex number.
      */
-    constructor(x: number, y: number, uom?: Unit) {
-        this.x = mustBeNumber('x', x)
-        this.y = mustBeNumber('y', y)
+    constructor(α: number, β: number, uom?: Unit) {
+        this.x = mustBeNumber('α', α)
+        this.y = mustBeNumber('β', β)
         this.uom = uom
         if (this.uom && this.uom.multiplier !== 1) {
             var multiplier: number = this.uom.multiplier
@@ -71,6 +75,31 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
     }
+
+    /**
+     * The <em>real</em> or <em>scalar</em> part of this complex number.
+     * @property α
+     * @return {number}
+     */
+    get α(): number {
+        return this.x;
+    }
+    set α(unused) {
+        throw new Error(readOnly('α').message)
+    }
+
+    /**
+     * The <em>imaginary</em> or <em>pseudoscalar</em> part of this complex number.
+     * @property β
+     * @return {number}
+     */
+    get β(): number {
+        return this.y;
+    }
+    set β(unused) {
+        throw new Error(readOnly('β').message)
+    }
+
     coordinates(): number[] {
         return [this.x, this.y]
     }
@@ -359,7 +388,17 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
     quad(): CC {
         var x = this.x;
         var y = this.y;
-        return new CC(x * x + y * y, 0, Unit.mul(this.uom, this.uom));
+        return new CC(this.squaredNorm(), 0, Unit.mul(this.uom, this.uom));
+    }
+
+    /**
+     * @method squaredNorm
+     * @return {number}
+     */
+    squaredNorm(): number {
+        var x = this.x
+        var y = this.y
+        return x * x + y * y
     }
 
     /**
@@ -406,14 +445,6 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
         var y = this.y;
         var divisor = norm(x, y);
         return new CC(x / divisor, y / divisor);
-    }
-
-    /**
-     * @method gradeZero
-     * @return {number}
-     */
-    gradeZero(): number {
-        return this.x;
     }
 
     /**

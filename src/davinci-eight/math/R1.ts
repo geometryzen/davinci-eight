@@ -173,7 +173,7 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         return this.x * v.x;
     }
     magnitude(): number {
-        return Math.sqrt(this.quaditude());
+        return Math.sqrt(this.squaredNorm());
     }
     normalize() {
         return this.divByScalar(this.magnitude());
@@ -186,7 +186,7 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         this.x = x * x
         return this
     }
-    quaditude(): number {
+    squaredNorm(): number {
         return this.x * this.x;
     }
     quadranceTo(position: VectorE1) {
@@ -263,6 +263,17 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         return new R1([this.x]);
     }
     ext(v: VectorE1) {
+        return this
+    }
+
+    /**
+     * Sets this vector to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {R1}
+     * @chainable
+     */
+    zero(): R1 {
+        this.x = 0
         return this
     }
 }

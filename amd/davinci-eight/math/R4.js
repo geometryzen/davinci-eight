@@ -184,6 +184,13 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         R4.prototype.toFixed = function (digits) {
             return "TODO R4.toFixed";
         };
+        R4.prototype.zero = function () {
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.w = 0;
+            return this;
+        };
         return R4;
     })(VectorN);
     return R4;

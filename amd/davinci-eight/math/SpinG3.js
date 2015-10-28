@@ -75,18 +75,18 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(SpinG3.prototype, "w", {
+        Object.defineProperty(SpinG3.prototype, "α", {
             /**
-             * @property w
+             * @property α
              * @type Number
              */
             get: function () {
                 return this.data[3];
             },
-            set: function (w) {
-                mustBeNumber('w', w);
-                this.modified = this.modified || this.w !== w;
-                this.data[3] = w;
+            set: function (α) {
+                mustBeNumber('α', α);
+                this.modified = this.modified || this.α !== α;
+                this.data[3] = α;
             },
             enumerable: true,
             configurable: true
@@ -108,7 +108,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz += spinor.yz * α;
             this.zx += spinor.zx * α;
             this.xy += spinor.xy * α;
-            this.w += spinor.w * α;
+            this.α += spinor.α * α;
             return this;
         };
         /**
@@ -122,10 +122,17 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @chainable
          */
         SpinG3.prototype.add2 = function (a, b) {
-            this.w = a.w + b.w;
+            this.α = a.α + b.α;
             this.yz = a.yz + b.yz;
             this.zx = a.zx + b.zx;
             this.xy = a.xy + b.xy;
+            return this;
+        };
+        /**
+         * Intentionally undocumented.
+         */
+        SpinG3.prototype.addPseudo = function (β) {
+            mustBeNumber('β', β);
             return this;
         };
         /**
@@ -139,7 +146,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          */
         SpinG3.prototype.addScalar = function (α) {
             mustBeNumber('α', α);
-            this.w += α;
+            this.α += α;
             return this;
         };
         /**
@@ -193,18 +200,30 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz = mustBeNumber('spinor.yz', spinor.yz);
             this.zx = mustBeNumber('spinor.zx', spinor.zx);
             this.xy = mustBeNumber('spinor.xy', spinor.xy);
-            this.w = mustBeNumber('spinor.w', spinor.w);
+            this.α = mustBeNumber('spinor.α', spinor.α);
             return this;
         };
-        SpinG3.prototype.copySpinor = function (spinor) {
-            return this.copy(spinor);
+        /**
+         * Sets this spinor to the value of the scalar, <code>α</code>.
+         * @method copyScalar
+         * @param α {number} The scalar to be copied.
+         * @return {SpinG3}
+         * @chainable
+         */
+        SpinG3.prototype.copyScalar = function (α) {
+            return this.zero().addScalar(α);
         };
+        /**
+         * Intentionally undocumented.
+         */
+        SpinG3.prototype.copySpinor = function (s) {
+            return this.copy(s);
+        };
+        /**
+         * Intentionally undocumented.
+         */
         SpinG3.prototype.copyVector = function (vector) {
-            this.yz = 0;
-            this.zx = 0;
-            this.xy = 0;
-            this.w = 0;
-            return this;
+            return this.zero();
         };
         /**
          * <p>
@@ -229,19 +248,19 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @chainable
          */
         SpinG3.prototype.div2 = function (a, b) {
-            var a0 = a.w;
+            var a0 = a.α;
             var a1 = a.yz;
             var a2 = a.zx;
             var a3 = a.xy;
-            var b0 = b.w;
+            var b0 = b.α;
             var b1 = b.yz;
             var b2 = b.zx;
             var b3 = b.xy;
             // Compare this to the product for Quaternions
             // How does this compare to G3
             // It would be interesting to DRY this out.
-            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
+            this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+            // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -260,7 +279,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz /= α;
             this.zx /= α;
             this.xy /= α;
-            this.w /= α;
+            this.α /= α;
             return this;
         };
         /**
@@ -274,7 +293,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          */
         SpinG3.prototype.dual = function (v) {
             mustBeObject('v', v);
-            this.w = 0;
+            this.α = 0;
             this.yz = mustBeNumber('v.x', v.x);
             this.zx = mustBeNumber('v.y', v.y);
             this.xy = mustBeNumber('v.z', v.z);
@@ -289,7 +308,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @chainable
          */
         SpinG3.prototype.exp = function () {
-            var w = this.w;
+            var w = this.α;
             var x = this.yz;
             var y = this.zx;
             var z = this.xy;
@@ -299,7 +318,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             // FIXME: DRY
             var φ = sqrt(x * x + y * y + z * z);
             var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
-            this.w = expW * cos(φ);
+            this.α = expW * cos(φ);
             this.yz = x * s;
             this.zx = y * s;
             this.xy = z * s;
@@ -315,7 +334,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          */
         SpinG3.prototype.inv = function () {
             this.conj();
-            this.divByScalar(this.quaditude());
+            this.divByScalar(this.squaredNorm());
             return this;
         };
         SpinG3.prototype.lco = function (rhs) {
@@ -371,7 +390,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @chainable
          */
         SpinG3.prototype.log = function () {
-            var w = this.w;
+            var w = this.α;
             var x = this.yz;
             var y = this.zx;
             var z = this.xy;
@@ -380,7 +399,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             var R2 = sqrt(bb);
             var R0 = Math.abs(w);
             var R = sqrt(w * w + bb);
-            this.w = Math.log(R);
+            this.α = Math.log(R);
             var f = Math.atan2(R2, R0) / R2;
             this.yz = x * f;
             this.zx = y * f;
@@ -388,7 +407,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             return this;
         };
         SpinG3.prototype.magnitude = function () {
-            return sqrt(this.quaditude());
+            return sqrt(this.squaredNorm());
         };
         /**
          * <p>
@@ -413,18 +432,18 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @chainable
          */
         SpinG3.prototype.mul2 = function (a, b) {
-            var a0 = a.w;
+            var a0 = a.α;
             var a1 = a.yz;
             var a2 = a.zx;
             var a3 = a.xy;
-            var b0 = b.w;
+            var b0 = b.α;
             var b1 = b.yz;
             var b2 = b.zx;
             var b3 = b.xy;
             // Compare this to the product for Quaternions
             // It would be interesting to DRY this out.
-            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            // this.w = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
+            this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+            // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
@@ -436,7 +455,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @chainable
          */
         SpinG3.prototype.neg = function () {
-            this.w = -this.w;
+            this.α = -this.α;
             this.yz = -this.yz;
             this.zx = -this.zx;
             this.xy = -this.xy;
@@ -451,11 +470,8 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
         * @chainable
         */
         SpinG3.prototype.norm = function () {
-            this.w = this.magnitude();
-            this.yz = 0;
-            this.zx = 0;
-            this.xy = 0;
-            return this;
+            var norm = this.magnitude();
+            return this.zero().addScalar(norm);
         };
         /**
          * <p>
@@ -470,7 +486,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz = this.yz / modulus;
             this.zx = this.zx / modulus;
             this.xy = this.xy / modulus;
-            this.w = this.w / modulus;
+            this.α = this.α / modulus;
             return this;
         };
         /**
@@ -482,18 +498,15 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
         * @chainable
         */
         SpinG3.prototype.quad = function () {
-            this.w = this.quaditude();
-            this.yz = 0;
-            this.zx = 0;
-            this.xy = 0;
-            return this;
+            var squaredNorm = this.squaredNorm();
+            return this.zero().addScalar(squaredNorm);
         };
         /**
-         * @method quaditude
+         * @method squaredNorm
          * @return {number} <code>this * conj(this)</code>
          */
-        SpinG3.prototype.quaditude = function () {
-            var w = this.w;
+        SpinG3.prototype.squaredNorm = function () {
+            var w = this.α;
             var yz = this.yz;
             var zx = this.zx;
             var xy = this.xy;
@@ -530,7 +543,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @chainable
          */
         SpinG3.prototype.reflect = function (n) {
-            var w = this.w;
+            var w = this.α;
             var yz = this.yz;
             var zx = this.zx;
             var xy = this.xy;
@@ -539,7 +552,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             var nz = n.z;
             var nn = nx * nx + ny * ny + nz * nz;
             var nB = nx * yz + ny * zx + nz * xy;
-            this.w = nn * w;
+            this.α = nn * w;
             this.xy = 2 * nz * nB - nn * xy;
             this.yz = 2 * nx * nB - nn * yz;
             this.zx = 2 * ny * nB - nn * zx;
@@ -587,7 +600,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz = -axis.x * s;
             this.zx = -axis.y * s;
             this.xy = -axis.z * s;
-            this.w = cos(φ);
+            this.α = cos(φ);
             return this;
         };
         /**
@@ -605,7 +618,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz = -B.yz * s;
             this.zx = -B.zx * s;
             this.xy = -B.xy * s;
-            this.w = cos(φ);
+            this.α = cos(φ);
             return this;
         };
         SpinG3.prototype.scp = function (rhs) {
@@ -629,7 +642,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz *= α;
             this.zx *= α;
             this.xy *= α;
-            this.w *= α;
+            this.α *= α;
             return this;
         };
         SpinG3.prototype.slerp = function (target, α) {
@@ -659,7 +672,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz -= s.yz * α;
             this.zx -= s.zx * α;
             this.xy -= s.xy * α;
-            this.w -= s.w * α;
+            this.α -= s.α * α;
             return this;
         };
         /**
@@ -676,7 +689,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz = a.yz - b.yz;
             this.zx = a.zx - b.zx;
             this.xy = a.xy - b.xy;
-            this.w = a.w - b.w;
+            this.α = a.α - b.α;
             return this;
         };
         /**
@@ -696,7 +709,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             var bx = b.x;
             var by = b.y;
             var bz = b.z;
-            this.w = dotVectorCartesianE3(ax, ay, az, bx, by, bz);
+            this.α = dotVectorCartesianE3(ax, ay, az, bx, by, bz);
             this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
             this.zx = wedgeZX(ax, ay, az, bx, by, bz);
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
@@ -715,7 +728,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @return {string} A non-normative string representation of the target.
          */
         SpinG3.prototype.toString = function () {
-            return "SpinG3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
+            return "SpinG3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.α + "})";
         };
         SpinG3.prototype.ext = function (rhs) {
             return this.ext2(this, rhs);
@@ -723,6 +736,18 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
         SpinG3.prototype.ext2 = function (a, b) {
             // FIXME: How to leverage? Maybe break up? Don't want performance hit.
             // scpG3(a, b, this)
+            return this;
+        };
+        /**
+         * Sets this spinor to the identity element for addition.
+         * @return {SpinG3} <code>this</code>
+         * @chainable
+         */
+        SpinG3.prototype.zero = function () {
+            this.α = 0;
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
             return this;
         };
         /**

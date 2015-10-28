@@ -1,23 +1,26 @@
 import GeometricOperators = require('../math/GeometricOperators');
 import Measure = require('../math/Measure');
+import SpinorE2 = require('../math/SpinorE2');
 import TrigMethods = require('../math/TrigMethods');
 import Unit = require('../math/Unit');
 /**
  * @class CC
  */
-declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC> {
+declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, SpinorE2 {
     /**
-     * The real part of the complex number.
+     * The <em>real</em> part of the complex number.
      * @property x
      * @type {number}
+     * @private
      */
-    x: number;
+    private x;
     /**
-     * The imaginary part of the complex number.
+     * The <em>imaginary</em> part of the complex number.
      * @property y
      * @type {number}
+     * @private
      */
-    y: number;
+    private y;
     /**
      * The optional unit of measure.
      * @property uom
@@ -28,10 +31,22 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @class CC
      * @constructor
      * CConstructs a complex number z = (x, y).
-     * @param x The real part of the complex number.
-     * @param y The imaginary part of the complex number.
+     * @param α The <em>scalar</em> or <em>real</em> part of the complex number.
+     * @param β The <em>pseudoscalar</em> or <em>imaginary</em> part of the complex number.
      */
-    constructor(x: number, y: number, uom?: Unit);
+    constructor(α: number, β: number, uom?: Unit);
+    /**
+     * The <em>real</em> or <em>scalar</em> part of this complex number.
+     * @property α
+     * @return {number}
+     */
+    α: number;
+    /**
+     * The <em>imaginary</em> or <em>pseudoscalar</em> part of this complex number.
+     * @property β
+     * @return {number}
+     */
+    β: number;
     coordinates(): number[];
     /**
      * @method add
@@ -163,6 +178,11 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      */
     quad(): CC;
     /**
+     * @method squaredNorm
+     * @return {number}
+     */
+    squaredNorm(): number;
+    /**
      * @method scale
      * @param α {number}
      * @return {CC}
@@ -184,11 +204,6 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @return {CC}
      */
     unitary(): CC;
-    /**
-     * @method gradeZero
-     * @return {number}
-     */
-    gradeZero(): number;
     /**
      * @method arg
      * @return {number}

@@ -245,12 +245,12 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
         let x: number = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
         let y: number = -expectArg('spinor.zx', spinor.zx).toBeNumber().value;
         let z: number = -expectArg('spinor.xy', spinor.xy).toBeNumber().value;
-        let w: number = expectArg('spinor.w', spinor.w).toBeNumber().value;
+        let α: number = expectArg('spinor.α', spinor.α).toBeNumber().value;
 
         let x2 = x + x, y2 = y + y, z2 = z + z;
         let xx = x * x2, xy = x * y2, xz = x * z2;
         let yy = y * y2, yz = y * z2, zz = z * z2;
-        let wx = w * x2, wy = w * y2, wz = w * z2;
+        let wx = α * x2, wy = α * y2, wz = α * z2;
 
         this.set(
             1 - yy - zz, xy - wz, xz + wy, 0,

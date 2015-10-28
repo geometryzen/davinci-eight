@@ -1,10 +1,14 @@
-define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, Euclidean2Error, extE2, lcoE2, rcoE2, mulE2, scpE2, stringFromCoordinates, Unit) {
+define(["require", "exports", '../math/extE2', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, extE2, lcoE2, rcoE2, mulE2, readOnly, scpE2, stringFromCoordinates, Unit) {
+    var exp = Math.exp;
+    var cos = Math.cos;
+    var sin = Math.sin;
+    var sqrt = Math.sqrt;
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
         }
         else {
-            throw new Euclidean2Error("Argument '" + name + "' must be a number");
+            throw new Error("Argument '" + name + "' must be a number");
         }
     }
     function assertArgEuclidean2(name, arg) {
@@ -12,7 +16,7 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
             return arg;
         }
         else {
-            throw new Euclidean2Error("Argument '" + arg + "' must be a Euclidean2");
+            throw new Error("Argument '" + arg + "' must be a Euclidean2");
         }
     }
     function assertArgUnitOrUndefined(name, uom) {
@@ -20,7 +24,7 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
             return uom;
         }
         else {
-            throw new Euclidean2Error("Argument '" + uom + "' must be a Unit or undefined");
+            throw new Error("Argument '" + uom + "' must be a Unit or undefined");
         }
     }
     function add00(a00, a01, a10, a11, b00, b01, b10, b11) {
@@ -143,7 +147,7 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
         }
         return +x;
     }
-    var divide = function (a00, a01, a10, a11, b00, b01, b10, b11, uom, m) {
+    var divide = function (a00, a01, a10, a11, b00, b01, b10, b11, uom) {
         var c00;
         var c01;
         var c10;
@@ -194,35 +198,28 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
         x01 = a00 * i01 + a01 * i00 - a10 * i11 + a11 * i10;
         x10 = a00 * i10 + a01 * i11 + a10 * i00 - a11 * i01;
         x11 = a00 * i11 + a01 * i10 - a10 * i01 + a11 * i00;
-        if (typeof m !== 'undefined') {
-            assertArgEuclidean2('m', m);
-            m.w = x00;
-            m.x = x01;
-            m.y = x10;
-            m.xy = x11;
-            m.uom = uom;
-        }
-        else {
-            return new Euclidean2(x00, x01, x10, x11, uom);
-        }
+        return new Euclidean2(x00, x01, x10, x11, uom);
     };
+    /**
+     * @class Euclidean2
+     */
     var Euclidean2 = (function () {
         /**
          * The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.
          *
          * @class Euclidean2
          * @constructor
-         * @param {number} w The scalar part of the multivector.
+         * @param {number} α The scalar part of the multivector.
          * @param {number} x The vector component of the multivector in the x-direction.
          * @param {number} y The vector component of the multivector in the y-direction.
-         * @param {number} xy The pseudoscalar part of the multivector.
+         * @param {number} β The pseudoscalar part of the multivector.
          * @param uom The optional unit of measure.
          */
-        function Euclidean2(w, x, y, xy, uom) {
-            this.w = assertArgNumber('w', w);
+        function Euclidean2(α, x, y, β, uom) {
+            this.w = assertArgNumber('α', α);
             this.x = assertArgNumber('x', x);
             this.y = assertArgNumber('y', y);
-            this.xy = assertArgNumber('xy', xy);
+            this.xy = assertArgNumber('β', β);
             this.uom = assertArgUnitOrUndefined('uom', uom);
             if (this.uom && this.uom.multiplier !== 1) {
                 var multiplier = this.uom.multiplier;
@@ -233,21 +230,52 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
-        Euclidean2.prototype.fromCartesian = function (w, x, y, xy, uom) {
-            assertArgNumber('w', w);
+        Object.defineProperty(Euclidean2.prototype, "α", {
+            /**
+             * The scalar part of this multivector.
+             * @property α
+             * @return {number}
+             */
+            get: function () {
+                return this.w;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('α').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean2.prototype, "β", {
+            /**
+             * The pseudoscalar part of this multivector.
+             * @property β
+             * @return {number}
+             */
+            get: function () {
+                return this.xy;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('β').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        // FIXME: Replace x & y with a VectorE2, a
+        Euclidean2.prototype.fromCartesian = function (α, x, y, β, uom) {
+            assertArgNumber('α', α);
             assertArgNumber('x', x);
             assertArgNumber('y', y);
-            assertArgNumber('xy', xy);
+            assertArgNumber('β', β);
             assertArgUnitOrUndefined('uom', uom);
-            return new Euclidean2(w, x, y, xy, uom);
+            return new Euclidean2(α, x, y, β, uom);
         };
-        Euclidean2.prototype.fromPolar = function (w, r, theta, s, uom) {
-            assertArgNumber('w', w);
+        Euclidean2.prototype.fromPolar = function (α, r, θ, β, uom) {
+            assertArgNumber('α', α);
             assertArgNumber('r', r);
-            assertArgNumber('theta', theta);
-            assertArgNumber('s', s);
+            assertArgNumber('θ', θ);
+            assertArgNumber('β', β);
             assertArgUnitOrUndefined('uom', uom);
-            return new Euclidean2(w, r * Math.cos(theta), r * Math.sin(theta), s, uom);
+            return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom);
         };
         Euclidean2.prototype.coordinates = function () {
             return [this.w, this.x, this.y, this.xy];
@@ -264,7 +292,7 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
                 case 3:
                     return this.xy;
                 default:
-                    throw new Euclidean2Error("index must be in the range [0..3]");
+                    throw new Error("index must be in the range [0..3]");
             }
         };
         Euclidean2.add = function (a, b) {
@@ -287,6 +315,15 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
             var xs = Euclidean2.add(this.coordinates(), rhs.coordinates());
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
         };
+        Euclidean2.prototype.addPseudo = function (β) {
+            return new Euclidean2(this.α, this.x, this.y, this.β + β, this.uom);
+        };
+        Euclidean2.prototype.addScalar = function (α) {
+            return new Euclidean2(this.α + α, this.x, this.y, this.β, this.uom);
+        };
+        Euclidean2.prototype.adj = function () {
+            throw new Error("TODO: adj");
+        };
         Euclidean2.prototype.__add__ = function (other) {
             if (other instanceof Euclidean2) {
                 return this.add(other);
@@ -302,6 +339,12 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
             else if (typeof other === 'number') {
                 return new Euclidean2(other, 0, 0, 0, undefined).add(this);
             }
+        };
+        Euclidean2.prototype.arg = function () {
+            throw new Error("TODO: Euclidean2.arg");
+        };
+        Euclidean2.prototype.conj = function () {
+            throw new Error("TODO: adj");
         };
         Euclidean2.sub = function (a, b) {
             var a0 = a[0];
@@ -378,7 +421,7 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
         };
         Euclidean2.prototype.div = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
-            return divide(this.w, this.x, this.y, this.xy, rhs.w, rhs.x, rhs.y, rhs.xy, Unit.div(this.uom, rhs.uom), undefined);
+            return divide(this.w, this.x, this.y, this.xy, rhs.w, rhs.x, rhs.y, rhs.xy, Unit.div(this.uom, rhs.uom));
         };
         Euclidean2.prototype.divByScalar = function (α) {
             return new Euclidean2(this.w / α, this.x / α, this.y / α, this.xy / α, this.uom);
@@ -568,73 +611,92 @@ define(["require", "exports", '../math/Euclidean2Error', '../math/extE2', '../ma
         };
         Euclidean2.prototype.pow = function (exponent) {
             // assertArgEuclidean2('exponent', exponent);
-            throw new Euclidean2Error('pow');
+            throw new Error('pow');
         };
         Euclidean2.prototype.__pos__ = function () {
             return this;
         };
+        Euclidean2.prototype.neg = function () {
+            return new Euclidean2(-this.α, -this.x, -this.y, -this.β, this.uom);
+        };
         Euclidean2.prototype.__neg__ = function () {
-            return new Euclidean2(-this.w, -this.x, -this.y, -this.xy, this.uom);
+            return this.neg();
         };
         /**
          * ~ (tilde) produces reversion.
          */
         Euclidean2.prototype.__tilde__ = function () {
-            return new Euclidean2(this.w, this.x, this.y, -this.xy, this.uom);
+            return new Euclidean2(this.α, this.x, this.y, -this.β, this.uom);
         };
         Euclidean2.prototype.grade = function (index) {
             assertArgNumber('index', index);
             switch (index) {
                 case 0:
-                    return new Euclidean2(this.w, 0, 0, 0, this.uom);
+                    return new Euclidean2(this.α, 0, 0, 0, this.uom);
                 case 1:
                     return new Euclidean2(0, this.x, this.y, 0, this.uom);
                 case 2:
-                    return new Euclidean2(0, 0, 0, this.xy, this.uom);
+                    return new Euclidean2(0, 0, 0, this.β, this.uom);
                 default:
                     return new Euclidean2(0, 0, 0, 0, this.uom);
             }
         };
         Euclidean2.prototype.cos = function () {
-            throw new Euclidean2Error('cos');
+            throw new Error('cos');
         };
         Euclidean2.prototype.cosh = function () {
-            throw new Euclidean2Error('cosh');
+            throw new Error('cosh');
         };
         Euclidean2.prototype.exp = function () {
             Unit.assertDimensionless(this.uom);
-            var expW = Math.exp(this.w);
-            var cosXY = Math.cos(this.xy);
-            var sinXY = Math.sin(this.xy);
-            return new Euclidean2(expW * cosXY, 0, 0, expW * sinXY, this.uom);
+            var expα = exp(this.α);
+            var cosβ = cos(this.β);
+            var sinβ = sin(this.β);
+            return new Euclidean2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
+        };
+        Euclidean2.prototype.inv = function () {
+            throw new Error('inv');
+        };
+        Euclidean2.prototype.log = function () {
+            throw new Error('log');
+        };
+        Euclidean2.prototype.magnitude = function () {
+            return sqrt(this.squaredNorm());
         };
         Euclidean2.prototype.norm = function () {
-            return new Euclidean2(Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy), 0, 0, 0, this.uom);
+            return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
         };
         Euclidean2.prototype.quad = function () {
-            return new Euclidean2(this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy, 0, 0, 0, Unit.mul(this.uom, this.uom));
+            return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        Euclidean2.prototype.squaredNorm = function () {
+            return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
+        };
+        Euclidean2.prototype.reflect = function (n) {
+            throw new Error('reflect');
+        };
+        Euclidean2.prototype.rev = function () {
+            throw new Error('rev');
+        };
+        Euclidean2.prototype.rotate = function (R) {
+            throw new Error('rotate');
         };
         Euclidean2.prototype.sin = function () {
-            throw new Euclidean2Error('sin');
+            throw new Error('sin');
         };
         Euclidean2.prototype.sinh = function () {
-            throw new Euclidean2Error('sinh');
+            throw new Error('sinh');
         };
         Euclidean2.prototype.slerp = function (target, α) {
             // FIXME: TODO
             return this;
         };
         Euclidean2.prototype.unitary = function () {
-            throw new Euclidean2Error('unitary');
+            throw new Error('unitary');
         };
-        /**
-         * @method gradeZero
-         * @return {number}
-         */
-        Euclidean2.prototype.gradeZero = function () {
-            return this.w;
-        };
+        Euclidean2.prototype.isOne = function () { return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0; };
         Euclidean2.prototype.isNaN = function () { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy); };
+        Euclidean2.prototype.isZero = function () { return this.w === 0 && this.x === 0 && this.y === 0 && this.xy === 0; };
         Euclidean2.prototype.toStringCustom = function (coordToString, labels) {
             var quantityString = stringFromCoordinates(this.coordinates(), coordToString, labels);
             if (this.uom) {

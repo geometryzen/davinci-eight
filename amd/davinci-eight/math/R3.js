@@ -193,7 +193,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
             var a = R.xy;
             var b = R.yz;
             var c = R.zx;
-            var w = R.w;
+            var w = R.α;
             var ix = w * x - c * z + a * y;
             var iy = w * y - a * x + b * z;
             var iz = w * z - b * y + c * x;
@@ -326,7 +326,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
          * @return {number} <code>norm(this)</code>
          */
         R3.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
+            return Math.sqrt(this.squaredNorm());
         };
         /**
          * @method neg
@@ -341,10 +341,10 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
         };
         /**
          * Returns the (Euclidean) inner product of this vector with itself.
-         * @method quaditude
+         * @method squaredNorm
          * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
          */
-        R3.prototype.quaditude = function () {
+        R3.prototype.squaredNorm = function () {
             // quad = scp(v, rev(v)) = scp(v, v)
             // TODO: This is correct but could be optimized.
             return dotVectorE3(this, this);
@@ -541,6 +541,18 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
          */
         R3.prototype.toString = function () {
             return "R3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
+        };
+        /**
+         * Sets this vector to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {R3}
+         * @chainable
+         */
+        R3.prototype.zero = function () {
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            return this;
         };
         R3.prototype.__add__ = function (rhs) {
             if (rhs instanceof R3) {

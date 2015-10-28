@@ -253,11 +253,11 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             var x = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
             var y = -expectArg('spinor.zx', spinor.zx).toBeNumber().value;
             var z = -expectArg('spinor.xy', spinor.xy).toBeNumber().value;
-            var w = expectArg('spinor.w', spinor.w).toBeNumber().value;
+            var α = expectArg('spinor.α', spinor.α).toBeNumber().value;
             var x2 = x + x, y2 = y + y, z2 = z + z;
             var xx = x * x2, xy = x * y2, xz = x * z2;
             var yy = y * y2, yz = y * z2, zz = z * z2;
-            var wx = w * x2, wy = w * y2, wz = w * z2;
+            var wx = α * x2, wy = α * y2, wz = α * z2;
             this.set(1 - yy - zz, xy - wz, xz + wy, 0, xy + wz, 1 - xx - zz, yz - wx, 0, xz - wy, yz + wx, 1 - xx - yy, 0, 0, 0, 0, 1);
             return this;
         };

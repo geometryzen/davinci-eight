@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -224,7 +224,15 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+/**
+ * This interface is provided to ensure consistency.
+ * It is not part of the documented API.
+ * Notice that the effect on the target depends upon whether the target class in mutable.
+ */
 interface LinearElement&lt;I, M, S, V&gt; {
+    /**
+     * addition, with an optional weight for the rhs.
+     */
     add(rhs: I, α?: number): M;
     divByScalar(α: number): M;
     lerp(target: I, α: number): M;

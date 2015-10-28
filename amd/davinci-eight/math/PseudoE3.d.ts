@@ -3,9 +3,9 @@
  */
 interface PseudoE3 {
     /**
-     * @property xyz
+     * @property β
      * @type number
      */
-    xyz: number;
+    β: number;
 }
 export = PseudoE3;

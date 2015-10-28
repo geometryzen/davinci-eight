@@ -19,11 +19,11 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      */
     constructor();
     /**
-     * The coordinate corresponding to the unit standard basis scalar.
-     * @property w
+     * The scalar part of this multivector.
+     * @property α
      * @type {number}
      */
-    w: number;
+    α: number;
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
      * @property x
@@ -61,11 +61,11 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      */
     xy: number;
     /**
-     * The coordinate corresponding to the I<sub>3</sub> <code>=</code> <b>e</b><sub>1</sub><b>e</b><sub>2</sub><b>e</b><sub>2</sub> standard basis pseudoscalar.
-     * @property xyz
+     * The pseudoscalar part of this multivector.
+     * @property β
      * @type {number}
      */
-    xyz: number;
+    β: number;
     /**
      * <p>
      * <code>this ⟼ this + M * α</code>
@@ -77,6 +77,16 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * @chainable
      */
     add(M: GeometricE3, α?: number): G3;
+    /**
+     * <p>
+     * <code>this ⟼ this + Iβ</code>
+     * </p>
+     * @method addPseudo
+     * @param β {number}
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
+    addPseudo(β: number): G3;
     /**
      * <p>
      * <code>this ⟼ this + α</code>
@@ -182,6 +192,13 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * @chainable
      */
     copy(M: GeometricE3): G3;
+    /**
+     * Sets this multivector to the value of the scalar, <code>α</code>.
+     * @method copyScalar
+     * @return {G3}
+     * @chainable
+     */
+    copyScalar(α: number): G3;
     /**
      * <p>
      * <code>this ⟼ copy(spinor)</code>
@@ -362,10 +379,10 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     */
     quad(): G3;
     /**
-     * @method quaditude
+     * @method squaredNorm
      * @return {number} <code>this * conj(this)</code>
      */
-    quaditude(): number;
+    squaredNorm(): number;
     /**
      * <p>
      * <code>this ⟼ - n * this * n</code>
@@ -537,6 +554,13 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * @chainable
      */
     ext2(a: GeometricE3, b: GeometricE3): G3;
+    /**
+     * Sets this multivector to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {G3}
+     * @chainable
+     */
+    zero(): G3;
     /**
      * @method __add__
      * @param rhs {any}

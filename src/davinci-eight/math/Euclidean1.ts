@@ -1,7 +1,7 @@
 import Euclidean1Coords = require('../math/Euclidean1Coords')
-import Euclidean1Error = require('../math/Euclidean1Error')
 import LinearElement = require('../math/LinearElement')
 import Measure = require('../math/Measure')
+import readOnly = require('../i18n/readOnly')
 import Unit = require('../math/Unit')
 
 function assertArgNumber(name: string, x: number): number {
@@ -9,7 +9,7 @@ function assertArgNumber(name: string, x: number): number {
         return x
     }
     else {
-        throw new Euclidean1Error("Argument '" + name + "' must be a number")
+        throw new Error("Argument '" + name + "' must be a number")
     }
 }
 
@@ -18,7 +18,7 @@ function assertArgEuclidean1(name: string, arg: Euclidean1): Euclidean1 {
         return arg
     }
     else {
-        throw new Euclidean1Error("Argument '" + arg + "' must be a Euclidean1")
+        throw new Error("Argument '" + arg + "' must be a Euclidean1")
     }
 }
 
@@ -27,25 +27,31 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
         return uom
     }
     else {
-        throw new Euclidean1Error("Argument '" + uom + "' must be a Unit or undefined")
+        throw new Error("Argument '" + uom + "' must be a Unit or undefined")
     }
 }
 
+/**
+ * @class Euclidean1
+ */
 class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclidean1Coords>,*/ Measure<Euclidean1> {
-    public w: number;
+    // FIXME: rename w to alpha, and keep it private.
+    private w: number;
+    // FIXME: rename to beta, and make it private.
     public x: number;
+    // Make it immutable
     public uom: Unit;
     /**
      * The Euclidean1 class represents a multivector for a 1-dimensional linear space with a Euclidean metric.
      *
      * @class Euclidean1
      * @constructor
-     * @param {number} w The grade zero part of the multivector.
+     * @param {number} α The grade zero part of the multivector.
      * @param {number} x The vector component of the multivector in the x-direction.
      * @param uom The optional unit of measure.
      */
-    constructor(w: number, x: number, uom?: Unit) {
-        this.w = assertArgNumber('w', w)
+    constructor(α: number, x: number, uom?: Unit) {
+        this.w = assertArgNumber('α', α)
         this.x = assertArgNumber('x', x)
         this.uom = assertArgUnitOrUndefined('uom', uom)
         if (this.uom && this.uom.multiplier !== 1) {
@@ -54,6 +60,18 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
             this.x *= multiplier
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
+    }
+
+    /**
+     * The scalar part of this multivector.
+     * @property α
+     * @return {number}
+     */
+    get α(): number {
+        return this.w;
+    }
+    set α(unused) {
+        throw new Error(readOnly('α').message)
     }
 
     coordinates(): number[] {
@@ -87,12 +105,12 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
 
     mul(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1('rhs', rhs)
-        throw new Euclidean1Error('mul')
+        throw new Error('mul')
     }
 
     div(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1('rhs', rhs)
-        throw new Euclidean1Error('div')
+        throw new Error('div')
     }
 
     divByScalar(α: number) {
@@ -100,11 +118,11 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
     }
 
     scp(rhs: Euclidean1): Euclidean1 {
-        throw new Euclidean1Error('wedge')
+        throw new Error('wedge')
     }
 
     ext(rhs: Euclidean1): Euclidean1 {
-        throw new Euclidean1Error('wedge')
+        throw new Error('wedge')
     }
 
     lerp(target: Euclidean1, α: number): Euclidean1 {
@@ -114,29 +132,29 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
 
     lco(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1('rhs', rhs)
-        throw new Euclidean1Error('lshift')
+        throw new Error('lshift')
     }
 
     rco(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1('rhs', rhs)
-        throw new Euclidean1Error('rshift')
+        throw new Error('rshift')
     }
 
     pow(exponent: Euclidean1): Euclidean1 {
         // assertArgEuclidean1('rhs', rhs)
-        throw new Euclidean1Error('pow')
+        throw new Error('pow')
     }
 
     cos(): Euclidean1 {
-        throw new Euclidean1Error('cos')
+        throw new Error('cos')
     }
 
     cosh(): Euclidean1 {
-        throw new Euclidean1Error('cosh')
+        throw new Error('cosh')
     }
 
     exp(): Euclidean1 {
-        throw new Euclidean1Error('exp')
+        throw new Error('exp')
     }
 
     norm(): Euclidean1 {
@@ -152,11 +170,11 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
     }
 
     sin(): Euclidean1 {
-        throw new Euclidean1Error('sin')
+        throw new Error('sin')
     }
 
     sinh(): Euclidean1 {
-        throw new Euclidean1Error('sinh')
+        throw new Error('sinh')
     }
 
     slerp(target: Euclidean1, α: number): Euclidean1 {
@@ -164,11 +182,7 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         return this
     }
     unitary(): Euclidean1 {
-        throw new Euclidean1Error('unitary')
-    }
-
-    gradeZero(): number {
-        return this.w
+        throw new Error('unitary')
     }
 
     toExponential(): string {

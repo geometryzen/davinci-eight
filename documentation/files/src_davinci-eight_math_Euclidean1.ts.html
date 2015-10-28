@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -225,9 +225,9 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Euclidean1Coords = require(&#x27;../math/Euclidean1Coords&#x27;)
-import Euclidean1Error = require(&#x27;../math/Euclidean1Error&#x27;)
 import LinearElement = require(&#x27;../math/LinearElement&#x27;)
 import Measure = require(&#x27;../math/Measure&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import Unit = require(&#x27;../math/Unit&#x27;)
 
 function assertArgNumber(name: string, x: number): number {
@@ -235,7 +235,7 @@ function assertArgNumber(name: string, x: number): number {
         return x
     }
     else {
-        throw new Euclidean1Error(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;)
+        throw new Error(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;)
     }
 }
 
@@ -244,7 +244,7 @@ function assertArgEuclidean1(name: string, arg: Euclidean1): Euclidean1 {
         return arg
     }
     else {
-        throw new Euclidean1Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Euclidean1&quot;)
+        throw new Error(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Euclidean1&quot;)
     }
 }
 
@@ -253,25 +253,31 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
         return uom
     }
     else {
-        throw new Euclidean1Error(&quot;Argument &#x27;&quot; + uom + &quot;&#x27; must be a Unit or undefined&quot;)
+        throw new Error(&quot;Argument &#x27;&quot; + uom + &quot;&#x27; must be a Unit or undefined&quot;)
     }
 }
 
+/**
+ * @class Euclidean1
+ */
 class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euclidean1Coords&gt;,*/ Measure&lt;Euclidean1&gt; {
-    public w: number;
+    // FIXME: rename w to alpha, and keep it private.
+    private w: number;
+    // FIXME: rename to beta, and make it private.
     public x: number;
+    // Make it immutable
     public uom: Unit;
     /**
      * The Euclidean1 class represents a multivector for a 1-dimensional linear space with a Euclidean metric.
      *
      * @class Euclidean1
      * @constructor
-     * @param {number} w The grade zero part of the multivector.
+     * @param {number} α The grade zero part of the multivector.
      * @param {number} x The vector component of the multivector in the x-direction.
      * @param uom The optional unit of measure.
      */
-    constructor(w: number, x: number, uom?: Unit) {
-        this.w = assertArgNumber(&#x27;w&#x27;, w)
+    constructor(α: number, x: number, uom?: Unit) {
+        this.w = assertArgNumber(&#x27;α&#x27;, α)
         this.x = assertArgNumber(&#x27;x&#x27;, x)
         this.uom = assertArgUnitOrUndefined(&#x27;uom&#x27;, uom)
         if (this.uom &amp;&amp; this.uom.multiplier !== 1) {
@@ -280,6 +286,18 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
             this.x *= multiplier
             this.uom = new Unit(1, uom.dimensions, uom.labels)
         }
+    }
+
+    /**
+     * The scalar part of this multivector.
+     * @property α
+     * @return {number}
+     */
+    get α(): number {
+        return this.w;
+    }
+    set α(unused) {
+        throw new Error(readOnly(&#x27;α&#x27;).message)
     }
 
     coordinates(): number[] {
@@ -313,12 +331,12 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
 
     mul(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1(&#x27;rhs&#x27;, rhs)
-        throw new Euclidean1Error(&#x27;mul&#x27;)
+        throw new Error(&#x27;mul&#x27;)
     }
 
     div(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1(&#x27;rhs&#x27;, rhs)
-        throw new Euclidean1Error(&#x27;div&#x27;)
+        throw new Error(&#x27;div&#x27;)
     }
 
     divByScalar(α: number) {
@@ -326,11 +344,11 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
     }
 
     scp(rhs: Euclidean1): Euclidean1 {
-        throw new Euclidean1Error(&#x27;wedge&#x27;)
+        throw new Error(&#x27;wedge&#x27;)
     }
 
     ext(rhs: Euclidean1): Euclidean1 {
-        throw new Euclidean1Error(&#x27;wedge&#x27;)
+        throw new Error(&#x27;wedge&#x27;)
     }
 
     lerp(target: Euclidean1, α: number): Euclidean1 {
@@ -340,29 +358,29 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
 
     lco(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1(&#x27;rhs&#x27;, rhs)
-        throw new Euclidean1Error(&#x27;lshift&#x27;)
+        throw new Error(&#x27;lshift&#x27;)
     }
 
     rco(rhs: Euclidean1): Euclidean1 {
         // assertArgEuclidean1(&#x27;rhs&#x27;, rhs)
-        throw new Euclidean1Error(&#x27;rshift&#x27;)
+        throw new Error(&#x27;rshift&#x27;)
     }
 
     pow(exponent: Euclidean1): Euclidean1 {
         // assertArgEuclidean1(&#x27;rhs&#x27;, rhs)
-        throw new Euclidean1Error(&#x27;pow&#x27;)
+        throw new Error(&#x27;pow&#x27;)
     }
 
     cos(): Euclidean1 {
-        throw new Euclidean1Error(&#x27;cos&#x27;)
+        throw new Error(&#x27;cos&#x27;)
     }
 
     cosh(): Euclidean1 {
-        throw new Euclidean1Error(&#x27;cosh&#x27;)
+        throw new Error(&#x27;cosh&#x27;)
     }
 
     exp(): Euclidean1 {
-        throw new Euclidean1Error(&#x27;exp&#x27;)
+        throw new Error(&#x27;exp&#x27;)
     }
 
     norm(): Euclidean1 {
@@ -378,11 +396,11 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
     }
 
     sin(): Euclidean1 {
-        throw new Euclidean1Error(&#x27;sin&#x27;)
+        throw new Error(&#x27;sin&#x27;)
     }
 
     sinh(): Euclidean1 {
-        throw new Euclidean1Error(&#x27;sinh&#x27;)
+        throw new Error(&#x27;sinh&#x27;)
     }
 
     slerp(target: Euclidean1, α: number): Euclidean1 {
@@ -390,11 +408,7 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
         return this
     }
     unitary(): Euclidean1 {
-        throw new Euclidean1Error(&#x27;unitary&#x27;)
-    }
-
-    gradeZero(): number {
-        return this.w
+        throw new Error(&#x27;unitary&#x27;)
     }
 
     toExponential(): string {

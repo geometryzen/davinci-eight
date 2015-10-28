@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.145.0</em>
+            <em>API Docs for: 2.146.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -231,6 +231,7 @@ let sqrt = Math.sqrt
 /**
  * Sets this multivector to a rotor representing a rotation from a to b.
  * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b &lt;&lt; a))
+ * Returns undefined (void 0) if the vectors are anti-parallel.
  */
 function rotorFromDirections&lt;V, M extends Geometric&lt;any, any, any, any&gt;&gt;(a: V, b: V, quad: (v: V) =&gt; number, dot: (a: V, b: V) =&gt; number, m: M): M {
     let quadA = quad(a)
@@ -246,9 +247,10 @@ function rotorFromDirections&lt;V, M extends Geometric&lt;any, any, any, any&gt;
         return m
     }
     else {
-        // The denominator is zero when |a||b| + a &lt;&lt; b = 0 =&gt; cos(θ) = -1 (i.e. a, b anti-parallel)
-        // The plane of the rotation in such a case is ambiguous.
-        console.warn(&quot;rotorFromDirections(&quot; + a + &quot;, &quot; + b + &quot;) is undefined.&quot;)
+        // The denominator is zero when |a||b| + a &lt;&lt; b = 0.
+        // If θ is the angle between a and b, then  cos(θ) = (a &lt;&lt; b) /|a||b| = -1
+        // Then a and b are anti-parallel.
+        // The plane of the rotation is ambiguous.
         return void 0
     }
 }

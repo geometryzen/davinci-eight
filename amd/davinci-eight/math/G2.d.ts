@@ -20,10 +20,10 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     constructor();
     /**
      * The coordinate corresponding to the unit standard basis scalar.
-     * @property w
+     * @property α
      * @type {number}
      */
-    w: number;
+    α: number;
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
      * @property x
@@ -38,10 +38,10 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     y: number;
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
-     * @property xy
+     * @property β
      * @type {number}
      */
-    xy: number;
+    β: number;
     /**
      * <p>
      * <code>this ⟼ this + M * α</code>
@@ -53,6 +53,16 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     add(M: GeometricE2, α?: number): G2;
+    /**
+     * <p>
+     * <code>this ⟼ this + Iβ</code>
+     * </p>
+     * @method addPseudo
+     * @param β {number}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    addPseudo(β: number): G2;
     /**
      * <p>
      * <code>this ⟼ this + α</code>
@@ -158,6 +168,13 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     copy(M: GeometricE2): G2;
+    /**
+     * Sets this multivector to the value of the scalar, <code>α</code>.
+     * @method copyScalar
+     * @return {G2}
+     * @chainable
+     */
+    copyScalar(α: number): G2;
     /**
      * <p>
      * <code>this ⟼ copy(spinor)</code>
@@ -272,7 +289,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     lerp2(a: GeometricE2, b: GeometricE2, α: number): G2;
     /**
      * <p>
-     * <code>this ⟼ log(sqrt(w * w + xy * xy)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(xy, w)</code>
+     * <code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>
      * </p>
      * @method log
      * @return {G2} <code>this</code>
@@ -346,10 +363,10 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     quad(): G2;
     /**
      * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
-     * @method quaditude
+     * @method squaredNorm
      * @return {number} <code>this | ~this</code>
      */
-    quaditude(): number;
+    squaredNorm(): number;
     /**
      * <p>
      * <code>this ⟼ - n * this * n</code>
@@ -506,6 +523,13 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     ext2(a: GeometricE2, b: GeometricE2): G2;
+    /**
+     * Sets this multivector to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {G2}
+     * @chainable
+     */
+    zero(): G2;
     /**
      * @method __add__
      * @param rhs {any}
@@ -665,7 +689,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     static e2: G2;
     /**
-     * Basis vector corresponding to the <code>xy</code> coordinate.
+     * Basis vector corresponding to the <code>β</code> coordinate.
      * @property I
      * @type {G2}
      * @readOnly
@@ -710,5 +734,14 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     * @static
     */
     static lerp(A: GeometricE2, B: GeometricE2, α: number): G2;
+    /**
+     * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+     * @method rotorFromDirections
+     * @param a {VectorE2} The <em>from</em> vector.
+     * @param b {VectorE2} The <em>to</em> vector.
+     * @return {G2}
+     * @static
+     */
+    static rotorFromDirections(a: VectorE2, b: VectorE2): G2;
 }
 export = G2;
