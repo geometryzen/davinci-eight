@@ -3436,6 +3436,15 @@ declare module EIGHT {
         detach(): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
+    function cos<T>(x: T): T;
+    function cosh<T>(x: T): T;
+    function exp<T>(x: T): T;
+    function norm<T>(x: T): T;
+    function quad<T>(x: T): T;
+    function sin<T>(x: T): T;
+    function sinh<T>(x: T): T;
+    function sqrt<T>(x: T): T;
+    ///////////////////////////////////////////////////////////////////////////////
 }
 
 declare module 'eight'

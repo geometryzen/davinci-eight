@@ -1,4 +1,13 @@
 define(["require", "exports"], function (require, exports) {
+    var abs = Math.abs;
+    var acos = Math.acos;
+    var asin = Math.asin;
+    var atan = Math.atan;
+    var exp = Math.exp;
+    var cos = Math.cos;
+    var sin = Math.sin;
+    var sqrt = Math.sqrt;
+    var tan = Math.tan;
     /**
      * Determines whether a property name is callable on an object.
      */
@@ -7,12 +16,11 @@ define(["require", "exports"], function (require, exports) {
     }
     function makeUnaryUniversalFunction(methodName, primitiveFunction) {
         return function (x) {
+            var something = x;
             if (isCallableMethod(x, methodName)) {
-                var someting = x;
                 return something[methodName]();
             }
             else if (typeof x === 'number') {
-                var something = x;
                 var n = something;
                 var thing = primitiveFunction(n);
                 return thing;
@@ -23,22 +31,32 @@ define(["require", "exports"], function (require, exports) {
         };
     }
     function cosh(x) {
-        return (Math.exp(x) + Math.exp(-x)) / 2;
+        return (exp(x) + exp(-x)) / 2;
     }
     function sinh(x) {
-        return (Math.exp(x) - Math.exp(-x)) / 2;
+        return (exp(x) - exp(-x)) / 2;
+    }
+    function tanh(x) {
+        return sinh(x) / cosh(x);
+    }
+    function quad(x) {
+        return x * x;
     }
     var mathcore = {
-        VERSION: '1.7.2',
-        cos: makeUnaryUniversalFunction('cos', Math.cos),
+        acos: makeUnaryUniversalFunction('acos', acos),
+        asin: makeUnaryUniversalFunction('asin', asin),
+        atan: makeUnaryUniversalFunction('atan', atan),
+        cos: makeUnaryUniversalFunction('cos', cos),
         cosh: makeUnaryUniversalFunction('cosh', cosh),
-        exp: makeUnaryUniversalFunction('exp', Math.exp),
-        norm: makeUnaryUniversalFunction('norm', function (x) { return Math.abs(x); }),
-        quad: makeUnaryUniversalFunction('quad', function (x) { return x * x; }),
-        sin: makeUnaryUniversalFunction('sin', Math.sin),
+        exp: makeUnaryUniversalFunction('exp', exp),
+        norm: makeUnaryUniversalFunction('norm', abs),
+        quad: makeUnaryUniversalFunction('quad', quad),
+        sin: makeUnaryUniversalFunction('sin', sin),
         sinh: makeUnaryUniversalFunction('sinh', sinh),
-        sqrt: makeUnaryUniversalFunction('sqrt', Math.sqrt),
-        unit: makeUnaryUniversalFunction('unit', function (x) { return x / Math.abs(x); }),
+        sqrt: makeUnaryUniversalFunction('sqrt', sqrt),
+        tan: makeUnaryUniversalFunction('tan', tan),
+        tanh: makeUnaryUniversalFunction('tanh', tanh),
+        // unit: makeUnaryUniversalFunction('unit', function(x: number) {return x / Math.abs(x);}),
         Math: {
             cosh: cosh,
             sinh: sinh

@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.146.0",
+        "version": "2.147.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -18918,7 +18918,7 @@
         },
         {
             "file": "src/davinci-eight/math/mathcore.ts",
-            "line": 2,
+            "line": 11,
             "description": "Determines whether a property name is callable on an object.",
             "class": "BoxBuilder",
             "module": "EIGHT"
@@ -21553,7 +21553,7 @@
         },
         {
             "message": "Missing item type\nDetermines whether a property name is callable on an object.",
-            "line": " src/davinci-eight/math/mathcore.ts:2"
+            "line": " src/davinci-eight/math/mathcore.ts:11"
         },
         {
             "message": "Missing item type\nMultiplication of G3.\nThis was originally written for asm.",

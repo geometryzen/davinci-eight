@@ -358,6 +358,15 @@ var eight = {
     get NumberIUnknownMap() { return NumberIUnknownMap },
     get refChange() { return refChange },
     get Shareable() { return Shareable },
-    get StringIUnknownMap() { return StringIUnknownMap }
+    get StringIUnknownMap() { return StringIUnknownMap },
+    // universal math functions
+    get cos() { return mathcore.cos },
+    get cosh() { return mathcore.cosh },
+    get exp() { return mathcore.exp },
+    get norm() { return mathcore.norm },
+    get quad() { return mathcore.quad },
+    get sin() { return mathcore.sin },
+    get sinh() { return mathcore.sinh },
+    get sqrt() { return mathcore.sqrt }
 }
 export = eight

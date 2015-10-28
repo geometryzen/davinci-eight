@@ -266,5 +266,13 @@ declare var eight: {
     refChange: (uuid: string, name?: string, change?: number) => number;
     Shareable: typeof Shareable;
     StringIUnknownMap: typeof StringIUnknownMap;
+    cos: <T>(x: T) => T;
+    cosh: <T>(x: T) => T;
+    exp: <T>(x: T) => T;
+    norm: <T>(x: T) => T;
+    quad: <T>(x: T) => T;
+    sin: <T>(x: T) => T;
+    sinh: <T>(x: T) => T;
+    sqrt: <T>(x: T) => T;
 };
 export = eight;

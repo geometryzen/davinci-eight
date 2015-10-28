@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.146.0</em>
+            <em>API Docs for: 2.147.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -224,57 +224,77 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+let abs = Math.abs
+let acos = Math.acos
+let asin = Math.asin
+let atan = Math.atan
+let exp = Math.exp
+let cos = Math.cos
+let sin = Math.sin
+let sqrt = Math.sqrt
+let tan = Math.tan
 
 /**
  * Determines whether a property name is callable on an object.
  */
 function isCallableMethod(x: any, name: string) {
-  return (x !== null) &amp;&amp; (typeof x === &#x27;object&#x27;) &amp;&amp; (typeof x[name] === &#x27;function&#x27;);
+    return (x !== null) &amp;&amp; (typeof x === &#x27;object&#x27;) &amp;&amp; (typeof x[name] === &#x27;function&#x27;)
 }
 
-function makeUnaryUniversalFunction(methodName: string, primitiveFunction: (x: number)=&gt;number) {
-  return function &lt;T&gt;(x: T): T {
-    if (isCallableMethod(x, methodName)) {
-      let someting: any = x;
-      return something[methodName]();
+function makeUnaryUniversalFunction(methodName: string, primitiveFunction: (x: number) =&gt; number) {
+    return function &lt;T&gt;(x: T): T {
+        let something: any = x
+        if (isCallableMethod(x, methodName)) {
+            return something[methodName]();
+        }
+        else if (typeof x === &#x27;number&#x27;) {
+            let n: number = something
+            let thing: any = primitiveFunction(n)
+            return thing
+        }
+        else {
+            throw new TypeError(&quot;x must support &quot; + methodName + &quot;(x)&quot;)
+        }
     }
-    else if (typeof x === &#x27;number&#x27;) {
-      var something: any = x;
-      var n: number = something;
-      var thing: any = primitiveFunction(n);
-      return thing;
-    }
-    else {
-      throw new TypeError(&quot;x must support &quot; + methodName + &quot;(x)&quot;);
-    }
-  }
 }
 
 function cosh(x: number): number {
-  return (Math.exp(x) + Math.exp(-x)) / 2;
+    return (exp(x) + exp(-x)) / 2
 }
 
 function sinh(x: number): number {
-  return (Math.exp(x) - Math.exp(-x)) / 2;
+    return (exp(x) - exp(-x)) / 2
+}
+
+function tanh(x: number): number {
+    return sinh(x) / cosh(x)
+}
+
+function quad(x: number): number {
+    return x * x
 }
 
 var mathcore =
-{
-    VERSION: &#x27;1.7.2&#x27;,
-    cos:  makeUnaryUniversalFunction(&#x27;cos&#x27;, Math.cos),
-    cosh: makeUnaryUniversalFunction(&#x27;cosh&#x27;, cosh),
-    exp:  makeUnaryUniversalFunction(&#x27;exp&#x27;, Math.exp),
-    norm: makeUnaryUniversalFunction(&#x27;norm&#x27;, function(x: number) {return Math.abs(x);}),
-    quad: makeUnaryUniversalFunction(&#x27;quad&#x27;, function(x: number) {return x * x;}),
-    sin:  makeUnaryUniversalFunction(&#x27;sin&#x27;, Math.sin),
-    sinh: makeUnaryUniversalFunction(&#x27;sinh&#x27;, sinh),
-    sqrt: makeUnaryUniversalFunction(&#x27;sqrt&#x27;, Math.sqrt),
-    unit: makeUnaryUniversalFunction(&#x27;unit&#x27;, function(x: number) {return x / Math.abs(x);}),
-    Math: {
-      cosh: cosh,
-      sinh: sinh
-    }
-};
+    {
+        acos: makeUnaryUniversalFunction(&#x27;acos&#x27;, acos),
+        asin: makeUnaryUniversalFunction(&#x27;asin&#x27;, asin),
+        atan: makeUnaryUniversalFunction(&#x27;atan&#x27;, atan),
+        cos: makeUnaryUniversalFunction(&#x27;cos&#x27;, cos),
+        cosh: makeUnaryUniversalFunction(&#x27;cosh&#x27;, cosh),
+        exp: makeUnaryUniversalFunction(&#x27;exp&#x27;, exp),
+        norm: makeUnaryUniversalFunction(&#x27;norm&#x27;, abs),
+        quad: makeUnaryUniversalFunction(&#x27;quad&#x27;, quad),
+        sin: makeUnaryUniversalFunction(&#x27;sin&#x27;, sin),
+        sinh: makeUnaryUniversalFunction(&#x27;sinh&#x27;, sinh),
+        sqrt: makeUnaryUniversalFunction(&#x27;sqrt&#x27;, sqrt),
+        tan: makeUnaryUniversalFunction(&#x27;tan&#x27;, tan),
+        tanh: makeUnaryUniversalFunction(&#x27;tanh&#x27;, tanh),
+        // unit: makeUnaryUniversalFunction(&#x27;unit&#x27;, function(x: number) {return x / Math.abs(x);}),
+        Math: {
+            cosh: cosh,
+            sinh: sinh
+        }
+    };
 
 export = mathcore;
 
