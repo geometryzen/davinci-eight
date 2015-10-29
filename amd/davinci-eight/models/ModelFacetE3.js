@@ -5,10 +5,10 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/Matrix4', '../checks/mustBeString', '../math/G3', '../math/R3', '../i18n/readOnly', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Euclidean3, Matrix3, Matrix4, mustBeString, G3, R3, readOnly, Shareable, Symbolic) {
     /**
-     * @class ModelFacet
+     * @class ModelFacetE3
      */
-    var ModelFacet = (function (_super) {
-        __extends(ModelFacet, _super);
+    var ModelFacetE3 = (function (_super) {
+        __extends(ModelFacetE3, _super);
         /**
          * <p>
          * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
@@ -18,17 +18,17 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
          * In Computer Graphics, the drawable object is a collection of drawing primitives.
          * </p>
          * <p>
-         * ModelFacet implements IFacet required for manipulating a drawable object.
+         * ModelFacetE3 implements IFacet required for manipulating a drawable object.
          * </p>
          * <p>
-         * Constructs a ModelFacet at the origin and with unity attitude.
+         * Constructs a ModelFacetE3 at the origin and with unity attitude.
          * </p>
-         * @class ModelFacet
+         * @class ModelFacetE3
          * @constructor
-         * @param type [string = 'ModelFacet'] The name used for reference counting.
+         * @param type [string = 'ModelFacetE3'] The name used for reference counting.
          */
-        function ModelFacet(type) {
-            if (type === void 0) { type = 'ModelFacet'; }
+        function ModelFacetE3(type) {
+            if (type === void 0) { type = 'ModelFacetE3'; }
             _super.call(this, mustBeString('type', type));
             this._position = new G3().copy(Euclidean3.zero);
             this._attitude = new G3().copy(Euclidean3.one);
@@ -48,7 +48,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
          * @return {void}
          * @protected
          */
-        ModelFacet.prototype.destructor = function () {
+        ModelFacetE3.prototype.destructor = function () {
             this._position = void 0;
             this._attitude = void 0;
             this._scaleXYZ = void 0;
@@ -58,7 +58,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
             this.matS = void 0;
             this.matT = void 0;
         };
-        Object.defineProperty(ModelFacet.prototype, "R", {
+        Object.defineProperty(ModelFacetE3.prototype, "R", {
             /**
              * <p>
              * The <em>attitude</em>, a unitary spinor.
@@ -71,12 +71,12 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
                 return this._attitude;
             },
             set: function (unused) {
-                throw new Error(readOnly(ModelFacet.PROP_ATTITUDE).message);
+                throw new Error(readOnly(ModelFacetE3.PROP_ATTITUDE).message);
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(ModelFacet.prototype, "X", {
+        Object.defineProperty(ModelFacetE3.prototype, "X", {
             /**
              * <p>
              * The <em>position</em>, a vector.
@@ -92,12 +92,12 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
                 return this._position;
             },
             set: function (unused) {
-                throw new Error(readOnly(ModelFacet.PROP_POSITION).message);
+                throw new Error(readOnly(ModelFacetE3.PROP_POSITION).message);
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(ModelFacet.prototype, "scaleXYZ", {
+        Object.defineProperty(ModelFacetE3.prototype, "scaleXYZ", {
             /**
              * @property scaleXYZ
              * @type R3
@@ -107,7 +107,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
                 return this._scaleXYZ;
             },
             set: function (unused) {
-                throw new Error(readOnly(ModelFacet.PROP_SCALEXYZ).message);
+                throw new Error(readOnly(ModelFacetE3.PROP_SCALEXYZ).message);
             },
             enumerable: true,
             configurable: true
@@ -117,16 +117,16 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
          * @param name {string}
          * @return {number[]}
          */
-        ModelFacet.prototype.getProperty = function (name) {
+        ModelFacetE3.prototype.getProperty = function (name) {
             switch (name) {
-                case ModelFacet.PROP_ATTITUDE: {
+                case ModelFacetE3.PROP_ATTITUDE: {
                     return [this._attitude.yz, this._attitude.zx, this._attitude.xy, this._attitude.α];
                 }
-                case ModelFacet.PROP_POSITION: {
+                case ModelFacetE3.PROP_POSITION: {
                     return [this._position.x, this._position.y, this._position.z];
                 }
                 default: {
-                    console.warn("ModelFacet.getProperty " + name);
+                    console.warn("ModelFacetE3.getProperty " + name);
                     return void 0;
                 }
             }
@@ -137,9 +137,9 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
          * @param data {number[]}
          * @return {void}
          */
-        ModelFacet.prototype.setProperty = function (name, data) {
+        ModelFacetE3.prototype.setProperty = function (name, data) {
             switch (name) {
-                case ModelFacet.PROP_ATTITUDE:
+                case ModelFacetE3.PROP_ATTITUDE:
                     {
                         this._attitude.zero();
                         this._attitude.yz = data[0];
@@ -148,7 +148,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
                         this._attitude.α = data[3];
                     }
                     break;
-                case ModelFacet.PROP_POSITION:
+                case ModelFacetE3.PROP_POSITION:
                     {
                         this._position.zero();
                         this._position.x = data[0];
@@ -157,7 +157,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
                     }
                     break;
                 default: {
-                    console.warn("ModelFacet.setProperty " + name);
+                    console.warn("ModelFacetE3.setProperty " + name);
                 }
             }
         };
@@ -166,7 +166,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
          * @param visitor {IFacetVisitor}
          * @param canvasId {number}
          */
-        ModelFacet.prototype.setUniforms = function (visitor, canvasId) {
+        ModelFacetE3.prototype.setUniforms = function (visitor, canvasId) {
             if (this._position.modified) {
                 this.matT.translation(this._position);
                 this._position.modified = false;
@@ -186,19 +186,19 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
         };
         /**
          * @method incRef
-         * @return {ModelFacet}
+         * @return {ModelFacetE3}
          * @chainable
          */
-        ModelFacet.prototype.incRef = function () {
+        ModelFacetE3.prototype.incRef = function () {
             this.addRef();
             return this;
         };
         /**
          * @method decRef
-         * @return {ModelFacet}
+         * @return {ModelFacetE3}
          * @chainable
          */
-        ModelFacet.prototype.decRef = function () {
+        ModelFacetE3.prototype.decRef = function () {
             this.release();
             return this;
         };
@@ -210,7 +210,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
          * @static
          * @readOnly
          */
-        ModelFacet.PROP_ATTITUDE = 'R';
+        ModelFacetE3.PROP_ATTITUDE = 'R';
         /**
          * The name of the property that designates the position.
          * @property PROP_POSITION
@@ -219,10 +219,10 @@ define(["require", "exports", '../math/Euclidean3', '../math/Matrix3', '../math/
          * @static
          * @readOnly
          */
-        ModelFacet.PROP_POSITION = 'X';
+        ModelFacetE3.PROP_POSITION = 'X';
         // FIXME: Make this scale so that we can be geometric?
-        ModelFacet.PROP_SCALEXYZ = 'scaleXYZ';
-        return ModelFacet;
+        ModelFacetE3.PROP_SCALEXYZ = 'scaleXYZ';
+        return ModelFacetE3;
     })(Shareable);
-    return ModelFacet;
+    return ModelFacetE3;
 });

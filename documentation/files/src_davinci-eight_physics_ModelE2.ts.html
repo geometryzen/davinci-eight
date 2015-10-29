@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts - davinci-eight</title>
+    <title>src/davinci-eight/physics/ModelE2.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.147.0</em>
+            <em>API Docs for: 2.148.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -103,8 +103,10 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IAnimationTarget.html">IFacet
-                extends IAnimationTarget</a></li>
+                extends IAnimationTarget
+                extends IUnknown.html">IFacet
+                extends IAnimationTarget
+                extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -124,7 +126,8 @@
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
-                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
+                                <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
@@ -220,47 +223,171 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/physics/ModelE2.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ISlide = require(&#x27;../../slideshow/ISlide&#x27;)
-import ISlideCommand = require(&#x27;../../slideshow/ISlideCommand&#x27;)
-import IDirector = require(&#x27;../../slideshow/IDirector&#x27;)
-import Shareable = require(&#x27;../../utils/Shareable&#x27;)
+import Color = require(&#x27;../core/Color&#x27;)
+import Euclidean2 = require(&#x27;../math/Euclidean2&#x27;)
+import IFacet = require(&#x27;../core/IFacet&#x27;)
+import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
+import IAnimationTarget = require(&#x27;../slideshow/IAnimationTarget&#x27;)
+import isUndefined = require(&#x27;../checks/isUndefined&#x27;)
+import IUnknownExt = require(&#x27;../core/IUnknownExt&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
+import G2 = require(&#x27;../math/G2&#x27;)
+import R2 = require(&#x27;../math/R2&#x27;)
+import SpinG2 = require(&#x27;../math/SpinG2&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;);
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 
-class UseDrawableInSceneCommand extends Shareable implements ISlideCommand
-{
-  private drawableName: string;
-  private sceneName: string;
-  private confirm: boolean;
-  /**
-   * Enables us to restore the drawable in the event of undo.
-   */
-  private wasHere: boolean;
-  constructor(drawableName: string, sceneName: string, confirm: boolean)
-  {
-    super(&#x27;TestCommand&#x27;)
-    this.drawableName = drawableName
-    this.sceneName = sceneName
-    this.confirm = confirm
-  }
-  protected destructor(): void
-  {
-    super.destructor();
-  }
-  redo(slide: ISlide, director: IDirector): void
-  {
-    this.wasHere = director.isDrawableInScene(this.drawableName, this.sceneName)
-    director.useDrawableInScene(this.drawableName, this.sceneName, this.confirm)
-  }
-  undo(slide: ISlide, director: IDirector): void
-  {
-    director.useDrawableInScene(this.drawableName, this.sceneName, this.wasHere)
-  }
+/**
+ * @class ModelE2
+ */
+class ModelE2 extends Shareable implements IAnimationTarget {
+    /**
+     * The name of the property that designates the attitude.
+     * @property PROP_ATTITUDE
+     * @type {string}
+     * @default &#x27;R&#x27;
+     * @static
+     * @readOnly
+     */
+    public static PROP_ATTITUDE = &#x27;R&#x27;;
+    /**
+     * The name of the property that designates the position.
+     * @property PROP_POSITION
+     * @type {string}
+     * @default &#x27;X&#x27;
+     * @static
+     * @readOnly
+     */
+    public static PROP_POSITION = &#x27;X&#x27;;
+
+    private _position = new G2().zero();
+    private _attitude = new G2().zero().addScalar(1);
+    /**
+     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     * @property _posCache
+     * @type {R2}
+     * @private
+     */
+    private _posCache = new R2([0, 0]);
+    /**
+     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     * @property _attCache
+     * @type {SpinG2}
+     * @private
+     */
+    private _attCache = new SpinG2([0, 0]);
+    /**
+     * &lt;p&gt;
+     * A collection of properties for Rigid Body Modeling.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * ModelE2 implements IFacet required for manipulating a drawable object.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * Constructs a ModelE2 at the origin and with unity attitude.
+     * &lt;/p&gt;
+     * @class ModelE2
+     * @constructor
+     * @param type [string = &#x27;ModelE2&#x27;] The name used for reference counting.
+     */
+    constructor(type: string = &#x27;ModelE2&#x27;) {
+        super(mustBeString(&#x27;type&#x27;, type))
+        this._position.modified = true
+        this._attitude.modified = true
+    }
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        this._position = void 0
+        this._attitude = void 0
+    }
+    /**
+     * &lt;p&gt;
+     * The &lt;em&gt;attitude&lt;/em&gt;, a unitary spinor.
+     * &lt;/p&gt;
+     * @property R
+     * @type G2
+     * @readOnly
+     */
+    get R(): G2 {
+        return this._attitude
+    }
+    set R(unused) {
+        throw new Error(readOnly(ModelE2.PROP_ATTITUDE).message)
+    }
+    /**
+     * &lt;p&gt;
+     * The &lt;em&gt;position&lt;/em&gt;, a vector.
+     * The vector &lt;b&gt;X&lt;/b&gt; designates the center of mass of the body (Physics).
+     * The vector &lt;b&gt;X&lt;/b&gt; designates the displacement from the local origin (Computer Graphics).
+     * &lt;/p&gt;
+     *
+     * @property X
+     * @type G2
+     * @readOnly
+     */
+    get X(): G2 {
+        return this._position
+    }
+    set X(unused) {
+        throw new Error(readOnly(ModelE2.PROP_POSITION).message)
+    }
+
+    /**
+     * @method getProperty
+     * @param name {string}
+     * @return {number[]}
+     */
+    getProperty(name: string): number[] {
+        switch (name) {
+            case ModelE2.PROP_ATTITUDE: {
+                return this._attCache.copy(this._attitude).data
+            }
+            case ModelE2.PROP_POSITION: {
+                return this._posCache.copy(this._position).data
+            }
+            default: {
+                console.warn(&quot;ModelE2.getProperty &quot; + name)
+                return void 0
+            }
+        }
+    }
+
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param data {number[]}
+     * @return {void}
+     */
+    setProperty(name: string, data: number[]): void {
+        switch (name) {
+            case ModelE2.PROP_ATTITUDE: {
+                this._attCache.data = data
+                this._attitude.copySpinor(this._attCache)
+            }
+                break;
+            case ModelE2.PROP_POSITION: {
+                this._posCache.data = data
+                this._position.copyVector(this._posCache)
+            }
+                break;
+            default: {
+                console.warn(&quot;ModelE2.setProperty &quot; + name)
+            }
+        }
+    }
 }
 
-export = UseDrawableInSceneCommand
+export = ModelE2
+
     </pre>
 </div>
                     </div>

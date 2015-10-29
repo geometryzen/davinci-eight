@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/models/ModelFacet.ts - davinci-eight</title>
+    <title>src/davinci-eight/models/ModelFacetE3.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.147.0</em>
+            <em>API Docs for: 2.148.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -103,8 +103,10 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IAnimationTarget.html">IFacet
-                extends IAnimationTarget</a></li>
+                extends IAnimationTarget
+                extends IUnknown.html">IFacet
+                extends IAnimationTarget
+                extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -124,7 +126,8 @@
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
-                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
+                                <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
@@ -220,7 +223,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/models/ModelFacet.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/models/ModelFacetE3.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -241,9 +244,9 @@ import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 
 /**
- * @class ModelFacet
+ * @class ModelFacetE3
  */
-class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknownExt&lt;ModelFacet&gt; {
+class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnknownExt&lt;ModelFacetE3&gt; {
     /**
      * The name of the property that designates the attitude.
      * @property PROP_ATTITUDE
@@ -283,16 +286,16 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
      * In Computer Graphics, the drawable object is a collection of drawing primitives.
      * &lt;/p&gt;
      * &lt;p&gt;
-     * ModelFacet implements IFacet required for manipulating a drawable object.
+     * ModelFacetE3 implements IFacet required for manipulating a drawable object.
      * &lt;/p&gt;
      * &lt;p&gt;
-     * Constructs a ModelFacet at the origin and with unity attitude.
+     * Constructs a ModelFacetE3 at the origin and with unity attitude.
      * &lt;/p&gt;
-     * @class ModelFacet
+     * @class ModelFacetE3
      * @constructor
-     * @param type [string = &#x27;ModelFacet&#x27;] The name used for reference counting.
+     * @param type [string = &#x27;ModelFacetE3&#x27;] The name used for reference counting.
      */
-    constructor(type: string = &#x27;ModelFacet&#x27;) {
+    constructor(type: string = &#x27;ModelFacetE3&#x27;) {
         super(mustBeString(&#x27;type&#x27;, type))
         this._position.modified = true
         this._attitude.modified = true
@@ -325,7 +328,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
         return this._attitude
     }
     set R(unused) {
-        throw new Error(readOnly(ModelFacet.PROP_ATTITUDE).message)
+        throw new Error(readOnly(ModelFacetE3.PROP_ATTITUDE).message)
     }
     /**
      * &lt;p&gt;
@@ -342,7 +345,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
         return this._position
     }
     set X(unused) {
-        throw new Error(readOnly(ModelFacet.PROP_POSITION).message)
+        throw new Error(readOnly(ModelFacetE3.PROP_POSITION).message)
     }
     /**
      * @property scaleXYZ
@@ -353,7 +356,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
         return this._scaleXYZ
     }
     set scaleXYZ(unused) {
-        throw new Error(readOnly(ModelFacet.PROP_SCALEXYZ).message)
+        throw new Error(readOnly(ModelFacetE3.PROP_SCALEXYZ).message)
     }
     /**
      * @method getProperty
@@ -362,14 +365,14 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
      */
     getProperty(name: string): number[] {
         switch (name) {
-            case ModelFacet.PROP_ATTITUDE: {
+            case ModelFacetE3.PROP_ATTITUDE: {
                 return [this._attitude.yz, this._attitude.zx, this._attitude.xy, this._attitude.α]
             }
-            case ModelFacet.PROP_POSITION: {
+            case ModelFacetE3.PROP_POSITION: {
                 return [this._position.x, this._position.y, this._position.z]
             }
             default: {
-                console.warn(&quot;ModelFacet.getProperty &quot; + name)
+                console.warn(&quot;ModelFacetE3.getProperty &quot; + name)
                 return void 0
             }
         }
@@ -382,7 +385,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
      */
     setProperty(name: string, data: number[]): void {
         switch (name) {
-            case ModelFacet.PROP_ATTITUDE: {
+            case ModelFacetE3.PROP_ATTITUDE: {
                 this._attitude.zero()
                 this._attitude.yz = data[0]
                 this._attitude.zx = data[1]
@@ -390,7 +393,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
                 this._attitude.α = data[3]
             }
                 break;
-            case ModelFacet.PROP_POSITION: {
+            case ModelFacetE3.PROP_POSITION: {
                 this._position.zero()
                 this._position.x = data[0]
                 this._position.y = data[1]
@@ -398,7 +401,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
             }
                 break;
             default: {
-                console.warn(&quot;ModelFacet.setProperty &quot; + name)
+                console.warn(&quot;ModelFacetE3.setProperty &quot; + name)
             }
         }
     }
@@ -429,25 +432,25 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
     }
     /**
      * @method incRef
-     * @return {ModelFacet}
+     * @return {ModelFacetE3}
      * @chainable
      */
-    incRef(): ModelFacet {
+    incRef(): ModelFacetE3 {
         this.addRef()
         return this
     }
     /**
      * @method decRef
-     * @return {ModelFacet}
+     * @return {ModelFacetE3}
      * @chainable
      */
-    decRef(): ModelFacet {
+    decRef(): ModelFacetE3 {
         this.release()
         return this
     }
 }
 
-export = ModelFacet
+export = ModelFacetE3
 
     </pre>
 </div>

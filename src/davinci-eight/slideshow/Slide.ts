@@ -20,7 +20,7 @@ class Slide extends Shareable implements ISlide {
     /**
      * The objects that we are going to manipulate.
      */
-    private targets: IUnknownArray<IAnimationTarget>;
+    private targets: IAnimationTarget[];
     /**
      * The companions to each target that maintain animation state.
      */
@@ -37,7 +37,7 @@ class Slide extends Shareable implements ISlide {
         super('Slide')
         this.prolog = new SlideCommands()
         this.epilog = new SlideCommands()
-        this.targets = new IUnknownArray<IAnimationTarget>()
+        this.targets = []
         this.mirrors = new StringIUnknownMap<Mirror>()
     }
     protected destructor(): void {
@@ -45,7 +45,6 @@ class Slide extends Shareable implements ISlide {
         this.prolog = void 0
         this.epilog.release()
         this.epilog = void 0
-        this.targets.release()
         this.targets = void 0
         this.mirrors.release()
         this.mirrors = void 0
@@ -92,8 +91,8 @@ class Slide extends Shareable implements ISlide {
     advance(interval: number): void {
         this.now += interval
 
-        for (var i = 0; i < this.targets.length; i++) {
-            var target = this.targets.getWeakRef(i)
+        for (var i = 0, iLength = this.targets.length; i < iLength; i++) {
+            var target = this.targets[i]
             /**
              * `offset` is variable used to keep things running on schedule.
              * If an animation finishes before the interval, it reports the
@@ -127,8 +126,8 @@ class Slide extends Shareable implements ISlide {
         }
     }
     undo(director: IDirector): void {
-        for (var i = 0; i < this.targets.length; i++) {
-            var target = this.targets.getWeakRef(i)
+        for (var i = 0, iLength = this.targets.length; i < iLength; i++) {
+            var target = this.targets[i]
             var mirror = this.mirrors.getWeakRef(target.uuid)
             var names = mirror.animationLanes.keys;
             for (var j = 0; j < names.length; j++) {
@@ -223,9 +222,6 @@ class Mirror extends Shareable {
         this.animationLanes = void 0
         super.destructor()
     }
-    /**
-     * TODO: Maybe call this ensureAnimationLane or ensureLane
-     */
     ensureAnimationLane(key: string): void {
         if (!this.animationLanes.exists(key)) {
             this.animationLanes.putWeakRef(key, new AnimationLane())

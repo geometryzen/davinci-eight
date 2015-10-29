@@ -1,10 +1,12 @@
 import IAnimationTarget = require('../slideshow/IAnimationTarget');
 import IFacetVisitor = require('../core/IFacetVisitor');
+import IUnknown = require('../core/IUnknown');
 /**
  * @class IFacet
  * extends IAnimationTarget
+ * extends IUnknown
  */
-interface IFacet extends IAnimationTarget {
+interface IFacet extends IAnimationTarget, IUnknown {
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}

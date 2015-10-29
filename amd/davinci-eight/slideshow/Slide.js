@@ -21,7 +21,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             this.now = 0;
             this.prolog = new SlideCommands();
             this.epilog = new SlideCommands();
-            this.targets = new IUnknownArray();
+            this.targets = [];
             this.mirrors = new StringIUnknownMap();
         }
         Slide.prototype.destructor = function () {
@@ -29,7 +29,6 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             this.prolog = void 0;
             this.epilog.release();
             this.epilog = void 0;
-            this.targets.release();
             this.targets = void 0;
             this.mirrors.release();
             this.mirrors = void 0;
@@ -66,8 +65,8 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
          */
         Slide.prototype.advance = function (interval) {
             this.now += interval;
-            for (var i = 0; i < this.targets.length; i++) {
-                var target = this.targets.getWeakRef(i);
+            for (var i = 0, iLength = this.targets.length; i < iLength; i++) {
+                var target = this.targets[i];
                 /**
                  * `offset` is variable used to keep things running on schedule.
                  * If an animation finishes before the interval, it reports the
@@ -101,8 +100,8 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             }
         };
         Slide.prototype.undo = function (director) {
-            for (var i = 0; i < this.targets.length; i++) {
-                var target = this.targets.getWeakRef(i);
+            for (var i = 0, iLength = this.targets.length; i < iLength; i++) {
+                var target = this.targets[i];
                 var mirror = this.mirrors.getWeakRef(target.uuid);
                 var names = mirror.animationLanes.keys;
                 for (var j = 0; j < names.length; j++) {
@@ -187,9 +186,6 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             this.animationLanes = void 0;
             _super.prototype.destructor.call(this);
         };
-        /**
-         * TODO: Maybe call this ensureAnimationLane or ensureLane
-         */
         Mirror.prototype.ensureAnimationLane = function (key) {
             if (!this.animationLanes.exists(key)) {
                 this.animationLanes.putWeakRef(key, new AnimationLane());

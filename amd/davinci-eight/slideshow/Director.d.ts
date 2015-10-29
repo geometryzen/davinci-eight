@@ -1,9 +1,5 @@
-import SimplexGeometry = require('../geometries/SimplexGeometry');
 import Slide = require('../slideshow/Slide');
-import Canvas3D = require('../scene/Canvas3D');
-import IDrawable = require('../core/IDrawable');
-import IDrawList = require('../scene/IDrawList');
-import IFacet = require('../core/IFacet');
+import IAnimationTarget = require('../slideshow/IAnimationTarget');
 import IDirector = require('../slideshow/IDirector');
 import IUnknownArray = require('../collections/IUnknownArray');
 import Shareable = require('../utils/Shareable');
@@ -25,58 +21,18 @@ declare class Director extends Shareable implements IDirector {
      */
     slides: IUnknownArray<Slide>;
     /**
-     * (canvasId: number) => Canvas3D
-     */
-    private contexts;
-    /**
-     * (sceneName: string) => IDrawList
-     */
-    private scenes;
-    /**
-     * (name: string) => IDrawable
-     */
-    private drawables;
-    /**
-     * (name: string) => SimplexGeometry
-     */
-    private geometries;
-    /**
-     * (name: string) => IFacet
+     * (name: string) => IAnimationTarget
      */
     private facets;
-    /**
-     * (canvasId: number) => scene.name
-     */
-    private sceneNamesByCanvasId;
-    /**
-     * (canvasId: number) => ((facet.name) => IFacet)
-     */
-    private facetsByCanvasId;
     /**
      * @class Director
      * @constructor
      */
     constructor();
     destructor(): void;
-    addCanvas3D(context: Canvas3D): void;
-    getCanvas3D(canvasId: number): Canvas3D;
-    removeCanvas3D(canvasId: number): void;
-    addDrawable(drawable: IDrawable, drawableName: string): void;
-    getDrawable(drawableName: string): IDrawable;
-    removeDrawable(drawableName: string): IDrawable;
-    addFacet(facet: IFacet, facetName: string): void;
-    getFacet(facetName: string): IFacet;
-    removeFacet(facetName: string): IFacet;
-    addGeometry(name: string, geometry: SimplexGeometry): void;
-    removeGeometry(name: string): SimplexGeometry;
-    getGeometry(name: string): SimplexGeometry;
-    addScene(scene: IDrawList, sceneName: string): void;
-    getScene(sceneName: string): IDrawList;
-    removeScene(sceneName: string): IDrawList;
-    isDrawableInScene(drawableName: string, sceneName: string): boolean;
-    useDrawableInScene(drawableName: string, sceneName: string, confirm: boolean): void;
-    useSceneOnCanvas(sceneName: string, canvasId: number, confirm: boolean): void;
-    useFacetOnCanvas(facetName: string, canvasId: number, confirm: boolean): void;
+    addFacet(facet: IAnimationTarget, facetName: string): void;
+    getFacet(facetName: string): IAnimationTarget;
+    removeFacet(facetName: string): IAnimationTarget;
     /**
      * Creates a new Slide.
      * @method createSlide
@@ -89,7 +45,7 @@ declare class Director extends Shareable implements IDirector {
     backward(instant?: boolean, delay?: number): void;
     canBackward(): boolean;
     pushSlide(slide: Slide): number;
+    popSlide(slide: Slide): Slide;
     advance(interval: number): void;
-    render(): void;
 }
 export = Director;

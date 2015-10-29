@@ -93,5 +93,27 @@ declare class R2 extends VectorN<number> implements VectorE2, MutableLinearEleme
      * @chainable
      */
     zero(): R2;
+    /**
+     * @method copy
+     * @param vector {VectorE2}
+     * @return {R2}
+     * @static
+     */
+    static copy(vector: VectorE2): R2;
+    /**
+     * @method lerp
+     * @param a {VectorE2}
+     * @param b {VectorE2}
+     * @param α {number}
+     * @return {R2} <code>a + α * (b - a)</code>
+     * @static
+     */
+    static lerp(a: VectorE2, b: VectorE2, α: number): R2;
+    /**
+     * @method random
+     * @return {R2}
+     * @static
+     */
+    static random(): R2;
 }
 export = R2;

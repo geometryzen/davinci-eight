@@ -2334,10 +2334,27 @@ declare module EIGHT {
      */
     function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes): IContextProvider;
 
+    class ModelE2 extends Shareable implements IAnimationTarget {
+        /**
+         * The position, a vector.
+         */
+        public X: G2;
+        /**
+         * The attitude, a unitary spinor.
+         */
+        public R: G2;
+        /**
+         * Constructs a ModelE2 at the origin and with unity attitude.
+         */
+        constructor();
+        getProperty(name: string): number[];
+        setProperty(name: string, value: number[]): void;
+    }
+
     /**
      * A collection of properties governing GLSL uniforms for Computer Graphics Modeling.
      */
-    class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacet> {
+    class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacetE3> {
         /**
          * The position, a vector.
          */
@@ -2351,11 +2368,11 @@ declare module EIGHT {
          */
         public scaleXYZ: R3;
         /**
-         * Constructs a ModelFacet at the origin and with unity attitude.
+         * Constructs a ModelFacetE3 at the origin and with unity attitude.
          */
         constructor();
-        incRef(): ModelFacet;
-        decRef(): ModelFacet;
+        incRef(): ModelFacetE3;
+        decRef(): ModelFacetE3;
         getProperty(name: string): number[];
         setProperty(name: string, value: number[]): void;
         setUniforms(visitor: IFacetVisitor, canvasId: number): void;
@@ -2363,7 +2380,7 @@ declare module EIGHT {
     /**
      * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
      */
-    class KinematicRigidBodyFacetE3 extends ModelFacet {
+    class KinematicRigidBodyFacetE3 extends ModelFacetE3 {
         /**
          * The linear velocity, a vector.
          */
@@ -3223,29 +3240,10 @@ declare module EIGHT {
     }
 
     interface IDirector {
-        addCanvas3D(context: Canvas3D): void;
-        getCanvas3D(canvasId: number): Canvas3D;
-        removeCanvas3D(canvasId: number): void;
 
-        addDrawable(drawable: IDrawable, drawableName): void;
-        getDrawable(drawableName: string): IDrawable;
-        removeDrawable(drawableName: string): void;
-
-        addFacet(facet: IFacet, facetName: string): void;
-        getFacet(facetName: string): IFacet;
+        addFacet(facet: IAnimationTarget, facetName: string): void;
+        getFacet(facetName: string): IAnimationTarget;
         removeFacet(facetName: string): void;
-
-        addGeometry(name: string, geometry: SimplexGeometry): void;
-        getGeometry(name: string): SimplexGeometry;
-        removeGeometry(name: string): void;
-
-        addScene(scene: IDrawList, sceneName: string): void;
-        getScene(sceneName: string): IDrawList;
-        removeScene(sceneName: string): void;
-
-        useDrawableInScene(drawableName: string, sceneName: string, confirm: boolean): void
-        useSceneOnCanvas(sceneName: string, canvasId: number, confirm: boolean): void
-        useFacetOnCanvas(facetName: string, canvasId: number, confirm: boolean): void
     }
 
     interface ISlide {
@@ -3266,14 +3264,6 @@ declare module EIGHT {
     class SlideCommands extends AbstractSlideCommand {
         constructor(userName: string);
         pushWeakRef(command: ISlideCommand): number;
-        animateDrawable(drawableName: string, facetName: string, propName: string, animation: IAnimation): number;
-        attitude(drawableName: string, attitude: SpinorE3, duration?: number, callback?: () => any): number;
-        color(drawableName: string, color: ColorRGB, duration?: number, callback?: () => any): number;
-        createDrawable(drawableName: string, geometry: SimplexGeometry): number;
-        cuboid(drawableName: string, a?: VectorE3, b?: VectorE3, c?: VectorE3, k?: number, subdivide?: number, boundary?: number): number;
-        destroyDrawable(drawableName: string): number;
-        position(drawableName: string, position: VectorE3, duration?: number, callback?: () => any): number;
-        useDrawableInScene(drawableName: string, sceneName: string, confirm: boolean): number;
     }
 
     class Slide extends Shareable implements ISlide {
@@ -3289,38 +3279,19 @@ declare module EIGHT {
 
         constructor();
 
-        addCanvas3D(context: Canvas3D): void;
-        getCanvas3D(canvasId: number): Canvas3D;
-        removeCanvas3D(canvasId: number): void;
-
-        addDrawable(drawable: IDrawable, drawableName: string): void;
-        getDrawable(drawableName: string): IDrawable;
-        removeDrawable(drawableName: string): void;
-
-        addFacet(facet: IFacet, facetName: string): void;
-        getFacet(facetName: string): IFacet
+        addFacet(facet: IAnimationTarget, facetName: string): void;
+        getFacet(facetName: string): IAnimationTarget
         removeFacet(facetName: string): void;
 
-        addGeometry(name: string, geometry: SimplexGeometry): void;
-        getGeometry(name: string): SimplexGeometry;
-        removeGeometry(name: string): void;
-
-        addScene(scene: IDrawList, sceneName: string): void;
-        getScene(sceneName: string): IDrawList;
-        removeScene(sceneName: string): void;
-
-        useDrawableInScene(drawableName: string, sceneName: string, confirm: boolean): void
-        useSceneOnCanvas(sceneName: string, canvasId: number, confirm: boolean): void
-        useFacetOnCanvas(facetName: string, canvasId: number, confirm: boolean): void
-
         createSlide(): Slide;
+        pushSlide(slide: Slide): number;
+        popSlide(): Slide;
 
         canForward(): boolean;
         forward(instant?: boolean, delay?: number): void;
         canBackward(): boolean;
         backward(instant?: boolean, delay?: number): void;
         advance(interval: number): void;
-        render(): void;
     }
 
     class DirectorKeyboardHandler extends Shareable implements IKeyboardHandler {
@@ -3352,9 +3323,28 @@ declare module EIGHT {
         undo(target: IAnimationTarget, propName: string): void;
     }
 
+    class Vector2Animation extends Shareable implements IAnimation {
+        constructor(value: VectorE2, duration?: number, callback?: () => void, ease?: string);
+        apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
+        hurry(factor: number): void;
+        skip(target: IAnimationTarget, propName: string): void;
+        extra(now: number): number;
+        done(target: IAnimationTarget, propName: string): boolean;
+        undo(target: IAnimationTarget, propName: string): void;
+    }
 
     class Vector3Animation extends Shareable implements IAnimation {
         constructor(value: VectorE3, duration?: number, callback?: () => void, ease?: string);
+        apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
+        hurry(factor: number): void;
+        skip(target: IAnimationTarget, propName: string): void;
+        extra(now: number): number;
+        done(target: IAnimationTarget, propName: string): boolean;
+        undo(target: IAnimationTarget, propName: string): void;
+    }
+
+    class Spinor2Animation extends Shareable implements IAnimation {
+        constructor(value: SpinorE2, duration?: number, callback?: () => void, ease?: string);
         apply(target: IAnimationTarget, propName: string, now: number, offset?: number);
         hurry(factor: number): void;
         skip(target: IAnimationTarget, propName: string): void;
@@ -3371,31 +3361,6 @@ declare module EIGHT {
         extra(now: number): number;
         done(target: IAnimationTarget, propName: string): boolean;
         undo(target: IAnimationTarget, propName: string): void;
-    }
-
-    class AnimateDrawableCommand extends AbstractSlideCommand {
-        constructor(drawableName: string, facetName: string, propName: string, animation: IAnimation);
-    }
-
-
-    class CreateCuboidDrawable extends AbstractSlideCommand {
-        constructor(name: string, a?: VectorE3, b?: VectorE3, c?: VectorE3);
-    }
-
-    class DestroyDrawableCommand extends AbstractSlideCommand {
-        constructor(name: string);
-    }
-
-    class GeometryCommand extends AbstractSlideCommand {
-        constructor(name: string, geometry: SimplexGeometry);
-    }
-
-    class TestCommand extends AbstractSlideCommand {
-        constructor(name: string);
-    }
-
-    class UseDrawableInSceneCommand extends AbstractSlideCommand {
-        constructor(drawableName: string, sceneName: string, confirm: boolean);
     }
     ///////////////////////////////////////////////////////////////////////////////
     class Topology {

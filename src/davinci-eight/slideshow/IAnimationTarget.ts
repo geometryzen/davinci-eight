@@ -1,10 +1,10 @@
-import IUnknown = require('../core/IUnknown')
+//import IUnknown = require('../core/IUnknown')
 
 /**
  * @class IAnimationTarget
  * @extends IUnknown
  */
-interface IAnimationTarget extends IUnknown {
+interface IAnimationTarget {
   /**
    * @property uuid
    * @type {string}

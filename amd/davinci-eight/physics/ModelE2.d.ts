@@ -1,14 +1,10 @@
-import IFacet = require('../core/IFacet');
-import IFacetVisitor = require('../core/IFacetVisitor');
 import IAnimationTarget = require('../slideshow/IAnimationTarget');
-import IUnknownExt = require('../core/IUnknownExt');
-import G3 = require('../math/G3');
-import R3 = require('../math/R3');
+import G2 = require('../math/G2');
 import Shareable = require('../utils/Shareable');
 /**
- * @class ModelFacet
+ * @class ModelE2
  */
-declare class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacet> {
+declare class ModelE2 extends Shareable implements IAnimationTarget {
     /**
      * The name of the property that designates the attitude.
      * @property PROP_ATTITUDE
@@ -27,32 +23,35 @@ declare class ModelFacet extends Shareable implements IFacet, IAnimationTarget, 
      * @readOnly
      */
     static PROP_POSITION: string;
-    static PROP_SCALEXYZ: string;
     private _position;
     private _attitude;
-    private _scaleXYZ;
-    private matM;
-    private matN;
-    private matR;
-    private matS;
-    private matT;
+    /**
+     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     * @property _posCache
+     * @type {R2}
+     * @private
+     */
+    private _posCache;
+    /**
+     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     * @property _attCache
+     * @type {SpinG2}
+     * @private
+     */
+    private _attCache;
     /**
      * <p>
-     * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
+     * A collection of properties for Rigid Body Modeling.
      * </p>
      * <p>
-     * In Physics, the drawable object may represent a rigid body.
-     * In Computer Graphics, the drawable object is a collection of drawing primitives.
+     * ModelE2 implements IFacet required for manipulating a drawable object.
      * </p>
      * <p>
-     * ModelFacet implements IFacet required for manipulating a drawable object.
+     * Constructs a ModelE2 at the origin and with unity attitude.
      * </p>
-     * <p>
-     * Constructs a ModelFacet at the origin and with unity attitude.
-     * </p>
-     * @class ModelFacet
+     * @class ModelE2
      * @constructor
-     * @param type [string = 'ModelFacet'] The name used for reference counting.
+     * @param type [string = 'ModelE2'] The name used for reference counting.
      */
     constructor(type?: string);
     /**
@@ -66,10 +65,10 @@ declare class ModelFacet extends Shareable implements IFacet, IAnimationTarget, 
      * The <em>attitude</em>, a unitary spinor.
      * </p>
      * @property R
-     * @type G3
+     * @type G2
      * @readOnly
      */
-    R: G3;
+    R: G2;
     /**
      * <p>
      * The <em>position</em>, a vector.
@@ -78,16 +77,10 @@ declare class ModelFacet extends Shareable implements IFacet, IAnimationTarget, 
      * </p>
      *
      * @property X
-     * @type G3
+     * @type G2
      * @readOnly
      */
-    X: G3;
-    /**
-     * @property scaleXYZ
-     * @type R3
-     * @readOnly
-     */
-    scaleXYZ: R3;
+    X: G2;
     /**
      * @method getProperty
      * @param name {string}
@@ -101,23 +94,5 @@ declare class ModelFacet extends Shareable implements IFacet, IAnimationTarget, 
      * @return {void}
      */
     setProperty(name: string, data: number[]): void;
-    /**
-     * @method setUniforms
-     * @param visitor {IFacetVisitor}
-     * @param canvasId {number}
-     */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
-    /**
-     * @method incRef
-     * @return {ModelFacet}
-     * @chainable
-     */
-    incRef(): ModelFacet;
-    /**
-     * @method decRef
-     * @return {ModelFacet}
-     * @chainable
-     */
-    decRef(): ModelFacet;
 }
-export = ModelFacet;
+export = ModelE2;

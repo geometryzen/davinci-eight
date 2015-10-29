@@ -56,7 +56,6 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
          * @return {DrawPrimitive[]}
          */
         ConeGeometry.prototype.toPrimitives = function () {
-            console.log("ConeGeometry.toPrimitives()");
             var topo = new GridTopology(this.thetaSegments, 1);
             var uLength = topo.uLength;
             var uSegments = uLength - 1;

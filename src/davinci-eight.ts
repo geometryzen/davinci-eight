@@ -4,15 +4,10 @@ import Director = require('davinci-eight/slideshow/Director')
 import DirectorKeyboardHandler = require('davinci-eight/slideshow/DirectorKeyboardHandler')
 import WaitAnimation = require('davinci-eight/slideshow/animations/WaitAnimation')
 import ColorAnimation = require('davinci-eight/slideshow/animations/ColorAnimation')
+import Vector2Animation = require('davinci-eight/slideshow/animations/Vector2Animation')
 import Vector3Animation = require('davinci-eight/slideshow/animations/Vector3Animation')
+import Spinor2Animation = require('davinci-eight/slideshow/animations/Spinor2Animation')
 import Spinor3Animation = require('davinci-eight/slideshow/animations/Spinor3Animation')
-
-import AnimateDrawableCommand = require('davinci-eight/slideshow/commands/AnimateDrawableCommand')
-import CreateCuboidDrawable = require('davinci-eight/slideshow/commands/CreateCuboidDrawable')
-import DestroyDrawableCommand = require('davinci-eight/slideshow/commands/DestroyDrawableCommand')
-import GeometryCommand = require('davinci-eight/slideshow/commands/TestCommand')
-import TestCommand = require('davinci-eight/slideshow/commands/TestCommand')
-import UseDrawableInSceneCommand = require('davinci-eight/slideshow/commands/UseDrawableInSceneCommand')
 
 // cameras
 import createFrustum = require('davinci-eight/cameras/createFrustum')
@@ -159,9 +154,10 @@ import VectorN = require('davinci-eight/math/VectorN')
 import HH = require('davinci-eight/math/HH')
 
 // models
+import ModelE2 = require('davinci-eight/physics/ModelE2')
 import EulerFacet = require('davinci-eight/models/EulerFacet')
 import KinematicRigidBodyFacetE3 = require('davinci-eight/models/KinematicRigidBodyFacetE3')
-import ModelFacet = require('davinci-eight/models/ModelFacet')
+import ModelFacetE3 = require('davinci-eight/models/ModelFacetE3')
 
 // programs
 import IMaterial = require('davinci-eight/core/IMaterial')
@@ -222,14 +218,10 @@ var eight = {
     get DirectorKeyboardHandler() { return DirectorKeyboardHandler },
     get ColorAnimation() { return ColorAnimation },
     get WaitAnimation() { return WaitAnimation },
+    get Vector2Animation() { return Vector2Animation },
     get Vector3Animation() { return Vector3Animation },
+    get Spinor2Animation() { return Spinor2Animation },
     get Spinor3Animation() { return Spinor3Animation },
-    get AnimateDrawableCommand() { return AnimateDrawableCommand },
-    get CreateCuboidDrawable() { return CreateCuboidDrawable },
-    get DestroyDrawableCommand() { return DestroyDrawableCommand },
-    get GeometryCommand() { return GeometryCommand },
-    get TestCommand() { return TestCommand },
-    get UseDrawableInSceneCommand() { return UseDrawableInSceneCommand },
 
     // devices
     get Keyboard() { return Keyboard },
@@ -254,9 +246,10 @@ var eight = {
     get createPerspective() { return createPerspective },
     get createView() { return createView },
 
+    get ModelE2() { return ModelE2 },
     get EulerFacet() { return EulerFacet },
     get KinematicRigidBodyFacetE3() { return KinematicRigidBodyFacetE3 },
-    get ModelFacet() { return ModelFacet },
+    get ModelFacetE3() { return ModelFacetE3 },
 
     get Simplex() { return Simplex },
     get Vertex() { return Vertex },

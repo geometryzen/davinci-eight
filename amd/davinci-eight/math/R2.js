@@ -260,6 +260,34 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y = 0;
             return this;
         };
+        /**
+         * @method copy
+         * @param vector {VectorE2}
+         * @return {R2}
+         * @static
+         */
+        R2.copy = function (vector) {
+            return new R2([vector.x, vector.y]);
+        };
+        /**
+         * @method lerp
+         * @param a {VectorE2}
+         * @param b {VectorE2}
+         * @param α {number}
+         * @return {R2} <code>a + α * (b - a)</code>
+         * @static
+         */
+        R2.lerp = function (a, b, α) {
+            return R2.copy(b).sub(a).scale(α).add(a);
+        };
+        /**
+         * @method random
+         * @return {R2}
+         * @static
+         */
+        R2.random = function () {
+            return new R2([Math.random(), Math.random()]);
+        };
         return R2;
     })(VectorN);
     return R2;

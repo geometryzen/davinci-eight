@@ -61,7 +61,6 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
          * @return {DrawPrimitive[]}
          */
         ArrowGeometry.prototype.toPrimitives = function () {
-            console.log("ArrowGeometry.toPrimitives()");
             var heightShaft = 1 - this.heightCone;
             /**
              * The opposite direction to the axis.

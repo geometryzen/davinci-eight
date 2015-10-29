@@ -1,12 +1,12 @@
 import Euclidean3 = require('../math/Euclidean3')
-import ModelFacet = require('../models/ModelFacet')
+import ModelFacetE3 = require('../models/ModelFacetE3')
 import G3 = require('../math/G3')
 
 /**
  * @class KinematicRigidBodyFacetE3
- * @extends ModelFacet
+ * @extends ModelFacetE3
  */
-class KinematicRigidBodyFacetE3 extends ModelFacet {
+class KinematicRigidBodyFacetE3 extends ModelFacetE3 {
     /**
      * <p>
      * The <em>linear velocity</em>, a vector.

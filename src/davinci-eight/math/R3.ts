@@ -608,6 +608,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
             return void 0;
         }
     }
+
     /**
      * @method copy
      * @param vector {VectorE3}
@@ -617,6 +618,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
     static copy(vector: VectorE3): R3 {
         return new R3([vector.x, vector.y, vector.z])
     }
+
     /**
      * @method lerp
      * @param a {VectorE3}
@@ -628,6 +630,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
     static lerp(a: VectorE3, b: VectorE3, α: number): R3 {
         return R3.copy(b).sub(a).scale(α).add(a)
     }
+
     /**
      * @method random
      * @return {R3}

@@ -15,9 +15,9 @@ import Shareable = require('../utils/Shareable')
 import Symbolic = require('../core/Symbolic')
 
 /**
- * @class ModelFacet
+ * @class ModelFacetE3
  */
-class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacet> {
+class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacetE3> {
     /**
      * The name of the property that designates the attitude.
      * @property PROP_ATTITUDE
@@ -57,16 +57,16 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
      * In Computer Graphics, the drawable object is a collection of drawing primitives.
      * </p>
      * <p>
-     * ModelFacet implements IFacet required for manipulating a drawable object.
+     * ModelFacetE3 implements IFacet required for manipulating a drawable object.
      * </p>
      * <p>
-     * Constructs a ModelFacet at the origin and with unity attitude.
+     * Constructs a ModelFacetE3 at the origin and with unity attitude.
      * </p>
-     * @class ModelFacet
+     * @class ModelFacetE3
      * @constructor
-     * @param type [string = 'ModelFacet'] The name used for reference counting.
+     * @param type [string = 'ModelFacetE3'] The name used for reference counting.
      */
-    constructor(type: string = 'ModelFacet') {
+    constructor(type: string = 'ModelFacetE3') {
         super(mustBeString('type', type))
         this._position.modified = true
         this._attitude.modified = true
@@ -99,7 +99,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
         return this._attitude
     }
     set R(unused) {
-        throw new Error(readOnly(ModelFacet.PROP_ATTITUDE).message)
+        throw new Error(readOnly(ModelFacetE3.PROP_ATTITUDE).message)
     }
     /**
      * <p>
@@ -116,7 +116,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
         return this._position
     }
     set X(unused) {
-        throw new Error(readOnly(ModelFacet.PROP_POSITION).message)
+        throw new Error(readOnly(ModelFacetE3.PROP_POSITION).message)
     }
     /**
      * @property scaleXYZ
@@ -127,7 +127,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
         return this._scaleXYZ
     }
     set scaleXYZ(unused) {
-        throw new Error(readOnly(ModelFacet.PROP_SCALEXYZ).message)
+        throw new Error(readOnly(ModelFacetE3.PROP_SCALEXYZ).message)
     }
     /**
      * @method getProperty
@@ -136,14 +136,14 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
      */
     getProperty(name: string): number[] {
         switch (name) {
-            case ModelFacet.PROP_ATTITUDE: {
+            case ModelFacetE3.PROP_ATTITUDE: {
                 return [this._attitude.yz, this._attitude.zx, this._attitude.xy, this._attitude.α]
             }
-            case ModelFacet.PROP_POSITION: {
+            case ModelFacetE3.PROP_POSITION: {
                 return [this._position.x, this._position.y, this._position.z]
             }
             default: {
-                console.warn("ModelFacet.getProperty " + name)
+                console.warn("ModelFacetE3.getProperty " + name)
                 return void 0
             }
         }
@@ -156,7 +156,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
      */
     setProperty(name: string, data: number[]): void {
         switch (name) {
-            case ModelFacet.PROP_ATTITUDE: {
+            case ModelFacetE3.PROP_ATTITUDE: {
                 this._attitude.zero()
                 this._attitude.yz = data[0]
                 this._attitude.zx = data[1]
@@ -164,7 +164,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
                 this._attitude.α = data[3]
             }
                 break;
-            case ModelFacet.PROP_POSITION: {
+            case ModelFacetE3.PROP_POSITION: {
                 this._position.zero()
                 this._position.x = data[0]
                 this._position.y = data[1]
@@ -172,7 +172,7 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
             }
                 break;
             default: {
-                console.warn("ModelFacet.setProperty " + name)
+                console.warn("ModelFacetE3.setProperty " + name)
             }
         }
     }
@@ -203,22 +203,22 @@ class ModelFacet extends Shareable implements IFacet, IAnimationTarget, IUnknown
     }
     /**
      * @method incRef
-     * @return {ModelFacet}
+     * @return {ModelFacetE3}
      * @chainable
      */
-    incRef(): ModelFacet {
+    incRef(): ModelFacetE3 {
         this.addRef()
         return this
     }
     /**
      * @method decRef
-     * @return {ModelFacet}
+     * @return {ModelFacetE3}
      * @chainable
      */
-    decRef(): ModelFacet {
+    decRef(): ModelFacetE3 {
         this.release()
         return this
     }
 }
 
-export = ModelFacet
+export = ModelFacetE3

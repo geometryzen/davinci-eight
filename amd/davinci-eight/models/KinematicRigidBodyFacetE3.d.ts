@@ -1,10 +1,10 @@
-import ModelFacet = require('../models/ModelFacet');
+import ModelFacetE3 = require('../models/ModelFacetE3');
 import G3 = require('../math/G3');
 /**
  * @class KinematicRigidBodyFacetE3
- * @extends ModelFacet
+ * @extends ModelFacetE3
  */
-declare class KinematicRigidBodyFacetE3 extends ModelFacet {
+declare class KinematicRigidBodyFacetE3 extends ModelFacetE3 {
     /**
      * <p>
      * The <em>linear velocity</em>, a vector.

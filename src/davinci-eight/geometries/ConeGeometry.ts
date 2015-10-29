@@ -59,7 +59,6 @@ class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry>
      * @return {DrawPrimitive[]}
      */
     public toPrimitives(): DrawPrimitive[] {
-        console.log("ConeGeometry.toPrimitives()")
         var topo = new GridTopology(this.thetaSegments, 1)
         var uLength = topo.uLength
         var uSegments = uLength - 1

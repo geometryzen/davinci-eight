@@ -3,10 +3,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../models/ModelFacet', '../math/G3'], function (require, exports, Euclidean3, ModelFacet, G3) {
+define(["require", "exports", '../math/Euclidean3', '../models/ModelFacetE3', '../math/G3'], function (require, exports, Euclidean3, ModelFacetE3, G3) {
     /**
      * @class KinematicRigidBodyFacetE3
-     * @extends ModelFacet
+     * @extends ModelFacetE3
      */
     var KinematicRigidBodyFacetE3 = (function (_super) {
         __extends(KinematicRigidBodyFacetE3, _super);
@@ -47,6 +47,6 @@ define(["require", "exports", '../math/Euclidean3', '../models/ModelFacet', '../
             _super.prototype.destructor.call(this);
         };
         return KinematicRigidBodyFacetE3;
-    })(ModelFacet);
+    })(ModelFacetE3);
     return KinematicRigidBodyFacetE3;
 });

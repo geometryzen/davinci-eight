@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ModelFacet - davinci-eight</title>
+    <title>IFacet
+extends IAnimationTarget
+extends IUnknown - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +19,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.147.0</em>
+            <em>API Docs for: 2.148.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -103,8 +105,10 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet
-                extends IAnimationTarget.html">IFacet
-                extends IAnimationTarget</a></li>
+                extends IAnimationTarget
+                extends IUnknown.html">IFacet
+                extends IAnimationTarget
+                extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -124,7 +128,8 @@
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
-                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
+                                <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
@@ -220,12 +225,14 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>ModelFacet Class</h1>
+<h1>IFacet
+extends IAnimationTarget
+extends IUnknown Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:51</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_IFacet.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacet.ts:5</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -234,84 +241,15 @@
 
 
 <div class="box intro">
-    <p>
-A collection of properties governing GLSL uniforms for Rigid Body Modeling.
-</p>
-<p>
-In Physics, the drawable object may represent a rigid body.
-In Computer Graphics, the drawable object is a collection of drawing primitives.
-</p>
-<p>
-ModelFacet implements IFacet required for manipulating a drawable object.
-</p>
-<p>
-Constructs a ModelFacet at the origin and with unity attitude.
-</p>
+    
 </div>
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_ModelFacet" class="method item">
-    <h3 class="name"><code>ModelFacet</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>type</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:51</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">type</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                        <p>[string = 'ModelFacet'] The name used for reference counting.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -323,60 +261,12 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_decRef">decRef</a>
-
-                            </li>
-                            <li class="index-item method protected">
-                                <a href="#method_destructor">destructor</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_getProperty">getProperty</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_incRef">incRef</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_setProperty">setProperty</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_setUniforms">setUniforms</a>
 
                             </li>
                     </ul>
                 </div>
 
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_PROP_ATTITUDE">PROP_ATTITUDE</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_PROP_POSITION">PROP_POSITION</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_R">R</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_scaleXYZ">scaleXYZ</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_X">X</a>
-
-                            </li>
-                    </ul>
-                </div>
 
 
         </div>
@@ -384,266 +274,6 @@ Constructs a ModelFacet at the origin and with unity attitude.
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_decRef" class="method item">
-    <h3 class="name"><code>decRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/ModelFacet.html" class="crosslink">ModelFacet</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:213</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/ModelFacet.html" class="crosslink">ModelFacet</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_destructor" class="method item protected">
-    <h3 class="name"><code>destructor</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:75</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getProperty" class="method item">
-    <h3 class="name"><code>getProperty</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:132</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_incRef" class="method item">
-    <h3 class="name"><code>incRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/ModelFacet.html" class="crosslink">ModelFacet</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:204</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/ModelFacet.html" class="crosslink">ModelFacet</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setProperty" class="method item">
-    <h3 class="name"><code>setProperty</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>data</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l151"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:151</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">data</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
 <div id="method_setUniforms" class="method item">
     <h3 class="name"><code>setUniforms</code></h3>
 
@@ -658,6 +288,9 @@ Constructs a ModelFacet at the origin and with unity attitude.
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -668,7 +301,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l179"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:179</code></a>
+        <a href="../files/src_davinci-eight_core_IFacet.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacet.ts:11</code></a>
         </p>
 
 
@@ -689,7 +322,7 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                 </li>
@@ -699,154 +332,25 @@ Constructs a ModelFacet at the origin and with unity attitude.
 
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
             </div>
 
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_PROP_ATTITUDE" class="property item">
-    <h3 class="name"><code>PROP_ATTITUDE</code></h3>
-    <span class="type">String</span>
-
-
-
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:21</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The name of the property that designates the attitude.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;R&#x27;</p>
-
-
-</div>
-<div id="property_PROP_POSITION" class="property item">
-    <h3 class="name"><code>PROP_POSITION</code></h3>
-    <span class="type">String</span>
-
-
-
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:30</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The name of the property that designates the position.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> &#x27;X&#x27;</p>
-
-
-</div>
-<div id="property_R" class="property item">
-    <h3 class="name"><code>R</code></h3>
-    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:90</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>
-The <em>attitude</em>, a unitary spinor.
-</p>
-    </div>
-
-
-
-</div>
-<div id="property_scaleXYZ" class="property item">
-    <h3 class="name"><code>scaleXYZ</code></h3>
-    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:121</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_X" class="property item">
-    <h3 class="name"><code>X</code></h3>
-    <span class="type"><a href="../classes/G3.html" class="crosslink">G3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_models_ModelFacet.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;models&#x2F;ModelFacet.ts:104</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>
-The <em>position</em>, a vector.
-The vector <b>X</b> designates the center of mass of the body (Physics).
-The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
-</p>
-    </div>
-
-
-
-</div>
-            </div>
 
 
     </div>

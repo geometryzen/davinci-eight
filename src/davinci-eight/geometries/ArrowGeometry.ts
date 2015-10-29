@@ -64,7 +64,6 @@ class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometr
      * @return {DrawPrimitive[]}
      */
     toPrimitives(): DrawPrimitive[] {
-        console.log("ArrowGeometry.toPrimitives()")
         let heightShaft = 1 - this.heightCone
         /**
          * The opposite direction to the axis.

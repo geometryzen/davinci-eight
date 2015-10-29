@@ -1,16 +1,11 @@
-import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Slide = require('../slideshow/Slide')
-import Canvas3D = require('../scene/Canvas3D')
-import IDrawable = require('../core/IDrawable')
-import IDrawList = require('../scene/IDrawList')
-import IFacet = require('../core/IFacet')
+import IAnimationTarget = require('../slideshow/IAnimationTarget')
 import isDefined = require('../checks/isDefined')
 import IDirector = require('../slideshow/IDirector')
 import IUnknownArray = require('../collections/IUnknownArray')
 import mustBeDefined = require('../checks/mustBeDefined')
 import mustBeString = require('../checks/mustBeString')
 import NumberIUnknownMap = require('../collections/NumberIUnknownMap')
-import Scene = require('../scene/Scene')
 import Shareable = require('../utils/Shareable')
 import StringIUnknownMap = require('../collections/StringIUnknownMap')
 
@@ -18,325 +13,140 @@ import StringIUnknownMap = require('../collections/StringIUnknownMap')
  * @class Director
  */
 class Director extends Shareable implements IDirector {
-  /**
-   * [0, slides.length] represents on a slide
-   * A value equal to -1 represents just before the first slide.
-   * A value equal to slides.length represents just after the last slide. 
-   * @property step
-   * @type {number}
-   */
-  private step: number;
-  /**
-   * @property slides
-   * @type {IUnknownArray<Slide>}
-   */
-  public slides: IUnknownArray<Slide>;
-  /**
-   * (canvasId: number) => Canvas3D
-   */
-  private contexts: NumberIUnknownMap<Canvas3D>;
-  /**
-   * (sceneName: string) => IDrawList
-   */
-  private scenes: StringIUnknownMap<IDrawList>;
-  /**
-   * (name: string) => IDrawable
-   */
-  private drawables: StringIUnknownMap<IDrawable>;
-  /**
-   * (name: string) => SimplexGeometry
-   */
-  private geometries: StringIUnknownMap<SimplexGeometry>;
-  /**
-   * (name: string) => IFacet
-   */
-  private facets: StringIUnknownMap<IFacet>;
-  /**
-   * (canvasId: number) => scene.name
-   */
-  private sceneNamesByCanvasId: { [canvasId: number]: string[] };
-  /**
-   * (canvasId: number) => ((facet.name) => IFacet)
-   */
-  private facetsByCanvasId: NumberIUnknownMap<StringIUnknownMap<IFacet>>;
-  /**
-   * @class Director
-   * @constructor
-   */
-  constructor() {
-    super('Director')
-    this.step = -1 // Position before the first slide.
-    this.slides = new IUnknownArray<Slide>([])
-    this.contexts = new NumberIUnknownMap<Canvas3D>()
-    this.scenes = new StringIUnknownMap<IDrawList>()
-    this.drawables = new StringIUnknownMap<IDrawable>()
-    this.geometries = new StringIUnknownMap<SimplexGeometry>()
-    this.facets = new StringIUnknownMap<IFacet>()
-    this.sceneNamesByCanvasId = {}
-    this.facetsByCanvasId = new NumberIUnknownMap<StringIUnknownMap<IFacet>>();
-  }
-  destructor(): void {
-    this.slides.release()
-    this.slides = void 0
-    this.contexts.forEach(function(canvasId, context) {
-      context.stop()
-    })
-    this.contexts.release()
-    this.contexts = void 0
-    this.scenes.release()
-    this.scenes = void 0
-    this.drawables.release()
-    this.drawables = void 0
-    this.geometries.release()
-    this.geometries = void 0
-    this.facets.release()
-    this.facets = void 0
-    this.facetsByCanvasId.release()
-    this.facetsByCanvasId = void 0
-  }
-  addCanvas3D(context: Canvas3D): void {
-    this.contexts.put(context.canvasId, context)
-  }
-  getCanvas3D(canvasId: number): Canvas3D {
-    return this.contexts.get(canvasId)
-  }
-  removeCanvas3D(canvasId: number): void {
-    this.contexts.remove(canvasId)
-  }
-  addDrawable(drawable: IDrawable, drawableName: string): void {
-    this.drawables.put(drawableName, drawable)
-  }
-  getDrawable(drawableName: string): IDrawable {
-    if (isDefined(drawableName)) {
-      mustBeString('drawableName', drawableName)
-      return this.drawables.get(drawableName)
+    /**
+     * [0, slides.length] represents on a slide
+     * A value equal to -1 represents just before the first slide.
+     * A value equal to slides.length represents just after the last slide. 
+     * @property step
+     * @type {number}
+     */
+    private step: number;
+    /**
+     * @property slides
+     * @type {IUnknownArray<Slide>}
+     */
+    public slides: IUnknownArray<Slide>;
+    /**
+     * (name: string) => IAnimationTarget
+     */
+    private facets: { [name: string]: IAnimationTarget };
+    /**
+     * @class Director
+     * @constructor
+     */
+    constructor() {
+        super('Director')
+        this.step = -1 // Position before the first slide.
+        this.slides = new IUnknownArray<Slide>([])
+        this.facets = {}
     }
-    else {
-      return void 0
+    destructor(): void {
+        this.slides.release()
+        this.slides = void 0
+        this.facets = void 0
     }
-  }
-  removeDrawable(drawableName: string): IDrawable {
-    return this.drawables.remove(drawableName)
-  }
-  addFacet(facet: IFacet, facetName: string): void {
-    this.facets.put(facetName, facet)
-  }
-  getFacet(facetName: string): IFacet {
-    return this.facets.get(facetName)
-  }
-  removeFacet(facetName: string): IFacet {
-    return this.facets.remove(facetName)
-  }
-  addGeometry(name: string, geometry: SimplexGeometry): void {
-    this.geometries.put(name, geometry)
-  }
-  removeGeometry(name: string): SimplexGeometry {
-    return this.geometries.remove(name)
-  }
-  getGeometry(name: string): SimplexGeometry {
-    return this.geometries.get(name)
-  }
-  addScene(scene: IDrawList, sceneName: string): void {
-    this.scenes.put(sceneName, scene)
-  }
-  getScene(sceneName: string): IDrawList {
-    return this.scenes.get(sceneName)
-  }
-  removeScene(sceneName: string): IDrawList {
-    return this.scenes.remove(sceneName)
-  }
-  isDrawableInScene(drawableName: string, sceneName: string): boolean {
-    mustBeString('drawableName', drawableName)
-    mustBeString('sceneName', sceneName)
-
-    var drawable = this.drawables.getWeakRef(drawableName)
-    mustBeDefined(drawableName, drawable)
-    
-    var scene = this.scenes.getWeakRef(sceneName)
-    mustBeDefined(sceneName, scene)
-
-    return scene.containsDrawable(drawable)
-  }
-  useDrawableInScene(drawableName: string, sceneName: string, confirm: boolean): void {
-    mustBeString('drawableName', drawableName)
-    mustBeString('sceneName', sceneName)
-
-    var drawable = this.drawables.getWeakRef(drawableName)
-    mustBeDefined(drawableName, drawable)
-
-    var scene = this.scenes.getWeakRef(sceneName)
-    mustBeDefined(sceneName, scene)
-
-    if (confirm) {
-      scene.add(drawable)
+    addFacet(facet: IAnimationTarget, facetName: string): void {
+        this.facets[facetName] = facet
     }
-    else {
-      scene.remove(drawable)
+    getFacet(facetName: string): IAnimationTarget {
+        return this.facets[facetName]
     }
-  }
-  useSceneOnCanvas(sceneName: string, canvasId: number, confirm: boolean) {
-    var names = this.sceneNamesByCanvasId[canvasId]
-    if (names) {
-
-      // TODO: Would be better to model this as a set<string>
-      var index = names.indexOf(sceneName)
-      if (index < 0) {
-        if (confirm) {
-          names.push(sceneName)
+    removeFacet(facetName: string): IAnimationTarget {
+        var facet = this.getFacet(facetName)
+        delete this.facets[facetName]
+        return facet
+    }
+    /**
+     * Creates a new Slide.
+     * @method createSlide
+     * @return {Slide}
+     */
+    createSlide(): Slide {
+        return new Slide()
+    }
+    go(step: number, instant: boolean = false): void {
+        if (this.slides.length === 0) {
+            return
+        }
+        while (step < 0) step += this.slides.length + 1
+    }
+    forward(instant: boolean = true, delay: number = 0) {
+        if (!this.canForward()) {
+            return
+        }
+        var slideLeaving: Slide = this.slides.getWeakRef(this.step)
+        var slideEntering: Slide = this.slides.getWeakRef(this.step + 1)
+        var self = this;
+        var apply = function() {
+            if (slideLeaving) {
+                slideLeaving.doEpilog(self, true)
+            }
+            if (slideEntering) {
+                slideEntering.doProlog(self, true)
+            }
+            self.step++
+        }
+        if (delay) {
+            setTimeout(apply, delay)
         }
         else {
-          // Do nothing, its not in the list of sceneNames.
+            apply()
         }
-      }
-      else {
-        if (confirm) {
-          // Do nothing, the scene name is already in the list.
+    }
+    canForward(): boolean {
+        return this.step < this.slides.length
+    }
+    backward(instant: boolean = true, delay: number = 0) {
+        if (!this.canBackward()) {
+            return
+        }
+        var slideLeaving = this.slides.getWeakRef(this.step)
+        var slideEntering = this.slides.getWeakRef(this.step - 1)
+        var self = this;
+        var apply = function() {
+            if (slideLeaving) {
+                slideLeaving.undo(self)
+                slideLeaving.doProlog(self, false)
+            }
+            if (slideEntering) {
+                slideEntering.doEpilog(self, false)
+            }
+            self.step--
+        }
+        if (delay) {
+            setTimeout(apply, delay)
         }
         else {
-          names.splice(index, 1)
-          if (names.length === 0) {
-            delete this.sceneNamesByCanvasId[canvasId]
-          }
+            apply()
         }
-      }
     }
-    else {
-      if (confirm) {
-        this.sceneNamesByCanvasId[canvasId] = [sceneName]
-      }
-      else {
-        // Do nothing, there is no entry for this canvas anyway.
-      }
+    canBackward(): boolean {
+        return this.step > -1
     }
-  }
-  useFacetOnCanvas(facetName: string, canvasId: number, confirm: boolean) {
-    // FIXME: Verify that canvasId is a legitimate canvas.
-    var facet: IFacet = this.facets.get(facetName)
-    if (facet) {
-      try {
-        var facets: StringIUnknownMap<IFacet> = this.facetsByCanvasId.get(canvasId)
-        if (!facets) {
-          facets = new StringIUnknownMap<IFacet>();
-          this.facetsByCanvasId.put(canvasId, facets)
+    pushSlide(slide: Slide): number {
+        return this.slides.push(slide)
+    }
+    popSlide(slide: Slide): Slide {
+        return this.slides.pop()
+    }
+    advance(interval: number): void {
+        let slideIndex = this.step
+        if (slideIndex >= 0 && slideIndex < this.slides.length) {
+            var slide: Slide = this.slides.get(slideIndex)
+            if (slide) {
+                try {
+                    slide.advance(interval)
+                }
+                finally {
+                    slide.release()
+                }
+            }
+            else {
+                // This should never happen if we manage the index properly.
+                console.warn("No slide found at index " + this.step)
+            }
         }
-        facets.put(facetName, facet)
-        facets.release()
-      }
-      finally {
-        facet.release()
-      }
     }
-    else {
-      console.warn(facetName + ' is not a recognized facet')
-    }
-  }
-  /**
-   * Creates a new Slide.
-   * @method createSlide
-   * @return {Slide}
-   */
-  createSlide(): Slide {
-    return new Slide()
-  }
-  go(step: number, instant: boolean = false): void {
-    if (this.slides.length === 0) {
-      return
-    }
-    while (step < 0) step += this.slides.length + 1
-  }
-  forward(instant: boolean = true, delay: number = 0) {
-    if (!this.canForward()) {
-      return
-    }
-    var slideLeaving: Slide = this.slides.getWeakRef(this.step)
-    var slideEntering: Slide = this.slides.getWeakRef(this.step + 1)
-    var self = this;
-    var apply = function() {
-      if (slideLeaving) {
-        slideLeaving.doEpilog(self, true)
-      }
-      if (slideEntering) {
-        slideEntering.doProlog(self, true)
-      }
-      self.step++
-    }
-    if (delay) {
-      setTimeout(apply, delay)
-    }
-    else {
-      apply()
-    }
-  }
-  canForward(): boolean {
-    return this.step < this.slides.length
-  }
-  backward(instant: boolean = true, delay: number = 0) {
-    if (!this.canBackward()) {
-      return
-    }
-    var slideLeaving = this.slides.getWeakRef(this.step)
-    var slideEntering = this.slides.getWeakRef(this.step - 1)
-    var self = this;
-    var apply = function() {
-      if (slideLeaving) {
-        slideLeaving.undo(self)
-        slideLeaving.doProlog(self, false)
-      }
-      if (slideEntering) {
-        slideEntering.doEpilog(self, false)
-      }
-      self.step--
-    }
-    if (delay) {
-      setTimeout(apply, delay)
-    }
-    else {
-      apply()
-    }
-  }
-  canBackward(): boolean {
-    return this.step > -1
-  }
-  pushSlide(slide: Slide): number {
-    return this.slides.push(slide)
-  }
-  advance(interval: number): void {
-    var slideIndex = this.step
-    if (slideIndex >= 0 && slideIndex < this.slides.length) {
-      var slide: Slide = this.slides.get(slideIndex)
-      if (slide) {
-        try {
-          slide.advance(interval)
-        }
-        finally {
-          slide.release()
-        }
-      }
-      else {
-        // This should never happen if we manage the index properly.
-        console.warn("No slide found at index " + this.step)
-      }
-    }
-  }
-  render(): void {
-    var director = this;
-    var canvasIds: number[] = this.contexts.keys;
-    for (var i = 0, iLength = canvasIds.length; i < iLength; i++) {
-      var canvasId = canvasIds[i]
-      var c3d = this.contexts.getWeakRef(canvasId)
-      // prolog?
-      var ambients: StringIUnknownMap<IFacet> = this.facetsByCanvasId.getWeakRef(canvasId)
-      // FIXME: scenesByCanvasId
-      var sceneNames = this.sceneNamesByCanvasId[canvasId]
-      if (sceneNames) {
-        for (var j = 0, jLength = sceneNames.length; j < jLength; j++) {
-          var sceneName = sceneNames[j]
-          var scene = this.scenes.getWeakRef(sceneName)
-          scene.draw(ambients.values, canvasId)
-        }
-      }
-    }
-  }
 }
 
 export = Director

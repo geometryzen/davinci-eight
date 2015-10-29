@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.147.0",
+        "version": "2.148.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -296,7 +296,7 @@
             "name": "src/davinci-eight/core/IFacet.ts",
             "modules": {},
             "classes": {
-                "IFacet\nextends IAnimationTarget": 1
+                "IFacet\nextends IAnimationTarget\nextends IUnknown": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1405,11 +1405,20 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/models/ModelFacet.ts": {
-            "name": "src/davinci-eight/models/ModelFacet.ts",
+        "src/davinci-eight/models/ModelFacetE3.ts": {
+            "name": "src/davinci-eight/models/ModelFacetE3.ts",
             "modules": {},
             "classes": {
-                "ModelFacet": 1
+                "ModelFacetE3": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/physics/ModelE2.ts": {
+            "name": "src/davinci-eight/physics/ModelE2.ts",
+            "modules": {},
+            "classes": {
+                "ModelE2": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1568,13 +1577,6 @@
         },
         "src/davinci-eight/shaders/ShareableWebGLShader.ts": {
             "name": "src/davinci-eight/shaders/ShareableWebGLShader.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts": {
-            "name": "src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1795,7 +1797,7 @@
                 "IContextMonitor": 1,
                 "IContextProvider": 1,
                 "IDrawable": 1,
-                "IFacet\nextends IAnimationTarget": 1,
+                "IFacet\nextends IAnimationTarget\nextends IUnknown": 1,
                 "IFacetVisitor": 1,
                 "IMaterial": 1,
                 "IUnknown": 1,
@@ -1886,7 +1888,8 @@
                 "CylinderArgs": 1,
                 "EulerFacet": 1,
                 "KinematicRigidBodyFacetE3": 1,
-                "ModelFacet": 1,
+                "ModelFacetE3": 1,
+                "ModelE2": 1,
                 "IContextRenderer": 1,
                 "Canvas3D": 1,
                 "Drawable": 1,
@@ -2386,9 +2389,9 @@
             "description": "<p>\nThe Drawable interface indicates that the implementation can make a call\nto either drawArrays or drawElements on the WebGL rendering context.\nIt also contains other meta-data that may be used to optimize the rendering.\ne.g. transparency, visibility, bounding volumes, etc.\n</p>",
             "extends": "IResource"
         },
-        "IFacet\nextends IAnimationTarget": {
-            "name": "IFacet\nextends IAnimationTarget",
-            "shortname": "IFacet\nextends IAnimationTarget",
+        "IFacet\nextends IAnimationTarget\nextends IUnknown": {
+            "name": "IFacet\nextends IAnimationTarget\nextends IUnknown",
+            "shortname": "IFacet\nextends IAnimationTarget\nextends IUnknown",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2396,7 +2399,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/IFacet.ts",
-            "line": 4
+            "line": 5
         },
         "IFacetVisitor": {
             "name": "IFacetVisitor",
@@ -4298,7 +4301,7 @@
             "namespace": "",
             "file": "src/davinci-eight/models/KinematicRigidBodyFacetE3.ts",
             "line": 26,
-            "extends": "ModelFacet",
+            "extends": "ModelFacetE3",
             "description": "<p>\nConstructs a KinematicRigidBodyFacetE3.\n</p>",
             "is_constructor": 1,
             "params": [
@@ -4311,9 +4314,9 @@
                 }
             ]
         },
-        "ModelFacet": {
-            "name": "ModelFacet",
-            "shortname": "ModelFacet",
+        "ModelFacetE3": {
+            "name": "ModelFacetE3",
+            "shortname": "ModelFacetE3",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4321,14 +4324,35 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 51,
-            "description": "<p>\nA collection of properties governing GLSL uniforms for Rigid Body Modeling.\n</p>\n<p>\nIn Physics, the drawable object may represent a rigid body.\nIn Computer Graphics, the drawable object is a collection of drawing primitives.\n</p>\n<p>\nModelFacet implements IFacet required for manipulating a drawable object.\n</p>\n<p>\nConstructs a ModelFacet at the origin and with unity attitude.\n</p>",
+            "description": "<p>\nA collection of properties governing GLSL uniforms for Rigid Body Modeling.\n</p>\n<p>\nIn Physics, the drawable object may represent a rigid body.\nIn Computer Graphics, the drawable object is a collection of drawing primitives.\n</p>\n<p>\nModelFacetE3 implements IFacet required for manipulating a drawable object.\n</p>\n<p>\nConstructs a ModelFacetE3 at the origin and with unity attitude.\n</p>",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "type",
-                    "description": "[string = 'ModelFacet'] The name used for reference counting."
+                    "description": "[string = 'ModelFacetE3'] The name used for reference counting."
+                }
+            ]
+        },
+        "ModelE2": {
+            "name": "ModelE2",
+            "shortname": "ModelE2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 55,
+            "description": "<p>\nA collection of properties for Rigid Body Modeling.\n</p>\n<p>\nModelE2 implements IFacet required for manipulating a drawable object.\n</p>\n<p>\nConstructs a ModelE2 at the origin and with unity attitude.\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "[string = 'ModelE2'] The name used for reference counting."
                 }
             ]
         },
@@ -4504,7 +4528,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 62,
+            "line": 33,
             "is_constructor": 1
         },
         "IAnimation": {
@@ -6487,7 +6511,7 @@
         },
         {
             "file": "src/davinci-eight/core/IFacet.ts",
-            "line": 9,
+            "line": 11,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -6506,7 +6530,7 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "IFacet\nextends IAnimationTarget"
+            "class": "IFacet\nextends IAnimationTarget\nextends IUnknown"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
@@ -7571,37 +7595,37 @@
         },
         {
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 69,
+            "line": 68,
             "description": "The opposite direction to the axis.",
             "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 73,
+            "line": 72,
             "description": "The neck is the place where the cone meets the shaft.",
             "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 77,
+            "line": 76,
             "description": "The tail is the the position of the blunt end of the arrow.",
             "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 91,
+            "line": 90,
             "description": "The `disc` fills the space between the cone and the shaft.",
             "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 103,
+            "line": 102,
             "description": "The `shaft` is the slim part of the arrow.",
             "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 115,
+            "line": 114,
             "description": "The `plug` fills the end of the shaft.",
             "class": "ArrowGeometry"
         },
@@ -15727,6 +15751,69 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/math/R2.ts",
+            "line": 251,
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "VectorE2"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "R2"
+            },
+            "static": 1,
+            "class": "R2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/R2.ts",
+            "line": 261,
+            "itemtype": "method",
+            "name": "lerp",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "VectorE2"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "VectorE2"
+                },
+                {
+                    "name": "α",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<code>a + α * (b - a)</code>",
+                "type": "R2"
+            },
+            "static": 1,
+            "class": "R2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/R2.ts",
+            "line": 272,
+            "itemtype": "method",
+            "name": "random",
+            "return": {
+                "description": "",
+                "type": "R2"
+            },
+            "static": 1,
+            "class": "R2",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/math/R3.ts",
             "line": 23,
             "itemtype": "property",
@@ -16422,7 +16509,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 611,
+            "line": 612,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -16442,7 +16529,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 620,
+            "line": 622,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -16472,7 +16559,7 @@
         },
         {
             "file": "src/davinci-eight/math/R3.ts",
-            "line": 631,
+            "line": 634,
             "itemtype": "method",
             "name": "random",
             "return": {
@@ -19067,7 +19154,7 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 21,
             "description": "The name of the property that designates the attitude.",
             "itemtype": "property",
@@ -19076,11 +19163,11 @@
             "default": "'R'",
             "static": 1,
             "readonly": "",
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 30,
             "description": "The name of the property that designates the position.",
             "itemtype": "property",
@@ -19089,11 +19176,11 @@
             "default": "'X'",
             "static": 1,
             "readonly": "",
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 75,
             "itemtype": "method",
             "name": "destructor",
@@ -19103,43 +19190,43 @@
             },
             "access": "protected",
             "tagname": "",
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 90,
             "description": "<p>\nThe <em>attitude</em>, a unitary spinor.\n</p>",
             "itemtype": "property",
             "name": "R",
             "type": "G3",
             "readonly": "",
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 104,
             "description": "<p>\nThe <em>position</em>, a vector.\nThe vector <b>X</b> designates the center of mass of the body (Physics).\nThe vector <b>X</b> designates the displacement from the local origin (Computer Graphics).\n</p>",
             "itemtype": "property",
             "name": "X",
             "type": "G3",
             "readonly": "",
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 121,
             "itemtype": "property",
             "name": "scaleXYZ",
             "type": "R3",
             "readonly": "",
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 132,
             "itemtype": "method",
             "name": "getProperty",
@@ -19154,11 +19241,11 @@
                 "description": "",
                 "type": "Number[]"
             },
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 151,
             "itemtype": "method",
             "name": "setProperty",
@@ -19178,11 +19265,11 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 179,
             "itemtype": "method",
             "name": "setUniforms",
@@ -19198,33 +19285,162 @@
                     "type": "Number"
                 }
             ],
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 204,
             "itemtype": "method",
             "name": "incRef",
             "return": {
                 "description": "",
-                "type": "ModelFacet"
+                "type": "ModelFacetE3"
             },
             "chainable": 1,
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "file": "src/davinci-eight/models/ModelFacetE3.ts",
             "line": 213,
             "itemtype": "method",
             "name": "decRef",
             "return": {
                 "description": "",
-                "type": "ModelFacet"
+                "type": "ModelFacetE3"
             },
             "chainable": 1,
-            "class": "ModelFacet",
+            "class": "ModelFacetE3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 20,
+            "description": "The name of the property that designates the attitude.",
+            "itemtype": "property",
+            "name": "PROP_ATTITUDE",
+            "type": "{string}",
+            "default": "'R'",
+            "static": 1,
+            "readonly": "",
+            "class": "ModelE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 29,
+            "description": "The name of the property that designates the position.",
+            "itemtype": "property",
+            "name": "PROP_POSITION",
+            "type": "{string}",
+            "default": "'X'",
+            "static": 1,
+            "readonly": "",
+            "class": "ModelE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 41,
+            "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
+            "itemtype": "property",
+            "name": "_posCache",
+            "type": "{R2}",
+            "access": "private",
+            "tagname": "",
+            "class": "ModelE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 48,
+            "description": "Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.",
+            "itemtype": "property",
+            "name": "_attCache",
+            "type": "{SpinG2}",
+            "access": "private",
+            "tagname": "",
+            "class": "ModelE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 74,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "ModelE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 83,
+            "description": "<p>\nThe <em>attitude</em>, a unitary spinor.\n</p>",
+            "itemtype": "property",
+            "name": "R",
+            "type": "G2",
+            "readonly": "",
+            "class": "ModelE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 97,
+            "description": "<p>\nThe <em>position</em>, a vector.\nThe vector <b>X</b> designates the center of mass of the body (Physics).\nThe vector <b>X</b> designates the displacement from the local origin (Computer Graphics).\n</p>",
+            "itemtype": "property",
+            "name": "X",
+            "type": "G2",
+            "readonly": "",
+            "class": "ModelE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 115,
+            "itemtype": "method",
+            "name": "getProperty",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number[]"
+            },
+            "class": "ModelE2",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/physics/ModelE2.ts",
+            "line": 135,
+            "itemtype": "method",
+            "name": "setProperty",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Number[]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
@@ -19988,15 +20204,8 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts",
-            "line": 11,
-            "description": "Enables us to restore the drawable in the event of undo.",
-            "class": "Director",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 21,
+            "line": 16,
             "description": "[0, slides.length] represents on a slide\nA value equal to -1 represents just before the first slide.\nA value equal to slides.length represents just after the last slide.",
             "itemtype": "property",
             "name": "step",
@@ -20006,7 +20215,7 @@
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 29,
+            "line": 24,
             "itemtype": "property",
             "name": "slides",
             "type": "{IUnknownArray<Slide>}",
@@ -20015,56 +20224,14 @@
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 34,
-            "description": "(canvasId: number) => Canvas3D",
+            "line": 29,
+            "description": "(name: string) => IAnimationTarget",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 38,
-            "description": "(sceneName: string) => IDrawList",
-            "class": "Director",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 42,
-            "description": "(name: string) => IDrawable",
-            "class": "Director",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 46,
-            "description": "(name: string) => SimplexGeometry",
-            "class": "Director",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 50,
-            "description": "(name: string) => IFacet",
-            "class": "Director",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 54,
-            "description": "(canvasId: number) => scene.name",
-            "class": "Director",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 58,
-            "description": "(canvasId: number) => ((facet.name) => IFacet)",
-            "class": "Director",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Director.ts",
-            "line": 233,
+            "line": 59,
             "description": "Creates a new Slide.",
             "itemtype": "method",
             "name": "createSlide",
@@ -20222,7 +20389,7 @@
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 86,
+            "line": 85,
             "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
             "itemtype": "method",
             "name": "advance",
@@ -20238,29 +20405,22 @@
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 97,
+            "line": 96,
             "description": "`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
             "class": "Slide",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 205,
+            "line": 204,
             "description": "The companion to a target: IAnimationTarget containing animation state.",
             "class": "Slide",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 209,
+            "line": 208,
             "description": "A map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
-            "class": "Slide",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/slideshow/Slide.ts",
-            "line": 226,
-            "description": "TODO: Maybe call this ensureAnimationLane or ensureLane",
             "class": "Slide",
             "module": "EIGHT"
         },
@@ -20929,27 +21089,27 @@
         },
         {
             "message": "Missing item type\nThe opposite direction to the axis.",
-            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:69"
+            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:68"
         },
         {
             "message": "Missing item type\nThe neck is the place where the cone meets the shaft.",
-            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:73"
+            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:72"
         },
         {
             "message": "Missing item type\nThe tail is the the position of the blunt end of the arrow.",
-            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:77"
+            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:76"
         },
         {
             "message": "Missing item type\nThe `disc` fills the space between the cone and the shaft.",
-            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:91"
+            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:90"
         },
         {
             "message": "Missing item type\nThe `shaft` is the slim part of the arrow.",
-            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:103"
+            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:102"
         },
         {
             "message": "Missing item type\nThe `plug` fills the end of the shaft.",
-            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:115"
+            "line": " src/davinci-eight/geometries/ArrowGeometry.ts:114"
         },
         {
             "message": "Missing item type\nA displacement in the direction of axis that we must move for each height step.",
@@ -21684,36 +21844,8 @@
             "line": " src/davinci-eight/shaders/ShareableWebGLShader.ts:8"
         },
         {
-            "message": "Missing item type\nEnables us to restore the drawable in the event of undo.",
-            "line": " src/davinci-eight/slideshow/commands/UseDrawableInSceneCommand.ts:11"
-        },
-        {
-            "message": "Missing item type\n(canvasId: number) => Canvas3D",
-            "line": " src/davinci-eight/slideshow/Director.ts:34"
-        },
-        {
-            "message": "Missing item type\n(sceneName: string) => IDrawList",
-            "line": " src/davinci-eight/slideshow/Director.ts:38"
-        },
-        {
-            "message": "Missing item type\n(name: string) => IDrawable",
-            "line": " src/davinci-eight/slideshow/Director.ts:42"
-        },
-        {
-            "message": "Missing item type\n(name: string) => SimplexGeometry",
-            "line": " src/davinci-eight/slideshow/Director.ts:46"
-        },
-        {
-            "message": "Missing item type\n(name: string) => IFacet",
-            "line": " src/davinci-eight/slideshow/Director.ts:50"
-        },
-        {
-            "message": "Missing item type\n(canvasId: number) => scene.name",
-            "line": " src/davinci-eight/slideshow/Director.ts:54"
-        },
-        {
-            "message": "Missing item type\n(canvasId: number) => ((facet.name) => IFacet)",
-            "line": " src/davinci-eight/slideshow/Director.ts:58"
+            "message": "Missing item type\n(name: string) => IAnimationTarget",
+            "line": " src/davinci-eight/slideshow/Director.ts:29"
         },
         {
             "message": "Missing item type\nThe objects that we are going to manipulate.",
@@ -21729,19 +21861,15 @@
         },
         {
             "message": "Missing item type\n`offset` is variable used to keep things running on schedule.\nIf an animation finishes before the interval, it reports the\nduration `extra` that brings the tome to `now`. Subsequent animations\nget a head start by considering their start time to be now - offset.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:97"
+            "line": " src/davinci-eight/slideshow/Slide.ts:96"
         },
         {
             "message": "Missing item type\nThe companion to a target: IAnimationTarget containing animation state.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:205"
+            "line": " src/davinci-eight/slideshow/Slide.ts:204"
         },
         {
             "message": "Missing item type\nA map from property name to a list of properties of the property value.\nIt should be possible to animate many properties of a target at once.\nHowever, a given property should only be animated in one way at a given time.\nFor these reasons, we structure the data as map from property name to a queue of animations.",
-            "line": " src/davinci-eight/slideshow/Slide.ts:209"
-        },
-        {
-            "message": "Missing item type\nTODO: Maybe call this ensureAnimationLane or ensureLane",
-            "line": " src/davinci-eight/slideshow/Slide.ts:226"
+            "line": " src/davinci-eight/slideshow/Slide.ts:208"
         },
         {
             "message": "Missing item type\nThe number of elements needed if we executed a strip per row.\nRemark Notice the asymmetry. Could be a performance impact.",
