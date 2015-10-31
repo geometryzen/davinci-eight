@@ -121,10 +121,10 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     add2(a: GeometricE3, b: GeometricE3): G3;
     adj(): G3;
     /**
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {G3}
      */
-    arg(): number;
+    angle(): G3;
     /**
      * @method clone
      * @return {G3} <code>copy(this)</code>
@@ -320,6 +320,11 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * @chainable
      */
     log(): G3;
+    /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number;
     /**
      * <p>
@@ -379,6 +384,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     */
     quad(): G3;
     /**
+     * Computes the <em>squared norm</em> of this multivector.
      * @method squaredNorm
      * @return {number} <code>this * conj(this)</code>
      */
@@ -533,6 +539,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * @return {string}
      */
     toString(): string;
+    grade(grade: number): G3;
     /**
      * <p>
      * <code>this ⟼ this ^ m</code>
@@ -688,6 +695,54 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      */
     __neg__(): G3;
     /**
+     * The identity element for addition.
+     * @property zero
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static zero: G3;
+    /**
+     * The identity element for multiplication.
+     * @property one
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static one: G3;
+    /**
+     * Basis vector corresponding to the <code>x</code> coordinate.
+     * @property e1
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static e1: G3;
+    /**
+     * Basis vector corresponding to the <code>y</code> coordinate.
+     * @property e2
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static e2: G3;
+    /**
+     * Basis vector corresponding to the <code>y</code> coordinate.
+     * @property e3
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static e3: G3;
+    /**
+     * Basis vector corresponding to the <code>β</code> coordinate.
+     * @property I
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static I: G3;
+    /**
      * @method copy
      * @param M {GeometricE3}
      * @return {G3}
@@ -728,5 +783,14 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     * @chainable
     */
     static lerp(A: GeometricE3, B: GeometricE3, α: number): G3;
+    /**
+     * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+     * @method rotorFromDirections
+     * @param a {VectorE3} The <em>from</em> vector.
+     * @param b {VectorE3} The <em>to</em> vector.
+     * @return {G3}
+     * @static
+     */
+    static rotorFromDirections(a: VectorE3, b: VectorE3): G3;
 }
 export = G3;

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/rcoG3', '../math/rotorFromDirections', '../math/scpG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, extG3, lcoG3, mulG3, mustBeNumber, mustBeObject, quadVector, rcoG3, rotorFromDirections, scpG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE3', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, extG3, lcoG3, mulG3, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, rcoG3, readOnly, rotorFromDirections, scpG3, squaredNormG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -13,9 +13,13 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
     var COORD_YZ = 5;
     var COORD_ZX = 6;
     var COORD_XYZ = 7;
+    var abs = Math.abs;
+    var atan2 = Math.atan2;
     var exp = Math.exp;
     var cos = Math.cos;
+    var log = Math.log;
     var sin = Math.sin;
+    var sqrt = Math.sqrt;
     var BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"];
     /**
      * Coordinates corresponding to basis labels.
@@ -23,6 +27,86 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
     function coordinates(m) {
         return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β];
     }
+    function makeConstantE3(label, α, x, y, z, yz, zx, xy, β) {
+        mustBeString('label', label);
+        mustBeNumber('α', α);
+        mustBeNumber('x', x);
+        mustBeNumber('y', y);
+        mustBeNumber('z', z);
+        mustBeNumber('yz', yz);
+        mustBeNumber('zx', zx);
+        mustBeNumber('xy', xy);
+        mustBeNumber('β', β);
+        var that;
+        that = {
+            get α() {
+                return α;
+            },
+            set α(unused) {
+                throw new Error(readOnly(label + '.α').message);
+            },
+            get x() {
+                return x;
+            },
+            set x(unused) {
+                throw new Error(readOnly(label + '.x').message);
+            },
+            get y() {
+                return y;
+            },
+            set y(unused) {
+                throw new Error(readOnly(label + '.y').message);
+            },
+            get z() {
+                return z;
+            },
+            set z(unused) {
+                throw new Error(readOnly(label + '.x').message);
+            },
+            get yz() {
+                return yz;
+            },
+            set yz(unused) {
+                throw new Error(readOnly(label + '.yz').message);
+            },
+            get zx() {
+                return zx;
+            },
+            set zx(unused) {
+                throw new Error(readOnly(label + '.zx').message);
+            },
+            get xy() {
+                return xy;
+            },
+            set xy(unused) {
+                throw new Error(readOnly(label + '.xy').message);
+            },
+            get β() {
+                return β;
+            },
+            set β(unused) {
+                throw new Error(readOnly(label + '.β').message);
+            },
+            magnitude: function () {
+                // FIXME: should be the full multivector.
+                return sqrt(quadSpinor(that));
+            },
+            squaredNorm: function () {
+                // FIXME: should be the full multivector.
+                return quadSpinor(that);
+            },
+            toString: function () {
+                return label;
+            }
+        };
+        return that;
+    }
+    var zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0);
+    var one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0);
+    var e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0);
+    var e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0);
+    var e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0);
+    var I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
     /**
      * @class G3
      * @extends GeometricE3
@@ -274,11 +358,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             throw new Error('TODO: G3.adj');
         };
         /**
-         * @method arg
-         * @return {number}
+         * @method angle
+         * @return {G3}
          */
-        G3.prototype.arg = function () {
-            throw new Error('TODO: G3.arg');
+        G3.prototype.angle = function () {
+            return this.log().grade(2);
         };
         /**
          * @method clone
@@ -518,20 +602,31 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @chainable
          */
         G3.prototype.exp = function () {
-            var w = this.α;
-            var x = this.yz;
-            var y = this.zx;
-            var z = this.xy;
-            var expW = exp(w);
+            // It's always the case that the scalar commutes with every other
+            // grade of the multivector, so we can pull it out the front.
+            var expW = exp(this.α);
+            // In G3 we have the special case that the pseudoscalar also commutes.
+            // And since it squares to -1, we get a exp(Iβ) = cos(β) + I * sin(β) factor.
+            var cosβ = cos(this.β);
+            var sinβ = sin(this.β);
+            // We are left with the vector and bivector components.
+            // For a bivector (usual case), let B = I * φ, where φ is a vector.
+            // We would get cos(φ) + I * n * sin(φ), where φ = |φ|n and n is a unit vector.
+            var yz = this.yz;
+            var zx = this.zx;
+            var xy = this.xy;
             // φ is actually the absolute value of one half the rotation angle.
             // The orientation of the rotation gets carried in the bivector components.
-            var φ = Math.sqrt(x * x + y * y + z * z);
-            var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
-            this.α = expW * cos(φ);
-            this.yz = x * s;
-            this.zx = y * s;
-            this.xy = z * s;
-            return this;
+            var φ = sqrt(yz * yz + zx * zx + xy * xy);
+            var s = φ !== 0 ? sin(φ) / φ : 1;
+            var cosφ = cos(φ);
+            // For a vector a, we use exp(a) = cosh(a) + n * sinh(a)
+            // The mixture of vector and bivector parts is more complex!
+            this.α = cosφ;
+            this.yz = yz * s;
+            this.zx = zx * s;
+            this.xy = xy * s;
+            return this.scale(expW);
         };
         /**
          * <p>
@@ -611,24 +706,26 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @chainable
          */
         G3.prototype.log = function () {
-            // FIXME: TODO
-            var w = this.α;
+            var α = this.α;
             var x = this.yz;
             var y = this.zx;
             var z = this.xy;
-            var bb = x * x + y * y + z * z;
-            var R2 = Math.sqrt(bb);
-            var R0 = Math.abs(w);
-            var R = Math.sqrt(w * w + bb);
-            this.α = Math.log(R);
-            var f = Math.atan2(R2, R0) / R2;
+            var BB = x * x + y * y + z * z;
+            var B = sqrt(BB);
+            var f = atan2(B, α) / B;
+            this.α = log(sqrt(α * α + BB));
             this.yz = x * f;
             this.zx = y * f;
             this.xy = z * f;
             return this;
         };
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         * @method magnitude
+         * @return {number}
+         */
         G3.prototype.magnitude = function () {
-            return Math.sqrt(this.squaredNorm());
+            return sqrt(this.squaredNorm());
         };
         /**
          * <p>
@@ -700,7 +797,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          */
         G3.prototype.normalize = function () {
             // The squaredNorm is the squared norm.
-            var norm = Math.sqrt(this.squaredNorm());
+            var norm = this.magnitude();
             this.α = this.α / norm;
             this.x = this.x / norm;
             this.y = this.y / norm;
@@ -728,16 +825,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             return this;
         };
         /**
+         * Computes the <em>squared norm</em> of this multivector.
          * @method squaredNorm
          * @return {number} <code>this * conj(this)</code>
          */
         G3.prototype.squaredNorm = function () {
-            // FIXME: TODO
-            var w = this.α;
-            var yz = this.yz;
-            var zx = this.zx;
-            var xy = this.xy;
-            return w * w + yz * yz + zx * zx + xy * xy;
+            return squaredNormG3(this);
         };
         /**
          * <p>
@@ -772,11 +865,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @chainable
          */
         G3.prototype.rev = function () {
-            // reverse has a ++-- structure.
-            this.α = this.α;
-            this.x = this.x;
-            this.y = this.y;
-            this.z = this.z;
+            // reverse has a ++-- structure on the grades.
+            this.α = +this.α;
+            this.x = +this.x;
+            this.y = +this.y;
+            this.z = +this.z;
             this.yz = -this.yz;
             this.zx = -this.zx;
             this.xy = -this.xy;
@@ -1020,6 +1113,62 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         G3.prototype.toString = function () {
             var coordToString = function (coord) { return coord.toString(); };
             return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+        };
+        G3.prototype.grade = function (grade) {
+            mustBeInteger('grade', grade);
+            switch (grade) {
+                case 0:
+                    {
+                        this.x = 0;
+                        this.y = 0;
+                        this.z = 0;
+                        this.yz = 0;
+                        this.zx = 0;
+                        this.xy = 0;
+                        this.β = 0;
+                    }
+                    break;
+                case 1:
+                    {
+                        this.α = 0;
+                        this.yz = 0;
+                        this.zx = 0;
+                        this.xy = 0;
+                        this.β = 0;
+                    }
+                    break;
+                case 2:
+                    {
+                        this.α = 0;
+                        this.x = 0;
+                        this.y = 0;
+                        this.z = 0;
+                        this.β = 0;
+                    }
+                    break;
+                case 3:
+                    {
+                        this.α = 0;
+                        this.x = 0;
+                        this.y = 0;
+                        this.z = 0;
+                        this.yz = 0;
+                        this.zx = 0;
+                        this.xy = 0;
+                    }
+                    break;
+                default: {
+                    this.α = 0;
+                    this.x = 0;
+                    this.y = 0;
+                    this.z = 0;
+                    this.yz = 0;
+                    this.zx = 0;
+                    this.xy = 0;
+                    this.β = 0;
+                }
+            }
+            return this;
         };
         /**
          * <p>
@@ -1356,6 +1505,84 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         G3.prototype.__neg__ = function () {
             return G3.copy(this).neg();
         };
+        Object.defineProperty(G3, "zero", {
+            /**
+             * The identity element for addition.
+             * @property zero
+             * @type {G3}
+             * @readOnly
+             * @static
+             */
+            get: function () { return G3.copy(zero); },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "one", {
+            /**
+             * The identity element for multiplication.
+             * @property one
+             * @type {G3}
+             * @readOnly
+             * @static
+             */
+            get: function () { return G3.copy(one); },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "e1", {
+            /**
+             * Basis vector corresponding to the <code>x</code> coordinate.
+             * @property e1
+             * @type {G3}
+             * @readOnly
+             * @static
+             */
+            get: function () { return G3.copy(e1); },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "e2", {
+            /**
+             * Basis vector corresponding to the <code>y</code> coordinate.
+             * @property e2
+             * @type {G3}
+             * @readOnly
+             * @static
+             */
+            get: function () { return G3.copy(e2); },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "e3", {
+            /**
+             * Basis vector corresponding to the <code>y</code> coordinate.
+             * @property e3
+             * @type {G3}
+             * @readOnly
+             * @static
+             */
+            get: function () { return G3.copy(e3); },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(G3, "I", {
+            /**
+             * Basis vector corresponding to the <code>β</code> coordinate.
+             * @property I
+             * @type {G3}
+             * @readOnly
+             * @static
+             */
+            get: function () { return G3.copy(I); },
+            enumerable: true,
+            configurable: true
+        });
+        ;
         /**
          * @method copy
          * @param M {GeometricE3}
@@ -1424,6 +1651,17 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         */
         G3.lerp = function (A, B, α) {
             return G3.copy(A).lerp(B, α);
+        };
+        /**
+         * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+         * @method rotorFromDirections
+         * @param a {VectorE3} The <em>from</em> vector.
+         * @param b {VectorE3} The <em>to</em> vector.
+         * @return {G3}
+         * @static
+         */
+        G3.rotorFromDirections = function (a, b) {
+            return new G3().rotorFromDirections(a, b);
         };
         return G3;
     })(VectorN);

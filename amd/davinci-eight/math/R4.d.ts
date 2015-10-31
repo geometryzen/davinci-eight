@@ -51,6 +51,8 @@ declare class R4 extends VectorN<number> implements VectorE4, MutableLinearEleme
     slerp(target: VectorE4, α: number): R4;
     sub(v: VectorE4, α: number): R4;
     sub2(a: VectorE4, b: VectorE4): R4;
+    magnitude(): number;
+    squaredNorm(): number;
     toExponential(): string;
     toFixed(digits?: number): string;
     zero(): R4;

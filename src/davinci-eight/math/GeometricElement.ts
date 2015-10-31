@@ -17,14 +17,16 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
     addScalar(α: number): M;
 
     /**
-     * The principle value of the rotation angle caused by a rotor.
-     */
-    arg(): number;
-
-    /**
      * conjugate multiplied by norm (similar to inv)
      */
     adj(): M;
+
+    /**
+     * Assumes a spinor as the multivector.
+     * angle(M) = log(M).grade(2)
+     * In other words, throw away the scalar part of the result which is the scaling.
+     */
+    angle(): M;
 
     /**
      * Conjugate
@@ -52,6 +54,11 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
     ext(rhs: I): M;
 
     /**
+     * extraction of grade.
+     */
+    grade(grade: number): M;
+
+    /**
      * Inverse (may not exist).
      */
     inv(): M;
@@ -62,9 +69,11 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
     log(): M;
 
     /**
-     * abs(x) = |x|, absolute value of the norm.
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
      */
-    magnitude(): number; // FIXME: This method drops units.
+    magnitude(): number;
 
     /**
      * Multiplication.
@@ -82,11 +91,6 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
     quad(): M;
 
     /**
-     * squared norm, as a number
-     */
-    squaredNorm(): number; // FIXME: This method drops units. Some authors might call this `det`
-
-    /**
      * Right contraction
      */
     rco(rhs: I): M;
@@ -95,6 +99,11 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
      * Reverse
      */
     rev(): M;
+
+    /**
+     * squared norm, as a number
+     */
+    squaredNorm(): number; // FIXME: This method drops units. Some authors might call this `det`
 
     /**
      * Scalar Product

@@ -155,8 +155,7 @@ declare module EIGHT {
      */
     enum DrawMode {
         /**
-         * @property POINTS
-         * @type {DrawMode}
+         *
          */
         POINTS,
         LINES,
@@ -165,8 +164,6 @@ declare module EIGHT {
         TRIANGLES,
         TRIANGLE_STRIP,
         /**
-         * @property TRIANGLE_FAN
-         * @type {DrawMode}
          */
         TRIANGLE_FAN
     }
@@ -426,29 +423,23 @@ declare module EIGHT {
 
         /**
          * The numerator.
-         * @property numer
-         * @type {number}
          */
         numer: number;
 
         /**
          * The denominator.
-         * @property denom
-         * @type {number}
          */
         denom: number;
 
         /**
          * Constructs a rational number from an ordered pair of integers.
-         * @param numer {number} The numerator.
-         * @param denom {number} The denominator.
+         * @param numer The numerator.
+         * @param denom The denominator.
          */
         constructor(numer: number, denom: number);
 
         /**
          * Computes the multiplicative inverse of this rational number.
-         * @method inv
-         * @return {QQ}
          */
         inv(): QQ;
 
@@ -464,8 +455,6 @@ declare module EIGHT {
 
         /**
          * Computes the additive inverse of this rational number.
-         * @method neg
-         * @return {QQ}
          */
         neg(): QQ;
 
@@ -473,18 +462,12 @@ declare module EIGHT {
 
         /**
          * The multiplicative identity (1) for rational numbers.
-         * @property ONE
-         * @type {QQ}
-         * @static
          */
         static ONE: QQ;
         static TWO: QQ;
 
         /**
          * The additive identity (0) for rational numbers.
-         * @property ZERO
-         * @type {QQ}
-         * @static
          */
         static ZERO: QQ;
     }
@@ -507,71 +490,53 @@ declare module EIGHT {
         neg(): Dimensions;
 
         /**
-         * @property ONE
-         * @type {Dimensions}
-         * @static
+         *
          */
         public static ONE: Dimensions;
 
         /**
-         * @property MASS
-         * @type {Dimensions}
-         * @static
+         *
          */
         public static MASS: Dimensions;
 
         /**
-         * @property LENGTH
-         * @type {Dimensions}
-         * @static
+         *
          */
         public static LENGTH: Dimensions;
 
         /**
-         * @property TIME
-         * @type {Dimensions}
-         * @static
+         *
          */
         public static TIME: Dimensions;
 
         /**
-         * @property CHARGE
-         * @type {Dimensions}
-         * @static
+         *
          */
         public static CHARGE: Dimensions;
 
         /**
-         * @property CURRENT
-         * @type {Dimensions}
-         * @static
+         *
          */
         public static CURRENT: Dimensions;
 
         /**
-         * @property TEMPERATURE
-         * @type {Dimensions}
-         * @static
+         *
          */
         public static TEMPERATURE: Dimensions;
 
         /**
-         * @property AMOUNT
-         * @type {Dimensions}
-         * @static
+         *
          */
         public static AMOUNT: Dimensions;
 
         /**
-         * @property INTENSITY
-         * @type {Dimensions}
-         * @static
+         *
          */
         public static INTENSITY: Dimensions;
     }
 
     /**
-     * The uinit of measure for a physical quantity.
+     * The unit of measure for a physical quantity.
      */
     class Unit {
         multiplier: number;
@@ -633,16 +598,6 @@ declare module EIGHT {
      * A measure with an optional unit of measure.
      */
     class Euclidean3 implements VectorE3, SpinorE3 {
-        static fromSpinorE3(spinor: SpinorE3): Euclidean3;
-        α: number;
-        x: number;
-        y: number;
-        z: number;
-        yz: number;
-        zx: number;
-        xy: number;
-        β: number;
-        uom: Unit;
         static zero: Euclidean3;
         static one: Euclidean3;
         static e1: Euclidean3;
@@ -656,6 +611,33 @@ declare module EIGHT {
         static kelvin: Euclidean3;
         static mole: Euclidean3;
         static candela: Euclidean3;
+        static fromSpinorE3(spinor: SpinorE3): Euclidean3;
+        /**
+         * The scalar component.
+         */
+        α: number;
+        x: number;
+        y: number;
+        z: number;
+        /**
+         * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
+         */
+        yz: number;
+        /**
+         * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
+         */
+        zx: number;
+        /**
+         * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
+         */
+        xy: number;
+        /**
+         * The pseudoscalar component.
+         */
+        β: number;
+        uom: Unit;
+        magnitude(): number;
+        squaredNorm(): number;
         toFixed(digits?: number): string;
         toString(): string;
     }
@@ -753,29 +735,18 @@ declare module EIGHT {
      *
      */
     interface VectorE1 {
-        x: number;
-    }
-
-    /**
-     *
-     */
-    interface VectorE2 {
-        x: number;
-        y: number;
-    }
-
-    /**
-     *
-     */
-    interface SpinorE2 {
-        α: number;
-        β: number;
         /**
-         * The principal value of the spinor argument, in radians.
+         * The Cartesian x-coordinate.
          */
-        arg(): number;
+        x: number;
+
         /**
-         * The squared norm
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         */
+        magnitude(): number;
+
+        /**
+         * The <em>squared norm</em>, as a <code>number</code>.
          */
         squaredNorm(): number;
     }
@@ -783,270 +754,269 @@ declare module EIGHT {
     /**
      *
      */
-    interface GeometricE2 extends SpinorE2, VectorE2 {
+    interface VectorE2 {
+        /**
+         * The Cartesian x-coordinate or <em>abscissa</em>.
+         */
+        x: number;
+        /**
+         * The Cartesian y-coordinate or <em>ordinate</em>.
+         */
+        y: number;
+
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         */
+        magnitude(): number;
+
+        /**
+         * The <em>squared norm</em>, as a <code>number</code>.
+         */
+        squaredNorm(): number;
     }
 
     /**
-     * @class G2
-     * @extends GeometricE2
-     * @beta
+     *
+     */
+    interface SpinorE2 {
+        /**
+         * The scalar component of this spinor.
+         */
+        α: number;
+
+        /**
+         * The bivector component of this spinor.
+         */
+        xy: number;
+
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         */
+        magnitude(): number;
+
+        /**
+         * The <em>squared norm</em>, as a <code>number</code>.
+         */
+        squaredNorm(): number;
+    }
+
+    /**
+     *
+     */
+    interface GeometricE2 extends Pseudo, Scalar, SpinorE2, VectorE2 {
+    }
+
+    /**
+     * The Geometric Algebra of the Euclidean plane
      */
     class G2 extends VectorN<number> implements GeometricE2 {
         /**
          * Constructs a <code>G2</code>.
          * The multivector is initialized to zero.
-         * @class G2
-         * @beta
-         * @constructor
          */
         constructor();
         /**
          * The coordinate corresponding to the unit standard basis scalar.
-         * @property α
-         * @type {number}
          */
         α: number;
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
-         * @property x
-         * @type {number}
          */
         x: number;
         /**
          * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
-         * @property y
-         * @type {number}
          */
         y: number;
         /**
          * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
-         * @property β
-         * @type {number}
          */
         β: number;
+        xy: number;
+
         /**
          * <p>
          * <code>this ⟼ this + M * α</code>
          * </p>
-         * @method add
-         * @param M {GeometricE2}
-         * @param α [number = 1]
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param M
+         * @param α
          */
         add(M: GeometricE2, α?: number): G2;
+
         /**
          * <p>
          * <code>this ⟼ this + v * α</code>
          * </p>
-         * @method addVector
-         * @param v {VectorE2}
-         * @param α [number = 1]
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param v
+         * @param α
          */
         addVector(v: VectorE2, α?: number): G2;
+
         /**
          * <p>
          * <code>this ⟼ a + b</code>
          * </p>
-         * @method add2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param a
+         * @param b
          */
         add2(a: GeometricE2, b: GeometricE2): G2;
 
         /**
-         * Assuming <code>this = A * e<sup>B θ</sup></code>, where <code>B<sup>2</sup> = -1</code>, returns the <em>principal value</em> of θ.
-         * @method arg
-         * @return {number} The principal value of θ, in <em>radians</em>.
+         * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
          */
-        arg(): number;
+        angle(): G2;
 
         /**
-         * @method clone
-         * @return {G2} <code>copy(this)</code>
+         *
          */
         clone(): G2;
+
         /**
+         * Sets this <em>multivector</em> to its <em>Clifford conjugate</em>.
          * <p>
-         * <code>this ⟼ conjugate(this)</code>
+         * <code>this ⟼ conj(this)</code>
          * </p>
-         * @method conj
-         * @return {G2} <code>this</code>
-         * @chainable
          */
         conj(): G2;
+
         /**
-         * <p>
-         * <code>this ⟼ this << m</code>
-         * </p>
-         * @method lco
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        lco(m: GeometricE2): G2;
-        /**
-         * <p>
-         * <code>this ⟼ a << b</code>
-         * </p>
-         * @method lco2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        lco2(a: GeometricE2, b: GeometricE2): G2;
-        /**
-         * <p>
-         * <code>this ⟼ this >> m</code>
-         * </p>
-         * @method rco
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        rco(m: GeometricE2): G2;
-        /**
-         * <p>
-         * <code>this ⟼ a >> b</code>
-         * </p>
-         * @method rco2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        rco2(a: GeometricE2, b: GeometricE2): G2;
-        /**
+         * Sets this multivector to be a copy of another multivector.
          * <p>
          * <code>this ⟼ copy(M)</code>
          * </p>
-         * @method copy
-         * @param M {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param M
          */
         copy(M: GeometricE2): G2;
+
         /**
+         * Sets this multivector to be a copy of a spinor.
          * <p>
          * <code>this ⟼ copy(spinor)</code>
          * </p>
-         * @method copySpinor
-         * @param spinor {SpinorE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param spinor
          */
         copySpinor(spinor: SpinorE2): G2;
         /**
+         * Sets this multivector to be a copy of a vector.
          * <p>
          * <code>this ⟼ copyVector(vector)</code>
          * </p>
-         * @method copyVector
-         * @param vector {VectorE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param vector
          */
         copyVector(vector: VectorE2): G2;
+
         /**
+         * Sets this multivector to the result of division by another multivector.
          * <p>
          * <code>this ⟼ this / m</code>
          * </p>
-         * @method div
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param m
          */
         div(m: GeometricE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divByScalar
-         * @param α {number}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param α
          */
         divByScalar(α: number): G2;
+
         /**
          * <p>
          * <code>this ⟼ a / b</code>
          * </p>
-         * @method div2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param a
+         * @param b
          */
         div2(a: SpinorE2, b: SpinorE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ dual(m) = I * m</code>
          * </p>
          * Notice that the dual of a vector is related to the spinor by the right-hand rule.
-         * @method dual
-         * @param m {GeometricE2} The vector whose dual will be used to set this spinor.
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param m The vector whose dual will be used to set this spinor.
          */
         dual(m: VectorE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ e<sup>this</sup></code>
          * </p>
-         * @method exp
-         * @return {G2} <code>this</code>
-         * @chainable
          */
         exp(): G2;
+
+        /**
+         * <p>
+         * <code>this ⟼ this ^ m</code>
+         * </p>
+         * @param m
+         */
+        ext(m: GeometricE2): G2;
+
+        /**
+         * <p>
+         * <code>this ⟼ a ^ b</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        ext2(a: GeometricE2, b: GeometricE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ conj(this) / quad(this)</code>
          * </p>
-         * @method inv
-         * @return {G2} <code>this</code>
-         * @chainable
          */
         inv(): G2;
+
+        /**
+         * Sets this multivector to the left contraction with another multivector.
+         * <p>
+         * <code>this ⟼ this << m</code>
+         * </p>
+         * @param m
+         */
+        lco(m: GeometricE2): G2;
+
+        /**
+         * Sets this multivector to the left contraction of two multivectors. 
+         * <p>
+         * <code>this ⟼ a << b</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        lco2(a: GeometricE2, b: GeometricE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ this + α * (target - this)</code>
          * </p>
-         * @method lerp
-         * @param target {GeometricE2}
-         * @param α {number}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param target
+         * @param α
          */
         lerp(target: GeometricE2, α: number): G2;
+
         /**
          * <p>
          * <code>this ⟼ a + α * (b - a)</code>
          * </p>
-         * @method lerp2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @param α {number}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param a
+         * @param b
+         * @param α
          */
         lerp2(a: GeometricE2, b: GeometricE2, α: number): G2;
+
         /**
          * <p>
          * <code>this ⟼ log(this)</code>
          * </p>
-         * @method log
-         * @return {G2} <code>this</code>
-         * @chainable
          */
         log(): G2;
 
         /**
-         * @method magnitude
-         * @return {number} <code>|this|</code>
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
          */
         magnitude(): number;
 
@@ -1054,10 +1024,7 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ this * s</code>
          * </p>
-         * @method mul
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param m
          */
         mul(m: GeometricE2): G2;
 
@@ -1065,20 +1032,15 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ a * b</code>
          * </p>
-         * @method mul2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param a
+         * @param b
          */
         mul2(a: GeometricE2, b: GeometricE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ -1 * this</code>
          * </p>
-         * @method neg
-         * @return {G2} <code>this</code>
-         * @chainable
          */
         neg(): G2;
 
@@ -1086,9 +1048,6 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ sqrt(this * conj(this))</code>
          * </p>
-         * @method norm
-         * @return {G2} <code>this</code>
-         * @chainable
          */
         norm(): G2;
 
@@ -1096,9 +1055,6 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
-         * @return {G2} <code>this</code>
-         * @chainable
          */
         normalize(): G2;
 
@@ -1106,44 +1062,53 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ this | ~this = scp(this, rev(this))</code>
          * </p>
-         * @method quad
-         * @return {G2} <code>this</code>
-         * @chainable
          */
         quad(): G2;
 
         /**
-         * @method squaredNorm
-         * @return {number} <code>this * conj(this)</code>
+         * Computes the squared norm, scp(A, rev(A)).
          */
         squaredNorm(): number;
+
+        /**
+         * Sets this multivector to the right contraction with another multivector.
+         * <p>
+         * <code>this ⟼ this >> m</code>
+         * </p>
+         * @param m
+         */
+        rco(m: GeometricE2): G2;
+
+        /**
+         * Sets this multivector to the right contraction of two multivectors.
+         * <p>
+         * <code>this ⟼ a >> b</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        rco2(a: GeometricE2, b: GeometricE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ - n * this * n</code>
          * </p>
-         * @method reflect
-         * @param n {VectorE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param n
          */
         reflect(n: VectorE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ rev(this)</code>
          * </p>
-         * @method reverse
-         * @return {G2} <code>this</code>
-         * @chainable
          */
         rev(): G2;
+
         /**
          * <p>
          * <code>this ⟼ R * this * rev(R)</code>
          * </p>
-         * @method rotate
-         * @param R {SpinorE2}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param R
          */
         rotate(R: SpinorE2): G2;
 
@@ -1152,8 +1117,8 @@ declare module EIGHT {
          * Sets this multivector to a rotor representing a rotation from a to b.
          * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
          * </p>
-         * @param a {VectorE2} The <em>from</em> vector.
-         * @param b {VectorE2} The <em>to</em> vector.
+         * @param a The <em>from</em> vector.
+         * @param b The <em>to</em> vector.
          */
         rotorFromDirections(a: VectorE2, b: VectorE2): G2;
 
@@ -1161,209 +1126,141 @@ declare module EIGHT {
          * <p>
          * <code>this = ⟼ exp(- B * θ / 2)</code>
          * </p>
-         * @method rotorFromGeneratorAngle
-         * @param B {SpinorE2}
-         * @param θ {number}
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param B
+         * @param θ
          */
         rotorFromGeneratorAngle(B: SpinorE2, θ: number): G2;
-        /**
-         * <p>
-         * <code>this ⟼ scp(this, m)</code>
-         * </p>
-         * @method align
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        scp(m: GeometricE2): G2;
-        /**
-         * <p>
-         * <code>this ⟼ scp(a, b)</code>
-         * </p>
-         * @method scp2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        scp2(a: GeometricE2, b: GeometricE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ this * α</code>
          * </p>
-         * @method scale
-         * @param α {number}
+         * @param α
          */
         scale(α: number): G2;
+
+        /**
+         * <p>
+         * <code>this ⟼ scp(this, m)</code>
+         * </p>
+         * @param m
+         */
+        scp(m: GeometricE2): G2;
+
+        /**
+         * <p>
+         * <code>this ⟼ scp(a, b)</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        scp2(a: GeometricE2, b: GeometricE2): G2;
+
         /**
          * <p>
          * <code>this ⟼ a * b = a · b + a ^ b</code>
          * </p>
          * Sets this G2 to the geometric product a * b of the vector arguments.
-         * @method spinor
-         * @param a {VectorE2}
-         * @param b {VectorE2}
-         * @return {G2} <code>this</code>
+         * @param a
+         * @param b
          */
         spinor(a: VectorE2, b: VectorE2): G2;
         /**
          * <p>
          * <code>this ⟼ this - M * α</code>
          * </p>
-         * @method sub
-         * @param M {GeometricE2}
-         * @param α [number = 1]
-         * @return {G2} <code>this</code>
-         * @chainable
+         * @param M
+         * @param α
          */
         sub(M: GeometricE2, α?: number): G2;
         /**
          * <p>
          * <code>this ⟼ a - b</code>
          * </p>
-         * @method sub2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
+         * @param a
+         * @param b
          */
         sub2(a: GeometricE2, b: GeometricE2): G2;
 
         /**
          * Returns a string representing the number in exponential notation.
-         * @param fractionDigits [number]
+         * @param fractionDigits
          */
         toExponential(): string;
 
         /**
          * Returns a string representing the number in fixed-point notation.
-         * @method toFixed
-         * @param fractionDigits [number]
-         * @return {string}
+         * @param fractionDigits
          */
         toFixed(fractionDigits?: number): string;
+
         /**
          * Returns a string representation of the number.
-         * @method toString
-         * @return {string} 
          */
         toString(): string;
+
         /**
-         * <p>
-         * <code>this ⟼ this ^ m</code>
-         * </p>
-         * @method wedge
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        ext(m: GeometricE2): G2;
-        /**
-         * <p>
-         * <code>this ⟼ a ^ b</code>
-         * </p>
-         * @method ext2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        ext2(a: GeometricE2, b: GeometricE2): G2;
-    
-        /**
-         * The identity element for addition.
-         * @property zero
-         * @type {G2}
-         * @readOnly
-         * @static
+         * The identity element for addition, 0.
          */
         static zero: G2;
-    
+
         /**
-         * The identity element for multiplication.
-         * @property one
-         * @type {G2}
-         * @readOnly
-         * @static
+         * The identity element for multiplication, 1.
          */
         static one: G2;
-    
+
         /**
          * Basis vector corresponding to the <code>x</code> coordinate.
-         * @property e1
-         * @type {G2}
-         * @readOnly
-         * @static
          */
         static e1: G2;
 
         /**
          * Basis vector corresponding to the <code>y</code> coordinate.
-         * @property e2
-         * @type {G2}
-         * @readOnly
-         * @static
          */
         static e2: G2;
-    
+
         /**
          * Basis vector corresponding to the <code>β</code> coordinate.
-         * @property I
-         * @type {G2}
-         * @readOnly
-         * @static
          */
         static I: G2;
-    
+
         /**
-         * @method copy
-         * @param M {GeometricE2}
-         * @return {G2}
-         * @static
+         * Creates a copy of a multivector.  
+         * @param M
          */
         static copy(M: GeometricE2): G2;
 
         /**
-         * @method fromScalar
-         * @param α {number}
-         * @return {G2}
-         * @static
-         * @chainable
+         * Creates a copy of a scalar.
+         * @param α
          */
         static fromScalar(α: number): G2;
 
         /**
-         * @method fromSpinor
-         * @param spinor {SpinorE2}
-         * @return {G2}
-         * @static
-         * @chainable
+         * Creates a copy of a spinor.
+         * @param spinor
          */
         static fromSpinor(spinor: SpinorE2): G2;
 
         /**
-         * @method fromVector
-         * @param vector {VectorE2}
-         * @return {G2}
-         * @static
-         * @chainable
+         * Creates a copy of a vector.
+         * @param vector
          */
         static fromVector(vector: VectorE2): G2;
 
         /**
-        * @method lerp
-        * @param A {GeometricE2}
-        * @param B {GeometricE2}
-        * @param α {number}
-        * @return {G2} <code>A + α * (B - A)</code>
-        * @static
-        * @chainable
-        */
+         * Linear interpolation of two multivectors.
+         * <code>A + α * (B - A)</code>
+         * @param A
+         * @param B
+         * @param α
+         */
         static lerp(A: GeometricE2, B: GeometricE2, α: number): G2;
 
         /**
-         * Computes the rotor corresponding to a rotation from <code>a</code> to <code>b</code>.
+         * Computes the rotor corresponding to a rotation from vector <code>a</code> to vector <code>b</code>.
+         * @param a
+         * @param b
          */
         static rotorFromDirections(a: VectorE2, b: VectorE2): G2;
     }
@@ -1402,51 +1299,66 @@ declare module EIGHT {
         public y: number;
         constructor(data?: number[], modified?: boolean);
         add(v: VectorE2): R2;
-        sum(a: VectorE2, b: VectorE2): R2;
+        add2(a: VectorE2, b: VectorE2): R2;
         copy(v: VectorE2): R2;
         magnitude(): number;
         scale(s: number): R2;
         squaredNorm(): number;
         set(x: number, y: number): R2;
         sub(v: VectorE2): R2;
-        diff(a: VectorE2, b: VectorE2): R2;
+        sub2(a: VectorE2, b: VectorE2): R2;
     }
-    /**
-     *
-     */
-    interface PseudoE3 {
-        /**
-         * The coordinate corresponding to the I<sub>3</sub> <code>=</code> <b>e</b><sub>1</sub><b>e</b><sub>2</sub><b>e</b><sub>2</sub> standard basis pseudoscalar.
-         * @property β
-         * @type {number}
-         */
+
+    interface Scalar {
+        α: number;
+    }
+
+    interface Pseudo {
         β: number;
     }
 
     /**
-     *
+     * The even sub-algebra of <code>G3</code>.
      */
-    interface SpinorE3 {
+    interface SpinorE3 extends Scalar {
+        /**
+         * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
+         */
         yz: number;
+
+        /**
+         * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
+         */
         zx: number;
+
+        /**
+         * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
+         */
         xy: number;
-        α: number;
+
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         */
+        magnitude(): number;
+
+        /**
+         * The <em>squared norm</em>, as a <code>number</code>.
+         */
+        squaredNorm(): number;
     }
 
     /**
      * The coordinates for a multivector in 3D in geometric Cartesian basis.
      */
-    interface GeometricE3 extends PseudoE3, SpinorE3, VectorE3 {
+    interface GeometricE3 extends Pseudo, Scalar, SpinorE3, VectorE3 {
 
     }
     /**
      * A mutable multivector in 3D with a Euclidean metric.
      */
-    class G3 extends VectorN<number> {
+    class G3 extends VectorN<number> implements GeometricE3 {
         /**
          * The coordinate corresponding to the unit standard basis scalar.
-         * @property α
-         * @type {number}
          */
         α: number;
         /**
@@ -1462,11 +1374,11 @@ declare module EIGHT {
          */
         z: number;
         /**
-         * The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.
+         * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
          */
         yz: number;
         /**
-         * The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.
+         * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
          */
         zx: number;
         /**
@@ -1475,57 +1387,64 @@ declare module EIGHT {
         xy: number;
         /**
          * The pseudoscalar coordinate of the multivector.
-         * @property β
-         * @type {number}
-         */
+           */
         β: number;
         /**
          * Constructs a <code>G3</code>.
          * The multivector is initialized to zero.
-         * @class G3
-         * @beta
-         * @constructor
          */
-        constructor(data?: number[]);
+        constructor();
 
         /**
          * <p>
          * <code>this ⟼ this + M * α</code>
          * </p>
-         * @method add
-         * @param M {GeometricE3}
-         * @param α [number = 1]
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param M
+         * @param α
          */
         add(M: GeometricE3, α?: number): G3;
 
         /**
          * <p>
+         * <code>this ⟼ this + v * α</code>
+         * </p>
+         * @param v
+         * @param α
+         */
+        addVector(v: VectorE3, α?: number): G3;
+
+        /**
+         * <p>
          * <code>this ⟼ a + b</code>
          * </p>
-         * @method add2
-         * @param a {GeometricE3}
-         * @param b {GeometricE3}
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param a
+         * @param b
          */
         add2(a: GeometricE3, b: GeometricE3): G3;
 
         /**
-         * @method clone
-         * @return {G3} <code>copy(this)</code>
+         * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
+         */
+        angle(): G3;
+
+        /**
+         *
          */
         clone(): G3;
+
+        /**
+         * Sets this <em>multivector</em> to its <em>Clifford conjugate</em>.
+         * <p>
+         * <code>this ⟼ conj(this)</code>
+         * </p>
+         */
+        conj(): G3;
 
         /**
          * <p>
          * <code>this ⟼ copy(v)</code>
          * </p>
-         * @method copy
-         * @param M {VectorE3}
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param M
          */
         copy(M: GeometricE3): G3;
 
@@ -1533,10 +1452,7 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ copy(spinor)</code>
          * </p>
-         * @method copySpinor
-         * @param spinor {SpinorE3}
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param spinor
          */
         copySpinor(spinor: SpinorE3): G3;
 
@@ -1544,33 +1460,42 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ copyVector(vector)</code>
          * </p>
-         * @method copyVector
-         * @param vector {VectorE3}
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param vector
          */
         copyVector(vector: VectorE3): G3;
+
+        /**
+         * Sets this multivector to the result of division by another multivector.
+         * <p>
+         * <code>this ⟼ this / m</code>
+         * </p>
+         * @param m
+         */
+        div(m: GeometricE3): G3;
 
         /**
          * <p>
          * <code>this ⟼ this / α</code>
          * </p>
-         * @method divByScalar
-         * @param α {number}
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param α
          */
         divByScalar(α: number): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ a / b</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        div2(a: SpinorE3, b: SpinorE3): G3;
 
         /**
          * <p>
          * <code>this ⟼ dual(m) = I * m</code>
          * </p>
          * Notice that the dual of a vector is related to the spinor by the right-hand rule.
-         * @method dual
-         * @param m {GeometricE3} The vector whose dual will be used to set this spinor.
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param m The vector whose dual will be used to set this spinor.
          */
         dual(m: VectorE3): G3;
 
@@ -1578,93 +1503,167 @@ declare module EIGHT {
          * <p>
          * <code>this ⟼ e<sup>this</sup></code>
          * </p>
-         * @method exp
-         * @return {G3} <code>this</code>
-         * @chainable
          */
         exp(): G3;
 
         /**
          * <p>
+         * <code>this ⟼ this ^ m</code>
+         * </p>
+         * @param m
+         */
+        ext(m: GeometricE3): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ a ^ b</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        ext2(a: GeometricE3, b: GeometricE3): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ conj(this) / quad(this)</code>
+         * </p>
+         */
+        inv(): G3;
+
+        /**
+         * Sets this multivector to the left contraction with another multivector.
+         * <p>
+         * <code>this ⟼ this << m</code>
+         * </p>
+         * @param m
+         */
+        lco(m: GeometricE3): G3;
+
+        /**
+         * Sets this multivector to the left contraction of two multivectors. 
+         * <p>
+         * <code>this ⟼ a << b</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        lco2(a: GeometricE3, b: GeometricE3): G3;
+
+        /**
+         * <p>
          * <code>this ⟼ this + α * (target - this)</code>
          * </p>
-         * @method lerp
-         * @param target {GeometricE3}
-         * @param α {number}
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param target
+         * @param α
          */
         lerp(target: GeometricE3, α: number): G3;
+
         /**
          * <p>
          * <code>this ⟼ a + α * (b - a)</code>
          * </p>
-         * @method lerp2
          * @param a {GeometricE3}
          * @param b {GeometricE3}
          * @param α {number}
-         * @return {G3} <code>this</code>
-         * @chainable
          */
         lerp2(a: GeometricE3, b: GeometricE3, α: number): G3;
 
         /**
          * <p>
+         * <code>this ⟼ log(this)</code>
+         * </p>
+         */
+        log(): G3;
+
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         */
+        magnitude(): number;
+
+        /**
+         * <p>
          * <code>this ⟼ this * s</code>
          * </p>
-         * @method mul
          * @param m {GeometricE3}
-         * @return {G3} <code>this</code>
-         * @chainable
          */
         mul(m: GeometricE3): G3;
 
         /**
          * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        mul2(a: GeometricE3, b: GeometricE3): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ -1 * this</code>
+         * </p>
+         */
+        neg(): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ sqrt(this * conj(this))</code>
+         * </p>
+         */
+        norm(): G3
+
+        /**
+         * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
-         * @return {G3} <code>this</code>
-         * @chainable
          */
         normalize(): G3
 
         /**
          * <p>
+         * <code>this ⟼ this | ~this = scp(this, rev(this))</code>
+         * </p>
+         */
+        quad(): G3;
+
+        /**
+         * Sets this multivector to the right contraction with another multivector.
+         * <p>
+         * <code>this ⟼ this >> m</code>
+         * </p>
+         * @param m
+         */
+        rco(m: GeometricE3): G3;
+
+        /**
+         * Sets this multivector to the right contraction of two multivectors.
+         * <p>
+         * <code>this ⟼ a >> b</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        rco2(a: GeometricE3, b: GeometricE3): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ - n * this * n</code>
+         * </p>
+         * @param n
+         */
+        reflect(n: VectorE3): G3;
+
+        /**
+         * <p>
          * <code>this ⟼ rev(this)</code>
          * </p>
-         * @method reverse
-         * @return {G3} <code>this</code>
-         * @chainable
          */
         rev(): G3;
 
         /**
          * <p>
-         * <code>this ⟼ this * α</code>
-         * </p>
-         * @method scale
-         * @param α {number} 
-         */
-        scale(α: number): G3;
-        /**
-         * <p>
-         * <code>this ⟼ - n * this * n</code>
-         * </p>
-         * @method reflect
-         * @param n {VectorE3}
-         * @return {G3} <code>this</code>
-         * @chainable
-         */
-        reflect(n: VectorE3): G3;
-        /**
-         * <p>
          * <code>this ⟼ R * this * rev(R)</code>
          * </p>
-         * @method rotate
-         * @param R {SpinorE3}
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param R
          */
         rotate(R: SpinorE3): G3;
 
@@ -1672,125 +1671,232 @@ declare module EIGHT {
          * <p>
          * <code>this = ⟼ exp(- dual(a) * θ / 2)</code>
          * </p>
-         * @method rotorFromAxisAngle
-         * @param axis {VectorE3}
-         * @param θ {number}
-         * @return {G3} <code>this</code>
+         * @param axis
+         * @param θ
          */
         rotorFromAxisAngle(axis: VectorE3, θ: number): G3;
 
         /**
          * <p>
+         * Sets this multivector to a rotor representing a rotation from a to b.
+         * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
+         * </p>
+         * @param a The <em>from</em> vector.
+         * @param b The <em>to</em> vector.
+         */
+        rotorFromDirections(a: VectorE3, b: VectorE3): G3;
+
+        /**
+         * <p>
+         * <code>this = ⟼ exp(- B * θ / 2)</code>
+         * </p>
+         * @param B
+         * @param θ
+         */
+        rotorFromGeneratorAngle(B: SpinorE3, θ: number): G3;
+
+        /**
+         * <p>
          * <code>this ⟼ this * α</code>
          * </p>
-         * @method scale
-         * @param α {number} 
+         * @param α
          */
         scale(α: number): G3;
 
         /**
          * <p>
+         * <code>this ⟼ scp(this, m)</code>
+         * </p>
+         * @param m
+         */
+        scp(m: GeometricE3): G3;
+
+        /**
+         * <p>
+         * <code>this ⟼ scp(a, b)</code>
+         * </p>
+         * @param a
+         * @param b
+         */
+        scp2(a: GeometricE3, b: GeometricE3): G3;
+
+        /**
+         * <p>
          * <code>this ⟼ a * b</code>
          * </p>
-         * Sets this G3 to the geometric product a * b of the vector arguments. 
-         * @method spinor
-         * @param a {VectorE3}
-         * @param b {VectorE3}
-         * @return {G3} <code>this</code>
+         * Sets this G3 to the geometric product a * b of the vector arguments.
+         * @param a
+         * @param b
          */
         spinor(a: VectorE3, b: VectorE3): G3;
+
+        /**
+         * Computes the <em>squared norm</em> of this multivector.
+         */
+        squaredNorm(): number;
 
         /**
          * <p>
          * <code>this ⟼ this - M * α</code>
          * </p>
-         * @method sub
-         * @param M {GeometricE3}
-         * @param α [number = 1]
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param M
+         * @param α
          */
         sub(M: GeometricE3, α?: number): G3;
+
         /**
          * <p>
          * <code>this ⟼ a - b</code>
          * </p>
-         * @method sub2
-         * @param a {GeometricE3}
-         * @param b {GeometricE3}
-         * @return {G3} <code>this</code>
-         * @chainable
+         * @param a
+         * @param b
          */
         sub2(a: GeometricE3, b: GeometricE3): G3;
 
         /**
+         * Returns a string representing the number in exponential notation.
+         */
+        toExponential(): string;
+
+        /**
          * Returns a string representing the number in fixed-point notation.
-         * @method toFixed
-         * @param fractionDigits [number]
-         * @return {string}
+         * @param fractionDigits
          */
         toFixed(fractionDigits?: number): string;
+
         /**
          * Returns a string representation of the number.
-         * @method toString
-         * @return {string} 
          */
         toString(): string;
 
         /**
-         * @method fromSpinor
-         * @param spinor {SpinorE3}
-         * @return {G3}
-         * @static
+         * The identity element for addition, 0.
+         */
+        static zero: G3;
+
+        /**
+         * The identity element for multiplication, 1.
+         */
+        static one: G3;
+
+        /**
+         * Basis vector corresponding to the <code>x</code> coordinate.
+         */
+        static e1: G3;
+
+        /**
+         * Basis vector corresponding to the <code>y</code> coordinate.
+         */
+        static e2: G3;
+
+        /**
+         * Basis vector corresponding to the <code>z</code> coordinate.
+         */
+        static e3: G3;
+
+        /**
+         * Basis vector corresponding to the <code>β</code> coordinate.
+         */
+        static I: G3;
+
+        /**
+         * Creates a copy of a spinor.
+         * @param spinor
          */
         static fromSpinor(spinor: SpinorE3): G3;
 
         /**
-         * @method fromVector
-         * @param vector {VectorE3}
-         * @return {G3}
-         * @static
+         * Creates a copy of a vector.
+         * @param vector
          */
         static fromVector(vector: VectorE3): G3;
 
+        /**
+         * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+         * @param a The <em>from</em> vector.
+         * @param b The <em>to</em> vector.
+         */
+        static rotorFromDirections(a: VectorE3, b: VectorE3): G3;
     }
 
     /**
-     *
+     * The even sub-algebra of <code>G3</code>.
      */
-    class SpinG3 extends VectorN<number> {
-        public yz: number;
-        public zx: number;
-        public xy: number;
-        public α: number;
+    class SpinG3 extends VectorN<number> implements SpinorE3 {
         /**
-         *
+         * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
          */
-        constructor(data?: number[], modified?: boolean);
+        public yz: number;
+
+        /**
+         * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
+         */
+        public zx: number;
+
+        /**
+         * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
+         */
+        public xy: number;
+
+        /**
+         * The scalar component.
+         */
+        public α: number;
+
+        /**
+         * Constructs a <code>Spin3</code> with value <em>1</em>
+         */
+        constructor();
         /**
          * this ⟼ this + spinor * α
          */
         add(spinor: SpinorE3, α?: number): SpinG3;
-        clone(): SpinG3;
+
+        add2(a: SpinorE3, b: SpinorE3): SpinG3;
+
         /**
+         * The bivector whose area (magnitude) is θ/2, where θ is the radian measure. 
+         */
+        angle(): SpinG3;
+
+        /**
+         * Computes a copy of this spinor.
+         */
+        clone(): SpinG3;
+
+        /**
+         * Sets this spinor to be a copy of the <code>spinor</code> argument.
          * this ⟼ copy(spinor)
          */
         copy(spinor: SpinorE3): SpinG3;
-        diff(a: SpinorE3, b: SpinorE3): SpinG3;
+
         divByScalar(scalar: number): SpinG3;
+
         /**
          * this ⟼ dual(v) = I * v
          */
         dual(v: VectorE3): SpinG3;
+
         /**
          * this ⟼ exp(this)
          */
         exp(): SpinG3;
-        inverse(): SpinG3;
+        inv(): SpinG3;
         lerp(target: SpinorE3, α: number): SpinG3;
+
+        /**
+         * <p>
+         * <code>this ⟼ log(this)</code>
+         * </p>
+         */
         log(): SpinG3;
+
         magnitude(): number;
         mul(rhs: SpinorE3): SpinG3;
+        /**
+         * Sets this SpinG3 to the geometric product of the vectors a and b, a * b.
+         */
+        mul2(a: SpinorE3, b: SpinorE3): SpinG3;
         /**
          * this ⟼ this / magnitude(this)
          * <em>s.normalize()</em> scales the target spinor, <em>s</em>, so that it has unit magnitude.
@@ -1800,10 +1906,6 @@ declare module EIGHT {
          * this ⟼ this * α
          */
         scale(α: number): SpinG3;
-        /**
-         * Sets this SpinG3 to the geometric product of the vectors a and b, a * b.
-         */
-        mul2(a: SpinorE3, b: SpinorE3): SpinG3;
         squaredNorm(): number;
         rev(): SpinG3;
         reflect(n: VectorE3): SpinG3;
@@ -1826,13 +1928,25 @@ declare module EIGHT {
          * @param a {VectorE3} The <em>from</em> vector.
          * @param b {VectorE3} The <em>to</em> vector.
          */
-        rotorFromDirections(a: VectorE3, b: VectorE3): G2;
+        rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3;
+
+        /**
+         * <p>
+         * <code>this = ⟼ exp(- B * θ / 2)</code>
+         * </p>
+         * @param B {SpinorE3}
+         * @param θ {number}
+         */
+        rotorFromGeneratorAngle(B: SpinorE3, θ: number): SpinG3;
 
         /**
          * this ⟼ this - spinor * α
          */
         sub(spinor: SpinorE3, α?: number): SpinG3;
-        sum(a: SpinorE3, b: SpinorE3): SpinG3;
+        /**
+         *
+         */
+        sub2(a: SpinorE3, b: SpinorE3): SpinG3;
         toString(): string;
         /**
          * this ⟼ a * b
@@ -1856,6 +1970,16 @@ declare module EIGHT {
          * The magnitude of the projection onto the standard e2 basis vector. 
          */
         z: number;
+
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         */
+        magnitude(): number;
+
+        /**
+         * The <em>squared norm</em>, as a <code>number</code>.
+         */
+        squaredNorm(): number;
     }
 
     /**
@@ -1869,18 +1993,21 @@ declare module EIGHT {
         static e2: R3;
         static e3: R3;
         static copy(vector: VectorE3): R3;
-        constructor(data?: number[], modified?: boolean);
+        constructor(coordinates?: number[], modified?: boolean);
         /**
          * this += alpha * vector
          */
         add(vector: VectorE3, alpha?: number): R3;
+        add2(a: VectorE3, b: VectorE3): R3;
         clone(): R3;
         copy(v: VectorE3): R3;
         cross(v: VectorE3): R3;
         cross2(a: VectorE3, b: VectorE3): R3;
-        diff(a: VectorE3, b: VectorE3): R3;
         distanceTo(position: VectorE3): number;
         divByScalar(rhs: number): R3;
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         */
         magnitude(): number;
         lerp(target: VectorE3, alpha: number): R3;
         scale(rhs: number): R3;
@@ -1890,9 +2017,8 @@ declare module EIGHT {
         reflect(n: VectorE3): R3;
         rotate(rotor: SpinorE3): R3;
         set(x: number, y: number, z: number): R3;
-        setMagnitude(magnitude: number): R3;
         sub(rhs: VectorE3): R3;
-        sum(a: VectorE3, b: VectorE3): R3;
+        sub2(a: VectorE3, b: VectorE3): R3;
         static copy(vector: VectorE3): R3;
         static lerp(a: VectorE3, b: VectorE3, alpha: number): R3;
         static random(): R3;
@@ -2334,21 +2460,46 @@ declare module EIGHT {
      */
     function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes): IContextProvider;
 
+    /**
+     * A set of <em>state variables</em> for graphics modeling in Euclidean 2D space.
+     */
     class ModelE2 extends Shareable implements IAnimationTarget {
         /**
-         * The position, a vector.
+         * The <em>position</em>, a vector. Initialized to <em>0</em>
          */
         public X: G2;
         /**
-         * The attitude, a unitary spinor.
+         * The <em>attitude</em>, a unitary spinor. Initialized to <em>1</em>.
          */
         public R: G2;
         /**
-         * Constructs a ModelE2 at the origin and with unity attitude.
+         * Constructs a <code>ModelE2</code> at the origin and with unity attitude.
+         * Initializes <code>X</code> to <code>0</code>.
+         * Initializes <code>R</code> to <code>1</code>.
          */
         constructor();
         getProperty(name: string): number[];
         setProperty(name: string, value: number[]): void;
+    }
+
+    /**
+     * A set of <em>kinematic variables</em> for rigid body modeling in Euclidean 2D space.
+     */
+    class RigidBodyE2 extends ModelE2 {
+        /**
+         * The <em>linear velocity</em>, a vector. Initialized to <em>0</em>
+         */
+        V: G2;
+        /**
+         * The <em>rotational velocity</em>, a spinor. Initialized to <em>1</em>.
+         */
+        Ω: G2;
+        /**
+         * Constructs a <code>RigidBodyE2</code>.
+         * Initializes <code>V</code> to <code>0</code>.
+         * Initializes <code>Ω</code> to <code>1</code>.
+         */
+        constructor();
     }
 
     /**
@@ -2377,10 +2528,11 @@ declare module EIGHT {
         setProperty(name: string, value: number[]): void;
         setUniforms(visitor: IFacetVisitor, canvasId: number): void;
     }
+
     /**
      * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
      */
-    class KinematicRigidBodyFacetE3 extends ModelFacetE3 {
+    class RigidBodyFacetE3 extends ModelFacetE3 {
         /**
          * The linear velocity, a vector.
          */
@@ -2390,7 +2542,7 @@ declare module EIGHT {
          */
         Ω: G3;
         /**
-         * Constructs a KinematicRigidBodyFacetE3.
+         * Constructs a RigidBodyFacetE3.
          */
         constructor(type?: string);
         destructor(): void;
@@ -2526,8 +2678,6 @@ declare module EIGHT {
         material: IMaterial;
         /**
          * User assigned name of the drawable object. Allows an object to be found in a scene.
-         * @property name
-         * @type [string]
          */
         name: string;
         /**
@@ -2546,7 +2696,6 @@ declare module EIGHT {
         draw(ambients: IFacet[], canvasId: number): void;
         /**
          * Gets a collection of drawable elements by name.
-         * @method getDrawablesByName
          * @param name {string}
          */
         getDrawablesByName(name: string): IUnknownArray<IDrawable>;
@@ -2656,12 +2805,12 @@ declare module EIGHT {
          * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
          */
         gl: WebGLRenderingContext;
+
         /**
-         * @property canvas
-         * @type {HTMLCanvasElement}
-         * @readOnly
+         *
          */
         canvas: HTMLCanvasElement;
+
         /**
          * Commands that are executed for context free, gain and loss events.
          * These commands are reference counted but don't hold references to this instance.
@@ -3388,7 +3537,6 @@ declare module EIGHT {
         constructor(uSegments: number, vSegments: number);
         vertex(uIndex: number, vIndex: number): Vertex;
     }
-
     ///////////////////////////////////////////////////////////////////////////////
     interface IKeyboardHandler extends IUnknown {
         keyDown(event: KeyboardEvent): void;

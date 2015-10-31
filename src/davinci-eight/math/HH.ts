@@ -3,6 +3,7 @@ import Euclidean3 = require('../math/Euclidean3')
 import dotVector = require('../math/dotVectorE3')
 import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
 import Matrix4 = require('../math/Matrix4')
+import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import quadVector = require('../math/quadVectorE3')
@@ -75,8 +76,8 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         throw new Error('TODO: HH.adj')
     }
 
-    arg(): number {
-        throw new Error('TODO: HH.arg')
+    angle(): HH {
+        return this.log().grade(2);
     }
 
     dual(vector: VectorE3): HH {
@@ -406,6 +407,29 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         this.t = a.t - b.t
         return this;
     }
+    grade(grade: number): HH {
+        mustBeInteger('grade', grade)
+        switch (grade) {
+            case 0: {
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+            }
+                break;
+            case 2: {
+                this.t = 0;
+            }
+                break;
+            default: {
+                this.t = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+            }
+        }
+        return this;
+    }
+
     toExponential(): string {
         // FIXME
         return "TODO HH.toExponential";

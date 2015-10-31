@@ -8,9 +8,13 @@ import Unit = require('../math/Unit');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class Euclidean3
- * @extends GeometricE3
  */
 declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
+    /**
+     * @property zero
+     * @type {Euclidean3}
+     * @static
+     */
     static zero: Euclidean3;
     static one: Euclidean3;
     static e1: Euclidean3;
@@ -118,10 +122,10 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     __radd__(other: any): Euclidean3;
     adj(): Euclidean3;
     /**
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {Euclidean3}
      */
-    arg(): number;
+    angle(): Euclidean3;
     /**
      * @method conj
      * @return {Euclidean3}
@@ -188,7 +192,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * @private
      */
     __tilde__(): Euclidean3;
-    grade(index: number): Euclidean3;
+    grade(grade: number): Euclidean3;
     dot(vector: Euclidean3): number;
     cross(vector: Euclidean3): Euclidean3;
     isOne(): boolean;
@@ -200,6 +204,11 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     exp(): Euclidean3;
     inv(): Euclidean3;
     log(): Euclidean3;
+    /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number;
     /**
      * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
@@ -216,11 +225,6 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     sinh(): Euclidean3;
     slerp(target: Euclidean3, α: number): Euclidean3;
     unitary(): Euclidean3;
-    /**
-     * @method gradeZero
-     * @return {number}
-     */
-    gradeZero(): number;
     sqrt(): Euclidean3;
     toStringCustom(coordToString: (x: number) => string, labels: string[]): string;
     toExponential(): string;

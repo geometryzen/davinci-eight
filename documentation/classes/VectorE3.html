@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -245,6 +252,7 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
@@ -252,6 +260,16 @@
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_magnitude">magnitude</a>
+
+                            </li>
+                    </ul>
+                </div>
 
                 <div class="index-section properties">
                     <h3>Properties</h3>
@@ -275,6 +293,51 @@
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_magnitude" class="method item">
+    <h3 class="name"><code>magnitude</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_VectorE3.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorE3.ts:26</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes the <em>square root</em> of the <em>squared norm</em>.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
 
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
@@ -297,7 +360,8 @@
     </div>
 
     <div class="description">
-        
+        <p>The Cartesian x-coordinate.</p>
+
     </div>
 
 
@@ -314,14 +378,15 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_VectorE3.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorE3.ts:10</code></a>
+        <a href="../files/src_davinci-eight_math_VectorE3.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorE3.ts:12</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The Cartesian y-coordinate.</p>
+
     </div>
 
 
@@ -338,14 +403,15 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_VectorE3.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorE3.ts:15</code></a>
+        <a href="../files/src_davinci-eight_math_VectorE3.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorE3.ts:19</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>The Cartesian z-coordinate.</p>
+
     </div>
 
 

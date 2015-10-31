@@ -17,7 +17,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     addScalar(α: number): HH;
     add2(a: HH, b: HH): HH;
     adj(): HH;
-    arg(): number;
+    angle(): HH;
     dual(vector: VectorE3): HH;
     clone(): HH;
     lco(rhs: HH): HH;
@@ -64,6 +64,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     scp2(a: HH, b: HH): HH;
     sub(q: HH, α?: number): HH;
     sub2(a: HH, b: HH): HH;
+    grade(grade: number): HH;
     toExponential(): string;
     toFixed(digits?: number): string;
     equals(quaternion: HH): boolean;

@@ -4,17 +4,27 @@ interface Measure<T> {
      * The scalar part of the measure, as a <code>number</code>.
      */
     α: number;
+    /**
+     * The pseudoscalar part of the measure, as a <code>number</code>.
+     */
+    β: number;
     coordinates(): number[];
     uom: Unit;
     add(rhs: T): T;
+    angle(): T;
     cos(): T;
     cosh(): T;
     div(rhs: T): T;
     divByScalar(α: number): T;
     exp(): T;
     ext(rhs: T): T;
+    /**
+     * extraction of grade.
+     */
+    grade(grade: number): T;
     lerp(target: T, α: number): T;
     lco(rhs: T): T;
+    log(): T;
     mul(rhs: T): T;
     norm(): T;
     pow(exponent: T): T;

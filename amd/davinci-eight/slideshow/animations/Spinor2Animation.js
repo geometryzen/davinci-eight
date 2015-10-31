@@ -30,7 +30,8 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG2'], fun
                 if (this.from === void 0) {
                     var data = target.getProperty(propName);
                     if (data) {
-                        this.from = new SpinG2(data);
+                        this.from = new SpinG2();
+                        this.from.data = data;
                     }
                 }
             }

@@ -1,4 +1,4 @@
-define(["require", "exports", '../i18n/readOnly', '../math/Unit'], function (require, exports, readOnly, Unit) {
+define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '../math/Unit'], function (require, exports, mustBeInteger, readOnly, Unit) {
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
@@ -33,12 +33,12 @@ define(["require", "exports", '../i18n/readOnly', '../math/Unit'], function (req
          * @class Euclidean1
          * @constructor
          * @param {number} α The grade zero part of the multivector.
-         * @param {number} x The vector component of the multivector in the x-direction.
+         * @param {number} β The vector component of the multivector.
          * @param uom The optional unit of measure.
          */
-        function Euclidean1(α, x, uom) {
+        function Euclidean1(α, β, uom) {
             this.w = assertArgNumber('α', α);
-            this.x = assertArgNumber('x', x);
+            this.x = assertArgNumber('β', β);
             this.uom = assertArgUnitOrUndefined('uom', uom);
             if (this.uom && this.uom.multiplier !== 1) {
                 var multiplier = this.uom.multiplier;
@@ -58,6 +58,21 @@ define(["require", "exports", '../i18n/readOnly', '../math/Unit'], function (req
             },
             set: function (unused) {
                 throw new Error(readOnly('α').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean1.prototype, "β", {
+            /**
+             * The pseudoscalar part of this multivector.
+             * @property β
+             * @return {number}
+             */
+            get: function () {
+                return this.x;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('β').message);
             },
             enumerable: true,
             configurable: true
@@ -82,6 +97,13 @@ define(["require", "exports", '../i18n/readOnly', '../math/Unit'], function (req
             assertArgEuclidean1('rhs', rhs);
             return new Euclidean1(this.w + rhs.w, this.x + rhs.x, Unit.compatible(this.uom, rhs.uom));
         };
+        /**
+         * @method angle
+         * @return {Euclidean1}
+         */
+        Euclidean1.prototype.angle = function () {
+            return this.log().grade(2);
+        };
         Euclidean1.prototype.sub = function (rhs) {
             assertArgEuclidean1('rhs', rhs);
             return new Euclidean1(this.w - rhs.w, this.x - rhs.x, Unit.compatible(this.uom, rhs.uom));
@@ -103,13 +125,17 @@ define(["require", "exports", '../i18n/readOnly', '../math/Unit'], function (req
         Euclidean1.prototype.ext = function (rhs) {
             throw new Error('wedge');
         };
+        Euclidean1.prototype.lco = function (rhs) {
+            // assertArgEuclidean1('rhs', rhs)
+            throw new Error('lshift');
+        };
         Euclidean1.prototype.lerp = function (target, α) {
             // FIXME: TODO
             return this;
         };
-        Euclidean1.prototype.lco = function (rhs) {
+        Euclidean1.prototype.log = function () {
             // assertArgEuclidean1('rhs', rhs)
-            throw new Error('lshift');
+            throw new Error('log');
         };
         Euclidean1.prototype.rco = function (rhs) {
             // assertArgEuclidean1('rhs', rhs)
@@ -149,6 +175,14 @@ define(["require", "exports", '../i18n/readOnly', '../math/Unit'], function (req
         };
         Euclidean1.prototype.unitary = function () {
             throw new Error('unitary');
+        };
+        Euclidean1.prototype.grade = function (grade) {
+            mustBeInteger('grade', grade);
+            switch (grade) {
+                case 0: return new Euclidean1(this.w, 0, this.uom);
+                case 1: return new Euclidean1(0, this.x, this.uom);
+                default: return new Euclidean1(0, 0, this.uom);
+            }
         };
         Euclidean1.prototype.toExponential = function () {
             return "Euclidean1";

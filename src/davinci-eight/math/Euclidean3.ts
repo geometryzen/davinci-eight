@@ -10,6 +10,7 @@ import mathcore = require('../math/mathcore');
 import Measure = require('../math/Measure');
 import mulE3 = require('../math/mulE3')
 import mulG3 = require('../math/mulG3')
+import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
 import GeometricElement = require('../math/GeometricElement')
 import NotImplementedError = require('../math/NotImplementedError');
@@ -17,17 +18,19 @@ import rcoG3 = require('../math/rcoG3')
 import readOnly = require('../i18n/readOnly')
 import scpG3 = require('../math/scpG3')
 import SpinorE3 = require('../math/SpinorE3')
+import squaredNormG3 = require('../math/squaredNormG3')
 import stringFromCoordinates = require('../math/stringFromCoordinates')
 import subE3 = require('../math/subE3')
 import TrigMethods = require('../math/TrigMethods')
 import Unit = require('../math/Unit');
 import VectorE3 = require('../math/VectorE3')
 
-var cos = Math.cos;
-var cosh = mathcore.Math.cosh;
-var exp = Math.exp;
-var sin = Math.sin;
-var sinh = mathcore.Math.sinh;
+let cos = Math.cos;
+let cosh = mathcore.Math.cosh;
+let exp = Math.exp;
+let sin = Math.sin;
+let sinh = mathcore.Math.sinh;
+let sqrt = Math.sqrt;
 
 function assertArgNumber(name: string, x: number): number {
     if (typeof x === 'number') {
@@ -228,9 +231,13 @@ var divide = function(
 
 /**
  * @class Euclidean3
- * @extends GeometricE3
  */
 class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
+    /**
+     * @property zero
+     * @type {Euclidean3}
+     * @static
+     */
     public static zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
     public static one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
     public static e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
@@ -471,11 +478,11 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     }
 
     /**
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {Euclidean3}
      */
-    arg(): number {
-        throw new Error('TODO: Euclidean3.arg')
+    angle(): Euclidean3 {
+        return this.log().grade(2);
     }
 
     /**
@@ -732,9 +739,9 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         return this.rev()
     }
 
-    grade(index: number): Euclidean3 {
-        assertArgNumber('index', index);
-        switch (index) {
+    grade(grade: number): Euclidean3 {
+        mustBeInteger('grade', grade);
+        switch (grade) {
             case 0:
                 return Euclidean3.fromCartesian(this.w, 0, 0, 0, 0, 0, 0, 0, this.uom);
             case 1:
@@ -782,7 +789,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
     }
     length() {
-        return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
+        return sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
     }
 
     lerp(target: Euclidean3, α: number): Euclidean3 {
@@ -827,9 +834,13 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
     }
 
+    /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number {
-        // FIXME: TODO
-        return 0
+        return sqrt(this.squaredNorm())
     }
 
     /**
@@ -845,8 +856,7 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     }
 
     squaredNorm(): number {
-        // FIXME: The shortcoming of this method is that it drops the units.
-        return this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz
+        return squaredNormG3(this)
     }
     reflect(n: VectorE3): Euclidean3 {
         // TODO
@@ -876,16 +886,9 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     unitary(): Euclidean3 {
         return this.div(this.norm());
     }
-    /**
-     * @method gradeZero
-     * @return {number}
-     */
-    gradeZero(): number {
-        return this.w;
-    }
 
     sqrt() {
-        return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
+        return new Euclidean3(sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
     }
 
     toStringCustom(
@@ -960,6 +963,12 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
             },
             set β(β: number) {
                 M.xyz = β
+            },
+            magnitude(): number {
+                throw new Error("magnitude() should not be needed.");
+            },
+            squaredNorm(): number {
+                throw new Error("squaredNorm() should not be needed.");
             }
         }
         return that

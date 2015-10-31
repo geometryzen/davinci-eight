@@ -3,23 +3,23 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../models/ModelFacetE3', '../math/G3'], function (require, exports, Euclidean3, ModelFacetE3, G3) {
+define(["require", "exports", '../physics/ModelE3', '../math/G3'], function (require, exports, ModelE3, G3) {
     /**
-     * @class KinematicRigidBodyFacetE3
-     * @extends ModelFacetE3
+     * @class RigidBodyE3
+     * @extends ModelE3
      */
-    var KinematicRigidBodyFacetE3 = (function (_super) {
-        __extends(KinematicRigidBodyFacetE3, _super);
+    var RigidBodyE3 = (function (_super) {
+        __extends(RigidBodyE3, _super);
         /**
          * <p>
-         * Constructs a KinematicRigidBodyFacetE3.
+         * Constructs a RigidBodyE3.
          * </p>
-         * @class KinematicRigidBodyFacetE3
+         * @class RigidBodyE3
          * @constructor
-         * @param [type = 'KinematicRigidBodyFacetE3'] {string} The name used for reference counting.
+         * @param [type = 'RigidBodyE3'] {string} The name used for reference counting.
          */
-        function KinematicRigidBodyFacetE3(type) {
-            if (type === void 0) { type = 'KinematicRigidBodyFacetE3'; }
+        function RigidBodyE3(type) {
+            if (type === void 0) { type = 'RigidBodyE3'; }
             _super.call(this, type);
             /**
              * <p>
@@ -28,7 +28,7 @@ define(["require", "exports", '../math/Euclidean3', '../models/ModelFacetE3', '.
              * @property V
              * @type {G3}
              */
-            this.V = new G3().copy(Euclidean3.zero);
+            this.V = new G3().zero();
             /**
              * <p>
              * The <em>rotational velocity</em>, a spinor.
@@ -36,17 +36,17 @@ define(["require", "exports", '../math/Euclidean3', '../models/ModelFacetE3', '.
              * @property Ω
              * @type {G3}
              */
-            this.Ω = new G3();
+            this.Ω = new G3().zero().addScalar(1);
         }
         /**
          * @method destructor
          * @return {void}
          * @protected
          */
-        KinematicRigidBodyFacetE3.prototype.destructor = function () {
+        RigidBodyE3.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        return KinematicRigidBodyFacetE3;
-    })(ModelFacetE3);
-    return KinematicRigidBodyFacetE3;
+        return RigidBodyE3;
+    })(ModelE3);
+    return RigidBodyE3;
 });

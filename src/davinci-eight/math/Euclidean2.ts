@@ -7,6 +7,7 @@ import rcoE2 = require('../math/rcoE2')
 import Measure = require('../math/Measure')
 import mulE2 = require('../math/mulE2')
 import mulG2 = require('../math/mulG2')
+import mustBeInteger = require('../checks/mustBeInteger')
 import readOnly = require('../i18n/readOnly')
 import scpE2 = require('../math/scpE2')
 import SpinorE2 = require('../math/SpinorE2')
@@ -236,7 +237,7 @@ class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricElement<E
     private w: number;
     public x: number;
     public y: number;
-    private xy: number;
+    public xy: number;
     public uom: Unit;
     /**
      * The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.
@@ -380,8 +381,12 @@ class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricElement<E
         }
     }
 
-    arg(): number {
-        throw new Error("TODO: Euclidean2.arg")
+    /**
+     * @method angle
+     * @return {Euclidean2}
+     */
+    angle(): Euclidean2 {
+        return this.log().grade(2);
     }
 
     conj(): Euclidean2 {
@@ -704,9 +709,9 @@ class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricElement<E
         return new Euclidean2(this.α, this.x, this.y, -this.β, this.uom);
     }
 
-    grade(index: number): Euclidean2 {
-        assertArgNumber('index', index);
-        switch (index) {
+    grade(grade: number): Euclidean2 {
+        mustBeInteger('grade', grade);
+        switch (grade) {
             case 0:
                 return new Euclidean2(this.α, 0, 0, 0, this.uom);
             case 1:
@@ -742,6 +747,11 @@ class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricElement<E
         throw new Error('log');
     }
 
+    /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number {
         return sqrt(this.squaredNorm())
     }

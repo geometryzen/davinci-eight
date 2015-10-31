@@ -3,7 +3,17 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/copyToArray', '../math/dotVectorE3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/rotorFromDirections', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorCartesianE3, copyToArray, dotVector, mustBeNumber, mustBeObject, quadVector, rotorFromDirections, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadSpinorE3', '../math/quadVectorE3', '../math/rotorFromDirections', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorCartesianE3, dotVector, mustBeInteger, mustBeNumber, mustBeObject, quadSpinor, quadVector, rotorFromDirections, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+    // Symbolic constants for the coordinate indices into the data array.
+    var COORD_YZ = 0;
+    var COORD_ZX = 1;
+    var COORD_XY = 2;
+    var COORD_SCALAR = 3;
+    function one() {
+        var coords = [0, 0, 0, 0];
+        coords[COORD_SCALAR] = 1;
+        return coords;
+    }
     var exp = Math.exp;
     var cos = Math.cos;
     var sin = Math.sin;
@@ -19,13 +29,11 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * For a <em>geometric</em> implementation, use the static methods.
          * @class SpinG3
          * @constructor
-         * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
-         * @param modified [boolean = false]
          */
-        function SpinG3(data, modified) {
-            if (data === void 0) { data = [0, 0, 0, 1]; }
+        function SpinG3(coordinates, modified) {
+            if (coordinates === void 0) { coordinates = one(); }
             if (modified === void 0) { modified = false; }
-            _super.call(this, data, modified, 4);
+            _super.call(this, coordinates, modified, 4);
         }
         Object.defineProperty(SpinG3.prototype, "yz", {
             /**
@@ -33,12 +41,12 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
              * @type Number
              */
             get: function () {
-                return this.data[0];
+                return this.data[COORD_YZ];
             },
             set: function (yz) {
                 mustBeNumber('yz', yz);
                 this.modified = this.modified || this.yz !== yz;
-                this.data[0] = yz;
+                this.data[COORD_YZ] = yz;
             },
             enumerable: true,
             configurable: true
@@ -49,12 +57,12 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
              * @type Number
              */
             get: function () {
-                return this.data[1];
+                return this.data[COORD_ZX];
             },
             set: function (zx) {
                 mustBeNumber('zx', zx);
                 this.modified = this.modified || this.zx !== zx;
-                this.data[1] = zx;
+                this.data[COORD_ZX] = zx;
             },
             enumerable: true,
             configurable: true
@@ -65,12 +73,12 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
              * @type Number
              */
             get: function () {
-                return this.data[2];
+                return this.data[COORD_XY];
             },
             set: function (xy) {
                 mustBeNumber('xy', xy);
                 this.modified = this.modified || this.xy !== xy;
-                this.data[2] = xy;
+                this.data[COORD_XY] = xy;
             },
             enumerable: true,
             configurable: true
@@ -81,12 +89,12 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
              * @type Number
              */
             get: function () {
-                return this.data[3];
+                return this.data[COORD_SCALAR];
             },
             set: function (α) {
                 mustBeNumber('α', α);
                 this.modified = this.modified || this.α !== α;
-                this.data[3] = α;
+                this.data[COORD_SCALAR] = α;
             },
             enumerable: true,
             configurable: true
@@ -158,11 +166,11 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             throw new Error('TODO: SpinG3.adj');
         };
         /**
-         * @method arg
-         * @return {number}
+         * @method angle
+         * @return {SpinG3}
          */
-        SpinG3.prototype.arg = function () {
-            throw new Error('TODO: SpinG3.arg');
+        SpinG3.prototype.angle = function () {
+            return this.log().grade(2);
         };
         /**
          * @method clone
@@ -170,7 +178,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @chainable
          */
         SpinG3.prototype.clone = function () {
-            return new SpinG3(copyToArray(this.data), this.modified);
+            return SpinG3.copy(this);
         };
         /**
          * <p>
@@ -390,6 +398,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @chainable
          */
         SpinG3.prototype.log = function () {
+            // FIXME: Wrong
             var w = this.α;
             var x = this.yz;
             var y = this.zx;
@@ -400,12 +409,18 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             var R0 = Math.abs(w);
             var R = sqrt(w * w + bb);
             this.α = Math.log(R);
-            var f = Math.atan2(R2, R0) / R2;
-            this.yz = x * f;
-            this.zx = y * f;
-            this.xy = z * f;
+            var θ = Math.atan2(R2, R0) / R2;
+            // The angle, θ, produced by atan2 will be in the range [-π, +π]
+            this.yz = x * θ;
+            this.zx = y * θ;
+            this.xy = z * θ;
             return this;
         };
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         * @method magnitude
+         * @return {number}
+         */
         SpinG3.prototype.magnitude = function () {
             return sqrt(this.squaredNorm());
         };
@@ -506,11 +521,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
          * @return {number} <code>this * conj(this)</code>
          */
         SpinG3.prototype.squaredNorm = function () {
-            var w = this.α;
-            var yz = this.yz;
-            var zx = this.zx;
-            var xy = this.xy;
-            return w * w + yz * yz + zx * zx + xy * xy;
+            return quadSpinor(this);
         };
         SpinG3.prototype.rco = function (rhs) {
             return this.rco2(this, rhs);
@@ -713,6 +724,30 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../collections/co
             this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
             this.zx = wedgeZX(ax, ay, az, bx, by, bz);
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
+            return this;
+        };
+        SpinG3.prototype.grade = function (grade) {
+            mustBeInteger('grade', grade);
+            switch (grade) {
+                case 0:
+                    {
+                        this.yz = 0;
+                        this.zx = 0;
+                        this.xy = 0;
+                    }
+                    break;
+                case 2:
+                    {
+                        this.α = 0;
+                    }
+                    break;
+                default: {
+                    this.α = 0;
+                    this.yz = 0;
+                    this.zx = 0;
+                    this.xy = 0;
+                }
+            }
             return this;
         };
         SpinG3.prototype.toExponential = function () {

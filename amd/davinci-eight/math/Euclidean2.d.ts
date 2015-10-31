@@ -13,7 +13,7 @@ declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricE
     private w;
     x: number;
     y: number;
-    private xy;
+    xy: number;
     uom: Unit;
     /**
      * The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.
@@ -50,7 +50,11 @@ declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricE
     adj(): Euclidean2;
     __add__(other: any): Euclidean2;
     __radd__(other: any): Euclidean2;
-    arg(): number;
+    /**
+     * @method angle
+     * @return {Euclidean2}
+     */
+    angle(): Euclidean2;
     conj(): Euclidean2;
     static sub(a: number[], b: number[]): number[];
     sub(rhs: Euclidean2): Euclidean2;
@@ -89,12 +93,17 @@ declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricE
      * ~ (tilde) produces reversion.
      */
     __tilde__(): Euclidean2;
-    grade(index: number): Euclidean2;
+    grade(grade: number): Euclidean2;
     cos(): Euclidean2;
     cosh(): Euclidean2;
     exp(): Euclidean2;
     inv(): Euclidean2;
     log(): Euclidean2;
+    /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number;
     norm(): Euclidean2;
     quad(): Euclidean2;

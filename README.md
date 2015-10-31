@@ -249,6 +249,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.146.0: 2015-10-28 squaredNorm
 * 2.147.0: 2015-10-28 universals
 * 2.148.0: 2015-10-28 animation
+* 2.149.0: 2015-10-30 angle
 
 ## Unit
 Copyright (c) 2014-2015 David Holmes

@@ -6,15 +6,19 @@ import isNumber = require('../checks/isNumber')
 import lcoG3 = require('../math/lcoG3')
 import GeometricOperators = require('../math/GeometricOperators')
 import mulG3 = require('../math/mulG3')
+import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
+import mustBeString = require('../checks/mustBeString')
 import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
-import PseudoscalarEe = require('../math/PseudoE3')
+import quadSpinor = require('../math/quadSpinorE3')
 import quadVector = require('../math/quadVectorE3')
 import rcoG3 = require('../math/rcoG3')
+import readOnly = require('../i18n/readOnly')
 import rotorFromDirections = require('../math/rotorFromDirections')
 import scpG3 = require('../math/scpG3')
 import SpinorE3 = require('../math/SpinorE3')
+import squaredNormG3 = require('../math/squaredNormG3')
 import stringFromCoordinates = require('../math/stringFromCoordinates')
 import VectorE3 = require('../math/VectorE3')
 import VectorN = require('../math/VectorN')
@@ -32,9 +36,13 @@ let COORD_YZ = 5
 let COORD_ZX = 6
 let COORD_XYZ = 7
 
+let abs = Math.abs
+let atan2 = Math.atan2
 let exp = Math.exp
 let cos = Math.cos
+let log = Math.log
 let sin = Math.sin
+let sqrt = Math.sqrt
 
 let BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]
 /**
@@ -43,6 +51,88 @@ let BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]
 function coordinates(m: GeometricE3): number[] {
     return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β]
 }
+
+function makeConstantE3(label: string, α: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, β: number): GeometricE3 {
+    mustBeString('label', label)
+    mustBeNumber('α', α)
+    mustBeNumber('x', x)
+    mustBeNumber('y', y)
+    mustBeNumber('z', z)
+    mustBeNumber('yz', yz)
+    mustBeNumber('zx', zx)
+    mustBeNumber('xy', xy)
+    mustBeNumber('β', β)
+    var that: GeometricE3;
+    that = {
+        get α() {
+            return α;
+        },
+        set α(unused: number) {
+            throw new Error(readOnly(label + '.α').message);
+        },
+        get x() {
+            return x;
+        },
+        set x(unused: number) {
+            throw new Error(readOnly(label + '.x').message);
+        },
+        get y() {
+            return y;
+        },
+        set y(unused: number) {
+            throw new Error(readOnly(label + '.y').message);
+        },
+        get z() {
+            return z;
+        },
+        set z(unused: number) {
+            throw new Error(readOnly(label + '.x').message);
+        },
+        get yz() {
+            return yz;
+        },
+        set yz(unused: number) {
+            throw new Error(readOnly(label + '.yz').message);
+        },
+        get zx() {
+            return zx;
+        },
+        set zx(unused: number) {
+            throw new Error(readOnly(label + '.zx').message);
+        },
+        get xy() {
+            return xy;
+        },
+        set xy(unused: number) {
+            throw new Error(readOnly(label + '.xy').message);
+        },
+        get β() {
+            return β;
+        },
+        set β(unused: number) {
+            throw new Error(readOnly(label + '.β').message);
+        },
+        magnitude(): number {
+            // FIXME: should be the full multivector.
+            return sqrt(quadSpinor(that))
+        },
+        squaredNorm(): number {
+            // FIXME: should be the full multivector.
+            return quadSpinor(that)
+        },
+        toString() {
+            return label;
+        }
+    }
+    return that
+}
+
+let zero = makeConstantE3('0', 0, 0, 0, 0, 0, 0, 0, 0);
+let one = makeConstantE3('1', 1, 0, 0, 0, 0, 0, 0, 0);
+let e1 = makeConstantE3('e1', 0, 1, 0, 0, 0, 0, 0, 0);
+let e2 = makeConstantE3('e2', 0, 0, 1, 0, 0, 0, 0, 0);
+let e3 = makeConstantE3('e2', 0, 0, 0, 1, 0, 0, 0, 0);
+let I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
 
 /**
  * @class G3
@@ -267,11 +357,11 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {G3}
      */
-    arg(): number {
-        throw new Error('TODO: G3.arg')
+    angle(): G3 {
+        return this.log().grade(2);
     }
 
     /**
@@ -519,21 +609,35 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @return {G3} <code>this</code>
      * @chainable
      */
-    exp(): G3 {
-        let w = this.α
-        let x = this.yz
-        let y = this.zx
-        let z = this.xy
-        let expW = exp(w)
+    exp() {
+        // It's always the case that the scalar commutes with every other
+        // grade of the multivector, so we can pull it out the front.
+        let expW = exp(this.α)
+
+        // In G3 we have the special case that the pseudoscalar also commutes.
+        // And since it squares to -1, we get a exp(Iβ) = cos(β) + I * sin(β) factor.
+        let cosβ = cos(this.β)
+        let sinβ = sin(this.β)
+
+        // We are left with the vector and bivector components.
+        // For a bivector (usual case), let B = I * φ, where φ is a vector.
+        // We would get cos(φ) + I * n * sin(φ), where φ = |φ|n and n is a unit vector.
+        let yz = this.yz
+        let zx = this.zx
+        let xy = this.xy
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
-        let φ = Math.sqrt(x * x + y * y + z * z)
-        let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.α = expW * cos(φ);
-        this.yz = x * s;
-        this.zx = y * s;
-        this.xy = z * s;
-        return this;
+        let φ = sqrt(yz * yz + zx * zx + xy * xy)
+        let s = φ !== 0 ? sin(φ) / φ : 1
+        let cosφ = cos(φ);
+
+        // For a vector a, we use exp(a) = cosh(a) + n * sinh(a)
+        // The mixture of vector and bivector parts is more complex!
+        this.α = cosφ;
+        this.yz = yz * s;
+        this.zx = zx * s;
+        this.xy = xy * s;
+        return this.scale(expW);
     }
     /**
      * <p>
@@ -616,25 +720,28 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @return {G3} <code>this</code>
      * @chainable
      */
-    log(): G3 {
-        // FIXME: TODO
-        let w = this.α
+    log() {
+        let α = this.α
         let x = this.yz
         let y = this.zx
         let z = this.xy
-        let bb = x * x + y * y + z * z
-        let R2 = Math.sqrt(bb)
-        let R0 = Math.abs(w)
-        let R = Math.sqrt(w * w + bb)
-        this.α = Math.log(R)
-        let f = Math.atan2(R2, R0) / R2
+        let BB = x * x + y * y + z * z
+        let B = sqrt(BB)
+        let f = atan2(B, α) / B
+        this.α = log(sqrt(α * α + BB))
         this.yz = x * f
         this.zx = y * f
         this.xy = z * f
-        return this;
+        return this
     }
-    magnitude() {
-        return Math.sqrt(this.squaredNorm());
+
+    /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
+    magnitude(): number {
+        return sqrt(this.squaredNorm());
     }
 
     /**
@@ -649,6 +756,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     mul(m: GeometricE3): G3 {
         return this.mul2(this, m)
     }
+
     /**
      * <p>
      * <code>this ⟼ a * b</code>
@@ -709,7 +817,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      */
     normalize(): G3 {
         // The squaredNorm is the squared norm.
-        let norm = Math.sqrt(this.squaredNorm())
+        let norm = this.magnitude()
         this.α = this.α / norm
         this.x = this.x / norm
         this.y = this.y / norm
@@ -739,16 +847,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
+     * Computes the <em>squared norm</em> of this multivector.
      * @method squaredNorm
      * @return {number} <code>this * conj(this)</code>
      */
     squaredNorm(): number {
-        // FIXME: TODO
-        let w = this.α;
-        let yz = this.yz;
-        let zx = this.zx;
-        let xy = this.xy;
-        return w * w + yz * yz + zx * zx + xy * xy;
+        return squaredNormG3(this)
     }
     /**
      * <p>
@@ -783,12 +887,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @return {G3} <code>this</code>
      * @chainable
      */
-    rev(): G3 {
-        // reverse has a ++-- structure.
-        this.α = this.α
-        this.x = this.x
-        this.y = this.y
-        this.z = this.z
+    rev() {
+        // reverse has a ++-- structure on the grades.
+        this.α = +this.α
+        this.x = +this.x
+        this.y = +this.y
+        this.z = +this.z
         this.yz = -this.yz
         this.zx = -this.zx
         this.xy = -this.xy
@@ -1046,6 +1150,59 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     toString(): string {
         let coordToString = function(coord: number): string { return coord.toString() };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
+    grade(grade: number): G3 {
+        mustBeInteger('grade', grade)
+        switch (grade) {
+            case 0: {
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+            }
+                break;
+            case 1: {
+                this.α = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+            }
+                break;
+            case 2: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.β = 0;
+            }
+                break;
+            case 3: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+            }
+                break;
+            default: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+            }
+        }
+        return this;
     }
 
     /**
@@ -1402,6 +1559,60 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
+     * The identity element for addition.
+     * @property zero
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get zero(): G3 { return G3.copy(zero); };
+
+    /**
+     * The identity element for multiplication.
+     * @property one
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get one(): G3 { return G3.copy(one); };
+
+    /**
+     * Basis vector corresponding to the <code>x</code> coordinate.
+     * @property e1
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get e1(): G3 { return G3.copy(e1); };
+
+    /**
+     * Basis vector corresponding to the <code>y</code> coordinate.
+     * @property e2
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get e2(): G3 { return G3.copy(e2); };
+
+    /**
+     * Basis vector corresponding to the <code>y</code> coordinate.
+     * @property e3
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get e3(): G3 { return G3.copy(e3); };
+
+    /**
+     * Basis vector corresponding to the <code>β</code> coordinate.
+     * @property I
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get I(): G3 { return G3.copy(I); };
+
+    /**
      * @method copy
      * @param M {GeometricE3}
      * @return {G3}
@@ -1473,6 +1684,18 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     */
     static lerp(A: GeometricE3, B: GeometricE3, α: number): G3 {
         return G3.copy(A).lerp(B, α)
+    }
+
+    /**
+     * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+     * @method rotorFromDirections
+     * @param a {VectorE3} The <em>from</em> vector.
+     * @param b {VectorE3} The <em>to</em> vector.
+     * @return {G3}
+     * @static
+     */
+    static rotorFromDirections(a: VectorE3, b: VectorE3): G3 {
+        return new G3().rotorFromDirections(a, b)
     }
 }
 

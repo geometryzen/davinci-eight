@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -226,12 +233,9 @@
 <h1>Euclidean3 Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends <a href="../classes/GeometricE3.html" class="crosslink">GeometricE3</a>
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l229"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:229</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l232"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:232</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -259,7 +263,7 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                             <li class="index-item method private">
                                 <a href="#method___neg__">__neg__</a>
 
@@ -285,7 +289,7 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_arg">arg</a>
+                                <a href="#method_angle">angle</a>
 
                             </li>
                             <li class="index-item method">
@@ -297,7 +301,7 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_gradeZero">gradeZero</a>
+                                <a href="#method_magnitude">magnitude</a>
 
                             </li>
                             <li class="index-item method">
@@ -318,18 +322,11 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
-                            <li class="index-item property inherited">
-                                <a href="#property_x">x</a>
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_zero">zero</a>
 
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_y">y</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_z">z</a>
-
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_α">α</a>
@@ -367,7 +364,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l707"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:707</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l714"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:714</code></a>
         </p>
 
 
@@ -409,7 +406,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l690"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:690</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l697"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:697</code></a>
         </p>
 
 
@@ -451,7 +448,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l725"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:725</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l732"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:732</code></a>
         </p>
 
 
@@ -498,7 +495,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l393"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:393</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l400"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:400</code></a>
         </p>
 
 
@@ -565,7 +562,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l410"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:410</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l417"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:417</code></a>
         </p>
 
 
@@ -631,7 +628,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l430"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:430</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l437"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:437</code></a>
         </p>
 
 
@@ -672,13 +669,13 @@ This method does not change this Euclidean3.</p>
 
 
 </div>
-<div id="method_arg" class="method item">
-    <h3 class="name"><code>arg</code></h3>
+<div id="method_angle" class="method item">
+    <h3 class="name"><code>angle</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
         </span>
 
 
@@ -690,7 +687,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l473"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:473</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l480"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:480</code></a>
         </p>
 
 
@@ -706,7 +703,7 @@ This method does not change this Euclidean3.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>:
             </div>
         </div>
 
@@ -730,7 +727,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l481"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:481</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l488"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:488</code></a>
         </p>
 
 
@@ -776,7 +773,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l352"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:352</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l359"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:359</code></a>
         </p>
 
 
@@ -793,7 +790,7 @@ This method does not change this Euclidean3.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">spinor</code>
-                        <span class="type">SpinorE3</span>
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
 
 
                     <div class="param-description">
@@ -814,8 +811,8 @@ This method does not change this Euclidean3.</p>
 
 
 </div>
-<div id="method_gradeZero" class="method item">
-    <h3 class="name"><code>gradeZero</code></h3>
+<div id="method_magnitude" class="method item">
+    <h3 class="name"><code>magnitude</code></h3>
 
         <span class="paren">()</span>
 
@@ -832,7 +829,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l879"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:879</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l837"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:837</code></a>
         </p>
 
 
@@ -840,7 +837,8 @@ This method does not change this Euclidean3.</p>
     </div>
 
     <div class="description">
-        
+        <p>Computes the <em>square root</em> of the <em>squared norm</em>.</p>
+
     </div>
 
 
@@ -872,7 +870,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l700"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:700</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l707"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:707</code></a>
         </p>
 
 
@@ -914,7 +912,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l717"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:717</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l724"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:724</code></a>
         </p>
 
 
@@ -960,7 +958,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l490"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:490</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l497"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:497</code></a>
         </p>
 
 
@@ -1003,66 +1001,19 @@ This method does not change this Euclidean3.</p>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_x" class="property item inherited">
-    <h3 class="name"><code>x</code></h3>
-    <span class="type">Number</span>
+<div id="property_zero" class="property item">
+    <h3 class="name"><code>zero</code></h3>
+    <span class="type"><a href="../classes/Euclidean3.html" class="crosslink">Euclidean3</a></span>
 
 
 
 
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorE3.html#property_x">VectorE3</a>:
-        <a href="../files/src_davinci-eight_math_VectorE3.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorE3.ts:5</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_y" class="property item inherited">
-    <h3 class="name"><code>y</code></h3>
-    <span class="type">Number</span>
-
-
-
-
+        <span class="flag static">static</span>
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorE3.html#property_y">VectorE3</a>:
-        <a href="../files/src_davinci-eight_math_VectorE3.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorE3.ts:10</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_z" class="property item inherited">
-    <h3 class="name"><code>z</code></h3>
-    <span class="type">Number</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/VectorE3.html#property_z">VectorE3</a>:
-        <a href="../files/src_davinci-eight_math_VectorE3.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;VectorE3.ts:15</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l236"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:236</code></a>
         </p>
 
 
@@ -1086,7 +1037,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l315"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:315</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l322"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:322</code></a>
         </p>
 
 
@@ -1111,7 +1062,7 @@ This method does not change this Euclidean3.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l327"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:327</code></a>
+        <a href="../files/src_davinci-eight_math_Euclidean3.ts.html#l334"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Euclidean3.ts:334</code></a>
         </p>
 
 

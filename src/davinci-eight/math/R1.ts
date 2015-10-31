@@ -4,6 +4,11 @@ import MutableLinearElement = require('../math/MutableLinearElement')
 import Matrix = require('../math/Matrix')
 import SpinorE1 = require('../math/SpinorE1')
 import VectorN = require('../math/VectorN')
+
+let exp = Math.exp
+let log = Math.log
+let sqrt = Math.sqrt
+
 /**
  * @class R1
  */
@@ -52,15 +57,6 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         throw new Error('TODO: R1.adj')
     }
 
-    /**
-     * @method arg
-     * @return {number}
-     * @beta
-     */
-    arg(): number {
-        throw new Error('TODO: R1.arg')
-    }
-
     conj() {
         return this
     }
@@ -75,7 +71,7 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         return this
     }
     exp() {
-        this.x = Math.exp(this.x)
+        this.x = exp(this.x)
         return this
     }
     identity() {
@@ -90,7 +86,7 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         return this
     }
     log() {
-        this.x = Math.log(this.x)
+        this.x = log(this.x)
         return this
     }
     mul(v: VectorE1) {
@@ -166,15 +162,28 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         this.x = -this.x
         return this
     }
+
+    /**
+     * @method distanceTo
+     * @param point {VectorE1}
+     * @return {number}
+     */
     distanceTo(position: VectorE1) {
-        return Math.sqrt(this.quadranceTo(position));
+        return sqrt(this.quadranceTo(position));
     }
     dot(v: VectorE1) {
         return this.x * v.x;
     }
+
+    /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number {
-        return Math.sqrt(this.squaredNorm());
+        return sqrt(this.squaredNorm());
     }
+
     normalize() {
         return this.divByScalar(this.magnitude());
     }
@@ -197,16 +206,11 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         // FIXME: TODO
         return this;
     }
+
     rotate(rotor: SpinorE1): R1 {
         return this;
     }
-    setMagnitude(l: number) {
-        var oldLength = this.magnitude();
-        if (oldLength !== 0 && l !== oldLength) {
-            this.scale(l / oldLength);
-        }
-        return this;
-    }
+
     /**
      * this ⟼ this + α * (v - this)</code>
      * @method lerp

@@ -1,10 +1,10 @@
-import ModelFacetE3 = require('../models/ModelFacetE3');
+import ModelE3 = require('../physics/ModelE3');
 import G3 = require('../math/G3');
 /**
- * @class KinematicRigidBodyFacetE3
- * @extends ModelFacetE3
+ * @class RigidBodyE3
+ * @extends ModelE3
  */
-declare class KinematicRigidBodyFacetE3 extends ModelFacetE3 {
+declare class RigidBodyE3 extends ModelE3 {
     /**
      * <p>
      * The <em>linear velocity</em>, a vector.
@@ -23,11 +23,11 @@ declare class KinematicRigidBodyFacetE3 extends ModelFacetE3 {
     Ω: G3;
     /**
      * <p>
-     * Constructs a KinematicRigidBodyFacetE3.
+     * Constructs a RigidBodyE3.
      * </p>
-     * @class KinematicRigidBodyFacetE3
+     * @class RigidBodyE3
      * @constructor
-     * @param [type = 'KinematicRigidBodyFacetE3'] {string} The name used for reference counting.
+     * @param [type = 'RigidBodyE3'] {string} The name used for reference counting.
      */
     constructor(type?: string);
     /**
@@ -37,4 +37,4 @@ declare class KinematicRigidBodyFacetE3 extends ModelFacetE3 {
      */
     protected destructor(): void;
 }
-export = KinematicRigidBodyFacetE3;
+export = RigidBodyE3;

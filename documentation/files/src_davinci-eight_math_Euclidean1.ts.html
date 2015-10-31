@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -230,6 +237,7 @@
 import Euclidean1Coords = require(&#x27;../math/Euclidean1Coords&#x27;)
 import LinearElement = require(&#x27;../math/LinearElement&#x27;)
 import Measure = require(&#x27;../math/Measure&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import Unit = require(&#x27;../math/Unit&#x27;)
 
@@ -264,11 +272,8 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
  * @class Euclidean1
  */
 class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euclidean1Coords&gt;,*/ Measure&lt;Euclidean1&gt; {
-    // FIXME: rename w to alpha, and keep it private.
     private w: number;
-    // FIXME: rename to beta, and make it private.
-    public x: number;
-    // Make it immutable
+    private x: number;
     public uom: Unit;
     /**
      * The Euclidean1 class represents a multivector for a 1-dimensional linear space with a Euclidean metric.
@@ -276,12 +281,12 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
      * @class Euclidean1
      * @constructor
      * @param {number} α The grade zero part of the multivector.
-     * @param {number} x The vector component of the multivector in the x-direction.
+     * @param {number} β The vector component of the multivector.
      * @param uom The optional unit of measure.
      */
-    constructor(α: number, x: number, uom?: Unit) {
+    constructor(α: number, β: number, uom?: Unit) {
         this.w = assertArgNumber(&#x27;α&#x27;, α)
-        this.x = assertArgNumber(&#x27;x&#x27;, x)
+        this.x = assertArgNumber(&#x27;β&#x27;, β)
         this.uom = assertArgUnitOrUndefined(&#x27;uom&#x27;, uom)
         if (this.uom &amp;&amp; this.uom.multiplier !== 1) {
             var multiplier: number = this.uom.multiplier
@@ -303,21 +308,33 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
         throw new Error(readOnly(&#x27;α&#x27;).message)
     }
 
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property β
+     * @return {number}
+     */
+    get β(): number {
+        return this.x;
+    }
+    set β(unused) {
+        throw new Error(readOnly(&#x27;β&#x27;).message)
+    }
+
     coordinates(): number[] {
         return [this.w, this.x]
     }
 
     copy(source: Euclidean1Coords): Euclidean1 {
-        this.w = source.w
-        this.x = source.x
+        this.w = source.w;
+        this.x = source.x;
         this.uom = source.uom;
         return this;
     }
 
     difference(a: Euclidean1Coords, b: Euclidean1Coords): Euclidean1 {
-        this.w = a.w - b.w
-        this.x = a.x - b.x
-        this.uom = Unit.compatible(a.uom, b.uom)
+        this.w = a.w - b.w;
+        this.x = a.x - b.x;
+        this.uom = Unit.compatible(a.uom, b.uom);
         // FIXME this.uom.difference(a.uom, b.uom)
         return this;
     }
@@ -325,6 +342,14 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
     add(rhs: Euclidean1): Euclidean1 {
         assertArgEuclidean1(&#x27;rhs&#x27;, rhs)
         return new Euclidean1(this.w + rhs.w, this.x + rhs.x, Unit.compatible(this.uom, rhs.uom))
+    }
+
+    /**
+     * @method angle
+     * @return {Euclidean1}
+     */
+    angle(): Euclidean1 {
+        return this.log().grade(2);
     }
 
     sub(rhs: Euclidean1): Euclidean1 {
@@ -354,14 +379,19 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
         throw new Error(&#x27;wedge&#x27;)
     }
 
+    lco(rhs: Euclidean1): Euclidean1 {
+        // assertArgEuclidean1(&#x27;rhs&#x27;, rhs)
+        throw new Error(&#x27;lshift&#x27;)
+    }
+
     lerp(target: Euclidean1, α: number): Euclidean1 {
         // FIXME: TODO
         return this
     }
 
-    lco(rhs: Euclidean1): Euclidean1 {
+    log(): Euclidean1 {
         // assertArgEuclidean1(&#x27;rhs&#x27;, rhs)
-        throw new Error(&#x27;lshift&#x27;)
+        throw new Error(&#x27;log&#x27;)
     }
 
     rco(rhs: Euclidean1): Euclidean1 {
@@ -412,6 +442,15 @@ class Euclidean1 implements /*LinearElement&lt;Euclidean1Coords, Euclidean1, Euc
     }
     unitary(): Euclidean1 {
         throw new Error(&#x27;unitary&#x27;)
+    }
+
+    grade(grade: number): Euclidean1 {
+        mustBeInteger(&#x27;grade&#x27;, grade)
+        switch (grade) {
+            case 0: return new Euclidean1(this.w, 0, this.uom)
+            case 1: return new Euclidean1(0, this.x, this.uom)
+            default: return new Euclidean1(0, 0, this.uom)
+        }
     }
 
     toExponential(): string {

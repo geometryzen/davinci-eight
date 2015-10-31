@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -227,7 +234,6 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import argSpinorCartesianE2 = require(&#x27;../math/argSpinorCartesianE2&#x27;)
 import dotVector = require(&#x27;../math/dotVectorE2&#x27;)
 import extE2 = require(&#x27;../math/extE2&#x27;)
 import GeometricE2 = require(&#x27;../math/GeometricE2&#x27;)
@@ -237,6 +243,7 @@ import isObject = require(&#x27;../checks/isObject&#x27;)
 import lcoE2 = require(&#x27;../math/lcoE2&#x27;)
 import GeometricOperators = require(&#x27;../math/GeometricOperators&#x27;)
 import mulE2 = require(&#x27;../math/mulE2&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
@@ -309,12 +316,12 @@ function duckCopy(value: any): G2 {
     }
 }
 
-function makeConstantE2(label: string, α: number, x: number, y: number, β: number): GeometricE2 {
+function makeConstantE2(label: string, α: number, x: number, y: number, xy: number): GeometricE2 {
     mustBeString(&#x27;label&#x27;, label)
     mustBeNumber(&#x27;α&#x27;, α)
     mustBeNumber(&#x27;x&#x27;, x)
     mustBeNumber(&#x27;y&#x27;, y)
-    mustBeNumber(&#x27;β&#x27;, β)
+    mustBeNumber(&#x27;xy&#x27;, xy)
     var that: GeometricE2;
     that = {
         get α() {
@@ -336,13 +343,19 @@ function makeConstantE2(label: string, α: number, x: number, y: number, β: num
             throw new Error(readOnly(label + &#x27;.y&#x27;).message);
         },
         get β() {
-            return β;
+            return xy;
         },
         set β(unused: number) {
             throw new Error(readOnly(label + &#x27;.β&#x27;).message);
         },
-        arg(): number {
-            return argSpinorCartesianE2(that.α, that.β)
+        get xy() {
+            return xy;
+        },
+        set xy(unused: number) {
+            throw new Error(readOnly(label + &#x27;.xy&#x27;).message);
+        },
+        magnitude(): number {
+            return sqrt(quadSpinor(that))
         },
         squaredNorm(): number {
             return quadSpinor(that)
@@ -424,6 +437,14 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         this.modified = this.modified || this.data[COORD_XY] !== β
         this.data[COORD_XY] = β
     }
+    get xy(): number {
+        return this.data[COORD_XY]
+    }
+    set xy(xy: number) {
+        this.modified = this.modified || this.data[COORD_XY] !== xy
+        this.data[COORD_XY] = xy
+    }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this + M * α&lt;/code&gt;
@@ -491,6 +512,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         this.y += v.y * α
         return this
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
@@ -516,12 +538,11 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     }
 
     /**
-     * Assuming &lt;code&gt;this = A * exp(B * θ)&lt;/code&gt;, returns the &lt;em&gt;principal value&lt;/em&gt; of θ.
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {G2}
      */
-    arg(): number {
-        return argSpinorCartesianE2(this.α, this.β)
+    angle(): G2 {
+        return this.log().grade(2);
     }
 
     /**
@@ -664,7 +685,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         this.α = spinor.α
         this.x = 0
         this.y = 0
-        this.β = spinor.β
+        this.β = spinor.xy
         return this
     }
 
@@ -758,7 +779,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      * @return {G2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    exp(): G2 {
+    exp() {
         let w = this.α
         let z = this.β
         let expW = exp(w)
@@ -766,9 +787,9 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         // The orientation of the rotation gets carried in the bivector components.
         let φ = sqrt(z * z)
         let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.α = expW * cos(φ);
-        this.β = z * s;
-        return this;
+        this.α = expW * cos(φ)
+        this.β = z * s
+        return this
     }
 
     /**
@@ -849,19 +870,19 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
      */
     log() {
         // FIXME: This only handles the spinor components.
-        let w = this.α
+        let α = this.α
         let β = this.β
-        let r = sqrt(w * w + β * β)
-        this.α = log(r)
+        this.α = log(sqrt(α * α + β * β))
         this.x = 0
         this.y = 0
-        this.β = atan2(β, w)
+        this.β = atan2(β, α)
         return this;
     }
 
     /**
+     * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
      * @method magnitude
-     * @return {number} 
+     * @return {number}
      */
     magnitude(): number {
         return sqrt(this.squaredNorm());
@@ -1045,7 +1066,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         let x = this.x;
         let y = this.y;
 
-        let a = R.β;
+        let a = R.xy;
         let α = R.α;
 
         let ix = α * x + a * y;
@@ -1095,7 +1116,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
         // The effect will be a scaling of the angle.
         // A non unitary rotor, on the other hand, will scale the transformation.
         // We must also take into account the orientation of B.
-        let β = B.β
+        let β = B.xy
         /**
          * Sandwich operation means we need the half-angle.
          */
@@ -1256,6 +1277,36 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     toString(): string {
         let coordToString = function(coord: number): string { return coord.toString() };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
+    grade(grade: number): G2 {
+        mustBeInteger(&#x27;grade&#x27;, grade)
+        switch (grade) {
+            case 0: {
+                this.x = 0;
+                this.y = 0;
+                this.β = 0;
+            }
+                break;
+            case 1: {
+                this.α = 0;
+                this.β = 0;
+            }
+                break;
+            case 2: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+            }
+                break;
+            default: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.β = 0;
+            }
+        }
+        return this;
     }
 
     /**
@@ -1770,7 +1821,6 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, MutableGeometricE
     static rotorFromDirections(a: VectorE2, b: VectorE2): G2 {
         return new G2().rotorFromDirections(a, b)
     }
-
 }
 
 export = G2

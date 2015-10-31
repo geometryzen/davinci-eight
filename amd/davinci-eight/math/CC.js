@@ -1,8 +1,9 @@
-define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore', '../checks/mustBeNumber', '../i18n/readOnly', '../math/Unit'], function (require, exports, argSpinorCartesianE2, mathcore, mustBeNumber, readOnly, Unit) {
+define(["require", "exports", '../math/mathcore', '../checks/mustBeInteger', '../checks/mustBeNumber', '../i18n/readOnly', '../math/Unit'], function (require, exports, mathcore, mustBeInteger, mustBeNumber, readOnly, Unit) {
     var atan2 = Math.atan2;
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
+    var log = Math.log;
     var sin = Math.sin;
     var sinh = mathcore.Math.sinh;
     var sqrt = Math.sqrt;
@@ -72,6 +73,16 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(CC.prototype, "xy", {
+            get: function () {
+                return this.y;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('xy').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         CC.prototype.coordinates = function () {
             return [this.x, this.y];
         };
@@ -82,6 +93,15 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
          */
         CC.prototype.add = function (rhs) {
             return new CC(this.x + rhs.x, this.y + rhs.y, Unit.compatible(this.uom, rhs.uom));
+        };
+        /**
+         * complex.angle() => complex.log().grade(2)
+         * @method angle
+         * @return {CC}
+         */
+        CC.prototype.angle = function () {
+            // Optimized by only computing grade 2.
+            return new CC(0, atan2(this.β, this.α));
         };
         /**
          * @method __add__
@@ -227,8 +247,13 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
         CC.prototype.__rwedge__ = function (other) {
             throw new Error("");
         };
-        CC.prototype.lerp = function (target, α) {
-            return this;
+        CC.prototype.grade = function (grade) {
+            mustBeInteger('grade', grade);
+            switch (grade) {
+                case 0: return new CC(this.x, 0, this.uom);
+                case 2: return new CC(0, this.y, this.uom);
+                default: return new CC(0, 0, this.uom);
+            }
         };
         /**
          * @method lco
@@ -237,6 +262,16 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
          */
         CC.prototype.lco = function (rhs) {
             throw new Error('lco');
+        };
+        CC.prototype.lerp = function (target, α) {
+            return this;
+        };
+        CC.prototype.log = function () {
+            // TODO: Is dimesionless really necessary?
+            Unit.assertDimensionless(this.uom);
+            var α = this.α;
+            var β = this.β;
+            return new CC(log(sqrt(α * α + β * β)), atan2(β, α));
         };
         /**
          * @method rco
@@ -311,6 +346,14 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
             return this.x === 0 && this.y === 0;
         };
         /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         * @method magnitude
+         * @return {number}
+         */
+        CC.prototype.magnitude = function () {
+            return sqrt(this.squaredNorm());
+        };
+        /**
          * Computes the additive inverse of this complex number.
          * @method neg
          * @return {CC}
@@ -323,9 +366,7 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
          * @return {CC}
          */
         CC.prototype.norm = function () {
-            var x = this.x;
-            var y = this.y;
-            return new CC(sqrt(x * x + y * y), 0, this.uom);
+            return new CC(this.magnitude(), 0, this.uom);
         };
         /**
          * @method quad
@@ -385,13 +426,6 @@ define(["require", "exports", '../math/argSpinorCartesianE2', '../math/mathcore'
             var y = this.y;
             var divisor = norm(x, y);
             return new CC(x / divisor, y / divisor);
-        };
-        /**
-         * @method arg
-         * @return {number}
-         */
-        CC.prototype.arg = function () {
-            return argSpinorCartesianE2(this.x, this.y);
         };
         CC.prototype.toStringCustom = function (coordToString) {
             var quantityString = "CC(" + coordToString(this.x) + ", " + coordToString(this.y) + ")";

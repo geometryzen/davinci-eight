@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -239,6 +246,7 @@ import mathcore = require(&#x27;../math/mathcore&#x27;);
 import Measure = require(&#x27;../math/Measure&#x27;);
 import mulE3 = require(&#x27;../math/mulE3&#x27;)
 import mulG3 = require(&#x27;../math/mulG3&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
 import NotImplementedError = require(&#x27;../math/NotImplementedError&#x27;);
@@ -246,17 +254,19 @@ import rcoG3 = require(&#x27;../math/rcoG3&#x27;)
 import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import scpG3 = require(&#x27;../math/scpG3&#x27;)
 import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
+import squaredNormG3 = require(&#x27;../math/squaredNormG3&#x27;)
 import stringFromCoordinates = require(&#x27;../math/stringFromCoordinates&#x27;)
 import subE3 = require(&#x27;../math/subE3&#x27;)
 import TrigMethods = require(&#x27;../math/TrigMethods&#x27;)
 import Unit = require(&#x27;../math/Unit&#x27;);
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 
-var cos = Math.cos;
-var cosh = mathcore.Math.cosh;
-var exp = Math.exp;
-var sin = Math.sin;
-var sinh = mathcore.Math.sinh;
+let cos = Math.cos;
+let cosh = mathcore.Math.cosh;
+let exp = Math.exp;
+let sin = Math.sin;
+let sinh = mathcore.Math.sinh;
+let sqrt = Math.sqrt;
 
 function assertArgNumber(name: string, x: number): number {
     if (typeof x === &#x27;number&#x27;) {
@@ -457,9 +467,13 @@ var divide = function(
 
 /**
  * @class Euclidean3
- * @extends GeometricE3
  */
 class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricElement&lt;Euclidean3, Euclidean3, SpinorE3, VectorE3&gt;, GeometricOperators&lt;Euclidean3&gt;, TrigMethods&lt;Euclidean3&gt; {
+    /**
+     * @property zero
+     * @type {Euclidean3}
+     * @static
+     */
     public static zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
     public static one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
     public static e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
@@ -700,11 +714,11 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
     }
 
     /**
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {Euclidean3}
      */
-    arg(): number {
-        throw new Error(&#x27;TODO: Euclidean3.arg&#x27;)
+    angle(): Euclidean3 {
+        return this.log().grade(2);
     }
 
     /**
@@ -961,9 +975,9 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
         return this.rev()
     }
 
-    grade(index: number): Euclidean3 {
-        assertArgNumber(&#x27;index&#x27;, index);
-        switch (index) {
+    grade(grade: number): Euclidean3 {
+        mustBeInteger(&#x27;grade&#x27;, grade);
+        switch (grade) {
             case 0:
                 return Euclidean3.fromCartesian(this.w, 0, 0, 0, 0, 0, 0, 0, this.uom);
             case 1:
@@ -1011,7 +1025,7 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
         return (this.w === 0) &amp;&amp; (this.x === 0) &amp;&amp; (this.y === 0) &amp;&amp; (this.z === 0) &amp;&amp; (this.yz === 0) &amp;&amp; (this.zx === 0) &amp;&amp; (this.xy === 0) &amp;&amp; (this.xyz === 0);
     }
     length() {
-        return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
+        return sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
     }
 
     lerp(target: Euclidean3, α: number): Euclidean3 {
@@ -1056,9 +1070,13 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
         return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
     }
 
+    /**
+     * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number {
-        // FIXME: TODO
-        return 0
+        return sqrt(this.squaredNorm())
     }
 
     /**
@@ -1074,8 +1092,7 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
     }
 
     squaredNorm(): number {
-        // FIXME: The shortcoming of this method is that it drops the units.
-        return this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz
+        return squaredNormG3(this)
     }
     reflect(n: VectorE3): Euclidean3 {
         // TODO
@@ -1105,16 +1122,9 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
     unitary(): Euclidean3 {
         return this.div(this.norm());
     }
-    /**
-     * @method gradeZero
-     * @return {number}
-     */
-    gradeZero(): number {
-        return this.w;
-    }
 
     sqrt() {
-        return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
+        return new Euclidean3(sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
     }
 
     toStringCustom(
@@ -1189,6 +1199,12 @@ class Euclidean3 implements Measure&lt;Euclidean3&gt;, GeometricE3, GeometricEle
             },
             set β(β: number) {
                 M.xyz = β
+            },
+            magnitude(): number {
+                throw new Error(&quot;magnitude() should not be needed.&quot;);
+            },
+            squaredNorm(): number {
+                throw new Error(&quot;squaredNorm() should not be needed.&quot;);
             }
         }
         return that

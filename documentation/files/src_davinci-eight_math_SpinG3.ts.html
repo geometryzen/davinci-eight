@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -231,9 +238,11 @@ import dotVectorCartesianE3 = require(&#x27;../math/dotVectorCartesianE3&#x27;)
 import copyToArray = require(&#x27;../collections/copyToArray&#x27;)
 import dotVector = require(&#x27;../math/dotVectorE3&#x27;)
 import MutableGeometricElement3D = require(&#x27;../math/MutableGeometricElement3D&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
 import Mutable = require(&#x27;../math/Mutable&#x27;)
+import quadSpinor = require(&#x27;../math/quadSpinorE3&#x27;)
 import quadVector = require(&#x27;../math/quadVectorE3&#x27;)
 import rotorFromDirections = require(&#x27;../math/rotorFromDirections&#x27;)
 import scpG3 = require(&#x27;../math/scpG3&#x27;)
@@ -244,6 +253,18 @@ import VectorN = require(&#x27;../math/VectorN&#x27;)
 import wedgeXY = require(&#x27;../math/wedgeXY&#x27;)
 import wedgeYZ = require(&#x27;../math/wedgeYZ&#x27;)
 import wedgeZX = require(&#x27;../math/wedgeZX&#x27;)
+
+// Symbolic constants for the coordinate indices into the data array.
+let COORD_YZ = 0
+let COORD_ZX = 1
+let COORD_XY = 2
+let COORD_SCALAR = 3
+
+function one(): number[] {
+  let coords = [0, 0, 0, 0]
+  coords[COORD_SCALAR] = 1
+  return coords
+}
 
 let exp = Math.exp
 let cos = Math.cos
@@ -256,793 +277,827 @@ let sqrt = Math.sqrt
  */
 class SpinG3 extends VectorN&lt;number&gt; implements SpinorE3, Mutable&lt;number[]&gt;, MutableGeometricElement3D&lt;SpinorE3, SpinG3, SpinG3, VectorE3&gt;
 {
-    /**
-     * Constructs a &lt;code&gt;SpinG3&lt;/code&gt; from a &lt;code&gt;number[]&lt;/code&gt;.
-     * For a &lt;em&gt;geometric&lt;/em&gt; implementation, use the static methods.
-     * @class SpinG3
-     * @constructor
-     * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
-     * @param modified [boolean = false]
-     */
-    constructor(data: number[] = [0, 0, 0, 1], modified: boolean = false) {
-        super(data, modified, 4)
-    }
-    /**
-     * @property yz
-     * @type Number
-     */
-    get yz(): number {
-        return this.data[0]
-    }
-    set yz(yz: number) {
-        mustBeNumber(&#x27;yz&#x27;, yz)
-        this.modified = this.modified || this.yz !== yz
-        this.data[0] = yz;
-    }
-    /**
-     * @property zx
-     * @type Number
-     */
-    get zx(): number {
-        return this.data[1];
-    }
-    set zx(zx: number) {
-        mustBeNumber(&#x27;zx&#x27;, zx)
-        this.modified = this.modified || this.zx !== zx;
-        this.data[1] = zx;
-    }
-    /**
-     * @property xy
-     * @type Number
-     */
-    get xy(): number {
-        return this.data[2];
-    }
-    set xy(xy: number) {
-        mustBeNumber(&#x27;xy&#x27;, xy)
-        this.modified = this.modified || this.xy !== xy;
-        this.data[2] = xy;
-    }
-    /**
-     * @property α
-     * @type Number
-     */
-    get α(): number {
-        return this.data[3];
-    }
-    set α(α: number) {
-        mustBeNumber(&#x27;α&#x27;, α)
-        this.modified = this.modified || this.α !== α;
-        this.data[3] = α;
-    }
+  /**
+   * Constructs a &lt;code&gt;SpinG3&lt;/code&gt; from a &lt;code&gt;number[]&lt;/code&gt;.
+   * For a &lt;em&gt;geometric&lt;/em&gt; implementation, use the static methods.
+   * @class SpinG3
+   * @constructor
+   */
+  constructor(coordinates = one(), modified = false) {
+    super(coordinates, modified, 4)
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this + α * spinor&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method add
-     * @param spinor {SpinorE3}
-     * @param α [number = 1]
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    add(spinor: SpinorE3, α: number = 1): SpinG3 {
-        mustBeObject(&#x27;spinor&#x27;, spinor)
-        mustBeNumber(&#x27;α&#x27;, α)
-        this.yz += spinor.yz * α
-        this.zx += spinor.zx * α
-        this.xy += spinor.xy * α
-        this.α += spinor.α * α
-        return this
-    }
+  /**
+   * @property yz
+   * @type Number
+   */
+  get yz(): number {
+    return this.data[COORD_YZ]
+  }
+  set yz(yz: number) {
+    mustBeNumber(&#x27;yz&#x27;, yz)
+    this.modified = this.modified || this.yz !== yz
+    this.data[COORD_YZ] = yz;
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method add2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    add2(a: SpinorE3, b: SpinorE3): SpinG3 {
-        this.α = a.α + b.α
-        this.yz = a.yz + b.yz
-        this.zx = a.zx + b.zx
-        this.xy = a.xy + b.xy
-        return this;
-    }
+  /**
+   * @property zx
+   * @type Number
+   */
+  get zx(): number {
+    return this.data[COORD_ZX];
+  }
+  set zx(zx: number) {
+    mustBeNumber(&#x27;zx&#x27;, zx)
+    this.modified = this.modified || this.zx !== zx;
+    this.data[COORD_ZX] = zx;
+  }
 
-    /**
-     * Intentionally undocumented.
-     */
-    addPseudo(β: number): SpinG3 {
-        mustBeNumber(&#x27;β&#x27;, β)
-        return this
-    }
+  /**
+   * @property xy
+   * @type Number
+   */
+  get xy(): number {
+    return this.data[COORD_XY];
+  }
+  set xy(xy: number) {
+    mustBeNumber(&#x27;xy&#x27;, xy)
+    this.modified = this.modified || this.xy !== xy;
+    this.data[COORD_XY] = xy;
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this + α&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method addScalar
-     * @param α {number}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    addScalar(α: number): SpinG3 {
-        mustBeNumber(&#x27;α&#x27;, α)
-        this.α += α
-        return this
-    }
+  /**
+   * @property α
+   * @type Number
+   */
+  get α(): number {
+    return this.data[COORD_SCALAR];
+  }
+  set α(α: number) {
+    mustBeNumber(&#x27;α&#x27;, α)
+    this.modified = this.modified || this.α !== α;
+    this.data[COORD_SCALAR] = α;
+  }
 
-    /**
-     * @method adj
-     * @return {number}
-     * @beta
-     */
-    adj(): SpinG3 {
-        throw new Error(&#x27;TODO: SpinG3.adj&#x27;)
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this + α * spinor&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method add
+   * @param spinor {SpinorE3}
+   * @param α [number = 1]
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  add(spinor: SpinorE3, α: number = 1): SpinG3 {
+    mustBeObject(&#x27;spinor&#x27;, spinor)
+    mustBeNumber(&#x27;α&#x27;, α)
+    this.yz += spinor.yz * α
+    this.zx += spinor.zx * α
+    this.xy += spinor.xy * α
+    this.α += spinor.α * α
+    return this
+  }
 
-    /**
-     * @method arg
-     * @return {number}
-     */
-    arg(): number {
-        throw new Error(&#x27;TODO: SpinG3.arg&#x27;)
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a + b&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method add2
+   * @param a {SpinorE3}
+   * @param b {SpinorE3}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  add2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    this.α = a.α + b.α
+    this.yz = a.yz + b.yz
+    this.zx = a.zx + b.zx
+    this.xy = a.xy + b.xy
+    return this;
+  }
 
-    /**
-     * @method clone
-     * @return {SpinG3} A copy of &lt;code&gt;this&lt;/code&gt;.
-     * @chainable
-     */
-    clone(): SpinG3 {
-        return new SpinG3(copyToArray(this.data), this.modified)
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ (w, -B)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method conj
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    conj() {
-        this.yz = -this.yz
-        this.zx = -this.zx
-        this.xy = -this.xy
-        return this
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ copy(spinor)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method copy
-     * @param spinor {SpinorE3}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    copy(spinor: SpinorE3): SpinG3 {
-        mustBeObject(&#x27;spinor&#x27;, spinor)
-        this.yz = mustBeNumber(&#x27;spinor.yz&#x27;, spinor.yz)
-        this.zx = mustBeNumber(&#x27;spinor.zx&#x27;, spinor.zx)
-        this.xy = mustBeNumber(&#x27;spinor.xy&#x27;, spinor.xy)
-        this.α = mustBeNumber(&#x27;spinor.α&#x27;, spinor.α)
-        return this;
-    }
+  /**
+   * Intentionally undocumented.
+   */
+  addPseudo(β: number): SpinG3 {
+    mustBeNumber(&#x27;β&#x27;, β)
+    return this
+  }
 
-    /**
-     * Sets this spinor to the value of the scalar, &lt;code&gt;α&lt;/code&gt;.
-     * @method copyScalar
-     * @param α {number} The scalar to be copied.
-     * @return {SpinG3}
-     * @chainable
-     */
-    copyScalar(α: number): SpinG3 {
-        return this.zero().addScalar(α)
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this + α&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method addScalar
+   * @param α {number}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  addScalar(α: number): SpinG3 {
+    mustBeNumber(&#x27;α&#x27;, α)
+    this.α += α
+    return this
+  }
 
-    /**
-     * Intentionally undocumented.
-     */
-    copySpinor(s: SpinorE3): SpinG3 {
-        return this.copy(s);
-    }
+  /**
+   * @method adj
+   * @return {number}
+   * @beta
+   */
+  adj(): SpinG3 {
+    throw new Error(&#x27;TODO: SpinG3.adj&#x27;)
+  }
 
-    /**
-     * Intentionally undocumented.
-     */
-    copyVector(vector: VectorE3): SpinG3 {
-        return this.zero()
-    }
+  /**
+   * @method angle
+   * @return {SpinG3}
+   */
+  angle(): SpinG3 {
+    return this.log().grade(2);
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this / s&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method div
-     * @param s {SpinorE3}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    div(s: SpinorE3): SpinG3 {
-        return this.div2(this, s)
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a / b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method div2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    div2(a: SpinorE3, b: SpinorE3) {
-        let a0 = a.α;
-        let a1 = a.yz;
-        let a2 = a.zx;
-        let a3 = a.xy;
-        let b0 = b.α;
-        let b1 = b.yz;
-        let b2 = b.zx;
-        let b3 = b.xy;
-        // Compare this to the product for Quaternions
-        // How does this compare to G3
-        // It would be interesting to DRY this out.
-        this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-        // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
-        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-        return this;
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method divByScalar
-     * @param α {number}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    divByScalar(α: number): SpinG3 {
-        this.yz /= α
-        this.zx /= α
-        this.xy /= α
-        this.α /= α
-        return this
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ dual(v) = I * v&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method dual
-     * @param v {VectorE3} The vector whose dual will be used to set this spinor.
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    dual(v: VectorE3) {
-        mustBeObject(&#x27;v&#x27;, v)
-        this.α = 0
-        this.yz = mustBeNumber(&#x27;v.x&#x27;, v.x)
-        this.zx = mustBeNumber(&#x27;v.y&#x27;, v.y)
-        this.xy = mustBeNumber(&#x27;v.z&#x27;, v.z)
-        return this
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ e&lt;sup&gt;this&lt;/sup&gt;&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method exp
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    exp(): SpinG3 {
-        let w = this.α
-        let x = this.yz
-        let y = this.zx
-        let z = this.xy
-        let expW = exp(w)
-        // φ is actually the absolute value of one half the rotation angle.
-        // The orientation of the rotation gets carried in the bivector components.
-        // FIXME: DRY
-        let φ = sqrt(x * x + y * y + z * z)
-        let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.α = expW * cos(φ);
-        this.yz = x * s;
-        this.zx = y * s;
-        this.xy = z * s;
-        return this;
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ conj(this) / quad(this)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method inv
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    inv() {
-        this.conj()
-        this.divByScalar(this.squaredNorm());
-        return this
-    }
+  /**
+   * @method clone
+   * @return {SpinG3} A copy of &lt;code&gt;this&lt;/code&gt;.
+   * @chainable
+   */
+  clone(): SpinG3 {
+    return SpinG3.copy(this)
+  }
 
-    lco(rhs: SpinorE3): SpinG3 {
-        return this.lco2(this, rhs)
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ (w, -B)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method conj
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  conj() {
+    this.yz = -this.yz
+    this.zx = -this.zx
+    this.xy = -this.xy
+    return this
+  }
 
-    lco2(a: SpinorE3, b: SpinorE3): SpinG3 {
-        // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
-        // scpG3(a, b, this)
-        return this
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ copy(spinor)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method copy
+   * @param spinor {SpinorE3}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  copy(spinor: SpinorE3): SpinG3 {
+    mustBeObject(&#x27;spinor&#x27;, spinor)
+    this.yz = mustBeNumber(&#x27;spinor.yz&#x27;, spinor.yz)
+    this.zx = mustBeNumber(&#x27;spinor.zx&#x27;, spinor.zx)
+    this.xy = mustBeNumber(&#x27;spinor.xy&#x27;, spinor.xy)
+    this.α = mustBeNumber(&#x27;spinor.α&#x27;, spinor.α)
+    return this;
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method lerp
-     * @param target {SpinorE3}
-     * @param α {number}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    // FIXME: Should really be slerp?
-    lerp(target: SpinorE3, α: number): SpinG3 {
-        var R2 = SpinG3.copy(target)
-        var R1 = this.clone()
-        var R = R2.mul(R1.inv())
-        R.log()
-        R.scale(α)
-        R.exp()
-        this.copy(R)
-        return this
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
-     * &lt;p&gt;
-     * @method lerp2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @param α {number}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    lerp2(a: SpinorE3, b: SpinorE3, α: number): SpinG3 {
-        this.sub2(b, a).scale(α).add(a)
-        return this
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ log(this)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method log
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    log(): SpinG3 {
-        let w = this.α
-        let x = this.yz
-        let y = this.zx
-        let z = this.xy
-        // FIXME: DRY
-        let bb = x * x + y * y + z * z
-        let R2 = sqrt(bb)
-        let R0 = Math.abs(w)
-        let R = sqrt(w * w + bb)
-        this.α = Math.log(R)
-        let f = Math.atan2(R2, R0) / R2
-        this.yz = x * f
-        this.zx = y * f
-        this.xy = z * f
-        return this;
-    }
-    magnitude() {
-        return sqrt(this.squaredNorm());
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this * s&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method mul
-     * @param s {SpinorE3}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    mul(s: SpinorE3): SpinG3 {
-        return this.mul2(this, s)
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method mul2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    mul2(a: SpinorE3, b: SpinorE3) {
-        let a0 = a.α;
-        let a1 = a.yz;
-        let a2 = a.zx;
-        let a3 = a.xy;
-        let b0 = b.α;
-        let b1 = b.yz;
-        let b2 = b.zx;
-        let b3 = b.xy;
-        // Compare this to the product for Quaternions
-        // It would be interesting to DRY this out.
-        this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-        // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
-        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-        return this;
-    }
-    /**
-     * @method neg
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    neg(): SpinG3 {
-        this.α = -this.α
-        this.yz = -this.yz
-        this.zx = -this.zx
-        this.xy = -this.xy
-        return this
-    }
+  /**
+   * Sets this spinor to the value of the scalar, &lt;code&gt;α&lt;/code&gt;.
+   * @method copyScalar
+   * @param α {number} The scalar to be copied.
+   * @return {SpinG3}
+   * @chainable
+   */
+  copyScalar(α: number): SpinG3 {
+    return this.zero().addScalar(α)
+  }
 
-    /**
-    * &lt;p&gt;
-    * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
-    * &lt;/p&gt;
-    * @method norm
-    * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-    * @chainable
-    */
-    norm(): SpinG3 {
-        let norm = this.magnitude()
-        return this.zero().addScalar(norm)
-    }
+  /**
+   * Intentionally undocumented.
+   */
+  copySpinor(s: SpinorE3): SpinG3 {
+    return this.copy(s);
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method normalize
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    normalize(): SpinG3 {
-        let modulus = this.magnitude()
-        this.yz = this.yz / modulus
-        this.zx = this.zx / modulus
-        this.xy = this.xy / modulus
-        this.α = this.α / modulus
-        return this
-    }
-    /**
-    * &lt;p&gt;
-    * &lt;code&gt;this ⟼ this * conj(this)&lt;/code&gt;
-    * &lt;/p&gt;
-    * @method quad
-    * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-    * @chainable
-    */
-    quad(): SpinG3 {
-        let squaredNorm = this.squaredNorm()
-        return this.zero().addScalar(squaredNorm)
-    }
-    /**
-     * @method squaredNorm
-     * @return {number} &lt;code&gt;this * conj(this)&lt;/code&gt;
-     */
-    squaredNorm(): number {
-        let w = this.α;
-        let yz = this.yz;
-        let zx = this.zx;
-        let xy = this.xy;
-        return w * w + yz * yz + zx * zx + xy * xy;
-    }
+  /**
+   * Intentionally undocumented.
+   */
+  copyVector(vector: VectorE3): SpinG3 {
+    return this.zero()
+  }
 
-    rco(rhs: SpinorE3): SpinG3 {
-        return this.rco2(this, rhs)
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this / s&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method div
+   * @param s {SpinorE3}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  div(s: SpinorE3): SpinG3 {
+    return this.div2(this, s)
+  }
 
-    rco2(a: SpinorE3, b: SpinorE3): SpinG3 {
-        // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
-        // scpG3(a, b, this)
-        return this
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a / b&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method div2
+   * @param a {SpinorE3}
+   * @param b {SpinorE3}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  div2(a: SpinorE3, b: SpinorE3) {
+    let a0 = a.α;
+    let a1 = a.yz;
+    let a2 = a.zx;
+    let a3 = a.xy;
+    let b0 = b.α;
+    let b1 = b.yz;
+    let b2 = b.zx;
+    let b3 = b.xy;
+    // Compare this to the product for Quaternions
+    // How does this compare to G3
+    // It would be interesting to DRY this out.
+    this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+    // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
+    this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+    this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+    this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+    return this;
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this / α&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method divByScalar
+   * @param α {number}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  divByScalar(α: number): SpinG3 {
+    this.yz /= α
+    this.zx /= α
+    this.xy /= α
+    this.α /= α
+    return this
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ dual(v) = I * v&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method dual
+   * @param v {VectorE3} The vector whose dual will be used to set this spinor.
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  dual(v: VectorE3) {
+    mustBeObject(&#x27;v&#x27;, v)
+    this.α = 0
+    this.yz = mustBeNumber(&#x27;v.x&#x27;, v.x)
+    this.zx = mustBeNumber(&#x27;v.y&#x27;, v.y)
+    this.xy = mustBeNumber(&#x27;v.z&#x27;, v.z)
+    return this
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ e&lt;sup&gt;this&lt;/sup&gt;&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method exp
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  exp(): SpinG3 {
+    let w = this.α
+    let x = this.yz
+    let y = this.zx
+    let z = this.xy
+    let expW = exp(w)
+    // φ is actually the absolute value of one half the rotation angle.
+    // The orientation of the rotation gets carried in the bivector components.
+    // FIXME: DRY
+    let φ = sqrt(x * x + y * y + z * z)
+    let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
+    this.α = expW * cos(φ);
+    this.yz = x * s;
+    this.zx = y * s;
+    this.xy = z * s;
+    return this;
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ conj(this) / quad(this)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method inv
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  inv() {
+    this.conj()
+    this.divByScalar(this.squaredNorm());
+    return this
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this = (w, B) ⟼ (w, -B)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method reverse
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    rev(): SpinG3 {
-        this.yz *= - 1;
-        this.zx *= - 1;
-        this.xy *= - 1;
-        return this;
-    }
-    /**
-     * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
-     * The geometric formula for bivector reflection is B&#x27; = n * B * n.
-     * @method reflect
-     * @param n {VectorE3}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    reflect(n: VectorE3): SpinG3 {
-        let w = this.α;
-        let yz = this.yz;
-        let zx = this.zx;
-        let xy = this.xy;
-        let nx = n.x;
-        let ny = n.y;
-        let nz = n.z;
-        let nn = nx * nx + ny * ny + nz * nz
-        let nB = nx * yz + ny * zx + nz * xy
-        this.α = nn * w
-        this.xy = 2 * nz * nB - nn * xy
-        this.yz = 2 * nx * nB - nn * yz
-        this.zx = 2 * ny * nB - nn * zx
-        return this;
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this = ⟼ rotor * this * rev(rotor)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method rotate
-     * @param rotor {SpinorE3}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    rotate(rotor: SpinorE3): SpinG3 {
-        console.warn(&quot;SpinG3.rotate is not implemented&quot;)
-        return this;
-    }
-    /**
-     * &lt;p&gt;
-     * Computes a rotor, R, from two vectors, where
-     * R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b &lt;&lt; a))
-     * &lt;/p&gt;
-     * @method rotor
-     * @param a {VectorE3} The &lt;em&gt;from&lt;/em&gt; vector.
-     * @param b {VectorE3} The &lt;em&gt;to&lt;/em&gt; vector.
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt; The rotor representing a rotation from a to b.
-     * @chainable
-     */
-    rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3 {
-        return rotorFromDirections(a, b, quadVector, dotVector, this)
-    }
+  lco(rhs: SpinorE3): SpinG3 {
+    return this.lco2(this, rhs)
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this = ⟼ exp(- dual(a) * θ / 2)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method rotorFromAxisAngle
-     * @param axis {VectorE3}
-     * @param θ {number}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     */
-    rotorFromAxisAngle(axis: VectorE3, θ: number): SpinG3 {
-        let φ = θ / 2
-        let s = sin(φ)
-        this.yz = -axis.x * s
-        this.zx = -axis.y * s
-        this.xy = -axis.z * s
-        this.α = cos(φ)
-        return this
-    }
+  lco2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
+    // scpG3(a, b, this)
+    return this
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this + α * (target - this)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method lerp
+   * @param target {SpinorE3}
+   * @param α {number}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  // FIXME: Should really be slerp?
+  lerp(target: SpinorE3, α: number): SpinG3 {
+    var R2 = SpinG3.copy(target)
+    var R1 = this.clone()
+    var R = R2.mul(R1.inv())
+    R.log()
+    R.scale(α)
+    R.exp()
+    this.copy(R)
+    return this
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
+   * &lt;p&gt;
+   * @method lerp2
+   * @param a {SpinorE3}
+   * @param b {SpinorE3}
+   * @param α {number}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  lerp2(a: SpinorE3, b: SpinorE3, α: number): SpinG3 {
+    this.sub2(b, a).scale(α).add(a)
+    return this
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ log(this)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method log
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  log(): SpinG3 {
+    // FIXME: Wrong
+    let w = this.α
+    let x = this.yz
+    let y = this.zx
+    let z = this.xy
+    // FIXME: DRY
+    let bb = x * x + y * y + z * z
+    let R2 = sqrt(bb)
+    let R0 = Math.abs(w)
+    let R = sqrt(w * w + bb)
+    this.α = Math.log(R)
+    let θ = Math.atan2(R2, R0) / R2
+    // The angle, θ, produced by atan2 will be in the range [-π, +π]
+    this.yz = x * θ
+    this.zx = y * θ
+    this.xy = z * θ
+    return this;
+  }
+
+  /**
+   * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+   * @method magnitude
+   * @return {number}
+   */
+  magnitude(): number {
+    return sqrt(this.squaredNorm());
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this * s&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method mul
+   * @param s {SpinorE3}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  mul(s: SpinorE3): SpinG3 {
+    return this.mul2(this, s)
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method mul2
+   * @param a {SpinorE3}
+   * @param b {SpinorE3}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  mul2(a: SpinorE3, b: SpinorE3) {
+    let a0 = a.α;
+    let a1 = a.yz;
+    let a2 = a.zx;
+    let a3 = a.xy;
+    let b0 = b.α;
+    let b1 = b.yz;
+    let b2 = b.zx;
+    let b3 = b.xy;
+    // Compare this to the product for Quaternions
+    // It would be interesting to DRY this out.
+    this.α = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+    // this.α = a0 * b0 - dotVectorCartesianE3(a1, a2, a3, b1, b2, b3)
+    this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+    this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+    this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+    return this;
+  }
+  /**
+   * @method neg
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  neg(): SpinG3 {
+    this.α = -this.α
+    this.yz = -this.yz
+    this.zx = -this.zx
+    this.xy = -this.xy
+    return this
+  }
+
+  /**
+  * &lt;p&gt;
+  * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
+  * &lt;/p&gt;
+  * @method norm
+  * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+  * @chainable
+  */
+  norm(): SpinG3 {
+    let norm = this.magnitude()
+    return this.zero().addScalar(norm)
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method normalize
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  normalize(): SpinG3 {
+    let modulus = this.magnitude()
+    this.yz = this.yz / modulus
+    this.zx = this.zx / modulus
+    this.xy = this.xy / modulus
+    this.α = this.α / modulus
+    return this
+  }
+  /**
+  * &lt;p&gt;
+  * &lt;code&gt;this ⟼ this * conj(this)&lt;/code&gt;
+  * &lt;/p&gt;
+  * @method quad
+  * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+  * @chainable
+  */
+  quad(): SpinG3 {
+    let squaredNorm = this.squaredNorm()
+    return this.zero().addScalar(squaredNorm)
+  }
+  /**
+   * @method squaredNorm
+   * @return {number} &lt;code&gt;this * conj(this)&lt;/code&gt;
+   */
+  squaredNorm(): number {
+    return quadSpinor(this)
+  }
+
+  rco(rhs: SpinorE3): SpinG3 {
+    return this.rco2(this, rhs)
+  }
+
+  rco2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
+    // scpG3(a, b, this)
+    return this
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this = (w, B) ⟼ (w, -B)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method reverse
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  rev(): SpinG3 {
+    this.yz *= - 1;
+    this.zx *= - 1;
+    this.xy *= - 1;
+    return this;
+  }
+  /**
+   * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
+   * The geometric formula for bivector reflection is B&#x27; = n * B * n.
+   * @method reflect
+   * @param n {VectorE3}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  reflect(n: VectorE3): SpinG3 {
+    let w = this.α;
+    let yz = this.yz;
+    let zx = this.zx;
+    let xy = this.xy;
+    let nx = n.x;
+    let ny = n.y;
+    let nz = n.z;
+    let nn = nx * nx + ny * ny + nz * nz
+    let nB = nx * yz + ny * zx + nz * xy
+    this.α = nn * w
+    this.xy = 2 * nz * nB - nn * xy
+    this.yz = 2 * nx * nB - nn * yz
+    this.zx = 2 * ny * nB - nn * zx
+    return this;
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this = ⟼ rotor * this * rev(rotor)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method rotate
+   * @param rotor {SpinorE3}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  rotate(rotor: SpinorE3): SpinG3 {
+    console.warn(&quot;SpinG3.rotate is not implemented&quot;)
+    return this;
+  }
+  /**
+   * &lt;p&gt;
+   * Computes a rotor, R, from two vectors, where
+   * R = (abs(b) * abs(a) + b * a) / sqrt(2 * (quad(b) * quad(a) + abs(b) * abs(a) * b &lt;&lt; a))
+   * &lt;/p&gt;
+   * @method rotor
+   * @param a {VectorE3} The &lt;em&gt;from&lt;/em&gt; vector.
+   * @param b {VectorE3} The &lt;em&gt;to&lt;/em&gt; vector.
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt; The rotor representing a rotation from a to b.
+   * @chainable
+   */
+  rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3 {
+    return rotorFromDirections(a, b, quadVector, dotVector, this)
+  }
+
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this = ⟼ exp(- dual(a) * θ / 2)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method rotorFromAxisAngle
+   * @param axis {VectorE3}
+   * @param θ {number}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   */
+  rotorFromAxisAngle(axis: VectorE3, θ: number): SpinG3 {
+    let φ = θ / 2
+    let s = sin(φ)
+    this.yz = -axis.x * s
+    this.zx = -axis.y * s
+    this.xy = -axis.z * s
+    this.α = cos(φ)
+    return this
+  }
   
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this = ⟼ exp(- B * θ / 2)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method rotorFromGeneratorAngle
-     * @param B {SpinorE3}
-     * @param θ {number}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     */
-    rotorFromGeneratorAngle(B: SpinorE3, θ: number): SpinG3 {
-        let φ = θ / 2
-        let s = sin(φ)
-        this.yz = -B.yz * s
-        this.zx = -B.zx * s
-        this.xy = -B.xy * s
-        this.α = cos(φ)
-        return this
-    }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this = ⟼ exp(- B * θ / 2)&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method rotorFromGeneratorAngle
+   * @param B {SpinorE3}
+   * @param θ {number}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   */
+  rotorFromGeneratorAngle(B: SpinorE3, θ: number): SpinG3 {
+    let φ = θ / 2
+    let s = sin(φ)
+    this.yz = -B.yz * s
+    this.zx = -B.zx * s
+    this.xy = -B.xy * s
+    this.α = cos(φ)
+    return this
+  }
 
-    scp(rhs: SpinorE3): SpinG3 {
-        return this.scp2(this, rhs)
-    }
-    scp2(a: SpinorE3, b: SpinorE3): SpinG3 {
-        // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
-        // scpG3(a, b, this)
-        return this
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method scale
-     * @param α {number}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     */
-    scale(α: number): SpinG3 {
-        mustBeNumber(&#x27;α&#x27;, α)
-        this.yz *= α;
-        this.zx *= α;
-        this.xy *= α;
-        this.α *= α;
-        return this;
-    }
+  scp(rhs: SpinorE3): SpinG3 {
+    return this.scp2(this, rhs)
+  }
+  scp2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
+    // scpG3(a, b, this)
+    return this
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this * α&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method scale
+   * @param α {number}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   */
+  scale(α: number): SpinG3 {
+    mustBeNumber(&#x27;α&#x27;, α)
+    this.yz *= α;
+    this.zx *= α;
+    this.xy *= α;
+    this.α *= α;
+    return this;
+  }
 
-    slerp(target: SpinorE3, α: number): SpinG3 {
-        var R2 = SpinG3.copy(target)
-        var R1 = this.clone()
-        var R = R2.mul(R1.inv())
-        R.log()
-        R.scale(α)
-        R.exp()
-        this.copy(R)
-        return this
-    }
+  slerp(target: SpinorE3, α: number): SpinG3 {
+    var R2 = SpinG3.copy(target)
+    var R1 = this.clone()
+    var R = R2.mul(R1.inv())
+    R.log()
+    R.scale(α)
+    R.exp()
+    this.copy(R)
+    return this
+  }
 
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ this - s * α&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method sub
-     * @param s {SpinorE3}
-     * @param α [number = 1]
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    sub(s: SpinorE3, α: number = 1): SpinG3 {
-        mustBeObject(&#x27;s&#x27;, s)
-        mustBeNumber(&#x27;α&#x27;, α)
-        this.yz -= s.yz * α
-        this.zx -= s.zx * α
-        this.xy -= s.xy * α
-        this.α -= s.α * α
-        return this
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method sub2
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    sub2(a: SpinorE3, b: SpinorE3): SpinG3 {
-        this.yz = a.yz - b.yz
-        this.zx = a.zx - b.zx
-        this.xy = a.xy - b.xy
-        this.α = a.α - b.α
-        return this;
-    }
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
-     * &lt;/p&gt;
-     * Sets this SpinG3 to the geometric product a * b of the vector arguments. 
-     * @method spinor
-     * @param a {VectorE3}
-     * @param b {VectorE3}
-     * @return {SpinG3}
-     */
-    spinor(a: VectorE3, b: VectorE3) {
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ this - s * α&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method sub
+   * @param s {SpinorE3}
+   * @param α [number = 1]
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  sub(s: SpinorE3, α: number = 1): SpinG3 {
+    mustBeObject(&#x27;s&#x27;, s)
+    mustBeNumber(&#x27;α&#x27;, α)
+    this.yz -= s.yz * α
+    this.zx -= s.zx * α
+    this.xy -= s.xy * α
+    this.α -= s.α * α
+    return this
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a - b&lt;/code&gt;
+   * &lt;/p&gt;
+   * @method sub2
+   * @param a {SpinorE3}
+   * @param b {SpinorE3}
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  sub2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    this.yz = a.yz - b.yz
+    this.zx = a.zx - b.zx
+    this.xy = a.xy - b.xy
+    this.α = a.α - b.α
+    return this;
+  }
+  /**
+   * &lt;p&gt;
+   * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
+   * &lt;/p&gt;
+   * Sets this SpinG3 to the geometric product a * b of the vector arguments. 
+   * @method spinor
+   * @param a {VectorE3}
+   * @param b {VectorE3}
+   * @return {SpinG3}
+   */
+  spinor(a: VectorE3, b: VectorE3) {
 
-        let ax = a.x
-        let ay = a.y
-        let az = a.z
-        let bx = b.x
-        let by = b.y
-        let bz = b.z
+    let ax = a.x
+    let ay = a.y
+    let az = a.z
+    let bx = b.x
+    let by = b.y
+    let bz = b.z
 
-        this.α = dotVectorCartesianE3(ax, ay, az, bx, by, bz)
-        this.yz = wedgeYZ(ax, ay, az, bx, by, bz)
-        this.zx = wedgeZX(ax, ay, az, bx, by, bz)
-        this.xy = wedgeXY(ax, ay, az, bx, by, bz)
+    this.α = dotVectorCartesianE3(ax, ay, az, bx, by, bz)
+    this.yz = wedgeYZ(ax, ay, az, bx, by, bz)
+    this.zx = wedgeZX(ax, ay, az, bx, by, bz)
+    this.xy = wedgeXY(ax, ay, az, bx, by, bz)
 
-        return this
-    }
-    toExponential(): string {
-        // FIXME: Do like others.
-        return this.toString()
-    }
-    toFixed(digits?: number): string {
-        // FIXME: Do like others.
-        return this.toString()
-    }
-    /**
-     * @method toString
-     * @return {string} A non-normative string representation of the target.
-     */
-    toString(): string {
-        return &quot;SpinG3({yz: &quot; + this.yz + &quot;, zx: &quot; + this.zx + &quot;, xy: &quot; + this.xy + &quot;, w: &quot; + this.α + &quot;})&quot;
-    }
-    ext(rhs: SpinorE3): SpinG3 {
-        return this.ext2(this, rhs)
-    }
-    ext2(a: SpinorE3, b: SpinorE3): SpinG3 {
-        // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
-        // scpG3(a, b, this)
-        return this
-    }
-    /**
-     * Sets this spinor to the identity element for addition.
-     * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
-     * @chainable
-     */
-    zero(): SpinG3 {
-        this.α = 0
-        this.yz = 0
-        this.zx = 0
-        this.xy = 0
-        return this
-    }
+    return this
+  }
 
-    /**
-     * @method copy
-     * @param spinor {SpinorE3}
-     * @return {SpinG3} A copy of the &lt;code&gt;spinor&lt;/code&gt; argument.
-     * @static
-     */
-    static copy(spinor: SpinorE3): SpinG3 {
-        return new SpinG3().copy(spinor)
+  grade(grade: number): SpinG3 {
+    mustBeInteger(&#x27;grade&#x27;, grade)
+    switch (grade) {
+      case 0: {
+        this.yz = 0;
+        this.zx = 0;
+        this.xy = 0;
+      }
+        break;
+      case 2: {
+        this.α = 0;
+      }
+        break;
+      default: {
+        this.α = 0;
+        this.yz = 0;
+        this.zx = 0;
+        this.xy = 0;
+      }
     }
+    return this;
+  }
 
-    /**
-     * Computes I * &lt;code&gt;v&lt;/code&gt;, the dual of &lt;code&gt;v&lt;/code&gt;.
-     * @method dual
-     * @param v {VectorE3}
-     * @return {SpinG3}
-     */
-    static dual(v: VectorE3): SpinG3 {
-        return new SpinG3().dual(v)
-    }
+  toExponential(): string {
+    // FIXME: Do like others.
+    return this.toString()
+  }
+  toFixed(digits?: number): string {
+    // FIXME: Do like others.
+    return this.toString()
+  }
+  /**
+   * @method toString
+   * @return {string} A non-normative string representation of the target.
+   */
+  toString(): string {
+    return &quot;SpinG3({yz: &quot; + this.yz + &quot;, zx: &quot; + this.zx + &quot;, xy: &quot; + this.xy + &quot;, w: &quot; + this.α + &quot;})&quot;
+  }
+  ext(rhs: SpinorE3): SpinG3 {
+    return this.ext2(this, rhs)
+  }
+  ext2(a: SpinorE3, b: SpinorE3): SpinG3 {
+    // FIXME: How to leverage? Maybe break up? Don&#x27;t want performance hit.
+    // scpG3(a, b, this)
+    return this
+  }
+  /**
+   * Sets this spinor to the identity element for addition.
+   * @return {SpinG3} &lt;code&gt;this&lt;/code&gt;
+   * @chainable
+   */
+  zero(): SpinG3 {
+    this.α = 0
+    this.yz = 0
+    this.zx = 0
+    this.xy = 0
+    return this
+  }
 
-    /**
-     * @method lerp
-     * @param a {SpinorE3}
-     * @param b {SpinorE3}
-     * @param α {number}
-     * @return {SpinG3} &lt;code&gt;a + α * (b - a)&lt;/code&gt;
-     * @static
-     */
-    static lerp(a: SpinorE3, b: SpinorE3, α: number): SpinG3 {
-        return SpinG3.copy(a).lerp(b, α)
-    }
+  /**
+   * @method copy
+   * @param spinor {SpinorE3}
+   * @return {SpinG3} A copy of the &lt;code&gt;spinor&lt;/code&gt; argument.
+   * @static
+   */
+  static copy(spinor: SpinorE3): SpinG3 {
+    return new SpinG3().copy(spinor)
+  }
 
-    /**
-     * Computes the rotor that rotates vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
-     * @method rotorFromDirections
-     * @param a {VectorE3} The &lt;em&gt;from&lt;/em&gt; vector.
-     * @param b {VectorE3} The &lt;em&gt;to&lt;/em&gt; vector.
-     * @return {SpinG3}
-     * @static
-     */
-    static rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3 {
-        return new SpinG3().rotorFromDirections(a, b)
-    }
+  /**
+   * Computes I * &lt;code&gt;v&lt;/code&gt;, the dual of &lt;code&gt;v&lt;/code&gt;.
+   * @method dual
+   * @param v {VectorE3}
+   * @return {SpinG3}
+   */
+  static dual(v: VectorE3): SpinG3 {
+    return new SpinG3().dual(v)
+  }
+
+  /**
+   * @method lerp
+   * @param a {SpinorE3}
+   * @param b {SpinorE3}
+   * @param α {number}
+   * @return {SpinG3} &lt;code&gt;a + α * (b - a)&lt;/code&gt;
+   * @static
+   */
+  static lerp(a: SpinorE3, b: SpinorE3, α: number): SpinG3 {
+    return SpinG3.copy(a).lerp(b, α)
+  }
+
+  /**
+   * Computes the rotor that rotates vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
+   * @method rotorFromDirections
+   * @param a {VectorE3} The &lt;em&gt;from&lt;/em&gt; vector.
+   * @param b {VectorE3} The &lt;em&gt;to&lt;/em&gt; vector.
+   * @return {SpinG3}
+   * @static
+   */
+  static rotorFromDirections(a: VectorE3, b: VectorE3): SpinG3 {
+    return new SpinG3().rotorFromDirections(a, b)
+  }
 }
 
 export = SpinG3;

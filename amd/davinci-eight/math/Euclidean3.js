@@ -1,9 +1,10 @@
-define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeNumber, NotImplementedError, rcoG3, readOnly, scpG3, stringFromCoordinates, subE3, Unit) {
+define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeInteger, mustBeNumber, NotImplementedError, rcoG3, readOnly, scpG3, squaredNormG3, stringFromCoordinates, subE3, Unit) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
     var sin = Math.sin;
     var sinh = mathcore.Math.sinh;
+    var sqrt = Math.sqrt;
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
@@ -174,7 +175,6 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
     };
     /**
      * @class Euclidean3
-     * @extends GeometricE3
      */
     var Euclidean3 = (function () {
         /**
@@ -370,11 +370,11 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
             return this;
         };
         /**
-         * @method arg
-         * @return {number}
+         * @method angle
+         * @return {Euclidean3}
          */
-        Euclidean3.prototype.arg = function () {
-            throw new Error('TODO: Euclidean3.arg');
+        Euclidean3.prototype.angle = function () {
+            return this.log().grade(2);
         };
         /**
          * @method conj
@@ -600,9 +600,9 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
         Euclidean3.prototype.__tilde__ = function () {
             return this.rev();
         };
-        Euclidean3.prototype.grade = function (index) {
-            assertArgNumber('index', index);
-            switch (index) {
+        Euclidean3.prototype.grade = function (grade) {
+            mustBeInteger('grade', grade);
+            switch (grade) {
                 case 0:
                     return Euclidean3.fromCartesian(this.w, 0, 0, 0, 0, 0, 0, 0, this.uom);
                 case 1:
@@ -647,7 +647,7 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
             return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
         };
         Euclidean3.prototype.length = function () {
-            return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
+            return sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
         };
         Euclidean3.prototype.lerp = function (target, α) {
             // FIXME: TODO
@@ -685,9 +685,13 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
             // FIXME: TODO
             return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
         };
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         * @method magnitude
+         * @return {number}
+         */
         Euclidean3.prototype.magnitude = function () {
-            // FIXME: TODO
-            return 0;
+            return sqrt(this.squaredNorm());
         };
         /**
          * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
@@ -700,8 +704,7 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
             return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
         };
         Euclidean3.prototype.squaredNorm = function () {
-            // FIXME: The shortcoming of this method is that it drops the units.
-            return this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz;
+            return squaredNormG3(this);
         };
         Euclidean3.prototype.reflect = function (n) {
             // TODO
@@ -728,15 +731,8 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
         Euclidean3.prototype.unitary = function () {
             return this.div(this.norm());
         };
-        /**
-         * @method gradeZero
-         * @return {number}
-         */
-        Euclidean3.prototype.gradeZero = function () {
-            return this.w;
-        };
         Euclidean3.prototype.sqrt = function () {
-            return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
+            return new Euclidean3(sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
         };
         Euclidean3.prototype.toStringCustom = function (coordToString, labels) {
             var quantityString = stringFromCoordinates(this.coordinates(), coordToString, labels);
@@ -802,10 +798,21 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
                 },
                 set β(β) {
                     M.xyz = β;
+                },
+                magnitude: function () {
+                    throw new Error("magnitude() should not be needed.");
+                },
+                squaredNorm: function () {
+                    throw new Error("squaredNorm() should not be needed.");
                 }
             };
             return that;
         };
+        /**
+         * @property zero
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
         Euclidean3.one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
         Euclidean3.e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);

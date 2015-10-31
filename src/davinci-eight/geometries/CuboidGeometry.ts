@@ -61,7 +61,7 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     }
     set width(width: number) {
         mustBeNumber('width', width)
-        this._a.setMagnitude(width)
+        this._a.normalize().scale(width)
     }
     /**
      * @property height
@@ -72,7 +72,7 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     }
     set height(height: number) {
         mustBeNumber('height', height)
-        this._b.setMagnitude(height)
+        this._b.normalize().scale(height)
     }
     /**
      * @property depth
@@ -83,7 +83,7 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     }
     set depth(depth: number) {
         mustBeNumber('depth', depth)
-        this._c.setMagnitude(depth)
+        this._c.normalize().scale(depth)
     }
     private regenerate(): void {
         this.sides = []

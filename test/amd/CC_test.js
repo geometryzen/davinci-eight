@@ -2,12 +2,22 @@ define(['davinci-eight/math/CC'], function(CC) {
 
   describe("CC", function() {
 
-    it("constructor", function() {
+    // (x, y) is the Cartesian vector interpretation of the complex number.
+    it("constructor(x,y)", function() {
       var x = Math.random();
       var y = Math.random();
       var z = new CC(x, y);
       expect(z.x).toBe(x);
       expect(z.y).toBe(y);
+    });
+
+    // (α, β) is the spinor interpretation of the complex number.
+    it("constructor(α, β)", function() {
+      var α = Math.random();
+      var β = Math.random();
+      var z = new CC(α, β);
+      expect(z.α).toBe(α);
+      expect(z.β).toBe(β);
     });
 
     it("toString", function() {
@@ -17,11 +27,23 @@ define(['davinci-eight/math/CC'], function(CC) {
       expect(z.toString()).toBe("CC("+ x + ", " + y + ")");
     });
 
-    it("arg", function() {
+    it("angle().α", function() {
       var x = Math.random();
       var y = Math.random();
       var z = new CC(x, y);
-      expect(z.arg()).toBe(Math.atan2(y, x));
+      expect(z.angle().α).toBe(0);
+    });
+    it("angle().β", function() {
+      var x = Math.random();
+      var y = Math.random();
+      var z = new CC(x, y);
+      expect(z.angle().β).toBe(Math.atan2(y, x));
+    });
+    it("angle().magnitude()", function() {
+      var x = Math.random();
+      var y = Math.random();
+      var z = new CC(x, y);
+      expect(z.angle().magnitude()).toBe(Math.atan2(y, x));
     });
 
     it("exp", function() {

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -228,7 +235,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_CC.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:60</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_CC.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:61</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -266,7 +273,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:60</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:61</code></a>
         </p>
 
 
@@ -360,7 +367,7 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_arg">arg</a>
+                                <a href="#method_angle">angle</a>
 
                             </li>
                             <li class="index-item method">
@@ -397,6 +404,10 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lco">lco</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_magnitude">magnitude</a>
 
                             </li>
                             <li class="index-item method">
@@ -512,7 +523,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:116</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:133</code></a>
         </p>
 
 
@@ -569,7 +580,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l523"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:523</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l556"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:556</code></a>
         </p>
 
 
@@ -610,7 +621,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l514"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:514</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l547"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:547</code></a>
         </p>
 
 
@@ -657,7 +668,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l504"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:504</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l537"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:537</code></a>
         </p>
 
 
@@ -720,7 +731,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l494"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:494</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l527"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:527</code></a>
         </p>
 
 
@@ -777,7 +788,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l532"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:532</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l565"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:565</code></a>
         </p>
 
 
@@ -823,7 +834,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:107</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:114</code></a>
         </p>
 
 
@@ -885,7 +896,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l239"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:239</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l256"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:256</code></a>
         </p>
 
 
@@ -923,13 +934,13 @@
 
 
 </div>
-<div id="method_arg" class="method item">
-    <h3 class="name"><code>arg</code></h3>
+<div id="method_angle" class="method item">
+    <h3 class="name"><code>angle</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="../classes/CC.html" class="crosslink">CC</a></span>
         </span>
 
 
@@ -941,7 +952,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l450"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:450</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:123</code></a>
         </p>
 
 
@@ -949,7 +960,8 @@
     </div>
 
     <div class="description">
-        
+        <p>complex.angle() =&gt; complex.log().grade(2)</p>
+
     </div>
 
 
@@ -957,7 +969,7 @@
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="../classes/CC.html" class="crosslink">CC</a></span>:
             </div>
         </div>
 
@@ -981,7 +993,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l303"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:303</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l337"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:337</code></a>
         </p>
 
 
@@ -1021,7 +1033,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l314"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:314</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l348"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:348</code></a>
         </p>
 
 
@@ -1067,7 +1079,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:204</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l221"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:221</code></a>
         </p>
 
 
@@ -1129,7 +1141,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:213</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:230</code></a>
         </p>
 
 
@@ -1185,7 +1197,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l325"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:325</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l359"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:359</code></a>
         </p>
 
 
@@ -1225,7 +1237,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l337"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:337</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l371"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:371</code></a>
         </p>
 
 
@@ -1266,7 +1278,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l349"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:349</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l383"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:383</code></a>
         </p>
 
 
@@ -1306,7 +1318,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l357"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:357</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l391"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:391</code></a>
         </p>
 
 
@@ -1352,7 +1364,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l276"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:276</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l298"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:298</code></a>
         </p>
 
 
@@ -1390,6 +1402,47 @@
 
 
 </div>
+<div id="method_magnitude" class="method item">
+    <h3 class="name"><code>magnitude</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l399"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:399</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes the <em>square root</em> of the <em>squared norm</em>.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_mul" class="method item">
     <h3 class="name"><code>mul</code></h3>
 
@@ -1414,7 +1467,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:175</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:192</code></a>
         </p>
 
 
@@ -1470,7 +1523,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l365"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:365</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l408"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:408</code></a>
         </p>
 
 
@@ -1511,7 +1564,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l374"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:374</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l417"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:417</code></a>
         </p>
 
 
@@ -1557,7 +1610,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l294"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:294</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l328"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:328</code></a>
         </p>
 
 
@@ -1613,7 +1666,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l384"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:384</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l425"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:425</code></a>
         </p>
 
 
@@ -1659,7 +1712,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l285"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:285</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l319"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:319</code></a>
         </p>
 
 
@@ -1721,7 +1774,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l404"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:404</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l445"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:445</code></a>
         </p>
 
 
@@ -1777,7 +1830,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l413"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:413</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l454"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:454</code></a>
         </p>
 
 
@@ -1817,7 +1870,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l424"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:424</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l465"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:465</code></a>
         </p>
 
 
@@ -1857,7 +1910,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l394"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:394</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l435"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:435</code></a>
         </p>
 
 
@@ -1903,7 +1956,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:147</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l164"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:164</code></a>
         </p>
 
 
@@ -1959,7 +2012,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l439"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:439</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l480"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:480</code></a>
         </p>
 
 
@@ -2005,7 +2058,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l255"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:255</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l272"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:272</code></a>
         </p>
 
 
@@ -2059,7 +2112,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:54</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:55</code></a>
         </p>
 
 
@@ -2085,7 +2138,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:40</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:41</code></a>
         </p>
 
 
@@ -2111,7 +2164,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:47</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:48</code></a>
         </p>
 
 
@@ -2136,7 +2189,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:79</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:80</code></a>
         </p>
 
 
@@ -2161,7 +2214,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_CC.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:91</code></a>
+        <a href="../files/src_davinci-eight_math_CC.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;CC.ts:92</code></a>
         </p>
 
 

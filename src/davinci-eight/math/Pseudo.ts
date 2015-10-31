@@ -1,7 +1,7 @@
 /**
- * @class PseudoE3
+ * @class Pseudo
  */
-interface PseudoE3 {
+interface Pseudo {
   /**
    * @property β
    * @type number
@@ -9,4 +9,4 @@ interface PseudoE3 {
   β: number;
 }
 
-export = PseudoE3;
+export = Pseudo;

@@ -1,20 +1,21 @@
-import argSpinorCartesianE2 = require('../math/argSpinorCartesianE2')
 import GeometricOperators = require('../math/GeometricOperators')
 import mathcore = require('../math/mathcore')
 import Measure = require('../math/Measure')
+import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
 import readOnly = require('../i18n/readOnly')
 import SpinorE2 = require('../math/SpinorE2')
 import TrigMethods = require('../math/TrigMethods')
 import Unit = require('../math/Unit')
 
-var atan2 = Math.atan2
-var cos = Math.cos
-var cosh = mathcore.Math.cosh
-var exp = Math.exp
-var sin = Math.sin
-var sinh = mathcore.Math.sinh
-var sqrt = Math.sqrt
+let atan2 = Math.atan2
+let cos = Math.cos
+let cosh = mathcore.Math.cosh
+let exp = Math.exp
+let log = Math.log
+let sin = Math.sin
+let sinh = mathcore.Math.sinh
+let sqrt = Math.sqrt
 
 function mul(a: CC, b: CC): CC {
     let x = a.α * b.α - a.β * b.β
@@ -99,6 +100,12 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
     set β(unused) {
         throw new Error(readOnly('β').message)
     }
+    get xy(): number {
+        return this.y;
+    }
+    set xy(unused) {
+        throw new Error(readOnly('xy').message)
+    }
 
     coordinates(): number[] {
         return [this.x, this.y]
@@ -111,6 +118,16 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
      */
     add(rhs: CC): CC {
         return new CC(this.x + rhs.x, this.y + rhs.y, Unit.compatible(this.uom, rhs.uom))
+    }
+
+    /**
+     * complex.angle() => complex.log().grade(2)
+     * @method angle
+     * @return {CC}
+     */
+    angle(): CC {
+        // Optimized by only computing grade 2.
+        return new CC(0, atan2(this.β, this.α))
     }
 
     /**
@@ -269,8 +286,13 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
         throw new Error("")
     }
 
-    lerp(target: CC, α: number): CC {
-        return this
+    grade(grade: number): CC {
+        mustBeInteger('grade', grade)
+        switch (grade) {
+            case 0: return new CC(this.x, 0, this.uom)
+            case 2: return new CC(0, this.y, this.uom)
+            default: return new CC(0, 0, this.uom)
+        }
     }
 
     /**
@@ -280,6 +302,18 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
      */
     lco(rhs: CC): CC {
         throw new Error('lco');
+    }
+
+    lerp(target: CC, α: number): CC {
+        return this
+    }
+
+    log(): CC {
+        // TODO: Is dimesionless really necessary?
+        Unit.assertDimensionless(this.uom)
+        let α = this.α
+        let β = this.β
+        return new CC(log(sqrt(α * α + β * β)), atan2(β, α))
     }
 
     /**
@@ -363,6 +397,15 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
     }
 
     /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
+    magnitude(): number {
+        return sqrt(this.squaredNorm());
+    }
+
+    /**
      * Computes the additive inverse of this complex number.
      * @method neg
      * @return {CC}
@@ -376,9 +419,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
      * @return {CC}
      */
     norm(): CC {
-        var x = this.x;
-        var y = this.y;
-        return new CC(sqrt(x * x + y * y), 0, this.uom);
+        return new CC(this.magnitude(), 0, this.uom);
     }
 
     /**
@@ -445,14 +486,6 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
         var y = this.y;
         var divisor = norm(x, y);
         return new CC(x / divisor, y / divisor);
-    }
-
-    /**
-     * @method arg
-     * @return {number}
-     */
-    arg(): number {
-        return argSpinorCartesianE2(this.x, this.y)
     }
 
     toStringCustom(coordToString: (x: number) => string): string {

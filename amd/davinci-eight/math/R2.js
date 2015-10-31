@@ -4,6 +4,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+    var exp = Math.exp;
+    var log = Math.log;
+    var sqrt = Math.sqrt;
     /**
      * @class R2
      */
@@ -159,14 +162,24 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y = -this.y;
             return this;
         };
+        /**
+         * @method distanceTo
+         * @param point {VectorE2}
+         * @return {number}
+         */
         R2.prototype.distanceTo = function (position) {
-            return Math.sqrt(this.quadranceTo(position));
+            return sqrt(this.quadranceTo(position));
         };
         R2.prototype.dot = function (v) {
             return this.x * v.x + this.y * v.y;
         };
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         * @method magnitude
+         * @return {number}
+         */
         R2.prototype.magnitude = function () {
-            return Math.sqrt(this.squaredNorm());
+            return sqrt(this.squaredNorm());
         };
         R2.prototype.normalize = function () {
             return this.divByScalar(this.magnitude());
@@ -184,13 +197,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return this;
         };
         R2.prototype.rotate = function (rotor) {
-            return this;
-        };
-        R2.prototype.setMagnitude = function (l) {
-            var oldLength = this.magnitude();
-            if (oldLength !== 0 && l !== oldLength) {
-                this.scale(l / oldLength);
-            }
             return this;
         };
         /**

@@ -13,15 +13,14 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      * For a <em>geometric</em> implementation, use the static methods.
      * @class SpinG2
      * @constructor
-     * @param coordinates {number[]}
      */
-    constructor(coordinates: number[]);
+    constructor(coordinates?: number[], modified?: boolean);
     /**
-     * The pseudoscalar part of this spinor as a number.
-     * @property β
+     * The bivector part of this spinor as a number.
+     * @property xy
      * @type {number}
      */
-    β: number;
+    xy: number;
     /**
      * The scalar part of this spinor as a number.
      * @property α
@@ -71,10 +70,10 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      */
     adj(): SpinG2;
     /**
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {SpinG2}
      */
-    arg(): number;
+    angle(): SpinG2;
     /**
      * @method clone
      * @return {SpinG2} A copy of <code>this</code>.
@@ -200,6 +199,7 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      */
     log(): SpinG2;
     /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
      * @return {number}
      */
@@ -359,6 +359,7 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      * @return {SpinG2}
      */
     spinor(a: VectorE2, b: VectorE2): SpinG2;
+    grade(grade: number): SpinG2;
     toExponential(): string;
     toFixed(digits?: number): string;
     /**

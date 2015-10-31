@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/extE2', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, extE2, lcoE2, rcoE2, mulE2, readOnly, scpE2, stringFromCoordinates, Unit) {
+define(["require", "exports", '../math/extE2', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, extE2, lcoE2, rcoE2, mulE2, mustBeInteger, readOnly, scpE2, stringFromCoordinates, Unit) {
     var exp = Math.exp;
     var cos = Math.cos;
     var sin = Math.sin;
@@ -340,8 +340,12 @@ define(["require", "exports", '../math/extE2', '../math/lcoE2', '../math/rcoE2',
                 return new Euclidean2(other, 0, 0, 0, undefined).add(this);
             }
         };
-        Euclidean2.prototype.arg = function () {
-            throw new Error("TODO: Euclidean2.arg");
+        /**
+         * @method angle
+         * @return {Euclidean2}
+         */
+        Euclidean2.prototype.angle = function () {
+            return this.log().grade(2);
         };
         Euclidean2.prototype.conj = function () {
             throw new Error("TODO: adj");
@@ -628,9 +632,9 @@ define(["require", "exports", '../math/extE2', '../math/lcoE2', '../math/rcoE2',
         Euclidean2.prototype.__tilde__ = function () {
             return new Euclidean2(this.α, this.x, this.y, -this.β, this.uom);
         };
-        Euclidean2.prototype.grade = function (index) {
-            assertArgNumber('index', index);
-            switch (index) {
+        Euclidean2.prototype.grade = function (grade) {
+            mustBeInteger('grade', grade);
+            switch (grade) {
                 case 0:
                     return new Euclidean2(this.α, 0, 0, 0, this.uom);
                 case 1:
@@ -660,6 +664,11 @@ define(["require", "exports", '../math/extE2', '../math/lcoE2', '../math/rcoE2',
         Euclidean2.prototype.log = function () {
             throw new Error('log');
         };
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         * @method magnitude
+         * @return {number}
+         */
         Euclidean2.prototype.magnitude = function () {
             return sqrt(this.squaredNorm());
         };

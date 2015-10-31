@@ -7,6 +7,7 @@ import isUndefined = require('../checks/isUndefined')
 import IUnknownExt = require('../core/IUnknownExt')
 import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
+import ModelE3 = require('../physics/ModelE3')
 import mustBeString = require('../checks/mustBeString')
 import G3 = require('../math/G3')
 import R3 = require('../math/R3')
@@ -17,30 +18,10 @@ import Symbolic = require('../core/Symbolic')
 /**
  * @class ModelFacetE3
  */
-class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacetE3> {
-    /**
-     * The name of the property that designates the attitude.
-     * @property PROP_ATTITUDE
-     * @type {string}
-     * @default 'R'
-     * @static
-     * @readOnly
-     */
-    public static PROP_ATTITUDE = 'R';
-    /**
-     * The name of the property that designates the position.
-     * @property PROP_POSITION
-     * @type {string}
-     * @default 'X'
-     * @static
-     * @readOnly
-     */
-    public static PROP_POSITION = 'X';
+class ModelFacetE3 extends ModelE3 implements IFacet, IAnimationTarget, IUnknownExt<ModelFacetE3> {
     // FIXME: Make this scale so that we can be geometric?
     public static PROP_SCALEXYZ = 'scaleXYZ';
 
-    private _position = new G3().copy(Euclidean3.zero);
-    private _attitude = new G3().copy(Euclidean3.one);
     // FIXME: I don't like this non-geometric scaling.
     private _scaleXYZ: R3 = new R3([1, 1, 1]);
     private matM = Matrix4.identity();
@@ -68,8 +49,6 @@ class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnkno
      */
     constructor(type: string = 'ModelFacetE3') {
         super(mustBeString('type', type))
-        this._position.modified = true
-        this._attitude.modified = true
         this._scaleXYZ.modified = true
     }
     /**
@@ -78,46 +57,15 @@ class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnkno
      * @protected
      */
     protected destructor(): void {
-        this._position = void 0
-        this._attitude = void 0
         this._scaleXYZ = void 0
         this.matM = void 0
         this.matN = void 0
         this.matR = void 0
         this.matS = void 0
         this.matT = void 0
+        super.destructor()
     }
-    /**
-     * <p>
-     * The <em>attitude</em>, a unitary spinor.
-     * </p>
-     * @property R
-     * @type G3
-     * @readOnly
-     */
-    get R(): G3 {
-        return this._attitude
-    }
-    set R(unused) {
-        throw new Error(readOnly(ModelFacetE3.PROP_ATTITUDE).message)
-    }
-    /**
-     * <p>
-     * The <em>position</em>, a vector.
-     * The vector <b>X</b> designates the center of mass of the body (Physics).
-     * The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
-     * </p>
-     *
-     * @property X
-     * @type G3
-     * @readOnly
-     */
-    get X(): G3 {
-        return this._position
-    }
-    set X(unused) {
-        throw new Error(readOnly(ModelFacetE3.PROP_POSITION).message)
-    }
+
     /**
      * @property scaleXYZ
      * @type R3
@@ -129,66 +77,20 @@ class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnkno
     set scaleXYZ(unused) {
         throw new Error(readOnly(ModelFacetE3.PROP_SCALEXYZ).message)
     }
-    /**
-     * @method getProperty
-     * @param name {string}
-     * @return {number[]}
-     */
-    getProperty(name: string): number[] {
-        switch (name) {
-            case ModelFacetE3.PROP_ATTITUDE: {
-                return [this._attitude.yz, this._attitude.zx, this._attitude.xy, this._attitude.α]
-            }
-            case ModelFacetE3.PROP_POSITION: {
-                return [this._position.x, this._position.y, this._position.z]
-            }
-            default: {
-                console.warn("ModelFacetE3.getProperty " + name)
-                return void 0
-            }
-        }
-    }
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param data {number[]}
-     * @return {void}
-     */
-    setProperty(name: string, data: number[]): void {
-        switch (name) {
-            case ModelFacetE3.PROP_ATTITUDE: {
-                this._attitude.zero()
-                this._attitude.yz = data[0]
-                this._attitude.zx = data[1]
-                this._attitude.xy = data[2]
-                this._attitude.α = data[3]
-            }
-                break;
-            case ModelFacetE3.PROP_POSITION: {
-                this._position.zero()
-                this._position.x = data[0]
-                this._position.y = data[1]
-                this._position.z = data[2]
-            }
-                break;
-            default: {
-                console.warn("ModelFacetE3.setProperty " + name)
-            }
-        }
-    }
+
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
      * @param canvasId {number}
      */
     setUniforms(visitor: IFacetVisitor, canvasId: number) {
-        if (this._position.modified) {
-            this.matT.translation(this._position)
-            this._position.modified = false
+        if (this.X.modified) {
+            this.matT.translation(this.X)
+            this.X.modified = false
         }
-        if (this._attitude.modified) {
-            this.matR.rotation(this._attitude)
-            this._attitude.modified = false
+        if (this.R.modified) {
+            this.matR.rotation(this.R)
+            this.R.modified = false
         }
         if (this.scaleXYZ.modified) {
             this.matS.scaling(this.scaleXYZ)

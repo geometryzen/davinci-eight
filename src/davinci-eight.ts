@@ -155,9 +155,12 @@ import HH = require('davinci-eight/math/HH')
 
 // models
 import ModelE2 = require('davinci-eight/physics/ModelE2')
+import ModelE3 = require('davinci-eight/physics/ModelE3')
 import EulerFacet = require('davinci-eight/models/EulerFacet')
-import KinematicRigidBodyFacetE3 = require('davinci-eight/models/KinematicRigidBodyFacetE3')
+import RigidBodyFacetE3 = require('davinci-eight/models/RigidBodyFacetE3')
 import ModelFacetE3 = require('davinci-eight/models/ModelFacetE3')
+import RigidBodyE2 = require('davinci-eight/physics/RigidBodyE2')
+import RigidBodyE3 = require('davinci-eight/physics/RigidBodyE3')
 
 // programs
 import IMaterial = require('davinci-eight/core/IMaterial')
@@ -247,9 +250,12 @@ var eight = {
     get createView() { return createView },
 
     get ModelE2() { return ModelE2 },
+    get ModelE3() { return ModelE3 },
     get EulerFacet() { return EulerFacet },
-    get KinematicRigidBodyFacetE3() { return KinematicRigidBodyFacetE3 },
+    get RigidBodyFacetE3() { return RigidBodyFacetE3 },
     get ModelFacetE3() { return ModelFacetE3 },
+    get RigidBodyE2() { return RigidBodyE2 },
+    get RigidBodyE3() { return RigidBodyE3 },
 
     get Simplex() { return Simplex },
     get Vertex() { return Vertex },

@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean3', '../math/dotVectorE3', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/R3', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3, Euclidean3, dotVector, mustBeNumber, mustBeObject, quadVector, R3, rotorFromDirections) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/R3', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3, Euclidean3, dotVector, mustBeInteger, mustBeNumber, mustBeObject, quadVector, R3, rotorFromDirections) {
     var cos = Math.cos;
     var sin = Math.sin;
     var exp = Math.exp;
@@ -58,8 +58,8 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
         HH.prototype.adj = function () {
             throw new Error('TODO: HH.adj');
         };
-        HH.prototype.arg = function () {
-            throw new Error('TODO: HH.arg');
+        HH.prototype.angle = function () {
+            return this.log().grade(2);
         };
         HH.prototype.dual = function (vector) {
             // TODO
@@ -370,6 +370,30 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             this.y = a.y - b.y;
             this.z = a.z - b.z;
             this.t = a.t - b.t;
+            return this;
+        };
+        HH.prototype.grade = function (grade) {
+            mustBeInteger('grade', grade);
+            switch (grade) {
+                case 0:
+                    {
+                        this.x = 0;
+                        this.y = 0;
+                        this.z = 0;
+                    }
+                    break;
+                case 2:
+                    {
+                        this.t = 0;
+                    }
+                    break;
+                default: {
+                    this.t = 0;
+                    this.x = 0;
+                    this.y = 0;
+                    this.z = 0;
+                }
+            }
             return this;
         };
         HH.prototype.toExponential = function () {

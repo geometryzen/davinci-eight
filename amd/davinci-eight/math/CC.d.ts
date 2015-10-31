@@ -47,6 +47,7 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @return {number}
      */
     β: number;
+    xy: number;
     coordinates(): number[];
     /**
      * @method add
@@ -54,6 +55,12 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @return {CC}
      */
     add(rhs: CC): CC;
+    /**
+     * complex.angle() => complex.log().grade(2)
+     * @method angle
+     * @return {CC}
+     */
+    angle(): CC;
     /**
      * @method __add__
      * @param other {number | CC}
@@ -111,13 +118,15 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
     ext(rhs: CC): CC;
     __wedge__(other: any): CC;
     __rwedge__(other: any): CC;
-    lerp(target: CC, α: number): CC;
+    grade(grade: number): CC;
     /**
      * @method lco
      * @param rhs {CC}
      * @return {CC}
      */
     lco(rhs: CC): CC;
+    lerp(target: CC, α: number): CC;
+    log(): CC;
     /**
      * @method rco
      * @param rhs {CC}
@@ -162,6 +171,12 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      */
     isZero(): boolean;
     /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
+    magnitude(): number;
+    /**
      * Computes the additive inverse of this complex number.
      * @method neg
      * @return {CC}
@@ -204,11 +219,6 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @return {CC}
      */
     unitary(): CC;
-    /**
-     * @method arg
-     * @return {number}
-     */
-    arg(): number;
     toStringCustom(coordToString: (x: number) => string): string;
     toExponential(): string;
     toFixed(digits?: number): string;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -236,6 +243,7 @@ import isUndefined = require(&#x27;../checks/isUndefined&#x27;)
 import IUnknownExt = require(&#x27;../core/IUnknownExt&#x27;)
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
+import ModelE3 = require(&#x27;../physics/ModelE3&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import G3 = require(&#x27;../math/G3&#x27;)
 import R3 = require(&#x27;../math/R3&#x27;)
@@ -246,30 +254,10 @@ import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 /**
  * @class ModelFacetE3
  */
-class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnknownExt&lt;ModelFacetE3&gt; {
-    /**
-     * The name of the property that designates the attitude.
-     * @property PROP_ATTITUDE
-     * @type {string}
-     * @default &#x27;R&#x27;
-     * @static
-     * @readOnly
-     */
-    public static PROP_ATTITUDE = &#x27;R&#x27;;
-    /**
-     * The name of the property that designates the position.
-     * @property PROP_POSITION
-     * @type {string}
-     * @default &#x27;X&#x27;
-     * @static
-     * @readOnly
-     */
-    public static PROP_POSITION = &#x27;X&#x27;;
+class ModelFacetE3 extends ModelE3 implements IFacet, IAnimationTarget, IUnknownExt&lt;ModelFacetE3&gt; {
     // FIXME: Make this scale so that we can be geometric?
     public static PROP_SCALEXYZ = &#x27;scaleXYZ&#x27;;
 
-    private _position = new G3().copy(Euclidean3.zero);
-    private _attitude = new G3().copy(Euclidean3.one);
     // FIXME: I don&#x27;t like this non-geometric scaling.
     private _scaleXYZ: R3 = new R3([1, 1, 1]);
     private matM = Matrix4.identity();
@@ -297,8 +285,6 @@ class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnkno
      */
     constructor(type: string = &#x27;ModelFacetE3&#x27;) {
         super(mustBeString(&#x27;type&#x27;, type))
-        this._position.modified = true
-        this._attitude.modified = true
         this._scaleXYZ.modified = true
     }
     /**
@@ -307,46 +293,15 @@ class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnkno
      * @protected
      */
     protected destructor(): void {
-        this._position = void 0
-        this._attitude = void 0
         this._scaleXYZ = void 0
         this.matM = void 0
         this.matN = void 0
         this.matR = void 0
         this.matS = void 0
         this.matT = void 0
+        super.destructor()
     }
-    /**
-     * &lt;p&gt;
-     * The &lt;em&gt;attitude&lt;/em&gt;, a unitary spinor.
-     * &lt;/p&gt;
-     * @property R
-     * @type G3
-     * @readOnly
-     */
-    get R(): G3 {
-        return this._attitude
-    }
-    set R(unused) {
-        throw new Error(readOnly(ModelFacetE3.PROP_ATTITUDE).message)
-    }
-    /**
-     * &lt;p&gt;
-     * The &lt;em&gt;position&lt;/em&gt;, a vector.
-     * The vector &lt;b&gt;X&lt;/b&gt; designates the center of mass of the body (Physics).
-     * The vector &lt;b&gt;X&lt;/b&gt; designates the displacement from the local origin (Computer Graphics).
-     * &lt;/p&gt;
-     *
-     * @property X
-     * @type G3
-     * @readOnly
-     */
-    get X(): G3 {
-        return this._position
-    }
-    set X(unused) {
-        throw new Error(readOnly(ModelFacetE3.PROP_POSITION).message)
-    }
+
     /**
      * @property scaleXYZ
      * @type R3
@@ -358,66 +313,20 @@ class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnkno
     set scaleXYZ(unused) {
         throw new Error(readOnly(ModelFacetE3.PROP_SCALEXYZ).message)
     }
-    /**
-     * @method getProperty
-     * @param name {string}
-     * @return {number[]}
-     */
-    getProperty(name: string): number[] {
-        switch (name) {
-            case ModelFacetE3.PROP_ATTITUDE: {
-                return [this._attitude.yz, this._attitude.zx, this._attitude.xy, this._attitude.α]
-            }
-            case ModelFacetE3.PROP_POSITION: {
-                return [this._position.x, this._position.y, this._position.z]
-            }
-            default: {
-                console.warn(&quot;ModelFacetE3.getProperty &quot; + name)
-                return void 0
-            }
-        }
-    }
-    /**
-     * @method setProperty
-     * @param name {string}
-     * @param data {number[]}
-     * @return {void}
-     */
-    setProperty(name: string, data: number[]): void {
-        switch (name) {
-            case ModelFacetE3.PROP_ATTITUDE: {
-                this._attitude.zero()
-                this._attitude.yz = data[0]
-                this._attitude.zx = data[1]
-                this._attitude.xy = data[2]
-                this._attitude.α = data[3]
-            }
-                break;
-            case ModelFacetE3.PROP_POSITION: {
-                this._position.zero()
-                this._position.x = data[0]
-                this._position.y = data[1]
-                this._position.z = data[2]
-            }
-                break;
-            default: {
-                console.warn(&quot;ModelFacetE3.setProperty &quot; + name)
-            }
-        }
-    }
+
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
      * @param canvasId {number}
      */
     setUniforms(visitor: IFacetVisitor, canvasId: number) {
-        if (this._position.modified) {
-            this.matT.translation(this._position)
-            this._position.modified = false
+        if (this.X.modified) {
+            this.matT.translation(this.X)
+            this.X.modified = false
         }
-        if (this._attitude.modified) {
-            this.matR.rotation(this._attitude)
-            this._attitude.modified = false
+        if (this.R.modified) {
+            this.matR.rotation(this.R)
+            this.R.modified = false
         }
         if (this.scaleXYZ.modified) {
             this.matS.scaling(this.scaleXYZ)

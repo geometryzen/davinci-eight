@@ -4,6 +4,10 @@ import expectArg = require('../checks/expectArg');
 import SpinorE4 = require('../math/SpinorE4');
 import VectorN = require('../math/VectorN');
 
+let exp = Math.exp
+let log = Math.log
+let sqrt = Math.sqrt
+
 /**
  * @class R4
  */
@@ -157,6 +161,12 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
         this.z = a.z - b.z
         this.w = a.w - b.w
         return this;
+    }
+    magnitude(): number {
+        throw new Error("TODO: R4.magnitude()")
+    }
+    squaredNorm(): number {
+        throw new Error("TODO: R4.squaredNorm()")
     }
     toExponential(): string {
         return "TODO R4.toExponential"

@@ -37,7 +37,8 @@ class Spinor2Animation extends Shareable implements IAnimation {
             if (this.from === void 0) {
                 var data: number[] = target.getProperty(propName)
                 if (data) {
-                    this.from = new SpinG2(data);
+                    this.from = new SpinG2()
+                    this.from.data = data
                 }
             }
         }

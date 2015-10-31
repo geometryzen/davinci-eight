@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -235,15 +242,19 @@ import isNumber = require(&#x27;../checks/isNumber&#x27;)
 import lcoG3 = require(&#x27;../math/lcoG3&#x27;)
 import GeometricOperators = require(&#x27;../math/GeometricOperators&#x27;)
 import mulG3 = require(&#x27;../math/mulG3&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import MutableGeometricElement3D = require(&#x27;../math/MutableGeometricElement3D&#x27;)
-import PseudoscalarEe = require(&#x27;../math/PseudoE3&#x27;)
+import quadSpinor = require(&#x27;../math/quadSpinorE3&#x27;)
 import quadVector = require(&#x27;../math/quadVectorE3&#x27;)
 import rcoG3 = require(&#x27;../math/rcoG3&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import rotorFromDirections = require(&#x27;../math/rotorFromDirections&#x27;)
 import scpG3 = require(&#x27;../math/scpG3&#x27;)
 import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
+import squaredNormG3 = require(&#x27;../math/squaredNormG3&#x27;)
 import stringFromCoordinates = require(&#x27;../math/stringFromCoordinates&#x27;)
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 import VectorN = require(&#x27;../math/VectorN&#x27;)
@@ -261,9 +272,13 @@ let COORD_YZ = 5
 let COORD_ZX = 6
 let COORD_XYZ = 7
 
+let abs = Math.abs
+let atan2 = Math.atan2
 let exp = Math.exp
 let cos = Math.cos
+let log = Math.log
 let sin = Math.sin
+let sqrt = Math.sqrt
 
 let BASIS_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;e3&quot;, &quot;e12&quot;, &quot;e23&quot;, &quot;e31&quot;, &quot;e123&quot;]
 /**
@@ -272,6 +287,88 @@ let BASIS_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;e3&quot
 function coordinates(m: GeometricE3): number[] {
     return [m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β]
 }
+
+function makeConstantE3(label: string, α: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, β: number): GeometricE3 {
+    mustBeString(&#x27;label&#x27;, label)
+    mustBeNumber(&#x27;α&#x27;, α)
+    mustBeNumber(&#x27;x&#x27;, x)
+    mustBeNumber(&#x27;y&#x27;, y)
+    mustBeNumber(&#x27;z&#x27;, z)
+    mustBeNumber(&#x27;yz&#x27;, yz)
+    mustBeNumber(&#x27;zx&#x27;, zx)
+    mustBeNumber(&#x27;xy&#x27;, xy)
+    mustBeNumber(&#x27;β&#x27;, β)
+    var that: GeometricE3;
+    that = {
+        get α() {
+            return α;
+        },
+        set α(unused: number) {
+            throw new Error(readOnly(label + &#x27;.α&#x27;).message);
+        },
+        get x() {
+            return x;
+        },
+        set x(unused: number) {
+            throw new Error(readOnly(label + &#x27;.x&#x27;).message);
+        },
+        get y() {
+            return y;
+        },
+        set y(unused: number) {
+            throw new Error(readOnly(label + &#x27;.y&#x27;).message);
+        },
+        get z() {
+            return z;
+        },
+        set z(unused: number) {
+            throw new Error(readOnly(label + &#x27;.x&#x27;).message);
+        },
+        get yz() {
+            return yz;
+        },
+        set yz(unused: number) {
+            throw new Error(readOnly(label + &#x27;.yz&#x27;).message);
+        },
+        get zx() {
+            return zx;
+        },
+        set zx(unused: number) {
+            throw new Error(readOnly(label + &#x27;.zx&#x27;).message);
+        },
+        get xy() {
+            return xy;
+        },
+        set xy(unused: number) {
+            throw new Error(readOnly(label + &#x27;.xy&#x27;).message);
+        },
+        get β() {
+            return β;
+        },
+        set β(unused: number) {
+            throw new Error(readOnly(label + &#x27;.β&#x27;).message);
+        },
+        magnitude(): number {
+            // FIXME: should be the full multivector.
+            return sqrt(quadSpinor(that))
+        },
+        squaredNorm(): number {
+            // FIXME: should be the full multivector.
+            return quadSpinor(that)
+        },
+        toString() {
+            return label;
+        }
+    }
+    return that
+}
+
+let zero = makeConstantE3(&#x27;0&#x27;, 0, 0, 0, 0, 0, 0, 0, 0);
+let one = makeConstantE3(&#x27;1&#x27;, 1, 0, 0, 0, 0, 0, 0, 0);
+let e1 = makeConstantE3(&#x27;e1&#x27;, 0, 1, 0, 0, 0, 0, 0, 0);
+let e2 = makeConstantE3(&#x27;e2&#x27;, 0, 0, 1, 0, 0, 0, 0, 0);
+let e3 = makeConstantE3(&#x27;e2&#x27;, 0, 0, 0, 1, 0, 0, 0, 0);
+let I = makeConstantE3(&#x27;I&#x27;, 0, 0, 0, 0, 0, 0, 0, 1);
 
 /**
  * @class G3
@@ -496,11 +593,11 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 
     /**
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {G3}
      */
-    arg(): number {
-        throw new Error(&#x27;TODO: G3.arg&#x27;)
+    angle(): G3 {
+        return this.log().grade(2);
     }
 
     /**
@@ -748,21 +845,35 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
      * @return {G3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    exp(): G3 {
-        let w = this.α
-        let x = this.yz
-        let y = this.zx
-        let z = this.xy
-        let expW = exp(w)
+    exp() {
+        // It&#x27;s always the case that the scalar commutes with every other
+        // grade of the multivector, so we can pull it out the front.
+        let expW = exp(this.α)
+
+        // In G3 we have the special case that the pseudoscalar also commutes.
+        // And since it squares to -1, we get a exp(Iβ) = cos(β) + I * sin(β) factor.
+        let cosβ = cos(this.β)
+        let sinβ = sin(this.β)
+
+        // We are left with the vector and bivector components.
+        // For a bivector (usual case), let B = I * φ, where φ is a vector.
+        // We would get cos(φ) + I * n * sin(φ), where φ = |φ|n and n is a unit vector.
+        let yz = this.yz
+        let zx = this.zx
+        let xy = this.xy
         // φ is actually the absolute value of one half the rotation angle.
         // The orientation of the rotation gets carried in the bivector components.
-        let φ = Math.sqrt(x * x + y * y + z * z)
-        let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.α = expW * cos(φ);
-        this.yz = x * s;
-        this.zx = y * s;
-        this.xy = z * s;
-        return this;
+        let φ = sqrt(yz * yz + zx * zx + xy * xy)
+        let s = φ !== 0 ? sin(φ) / φ : 1
+        let cosφ = cos(φ);
+
+        // For a vector a, we use exp(a) = cosh(a) + n * sinh(a)
+        // The mixture of vector and bivector parts is more complex!
+        this.α = cosφ;
+        this.yz = yz * s;
+        this.zx = zx * s;
+        this.xy = xy * s;
+        return this.scale(expW);
     }
     /**
      * &lt;p&gt;
@@ -845,25 +956,28 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
      * @return {G3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    log(): G3 {
-        // FIXME: TODO
-        let w = this.α
+    log() {
+        let α = this.α
         let x = this.yz
         let y = this.zx
         let z = this.xy
-        let bb = x * x + y * y + z * z
-        let R2 = Math.sqrt(bb)
-        let R0 = Math.abs(w)
-        let R = Math.sqrt(w * w + bb)
-        this.α = Math.log(R)
-        let f = Math.atan2(R2, R0) / R2
+        let BB = x * x + y * y + z * z
+        let B = sqrt(BB)
+        let f = atan2(B, α) / B
+        this.α = log(sqrt(α * α + BB))
         this.yz = x * f
         this.zx = y * f
         this.xy = z * f
-        return this;
+        return this
     }
-    magnitude() {
-        return Math.sqrt(this.squaredNorm());
+
+    /**
+     * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+     * @method magnitude
+     * @return {number}
+     */
+    magnitude(): number {
+        return sqrt(this.squaredNorm());
     }
 
     /**
@@ -878,6 +992,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     mul(m: GeometricE3): G3 {
         return this.mul2(this, m)
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ a * b&lt;/code&gt;
@@ -938,7 +1053,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
      */
     normalize(): G3 {
         // The squaredNorm is the squared norm.
-        let norm = Math.sqrt(this.squaredNorm())
+        let norm = this.magnitude()
         this.α = this.α / norm
         this.x = this.x / norm
         this.y = this.y / norm
@@ -968,16 +1083,12 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 
     /**
+     * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this multivector.
      * @method squaredNorm
      * @return {number} &lt;code&gt;this * conj(this)&lt;/code&gt;
      */
     squaredNorm(): number {
-        // FIXME: TODO
-        let w = this.α;
-        let yz = this.yz;
-        let zx = this.zx;
-        let xy = this.xy;
-        return w * w + yz * yz + zx * zx + xy * xy;
+        return squaredNormG3(this)
     }
     /**
      * &lt;p&gt;
@@ -1012,12 +1123,12 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
      * @return {G3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    rev(): G3 {
-        // reverse has a ++-- structure.
-        this.α = this.α
-        this.x = this.x
-        this.y = this.y
-        this.z = this.z
+    rev() {
+        // reverse has a ++-- structure on the grades.
+        this.α = +this.α
+        this.x = +this.x
+        this.y = +this.y
+        this.z = +this.z
         this.yz = -this.yz
         this.zx = -this.zx
         this.xy = -this.xy
@@ -1275,6 +1386,59 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     toString(): string {
         let coordToString = function(coord: number): string { return coord.toString() };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
+    grade(grade: number): G3 {
+        mustBeInteger(&#x27;grade&#x27;, grade)
+        switch (grade) {
+            case 0: {
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+            }
+                break;
+            case 1: {
+                this.α = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+            }
+                break;
+            case 2: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.β = 0;
+            }
+                break;
+            case 3: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+            }
+                break;
+            default: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = 0;
+                this.yz = 0;
+                this.zx = 0;
+                this.xy = 0;
+                this.β = 0;
+            }
+        }
+        return this;
     }
 
     /**
@@ -1631,6 +1795,60 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 
     /**
+     * The identity element for addition.
+     * @property zero
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get zero(): G3 { return G3.copy(zero); };
+
+    /**
+     * The identity element for multiplication.
+     * @property one
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get one(): G3 { return G3.copy(one); };
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;x&lt;/code&gt; coordinate.
+     * @property e1
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get e1(): G3 { return G3.copy(e1); };
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;y&lt;/code&gt; coordinate.
+     * @property e2
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get e2(): G3 { return G3.copy(e2); };
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;y&lt;/code&gt; coordinate.
+     * @property e3
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get e3(): G3 { return G3.copy(e3); };
+
+    /**
+     * Basis vector corresponding to the &lt;code&gt;β&lt;/code&gt; coordinate.
+     * @property I
+     * @type {G3}
+     * @readOnly
+     * @static
+     */
+    static get I(): G3 { return G3.copy(I); };
+
+    /**
      * @method copy
      * @param M {GeometricE3}
      * @return {G3}
@@ -1702,6 +1920,18 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     */
     static lerp(A: GeometricE3, B: GeometricE3, α: number): G3 {
         return G3.copy(A).lerp(B, α)
+    }
+
+    /**
+     * Computes the rotor that rotates vector &lt;code&gt;a&lt;/code&gt; to vector &lt;code&gt;b&lt;/code&gt;.
+     * @method rotorFromDirections
+     * @param a {VectorE3} The &lt;em&gt;from&lt;/em&gt; vector.
+     * @param b {VectorE3} The &lt;em&gt;to&lt;/em&gt; vector.
+     * @return {G3}
+     * @static
+     */
+    static rotorFromDirections(a: VectorE3, b: VectorE3): G3 {
+        return new G3().rotorFromDirections(a, b)
     }
 }
 

@@ -55,7 +55,7 @@ define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology'
             },
             set: function (width) {
                 mustBeNumber('width', width);
-                this._a.setMagnitude(width);
+                this._a.normalize().scale(width);
             },
             enumerable: true,
             configurable: true
@@ -70,7 +70,7 @@ define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology'
             },
             set: function (height) {
                 mustBeNumber('height', height);
-                this._b.setMagnitude(height);
+                this._b.normalize().scale(height);
             },
             enumerable: true,
             configurable: true
@@ -85,7 +85,7 @@ define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology'
             },
             set: function (depth) {
                 mustBeNumber('depth', depth);
-                this._c.setMagnitude(depth);
+                this._c.normalize().scale(depth);
             },
             enumerable: true,
             configurable: true

@@ -1,11 +1,11 @@
 /**
- * @class PseudoE2
+ * @class Pseudo
  */
-interface PseudoE2 {
+interface Pseudo {
     /**
      * @property β
      * @type number
      */
     β: number;
 }
-export = PseudoE2;
+export = Pseudo;

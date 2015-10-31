@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/argSpinorCartesianE2.ts - davinci-eight</title>
+    <title>src/davinci-eight/physics/ModelE3.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -223,20 +230,177 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/argSpinorCartesianE2.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/physics/ModelE3.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import IAnimationTarget = require(&#x27;../slideshow/IAnimationTarget&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
+import G3 = require(&#x27;../math/G3&#x27;)
+import R3 = require(&#x27;../math/R3&#x27;)
+import SpinG3 = require(&#x27;../math/SpinG3&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;);
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+
 /**
- * Computes the principal argument of an E2 spinor from its scalar and bivector components.
- * α: The scalar part.
- * β: The bivector part.
+ * @class ModelE3
  */
-function argSpinorCartesianE2(α: number, β: number): number {
-    return Math.atan2(β, α)
+class ModelE3 extends Shareable implements IAnimationTarget {
+    /**
+     * The name of the property that designates the attitude.
+     * @property PROP_ATTITUDE
+     * @type {string}
+     * @default &#x27;R&#x27;
+     * @static
+     * @readOnly
+     */
+    public static PROP_ATTITUDE = &#x27;R&#x27;;
+    /**
+     * The name of the property that designates the position.
+     * @property PROP_POSITION
+     * @type {string}
+     * @default &#x27;X&#x27;
+     * @static
+     * @readOnly
+     */
+    public static PROP_POSITION = &#x27;X&#x27;;
+
+    /**
+     * @property _position
+     * @type {G3}
+     * @private
+     */
+    private _position = new G3().zero();
+
+    /**
+     * @property _attitude
+     * @type {G3}
+     * @private
+     */
+    private _attitude = new G3().zero().addScalar(1);
+
+    /**
+     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     * @property _posCache
+     * @type {R3}
+     * @private
+     */
+    private _posCache = new R3();
+    /**
+     * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+     * @property _attCache
+     * @type {SpinG3}
+     * @private
+     */
+    private _attCache = new SpinG3();
+    /**
+     * &lt;p&gt;
+     * A collection of properties for Rigid Body Modeling.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * ModelE3 implements IFacet required for manipulating a drawable object.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * Constructs a ModelE3 at the origin and with unity attitude.
+     * &lt;/p&gt;
+     * @class ModelE3
+     * @constructor
+     * @param type [string = &#x27;ModelE3&#x27;] The name used for reference counting.
+     */
+    constructor(type: string = &#x27;ModelE3&#x27;) {
+        super(mustBeString(&#x27;type&#x27;, type))
+        this._position.modified = true
+        this._attitude.modified = true
+    }
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        this._position = void 0
+        this._attitude = void 0
+        super.destructor()
+    }
+    /**
+     * &lt;p&gt;
+     * The &lt;em&gt;attitude&lt;/em&gt;, a unitary spinor.
+     * &lt;/p&gt;
+     * @property R
+     * @type G3
+     * @readOnly
+     */
+    get R(): G3 {
+        return this._attitude
+    }
+    set R(unused) {
+        throw new Error(readOnly(ModelE3.PROP_ATTITUDE).message)
+    }
+    /**
+     * &lt;p&gt;
+     * The &lt;em&gt;position&lt;/em&gt;, a vector.
+     * The vector &lt;b&gt;X&lt;/b&gt; designates the center of mass of the body (Physics).
+     * The vector &lt;b&gt;X&lt;/b&gt; designates the displacement from the local origin (Computer Graphics).
+     * &lt;/p&gt;
+     *
+     * @property X
+     * @type G3
+     * @readOnly
+     */
+    get X(): G3 {
+        return this._position
+    }
+    set X(unused) {
+        throw new Error(readOnly(ModelE3.PROP_POSITION).message)
+    }
+
+    /**
+     * @method getProperty
+     * @param name {string}
+     * @return {number[]}
+     */
+    getProperty(name: string): number[] {
+        switch (name) {
+            case ModelE3.PROP_ATTITUDE: {
+                return this._attCache.copy(this._attitude).data
+            }
+            case ModelE3.PROP_POSITION: {
+                return this._posCache.copy(this._position).data
+            }
+            default: {
+                console.warn(&quot;ModelE3.getProperty &quot; + name)
+                return void 0
+            }
+        }
+    }
+
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param data {number[]}
+     * @return {void}
+     */
+    setProperty(name: string, data: number[]): void {
+        switch (name) {
+            case ModelE3.PROP_ATTITUDE: {
+                this._attCache.data = data
+                this._attitude.copySpinor(this._attCache)
+            }
+                break;
+            case ModelE3.PROP_POSITION: {
+                this._posCache.data = data
+                this._position.copyVector(this._posCache)
+            }
+                break;
+            default: {
+                console.warn(&quot;ModelE3.setProperty &quot; + name)
+            }
+        }
+    }
 }
 
-export = argSpinorCartesianE2
+export = ModelE3
+
     </pre>
 </div>
                     </div>

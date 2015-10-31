@@ -4,6 +4,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+    var exp = Math.exp;
+    var log = Math.log;
+    var sqrt = Math.sqrt;
     /**
      * @class R4
      */
@@ -177,6 +180,12 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.z = a.z - b.z;
             this.w = a.w - b.w;
             return this;
+        };
+        R4.prototype.magnitude = function () {
+            throw new Error("TODO: R4.magnitude()");
+        };
+        R4.prototype.squaredNorm = function () {
+            throw new Error("TODO: R4.squaredNorm()");
         };
         R4.prototype.toExponential = function () {
             return "TODO R4.toExponential";

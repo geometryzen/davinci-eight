@@ -1,6 +1,7 @@
 import Euclidean1Coords = require('../math/Euclidean1Coords')
 import LinearElement = require('../math/LinearElement')
 import Measure = require('../math/Measure')
+import mustBeInteger = require('../checks/mustBeInteger')
 import readOnly = require('../i18n/readOnly')
 import Unit = require('../math/Unit')
 
@@ -35,11 +36,8 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
  * @class Euclidean1
  */
 class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclidean1Coords>,*/ Measure<Euclidean1> {
-    // FIXME: rename w to alpha, and keep it private.
     private w: number;
-    // FIXME: rename to beta, and make it private.
-    public x: number;
-    // Make it immutable
+    private x: number;
     public uom: Unit;
     /**
      * The Euclidean1 class represents a multivector for a 1-dimensional linear space with a Euclidean metric.
@@ -47,12 +45,12 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
      * @class Euclidean1
      * @constructor
      * @param {number} α The grade zero part of the multivector.
-     * @param {number} x The vector component of the multivector in the x-direction.
+     * @param {number} β The vector component of the multivector.
      * @param uom The optional unit of measure.
      */
-    constructor(α: number, x: number, uom?: Unit) {
+    constructor(α: number, β: number, uom?: Unit) {
         this.w = assertArgNumber('α', α)
-        this.x = assertArgNumber('x', x)
+        this.x = assertArgNumber('β', β)
         this.uom = assertArgUnitOrUndefined('uom', uom)
         if (this.uom && this.uom.multiplier !== 1) {
             var multiplier: number = this.uom.multiplier
@@ -74,21 +72,33 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         throw new Error(readOnly('α').message)
     }
 
+    /**
+     * The pseudoscalar part of this multivector.
+     * @property β
+     * @return {number}
+     */
+    get β(): number {
+        return this.x;
+    }
+    set β(unused) {
+        throw new Error(readOnly('β').message)
+    }
+
     coordinates(): number[] {
         return [this.w, this.x]
     }
 
     copy(source: Euclidean1Coords): Euclidean1 {
-        this.w = source.w
-        this.x = source.x
+        this.w = source.w;
+        this.x = source.x;
         this.uom = source.uom;
         return this;
     }
 
     difference(a: Euclidean1Coords, b: Euclidean1Coords): Euclidean1 {
-        this.w = a.w - b.w
-        this.x = a.x - b.x
-        this.uom = Unit.compatible(a.uom, b.uom)
+        this.w = a.w - b.w;
+        this.x = a.x - b.x;
+        this.uom = Unit.compatible(a.uom, b.uom);
         // FIXME this.uom.difference(a.uom, b.uom)
         return this;
     }
@@ -96,6 +106,14 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
     add(rhs: Euclidean1): Euclidean1 {
         assertArgEuclidean1('rhs', rhs)
         return new Euclidean1(this.w + rhs.w, this.x + rhs.x, Unit.compatible(this.uom, rhs.uom))
+    }
+
+    /**
+     * @method angle
+     * @return {Euclidean1}
+     */
+    angle(): Euclidean1 {
+        return this.log().grade(2);
     }
 
     sub(rhs: Euclidean1): Euclidean1 {
@@ -125,14 +143,19 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         throw new Error('wedge')
     }
 
+    lco(rhs: Euclidean1): Euclidean1 {
+        // assertArgEuclidean1('rhs', rhs)
+        throw new Error('lshift')
+    }
+
     lerp(target: Euclidean1, α: number): Euclidean1 {
         // FIXME: TODO
         return this
     }
 
-    lco(rhs: Euclidean1): Euclidean1 {
+    log(): Euclidean1 {
         // assertArgEuclidean1('rhs', rhs)
-        throw new Error('lshift')
+        throw new Error('log')
     }
 
     rco(rhs: Euclidean1): Euclidean1 {
@@ -183,6 +206,15 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
     }
     unitary(): Euclidean1 {
         throw new Error('unitary')
+    }
+
+    grade(grade: number): Euclidean1 {
+        mustBeInteger('grade', grade)
+        switch (grade) {
+            case 0: return new Euclidean1(this.w, 0, this.uom)
+            case 1: return new Euclidean1(0, this.x, this.uom)
+            default: return new Euclidean1(0, 0, this.uom)
+        }
     }
 
     toExponential(): string {

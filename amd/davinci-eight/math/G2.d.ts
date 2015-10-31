@@ -42,6 +42,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @type {number}
      */
     β: number;
+    xy: number;
     /**
      * <p>
      * <code>this ⟼ this + M * α</code>
@@ -97,11 +98,10 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     add2(a: GeometricE2, b: GeometricE2): G2;
     adj(): G2;
     /**
-     * Assuming <code>this = A * exp(B * θ)</code>, returns the <em>principal value</em> of θ.
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {G2}
      */
-    arg(): number;
+    angle(): G2;
     /**
      * @method clone
      * @return {G2} <code>copy(this)</code>
@@ -297,6 +297,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     log(): G2;
     /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
      * @return {number}
      */
@@ -502,6 +503,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @return {string}
      */
     toString(): string;
+    grade(grade: number): G2;
     /**
      * <p>
      * <code>this ⟼ this ^ m</code>

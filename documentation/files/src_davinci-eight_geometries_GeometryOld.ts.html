@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -237,199 +244,200 @@ import R3 = require(&#x27;../math/R3&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 
 function updateFaceNormal(face: Face3, vertices: VectorE3[]) {
-  face.vertexNormals = [];
-  let vA: VectorE3 = vertices[face.a];
-  let vB: VectorE3 = vertices[face.b];
-  let vC: VectorE3 = vertices[face.c];
-  let cb = new R3().difference(vC, vB);
-  let ab = new R3().difference(vA, vB);
-  let normal = new R3().cross2(cb, ab).normalize();
-  // TODO: I think we only need to push one normal here?
-  face.vertexNormals.push(normal);
-  face.vertexNormals.push(normal);
-  face.vertexNormals.push(normal);
+    face.vertexNormals = [];
+    let vA: VectorE3 = vertices[face.a];
+    let vB: VectorE3 = vertices[face.b];
+    let vC: VectorE3 = vertices[face.c];
+    let cb = new R3().difference(vC, vB);
+    let ab = new R3().difference(vA, vB);
+    let normal = new R3().cross2(cb, ab).normalize();
+    // TODO: I think we only need to push one normal here?
+    face.vertexNormals.push(normal);
+    face.vertexNormals.push(normal);
+    face.vertexNormals.push(normal);
 }
 
 class SimplexGeometry {
-  // faces and vertices will be combined into Simplex[]
-  public faces: Face3[] = [];
-  public vertices: VectorE3[] = [];
-  // faceVertexUvs should be an attribute. Why the triple?
-  public faceVertexUvs: VectorE2[][][] = [[]];
-  // Everything else is hints
-  public dynamic = true;
-  public verticesNeedUpdate = false;
-  public elementsNeedUpdate = false;
-  public uvsNeedUpdate = false;
-  public boundingSphere: Sphere = new Sphere({x: 0, y: 0, z: 0}, Infinity);
-  constructor() {
-  }
-  protected computeBoundingSphere(): void {
-    this.boundingSphere.setFromPoints(this.vertices);
-  }
-  /**
-   * Ensures that the normal property of each face is assigned
-   * a value equal to the normalized cross product of two edge vectors
-   * taken counter-clockwise. This pseudo vector is then taken to face outwards by convention.
-   * @method computeFaceNormals
-   */
-  // TODO: What would happen if we computed unit tangent spinors?
-  // Would such elements of the geometry be better behaved than pseudo vectors?
-  protected computeFaceNormals(): void {
-    // Avoid the this pointer in forEach callback function.
-    let vertices = this.vertices;
-    let updateFaceNormalCallback = function(face: Face3) {return updateFaceNormal(face, vertices);};
-    this.faces.forEach(updateFaceNormalCallback);
-  }
-  protected computeVertexNormals(areaWeighted?: boolean): void {
-    var v: number;
-    let vl: number = this.vertices.length;
-    var f: number;
-    var fl: number;
-    var face: Face3;
-
-    // For each vertex, we will compute a vertexNormal.
-    // Store the results in an Array&lt;R3&gt;
-    var vertexNormals: Array&lt;R3&gt; = new Array(this.vertices.length);
-    for (v = 0, vl = this.vertices.length; v &lt; vl; v++) {
-      vertexNormals[v] = new R3();
+    // faces and vertices will be combined into Simplex[]
+    public faces: Face3[] = [];
+    public vertices: VectorE3[] = [];
+    // faceVertexUvs should be an attribute. Why the triple?
+    public faceVertexUvs: VectorE2[][][] = [[]];
+    // Everything else is hints
+    public dynamic = true;
+    public verticesNeedUpdate = false;
+    public elementsNeedUpdate = false;
+    public uvsNeedUpdate = false;
+    public boundingSphere: Sphere = new Sphere({ x: 0, y: 0, z: 0 }, Infinity);
+    constructor() {
     }
-
-    if (areaWeighted) {
-
-      // vertex normals weighted by triangle areas
-      // http://www.iquilezles.org/www/articles/normals/normals.htm
-
-      var vA: VectorE3;
-      var vB: VectorE3;
-      var vC: VectorE3;
-      var cb = new R3();
-      var ab = new R3();
-
-      for ( f = 0, fl = this.faces.length; f &lt; fl; f ++ ) {
-        face = this.faces[ f ];
-
-        vA = this.vertices[ face.a ];
-        vB = this.vertices[ face.b ];
-        vC = this.vertices[ face.c ];
-
-        cb.difference( vC, vB );
-        ab.difference( vA, vB );
-        cb.cross( ab );
-
-        vertexNormals[face.a].add( cb );
-        vertexNormals[face.b].add( cb );
-        vertexNormals[face.c].add( cb );
-      }
-
+    protected computeBoundingSphere(): void {
+        this.boundingSphere.setFromPoints(this.vertices);
     }
-    else {
-
-      for ( f = 0, fl = this.faces.length; f &lt; fl; f ++ ) {
-        face = this.faces[ f ];
-        vertexNormals[face.a].add(face.vertexNormals[0]);
-        vertexNormals[face.b].add(face.vertexNormals[0]);
-        vertexNormals[face.c].add(face.vertexNormals[0]);
-      }
-
-    }
-
-    for ( v = 0, vl = this.vertices.length; v &lt; vl; v ++ ) {
-      vertexNormals[v].normalize();
-    }
-
-    for ( f = 0, fl = this.faces.length; f &lt; fl; f ++ ) {
-      face = this.faces[ f ];
-      face.vertexNormals[0] = vertexNormals[face.a].clone();
-      face.vertexNormals[1] = vertexNormals[face.b].clone();
-      face.vertexNormals[2] = vertexNormals[face.c].clone();
-    }
-  }
-  protected mergeVertices(precisionPoints: number = 4) {
     /**
-     * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
-     * key is constructed from coordinates, value is index in vertices array.
+     * Ensures that the normal property of each face is assigned
+     * a value equal to the normalized cross product of two edge vectors
+     * taken counter-clockwise. This pseudo vector is then taken to face outwards by convention.
+     * @method computeFaceNormals
      */
-    var verticesMap: {[key:string]:number} = {};
-    /**
-     * The list of unique vertices.
-     */
-    var unique: VectorE3[] = [];
-    /**
-     * Index is original index in vertices. Entry is index in unique array.
-     */
-    var changes: number[] = [];
-
-    let precision = Math.pow(10, precisionPoints);
-    var i: number;
-    var il: number;
-    var indices, j, jl;
-
-    for (i = 0, il = this.vertices.length; i &lt; il; i ++) {
-      let v: VectorE3 = this.vertices[ i ];
-      let key: string = Math.round( v.x * precision ) + &#x27;_&#x27; + Math.round( v.y * precision ) + &#x27;_&#x27; + Math.round( v.z * precision );
-
-      if (verticesMap[key] === void 0) {
-        verticesMap[key] = i;
-        unique.push(this.vertices[i]);
-        changes[i] = unique.length - 1;
-      }
-      else {
-        changes[i] = changes[verticesMap[key]];
-      }
+    // TODO: What would happen if we computed unit tangent spinors?
+    // Would such elements of the geometry be better behaved than pseudo vectors?
+    protected computeFaceNormals(): void {
+        // Avoid the this pointer in forEach callback function.
+        let vertices = this.vertices;
+        let updateFaceNormalCallback = function(face: Face3) { return updateFaceNormal(face, vertices); };
+        this.faces.forEach(updateFaceNormalCallback);
     }
+    protected computeVertexNormals(areaWeighted?: boolean): void {
+        var v: number;
+        let vl: number = this.vertices.length;
+        var f: number;
+        var fl: number;
+        var face: Face3;
 
+        // For each vertex, we will compute a vertexNormal.
+        // Store the results in an Array&lt;R3&gt;
+        var vertexNormals: Array&lt;R3&gt; = new Array(this.vertices.length);
+        for (v = 0, vl = this.vertices.length; v &lt; vl; v++) {
+            vertexNormals[v] = new R3();
+        }
 
-    // if faces are completely degenerate after merging vertices, we
-    // have to remove them.
-    var faceIndicesToRemove: number[] = [];
+        if (areaWeighted) {
 
-    // Update the faces to use the unique indices.
-    for ( i = 0, il = this.faces.length; i &lt; il; i ++ ) {
+            // vertex normals weighted by triangle areas
+            // http://www.iquilezles.org/www/articles/normals/normals.htm
 
-      let face: Face3 = this.faces[ i ];
+            var vA: VectorE3;
+            var vB: VectorE3;
+            var vC: VectorE3;
+            var cb = new R3();
+            var ab = new R3();
 
-      face.a = changes[ face.a ];
-      face.b = changes[ face.b ];
-      face.c = changes[ face.c ];
+            for (f = 0, fl = this.faces.length; f &lt; fl; f++) {
+                face = this.faces[f];
 
-      indices = [ face.a, face.b, face.c ];
+                vA = this.vertices[face.a];
+                vB = this.vertices[face.b];
+                vC = this.vertices[face.c];
 
-      var dupIndex = - 1;
+                cb.difference(vC, vB);
+                ab.difference(vA, vB);
+                cb.cross(ab);
 
-      // if any duplicate vertices are found in a Face3
-      // we have to remove the face as nothing can be saved
-      for ( var n = 0; n &lt; 3; n ++ ) {
-        if ( indices[ n ] == indices[ ( n + 1 ) % 3 ] ) {
-
-          dupIndex = n;
-          faceIndicesToRemove.push( i );
-          break;
+                vertexNormals[face.a].add(cb);
+                vertexNormals[face.b].add(cb);
+                vertexNormals[face.c].add(cb);
+            }
 
         }
-      }
+        else {
 
+            for (f = 0, fl = this.faces.length; f &lt; fl; f++) {
+                face = this.faces[f];
+                vertexNormals[face.a].add(face.vertexNormals[0]);
+                vertexNormals[face.b].add(face.vertexNormals[0]);
+                vertexNormals[face.c].add(face.vertexNormals[0]);
+            }
+
+        }
+
+        for (v = 0, vl = this.vertices.length; v &lt; vl; v++) {
+            vertexNormals[v].normalize();
+        }
+
+        for (f = 0, fl = this.faces.length; f &lt; fl; f++) {
+            face = this.faces[f];
+            face.vertexNormals[0] = vertexNormals[face.a].clone();
+            face.vertexNormals[1] = vertexNormals[face.b].clone();
+            face.vertexNormals[2] = vertexNormals[face.c].clone();
+        }
     }
+    protected mergeVertices(precisionPoints: number = 4) {
+        /**
+         * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
+         * key is constructed from coordinates, value is index in vertices array.
+         */
+        var verticesMap: { [key: string]: number } = {};
+        /**
+         * The list of unique vertices.
+         */
+        var unique: VectorE3[] = [];
+        /**
+         * Index is original index in vertices. Entry is index in unique array.
+         */
+        var changes: number[] = [];
 
-    for ( i = faceIndicesToRemove.length - 1; i &gt;= 0; i -- ) {
-      var idx = faceIndicesToRemove[ i ];
+        let precision = Math.pow(10, precisionPoints);
+        var i: number;
+        var il: number;
+        var indices, j, jl;
 
-      this.faces.splice( idx, 1 );
+        for (i = 0, il = this.vertices.length; i &lt; il; i++) {
+            let v: VectorE3 = this.vertices[i];
+            let key: string = Math.round(v.x * precision) + &#x27;_&#x27; + Math.round(v.y * precision) + &#x27;_&#x27; + Math.round(v.z * precision);
 
-      for ( j = 0, jl = this.faceVertexUvs.length; j &lt; jl; j ++ ) {
+            if (verticesMap[key] === void 0) {
+                verticesMap[key] = i;
+                unique.push(this.vertices[i]);
+                changes[i] = unique.length - 1;
+            }
+            else {
+                changes[i] = changes[verticesMap[key]];
+            }
+        }
 
-        this.faceVertexUvs[ j ].splice( idx, 1 );
 
-      }
+        // if faces are completely degenerate after merging vertices, we
+        // have to remove them.
+        var faceIndicesToRemove: number[] = [];
 
+        // Update the faces to use the unique indices.
+        for (i = 0, il = this.faces.length; i &lt; il; i++) {
+
+            let face: Face3 = this.faces[i];
+
+            face.a = changes[face.a];
+            face.b = changes[face.b];
+            face.c = changes[face.c];
+
+            indices = [face.a, face.b, face.c];
+
+            var dupIndex = - 1;
+
+            // if any duplicate vertices are found in a Face3
+            // we have to remove the face as nothing can be saved
+            for (var n = 0; n &lt; 3; n++) {
+                if (indices[n] == indices[(n + 1) % 3]) {
+
+                    dupIndex = n;
+                    faceIndicesToRemove.push(i);
+                    break;
+
+                }
+            }
+
+        }
+
+        for (i = faceIndicesToRemove.length - 1; i &gt;= 0; i--) {
+            var idx = faceIndicesToRemove[i];
+
+            this.faces.splice(idx, 1);
+
+            for (j = 0, jl = this.faceVertexUvs.length; j &lt; jl; j++) {
+
+                this.faceVertexUvs[j].splice(idx, 1);
+
+            }
+
+        }
+
+        // Use unique set of vertices
+
+        var difference = this.vertices.length - unique.length;
+        this.vertices = unique;
+        return difference;
+        return difference;
     }
-
-    // Use unique set of vertices
-
-    var diff = this.vertices.length - unique.length;
-    this.vertices = unique;
-    return diff;
-  }
 }
 
 export = SimplexGeometry;

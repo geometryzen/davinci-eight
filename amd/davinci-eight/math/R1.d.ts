@@ -25,12 +25,6 @@ declare class R1 extends VectorN<number> implements VectorE1, MutableLinearEleme
     add2(a: VectorE1, b: VectorE1): R1;
     scp(v: VectorE1): R1;
     adj(): R1;
-    /**
-     * @method arg
-     * @return {number}
-     * @beta
-     */
-    arg(): number;
     conj(): R1;
     copy(v: VectorE1): R1;
     determinant(): number;
@@ -61,8 +55,18 @@ declare class R1 extends VectorN<number> implements VectorE1, MutableLinearEleme
      * @return {R1} <code>this</code>
      */
     neg(): R1;
+    /**
+     * @method distanceTo
+     * @param point {VectorE1}
+     * @return {number}
+     */
     distanceTo(position: VectorE1): number;
     dot(v: VectorE1): number;
+    /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number;
     normalize(): R1;
     mul2(a: VectorE1, b: VectorE1): R1;
@@ -71,7 +75,6 @@ declare class R1 extends VectorN<number> implements VectorE1, MutableLinearEleme
     quadranceTo(position: VectorE1): number;
     reflect(n: VectorE1): R1;
     rotate(rotor: SpinorE1): R1;
-    setMagnitude(l: number): R1;
     /**
      * this ⟼ this + α * (v - this)</code>
      * @method lerp

@@ -189,9 +189,9 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      */
     dot(v: VectorE3): number;
     /**
-     * Returns the (Euclidean) norm of this vector.
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number} <code>norm(this)</code>
+     * @return {number}
      */
     magnitude(): number;
     /**
@@ -259,15 +259,6 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      * @deprecated
      */
     setXYZ(x: number, y: number, z: number): R3;
-    /**
-     * <p>
-     * <code>this ⟼ magnitude * this / norm(this)</code>
-     * </p>
-     * @method setMagnitude
-     * @param magnitude {number}
-     * @return {R3} <code>this</code>
-     */
-    setMagnitude(magnitude: number): R3;
     /**
      * @method setX
      * @param x {number}

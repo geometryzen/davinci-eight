@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.148.0</em>
+            <em>API Docs for: 2.149.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -112,7 +112,6 @@
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
-                                <li><a href="../classes/KinematicRigidBodyFacetE3.html">KinematicRigidBodyFacetE3</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
@@ -127,6 +126,7 @@
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
+                                <li><a href="../classes/ModelE3.html">ModelE3</a></li>
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
@@ -139,16 +139,19 @@
                                 <li><a href="../classes/PointSize.html">PointSize</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
-                                <li><a href="../classes/PseudoE2.html">PseudoE2</a></li>
-                                <li><a href="../classes/PseudoE3.html">PseudoE3</a></li>
+                                <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
+                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
+                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
+                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
+                                <li><a href="../classes/Scalar.html">Scalar</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -163,6 +166,10 @@
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
+                                <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
+                                <li><a href="../classes/SpinorE2.html">SpinorE2</a></li>
+                                <li><a href="../classes/SpinorE3.html">SpinorE3</a></li>
+                                <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
@@ -233,279 +240,288 @@ import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 
+let exp = Math.exp
+let log = Math.log
+let sqrt = Math.sqrt
+
 /**
  * @class R2
  */
 class R2 extends VectorN&lt;number&gt; implements VectorE2, MutableLinearElement&lt;VectorE2, R2, SpinorE2, VectorE2&gt; {
-  /**
-   * @class R2
-   * @constructor
-   * @param data {number[]} Default is [0, 0].
-   * @param modified {boolean} Default is false.
-   */
-  constructor(data = [0, 0], modified = false) {
-    super(data, modified, 2);
-  }
-  /**
-   * @property x
-   * @type Number
-   */
-  get x(): number {
-    return this.data[0];
-  }
-  set x(value: number) {
-    this.modified = this.modified || this.x !== value;
-    this.data[0] = value;
-  }
-  /**
-   * @property y
-   * @type Number
-   */
-  get y(): number {
-    return this.data[1];
-  }
-  set y(value: number) {
-    this.modified = this.modified || this.y !== value;
-    this.data[1] = value;
-  }
-  set(x: number, y: number): R2 {
-    this.x = x;
-    this.y = y;
-    return this;
-  }
-  setX(x: number) {
-    this.x = x;
-    return this;
-  }
-  setY(y: number) {
-    this.y = y;
-    return this;
-  }
-  copy(v: VectorE2) {
-    this.x = v.x;
-    this.y = v.y;
-    return this;
-  }
-  add(v: VectorE2, alpha: number = 1) {
-    this.x += v.x * alpha
-    this.y += v.y * alpha
-    return this
-  }
-  add2(a: VectorE2, b: VectorE2) {
-    this.x = a.x + b.x;
-    this.y = a.y + b.y;
-    return this;
-  }
-  sub(v: VectorE2) {
-    this.x -= v.x;
-    this.y -= v.y;
-    return this;
-  }
-  subScalar(s: number) {
-    this.x -= s;
-    this.y -= s;
-    return this;
-  }
-  sub2(a: VectorE2, b: VectorE2) {
-    this.x = a.x - b.x;
-    this.y = a.y - b.y;
-    return this;
-  }
-  scale(s: number) {
-    this.x *= s;
-    this.y *= s;
-    return this;
-  }
-  divByScalar(scalar: number) {
-    if (scalar !== 0) {
-      var invScalar = 1 / scalar;
-      this.x *= invScalar;
-      this.y *= invScalar;
+    /**
+     * @class R2
+     * @constructor
+     * @param data {number[]} Default is [0, 0].
+     * @param modified {boolean} Default is false.
+     */
+    constructor(data = [0, 0], modified = false) {
+        super(data, modified, 2);
     }
-    else {
-      this.x = 0;
-      this.y = 0;
+    /**
+     * @property x
+     * @type Number
+     */
+    get x(): number {
+        return this.data[0];
     }
-    return this;
-  }
-  min(v: VectorE2) {
-    if (this.x &gt; v.x) {
-      this.x = v.x;
+    set x(value: number) {
+        this.modified = this.modified || this.x !== value;
+        this.data[0] = value;
     }
-    if (this.y &gt; v.y) {
-      this.y = v.y;
+    /**
+     * @property y
+     * @type Number
+     */
+    get y(): number {
+        return this.data[1];
     }
-    return this;
-  }
-  max(v: VectorE2) {
-    if (this.x &lt; v.x) {
-      this.x = v.x;
+    set y(value: number) {
+        this.modified = this.modified || this.y !== value;
+        this.data[1] = value;
     }
-    if (this.y &lt; v.y) {
-      this.y = v.y;
+    set(x: number, y: number): R2 {
+        this.x = x;
+        this.y = y;
+        return this;
     }
-    return this;
-  }
-  floor() {
-    this.x = Math.floor(this.x);
-    this.y = Math.floor(this.y);
-    return this;
-  }
-  ceil() {
-    this.x = Math.ceil(this.x);
-    this.y = Math.ceil(this.y);
-    return this;
-  }
-  round() {
-    this.x = Math.round(this.x);
-    this.y = Math.round(this.y);
-    return this;
-  }
-  roundToZero() {
-    this.x = (this.x &lt; 0) ? Math.ceil(this.x) : Math.floor(this.x);
-    this.y = (this.y &lt; 0) ? Math.ceil(this.y) : Math.floor(this.y);
-    return this;
-  }
-  /**
-   * @method neg
-   * @return {R2} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  neg() {
-    this.x = -this.x
-    this.y = -this.y
-    return this
-  }
-  distanceTo(position: VectorE2) {
-    return Math.sqrt(this.quadranceTo(position));
-  }
-  dot(v: VectorE2) {
-    return this.x * v.x + this.y * v.y;
-  }
-  magnitude(): number {
-    return Math.sqrt(this.squaredNorm());
-  }
-  normalize() {
-    return this.divByScalar(this.magnitude());
-  }
-  squaredNorm(): number {
-    return this.x * this.x + this.y * this.y;
-  }
-  quadranceTo(position: VectorE2) {
-    let dx = this.x - position.x;
-    let dy = this.y - position.y;
-    return dx * dx + dy * dy;
-  }
-  reflect(n: VectorE2): R2 {
-    // FIXME: TODO
-    return this;
-  }
-  rotate(rotor: SpinorE2): R2 {
-    return this;
-  }
-  setMagnitude(l: number) {
-    var oldLength = this.magnitude();
-    if (oldLength !== 0 &amp;&amp; l !== oldLength) {
-      this.scale(l / oldLength);
+    setX(x: number) {
+        this.x = x;
+        return this;
     }
-    return this;
-  }
-  /**
-   * this ⟼ this + (v - this) * α
-   * @method lerp
-   * @param v {VectorE2}
-   * @param α {number}
-   * @return {R2}
-   * @chainable 
-   */
-  lerp(v: VectorE2, α: number) {
-    this.x += (v.x - this.x) * α;
-    this.y += (v.y - this.y) * α;
-    return this;
-  }
-  /**
-   * &lt;p&gt;
-   * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
-   * &lt;/p&gt;
-   * @method lerp2
-   * @param a {VectorE2}
-   * @param b {VectorE2}
-   * @param α {number}
-   * @return {R2} &lt;code&gt;this&lt;/code&gt;
-   * @chainable
-   */
-  lerp2(a: VectorE2, b: VectorE2, α: number) {
-    this.copy(a).lerp(b, α)
-    return this
-  }
-  equals(v: VectorE2) {
-    return ((v.x === this.x) &amp;&amp; (v.y === this.y));
-  }
-  slerp(v: VectorE2, α: number) {
-    return this;
-  }
-  toExponential(): string {
-    return &quot;TODO: R2.toExponential&quot;
-  }
-  toFixed(digits?: number): string {
-    return &quot;TODO: R2.toString&quot;
-  }
-  fromArray(array: number[], offset: number = 0) {
-    this.x = array[offset];
-    this.y = array[offset + 1];
-    return this;
-  }
-  fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset: number = 0) {
-    index = index * attribute.itemSize + offset;
-    this.x = attribute.array[index];
-    this.y = attribute.array[index + 1];
-    return this;
-  }
-  clone() {
-    return new R2([this.x, this.y]);
-  }
+    setY(y: number) {
+        this.y = y;
+        return this;
+    }
+    copy(v: VectorE2) {
+        this.x = v.x;
+        this.y = v.y;
+        return this;
+    }
+    add(v: VectorE2, alpha: number = 1) {
+        this.x += v.x * alpha
+        this.y += v.y * alpha
+        return this
+    }
+    add2(a: VectorE2, b: VectorE2) {
+        this.x = a.x + b.x;
+        this.y = a.y + b.y;
+        return this;
+    }
+    sub(v: VectorE2) {
+        this.x -= v.x;
+        this.y -= v.y;
+        return this;
+    }
+    subScalar(s: number) {
+        this.x -= s;
+        this.y -= s;
+        return this;
+    }
+    sub2(a: VectorE2, b: VectorE2) {
+        this.x = a.x - b.x;
+        this.y = a.y - b.y;
+        return this;
+    }
+    scale(s: number) {
+        this.x *= s;
+        this.y *= s;
+        return this;
+    }
+    divByScalar(scalar: number) {
+        if (scalar !== 0) {
+            var invScalar = 1 / scalar;
+            this.x *= invScalar;
+            this.y *= invScalar;
+        }
+        else {
+            this.x = 0;
+            this.y = 0;
+        }
+        return this;
+    }
+    min(v: VectorE2) {
+        if (this.x &gt; v.x) {
+            this.x = v.x;
+        }
+        if (this.y &gt; v.y) {
+            this.y = v.y;
+        }
+        return this;
+    }
+    max(v: VectorE2) {
+        if (this.x &lt; v.x) {
+            this.x = v.x;
+        }
+        if (this.y &lt; v.y) {
+            this.y = v.y;
+        }
+        return this;
+    }
+    floor() {
+        this.x = Math.floor(this.x);
+        this.y = Math.floor(this.y);
+        return this;
+    }
+    ceil() {
+        this.x = Math.ceil(this.x);
+        this.y = Math.ceil(this.y);
+        return this;
+    }
+    round() {
+        this.x = Math.round(this.x);
+        this.y = Math.round(this.y);
+        return this;
+    }
+    roundToZero() {
+        this.x = (this.x &lt; 0) ? Math.ceil(this.x) : Math.floor(this.x);
+        this.y = (this.y &lt; 0) ? Math.ceil(this.y) : Math.floor(this.y);
+        return this;
+    }
+    /**
+     * @method neg
+     * @return {R2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    neg() {
+        this.x = -this.x
+        this.y = -this.y
+        return this
+    }
 
-  /**
-   * Sets this vector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
-   * @method zero
-   * @return {R2}
-   * @chainable
-   */
-  zero(): R2 {
-    this.x = 0
-    this.y = 0
-    return this
-  }
+    /**
+     * @method distanceTo
+     * @param point {VectorE2}
+     * @return {number}
+     */
+    distanceTo(position: VectorE2) {
+        return sqrt(this.quadranceTo(position));
+    }
+    dot(v: VectorE2) {
+        return this.x * v.x + this.y * v.y;
+    }
+    /**
+     * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
+     * @method magnitude
+     * @return {number}
+     */
+    magnitude(): number {
+        return sqrt(this.squaredNorm());
+    }
+    normalize() {
+        return this.divByScalar(this.magnitude());
+    }
+    squaredNorm(): number {
+        return this.x * this.x + this.y * this.y;
+    }
+    quadranceTo(position: VectorE2) {
+        let dx = this.x - position.x;
+        let dy = this.y - position.y;
+        return dx * dx + dy * dy;
+    }
+    reflect(n: VectorE2): R2 {
+        // FIXME: TODO
+        return this;
+    }
+    rotate(rotor: SpinorE2): R2 {
+        return this;
+    }
 
-  /**
-   * @method copy
-   * @param vector {VectorE2}
-   * @return {R2}
-   * @static
-   */
-  static copy(vector: VectorE2): R2 {
-    return new R2([vector.x, vector.y])
-  }
+    /**
+     * this ⟼ this + (v - this) * α
+     * @method lerp
+     * @param v {VectorE2}
+     * @param α {number}
+     * @return {R2}
+     * @chainable 
+     */
+    lerp(v: VectorE2, α: number) {
+        this.x += (v.x - this.x) * α;
+        this.y += (v.y - this.y) * α;
+        return this;
+    }
+    /**
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ a + α * (b - a)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method lerp2
+     * @param a {VectorE2}
+     * @param b {VectorE2}
+     * @param α {number}
+     * @return {R2} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
+    lerp2(a: VectorE2, b: VectorE2, α: number) {
+        this.copy(a).lerp(b, α)
+        return this
+    }
+    equals(v: VectorE2) {
+        return ((v.x === this.x) &amp;&amp; (v.y === this.y));
+    }
+    slerp(v: VectorE2, α: number) {
+        return this;
+    }
+    toExponential(): string {
+        return &quot;TODO: R2.toExponential&quot;
+    }
+    toFixed(digits?: number): string {
+        return &quot;TODO: R2.toString&quot;
+    }
+    fromArray(array: number[], offset: number = 0) {
+        this.x = array[offset];
+        this.y = array[offset + 1];
+        return this;
+    }
+    fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset: number = 0) {
+        index = index * attribute.itemSize + offset;
+        this.x = attribute.array[index];
+        this.y = attribute.array[index + 1];
+        return this;
+    }
+    clone() {
+        return new R2([this.x, this.y]);
+    }
 
-  /**
-   * @method lerp
-   * @param a {VectorE2}
-   * @param b {VectorE2}
-   * @param α {number}
-   * @return {R2} &lt;code&gt;a + α * (b - a)&lt;/code&gt;
-   * @static
-   */
-  static lerp(a: VectorE2, b: VectorE2, α: number): R2 {
-    return R2.copy(b).sub(a).scale(α).add(a)
-  }
-  /**
-   * @method random
-   * @return {R2}
-   * @static
-   */
-  static random(): R2 {
-    return new R2([Math.random(), Math.random()])
-  }
+    /**
+     * Sets this vector to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+     * @method zero
+     * @return {R2}
+     * @chainable
+     */
+    zero(): R2 {
+        this.x = 0
+        this.y = 0
+        return this
+    }
+
+    /**
+     * @method copy
+     * @param vector {VectorE2}
+     * @return {R2}
+     * @static
+     */
+    static copy(vector: VectorE2): R2 {
+        return new R2([vector.x, vector.y])
+    }
+
+    /**
+     * @method lerp
+     * @param a {VectorE2}
+     * @param b {VectorE2}
+     * @param α {number}
+     * @return {R2} &lt;code&gt;a + α * (b - a)&lt;/code&gt;
+     * @static
+     */
+    static lerp(a: VectorE2, b: VectorE2, α: number): R2 {
+        return R2.copy(b).sub(a).scale(α).add(a)
+    }
+    /**
+     * @method random
+     * @return {R2}
+     * @static
+     */
+    static random(): R2 {
+        return new R2([Math.random(), Math.random()])
+    }
 
 }
 

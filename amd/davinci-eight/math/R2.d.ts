@@ -46,15 +46,24 @@ declare class R2 extends VectorN<number> implements VectorE2, MutableLinearEleme
      * @chainable
      */
     neg(): R2;
+    /**
+     * @method distanceTo
+     * @param point {VectorE2}
+     * @return {number}
+     */
     distanceTo(position: VectorE2): number;
     dot(v: VectorE2): number;
+    /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
+     * @method magnitude
+     * @return {number}
+     */
     magnitude(): number;
     normalize(): R2;
     squaredNorm(): number;
     quadranceTo(position: VectorE2): number;
     reflect(n: VectorE2): R2;
     rotate(rotor: SpinorE2): R2;
-    setMagnitude(l: number): R2;
     /**
      * this ⟼ this + (v - this) * α
      * @method lerp

@@ -1,4 +1,3 @@
-import argSpinorCartesianE2 = require('../math/argSpinorCartesianE2')
 import dotVector = require('../math/dotVectorE2')
 import extE2 = require('../math/extE2')
 import GeometricE2 = require('../math/GeometricE2')
@@ -8,6 +7,7 @@ import isObject = require('../checks/isObject')
 import lcoE2 = require('../math/lcoE2')
 import GeometricOperators = require('../math/GeometricOperators')
 import mulE2 = require('../math/mulE2')
+import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import mustBeString = require('../checks/mustBeString')
@@ -80,12 +80,12 @@ function duckCopy(value: any): G2 {
     }
 }
 
-function makeConstantE2(label: string, α: number, x: number, y: number, β: number): GeometricE2 {
+function makeConstantE2(label: string, α: number, x: number, y: number, xy: number): GeometricE2 {
     mustBeString('label', label)
     mustBeNumber('α', α)
     mustBeNumber('x', x)
     mustBeNumber('y', y)
-    mustBeNumber('β', β)
+    mustBeNumber('xy', xy)
     var that: GeometricE2;
     that = {
         get α() {
@@ -107,13 +107,19 @@ function makeConstantE2(label: string, α: number, x: number, y: number, β: num
             throw new Error(readOnly(label + '.y').message);
         },
         get β() {
-            return β;
+            return xy;
         },
         set β(unused: number) {
             throw new Error(readOnly(label + '.β').message);
         },
-        arg(): number {
-            return argSpinorCartesianE2(that.α, that.β)
+        get xy() {
+            return xy;
+        },
+        set xy(unused: number) {
+            throw new Error(readOnly(label + '.xy').message);
+        },
+        magnitude(): number {
+            return sqrt(quadSpinor(that))
         },
         squaredNorm(): number {
             return quadSpinor(that)
@@ -195,6 +201,14 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.modified = this.modified || this.data[COORD_XY] !== β
         this.data[COORD_XY] = β
     }
+    get xy(): number {
+        return this.data[COORD_XY]
+    }
+    set xy(xy: number) {
+        this.modified = this.modified || this.data[COORD_XY] !== xy
+        this.data[COORD_XY] = xy
+    }
+
     /**
      * <p>
      * <code>this ⟼ this + M * α</code>
@@ -262,6 +276,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.y += v.y * α
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ a + b</code>
@@ -287,12 +302,11 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     }
 
     /**
-     * Assuming <code>this = A * exp(B * θ)</code>, returns the <em>principal value</em> of θ.
-     * @method arg
-     * @return {number}
+     * @method angle
+     * @return {G2}
      */
-    arg(): number {
-        return argSpinorCartesianE2(this.α, this.β)
+    angle(): G2 {
+        return this.log().grade(2);
     }
 
     /**
@@ -435,7 +449,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.α = spinor.α
         this.x = 0
         this.y = 0
-        this.β = spinor.β
+        this.β = spinor.xy
         return this
     }
 
@@ -529,7 +543,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @return {G2} <code>this</code>
      * @chainable
      */
-    exp(): G2 {
+    exp() {
         let w = this.α
         let z = this.β
         let expW = exp(w)
@@ -537,9 +551,9 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         // The orientation of the rotation gets carried in the bivector components.
         let φ = sqrt(z * z)
         let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
-        this.α = expW * cos(φ);
-        this.β = z * s;
-        return this;
+        this.α = expW * cos(φ)
+        this.β = z * s
+        return this
     }
 
     /**
@@ -620,19 +634,19 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      */
     log() {
         // FIXME: This only handles the spinor components.
-        let w = this.α
+        let α = this.α
         let β = this.β
-        let r = sqrt(w * w + β * β)
-        this.α = log(r)
+        this.α = log(sqrt(α * α + β * β))
         this.x = 0
         this.y = 0
-        this.β = atan2(β, w)
+        this.β = atan2(β, α)
         return this;
     }
 
     /**
+     * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number} 
+     * @return {number}
      */
     magnitude(): number {
         return sqrt(this.squaredNorm());
@@ -816,7 +830,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         let x = this.x;
         let y = this.y;
 
-        let a = R.β;
+        let a = R.xy;
         let α = R.α;
 
         let ix = α * x + a * y;
@@ -866,7 +880,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         // The effect will be a scaling of the angle.
         // A non unitary rotor, on the other hand, will scale the transformation.
         // We must also take into account the orientation of B.
-        let β = B.β
+        let β = B.xy
         /**
          * Sandwich operation means we need the half-angle.
          */
@@ -1027,6 +1041,36 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     toString(): string {
         let coordToString = function(coord: number): string { return coord.toString() };
         return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+    }
+
+    grade(grade: number): G2 {
+        mustBeInteger('grade', grade)
+        switch (grade) {
+            case 0: {
+                this.x = 0;
+                this.y = 0;
+                this.β = 0;
+            }
+                break;
+            case 1: {
+                this.α = 0;
+                this.β = 0;
+            }
+                break;
+            case 2: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+            }
+                break;
+            default: {
+                this.α = 0;
+                this.x = 0;
+                this.y = 0;
+                this.β = 0;
+            }
+        }
+        return this;
     }
 
     /**
@@ -1541,7 +1585,6 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     static rotorFromDirections(a: VectorE2, b: VectorE2): G2 {
         return new G2().rotorFromDirections(a, b)
     }
-
 }
 
 export = G2

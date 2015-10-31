@@ -4,6 +4,9 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, isDefined, isNumber, mustBeNumber, mustBeObject, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+    var exp = Math.exp;
+    var log = Math.log;
+    var sqrt = Math.sqrt;
     /**
      * @class R3
      * @extends VectorN<number>
@@ -266,7 +269,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
          */
         R3.prototype.distanceTo = function (point) {
             if (isDefined(point)) {
-                return Math.sqrt(this.quadranceTo(point));
+                return sqrt(this.quadranceTo(point));
             }
             else {
                 return void 0;
@@ -321,12 +324,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
             return R3.dot(this, v);
         };
         /**
-         * Returns the (Euclidean) norm of this vector.
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number} <code>norm(this)</code>
+         * @return {number}
          */
         R3.prototype.magnitude = function () {
-            return Math.sqrt(this.squaredNorm());
+            return sqrt(this.squaredNorm());
         };
         /**
          * @method neg
@@ -427,29 +430,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
             this.y = mustBeNumber('y', y);
             this.z = mustBeNumber('z', z);
             return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ magnitude * this / norm(this)</code>
-         * </p>
-         * @method setMagnitude
-         * @param magnitude {number}
-         * @return {R3} <code>this</code>
-         */
-        R3.prototype.setMagnitude = function (magnitude) {
-            var m = this.magnitude();
-            if (m !== 0) {
-                if (magnitude !== m) {
-                    return this.scale(magnitude / m);
-                }
-                else {
-                    return this; // No change
-                }
-            }
-            else {
-                // Former magnitude was zero, i.e. a null vector.
-                throw new Error("Attempting to set the magnitude of a null vector.");
-            }
         };
         /**
          * @method setX

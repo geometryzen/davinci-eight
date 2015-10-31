@@ -34,14 +34,14 @@ define(["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R
              * @type {R2}
              * @private
              */
-            this._posCache = new R2([0, 0]);
+            this._posCache = new R2();
             /**
              * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
              * @property _attCache
              * @type {SpinG2}
              * @private
              */
-            this._attCache = new SpinG2([0, 0]);
+            this._attCache = new SpinG2();
             this._position.modified = true;
             this._attitude.modified = true;
         }
