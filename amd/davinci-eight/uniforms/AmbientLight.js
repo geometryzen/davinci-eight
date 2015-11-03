@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Color, Shareable, Symbolic) {
+define(["require", "exports", '../core/Color', '../checks/mustBeNumber', '../checks/mustBeObject', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Color, mustBeNumber, mustBeObject, Shareable, Symbolic) {
     var LOGGING_NAME = 'AmbientLight';
     function contextBuilder() {
         return LOGGING_NAME;
@@ -19,13 +19,14 @@ define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Sy
          * @class AmbientLight
          * @constructor
          */
-        function AmbientLight() {
+        function AmbientLight(color) {
             _super.call(this, 'AmbientLight');
+            mustBeObject('color', color);
             // FIXME: Need some kind of locking for constants
             this.color = Color.white.clone();
-            this.color.red = 0.2;
-            this.color.green = 0.2;
-            this.color.blue = 0.2;
+            this.color.r = mustBeNumber('color.r', color.r);
+            this.color.g = mustBeNumber('color.g', color.g);
+            this.color.b = mustBeNumber('color.b', color.b);
         }
         /**
          * @method destructor
@@ -47,7 +48,8 @@ define(["require", "exports", '../core/Color', '../utils/Shareable', '../core/Sy
          * @return {void}
          */
         AmbientLight.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.vector3(Symbolic.UNIFORM_AMBIENT_LIGHT, this.color.data, canvasId);
+            var coords = [this.color.r, this.color.g, this.color.b];
+            visitor.vector3(Symbolic.UNIFORM_AMBIENT_LIGHT, coords, canvasId);
         };
         return AmbientLight;
     })(Shareable);

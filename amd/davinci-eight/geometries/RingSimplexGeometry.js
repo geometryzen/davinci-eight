@@ -58,11 +58,11 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
                 var v0 = quadIndex;
                 var v1 = quadIndex + thetaSegments + 1; // Move outwards one segment.
                 var v2 = quadIndex + thetaSegments + 2; // Then move one segment along the radius.
-                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3.copy(axis), R3.copy(axis), R3.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
                 v0 = quadIndex; // Start at the same corner
                 v1 = quadIndex + thetaSegments + 2; // Move diagonally outwards and along radial
                 v2 = quadIndex + 1; // Then move radially inwards
-                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
+                geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3.copy(axis), R3.copy(axis), R3.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()]);
             }
         }
     }
@@ -133,18 +133,10 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
         function RingSimplexGeometry(a, b, axis, sliceStart, sliceAngle) {
             if (a === void 0) { a = 1; }
             if (b === void 0) { b = 0; }
-            _super.call(this, 'RingSimplexGeometry', axis, sliceStart, sliceAngle);
+            _super.call(this, axis, sliceStart, sliceAngle);
             this.a = a;
             this.b = b;
         }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        RingSimplexGeometry.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
         /**
          * @method isModified
          * @return {boolean}

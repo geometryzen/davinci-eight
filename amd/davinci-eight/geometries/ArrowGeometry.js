@@ -12,9 +12,11 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
         /**
          * @class ArrowGeometry
          * @constructor
+         * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity.
+         * @param sliceStart [VectorE3] A direction, orthogonal to <code>axis</code>.
          */
-        function ArrowGeometry() {
-            _super.call(this);
+        function ArrowGeometry(axis, sliceStart) {
+            _super.call(this, axis, sliceStart);
             /**
              * @property heightCone
              * @type {number}
@@ -74,49 +76,42 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
              * The tail is the the position of the blunt end of the arrow.
              */
             var tail = R3.copy(this.position);
-            var cone = new ConeGeometry();
+            var cone = new ConeGeometry(this.axis, this.sliceStart);
             cone.radius = this.radiusCone;
             cone.height = this.heightCone;
-            cone.position = neck;
+            cone.setPosition(neck);
             cone.axis = this.axis;
             cone.sliceAngle = this.sliceAngle;
-            cone.sliceStart = this.sliceStart;
             cone.thetaSegments = this.thetaSegments;
             cone.useTextureCoords = this.useTextureCoords;
             /**
              * The `disc` fills the space between the cone and the shaft.
              */
-            var disc = new RingGeometry();
+            var disc = new RingGeometry(back, this.sliceStart);
             disc.innerRadius = this.radiusShaft;
             disc.outerRadius = this.radiusCone;
-            disc.position = neck;
-            disc.axis = back;
+            disc.setPosition(neck);
             disc.sliceAngle = -this.sliceAngle;
-            disc.sliceStart = this.sliceStart;
             disc.thetaSegments = this.thetaSegments;
             disc.useTextureCoords = this.useTextureCoords;
             /**
              * The `shaft` is the slim part of the arrow.
              */
-            var shaft = new CylinderGeometry();
+            var shaft = new CylinderGeometry(this.axis, this.sliceStart);
             shaft.radius = this.radiusShaft;
             shaft.height = heightShaft;
-            shaft.position = tail;
-            shaft.axis = this.axis;
+            shaft.setPosition(tail);
             shaft.sliceAngle = this.sliceAngle;
-            shaft.sliceStart = this.sliceStart;
             shaft.thetaSegments = this.thetaSegments;
             shaft.useTextureCoords = this.useTextureCoords;
             /**
              * The `plug` fills the end of the shaft.
              */
-            var plug = new RingGeometry();
+            var plug = new RingGeometry(back, this.sliceStart);
             plug.innerRadius = 0;
             plug.outerRadius = this.radiusShaft;
-            plug.position = tail;
-            plug.axis = back;
+            plug.setPosition(tail);
             plug.sliceAngle = -this.sliceAngle;
-            plug.sliceStart = this.sliceStart;
             plug.thetaSegments = this.thetaSegments;
             plug.useTextureCoords = this.useTextureCoords;
             return [cone.toPrimitives(), disc.toPrimitives(), shaft.toPrimitives(), plug.toPrimitives()].reduce(function (a, b) { return a.concat(b); }, []);

@@ -171,22 +171,13 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
             if (phiLength === void 0) { phiLength = 2 * Math.PI; }
             if (thetaStart === void 0) { thetaStart = 0; }
             if (thetaLength === void 0) { thetaLength = Math.PI; }
-            _super.call(this, 'SphericalPolarSimplexGeometry', axis, phiStart, phiLength);
+            _super.call(this, axis, phiStart, phiLength);
             this._radius = new R1([radius]);
             this.thetaLength = thetaLength;
             this.thetaStart = thetaStart;
             this.setModified(true);
             this.regenerate();
         }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        SphericalPolarSimplexGeometry.prototype.destructor = function () {
-            this._radius = void 0;
-            _super.prototype.destructor.call(this);
-        };
         Object.defineProperty(SphericalPolarSimplexGeometry.prototype, "radius", {
             /**
              * @property radius

@@ -191,17 +191,17 @@ class FrenetFrames {
     /*
     function initialNormal1(lastBinormal) {
       // fixed start binormal. Has dangers of 0 vectors
-      normals[ 0 ] = new THREE.R3();
-      binormals[ 0 ] = new THREE.R3();
-      if (lastBinormal===undefined) lastBinormal = new THREE.R3( 0, 0, 1 );
+      normals[ 0 ] = new R3();
+      binormals[ 0 ] = new R3();
+      if (lastBinormal===undefined) lastBinormal = new R3( 0, 0, 1 );
       normals[ 0 ].cross2( lastBinormal, tangents[ 0 ] ).normalize();
       binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).normalize();
     }
     function initialNormal2() {
       // This uses the Frenet-Serret formula for deriving binormal
       var t2 = path.getTangentAt( epsilon );
-      normals[ 0 ] = new THREE.R3().difference( t2, tangents[ 0 ] ).normalize();
-      binormals[ 0 ] = new THREE.R3().cross2( tangents[ 0 ], normals[ 0 ] );
+      normals[ 0 ] = new R3().difference( t2, tangents[ 0 ] ).normalize();
+      binormals[ 0 ] = new R3().cross2( tangents[ 0 ], normals[ 0 ] );
       normals[ 0 ].cross2( binormals[ 0 ], tangents[ 0 ] ).normalize(); // last binormal x tangent
       binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).normalize();
     }

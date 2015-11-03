@@ -37,7 +37,7 @@ class ConeSimplexGeometry extends SliceSimplexGeometry {
         openBottom: boolean = false,
         thetaStart: number = 0) {
 
-        super('ConeSimplexGeometry', axis, void 0, void 0)
+        super(axis, void 0, void 0)
         this.radiusTop = radiusTop
         this.radius = radius
         this.height = height

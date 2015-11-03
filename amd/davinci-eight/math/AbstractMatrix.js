@@ -16,7 +16,7 @@ define(["require", "exports", '../checks/mustBeInteger', '../checks/expectArg'],
             this._data = data;
             this.modified = false;
         }
-        Object.defineProperty(AbstractMatrix.prototype, "data", {
+        Object.defineProperty(AbstractMatrix.prototype, "elements", {
             /**
              * @property data
              * @type {Float32Array}

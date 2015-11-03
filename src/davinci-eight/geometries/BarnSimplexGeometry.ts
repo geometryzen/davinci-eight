@@ -26,11 +26,8 @@ class BarnSimplexGeometry extends SimplexGeometry {
      * @constructor
      */
     constructor() {
-        super('BarnSimplexGeometry')
+        super()
         this.regenerate();
-    }
-    protected destructor(): void {
-        super.destructor()
     }
     public isModified() {
         return this.a.modified || this.b.modified || this.c.modified || super.isModified()

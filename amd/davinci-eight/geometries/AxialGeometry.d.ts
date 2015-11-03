@@ -1,6 +1,6 @@
+import CartesianE3 = require('../math/CartesianE3');
 import Geometry = require('../geometries/Geometry');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
-import R3 = require('../math/R3');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class AxialGeometry
@@ -8,10 +8,10 @@ import VectorE3 = require('../math/VectorE3');
 declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * @property _axis
-     * @type {R3}
+     * @type {CartesianE3}
      * @protected
      */
-    protected _axis: R3;
+    protected _axis: CartesianE3;
     /**
      * @property _sliceAngle
      * @type {number}
@@ -20,20 +20,22 @@ declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeom
     private _sliceAngle;
     /**
      * @property _sliceStart
-     * @type {R3}
+     * @type {CartesianE3}
      * @private
      */
     private _sliceStart;
     /**
-     * @class SliceGeometry
+     * @class AxialGeometry
      * @constructor
+     * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity.
+     * @param sliceStart [VectorE3] A direction, orthogonal to <code>axis</code>.
      */
-    constructor();
+    constructor(axis: VectorE3, sliceStart?: VectorE3);
     /**
      * @property axis
-     * @type {VectorE3}
+     * @type {CartesianE3}
      */
-    axis: VectorE3;
+    axis: CartesianE3;
     /**
      * @method setAxis
      * @param axis {VectorE3}
@@ -50,9 +52,9 @@ declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeom
     /**
      * The (unit vector) direction of the start of the slice.
      * @property sliceStart
-     * @type {VectorE3}
+     * @type {CartesianE3}
      */
-    sliceStart: VectorE3;
+    sliceStart: CartesianE3;
     /**
      * @method setPosition
      * @param position {VectorE3}
@@ -60,6 +62,7 @@ declare class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeom
      * @chainable
      */
     setPosition(position: VectorE3): AxialGeometry;
+    setSliceStart(sliceStart: VectorE3): void;
     /**
      * @method enableTextureCoords
      * @param enable {boolean}

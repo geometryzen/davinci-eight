@@ -10,7 +10,16 @@ import R3 = require('../math/R3');
  * @class PerspectiveCamera
  */
 declare class PerspectiveCamera extends Shareable implements Perspective, IFacet {
-    position: R3;
+    /**
+     * The name of the property that designates the position.
+     * @property PROP_POSITION
+     * @type {string}
+     * @default 'X'
+     * @static
+     * @readOnly
+     */
+    static PROP_POSITION: string;
+    static PROP_EYE: string;
     /**
      * @property material
      * @type {IMaterial}

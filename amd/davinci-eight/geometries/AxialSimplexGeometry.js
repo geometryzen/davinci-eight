@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexGeometry', '../math/R3'], function (require, exports, SimplexGeometry, R3) {
+define(["require", "exports", '../math/CartesianE3', '../checks/mustBeObject', '../geometries/SimplexGeometry'], function (require, exports, CartesianE3, mustBeObject, SimplexGeometry) {
     /**
      * @class AxialSimplexGeometry
      * @extends SimplexGeometry
@@ -21,25 +21,12 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/R3'], fu
          * </p>
          * @class AxialSimplexGeometry
          * @constructor
-         * @param type {string} Used for reference count tracking.
-         * @param axis {VectorE3} The <b>axis</b> property.
+         * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity.
          */
-        function AxialSimplexGeometry(type, axis) {
-            _super.call(this, type);
-            this.axis = R3.copy(axis).normalize();
+        function AxialSimplexGeometry(axis) {
+            _super.call(this);
+            this.setAxis(axis);
         }
-        /**
-         * <p>
-         * Sets the <code>axis</code> property to <code>void 0</code>.
-         * Calls the base class destructor method.
-         * </p>
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        AxialSimplexGeometry.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
         /**
          * @method setAxis
          * @param axis {VectorE3}
@@ -47,7 +34,8 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/R3'], fu
          * @chainable
          */
         AxialSimplexGeometry.prototype.setAxis = function (axis) {
-            this.axis.copy(axis).normalize();
+            mustBeObject('axis', axis);
+            this.axis = CartesianE3.normalize(axis);
             return this;
         };
         /**

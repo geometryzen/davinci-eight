@@ -1,3 +1,5 @@
+import b2 = require('../geometries/b2')
+import b3 = require('../geometries/b3')
 import VectorE2 = require('../math/VectorE2');
 import MutableLinearElement = require('../math/MutableLinearElement');
 import SpinorE2 = require('../math/SpinorE2');
@@ -8,6 +10,8 @@ let exp = Math.exp
 let log = Math.log
 let sqrt = Math.sqrt
 
+let COORD_X = 0
+let COORD_Y = 1
 /**
  * @class R2
  */
@@ -26,22 +30,22 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
      * @type Number
      */
     get x(): number {
-        return this.data[0];
+        return this.coords[COORD_X];
     }
     set x(value: number) {
         this.modified = this.modified || this.x !== value;
-        this.data[0] = value;
+        this.coords[COORD_X] = value;
     }
     /**
      * @property y
      * @type Number
      */
     get y(): number {
-        return this.data[1];
+        return this.coords[COORD_Y];
     }
     set y(value: number) {
         this.modified = this.modified || this.y !== value;
-        this.data[1] = value;
+        this.coords[COORD_Y] = value;
     }
     set(x: number, y: number): R2 {
         this.x = x;
@@ -71,6 +75,22 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
         this.y = a.y + b.y;
         return this;
     }
+
+    /**
+     * @method cubicBezier
+     * @param t {number}
+     * @param controlBegin {VectorE2}
+     * @param endPoint {VectorE2}
+     * @return {R2}
+     */
+    cubicBezier(t: number, controlBegin: VectorE2, controlEnd: VectorE2, endPoint: VectorE2): R2 {
+        let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+        let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+        this.x = x;
+        this.y = y;
+        return this
+    }
+
     sub(v: VectorE2) {
         this.x -= v.x;
         this.y -= v.y;
@@ -163,6 +183,7 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
     dot(v: VectorE2) {
         return this.x * v.x + this.y * v.y;
     }
+
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
@@ -171,17 +192,36 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
     magnitude(): number {
         return sqrt(this.squaredNorm());
     }
+
     normalize() {
         return this.divByScalar(this.magnitude());
     }
+
     squaredNorm(): number {
         return this.x * this.x + this.y * this.y;
     }
+
     quadranceTo(position: VectorE2) {
         let dx = this.x - position.x;
         let dy = this.y - position.y;
         return dx * dx + dy * dy;
     }
+
+    /**
+     * @method quadraticBezier
+     * @param t {number}
+     * @param controlPoint {VectorE2}
+     * @param endPoint {VectorE2}
+     * @return {R2}
+     */
+    quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): R2 {
+        let x = b2(t, this.x, controlPoint.x, endPoint.x);
+        let y = b2(t, this.y, controlPoint.y, endPoint.y);
+        this.x = x;
+        this.y = y;
+        return this
+    }
+
     reflect(n: VectorE2): R2 {
         // FIXME: TODO
         return this;

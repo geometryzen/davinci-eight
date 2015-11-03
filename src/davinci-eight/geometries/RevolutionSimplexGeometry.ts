@@ -13,8 +13,8 @@ class RevolutionSimplexGeometry extends SimplexGeometry {
      * @class RevolutionSimplexGeometry
      * @constructor
      */
-    constructor(type: string = 'RevolutionSimplexGeometry') {
-        super(type)
+    constructor() {
+        super()
     }
     /**
      * @method revolve

@@ -1,10 +1,11 @@
+import Capability = require('../commands/Capability');
 import IContextConsumer = require('../core/IContextConsumer');
 import IContextProvider = require('../core/IContextProvider');
 import IContextCommand = require('../core/IContextCommand');
 import Shareable = require('../utils/Shareable');
 /**
  * <p>
- * enable(capability: string): void
+ * enable(capability: Capability): void
  * <p>
  * @class WebGLEnable
  * @extends Shareable
@@ -16,9 +17,9 @@ declare class WebGLEnable extends Shareable implements IContextCommand, IContext
     /**
      * @class WebGLEnable
      * @constructor
-     * @param capability {string} The name of the WebGLRenderingContext property to be enabled.
+     * @param capability {Capability} The capability to be enabled.
      */
-    constructor(capability: string);
+    constructor(capability: Capability);
     /**
      * @method contextFree
      * @param canvasId {number}

@@ -1,3 +1,5 @@
+import Vector = require('../math/Vector')
+
 /**
  * @class VectorE3
  */

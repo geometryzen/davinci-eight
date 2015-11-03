@@ -20,8 +20,10 @@ import frustumMatrix = require('davinci-eight/cameras/frustumMatrix')
 import perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix')
 import viewMatrix = require('davinci-eight/cameras/viewMatrix')
 // commands
+import BlendFactor = require('davinci-eight/commands/BlendFactor')
 import WebGLBlendFunc = require('davinci-eight/commands/WebGLBlendFunc')
 import WebGLClearColor = require('davinci-eight/commands/WebGLClearColor')
+import Capability = require('davinci-eight/commands/Capability')
 import WebGLDisable = require('davinci-eight/commands/WebGLDisable')
 import WebGLEnable = require('davinci-eight/commands/WebGLEnable')
 // core
@@ -97,6 +99,7 @@ import RingGeometry = require('davinci-eight/geometries/RingGeometry')
 import RingSimplexGeometry = require('davinci-eight/geometries/RingSimplexGeometry')
 import SphericalPolarSimplexGeometry = require('davinci-eight/geometries/SphericalPolarSimplexGeometry')
 import TetrahedronSimplexGeometry = require('davinci-eight/geometries/TetrahedronSimplexGeometry')
+import TextSimplexGeometry = require('davinci-eight/geometries/TextSimplexGeometry')
 //import TubeSimplexGeometry          = require('davinci-eight/geometries/TubeSimplexGeometry')
 import VortexSimplexGeometry = require('davinci-eight/geometries/VortexSimplexGeometry')
 import arc3 = require('davinci-eight/geometries/arc3')
@@ -117,6 +120,7 @@ import SmartMaterialBuilder = require('davinci-eight/materials/SmartMaterialBuil
 import RoundUniform = require('davinci-eight/mappers/RoundUniform')
 // math
 import AbstractMatrix = require('davinci-eight/math/AbstractMatrix')
+import CartesianE3 = require('davinci-eight/math/CartesianE3')
 import VectorE1 = require('davinci-eight/math/VectorE1')
 import VectorE2 = require('davinci-eight/math/VectorE2')
 import VectorE3 = require('davinci-eight/math/VectorE3')
@@ -239,6 +243,8 @@ var eight = {
     get PointMaterial() { return PointMaterial },
     get SmartMaterialBuilder() { return SmartMaterialBuilder },
     //commands
+    get BlendFactor() { return BlendFactor },
+    get Capability() { return Capability },
     get WebGLBlendFunc() { return WebGLBlendFunc },
     get WebGLClearColor() { return WebGLClearColor },
     get WebGLDisable() { return WebGLDisable },
@@ -283,7 +289,6 @@ var eight = {
     get Color() { return Color },
     get AxialSimplexGeometry() { return AxialSimplexGeometry },
     get ArrowGeometry() { return ArrowGeometry },
-    get ArrowSimplexGeometry() { return ArrowSimplexGeometry },
     get BarnSimplexGeometry() { return BarnSimplexGeometry },
     get ConeGeometry() { return ConeGeometry },
     get ConeSimplexGeometry() { return ConeSimplexGeometry },
@@ -305,6 +310,7 @@ var eight = {
     get SliceSimplexGeometry() { return SliceSimplexGeometry },
     get SphericalPolarSimplexGeometry() { return SphericalPolarSimplexGeometry },
     get TetrahedronSimplexGeometry() { return TetrahedronSimplexGeometry },
+    // get TextSimplexGeometry() { return TextSimplexGeometry },
     get VortexSimplexGeometry() { return VortexSimplexGeometry },
     get Topology() { return Topology },
     get PointTopology() { return PointTopology },
@@ -362,6 +368,7 @@ var eight = {
     get cos() { return mathcore.cos },
     get cosh() { return mathcore.cosh },
     get exp() { return mathcore.exp },
+    get log() { return mathcore.log },
     get norm() { return mathcore.norm },
     get quad() { return mathcore.quad },
     get sin() { return mathcore.sin },

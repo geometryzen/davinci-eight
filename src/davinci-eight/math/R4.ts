@@ -26,11 +26,11 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
      * @type Number
      */
     get x(): number {
-        return this.data[0];
+        return this.coords[0];
     }
     set x(value: number) {
         this.modified = this.modified || this.x !== value;
-        this.data[0] = value;
+        this.coords[0] = value;
     }
     setX(x: number) {
         this.x = x;
@@ -41,11 +41,11 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
      * @type Number
      */
     get y(): number {
-        return this.data[1];
+        return this.coords[1];
     }
     set y(value: number) {
         this.modified = this.modified || this.y !== value;
-        this.data[1] = value;
+        this.coords[1] = value;
     }
     setY(y: number) {
         this.y = y;
@@ -56,11 +56,11 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
      * @type Number
      */
     get z(): number {
-        return this.data[2];
+        return this.coords[2];
     }
     set z(value: number) {
         this.modified = this.modified || this.z !== value;
-        this.data[2] = value;
+        this.coords[2] = value;
     }
     setZ(z: number) {
         this.z = z;
@@ -71,11 +71,11 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
      * @type Number
      */
     get w(): number {
-        return this.data[3];
+        return this.coords[3];
     }
     set w(value: number) {
         this.modified = this.modified || this.w !== value;
-        this.data[3] = value;
+        this.coords[3] = value;
     }
     setW(w: number) {
         this.w = w;

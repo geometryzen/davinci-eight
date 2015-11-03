@@ -3,10 +3,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeNumber, mustBeString, Shareable) {
+define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, glCapability, mustBeNumber, Shareable) {
     /**
      * <p>
-     * enable(capability: string): void
+     * enable(capability: Capability): void
      * <p>
      * @class WebGLEnable
      * @extends Shareable
@@ -18,11 +18,11 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString'
         /**
          * @class WebGLEnable
          * @constructor
-         * @param capability {string} The name of the WebGLRenderingContext property to be enabled.
+         * @param capability {Capability} The capability to be enabled.
          */
         function WebGLEnable(capability) {
             _super.call(this, 'WebGLEnable');
-            this._capability = mustBeString('capability', capability);
+            this._capability = mustBeNumber('capability', capability);
         }
         /**
          * @method contextFree
@@ -38,7 +38,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString'
          * @return {void}
          */
         WebGLEnable.prototype.contextGain = function (manager) {
-            manager.gl.enable(mustBeNumber(this._capability, (manager.gl[this._capability])));
+            manager.gl.enable(glCapability(this._capability, manager.gl));
         };
         /**
          * @method contextLost

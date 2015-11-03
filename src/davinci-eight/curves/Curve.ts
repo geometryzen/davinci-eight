@@ -1,14 +1,7 @@
-import R3 = require('../math/R3');
+import Euclidean3 = require('../math/Euclidean3');
 /**
  * @author zz85 / http://www.lab4games.net/zz85/blog
  * Extensible curve object
- *
- * Some common of Curve methods
- * .getPoint(t), getTangent(t)
- * .getPointAt(u), getTagentAt(u)
- * .getPoints(), .getSpacedPoints()
- * .getLength()
- * .updateArcLengths()
  *
  * This following classes subclasses Curve:
  *
@@ -22,205 +15,201 @@ import R3 = require('../math/R3');
  *
  */
 class Curve {
-  private cacheArcLengths: number[];
-  private needsUpdate: boolean;
-  private __arcLengthDivisions: number;
-  constructor() {
-  }
-  /**
-   * Virtual base class method to overwrite and implement in subclasses
-   * t belongs to [0, 1]
-   */
-  getPoint(t: number): R3 {
-    throw new Error( "Curve.getPoint() not implemented!" );
-  }
-  /**
-   * Get point at relative position in curve according to arc length
-   */
- getPointAt(u: number): R3 {
-    var t = this.getUtoTmapping( u );
-    return this.getPoint( t );
-  }
-  getPoints(divisions?: number): R3[] {
-    if ( ! divisions ) {
-      divisions = 5;
-    } 
-    var d: number;
-    var pts: R3[] = [];
-    for ( d = 0; d <= divisions; d ++ )
-    {
-      pts.push( this.getPoint( d / divisions ) );
+    private cacheArcLengths: number[];
+    private needsUpdate: boolean;
+    private __arcLengthDivisions: number;
+    constructor() {
     }
-    return pts;
-  }
-  getSpacedPoints(divisions?: number): R3[] {
-    if ( ! divisions ) {
-      divisions = 5;
+    /**
+     * Virtual base class method to overwrite and implement in subclasses
+     * t belongs to [0, 1]
+     */
+    getPoint(t: number): Euclidean3 {
+        throw new Error("Curve.getPoint() not implemented!");
     }
-    var d: number;
-    var pts: R3[] = [];
-    for ( d = 0; d <= divisions; d ++ )
-    {
-      pts.push( this.getPointAt( d / divisions ) );
+    /**
+     * Get point at relative position in curve according to arc length
+     */
+    getPointAt(u: number): Euclidean3 {
+        var t = this.getUtoTmapping(u);
+        return this.getPoint(t);
     }
-    return pts;
-  }
-  getLength(): number {
-    var lengths = this.getLengths();
-    return lengths[ lengths.length - 1 ];
-  }
-  getLengths(divisions?: number): number[] {
-
-    if ( ! divisions ) divisions = (this.__arcLengthDivisions) ? (this.__arcLengthDivisions) : 200;
-
-    if ( this.cacheArcLengths
-      && ( this.cacheArcLengths.length == divisions + 1 )
-      && ! this.needsUpdate) {
-
-      return this.cacheArcLengths;
-
+    getPoints(divisions?: number): Euclidean3[] {
+        if (!divisions) {
+            divisions = 5;
+        }
+        var d: number;
+        var pts: Euclidean3[] = [];
+        for (d = 0; d <= divisions; d++) {
+            pts.push(this.getPoint(d / divisions));
+        }
+        return pts;
     }
-
-    this.needsUpdate = false;
-
-    var cache: number[] = [];
-    var current: R3;
-    var last: R3 = this.getPoint( 0 );
-    var p:  number;
-    var sum: number = 0;
-
-    cache.push( 0 );
-
-    for ( p = 1; p <= divisions; p ++ ) {
-
-      current = this.getPoint ( p / divisions );
-      sum += current.distanceTo(last);
-      cache.push( sum );
-      last = current;
-
+    getSpacedPoints(divisions?: number): Euclidean3[] {
+        if (!divisions) {
+            divisions = 5;
+        }
+        var d: number;
+        var pts: Euclidean3[] = [];
+        for (d = 0; d <= divisions; d++) {
+            pts.push(this.getPointAt(d / divisions));
+        }
+        return pts;
     }
+    getLength(): number {
+        var lengths = this.getLengths();
+        return lengths[lengths.length - 1];
+    }
+    getLengths(divisions?: number): number[] {
 
-    this.cacheArcLengths = cache;
+        if (!divisions) divisions = (this.__arcLengthDivisions) ? (this.__arcLengthDivisions) : 200;
 
-    return cache; // { sums: cache, sum:sum }; Sum is in the last element.
+        if (this.cacheArcLengths
+            && (this.cacheArcLengths.length == divisions + 1)
+            && !this.needsUpdate) {
 
-  }
-  updateArcLengths() {
-    this.needsUpdate = true;
-    this.getLengths();
-  }
-  /**
-   * Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance
-   */
-  getUtoTmapping(u: number, distance?: number): number {
+            return this.cacheArcLengths;
 
-    var arcLengths = this.getLengths();
+        }
 
-    var i = 0, il = arcLengths.length;
+        this.needsUpdate = false;
 
-    var targetArcLength: number; // The targeted u distance value to get
+        var cache: number[] = [];
+        var current: Euclidean3;
+        var last: Euclidean3 = this.getPoint(0);
+        var p: number;
+        var sum: number = 0;
 
-    if ( distance ) {
+        cache.push(0);
 
-      targetArcLength = distance;
+        for (p = 1; p <= divisions; p++) {
 
-    } else {
+            current = this.getPoint(p / divisions);
+            sum += current.distanceTo(last);
+            cache.push(sum);
+            last = current;
 
-      targetArcLength = u * arcLengths[ il - 1 ];
+        }
+
+        this.cacheArcLengths = cache;
+
+        return cache; // { sums: cache, sum:sum }; Sum is in the last element.
 
     }
 
-    //var time = Date.now();
+    updateArcLengths() {
+        this.needsUpdate = true;
+        this.getLengths();
+    }
 
-    // binary search for the index with largest value smaller than target u distance
+    /**
+     * Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance
+     */
+    getUtoTmapping(u: number, distance?: number): number {
 
-    var low = 0;
-    var high = il - 1
-    var comparison: number;
+        var arcLengths = this.getLengths();
 
-    while ( low <= high ) {
+        var i = 0, il = arcLengths.length;
 
-      i = Math.floor( low + ( high - low ) / 2 ); // less likely to overflow, though probably not issue here, JS doesn't really have integers, all numbers are floats
+        var targetArcLength: number; // The targeted u distance value to get
 
-      comparison = arcLengths[ i ] - targetArcLength;
+        if (distance) {
 
-      if ( comparison < 0 ) {
+            targetArcLength = distance;
 
-        low = i + 1;
+        } else {
 
-      } else if ( comparison > 0 ) {
+            targetArcLength = u * arcLengths[il - 1];
 
-        high = i - 1;
+        }
 
-      } else {
+        //var time = Date.now();
 
-        high = i;
-        break;
+        // binary search for the index with largest value smaller than target u distance
 
-        // DONE
+        var low = 0;
+        var high = il - 1
+        var comparison: number;
 
-      }
+        while (low <= high) {
+
+            i = Math.floor(low + (high - low) / 2); // less likely to overflow, though probably not issue here, JS doesn't really have integers, all numbers are floats
+
+            comparison = arcLengths[i] - targetArcLength;
+
+            if (comparison < 0) {
+
+                low = i + 1;
+
+            } else if (comparison > 0) {
+
+                high = i - 1;
+
+            } else {
+
+                high = i;
+                break;
+
+                // DONE
+
+            }
+
+        }
+
+        i = high;
+
+        if (arcLengths[i] == targetArcLength) {
+
+            var t = i / (il - 1);
+            return t;
+
+        }
+
+        // we could get finer grain at lengths, or use simple interpolatation between two points
+
+        var lengthBefore = arcLengths[i];
+        var lengthAfter = arcLengths[i + 1];
+
+        var segmentLength = lengthAfter - lengthBefore;
+
+        // determine where we are between the 'before' and 'after' points
+
+        var segmentFraction = (targetArcLength - lengthBefore) / segmentLength;
+
+        // add that fractional amount to t
+
+        var t = (i + segmentFraction) / (il - 1);
+
+        return t;
 
     }
 
-    i = high;
+    /**
+     * Returns a unit vector tangent at t
+     * In case any sub curve does not implement its tangent derivation,
+     * 2 points a small delta apart will be used to find its gradient
+     * which seems to give a reasonable approximation
+     */
+    getTangent(t: number): Euclidean3 {
 
-    if ( arcLengths[ i ] == targetArcLength ) {
+        var delta = 0.0001;
+        var t1 = t - delta;
+        var t2 = t + delta;
 
-      var t = i / ( il - 1 );
-      return t;
+        if (t1 < 0) t1 = 0;
+        if (t2 > 1) t2 = 1;
 
+        var pt1: Euclidean3 = this.getPoint(t1);
+        var pt2: Euclidean3 = this.getPoint(t2);
+
+        var tangent: Euclidean3 = pt2.sub(pt1);
+        return tangent.unitary();
     }
 
-    // we could get finer grain at lengths, or use simple interpolatation between two points
-
-    var lengthBefore = arcLengths[ i ];
-    var lengthAfter = arcLengths[ i + 1 ];
-
-    var segmentLength = lengthAfter - lengthBefore;
-
-      // determine where we are between the 'before' and 'after' points
-
-    var segmentFraction = ( targetArcLength - lengthBefore ) / segmentLength;
-
-      // add that fractional amount to t
-
-    var t = ( i + segmentFraction ) / ( il - 1 );
-
-    return t;
-
-  }
-
-  /**
-   * Returns a unit vector tangent at t
-   * In case any sub curve does not implement its tangent derivation,
-   * 2 points a small delta apart will be used to find its gradient
-   * which seems to give a reasonable approximation
-   */
-  getTangent(t: number): R3 {
-
-    var delta = 0.0001;
-    var t1 = t - delta;
-    var t2 = t + delta;
-
-    // Capping in case of danger
-
-    if ( t1 < 0 ) t1 = 0;
-    if ( t2 > 1 ) t2 = 1;
-
-    var pt1 = this.getPoint( t1 );
-    var pt2 = this.getPoint( t2 );
-
-    // TypeScript Generics don't help here because we can't do T extends Vector<T>. 
-    var vec = pt2['clone']().sub(pt1);
-    return vec.normalize();
-
-  }
-
-  getTangentAt(u: number): R3 {
-    var t: number = this.getUtoTmapping(u);
-    return this.getTangent( t );
-  }
+    getTangentAt(u: number): Euclidean3 {
+        var t: number = this.getUtoTmapping(u);
+        return this.getTangent(t);
+    }
 }
 
 export = Curve;

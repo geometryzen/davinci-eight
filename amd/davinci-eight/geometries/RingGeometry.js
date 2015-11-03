@@ -12,9 +12,11 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Axial
         /**
          * @class RingGeometry
          * @constructor
+         * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity.
+         * @param sliceStart {VectorE3} A direction, orthogonal to <code>axis</code>.
          */
-        function RingGeometry() {
-            _super.call(this);
+        function RingGeometry(axis, sliceStart) {
+            _super.call(this, axis, sliceStart);
             /**
              * @property innerRadius
              * @type {number}

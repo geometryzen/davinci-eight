@@ -277,7 +277,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
     setFromRotationMatrix(m: Matrix4): HH {
         // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
         // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
-        var te = m.data,
+        var te = m.elements,
 
             m11 = te[0], m12 = te[4], m13 = te[8],
             m21 = te[1], m22 = te[5], m23 = te[9],

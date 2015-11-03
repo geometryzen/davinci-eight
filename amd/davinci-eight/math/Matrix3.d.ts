@@ -12,7 +12,7 @@ declare class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
      * @class Matrix3
      * @constructor
      */
-    constructor(data: Float32Array);
+    constructor(elements: Float32Array);
     /**
      * <p>
      * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.

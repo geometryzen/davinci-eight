@@ -1,7 +1,8 @@
+import CartesianE3 = require('../math/CartesianE3')
 import VectorE3 = require('../math/VectorE3')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
+import mustBeObject = require('../checks/mustBeObject')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
-import R3 = require('../math/R3')
 
 /**
  * @class AxialSimplexGeometry
@@ -11,9 +12,9 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<Axi
     /**
      * The symmetry axis used for geometry generation.
      * @property axis
-     * @type {R3}
+     * @type {CartesianE3}
      */
-    public axis: R3;
+    public axis: CartesianE3;
     /**
      * <p>
      * A geometry which has axial symmetry, giving it an <code>axis</code> property.
@@ -25,24 +26,11 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<Axi
      * </p>
      * @class AxialSimplexGeometry
      * @constructor
-     * @param type {string} Used for reference count tracking.
-     * @param axis {VectorE3} The <b>axis</b> property.
+     * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity. 
      */
-    constructor(type: string, axis: VectorE3) {
-        super(type)
-        this.axis = R3.copy(axis).normalize()
-    }
-    /**
-     * <p>
-     * Sets the <code>axis</code> property to <code>void 0</code>.
-     * Calls the base class destructor method.
-     * </p>
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        super.destructor()
+    constructor(axis: VectorE3) {
+        super()
+        this.setAxis(axis)
     }
     /**
      * @method setAxis
@@ -51,7 +39,8 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<Axi
      * @chainable
      */
     setAxis(axis: VectorE3): AxialSimplexGeometry {
-        this.axis.copy(axis).normalize()
+        mustBeObject('axis', axis)
+        this.axis = CartesianE3.normalize(axis)
         return this
     }
     /**
@@ -60,7 +49,7 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<Axi
      * @return {AxialSimplexGeometry}
      * @chainable
      */
-    setPosition(position: VectorE3): AxialSimplexGeometry {
+    setPosition(position: { x: number; y: number; z: number }): AxialSimplexGeometry {
         super.setPosition(position)
         return this
     }

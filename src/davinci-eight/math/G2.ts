@@ -1,3 +1,5 @@
+import b2 = require('../geometries/b2')
+import b3 = require('../geometries/b3')
 import dotVector = require('../math/dotVectorE2')
 import extE2 = require('../math/extE2')
 import GeometricE2 = require('../math/GeometricE2')
@@ -80,63 +82,6 @@ function duckCopy(value: any): G2 {
     }
 }
 
-function makeConstantE2(label: string, α: number, x: number, y: number, xy: number): GeometricE2 {
-    mustBeString('label', label)
-    mustBeNumber('α', α)
-    mustBeNumber('x', x)
-    mustBeNumber('y', y)
-    mustBeNumber('xy', xy)
-    var that: GeometricE2;
-    that = {
-        get α() {
-            return α;
-        },
-        set α(unused: number) {
-            throw new Error(readOnly(label + '.α').message);
-        },
-        get x() {
-            return x;
-        },
-        set x(unused: number) {
-            throw new Error(readOnly(label + '.x').message);
-        },
-        get y() {
-            return y;
-        },
-        set y(unused: number) {
-            throw new Error(readOnly(label + '.y').message);
-        },
-        get β() {
-            return xy;
-        },
-        set β(unused: number) {
-            throw new Error(readOnly(label + '.β').message);
-        },
-        get xy() {
-            return xy;
-        },
-        set xy(unused: number) {
-            throw new Error(readOnly(label + '.xy').message);
-        },
-        magnitude(): number {
-            return sqrt(quadSpinor(that))
-        },
-        squaredNorm(): number {
-            return quadSpinor(that)
-        },
-        toString() {
-            return label;
-        }
-    }
-    return that
-}
-
-let zero = makeConstantE2('0', 0, 0, 0, 0);
-let one = makeConstantE2('1', 1, 0, 0, 0);
-let e1 = makeConstantE2('e1', 0, 1, 0, 0);
-let e2 = makeConstantE2('e2', 0, 0, 1, 0);
-let I = makeConstantE2('I', 0, 0, 0, 1);
-
 /**
  * @class G2
  * @extends GeometricE2
@@ -159,11 +104,11 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @type {number}
      */
     get α(): number {
-        return this.data[COORD_W]
+        return this.coords[COORD_W]
     }
     set α(α: number) {
-        this.modified = this.modified || this.data[COORD_W] !== α
-        this.data[COORD_W] = α
+        this.modified = this.modified || this.coords[COORD_W] !== α
+        this.coords[COORD_W] = α
     }
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
@@ -171,11 +116,11 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @type {number}
      */
     get x(): number {
-        return this.data[COORD_X]
+        return this.coords[COORD_X]
     }
     set x(x: number) {
-        this.modified = this.modified || this.data[COORD_X] !== x
-        this.data[COORD_X] = x
+        this.modified = this.modified || this.coords[COORD_X] !== x
+        this.coords[COORD_X] = x
     }
     /**
      * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
@@ -183,11 +128,11 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @type {number}
      */
     get y(): number {
-        return this.data[COORD_Y]
+        return this.coords[COORD_Y]
     }
     set y(y: number) {
-        this.modified = this.modified || this.data[COORD_Y] !== y
-        this.data[COORD_Y] = y
+        this.modified = this.modified || this.coords[COORD_Y] !== y
+        this.coords[COORD_Y] = y
     }
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
@@ -195,18 +140,18 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @type {number}
      */
     get β(): number {
-        return this.data[COORD_XY]
+        return this.coords[COORD_XY]
     }
     set β(β: number) {
-        this.modified = this.modified || this.data[COORD_XY] !== β
-        this.data[COORD_XY] = β
+        this.modified = this.modified || this.coords[COORD_XY] !== β
+        this.coords[COORD_XY] = β
     }
     get xy(): number {
-        return this.data[COORD_XY]
+        return this.coords[COORD_XY]
     }
     set xy(xy: number) {
-        this.modified = this.modified || this.data[COORD_XY] !== xy
-        this.data[COORD_XY] = xy
+        this.modified = this.modified || this.coords[COORD_XY] !== xy
+        this.coords[COORD_XY] = xy
     }
 
     /**
@@ -331,6 +276,12 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         // Also need to think about various involutions.
         this.β = -this.β;
         return this
+    }
+    distanceTo(point: GeometricE2): number {
+        throw new Error("TODO: G2.distanceTo")
+    }
+    equals(point: GeometricE2): boolean {
+        throw new Error("TODO: G2.equals")
     }
     /**
      * <p>
@@ -469,6 +420,26 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.y = vector.y
         this.β = 0
         return this
+    }
+
+    /**
+     * @method cubicBezier
+     * @param t {number}
+     * @param controlBegin {GeometricE2}
+     * @param controlEnd {GeometricE2}
+     * @param endPoint {GeometricE2}
+     * @return {G2}
+     */
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
+        let α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
+        let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+        let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+        let β = b3(t, this.β, controlBegin.β, controlEnd.β, endPoint.β);
+        this.α = α;
+        this.x = x;
+        this.y = y;
+        this.β = β;
+        return this;
     }
 
     /**
@@ -756,6 +727,25 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.y = 0
         this.β = 0
         return this
+    }
+
+    /**
+     * @method quadraticBezier
+     * @param t {number}
+     * @param controlPoint {GeometricE2}
+     * @param endPoint {GeometricE2}
+     * @return {G2}
+     */
+    quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
+        let α = b2(t, this.α, controlPoint.α, endPoint.α);
+        let x = b2(t, this.x, controlPoint.x, endPoint.x);
+        let y = b2(t, this.y, controlPoint.y, endPoint.y);
+        let β = b2(t, this.β, controlPoint.β, endPoint.β);
+        this.α = α;
+        this.x = x;
+        this.y = y;
+        this.β = β;
+        return this;
     }
 
     /**
@@ -1466,13 +1456,25 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     }
 
     /**
+     * Intentionally undocumented.
+     */
+    static fromCartesian(α: number, x: number, y: number, β: number): G2 {
+        var m = new G2();
+        m.α = α;
+        m.x = x;
+        m.y = y;
+        m.β = β;
+        return m;
+    }
+
+    /**
      * The identity element for addition.
      * @property zero
      * @type {G2}
      * @readOnly
      * @static
      */
-    static get zero(): G2 { return G2.copy(zero); };
+    static zero = G2.fromCartesian(0, 0, 0, 0);
 
     /**
      * The identity element for multiplication.
@@ -1481,7 +1483,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @readOnly
      * @static
      */
-    static get one(): G2 { return G2.copy(one); };
+    static one = G2.fromCartesian(1, 0, 0, 0);
 
     /**
      * Basis vector corresponding to the <code>x</code> coordinate.
@@ -1490,7 +1492,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @readOnly
      * @static
      */
-    static get e1(): G2 { return G2.copy(e1); };
+    static e1 = G2.fromCartesian(0, 1, 0, 0);
 
     /**
      * Basis vector corresponding to the <code>y</code> coordinate.
@@ -1499,7 +1501,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @readOnly
      * @static
      */
-    static get e2(): G2 { return G2.copy(e2); };
+    static e2 = G2.fromCartesian(0, 0, 1, 0);
 
     /**
      * Basis vector corresponding to the <code>β</code> coordinate.
@@ -1508,7 +1510,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @readOnly
      * @static
      */
-    static get I(): G2 { return G2.copy(I); };
+    static I = G2.fromCartesian(0, 0, 0, 1);
 
     /**
      * @method copy

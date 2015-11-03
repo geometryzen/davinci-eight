@@ -29,6 +29,14 @@ declare class R2 extends VectorN<number> implements VectorE2, MutableLinearEleme
     copy(v: VectorE2): R2;
     add(v: VectorE2, alpha?: number): R2;
     add2(a: VectorE2, b: VectorE2): R2;
+    /**
+     * @method cubicBezier
+     * @param t {number}
+     * @param controlBegin {VectorE2}
+     * @param endPoint {VectorE2}
+     * @return {R2}
+     */
+    cubicBezier(t: number, controlBegin: VectorE2, controlEnd: VectorE2, endPoint: VectorE2): R2;
     sub(v: VectorE2): R2;
     subScalar(s: number): R2;
     sub2(a: VectorE2, b: VectorE2): R2;
@@ -62,6 +70,14 @@ declare class R2 extends VectorN<number> implements VectorE2, MutableLinearEleme
     normalize(): R2;
     squaredNorm(): number;
     quadranceTo(position: VectorE2): number;
+    /**
+     * @method quadraticBezier
+     * @param t {number}
+     * @param controlPoint {VectorE2}
+     * @param endPoint {VectorE2}
+     * @return {R2}
+     */
+    quadraticBezier(t: number, controlPoint: VectorE2, endPoint: VectorE2): R2;
     reflect(n: VectorE2): R2;
     rotate(rotor: SpinorE2): R2;
     /**

@@ -250,6 +250,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.147.0: 2015-10-28 universals
 * 2.148.0: 2015-10-28 animation
 * 2.149.0: 2015-10-30 angle
+* 2.150.0: 2015-11-03 log
 
 ## Unit
 Copyright (c) 2014-2015 David Holmes

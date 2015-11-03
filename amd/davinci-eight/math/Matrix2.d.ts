@@ -11,7 +11,7 @@ declare class Matrix2 extends AbstractMatrix implements Matrix<Matrix2> {
      * @class Matrix2
      * @constructor
      */
-    constructor(data: Float32Array);
+    constructor(elements: Float32Array);
     /**
      * <p>
      * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.

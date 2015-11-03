@@ -43,17 +43,60 @@ declare class Symbolic {
      */
     static ATTRIBUTE_TEXTURE_COORDS: string;
     /**
+     * 'uAlpha'
+     * @property UNIFORM_ALPHA
+     * @type {string}
+     * @static
+     */
+    static UNIFORM_ALPHA: string;
+    /**
      * 'uAmbientLight'
      * @property UNIFORM_AMBIENT_LIGHT
      * @type {string}
      * @static
      */
     static UNIFORM_AMBIENT_LIGHT: string;
+    /**
+     * 'uColor'
+     * @property UNIFORM_COLOR
+     * @type {string}
+     * @static
+     */
     static UNIFORM_COLOR: string;
+    /**
+     * 'uDirectionalLightColor'
+     * @property UNIFORM_DIRECTIONAL_LIGHT_COLOR
+     * @type {string}
+     * @static
+     */
     static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string;
+    /**
+     * 'uDirectionalLightDirection'
+     * @property UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
+     * @type {string}
+     * @static
+     */
     static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string;
+    /**
+     * 'uPointLightColor'
+     * @property UNIFORM_POINT_LIGHT_COLOR
+     * @type {string}
+     * @static
+     */
     static UNIFORM_POINT_LIGHT_COLOR: string;
+    /**
+     * 'uPointLightPosition'
+     * @property UNIFORM_POINT_LIGHT_POSITION
+     * @type {string}
+     * @static
+     */
     static UNIFORM_POINT_LIGHT_POSITION: string;
+    /**
+     * 'uPointSize'
+     * @property UNIFORM_POINT_SIZE
+     * @type {string}
+     * @static
+     */
     static UNIFORM_POINT_SIZE: string;
     /**
      * 'uProjection'
@@ -64,9 +107,24 @@ declare class Symbolic {
     static UNIFORM_PROJECTION_MATRIX: string;
     /**
      * 'uModel'
+     * @property UNIFORM_MODEL_MATRIX
+     * @type {string}
+     * @static
      */
     static UNIFORM_MODEL_MATRIX: string;
+    /**
+     * 'uNormal'
+     * @property UNIFORM_NORMAL_MATRIX
+     * @type {string}
+     * @static
+     */
     static UNIFORM_NORMAL_MATRIX: string;
+    /**
+     * 'uView'
+     * @property UNIFORM_VIEW_MATRIX
+     * @type {string}
+     * @static
+     */
     static UNIFORM_VIEW_MATRIX: string;
     /**
      * 'vColor'

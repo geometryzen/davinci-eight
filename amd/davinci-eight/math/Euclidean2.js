@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/extE2', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, extE2, lcoE2, rcoE2, mulE2, mustBeInteger, readOnly, scpE2, stringFromCoordinates, Unit) {
+define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/extE2', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, b2, b3, extE2, lcoE2, rcoE2, mulE2, mustBeInteger, readOnly, scpE2, stringFromCoordinates, Unit) {
     var exp = Math.exp;
     var cos = Math.cos;
     var sin = Math.sin;
@@ -347,8 +347,22 @@ define(["require", "exports", '../math/extE2', '../math/lcoE2', '../math/rcoE2',
         Euclidean2.prototype.angle = function () {
             return this.log().grade(2);
         };
+        Euclidean2.prototype.clone = function () {
+            return this;
+        };
         Euclidean2.prototype.conj = function () {
             throw new Error("TODO: adj");
+        };
+        Euclidean2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
+            var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            return new Euclidean2(0, x, y, 0, this.uom);
+        };
+        Euclidean2.prototype.distanceTo = function (point) {
+            throw new Error("TODO: Euclidean2.distanceTo");
+        };
+        Euclidean2.prototype.equals = function (point) {
+            throw new Error("TODO: Euclidean2.equals");
         };
         Euclidean2.sub = function (a, b) {
             var a0 = a[0];
@@ -675,8 +689,19 @@ define(["require", "exports", '../math/extE2', '../math/lcoE2', '../math/rcoE2',
         Euclidean2.prototype.norm = function () {
             return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
         };
+        /**
+         * Intentionally undocumented.
+         */
+        Euclidean2.prototype.normalize = function () {
+            return this.unitary();
+        };
         Euclidean2.prototype.quad = function () {
             return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        Euclidean2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
+            var x = b2(t, this.x, controlPoint.x, endPoint.x);
+            var y = b2(t, this.y, controlPoint.y, endPoint.y);
+            return new Euclidean2(0, x, y, 0, this.uom);
         };
         Euclidean2.prototype.squaredNorm = function () {
             return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;

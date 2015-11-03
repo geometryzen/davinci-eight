@@ -14,8 +14,8 @@ class Matrix2 extends AbstractMatrix implements Matrix<Matrix2> {
      * @class Matrix2
      * @constructor
      */
-    constructor(data: Float32Array) {
-        super(data, 2);
+    constructor(elements: Float32Array) {
+        super(elements, 2);
     }
     /**
      * <p>

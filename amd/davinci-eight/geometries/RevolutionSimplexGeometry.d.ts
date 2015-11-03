@@ -9,7 +9,7 @@ declare class RevolutionSimplexGeometry extends SimplexGeometry {
      * @class RevolutionSimplexGeometry
      * @constructor
      */
-    constructor(type?: string);
+    constructor();
     /**
      * @method revolve
      * @param points {R3[]}

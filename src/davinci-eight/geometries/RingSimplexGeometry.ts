@@ -1,5 +1,5 @@
 import arc3 = require('../geometries/arc3')
-import VectorE3 = require('../math/VectorE3')
+import CartesianE3 = require('../math/CartesianE3')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import mustBeNumber = require('../checks/mustBeNumber')
 import Simplex = require('../geometries/Simplex')
@@ -9,6 +9,7 @@ import SpinorE3 = require('../math/SpinorE3')
 import Symbolic = require('../core/Symbolic')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
+import VectorE3 = require('../math/VectorE3')
 
 // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
 // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
@@ -17,7 +18,7 @@ import R3 = require('../math/R3')
 /**
  * 
  */
-function computeVertices(a: number, b: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3[], uvs: R2[]) {
+function computeVertices(a: number, b: number, axis: CartesianE3, start: VectorE3, angle: number, generator: SpinorE3, radialSegments: number, thetaSegments: number, vertices: R3[], uvs: R2[]) {
     /**
      * `t` is the vector perpendicular to s in the plane of the ring.
      * We could use the generator an PI / 4 to calculate this or the cross product as here.
@@ -50,7 +51,7 @@ function vertexIndex(i: number, j: number, thetaSegments: number): number {
     return i * (thetaSegments + 1) + j
 }
 
-function makeTriangles(vertices: R3[], uvs: R2[], axis: R3, radialSegments: number, thetaSegments: number, geometry: SimplexGeometry) {
+function makeTriangles(vertices: R3[], uvs: R2[], axis: CartesianE3, radialSegments: number, thetaSegments: number, geometry: SimplexGeometry) {
     for (var i = 0; i < radialSegments; i++) {
         // Our traversal has resulted in the following formula for the index
         // into the vertices or uvs array
@@ -71,13 +72,13 @@ function makeTriangles(vertices: R3[], uvs: R2[], axis: R3, radialSegments: numb
             var v1 = quadIndex + thetaSegments + 1  // Move outwards one segment.
             var v2 = quadIndex + thetaSegments + 2  // Then move one segment along the radius.
 
-            geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()])
+            geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3.copy(axis), R3.copy(axis), R3.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()])
 
             v0 = quadIndex // Start at the same corner
             v1 = quadIndex + thetaSegments + 2 // Move diagonally outwards and along radial
             v2 = quadIndex + 1  // Then move radially inwards
 
-            geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [axis, axis, axis], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()])
+            geometry.triangle([vertices[v0], vertices[v1], vertices[v2]], [R3.copy(axis), R3.copy(axis), R3.copy(axis)], [uvs[v0].clone(), uvs[v1].clone(), uvs[v2].clone()])
         }
     }
 }
@@ -162,18 +163,11 @@ class RingSimplexGeometry extends SliceSimplexGeometry {
      * @param sliceAngle [number] The <code>sliceAngle</code> property.
      */
     constructor(a: number = 1, b: number = 0, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number) {
-        super('RingSimplexGeometry', axis, sliceStart, sliceAngle)
+        super(axis, sliceStart, sliceAngle)
         this.a = a
         this.b = b
     }
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        super.destructor()
-    }
+
     /**
      * @method isModified
      * @return {boolean}

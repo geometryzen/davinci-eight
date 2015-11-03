@@ -1,5 +1,5 @@
 import ColorRGB = require('../core/ColorRGB');
-import Mutable = require('../math/Mutable');
+import VectorN = require('../math/VectorN');
 /**
  * <p>
  * A mutable type representing a color through its RGB components.
@@ -12,10 +12,10 @@ import Mutable = require('../math/Mutable');
  * </p>
  *
  * @class Color
+ * @extends VectorN
  * @implements ColorRGB
- * @implements Mutable<number[]>
  */
-declare class Color implements ColorRGB, Mutable<number[]> {
+declare class Color extends VectorN<number> implements ColorRGB {
     /**
      * @property black
      * @type {Color}
@@ -65,32 +65,113 @@ declare class Color implements ColorRGB, Mutable<number[]> {
      */
     static white: Color;
     /**
-     * @property data
-     * @type {number[]}
-     */
-    data: number[];
-    callback: () => number[];
-    modified: boolean;
-    /**
      * @class Color
      * @constructor
      * @param data {number[]}
+     * @param areYouSure {boolean}
      */
-    constructor(data?: number[]);
-    red: number;
-    green: number;
-    blue: number;
+    constructor(r: number, g: number, b: number);
+    /**
+     * @property r
+     * @type {number}
+     */
+    r: number;
+    /**
+     * @property g
+     * @type {number}
+     */
+    g: number;
+    /**
+     * @property b
+     * @type {number}
+     */
+    b: number;
+    /**
+     * @method clone
+     * @return {Color}
+     * @chainable
+     */
     clone(): Color;
-    interpolate(target: ColorRGB, alpha: number): Color;
+    /**
+     * @method copy
+     * @param color {ColorRGB}
+     * @return {Color}
+     * @chainable
+     */
+    copy(color: ColorRGB): Color;
+    /**
+     * @method interpolate
+     * @param target {ColorRGB}
+     * @param α {number}
+     * @return {Color}
+     * @chainable
+     */
+    interpolate(target: ColorRGB, α: number): Color;
+    /**
+     * @property luminance
+     * @type {number}
+     * @readOnly
+     */
     luminance: number;
+    /**
+     * @method toString
+     * @return {string}
+     */
     toString(): string;
-    static luminance(red: number, green: number, blue: number): number;
+    /**
+     * @method luminance
+     * @param r {number}
+     * @param g {number}
+     * @param b {number}
+     * @return {number}
+     * @static
+     */
+    static luminance(r: number, g: number, b: number): number;
+    /**
+     * @method fromColor
+     * @param color {ColorRGB}
+     * @return {Color}
+     * @static
+     * @chainable
+     */
+    static fromColor(color: ColorRGB): Color;
+    /**
+     * @method fromCoords
+     * @param coords {number[]}
+     * @return {Color}
+     * @chainable
+     */
+    static fromCoords(coords: number[]): Color;
     /**
      * Converts an angle, radius, height to a color on a color wheel.
+     * @method fromHSL
+     * @param H {number}
+     * @param S {number}
+     * @param L {number}
+     * @return {Color}
+     * @static
+     * @chainable
      */
     static fromHSL(H: number, S: number, L: number): Color;
-    static fromRGB(red: number, green: number, blue: number): Color;
-    static copy(color: ColorRGB): Color;
-    static interpolate(a: ColorRGB, b: ColorRGB, alpha: number): Color;
+    /**
+     * @method fromRGB
+     * @param r {number}
+     * @param g {number}
+     * @param b {number}
+     * @return {Color}
+     * @static
+     * @chainable
+     */
+    static fromRGB(r: number, g: number, b: number): Color;
+    /**
+     * @method interpolate
+     * @param a {ColorRGB}
+     * @param b {ColorRGB}
+     * @param α {number}
+     * @return {Color}
+     * @static
+     * @chainable
+     */
+    static interpolate(a: ColorRGB, b: ColorRGB, α: number): Color;
 }
 export = Color;

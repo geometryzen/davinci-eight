@@ -3,10 +3,20 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, isDefined, isNumber, mustBeNumber, mustBeObject, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, isDefined, isNumber, mustBeNumber, mustBeObject, toStringCustom, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     var exp = Math.exp;
     var log = Math.log;
     var sqrt = Math.sqrt;
+    var COORD_X = 0;
+    var COORD_Y = 1;
+    var COORD_Z = 2;
+    var BASIS_LABELS = ['e1', 'e2', 'e3'];
+    /**
+     * Coordinates corresponding to basis labels.
+     */
+    function coordinates(m) {
+        return [m.x, m.y, m.z];
+    }
     /**
      * @class R3
      * @extends VectorN<number>
@@ -40,11 +50,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
              * @type {number}
              */
             get: function () {
-                return this.data[0];
+                return this.coords[COORD_X];
             },
             set: function (value) {
                 this.modified = this.modified || this.x !== value;
-                this.data[0] = value;
+                this.coords[COORD_X] = value;
             },
             enumerable: true,
             configurable: true
@@ -55,11 +65,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
              * @type Number
              */
             get: function () {
-                return this.data[1];
+                return this.coords[COORD_Y];
             },
             set: function (value) {
                 this.modified = this.modified || this.y !== value;
-                this.data[1] = value;
+                this.coords[COORD_Y] = value;
             },
             enumerable: true,
             configurable: true
@@ -70,11 +80,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
              * @type Number
              */
             get: function () {
-                return this.data[2];
+                return this.coords[COORD_Z];
             },
             set: function (value) {
                 this.modified = this.modified || this.z !== value;
-                this.data[2] = value;
+                this.coords[COORD_Z] = value;
             },
             enumerable: true,
             configurable: true
@@ -130,7 +140,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
             var x = this.x;
             var y = this.y;
             var z = this.z;
-            var e = m.data;
+            var e = m.elements;
             this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z;
             this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z;
             this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z;
@@ -150,7 +160,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
          */
         R3.prototype.applyMatrix4 = function (m) {
             var x = this.x, y = this.y, z = this.z;
-            var e = m.data;
+            var e = m.elements;
             this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
             this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
             this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
@@ -227,6 +237,20 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
             this.x = v.x;
             this.y = v.y;
             this.z = v.z;
+            return this;
+        };
+        /**
+         * Copies the coordinate values into this <code>R3</code>.
+         * @method copyCoordinates
+         * @param coordinates {number[]}
+         * @return {R3} <code>this</code>
+         * @chainable
+         */
+        R3.prototype.copyCoordinates = function (coordinates) {
+            // Copy using the setters so that the modified flag is updated.
+            this.x = coordinates[COORD_X];
+            this.y = coordinates[COORD_Y];
+            this.z = coordinates[COORD_Z];
             return this;
         };
         /**
@@ -341,16 +365,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
             this.y = -this.y;
             this.z = -this.z;
             return this;
-        };
-        /**
-         * Returns the (Euclidean) inner product of this vector with itself.
-         * @method squaredNorm
-         * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
-         */
-        R3.prototype.squaredNorm = function () {
-            // quad = scp(v, rev(v)) = scp(v, v)
-            // TODO: This is correct but could be optimized.
-            return dotVectorE3(this, this);
         };
         /**
          * <p>
@@ -473,6 +487,16 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
             return this;
         };
         /**
+         * Returns the (Euclidean) inner product of this vector with itself.
+         * @method squaredNorm
+         * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
+         */
+        R3.prototype.squaredNorm = function () {
+            // quad = scp(v, rev(v)) = scp(v, v)
+            // TODO: This is correct but could be optimized.
+            return dotVectorE3(this, this);
+        };
+        /**
          * <p>
          * <code>this ⟼ this - v</code>
          * </p>
@@ -509,18 +533,30 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
             this.z = a.z - b.z;
             return this;
         };
+        /**
+         * @method toExponential
+         * @return {string}
+         */
         R3.prototype.toExponential = function () {
-            return "TODO R2.toExponential";
+            var coordToString = function (coord) { return coord.toExponential(); };
+            return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS);
         };
+        /**
+         * @method toFixed
+         * @param digits [number]
+         * @return {string}
+         */
         R3.prototype.toFixed = function (digits) {
-            return "TODO R2.toFixed";
+            var coordToString = function (coord) { return coord.toFixed(digits); };
+            return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS);
         };
         /**
          * @method toString
-         * @return {string} A non-normative string representation of the target.
+         * @return {string}
          */
         R3.prototype.toString = function () {
-            return "R3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
+            var coordToString = function (coord) { return coord.toString(); };
+            return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS);
         };
         /**
          * Sets this vector to the identity element for addition, <b>0</b>.

@@ -15,7 +15,6 @@ declare class BarnSimplexGeometry extends SimplexGeometry {
      * @constructor
      */
     constructor();
-    protected destructor(): void;
     isModified(): boolean;
     setModified(modified: boolean): BarnSimplexGeometry;
     regenerate(): void;

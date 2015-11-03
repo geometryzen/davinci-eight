@@ -85,11 +85,12 @@ class VectorN<T> implements Mutable<T[]> {
             this._data = dataArg.value;
         }
     }
+
     /**
      * @property data
      * @type {T[]}
      */
-    get data(): T[] {
+    get coords(): T[] {
         if (this._data) {
             return this._data;
         }
@@ -104,7 +105,7 @@ class VectorN<T> implements Mutable<T[]> {
             throw new Error("Vector" + this._size + " is undefined.");
         }
     }
-    set data(data: T[]) {
+    set coords(data: T[]) {
         if (isDefined(this._size)) {
             expectArg('data', data).toSatisfy(data.length === this._size, "data length must be " + this._size);
         }
@@ -130,7 +131,7 @@ class VectorN<T> implements Mutable<T[]> {
      * @readOnly
      */
     get length(): number {
-        return this.data.length;
+        return this.coords.length;
     }
     /**
      * @method clone
@@ -145,7 +146,7 @@ class VectorN<T> implements Mutable<T[]> {
      * @return {T}
      */
     getComponent(index: number): T {
-        return this.data[index];
+        return this.coords[index];
     }
     /**
      * @method pop
@@ -153,7 +154,7 @@ class VectorN<T> implements Mutable<T[]> {
      */
     pop(): T {
         if (isUndefined(this._size)) {
-            return this.data.pop();
+            return this.coords.pop();
         }
         else {
             throw new Error(verbotenPop());
@@ -166,15 +167,16 @@ class VectorN<T> implements Mutable<T[]> {
      */
     push(value: T): number {
         if (isUndefined(this._size)) {
-            let data = this.data;
+            let data = this.coords;
             let newLength = data.push(value);
-            this.data = data;
+            this.coords = data;
             return newLength;
         }
         else {
             throw new Error(verbotenPush());
         }
     }
+
     /**
      * @method setComponent
      * @param index {number}
@@ -182,11 +184,11 @@ class VectorN<T> implements Mutable<T[]> {
      * @return {void}
      */
     setComponent(index: number, value: T): void {
-        let data: T[] = this.data;
+        let data: T[] = this.coords;
         let existing = data[index];
         if (value !== existing) {
             data[index] = value;
-            this.data = data;
+            this.coords = data;
             this.modified = true;
         }
     }
@@ -197,7 +199,7 @@ class VectorN<T> implements Mutable<T[]> {
      * @return {T[]}
      */
     toArray(array: T[] = [], offset: number = 0): T[] {
-        let data = this.data;
+        let data = this.coords;
         let length = data.length;
         for (var i = 0; i < length; i++) {
             array[offset + i] = data[i];
@@ -209,14 +211,14 @@ class VectorN<T> implements Mutable<T[]> {
      * @return {string}
      */
     toLocaleString(): string {
-        return this.data.toLocaleString();
+        return this.coords.toLocaleString();
     }
     /**
      * @method toString
      * @return {string}
      */
     toString(): string {
-        return this.data.toString();
+        return this.coords.toString();
     }
 }
 

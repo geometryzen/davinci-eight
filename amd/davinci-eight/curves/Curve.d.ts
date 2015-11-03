@@ -1,14 +1,7 @@
-import R3 = require('../math/R3');
+import Euclidean3 = require('../math/Euclidean3');
 /**
  * @author zz85 / http://www.lab4games.net/zz85/blog
  * Extensible curve object
- *
- * Some common of Curve methods
- * .getPoint(t), getTangent(t)
- * .getPointAt(u), getTagentAt(u)
- * .getPoints(), .getSpacedPoints()
- * .getLength()
- * .updateArcLengths()
  *
  * This following classes subclasses Curve:
  *
@@ -30,13 +23,13 @@ declare class Curve {
      * Virtual base class method to overwrite and implement in subclasses
      * t belongs to [0, 1]
      */
-    getPoint(t: number): R3;
+    getPoint(t: number): Euclidean3;
     /**
      * Get point at relative position in curve according to arc length
      */
-    getPointAt(u: number): R3;
-    getPoints(divisions?: number): R3[];
-    getSpacedPoints(divisions?: number): R3[];
+    getPointAt(u: number): Euclidean3;
+    getPoints(divisions?: number): Euclidean3[];
+    getSpacedPoints(divisions?: number): Euclidean3[];
     getLength(): number;
     getLengths(divisions?: number): number[];
     updateArcLengths(): void;
@@ -50,7 +43,7 @@ declare class Curve {
      * 2 points a small delta apart will be used to find its gradient
      * which seems to give a reasonable approximation
      */
-    getTangent(t: number): R3;
-    getTangentAt(u: number): R3;
+    getTangent(t: number): Euclidean3;
+    getTangentAt(u: number): Euclidean3;
 }
 export = Curve;

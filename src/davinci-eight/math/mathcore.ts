@@ -2,8 +2,9 @@ let abs = Math.abs
 let acos = Math.acos
 let asin = Math.asin
 let atan = Math.atan
-let exp = Math.exp
 let cos = Math.cos
+let exp = Math.exp
+let log = Math.log
 let sin = Math.sin
 let sqrt = Math.sqrt
 let tan = Math.tan
@@ -56,6 +57,7 @@ var mathcore =
         cos: makeUnaryUniversalFunction('cos', cos),
         cosh: makeUnaryUniversalFunction('cosh', cosh),
         exp: makeUnaryUniversalFunction('exp', exp),
+        log: makeUnaryUniversalFunction('log', log),
         norm: makeUnaryUniversalFunction('norm', abs),
         quad: makeUnaryUniversalFunction('quad', quad),
         sin: makeUnaryUniversalFunction('sin', sin),

@@ -1,3 +1,4 @@
+import BlendFactor = require('../commands/BlendFactor');
 import IContextProvider = require('../core/IContextProvider');
 import IContextCommand = require('../core/IContextCommand');
 import Shareable = require('../utils/Shareable');
@@ -8,15 +9,15 @@ import Shareable = require('../utils/Shareable');
  * @implements IContextConsumer
  */
 declare class WebGLBlendFunc extends Shareable implements IContextCommand {
-    sfactor: string;
-    dfactor: string;
+    sfactor: BlendFactor;
+    dfactor: BlendFactor;
     /**
      * @class WebGLBlendFunc
      * @constructor
-     * @param sfactor {string}
-     * @param dfactor {string}
+     * @param sfactor {BlendFactor}
+     * @param dfactor {BlendFactor}
      */
-    constructor(sfactor: string, dfactor: string);
+    constructor(sfactor: BlendFactor, dfactor: BlendFactor);
     /**
      * @method contextFree
      * @param canvasId {number}

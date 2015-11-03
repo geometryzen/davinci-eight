@@ -22,7 +22,7 @@ function dataFromVectorN(source: VectorN<number>): number[] {
     }
     else {
         // console.warn("dataFromVectorN(source: VectorN<number>): number[], source.length => " + source.length)
-        return source.data
+        return source.coords
     }
 }
 

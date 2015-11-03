@@ -1,3 +1,4 @@
+import CartesianE3 = require('../math/CartesianE3')
 import Euclidean3 = require('../math/Euclidean3')
 import Geometry = require('../geometries/Geometry')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
@@ -12,10 +13,10 @@ import VectorE3 = require('../math/VectorE3')
 class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * @property _axis
-     * @type {R3}
+     * @type {CartesianE3}
      * @protected
      */
-    protected _axis: R3;
+    protected _axis: CartesianE3;
     /**
      * @property _sliceAngle
      * @type {number}
@@ -24,27 +25,34 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     private _sliceAngle: number = 2 * Math.PI;
     /**
      * @property _sliceStart
-     * @type {R3}
+     * @type {CartesianE3}
      * @private
      */
-    private _sliceStart: R3;
+    private _sliceStart: CartesianE3;
     /**
-     * @class SliceGeometry
+     * @class AxialGeometry
      * @constructor
+     * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity. 
+     * @param sliceStart [VectorE3] A direction, orthogonal to <code>axis</code>.
      */
-    constructor() {
+    constructor(axis: VectorE3, sliceStart?: VectorE3) {
         super()
-        this._axis = R3.copy(Euclidean3.e2)
-        this._sliceStart = R3.copy(Euclidean3.e1)
+        this.setAxis(axis)
+        if (sliceStart) {
+            this.setSliceStart(sliceStart)
+        }
+        else {
+            this.setSliceStart(R3.random().cross(axis))
+        }
     }
     /**
      * @property axis
-     * @type {VectorE3}
+     * @type {CartesianE3}
      */
-    get axis(): VectorE3 {
-        return this._axis.clone()
+    get axis(): CartesianE3 {
+        return this._axis
     }
-    set axis(axis: VectorE3) {
+    set axis(axis: CartesianE3) {
         this.setAxis(axis)
     }
     /**
@@ -55,10 +63,9 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
      */
     setAxis(axis: VectorE3): AxialGeometry {
         mustBeObject('axis', axis)
-        this._axis.copy(axis).normalize()
-        // FIXME: randomize
-        this._sliceStart.copy(R3.random()).cross(this._axis).normalize()
-        return this;
+        this._axis = CartesianE3.normalize(axis)
+        this.setSliceStart(R3.random().cross(this._axis))
+        return this
     }
     /**
      * @property sliceAngle
@@ -75,14 +82,14 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * The (unit vector) direction of the start of the slice.
      * @property sliceStart
-     * @type {VectorE3}
+     * @type {CartesianE3}
      */
-    get sliceStart(): VectorE3 {
-        return this._sliceStart.clone()
+    get sliceStart(): CartesianE3 {
+        return this._sliceStart
     }
-    set sliceStart(sliceStart: VectorE3) {
-        mustBeObject('sliceStart', sliceStart)
-        this._sliceStart.copy(sliceStart).normalize()
+    set sliceStart(sliceStart: CartesianE3) {
+        // Make sure that we normalize the vector.
+        this.setSliceStart(sliceStart)
     }
     /**
      * @method setPosition
@@ -93,6 +100,10 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     setPosition(position: VectorE3): AxialGeometry {
         super.setPosition(position)
         return this
+    }
+    setSliceStart(sliceStart: VectorE3) {
+        mustBeObject('sliceStart', sliceStart)
+        this._sliceStart = CartesianE3.normalize(sliceStart)
     }
     /**
      * @method enableTextureCoords

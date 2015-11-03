@@ -8,91 +8,157 @@
  */
 class Symbolic {
 
-  /**
-   * 'aColor'
-   * @property ATTRIBUTE_COLOR
-   * @type {string}
-   * @static
-   */
-  public static ATTRIBUTE_COLOR: string                     = 'aColor';
+    /**
+     * 'aColor'
+     * @property ATTRIBUTE_COLOR
+     * @type {string}
+     * @static
+     */
+    public static ATTRIBUTE_COLOR: string = 'aColor';
 
-  /**
-   * 'aGeometryIndex'
-   * @property ATTRIBUTE_GEOMETRY_INDEX
-   * @type {string}
-   * @static
-   */
-  public static ATTRIBUTE_GEOMETRY_INDEX: string            = 'aGeometryIndex';
+    /**
+     * 'aGeometryIndex'
+     * @property ATTRIBUTE_GEOMETRY_INDEX
+     * @type {string}
+     * @static
+     */
+    public static ATTRIBUTE_GEOMETRY_INDEX: string = 'aGeometryIndex';
 
-  /**
-   * 'aNormal'
-   * @property ATTRIBUTE_NORMAL
-   * @type {string}
-   * @static
-   */
-  public static ATTRIBUTE_NORMAL: string                    = 'aNormal';
+    /**
+     * 'aNormal'
+     * @property ATTRIBUTE_NORMAL
+     * @type {string}
+     * @static
+     */
+    public static ATTRIBUTE_NORMAL: string = 'aNormal';
 
-  /**
-   * 'aPosition'
-   * @property ATTRIBUTE_POSITION
-   * @type {string}
-   * @static
-   */
-  public static ATTRIBUTE_POSITION: string                  = 'aPosition';
+    /**
+     * 'aPosition'
+     * @property ATTRIBUTE_POSITION
+     * @type {string}
+     * @static
+     */
+    public static ATTRIBUTE_POSITION: string = 'aPosition';
 
-  /**
-   * 'aTextureCoords'
-   * @property ATTRIBUTE_TEXTURE_COORDS
-   * @type {string}
-   * @static
-   */
-  public static ATTRIBUTE_TEXTURE_COORDS: string            = 'aTextureCoords';
+    /**
+     * 'aTextureCoords'
+     * @property ATTRIBUTE_TEXTURE_COORDS
+     * @type {string}
+     * @static
+     */
+    public static ATTRIBUTE_TEXTURE_COORDS: string = 'aTextureCoords';
 
-  /**
-   * 'uAmbientLight'
-   * @property UNIFORM_AMBIENT_LIGHT
-   * @type {string}
-   * @static
-   */
-  public static UNIFORM_AMBIENT_LIGHT: string               = 'uAmbientLight';
+    /**
+     * 'uAlpha'
+     * @property UNIFORM_ALPHA
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_ALPHA: string = 'uAlpha';
 
-  public static UNIFORM_COLOR: string                       = 'uColor';
-  public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string     = 'uDirectionalLightColor';
-  public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightDirection';
-  public static UNIFORM_POINT_LIGHT_COLOR: string           = 'uPointLightColor';
-  public static UNIFORM_POINT_LIGHT_POSITION: string        = 'uPointLightPosition';
-  public static UNIFORM_POINT_SIZE: string                  = 'uPointSize';
+    /**
+     * 'uAmbientLight'
+     * @property UNIFORM_AMBIENT_LIGHT
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_AMBIENT_LIGHT: string = 'uAmbientLight';
 
-  /**
-   * 'uProjection'
-   * @property UNIFORM_PROJECTION_MATRIX
-   * @type {string}
-   * @static
-   */
-  public static UNIFORM_PROJECTION_MATRIX: string           = 'uProjection';
+    /**
+     * 'uColor'
+     * @property UNIFORM_COLOR
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_COLOR: string = 'uColor';
 
-  /**
-   * 'uModel'
-   */
-  public static UNIFORM_MODEL_MATRIX: string                = 'uModel';
-  public static UNIFORM_NORMAL_MATRIX: string               = 'uNormal';
-  public static UNIFORM_VIEW_MATRIX: string                 = 'uView';
+    /**
+     * 'uDirectionalLightColor'
+     * @property UNIFORM_DIRECTIONAL_LIGHT_COLOR
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string = 'uDirectionalLightColor';
 
-  /**
-   * 'vColor'
-   * @property VARYING_COLOR
-   * @type {string}
-   * @static
-   */
-  public static VARYING_COLOR: string                       = 'vColor';
+    /**
+     * 'uDirectionalLightDirection'
+     * @property UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightDirection';
 
-  /**
-   * 'vLight'
-   * @property VARYING_LIGHT
-   * @type {string}
-   * @static
-   */
-  public static VARYING_LIGHT: string                       = 'vLight';
+    /**
+     * 'uPointLightColor'
+     * @property UNIFORM_POINT_LIGHT_COLOR
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_POINT_LIGHT_COLOR: string = 'uPointLightColor';
+
+    /**
+     * 'uPointLightPosition'
+     * @property UNIFORM_POINT_LIGHT_POSITION
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_POINT_LIGHT_POSITION: string = 'uPointLightPosition';
+
+    /**
+     * 'uPointSize'
+     * @property UNIFORM_POINT_SIZE
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_POINT_SIZE: string = 'uPointSize';
+
+    /**
+     * 'uProjection'
+     * @property UNIFORM_PROJECTION_MATRIX
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_PROJECTION_MATRIX: string = 'uProjection';
+
+    /**
+     * 'uModel'
+     * @property UNIFORM_MODEL_MATRIX
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_MODEL_MATRIX: string = 'uModel';
+
+    /**
+     * 'uNormal'
+     * @property UNIFORM_NORMAL_MATRIX
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_NORMAL_MATRIX: string = 'uNormal';
+
+    /**
+     * 'uView'
+     * @property UNIFORM_VIEW_MATRIX
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_VIEW_MATRIX: string = 'uView';
+
+    /**
+     * 'vColor'
+     * @property VARYING_COLOR
+     * @type {string}
+     * @static
+     */
+    public static VARYING_COLOR: string = 'vColor';
+
+    /**
+     * 'vLight'
+     * @property VARYING_LIGHT
+     * @type {string}
+     * @static
+     */
+    public static VARYING_LIGHT: string = 'vLight';
 }
 
 export = Symbolic;

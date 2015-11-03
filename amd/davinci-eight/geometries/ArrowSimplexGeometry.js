@@ -35,55 +35,29 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSim
         return R3.copy(direction);
     }
     /**
-     * @class ArrowSimplexGeometry
+     * Intentionally undocumented.
+     *
+     * This doesn't work because of the difficulty of constructing normals.
+     * With more information, RevolutionSimplexGeometry might do the job.
      */
     var ArrowSimplexGeometry = (function (_super) {
         __extends(ArrowSimplexGeometry, _super);
-        /**
-         * @class ArrowSimplexGeometry
-         * @constructor
-         */
         function ArrowSimplexGeometry() {
-            _super.call(this, 'ArrowSimplexGeometry');
+            _super.call(this);
             this.lengthCone = 0.20;
             this.radiusCone = 0.08;
             this.radiusShaft = 0.01;
-            /**
-             * @property vector
-             * @type {R3}
-             */
             this.vector = R3.copy(Euclidean3.e1);
             this.segments = 12;
             this.setModified(true);
         }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        ArrowSimplexGeometry.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        /**
-         * @method isModified
-         * @return {boolean}
-         */
         ArrowSimplexGeometry.prototype.isModified = function () {
             return this.vector.modified;
         };
-        /**
-         * @method setModified
-         * @param modified {boolean}
-         * @return {ArrowSimplexGeometry}
-         */
         ArrowSimplexGeometry.prototype.setModified = function (modified) {
             this.vector.modified = modified;
             return this;
         };
-        /**
-         * @method regenerate
-         * @return {void}
-         */
         ArrowSimplexGeometry.prototype.regenerate = function () {
             var length = this.vector.magnitude();
             var lengthShaft = length - this.lengthCone;

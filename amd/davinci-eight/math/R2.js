@@ -3,10 +3,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/VectorN'], function (require, exports, b2, b3, VectorN) {
     var exp = Math.exp;
     var log = Math.log;
     var sqrt = Math.sqrt;
+    var COORD_X = 0;
+    var COORD_Y = 1;
     /**
      * @class R2
      */
@@ -29,11 +31,11 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
              * @type Number
              */
             get: function () {
-                return this.data[0];
+                return this.coords[COORD_X];
             },
             set: function (value) {
                 this.modified = this.modified || this.x !== value;
-                this.data[0] = value;
+                this.coords[COORD_X] = value;
             },
             enumerable: true,
             configurable: true
@@ -44,11 +46,11 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
              * @type Number
              */
             get: function () {
-                return this.data[1];
+                return this.coords[COORD_Y];
             },
             set: function (value) {
                 this.modified = this.modified || this.y !== value;
-                this.data[1] = value;
+                this.coords[COORD_Y] = value;
             },
             enumerable: true,
             configurable: true
@@ -80,6 +82,20 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         R2.prototype.add2 = function (a, b) {
             this.x = a.x + b.x;
             this.y = a.y + b.y;
+            return this;
+        };
+        /**
+         * @method cubicBezier
+         * @param t {number}
+         * @param controlBegin {VectorE2}
+         * @param endPoint {VectorE2}
+         * @return {R2}
+         */
+        R2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
+            var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            this.x = x;
+            this.y = y;
             return this;
         };
         R2.prototype.sub = function (v) {
@@ -191,6 +207,20 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             var dx = this.x - position.x;
             var dy = this.y - position.y;
             return dx * dx + dy * dy;
+        };
+        /**
+         * @method quadraticBezier
+         * @param t {number}
+         * @param controlPoint {VectorE2}
+         * @param endPoint {VectorE2}
+         * @return {R2}
+         */
+        R2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
+            var x = b2(t, this.x, controlPoint.x, endPoint.x);
+            var y = b2(t, this.y, controlPoint.y, endPoint.y);
+            this.x = x;
+            this.y = y;
+            return this;
         };
         R2.prototype.reflect = function (n) {
             // FIXME: TODO

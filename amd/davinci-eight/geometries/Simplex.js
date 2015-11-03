@@ -40,7 +40,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
     }
     // TODO: Looks like a static of VectorN or a common function.
     function lerpVectorN(a, b, alpha) {
-        return new VectorN(lerp(a.data, b.data, alpha));
+        return new VectorN(lerp(a.coords, b.coords, alpha));
     }
     /**
      * @class Simplex

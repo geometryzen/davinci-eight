@@ -1,10 +1,11 @@
+import Capability = require('../commands/Capability');
 import IContextConsumer = require('../core/IContextConsumer');
 import IContextProvider = require('../core/IContextProvider');
 import IContextCommand = require('../core/IContextCommand');
 import Shareable = require('../utils/Shareable');
 /**
  * <p>
- * disable(capability: string): void
+ * disable(capability: Capability): void
  * <p>
  * @class WebGLDisable
  * @extends Shareable
@@ -18,7 +19,7 @@ declare class WebGLDisable extends Shareable implements IContextCommand, IContex
      * @constructor
      * @param capability {string} The name of the WebGLRenderingContext property to be disabled.
      */
-    constructor(capability: string);
+    constructor(capability: Capability);
     /**
      * @method contextFree
      * @param canvasId {number}

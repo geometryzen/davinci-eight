@@ -156,12 +156,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @type {number}
      */
     get α(): number {
-        return this.data[COORD_W]
+        return this.coords[COORD_W]
     }
     set α(α: number) {
         mustBeNumber('α', α)
-        this.modified = this.modified || this.data[COORD_W] !== α
-        this.data[COORD_W] = α
+        this.modified = this.modified || this.coords[COORD_W] !== α
+        this.coords[COORD_W] = α
     }
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
@@ -169,12 +169,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @type {number}
      */
     get x(): number {
-        return this.data[COORD_X]
+        return this.coords[COORD_X]
     }
     set x(x: number) {
         mustBeNumber('x', x)
-        this.modified = this.modified || this.data[COORD_X] !== x
-        this.data[COORD_X] = x
+        this.modified = this.modified || this.coords[COORD_X] !== x
+        this.coords[COORD_X] = x
     }
     /**
      * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
@@ -182,12 +182,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @type {number}
      */
     get y(): number {
-        return this.data[COORD_Y]
+        return this.coords[COORD_Y]
     }
     set y(y: number) {
         mustBeNumber('y', y)
-        this.modified = this.modified || this.data[COORD_Y] !== y
-        this.data[COORD_Y] = y
+        this.modified = this.modified || this.coords[COORD_Y] !== y
+        this.coords[COORD_Y] = y
     }
     /**
      * The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.
@@ -195,12 +195,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @type {number}
      */
     get z(): number {
-        return this.data[COORD_Z]
+        return this.coords[COORD_Z]
     }
     set z(z: number) {
         mustBeNumber('z', z)
-        this.modified = this.modified || this.data[COORD_Z] !== z
-        this.data[COORD_Z] = z
+        this.modified = this.modified || this.coords[COORD_Z] !== z
+        this.coords[COORD_Z] = z
     }
     /**
      * The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.
@@ -208,12 +208,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @type {number}
      */
     get yz(): number {
-        return this.data[COORD_YZ]
+        return this.coords[COORD_YZ]
     }
     set yz(yz: number) {
         mustBeNumber('yz', yz)
-        this.modified = this.modified || this.data[COORD_YZ] !== yz
-        this.data[COORD_YZ] = yz
+        this.modified = this.modified || this.coords[COORD_YZ] !== yz
+        this.coords[COORD_YZ] = yz
     }
     /**
      * The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.
@@ -221,12 +221,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @type {number}
      */
     get zx(): number {
-        return this.data[COORD_ZX]
+        return this.coords[COORD_ZX]
     }
     set zx(zx: number) {
         mustBeNumber('zx', zx)
-        this.modified = this.modified || this.data[COORD_ZX] !== zx
-        this.data[COORD_ZX] = zx
+        this.modified = this.modified || this.coords[COORD_ZX] !== zx
+        this.coords[COORD_ZX] = zx
     }
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
@@ -234,12 +234,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @type {number}
      */
     get xy(): number {
-        return this.data[COORD_XY]
+        return this.coords[COORD_XY]
     }
     set xy(xy: number) {
         mustBeNumber('xy', xy)
-        this.modified = this.modified || this.data[COORD_XY] !== xy
-        this.data[COORD_XY] = xy
+        this.modified = this.modified || this.coords[COORD_XY] !== xy
+        this.coords[COORD_XY] = xy
     }
     /**
      * The pseudoscalar part of this multivector.
@@ -247,12 +247,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @type {number}
      */
     get β(): number {
-        return this.data[COORD_XYZ]
+        return this.coords[COORD_XYZ]
     }
     set β(β: number) {
         mustBeNumber('β', β)
-        this.modified = this.modified || this.data[COORD_XYZ] !== β
-        this.data[COORD_XYZ] = β
+        this.modified = this.modified || this.coords[COORD_XYZ] !== β
+        this.coords[COORD_XYZ] = β
     }
 
     /**

@@ -113,10 +113,10 @@ class ModelE2 extends Shareable implements IAnimationTarget {
     getProperty(name: string): number[] {
         switch (name) {
             case ModelE2.PROP_ATTITUDE: {
-                return this._attCache.copy(this._attitude).data
+                return this._attCache.copy(this._attitude).coords
             }
             case ModelE2.PROP_POSITION: {
-                return this._posCache.copy(this._position).data
+                return this._posCache.copy(this._position).coords
             }
             default: {
                 console.warn("ModelE2.getProperty " + name)
@@ -134,12 +134,12 @@ class ModelE2 extends Shareable implements IAnimationTarget {
     setProperty(name: string, data: number[]): void {
         switch (name) {
             case ModelE2.PROP_ATTITUDE: {
-                this._attCache.data = data
+                this._attCache.coords = data
                 this._attitude.copySpinor(this._attCache)
             }
                 break;
             case ModelE2.PROP_POSITION: {
-                this._posCache.data = data
+                this._posCache.coords = data
                 this._position.copyVector(this._posCache)
             }
                 break;

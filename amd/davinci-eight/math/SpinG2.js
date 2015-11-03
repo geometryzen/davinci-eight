@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVectorE2', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadSpinorE2', '../math/quadVectorE2', '../math/rotorFromDirections', '../math/VectorN', '../math/wedgeXY'], function (require, exports, dotVectorCartesian, dotVector, isDefined, mustBeInteger, mustBeNumber, mustBeObject, quadSpinor, quadVector, rotorFromDirections, VectorN, wedgeXY) {
-    // Symbolic constants for the coordinate indices into the data array.
+    // Symbolic constants for the coordinate indices into the coords array.
     var COORD_XY = 0;
     var COORD_ALPHA = 1;
     function one() {
@@ -45,12 +45,12 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_XY];
+                return this.coords[COORD_XY];
             },
             set: function (xy) {
                 mustBeNumber('xy', xy);
                 this.modified = this.modified || this.xy !== xy;
-                this.data[COORD_XY] = xy;
+                this.coords[COORD_XY] = xy;
             },
             enumerable: true,
             configurable: true
@@ -62,12 +62,12 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_ALPHA];
+                return this.coords[COORD_ALPHA];
             },
             set: function (α) {
                 mustBeNumber('α', α);
                 this.modified = this.modified || this.α !== α;
-                this.data[COORD_ALPHA] = α;
+                this.coords[COORD_ALPHA] = α;
             },
             enumerable: true,
             configurable: true

@@ -31,10 +31,9 @@ class VortexSimplexGeometry extends SimplexGeometry {
     /**
      * @class VortexSimplexGeometry
      * @constructor
-     * @param type [string = 'VortexSimplexGeometry']
      */
-    constructor(type: string = 'VortexSimplexGeometry') {
-        super(mustBeString('type', type))
+    constructor() {
+        super()
         this.setModified(true)
     }
 
@@ -44,7 +43,7 @@ class VortexSimplexGeometry extends SimplexGeometry {
     /**
      * @method setModified
      * @param modified {boolean}
-     * @return {ArrowSimplexGeometry}
+     * @return {VortexSimplexGeometry}
      */
     public setModified(modified: boolean): VortexSimplexGeometry {
         this.generator.modified = modified

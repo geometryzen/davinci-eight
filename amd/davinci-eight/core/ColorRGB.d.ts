@@ -4,21 +4,21 @@
 interface ColorRGB {
     /**
      * The red component of the color.
-     * @property red
+     * @property r
      * @type {number}
      */
-    red: number;
+    r: number;
     /**
      * The green component of the color.
-     * @property green
+     * @property g
      * @type {number}
      */
-    green: number;
+    g: number;
     /**
      * The blue component of the color.
-     * @property blue
+     * @property b
      * @type {number}
      */
-    blue: number;
+    b: number;
 }
 export = ColorRGB;

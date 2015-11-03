@@ -71,7 +71,7 @@ class Vector2Animation extends Shareable implements IAnimation {
 
         var lerp: R2 = R2.lerp(this.from, this.to, rolloff)
         // The animator sends the data back to the animation target suitable for the R2 constructor.
-        target.setProperty(propName, lerp.data)
+        target.setProperty(propName, lerp.coords)
     }
     hurry(factor: number): void {
         this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
@@ -87,7 +87,7 @@ class Vector2Animation extends Shareable implements IAnimation {
     done(target: IAnimationTarget, propName: string): boolean {
         if (this.fraction === 1) {
             // Set final value.
-            target.setProperty(propName, this.to.data);
+            target.setProperty(propName, this.to.coords);
 
             this.callback && this.callback()
             this.callback = void 0
@@ -99,7 +99,7 @@ class Vector2Animation extends Shareable implements IAnimation {
     }
     undo(target: IAnimationTarget, propName: string): void {
         if (this.from) {
-            target.setProperty(propName, this.from.data)
+            target.setProperty(propName, this.from.coords)
             this.from = void 0
             this.start = void 0
             this.fraction = 0

@@ -42,54 +42,28 @@ function nearest(direction: R3): R3 {
 }
 
 /**
- * @class ArrowSimplexGeometry
+ * Intentionally undocumented.
+ *
+ * This doesn't work because of the difficulty of constructing normals.
+ * With more information, RevolutionSimplexGeometry might do the job.
  */
 class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
     public lengthCone: number = 0.20;
     public radiusCone: number = 0.08;
     public radiusShaft: number = 0.01;
-    /**
-     * @property vector
-     * @type {R3}
-     */
     public vector: R3 = R3.copy(Euclidean3.e1);
     public segments: number = 12;
-    /**
-     * @class ArrowSimplexGeometry
-     * @constructor
-     */
     constructor() {
-        super('ArrowSimplexGeometry')
+        super()
         this.setModified(true)
     }
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        super.destructor()
-    }
-    /**
-     * @method isModified
-     * @return {boolean}
-     */
     public isModified(): boolean {
         return this.vector.modified
     }
-    /**
-     * @method setModified
-     * @param modified {boolean}
-     * @return {ArrowSimplexGeometry}
-     */
     public setModified(modified: boolean): ArrowSimplexGeometry {
         this.vector.modified = modified
         return this
     }
-    /**
-     * @method regenerate
-     * @return {void}
-     */
     public regenerate(): void {
         var length = this.vector.magnitude()
         var lengthShaft = length - this.lengthCone

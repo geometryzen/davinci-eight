@@ -3,26 +3,35 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
+define(["require", "exports", '../commands/BlendFactor', '../utils/Shareable'], function (require, exports, BlendFactor, Shareable) {
     var factors = [
-        'ZERO',
-        'ONE',
-        'SRC_COLOR',
-        'ONE_MINUS_SRC_COLOR',
-        'DST_COLOR',
-        'ONE_MINUS_DST_COLOR',
-        'SRC_ALPHA',
-        'ONE_MINUS_SRC_ALPHA',
-        'DST_ALPHA',
-        'ONE_MINUS_DST_ALPHA',
-        'SRC_ALPHA_SATURATE'
+        BlendFactor.DST_ALPHA,
+        BlendFactor.DST_COLOR,
+        BlendFactor.ONE,
+        BlendFactor.ONE_MINUS_DST_ALPHA,
+        BlendFactor.ONE_MINUS_DST_COLOR,
+        BlendFactor.ONE_MINUS_SRC_ALPHA,
+        BlendFactor.ONE_MINUS_SRC_COLOR,
+        BlendFactor.SRC_ALPHA,
+        BlendFactor.SRC_ALPHA_SATURATE,
+        BlendFactor.SRC_COLOR,
+        BlendFactor.ZERO
     ];
     function mustBeFactor(name, factor) {
         if (factors.indexOf(factor) >= 0) {
             return factor;
         }
         else {
-            throw new Error(factor + " is not a valid factor. Factor must be one of " + JSON.stringify(factors));
+            throw new Error(factor + " is not a valid factor.");
+        }
+    }
+    function factor(factor, gl) {
+        switch (factor) {
+            case BlendFactor.ONE: return gl.ONE;
+            case BlendFactor.SRC_ALPHA: return gl.SRC_ALPHA;
+            default: {
+                throw new Error(factor + " is not a valid factor.");
+            }
         }
     }
     /**
@@ -36,8 +45,8 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
         /**
          * @class WebGLBlendFunc
          * @constructor
-         * @param sfactor {string}
-         * @param dfactor {string}
+         * @param sfactor {BlendFactor}
+         * @param dfactor {BlendFactor}
          */
         function WebGLBlendFunc(sfactor, dfactor) {
             _super.call(this, 'WebGLBlendFunc');
@@ -69,9 +78,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             // do nothing
         };
         WebGLBlendFunc.prototype.execute = function (gl) {
-            var sfactor = mustBeNumber('sfactor => ' + this.sfactor, (gl[this.sfactor]));
-            var dfactor = mustBeNumber('dfactor => ' + this.dfactor, (gl[this.dfactor]));
-            gl.blendFunc(sfactor, dfactor);
+            gl.blendFunc(factor(this.sfactor, gl), factor(this.dfactor, gl));
         };
         /**
          * @method destructor

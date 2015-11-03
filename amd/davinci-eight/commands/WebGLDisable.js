@@ -3,10 +3,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeNumber, mustBeString, Shareable) {
+define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, glCapability, mustBeNumber, Shareable) {
     /**
      * <p>
-     * disable(capability: string): void
+     * disable(capability: Capability): void
      * <p>
      * @class WebGLDisable
      * @extends Shareable
@@ -22,7 +22,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString'
          */
         function WebGLDisable(capability) {
             _super.call(this, 'WebGLDisable');
-            this._capability = mustBeString('capability', capability);
+            this._capability = mustBeNumber('capability', capability);
         }
         /**
          * @method contextFree
@@ -38,7 +38,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../checks/mustBeString'
          * @return {void}
          */
         WebGLDisable.prototype.contextGain = function (manager) {
-            manager.gl.disable(mustBeNumber(this._capability, (manager.gl[this._capability])));
+            manager.gl.disable(glCapability(this._capability, manager.gl));
         };
         /**
          * @method contextLost

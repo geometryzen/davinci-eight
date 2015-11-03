@@ -17,16 +17,13 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../math/Eucli
          * @constructor
          */
         function BarnSimplexGeometry() {
-            _super.call(this, 'BarnSimplexGeometry');
+            _super.call(this);
             // FIXME: decouple from Euclidean3
             this.a = G3.fromVector(Euclidean3.e1);
             this.b = G3.fromVector(Euclidean3.e2);
             this.c = G3.fromVector(Euclidean3.e3);
             this.regenerate();
         }
-        BarnSimplexGeometry.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
         BarnSimplexGeometry.prototype.isModified = function () {
             return this.a.modified || this.b.modified || this.c.modified || _super.prototype.isModified.call(this);
         };

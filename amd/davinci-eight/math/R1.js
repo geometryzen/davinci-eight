@@ -7,6 +7,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
     var exp = Math.exp;
     var log = Math.log;
     var sqrt = Math.sqrt;
+    var COORD_X = 0;
     /**
      * @class R1
      */
@@ -29,11 +30,11 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
              * @type Number
              */
             get: function () {
-                return this.data[0];
+                return this.coords[COORD_X];
             },
             set: function (value) {
                 this.modified = this.modified || this.x !== value;
-                this.data[0] = value;
+                this.coords[COORD_X] = value;
             },
             enumerable: true,
             configurable: true

@@ -49,9 +49,10 @@ function lerpVertexAttributeMap(a: VertexAttributeMap, b: VertexAttributeMap, al
     }
     return attribMap;
 }
+
 // TODO: Looks like a static of VectorN or a common function.
 function lerpVectorN(a: VectorN<number>, b: VectorN<number>, alpha: number): VectorN<number> {
-    return new VectorN<number>(lerp(a.data, b.data, alpha));
+    return new VectorN<number>(lerp(a.coords, b.coords, alpha));
 }
 
 /**

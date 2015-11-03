@@ -86,12 +86,6 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      */
     β: number;
     static fromCartesian(α: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, β: number, uom: Unit): Euclidean3;
-    /**
-     * @method fromSpinorE3
-     * @param spinor {SpinorE3}
-     * @return {Euclidean3}
-     */
-    static fromSpinorE3(spinor: SpinorE3): Euclidean3;
     coordinates(): number[];
     coordinate(index: number): number;
     /**
@@ -131,6 +125,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * @return {Euclidean3}
      */
     conj(): Euclidean3;
+    cubicBezier(t: number, controlBegin: GeometricE3, controlEnd: GeometricE3, endPoint: GeometricE3): Euclidean3;
     /**
      * @method sub
      * @param rhs {Euclidean3}
@@ -201,6 +196,8 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     lerp(target: Euclidean3, α: number): Euclidean3;
     cos(): Euclidean3;
     cosh(): Euclidean3;
+    distanceTo(point: Euclidean3): number;
+    equals(other: Euclidean3): boolean;
     exp(): Euclidean3;
     inv(): Euclidean3;
     log(): Euclidean3;
@@ -218,6 +215,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
      */
     quad(): Euclidean3;
+    quadraticBezier(t: number, controlPoint: GeometricE3, endPoint: GeometricE3): Euclidean3;
     squaredNorm(): number;
     reflect(n: VectorE3): Euclidean3;
     rotate(s: SpinorE3): Euclidean3;
@@ -226,6 +224,9 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     slerp(target: Euclidean3, α: number): Euclidean3;
     unitary(): Euclidean3;
     sqrt(): Euclidean3;
+    /**
+     * Intentionally undocumented.
+     */
     toStringCustom(coordToString: (x: number) => string, labels: string[]): string;
     toExponential(): string;
     toFixed(digits?: number): string;
@@ -236,5 +237,17 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * Provides access to the internals of Euclidean3 in order to use `product` functions.
      */
     private static mutator(M);
+    /**
+     * @method fromSpinorE3
+     * @param spinor {SpinorE3}
+     * @return {Euclidean3}
+     */
+    static fromSpinorE3(spinor: SpinorE3): Euclidean3;
+    /**
+     * @method fromVectorE3
+     * @param vector {VectorE3}
+     * @return {Euclidean3}
+     */
+    static fromVectorE3(vector: VectorE3): Euclidean3;
 }
 export = Euclidean3;

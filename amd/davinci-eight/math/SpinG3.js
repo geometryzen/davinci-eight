@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadSpinorE3', '../math/quadVectorE3', '../math/rotorFromDirections', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorCartesianE3, dotVector, mustBeInteger, mustBeNumber, mustBeObject, quadSpinor, quadVector, rotorFromDirections, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
-    // Symbolic constants for the coordinate indices into the data array.
+    // Symbolic constants for the coordinate indices into the coords array.
     var COORD_YZ = 0;
     var COORD_ZX = 1;
     var COORD_XY = 2;
@@ -41,12 +41,12 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
              * @type Number
              */
             get: function () {
-                return this.data[COORD_YZ];
+                return this.coords[COORD_YZ];
             },
             set: function (yz) {
                 mustBeNumber('yz', yz);
                 this.modified = this.modified || this.yz !== yz;
-                this.data[COORD_YZ] = yz;
+                this.coords[COORD_YZ] = yz;
             },
             enumerable: true,
             configurable: true
@@ -57,12 +57,12 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
              * @type Number
              */
             get: function () {
-                return this.data[COORD_ZX];
+                return this.coords[COORD_ZX];
             },
             set: function (zx) {
                 mustBeNumber('zx', zx);
                 this.modified = this.modified || this.zx !== zx;
-                this.data[COORD_ZX] = zx;
+                this.coords[COORD_ZX] = zx;
             },
             enumerable: true,
             configurable: true
@@ -73,12 +73,12 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
              * @type Number
              */
             get: function () {
-                return this.data[COORD_XY];
+                return this.coords[COORD_XY];
             },
             set: function (xy) {
                 mustBeNumber('xy', xy);
                 this.modified = this.modified || this.xy !== xy;
-                this.data[COORD_XY] = xy;
+                this.coords[COORD_XY] = xy;
             },
             enumerable: true,
             configurable: true
@@ -89,12 +89,12 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
              * @type Number
              */
             get: function () {
-                return this.data[COORD_SCALAR];
+                return this.coords[COORD_SCALAR];
             },
             set: function (α) {
                 mustBeNumber('α', α);
                 this.modified = this.modified || this.α !== α;
-                this.data[COORD_SCALAR] = α;
+                this.coords[COORD_SCALAR] = α;
             },
             enumerable: true,
             configurable: true

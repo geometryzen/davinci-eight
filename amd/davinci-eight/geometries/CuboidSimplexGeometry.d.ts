@@ -1,5 +1,5 @@
+import CartesianE3 = require('../math/CartesianE3');
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import R3 = require('../math/R3');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class CuboidSimplexGeometry
@@ -9,21 +9,21 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
     /**
      * Parameter is private so that we can detect assignments.
      * @property _a
-     * @type {R3}
+     * @type {CartesianE3}
      * @private
      */
     private _a;
     /**
      * Parameter is private so that we can detect assignments.
      * @property _b
-     * @type {R3}
+     * @type {CartesianE3}
      * @private
      */
     private _b;
     /**
      * Parameter is private so that we can detect assignments.
      * @property _c
-     * @type {R3}
+     * @type {CartesianE3}
      * @private
      */
     private _c;
@@ -43,9 +43,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * </p>
      * @class CuboidSimplexGeometry
      * @constructor
-     * @param a [VectorE3 = R3.e1]
-     * @param b [VectorE3 = R3.e1]
-     * @param c [VectorE3 = R3.e1]
+     * @param a [VectorE3 = CartesianE3.e1]
+     * @param b [VectorE3 = CartesianE3.e2]
+     * @param c [VectorE3 = CartesianE3.e3]
      * @param k [number = Simplex.TRIANGLE]
      * @param subdivide [number = 0]
      * @param boundary [number = 0]
@@ -56,7 +56,6 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
          var cube = new EIGHT.Drawable([primitive], material);
      */
     constructor(a?: VectorE3, b?: VectorE3, c?: VectorE3, k?: number, subdivide?: number, boundary?: number);
-    protected destructor(): void;
     /**
      * <p>
      * A vector parameterizing the shape of the cuboid.
@@ -64,9 +63,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * Assignment is by reference making it possible for parameters to be shared references.
      * </p>
      * @property a
-     * @type {R3}
+     * @type {CartesianE3}
      */
-    a: R3;
+    a: CartesianE3;
     /**
      * <p>
      * A vector parameterizing the shape of the cuboid.
@@ -74,9 +73,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * Assignment is by reference making it possible for parameters to be shared references.
      * </p>
      * @property b
-     * @type {R3}
+     * @type {CartesianE3}
      */
-    b: R3;
+    b: CartesianE3;
     /**
      * <p>
      * A vector parameterizing the shape of the cuboid.
@@ -84,9 +83,9 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * Assignment is by reference making it possible for parameters to be shared references.
      * </p>
      * @property c
-     * @type {R3}
+     * @type {CartesianE3}
      */
-    c: R3;
+    c: CartesianE3;
     isModified(): boolean;
     /**
      * @method setModified

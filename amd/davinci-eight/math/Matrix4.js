@@ -10,7 +10,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
      */
     var Matrix4 = (function (_super) {
         __extends(Matrix4, _super);
-        // The correspondence between the data property index and the matrix entries is...
+        // The correspondence between the elements property index and the matrix entries is...
         //
         //  0  4  8 12
         //  1  5  9 13
@@ -22,8 +22,8 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @class Matrix4
          * @constructor
          */
-        function Matrix4(data) {
-            _super.call(this, data, 4);
+        function Matrix4(elements) {
+            _super.call(this, elements, 4);
         }
         /**
          * <p>
@@ -74,11 +74,11 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             return this;
         };
         Matrix4.prototype.copy = function (m) {
-            this.data.set(m.data);
+            this.elements.set(m.elements);
             return this;
         };
         Matrix4.prototype.determinant = function () {
-            var te = this.data;
+            var te = this.elements;
             var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
             var n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
             var n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
@@ -104,8 +104,8 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         Matrix4.prototype.invert = function (m, throwOnSingular) {
             if (throwOnSingular === void 0) { throwOnSingular = false; }
             // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
-            var te = this.data;
-            var me = m.data;
+            var te = this.elements;
+            var me = m.elements;
             var n11 = me[0], n12 = me[4], n13 = me[8], n14 = me[12];
             var n21 = me[1], n22 = me[5], n23 = me[9], n24 = me[13];
             var n31 = me[2], n32 = me[6], n33 = me[10], n34 = me[14];
@@ -146,7 +146,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
         };
         Matrix4.prototype.scale = function (s) {
-            var te = this.data;
+            var te = this.elements;
             te[0] *= s;
             te[4] *= s;
             te[8] *= s;
@@ -170,7 +170,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @return {Matrix4}
          */
         Matrix4.prototype.transpose = function () {
-            var te = this.data;
+            var te = this.elements;
             var tmp;
             tmp = te[1];
             te[1] = te[4];
@@ -196,7 +196,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          *
          */
         Matrix4.prototype.frustum = function (left, right, bottom, top, near, far) {
-            var te = this.data;
+            var te = this.elements;
             var x = 2 * near / (right - left);
             var y = 2 * near / (top - bottom);
             var a = (right + left) / (right - left);
@@ -234,13 +234,13 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             return this.mul2(this, rhs);
         };
         Matrix4.prototype.mul2 = function (a, b) {
-            _M4_x_M4_(a.data, b.data, this.data);
+            _M4_x_M4_(a.elements, b.elements, this.elements);
             return this;
         };
         // TODO: This should not be here.
         Matrix4.prototype.rotate = function (spinor) {
             var S = Matrix4.rotation(spinor);
-            _M4_x_M4_(S.data, this.data, this.data);
+            _M4_x_M4_(S.elements, this.elements, this.elements);
             return this;
         };
         /**
@@ -267,7 +267,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @return {number[]}
          */
         Matrix4.prototype.row = function (i) {
-            var te = this.data;
+            var te = this.elements;
             return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
         };
         Matrix4.prototype.scaleXYZ = function (scale) {
@@ -282,14 +282,14 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
             // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
             var S = Matrix4.scaling(scale);
-            _M4_x_M4_(S.data, this.data, this.data);
+            _M4_x_M4_(S.elements, this.elements, this.elements);
             return this;
         };
         Matrix4.prototype.scaling = function (scale) {
             return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
         };
         Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-            var te = this.data;
+            var te = this.elements;
             te[0] = n11;
             te[4] = n12;
             te[8] = n13;
@@ -327,7 +327,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         };
         Matrix4.prototype.translate = function (displacement) {
             var T = Matrix4.translation(displacement);
-            _M4_x_M4_(T.data, this.data, this.data);
+            _M4_x_M4_(T.elements, this.elements, this.elements);
             return this;
         };
         Matrix4.prototype.translation = function (displacement) {

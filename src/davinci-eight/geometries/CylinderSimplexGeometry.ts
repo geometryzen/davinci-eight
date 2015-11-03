@@ -87,7 +87,7 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
         openTop: boolean = false,
         openBottom: boolean = false
     ) {
-        super('CylinderSimplexGeometry', axis, void 0, void 0)
+        super(axis, void 0, void 0)
         this.radius = radius
         this.height = height
         this.openTop = openTop
@@ -157,14 +157,14 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
         // top cap
         if (!this.openTop && radius > 0) {
             // Push an extra point for the center of the top.
-            points.push(this.axis.clone().scale(heightHalf));
+            points.push(R3.copy(this.axis).scale(heightHalf));
             for (let j = 0; j < thetaSegments; j++) {
                 let v1: number = vertices[heightSegments][j + 1];
                 let v2: number = points.length - 1;
                 let v3: number = vertices[heightSegments][j];
-                let n1: R3 = this.axis.clone();
-                let n2: R3 = this.axis.clone();
-                let n3: R3 = this.axis.clone();
+                let n1: R3 = R3.copy(this.axis)
+                let n2: R3 = R3.copy(this.axis)
+                let n3: R3 = R3.copy(this.axis)
                 let uv1: R2 = uvs[heightSegments][j + 1].clone();
                 // Check this
                 let uv2: R2 = new R2([uv1.x, 1]);
@@ -176,14 +176,14 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
         // bottom cap
         if (!this.openBottom && radius > 0) {
             // Push an extra point for the center of the bottom.
-            points.push(this.axis.clone().scale(-heightHalf))
+            points.push(R3.copy(this.axis).scale(-heightHalf))
             for (let j = 0; j < thetaSegments; j++) {
                 let v1: number = vertices[0][j]
                 let v2: number = points.length - 1
                 let v3: number = vertices[0][j + 1]
-                let n1: R3 = this.axis.clone().scale(-1)
-                let n2: R3 = this.axis.clone().scale(-1)
-                let n3: R3 = this.axis.clone().scale(-1)
+                let n1: R3 = R3.copy(this.axis).scale(-1)
+                let n2: R3 = R3.copy(this.axis).scale(-1)
+                let n3: R3 = R3.copy(this.axis).scale(-1)
                 let uv1: R2 = uvs[0][j].clone()
                 // TODO: Check this
                 let uv2: R2 = new R2([uv1.x, 1])

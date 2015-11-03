@@ -35,9 +35,11 @@ class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometr
     /**
      * @class ArrowGeometry
      * @constructor
+     * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity. 
+     * @param sliceStart [VectorE3] A direction, orthogonal to <code>axis</code>.
      */
-    constructor() {
-        super()
+    constructor(axis: VectorE3, sliceStart?: VectorE3) {
+        super(axis, sliceStart)
     }
     /**
      * @method setPosition
@@ -78,49 +80,42 @@ class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometr
          */
         let tail = R3.copy(this.position)
 
-        let cone = new ConeGeometry()
+        let cone = new ConeGeometry(this.axis, this.sliceStart)
         cone.radius = this.radiusCone
         cone.height = this.heightCone
-        cone.position = neck
+        cone.setPosition(neck)
         cone.axis = this.axis
         cone.sliceAngle = this.sliceAngle
-        cone.sliceStart = this.sliceStart
         cone.thetaSegments = this.thetaSegments
         cone.useTextureCoords = this.useTextureCoords
         /**
          * The `disc` fills the space between the cone and the shaft.
          */
-        let disc = new RingGeometry()
+        let disc = new RingGeometry(back, this.sliceStart)
         disc.innerRadius = this.radiusShaft
         disc.outerRadius = this.radiusCone
-        disc.position = neck
-        disc.axis = back
+        disc.setPosition(neck)
         disc.sliceAngle = -this.sliceAngle
-        disc.sliceStart = this.sliceStart
         disc.thetaSegments = this.thetaSegments
         disc.useTextureCoords = this.useTextureCoords
         /**
          * The `shaft` is the slim part of the arrow.
          */
-        let shaft = new CylinderGeometry()
+        let shaft = new CylinderGeometry(this.axis, this.sliceStart)
         shaft.radius = this.radiusShaft
         shaft.height = heightShaft
-        shaft.position = tail
-        shaft.axis = this.axis
+        shaft.setPosition(tail)
         shaft.sliceAngle = this.sliceAngle
-        shaft.sliceStart = this.sliceStart
         shaft.thetaSegments = this.thetaSegments
         shaft.useTextureCoords = this.useTextureCoords
         /**
          * The `plug` fills the end of the shaft.
          */
-        let plug = new RingGeometry()
+        let plug = new RingGeometry(back, this.sliceStart)
         plug.innerRadius = 0
         plug.outerRadius = this.radiusShaft
-        plug.position = tail
-        plug.axis = back
+        plug.setPosition(tail)
         plug.sliceAngle = -this.sliceAngle
-        plug.sliceStart = this.sliceStart
         plug.thetaSegments = this.thetaSegments
         plug.useTextureCoords = this.useTextureCoords
 

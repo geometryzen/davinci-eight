@@ -72,7 +72,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
             if (axis === void 0) { axis = R3.e2; }
             if (openTop === void 0) { openTop = false; }
             if (openBottom === void 0) { openBottom = false; }
-            _super.call(this, 'CylinderSimplexGeometry', axis, void 0, void 0);
+            _super.call(this, axis, void 0, void 0);
             this.radius = radius;
             this.height = height;
             this.openTop = openTop;
@@ -137,14 +137,14 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
             // top cap
             if (!this.openTop && radius > 0) {
                 // Push an extra point for the center of the top.
-                points.push(this.axis.clone().scale(heightHalf));
+                points.push(R3.copy(this.axis).scale(heightHalf));
                 for (var j = 0; j < thetaSegments; j++) {
                     var v1 = vertices[heightSegments][j + 1];
                     var v2 = points.length - 1;
                     var v3 = vertices[heightSegments][j];
-                    var n1 = this.axis.clone();
-                    var n2 = this.axis.clone();
-                    var n3 = this.axis.clone();
+                    var n1 = R3.copy(this.axis);
+                    var n2 = R3.copy(this.axis);
+                    var n3 = R3.copy(this.axis);
                     var uv1 = uvs[heightSegments][j + 1].clone();
                     // Check this
                     var uv2 = new R2([uv1.x, 1]);
@@ -155,14 +155,14 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
             // bottom cap
             if (!this.openBottom && radius > 0) {
                 // Push an extra point for the center of the bottom.
-                points.push(this.axis.clone().scale(-heightHalf));
+                points.push(R3.copy(this.axis).scale(-heightHalf));
                 for (var j = 0; j < thetaSegments; j++) {
                     var v1 = vertices[0][j];
                     var v2 = points.length - 1;
                     var v3 = vertices[0][j + 1];
-                    var n1 = this.axis.clone().scale(-1);
-                    var n2 = this.axis.clone().scale(-1);
-                    var n3 = this.axis.clone().scale(-1);
+                    var n1 = R3.copy(this.axis).scale(-1);
+                    var n2 = R3.copy(this.axis).scale(-1);
+                    var n3 = R3.copy(this.axis).scale(-1);
                     var uv1 = uvs[0][j].clone();
                     // TODO: Check this
                     var uv2 = new R2([uv1.x, 1]);

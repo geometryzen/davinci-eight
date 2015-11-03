@@ -8,10 +8,18 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', 
      * Name used for reference count monitoring and logging.
      */
     var CLASS_NAME = 'BufferResource';
-    // TODO: Replace this with a functional constructor to prevent tinkering?
-    // TODO: Why is this object specific to one context?
+    /**
+     * @class BufferResource
+     * @extends Shareable
+     */
     var BufferResource = (function (_super) {
         __extends(BufferResource, _super);
+        /**
+         * @class BufferResource
+         * @constructor
+         * @param manager {IContextProvider}
+         * @param isElements {boolean}
+         */
         function BufferResource(manager, isElements) {
             _super.call(this, CLASS_NAME);
             this.manager = mustBeObject('manager', manager);
@@ -19,12 +27,22 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', 
             manager.addContextListener(this);
             manager.synchronize(this);
         }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
         BufferResource.prototype.destructor = function () {
             this.contextFree(this.manager.canvasId);
             this.manager.removeContextListener(this);
             this.manager = void 0;
             this._isElements = void 0;
         };
+        /**
+         * @method contextFree
+         * @param canvasId {number}
+         * @return {void}
+         */
         BufferResource.prototype.contextFree = function (canvasId) {
             if (this._buffer) {
                 var gl = this.manager.gl;
@@ -39,6 +57,11 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', 
             else {
             }
         };
+        /**
+         * @method contextGain
+         * @param manager {IContextProvider}
+         * @return {void}
+         */
         BufferResource.prototype.contextGain = function (manager) {
             if (this.manager.canvasId === manager.canvasId) {
                 if (!this._buffer) {
@@ -51,11 +74,16 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', 
                 console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
             }
         };
+        /**
+         * @method contextLost
+         * @return {void}
+         */
         BufferResource.prototype.contextLost = function () {
             this._buffer = void 0;
         };
         /**
          * @method bind
+         * @return {void}
          */
         BufferResource.prototype.bind = function () {
             var gl = this.manager.gl;
@@ -69,6 +97,7 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', 
         };
         /**
          * @method unbind
+         * @return {void}
          */
         BufferResource.prototype.unbind = function () {
             var gl = this.manager.gl;

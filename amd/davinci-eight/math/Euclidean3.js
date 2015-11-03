@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeInteger, mustBeNumber, NotImplementedError, rcoG3, readOnly, scpG3, squaredNormG3, stringFromCoordinates, subE3, Unit) {
+define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometries/b3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, b2, b3, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeInteger, mustBeNumber, NotImplementedError, rcoG3, readOnly, scpG3, squaredNormG3, stringFromCoordinates, subE3, Unit) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -256,19 +256,6 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
             assertArgUnitOrUndefined('uom', uom);
             return new Euclidean3(α, x, y, z, xy, yz, zx, β, uom);
         };
-        /**
-         * @method fromSpinorE3
-         * @param spinor {SpinorE3}
-         * @return {Euclidean3}
-         */
-        Euclidean3.fromSpinorE3 = function (spinor) {
-            if (isDefined(spinor)) {
-                return new Euclidean3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0);
-            }
-            else {
-                return void 0;
-            }
-        };
         Euclidean3.prototype.coordinates = function () {
             return [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz];
         };
@@ -383,6 +370,12 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
         Euclidean3.prototype.conj = function () {
             // FIXME; What kind of conjugation?
             return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+        };
+        Euclidean3.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
+            var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            var z = b3(t, this.z, controlBegin.z, controlEnd.z, endPoint.z);
+            return new Euclidean3(0, x, y, z, 0, 0, 0, 0, this.uom);
         };
         /**
          * @method sub
@@ -663,6 +656,15 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
             //Unit.assertDimensionless(this.uom);
             throw new NotImplementedError('cosh(Euclidean3)');
         };
+        Euclidean3.prototype.distanceTo = function (point) {
+            var dx = this.x - point.x;
+            var dy = this.y - point.y;
+            var dz = this.z - point.z;
+            return sqrt(dx * dx + dy * dy + dz * dz);
+        };
+        Euclidean3.prototype.equals = function (other) {
+            throw new Error("TODO: Euclidean3.equals");
+        };
         Euclidean3.prototype.exp = function () {
             Unit.assertDimensionless(this.uom);
             var bivector = this.grade(2);
@@ -703,6 +705,12 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
         Euclidean3.prototype.quad = function () {
             return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
         };
+        Euclidean3.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
+            var x = b2(t, this.x, controlPoint.x, endPoint.x);
+            var y = b2(t, this.y, controlPoint.y, endPoint.y);
+            var z = b2(t, this.z, controlPoint.z, endPoint.z);
+            return new Euclidean3(0, x, y, z, 0, 0, 0, 0, this.uom);
+        };
         Euclidean3.prototype.squaredNorm = function () {
             return squaredNormG3(this);
         };
@@ -734,6 +742,9 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
         Euclidean3.prototype.sqrt = function () {
             return new Euclidean3(sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
         };
+        /**
+         * Intentionally undocumented.
+         */
         Euclidean3.prototype.toStringCustom = function (coordToString, labels) {
             var quantityString = stringFromCoordinates(this.coordinates(), coordToString, labels);
             if (this.uom) {
@@ -754,7 +765,6 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
             return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
         };
         Euclidean3.prototype.toFixed = function (digits) {
-            assertArgNumber('digits', digits);
             var coordToString = function (coord) { return coord.toFixed(digits); };
             return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
         };
@@ -807,6 +817,32 @@ define(["require", "exports", '../math/addE3', '../math/extG3', '../checks/isDef
                 }
             };
             return that;
+        };
+        /**
+         * @method fromSpinorE3
+         * @param spinor {SpinorE3}
+         * @return {Euclidean3}
+         */
+        Euclidean3.fromSpinorE3 = function (spinor) {
+            if (isDefined(spinor)) {
+                return new Euclidean3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method fromVectorE3
+         * @param vector {VectorE3}
+         * @return {Euclidean3}
+         */
+        Euclidean3.fromVectorE3 = function (vector) {
+            if (isDefined(vector)) {
+                return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, void 0);
+            }
+            else {
+                return void 0;
+            }
         };
         /**
          * @property zero

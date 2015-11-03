@@ -1,5 +1,5 @@
 import arc3 = require('../geometries/arc3')
-import VectorE3 = require('../math/VectorE3')
+import CartesianE3 = require('../math/CartesianE3')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeNumber = require('../checks/mustBeNumber')
@@ -12,8 +12,9 @@ import SpinorE3 = require('../math/SpinorE3')
 import Symbolic = require('../core/Symbolic')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
+import VectorE3 = require('../math/VectorE3')
 
-function computeVertices(radius: number, axis: R3, phiStart: R3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3[], uvs: R2[]) {
+function computeVertices(radius: number, axis: CartesianE3, phiStart: R3, phiLength: number, thetaStart: number, thetaLength: number, heightSegments: number, widthSegments: number, points: R3[], uvs: R2[]) {
 
     let generator: SpinorE3 = SpinG3.dual(axis)
     let iLength = heightSegments + 1
@@ -219,22 +220,13 @@ class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxi
         thetaStart: number = 0,
         thetaLength: number = Math.PI
     ) {
-        super('SphericalPolarSimplexGeometry', axis, phiStart, phiLength)
+        super(axis, phiStart, phiLength)
         this._radius = new R1([radius])
         this.thetaLength = thetaLength
         this.thetaStart = thetaStart
 
         this.setModified(true)
         this.regenerate()
-    }
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void {
-        this._radius = void 0
-        super.destructor()
     }
     /**
      * @property radius

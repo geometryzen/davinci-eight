@@ -42,10 +42,19 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             this._renderer = void 0;
             _super.prototype.destructor.call(this);
         };
+        /**
+         * @method addContextListener
+         * @param user {IContextConsumer}
+         * @return {void}
+         */
         Canvas3D.prototype.addContextListener = function (user) {
             this._kahuna.addContextListener(user);
         };
         Object.defineProperty(Canvas3D.prototype, "canvas", {
+            /**
+             * @property canvas
+             * @type {HTMLCanvasElement}
+             */
             get: function () {
                 return this._kahuna.canvas;
             },
@@ -72,62 +81,148 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             configurable: true
         });
         Object.defineProperty(Canvas3D.prototype, "commands", {
+            /**
+             * @property commands
+             * @type {IUnknownArray}
+             * @beta
+             */
             get: function () {
                 return this._renderer.commands;
             },
             enumerable: true,
             configurable: true
         });
-        /* FIXME: Do we need this. Why. Why not kahuna too?
-        // No contract says that we need to return this.
-        // It's cust that convenience of having someone else do it for you!
-        get canvas(): HTMLCanvasElement {
-          return this._kahuna
-          return this._canvas
-        }
-        */
+        /**
+         * <p>
+         * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
+         * <p>
+         * @method clearColor
+         * @param red {number}
+         * @param green {number}
+         * @param blue {number}
+         * @param alpha {number}
+         * @return {void}
+         */
+        Canvas3D.prototype.clearColor = function (red, green, blue, alpha) {
+            return this._renderer.clearColor(red, green, blue, alpha);
+        };
+        /**
+         * @method contextFree
+         * @param canvasId {number}
+         * @return {void}
+         */
         Canvas3D.prototype.contextFree = function (canvasId) {
-            this._renderer.contextFree(canvasId);
+            return this._renderer.contextFree(canvasId);
         };
+        /**
+         * @method contextGain
+         * @param manager {IContextProvider}
+         * @return {void}
+         */
         Canvas3D.prototype.contextGain = function (manager) {
-            this._renderer.contextGain(manager);
+            return this._renderer.contextGain(manager);
         };
+        /**
+         * @method contextLost
+         * @param canvasId {number}
+         * @return {void}
+         */
         Canvas3D.prototype.contextLost = function (canvasId) {
             this._renderer.contextLost(canvasId);
         };
+        /**
+         * @method createArrayBuffer
+         * @return {IBuffer}
+         */
         Canvas3D.prototype.createArrayBuffer = function () {
             return this._kahuna.createArrayBuffer();
         };
+        /**
+         * @method createBufferGeometry
+         * @param primitive {DrawPrimitive}
+         * @param usage [number]
+         * @return {IBufferGeometry}
+         */
         Canvas3D.prototype.createBufferGeometry = function (primitive, usage) {
             return this._kahuna.createBufferGeometry(primitive, usage);
         };
+        /**
+         * @method createElementArrayBuffer
+         * @return {IBuffer}
+         */
         Canvas3D.prototype.createElementArrayBuffer = function () {
             return this._kahuna.createElementArrayBuffer();
         };
+        /**
+         * @method createTextureCubeMap
+         * @return {ITextureCubeMap}
+         */
         Canvas3D.prototype.createTextureCubeMap = function () {
             return this._kahuna.createTextureCubeMap();
         };
+        /**
+         * @method createTexture2D
+         * @return {ITexture2D}
+         */
         Canvas3D.prototype.createTexture2D = function () {
             return this._kahuna.createTexture2D();
         };
+        /**
+         * Turns off specific WebGL capabilities for this context.
+         * @method disable
+         * @param capability {Capability}
+         * @return {void} This method does not return a value.
+         */
+        Canvas3D.prototype.disable = function (capability) {
+            return this._renderer.disable(capability);
+        };
+        /**
+         * Turns on specific WebGL capabilities for this context.
+         * @method enable
+         * @param capability {Capability}
+         * @return {void} This method does not return a value.
+         */
+        Canvas3D.prototype.enable = function (capability) {
+            return this._renderer.enable(capability);
+        };
         Object.defineProperty(Canvas3D.prototype, "gl", {
+            /**
+             * @property gl
+             * @type {WebGLRenderingContext}
+             * @readOnly
+             */
             get: function () {
                 return this._kahuna.gl;
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method removeContextListener
+         * @param user {IContextConsumer}
+         * @return {void}
+         */
         Canvas3D.prototype.removeContextListener = function (user) {
-            this._kahuna.removeContextListener(user);
+            return this._kahuna.removeContextListener(user);
         };
-        Canvas3D.prototype.setSize = function (width, height) {
-            mustBeInteger('width', width);
-            mustBeInteger('height', height);
-            var canvas = this.canvas;
-            canvas.width = width;
-            canvas.height = height;
-            this.gl.viewport(0, 0, width, height);
+        /**
+         * Defines what part of the canvas will be used in rendering the drawing buffer.
+         * @method viewport
+         * @param x {number}
+         * @param y {number}
+         * @param width {number}
+         * @param height {number}
+         * @return {void} This method does not return a value.
+         */
+        Canvas3D.prototype.viewport = function (x, y, width, height) {
+            return this._renderer.viewport(x, y, width, height);
         };
+        /**
+         * @method start
+         * @param canvas {HTMLCanvasElement}
+         * @param canvasId {number}
+         * @return {void}
+         */
         Canvas3D.prototype.start = function (canvas, canvasId) {
             // FIXME: DRY delegate to kahuna.
             if (!(canvas instanceof HTMLElement)) {
@@ -140,11 +235,20 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             mustBeInteger('canvasId', canvasId);
             this._kahuna.start(canvas, canvasId);
         };
+        /**
+         * @method stop
+         * @return {void}
+         */
         Canvas3D.prototype.stop = function () {
-            this._kahuna.stop();
+            return this._kahuna.stop();
         };
+        /**
+         * @method synchronize
+         * @param user {IContextConsumer}
+         * @return {void}
+         */
         Canvas3D.prototype.synchronize = function (user) {
-            this._kahuna.synchronize(user);
+            return this._kahuna.synchronize(user);
         };
         return Canvas3D;
     })(Shareable);

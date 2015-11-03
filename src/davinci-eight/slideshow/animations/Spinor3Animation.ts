@@ -38,7 +38,7 @@ class Spinor3Animation extends Shareable implements IAnimation {
                 var data: number[] = target.getProperty(propName)
                 if (data) {
                     this.from = new SpinG3()
-                    this.from.data = data
+                    this.from.coords = data
                 }
             }
         }
@@ -75,7 +75,7 @@ class Spinor3Animation extends Shareable implements IAnimation {
         }
 
         var lerp = SpinG3.lerp(from, to, fraction)
-        target.setProperty(propName, lerp.data)
+        target.setProperty(propName, lerp.coords)
     }
     hurry(factor: number): void {
         this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
@@ -90,7 +90,7 @@ class Spinor3Animation extends Shareable implements IAnimation {
     }
     done(target: IAnimationTarget, propName: string): boolean {
         if (this.fraction === 1) {
-            target.setProperty(propName, this.to.data);
+            target.setProperty(propName, this.to.coords);
             this.callback && this.callback()
             this.callback = void 0
             return true
@@ -101,7 +101,7 @@ class Spinor3Animation extends Shareable implements IAnimation {
     }
     undo(target: IAnimationTarget, propName: string): void {
         if (this.from) {
-            target.setProperty(propName, this.from.data)
+            target.setProperty(propName, this.from.coords)
             this.from = void 0
             this.start = void 0
             this.fraction = 0

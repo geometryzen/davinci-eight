@@ -25,15 +25,14 @@ define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/i
          * </p>
          * @class SliceSimplexGeometry
          * @constructor
-         * @param type {string} Implementations must provide a type name used for reference count tracking.
          * @param axis [VectorE3 = R3.e3] The <code>axis</code> property.
          * @param sliceStart [VectorE3] The <code>sliceStart</code> property.
          * @param sliceAngle [number = 2 * Math.PI] The <code>sliceAngle</code> property.
          */
-        function SliceSimplexGeometry(type, axis, sliceStart, sliceAngle) {
+        function SliceSimplexGeometry(axis, sliceStart, sliceAngle) {
             if (axis === void 0) { axis = R3.e3; }
             if (sliceAngle === void 0) { sliceAngle = 2 * Math.PI; }
-            _super.call(this, type, axis);
+            _super.call(this, axis);
             /**
              * <p>
              * The angle of the slice, measured in radians.
@@ -51,17 +50,6 @@ define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/i
             }
             this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle);
         }
-        /**
-         * <p>
-         * Calls the base class destructor method.
-         * </p>
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        SliceSimplexGeometry.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
         return SliceSimplexGeometry;
     })(AxialSimplexGeometry);
     return SliceSimplexGeometry;

@@ -30,9 +30,11 @@ class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry>
     /**
      * @class ConeGeometry
      * @constructor
+     * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity. 
+     * @param sliceStart {VectorE3} A direction, orthogonal to <code>axis</code>.
      */
-    constructor() {
-        super()
+    constructor(axis: VectorE3, sliceStart: VectorE3) {
+        super(axis, sliceStart)
     }
     /**
      * @method setAxis

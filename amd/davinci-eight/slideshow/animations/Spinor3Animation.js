@@ -31,7 +31,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
                     var data = target.getProperty(propName);
                     if (data) {
                         this.from = new SpinG3();
-                        this.from.data = data;
+                        this.from.coords = data;
                     }
                 }
             }
@@ -64,7 +64,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
                     break;
             }
             var lerp = SpinG3.lerp(from, to, fraction);
-            target.setProperty(propName, lerp.data);
+            target.setProperty(propName, lerp.coords);
         };
         Spinor3Animation.prototype.hurry = function (factor) {
             this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
@@ -79,7 +79,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
         };
         Spinor3Animation.prototype.done = function (target, propName) {
             if (this.fraction === 1) {
-                target.setProperty(propName, this.to.data);
+                target.setProperty(propName, this.to.coords);
                 this.callback && this.callback();
                 this.callback = void 0;
                 return true;
@@ -90,7 +90,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
         };
         Spinor3Animation.prototype.undo = function (target, propName) {
             if (this.from) {
-                target.setProperty(propName, this.from.data);
+                target.setProperty(propName, this.from.coords);
                 this.from = void 0;
                 this.start = void 0;
                 this.fraction = 0;

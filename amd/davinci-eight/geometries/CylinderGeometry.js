@@ -12,9 +12,11 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
         /**
          * @class CylinderGeometry
          * @constructor
+         * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity.
+         * @param sliceStart {VectorE3} A direction, orthogonal to <code>axis</code>.
          */
-        function CylinderGeometry() {
-            _super.call(this);
+        function CylinderGeometry(axis, sliceStart) {
+            _super.call(this, axis, sliceStart);
             /**
              * @property radius
              * @type {number}

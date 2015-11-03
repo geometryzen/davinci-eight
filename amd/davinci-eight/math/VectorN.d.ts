@@ -23,7 +23,7 @@ declare class VectorN<T> implements Mutable<T[]> {
      * @property data
      * @type {T[]}
      */
-    data: T[];
+    coords: T[];
     /**
      * @property callback
      * @type {() => T[]}

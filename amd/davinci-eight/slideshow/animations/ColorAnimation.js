@@ -11,11 +11,11 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
     }
     var ColorAnimation = (function (_super) {
         __extends(ColorAnimation, _super);
-        function ColorAnimation(value, duration, callback, ease) {
+        function ColorAnimation(color, duration, callback, ease) {
             if (duration === void 0) { duration = 300; }
             _super.call(this, 'ColorAnimation');
             this.from = void 0;
-            this.to = Color.copy(value);
+            this.to = Color.fromColor(color);
             this.duration = duration;
             this.start = 0;
             this.fraction = 0;
@@ -31,7 +31,7 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
                 if (this.from === void 0) {
                     var data = target.getProperty(propName);
                     if (data) {
-                        this.from = new Color(data);
+                        this.from = Color.fromCoords(data);
                     }
                 }
             }
@@ -63,7 +63,7 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
                     rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
                     break;
             }
-            target.setProperty(propName, Color.interpolate(from, to, rolloff).data);
+            target.setProperty(propName, Color.interpolate(from, to, rolloff).coords);
         };
         ColorAnimation.prototype.hurry = function (factor) {
             this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
@@ -79,7 +79,7 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
         ColorAnimation.prototype.done = function (target, propName) {
             if (this.fraction === 1) {
                 // Set final value.
-                target.setProperty(propName, this.to.data);
+                target.setProperty(propName, this.to.coords);
                 this.callback && this.callback();
                 this.callback = void 0;
                 return true;
@@ -90,7 +90,7 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
         };
         ColorAnimation.prototype.undo = function (target, propName) {
             if (this.from) {
-                target.setProperty(propName, this.from.data);
+                target.setProperty(propName, this.from.coords);
                 this.from = void 0;
                 this.start = void 0;
                 this.fraction = 0;

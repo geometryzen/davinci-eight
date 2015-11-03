@@ -15,8 +15,8 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
      * @class Matrix3
      * @constructor
      */
-    constructor(data: Float32Array) {
-        super(data, 3);
+    constructor(elements: Float32Array) {
+        super(elements, 3);
     }
     /**
      * <p>
@@ -45,11 +45,11 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
     }
     getInverse(matrix: Matrix4, throwOnInvertible?: boolean): Matrix3 {
 
-        // input: THREE.Matrix4
+        // input: Matrix4
         // ( based on http://code.google.com/p/webgl-mjs/ )
 
-        var me = matrix.data;
-        var te = this.data;
+        var me = matrix.elements;
+        var te = this.elements;
 
         te[0] = me[10] * me[5] - me[6] * me[9];
         te[1] = - me[10] * me[1] + me[2] * me[9];
@@ -103,11 +103,11 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
      * @return {number[]}
      */
     row(i: number): number[] {
-        let te = this.data
+        let te = this.elements
         return [te[0 + i], te[3 + i], te[6 + i]]
     }
     scale(s: number) {
-        let m = this.data;
+        let m = this.elements;
         m[0] *= s; m[3] *= s; m[6] *= s;
         m[1] *= s; m[4] *= s; m[7] *= s;
         m[2] *= s; m[5] *= s; m[8] *= s;
@@ -130,7 +130,7 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
         n32: number,
         n33: number): Matrix3 {
 
-        var te = this.data;
+        var te = this.elements;
 
         te[0] = n11; te[3] = n12; te[6] = n13;
         te[1] = n21; te[4] = n22; te[7] = n23;
@@ -147,7 +147,7 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
     }
     transpose(): Matrix3 {
         var tmp: number;
-        var m = this.data;
+        var m = this.elements;
 
         tmp = m[1]; m[1] = m[3]; m[3] = tmp;
         tmp = m[2]; m[2] = m[6]; m[6] = tmp;

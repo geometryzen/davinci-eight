@@ -1,7 +1,7 @@
+import CartesianE3 = require('../math/CartesianE3');
 import VectorE3 = require('../math/VectorE3');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import R3 = require('../math/R3');
 /**
  * @class AxialSimplexGeometry
  * @extends SimplexGeometry
@@ -10,9 +10,9 @@ declare class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeom
     /**
      * The symmetry axis used for geometry generation.
      * @property axis
-     * @type {R3}
+     * @type {CartesianE3}
      */
-    axis: R3;
+    axis: CartesianE3;
     /**
      * <p>
      * A geometry which has axial symmetry, giving it an <code>axis</code> property.
@@ -24,20 +24,9 @@ declare class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeom
      * </p>
      * @class AxialSimplexGeometry
      * @constructor
-     * @param type {string} Used for reference count tracking.
-     * @param axis {VectorE3} The <b>axis</b> property.
+     * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity.
      */
-    constructor(type: string, axis: VectorE3);
-    /**
-     * <p>
-     * Sets the <code>axis</code> property to <code>void 0</code>.
-     * Calls the base class destructor method.
-     * </p>
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void;
+    constructor(axis: VectorE3);
     /**
      * @method setAxis
      * @param axis {VectorE3}
@@ -51,7 +40,11 @@ declare class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeom
      * @return {AxialSimplexGeometry}
      * @chainable
      */
-    setPosition(position: VectorE3): AxialSimplexGeometry;
+    setPosition(position: {
+        x: number;
+        y: number;
+        z: number;
+    }): AxialSimplexGeometry;
     /**
      * @method enableTextureCoords
      * @param enable {boolean}

@@ -101,10 +101,10 @@ define(["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R
         ModelE2.prototype.getProperty = function (name) {
             switch (name) {
                 case ModelE2.PROP_ATTITUDE: {
-                    return this._attCache.copy(this._attitude).data;
+                    return this._attCache.copy(this._attitude).coords;
                 }
                 case ModelE2.PROP_POSITION: {
-                    return this._posCache.copy(this._position).data;
+                    return this._posCache.copy(this._position).coords;
                 }
                 default: {
                     console.warn("ModelE2.getProperty " + name);
@@ -122,13 +122,13 @@ define(["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R
             switch (name) {
                 case ModelE2.PROP_ATTITUDE:
                     {
-                        this._attCache.data = data;
+                        this._attCache.coords = data;
                         this._attitude.copySpinor(this._attCache);
                     }
                     break;
                 case ModelE2.PROP_POSITION:
                     {
-                        this._posCache.data = data;
+                        this._posCache.coords = data;
                         this._position.copyVector(this._posCache);
                     }
                     break;

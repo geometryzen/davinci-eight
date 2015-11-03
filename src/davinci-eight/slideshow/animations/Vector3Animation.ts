@@ -36,7 +36,9 @@ class Vector3Animation extends Shareable implements IAnimation {
             if (this.from === void 0) {
                 var data: number[] = target.getProperty(propName)
                 if (data) {
-                    this.from = new R3(data)
+                    // Make sure to copy the coordinates so that we aren't
+                    // holding onto a reference to a mutable number array.
+                    this.from = new R3().copyCoordinates(data)
                 }
             }
         }
@@ -71,7 +73,7 @@ class Vector3Animation extends Shareable implements IAnimation {
         }
 
         var lerp = R3.lerp(this.from, this.to, rolloff)
-        target.setProperty(propName, lerp.data)
+        target.setProperty(propName, lerp.coords)
     }
     hurry(factor: number): void {
         this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
@@ -87,7 +89,7 @@ class Vector3Animation extends Shareable implements IAnimation {
     done(target: IAnimationTarget, propName: string): boolean {
         if (this.fraction === 1) {
             // Set final value.
-            target.setProperty(propName, this.to.data);
+            target.setProperty(propName, this.to.coords);
 
             this.callback && this.callback()
             this.callback = void 0
@@ -99,7 +101,7 @@ class Vector3Animation extends Shareable implements IAnimation {
     }
     undo(target: IAnimationTarget, propName: string): void {
         if (this.from) {
-            target.setProperty(propName, this.from.data)
+            target.setProperty(propName, this.from.coords)
             this.from = void 0
             this.start = void 0
             this.fraction = 0

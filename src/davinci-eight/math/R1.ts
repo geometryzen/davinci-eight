@@ -9,6 +9,8 @@ let exp = Math.exp
 let log = Math.log
 let sqrt = Math.sqrt
 
+let COORD_X = 0
+
 /**
  * @class R1
  */
@@ -27,11 +29,11 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
      * @type Number
      */
     get x(): number {
-        return this.data[0];
+        return this.coords[COORD_X];
     }
     set x(value: number) {
         this.modified = this.modified || this.x !== value;
-        this.data[0] = value;
+        this.coords[COORD_X] = value;
     }
     set(x: number): R1 {
         this.x = x;

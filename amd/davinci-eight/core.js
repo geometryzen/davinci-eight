@@ -6,10 +6,10 @@ define(["require", "exports"], function (require, exports) {
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-10-30',
+        LAST_MODIFIED: '2015-11-03',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.149.0'
+        VERSION: '2.150.0'
     };
     return core;
 });

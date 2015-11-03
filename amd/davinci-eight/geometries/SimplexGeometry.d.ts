@@ -1,16 +1,15 @@
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import GeometryMeta = require('../geometries/GeometryMeta');
 import IGeometry = require('../geometries/IGeometry');
-import Shareable = require('../utils/Shareable');
+import Geometry = require('../geometries/Geometry');
 import Simplex = require('../geometries/Simplex');
 import R3 = require('../math/R3');
 import R2 = require('../math/R2');
-import VectorE3 = require('../math/VectorE3');
 /**
  * @class SimplexGeometry
- * @extends Shareable
+ * @extends Geometry
  */
-declare class SimplexGeometry extends Shareable implements IGeometry<SimplexGeometry> {
+declare class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
     /**
      * The geometry as a list of simplices.
      * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
@@ -36,12 +35,14 @@ declare class SimplexGeometry extends Shareable implements IGeometry<SimplexGeom
      * Specifies the number of segments to use in curved directions.
      * @property curvedSegments
      * @type {number}
+     * @beta
      */
     curvedSegments: number;
     /**
      * Specifies the number of segments to use on flat surfaces.
      * @property flatSegments
      * @type {number}
+     * @beta
      */
     flatSegments: number;
     /**
@@ -51,6 +52,7 @@ declare class SimplexGeometry extends Shareable implements IGeometry<SimplexGeom
      * </p>
      * @property orientationColors
      * @type {boolean}
+     * @beta
      */
     orientationColors: boolean;
     /**
@@ -58,22 +60,11 @@ declare class SimplexGeometry extends Shareable implements IGeometry<SimplexGeom
      * A list of simplices (data) with information about dimensionality and vertex properties (meta).
      * This class should be used as an abstract base or concrete class when constructing
      * geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
-     * The <code>SimplexGeometry</code> class implements IUnknown, as a convenience to implementations
-     * requiring special de-allocation of resources, by extending <code>Shareable</code>.
      * </p>
      * @class SimplexGeometry
      * @constructor
-     * @param type [string = 'SimplexGeometry']
      */
-    constructor(type?: string);
-    /**
-     * The destructor method should be implemented in derived classes and the super.destructor called
-     * as the last call in the derived class destructor.
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void;
+    constructor();
     /**
      * <p>
      * The dimensionality of the simplices in this geometry.
@@ -147,11 +138,15 @@ declare class SimplexGeometry extends Shareable implements IGeometry<SimplexGeom
     subdivide(times?: number): SimplexGeometry;
     /**
      * @method setPosition
-     * @param position {VectorE3}
+     * @param position {{x: number; y: number; z: number}}
      * @return {SimplexGeometry}
      * @chainable
      */
-    setPosition(position: VectorE3): SimplexGeometry;
+    setPosition(position: {
+        x: number;
+        y: number;
+        z: number;
+    }): SimplexGeometry;
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}

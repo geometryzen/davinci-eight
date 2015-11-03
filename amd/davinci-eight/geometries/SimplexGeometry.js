@@ -3,32 +3,24 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3, mustBeInteger, mustBeString, Shareable, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, R1, R3) {
+define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3, mustBeInteger, Geometry, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, R1, R3) {
     /**
      * @class SimplexGeometry
-     * @extends Shareable
+     * @extends Geometry
      */
     var SimplexGeometry = (function (_super) {
         __extends(SimplexGeometry, _super);
-        // public dynamic = true;
-        // public verticesNeedUpdate = false;
-        // public elementsNeedUpdate = false;
-        // public uvsNeedUpdate = false;
         /**
          * <p>
          * A list of simplices (data) with information about dimensionality and vertex properties (meta).
          * This class should be used as an abstract base or concrete class when constructing
          * geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
-         * The <code>SimplexGeometry</code> class implements IUnknown, as a convenience to implementations
-         * requiring special de-allocation of resources, by extending <code>Shareable</code>.
          * </p>
          * @class SimplexGeometry
          * @constructor
-         * @param type [string = 'SimplexGeometry']
          */
-        function SimplexGeometry(type) {
-            if (type === void 0) { type = 'SimplexGeometry'; }
-            _super.call(this, mustBeString('type', type));
+        function SimplexGeometry() {
+            _super.call(this);
             /**
              * The geometry as a list of simplices.
              * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
@@ -47,12 +39,14 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
              * Specifies the number of segments to use in curved directions.
              * @property curvedSegments
              * @type {number}
+             * @beta
              */
             this.curvedSegments = 16;
             /**
              * Specifies the number of segments to use on flat surfaces.
              * @property flatSegments
              * @type {number}
+             * @beta
              */
             this.flatSegments = 1;
             /**
@@ -62,21 +56,12 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
              * </p>
              * @property orientationColors
              * @type {boolean}
+             * @beta
              */
             this.orientationColors = false;
             // Force regenerate, even if derived classes don't call setModified.
             this._k.modified = true;
         }
-        /**
-         * The destructor method should be implemented in derived classes and the super.destructor called
-         * as the last call in the derived class destructor.
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        SimplexGeometry.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
         Object.defineProperty(SimplexGeometry.prototype, "k", {
             /**
              * <p>
@@ -105,7 +90,7 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
          * @return {void}
          */
         SimplexGeometry.prototype.regenerate = function () {
-            console.warn("`public regenerate(): void` method should be implemented by `" + this._type + "`.");
+            console.warn("`public regenerate(): void` method should be implemented in derived class.");
         };
         /**
          * Used to determine whether the geometry must be recalculated.
@@ -183,11 +168,12 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
         };
         /**
          * @method setPosition
-         * @param position {VectorE3}
+         * @param position {{x: number; y: number; z: number}}
          * @return {SimplexGeometry}
          * @chainable
          */
         SimplexGeometry.prototype.setPosition = function (position) {
+            _super.prototype.setPosition.call(this, position);
             return this;
         };
         /**
@@ -273,6 +259,6 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
             return this;
         };
         return SimplexGeometry;
-    })(Shareable);
+    })(Geometry);
     return SimplexGeometry;
 });

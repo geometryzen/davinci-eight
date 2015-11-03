@@ -18,7 +18,7 @@ import wedgeXY = require('../math/wedgeXY')
 import wedgeYZ = require('../math/wedgeYZ')
 import wedgeZX = require('../math/wedgeZX')
 
-// Symbolic constants for the coordinate indices into the data array.
+// Symbolic constants for the coordinate indices into the coords array.
 let COORD_YZ = 0
 let COORD_ZX = 1
 let COORD_XY = 2
@@ -56,12 +56,12 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
    * @type Number
    */
   get yz(): number {
-    return this.data[COORD_YZ]
+    return this.coords[COORD_YZ]
   }
   set yz(yz: number) {
     mustBeNumber('yz', yz)
     this.modified = this.modified || this.yz !== yz
-    this.data[COORD_YZ] = yz;
+    this.coords[COORD_YZ] = yz;
   }
 
   /**
@@ -69,12 +69,12 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
    * @type Number
    */
   get zx(): number {
-    return this.data[COORD_ZX];
+    return this.coords[COORD_ZX];
   }
   set zx(zx: number) {
     mustBeNumber('zx', zx)
     this.modified = this.modified || this.zx !== zx;
-    this.data[COORD_ZX] = zx;
+    this.coords[COORD_ZX] = zx;
   }
 
   /**
@@ -82,12 +82,12 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
    * @type Number
    */
   get xy(): number {
-    return this.data[COORD_XY];
+    return this.coords[COORD_XY];
   }
   set xy(xy: number) {
     mustBeNumber('xy', xy)
     this.modified = this.modified || this.xy !== xy;
-    this.data[COORD_XY] = xy;
+    this.coords[COORD_XY] = xy;
   }
 
   /**
@@ -95,12 +95,12 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
    * @type Number
    */
   get α(): number {
-    return this.data[COORD_SCALAR];
+    return this.coords[COORD_SCALAR];
   }
   set α(α: number) {
     mustBeNumber('α', α)
     this.modified = this.modified || this.α !== α;
-    this.data[COORD_SCALAR] = α;
+    this.coords[COORD_SCALAR] = α;
   }
 
   /**

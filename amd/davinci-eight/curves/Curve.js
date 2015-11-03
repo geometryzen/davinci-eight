@@ -3,13 +3,6 @@ define(["require", "exports"], function (require, exports) {
      * @author zz85 / http://www.lab4games.net/zz85/blog
      * Extensible curve object
      *
-     * Some common of Curve methods
-     * .getPoint(t), getTangent(t)
-     * .getPointAt(u), getTagentAt(u)
-     * .getPoints(), .getSpacedPoints()
-     * .getLength()
-     * .updateArcLengths()
-     *
      * This following classes subclasses Curve:
      *
      * LineCurve
@@ -149,16 +142,14 @@ define(["require", "exports"], function (require, exports) {
             var delta = 0.0001;
             var t1 = t - delta;
             var t2 = t + delta;
-            // Capping in case of danger
             if (t1 < 0)
                 t1 = 0;
             if (t2 > 1)
                 t2 = 1;
             var pt1 = this.getPoint(t1);
             var pt2 = this.getPoint(t2);
-            // TypeScript Generics don't help here because we can't do T extends Vector<T>. 
-            var vec = pt2['clone']().sub(pt1);
-            return vec.normalize();
+            var tangent = pt2.sub(pt1);
+            return tangent.unitary();
         };
         Curve.prototype.getTangentAt = function (u) {
             var t = this.getUtoTmapping(u);

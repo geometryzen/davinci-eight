@@ -55,7 +55,11 @@ declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricE
      * @return {Euclidean2}
      */
     angle(): Euclidean2;
+    clone(): Euclidean2;
     conj(): Euclidean2;
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2): Euclidean2;
+    distanceTo(point: GeometricE2): number;
+    equals(point: GeometricE2): boolean;
     static sub(a: number[], b: number[]): number[];
     sub(rhs: Euclidean2): Euclidean2;
     __sub__(other: any): Euclidean2;
@@ -106,7 +110,12 @@ declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricE
      */
     magnitude(): number;
     norm(): Euclidean2;
+    /**
+     * Intentionally undocumented.
+     */
+    normalize(): Euclidean2;
     quad(): Euclidean2;
+    quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): Euclidean2;
     squaredNorm(): number;
     reflect(n: VectorE2): Euclidean2;
     rev(): Euclidean2;

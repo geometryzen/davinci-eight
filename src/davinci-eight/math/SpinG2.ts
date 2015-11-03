@@ -19,7 +19,7 @@ import wedgeXY = require('../math/wedgeXY')
 import wedgeYZ = require('../math/wedgeYZ')
 import wedgeZX = require('../math/wedgeZX')
 
-// Symbolic constants for the coordinate indices into the data array.
+// Symbolic constants for the coordinate indices into the coords array.
 let COORD_XY = 0
 let COORD_ALPHA = 1
 
@@ -61,12 +61,12 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @type {number}
      */
     get xy(): number {
-        return this.data[COORD_XY];
+        return this.coords[COORD_XY];
     }
     set xy(xy: number) {
         mustBeNumber('xy', xy)
         this.modified = this.modified || this.xy !== xy;
-        this.data[COORD_XY] = xy;
+        this.coords[COORD_XY] = xy;
     }
 
     /**
@@ -75,12 +75,12 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
      * @type {number}
      */
     get α(): number {
-        return this.data[COORD_ALPHA];
+        return this.coords[COORD_ALPHA];
     }
     set α(α: number) {
         mustBeNumber('α', α)
         this.modified = this.modified || this.α !== α;
-        this.data[COORD_ALPHA] = α;
+        this.coords[COORD_ALPHA] = α;
     }
 
     /**

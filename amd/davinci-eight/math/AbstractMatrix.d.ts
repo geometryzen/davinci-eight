@@ -1,8 +1,8 @@
-import Mutable = require('../math/Mutable');
+import MutableMatrix = require('../math/MutableMatrix');
 /**
  * @class AbstractMatrix
  */
-declare class AbstractMatrix implements Mutable<Float32Array> {
+declare class AbstractMatrix implements MutableMatrix<Float32Array> {
     private _data;
     private _callback;
     private _length;
@@ -19,7 +19,7 @@ declare class AbstractMatrix implements Mutable<Float32Array> {
      * @property data
      * @type {Float32Array}
      */
-    data: Float32Array;
+    elements: Float32Array;
     /**
      * @property callback
      * @type {() => Float32Array}

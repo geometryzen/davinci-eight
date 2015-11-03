@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject', '../math/R3'], function (require, exports, mustBeBoolean, mustBeObject, R3) {
+define(["require", "exports", '../math/CartesianE3', '../checks/mustBeBoolean', '../checks/mustBeObject'], function (require, exports, CartesianE3, mustBeBoolean, mustBeObject) {
     /**
      * @class Geometry
      */
@@ -10,10 +10,10 @@ define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject
         function Geometry() {
             /**
              * @property _position
-             * @type {R3}
+             * @type {CartesianE3}
              * @private
              */
-            this._position = new R3();
+            this._position = CartesianE3.zero;
             /**
              * @property useTextureCoords
              * @type {boolean}
@@ -26,7 +26,7 @@ define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject
              * The local `position` property used for geometry generation.
              * </p>
              * @property position
-             * @type {VectorE3}
+             * @type {CartesianE3}
              */
             get: function () {
                 return this._position;
@@ -50,13 +50,13 @@ define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeObject
         };
         /**
          * @method setPosition
-         * @param position {VectorE3}
+         * @param position {{x: number, y: number, z: number}}
          * @return Geometry
          * @chainable
          */
         Geometry.prototype.setPosition = function (position) {
             mustBeObject('position', position);
-            this._position.copy(position);
+            this._position = CartesianE3.fromVectorE3(position);
             return this;
         };
         /**

@@ -34,20 +34,10 @@ declare class SliceSimplexGeometry extends AxialSimplexGeometry {
      * </p>
      * @class SliceSimplexGeometry
      * @constructor
-     * @param type {string} Implementations must provide a type name used for reference count tracking.
      * @param axis [VectorE3 = R3.e3] The <code>axis</code> property.
      * @param sliceStart [VectorE3] The <code>sliceStart</code> property.
      * @param sliceAngle [number = 2 * Math.PI] The <code>sliceAngle</code> property.
      */
-    constructor(type: string, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number);
-    /**
-     * <p>
-     * Calls the base class destructor method.
-     * </p>
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void;
+    constructor(axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number);
 }
 export = SliceSimplexGeometry;

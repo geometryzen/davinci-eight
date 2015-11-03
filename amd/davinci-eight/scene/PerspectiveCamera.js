@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeNumber', '../utils/Shareable', '../math/R3'], function (require, exports, createPerspective, readOnly, mustBeNumber, Shareable, R3) {
+define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeObject', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, createPerspective, readOnly, mustBeObject, mustBeNumber, mustBeString, Shareable) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -34,8 +34,6 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             if (near === void 0) { near = 0.1; }
             if (far === void 0) { far = 2000; }
             _super.call(this, 'PerspectiveCamera');
-            // FIXME: Gotta go
-            this.position = new R3();
             mustBeNumber('fov', fov);
             mustBeNumber('aspect', aspect);
             mustBeNumber('near', near);
@@ -66,9 +64,29 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             // Do nothing.
         };
         PerspectiveCamera.prototype.getProperty = function (name) {
-            return void 0;
+            mustBeString('name', name);
+            switch (name) {
+                case PerspectiveCamera.PROP_EYE:
+                case PerspectiveCamera.PROP_POSITION: {
+                    return this.eye.coords;
+                    break;
+                }
+                default: {
+                }
+            }
         };
         PerspectiveCamera.prototype.setProperty = function (name, value) {
+            mustBeString('name', name);
+            mustBeObject('value', value);
+            switch (name) {
+                case PerspectiveCamera.PROP_EYE:
+                case PerspectiveCamera.PROP_POSITION: {
+                    this.eye.copyCoordinates(value);
+                    break;
+                }
+                default: {
+                }
+            }
         };
         Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
             /**
@@ -210,6 +228,16 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             this.inner.setUp(up);
             return this;
         };
+        /**
+         * The name of the property that designates the position.
+         * @property PROP_POSITION
+         * @type {string}
+         * @default 'X'
+         * @static
+         * @readOnly
+         */
+        PerspectiveCamera.PROP_POSITION = 'X';
+        PerspectiveCamera.PROP_EYE = 'eye';
         return PerspectiveCamera;
     })(Shareable);
     return PerspectiveCamera;

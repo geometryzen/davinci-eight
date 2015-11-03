@@ -1,4 +1,13 @@
-define(["require", "exports", '../math/clamp', '../checks/expectArg', '../checks/mustBeNumber', '../core/principalAngle'], function (require, exports, clamp, expectArg, mustBeNumber, principalAngle) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../math/clamp', '../checks/mustBeArray', '../checks/mustBeNumber', '../core/principalAngle', '../math/VectorN'], function (require, exports, clamp, mustBeArray, mustBeNumber, principalAngle, VectorN) {
+    var pow = Math.pow;
+    var COORD_R = 0;
+    var COORD_G = 1;
+    var COORD_B = 2;
     /**
      * <p>
      * A mutable type representing a color through its RGB components.
@@ -11,79 +20,162 @@ define(["require", "exports", '../math/clamp', '../checks/expectArg', '../checks
      * </p>
      *
      * @class Color
+     * @extends VectorN
      * @implements ColorRGB
-     * @implements Mutable<number[]>
      */
-    var Color = (function () {
+    var Color = (function (_super) {
+        __extends(Color, _super);
         /**
          * @class Color
          * @constructor
          * @param data {number[]}
+         * @param areYouSure {boolean}
          */
-        function Color(data) {
-            if (data === void 0) { data = [0, 0, 0]; }
-            this.modified = false;
-            expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
-            this.data = data;
+        function Color(r, g, b) {
+            _super.call(this, [r, g, b], false, 3);
         }
-        Object.defineProperty(Color.prototype, "red", {
+        Object.defineProperty(Color.prototype, "r", {
+            /**
+             * @property r
+             * @type {number}
+             */
             get: function () {
-                return this.data[0];
+                return this.coords[COORD_R];
             },
-            set: function (value) {
-                this.data[0] = clamp(value, 0, 1);
+            set: function (r) {
+                this.coords[COORD_R] = clamp(r, 0, 1);
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Color.prototype, "green", {
+        Object.defineProperty(Color.prototype, "g", {
+            /**
+             * @property g
+             * @type {number}
+             */
             get: function () {
-                return this.data[1];
+                return this.coords[COORD_G];
             },
-            set: function (value) {
-                this.data[1] = clamp(value, 0, 1);
+            set: function (g) {
+                this.coords[COORD_G] = clamp(g, 0, 1);
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Color.prototype, "blue", {
+        Object.defineProperty(Color.prototype, "b", {
+            /**
+             * @property b
+             * @type {number}
+             */
             get: function () {
-                return this.data[2];
+                return this.coords[COORD_B];
             },
-            set: function (value) {
-                this.data[2] = clamp(value, 0, 1);
+            set: function (b) {
+                this.coords[COORD_B] = clamp(b, 0, 1);
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method clone
+         * @return {Color}
+         * @chainable
+         */
         Color.prototype.clone = function () {
-            return new Color([this.data[0], this.data[1], this.data[2]]);
+            return new Color(this.r, this.g, this.b);
         };
-        Color.prototype.interpolate = function (target, alpha) {
-            this.red += (target.red - this.red) * alpha;
-            this.green += (target.green - this.green) * alpha;
-            this.blue += (target.blue - this.blue) * alpha;
+        /**
+         * @method copy
+         * @param color {ColorRGB}
+         * @return {Color}
+         * @chainable
+         */
+        Color.prototype.copy = function (color) {
+            this.r = color.r;
+            this.g = color.g;
+            this.b = color.b;
+            return this;
+        };
+        /**
+         * @method interpolate
+         * @param target {ColorRGB}
+         * @param α {number}
+         * @return {Color}
+         * @chainable
+         */
+        Color.prototype.interpolate = function (target, α) {
+            this.r += (target.r - this.r) * α;
+            this.g += (target.g - this.g) * α;
+            this.b += (target.b - this.b) * α;
             return this;
         };
         Object.defineProperty(Color.prototype, "luminance", {
+            /**
+             * @property luminance
+             * @type {number}
+             * @readOnly
+             */
             get: function () {
-                return Color.luminance(this.red, this.green, this.blue);
+                return Color.luminance(this.r, this.g, this.b);
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method toString
+         * @return {string}
+         */
         Color.prototype.toString = function () {
-            return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")";
+            // FIXME: Use vector stuff
+            return "Color(" + this.r + ", " + this.g + ", " + this.b + ")";
         };
-        Color.luminance = function (red, green, blue) {
-            mustBeNumber('red', red);
-            mustBeNumber('green', green);
-            mustBeNumber('blue', blue);
-            var gamma = 2.2;
-            return 0.2126 * Math.pow(red, gamma) + 0.7152 * Math.pow(green, gamma) + 0.0722 * Math.pow(blue, gamma);
+        /**
+         * @method luminance
+         * @param r {number}
+         * @param g {number}
+         * @param b {number}
+         * @return {number}
+         * @static
+         */
+        Color.luminance = function (r, g, b) {
+            mustBeNumber('r', r);
+            mustBeNumber('g', g);
+            mustBeNumber('b', b);
+            var γ = 2.2;
+            return 0.2126 * pow(r, γ) + 0.7152 * pow(b, γ) + 0.0722 * pow(b, γ);
+        };
+        /**
+         * @method fromColor
+         * @param color {ColorRGB}
+         * @return {Color}
+         * @static
+         * @chainable
+         */
+        Color.fromColor = function (color) {
+            return new Color(color.r, color.g, color.b);
+        };
+        /**
+         * @method fromCoords
+         * @param coords {number[]}
+         * @return {Color}
+         * @chainable
+         */
+        Color.fromCoords = function (coords) {
+            mustBeArray('coords', coords);
+            var r = mustBeNumber('r', coords[COORD_R]);
+            var g = mustBeNumber('g', coords[COORD_G]);
+            var b = mustBeNumber('b', coords[COORD_B]);
+            return new Color(r, g, b);
         };
         /**
          * Converts an angle, radius, height to a color on a color wheel.
+         * @method fromHSL
+         * @param H {number}
+         * @param S {number}
+         * @param L {number}
+         * @return {Color}
+         * @static
+         * @chainable
          */
         Color.fromHSL = function (H, S, L) {
             mustBeNumber('H', H);
@@ -96,7 +188,7 @@ define(["require", "exports", '../math/clamp', '../checks/expectArg', '../checks
             function matchLightness(R, G, B) {
                 var x = Color.luminance(R, G, B);
                 var m = L - 0.5 * C;
-                return new Color([R + m, G + m, B + m]);
+                return new Color(R + m, G + m, B + m);
             }
             var sextant = ((principalAngle(H) / Math.PI) * 3) % 6;
             var X = C * (1 - Math.abs(sextant % 2 - 1));
@@ -122,71 +214,82 @@ define(["require", "exports", '../math/clamp', '../checks/expectArg', '../checks
                 return matchLightness(0, 0, 0);
             }
         };
-        Color.fromRGB = function (red, green, blue) {
-            mustBeNumber('red', red);
-            mustBeNumber('green', green);
-            mustBeNumber('blue', blue);
-            // FIXME: Replace with functions that don't create temporaries.
-            expectArg('red', red).toBeNumber().toBeInClosedInterval(0, 1);
-            expectArg('green', green).toBeNumber().toBeInClosedInterval(0, 1);
-            expectArg('blue', blue).toBeNumber().toBeInClosedInterval(0, 1);
-            return new Color([red, green, blue]);
+        /**
+         * @method fromRGB
+         * @param r {number}
+         * @param g {number}
+         * @param b {number}
+         * @return {Color}
+         * @static
+         * @chainable
+         */
+        Color.fromRGB = function (r, g, b) {
+            mustBeNumber('r', r);
+            mustBeNumber('g', g);
+            mustBeNumber('b', b);
+            return new Color(r, g, b);
         };
-        Color.copy = function (color) {
-            return new Color([color.red, color.green, color.blue]);
-        };
-        Color.interpolate = function (a, b, alpha) {
-            return Color.copy(a).interpolate(b, alpha);
+        /**
+         * @method interpolate
+         * @param a {ColorRGB}
+         * @param b {ColorRGB}
+         * @param α {number}
+         * @return {Color}
+         * @static
+         * @chainable
+         */
+        Color.interpolate = function (a, b, α) {
+            return Color.fromColor(a).interpolate(b, α);
         };
         /**
          * @property black
          * @type {Color}
          * @static
          */
-        Color.black = new Color([0, 0, 0]);
+        Color.black = new Color(0, 0, 0);
         /**
          * @property blue
          * @type {Color}
          * @static
          */
-        Color.blue = new Color([0, 0, 1]);
+        Color.blue = new Color(0, 0, 1);
         /**
          * @property green
          * @type {Color}
          * @static
          */
-        Color.green = new Color([0, 1, 0]);
+        Color.green = new Color(0, 1, 0);
         /**
          * @property cyan
          * @type {Color}
          * @static
          */
-        Color.cyan = new Color([0, 1, 1]);
+        Color.cyan = new Color(0, 1, 1);
         /**
          * @property red
          * @type {Color}
          * @static
          */
-        Color.red = new Color([1, 0, 0]);
+        Color.red = new Color(1, 0, 0);
         /**
          * @property magenta
          * @type {Color}
          * @static
          */
-        Color.magenta = new Color([1, 0, 1]);
+        Color.magenta = new Color(1, 0, 1);
         /**
          * @property yellow
          * @type {Color}
          * @static
          */
-        Color.yellow = new Color([1, 1, 0]);
+        Color.yellow = new Color(1, 1, 0);
         /**
          * @property white
          * @type {Color}
          * @static
          */
-        Color.white = new Color([1, 1, 1]);
+        Color.white = new Color(1, 1, 1);
         return Color;
-    })();
+    })(VectorN);
     return Color;
 });

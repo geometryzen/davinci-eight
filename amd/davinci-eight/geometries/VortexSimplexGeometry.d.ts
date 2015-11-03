@@ -15,14 +15,13 @@ declare class VortexSimplexGeometry extends SimplexGeometry {
     /**
      * @class VortexSimplexGeometry
      * @constructor
-     * @param type [string = 'VortexSimplexGeometry']
      */
-    constructor(type?: string);
+    constructor();
     isModified(): boolean;
     /**
      * @method setModified
      * @param modified {boolean}
-     * @return {ArrowSimplexGeometry}
+     * @return {VortexSimplexGeometry}
      */
     setModified(modified: boolean): VortexSimplexGeometry;
     /**

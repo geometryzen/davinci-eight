@@ -131,12 +131,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_W];
+                return this.coords[COORD_W];
             },
             set: function (α) {
                 mustBeNumber('α', α);
-                this.modified = this.modified || this.data[COORD_W] !== α;
-                this.data[COORD_W] = α;
+                this.modified = this.modified || this.coords[COORD_W] !== α;
+                this.coords[COORD_W] = α;
             },
             enumerable: true,
             configurable: true
@@ -148,12 +148,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_X];
+                return this.coords[COORD_X];
             },
             set: function (x) {
                 mustBeNumber('x', x);
-                this.modified = this.modified || this.data[COORD_X] !== x;
-                this.data[COORD_X] = x;
+                this.modified = this.modified || this.coords[COORD_X] !== x;
+                this.coords[COORD_X] = x;
             },
             enumerable: true,
             configurable: true
@@ -165,12 +165,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_Y];
+                return this.coords[COORD_Y];
             },
             set: function (y) {
                 mustBeNumber('y', y);
-                this.modified = this.modified || this.data[COORD_Y] !== y;
-                this.data[COORD_Y] = y;
+                this.modified = this.modified || this.coords[COORD_Y] !== y;
+                this.coords[COORD_Y] = y;
             },
             enumerable: true,
             configurable: true
@@ -182,12 +182,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_Z];
+                return this.coords[COORD_Z];
             },
             set: function (z) {
                 mustBeNumber('z', z);
-                this.modified = this.modified || this.data[COORD_Z] !== z;
-                this.data[COORD_Z] = z;
+                this.modified = this.modified || this.coords[COORD_Z] !== z;
+                this.coords[COORD_Z] = z;
             },
             enumerable: true,
             configurable: true
@@ -199,12 +199,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_YZ];
+                return this.coords[COORD_YZ];
             },
             set: function (yz) {
                 mustBeNumber('yz', yz);
-                this.modified = this.modified || this.data[COORD_YZ] !== yz;
-                this.data[COORD_YZ] = yz;
+                this.modified = this.modified || this.coords[COORD_YZ] !== yz;
+                this.coords[COORD_YZ] = yz;
             },
             enumerable: true,
             configurable: true
@@ -216,12 +216,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_ZX];
+                return this.coords[COORD_ZX];
             },
             set: function (zx) {
                 mustBeNumber('zx', zx);
-                this.modified = this.modified || this.data[COORD_ZX] !== zx;
-                this.data[COORD_ZX] = zx;
+                this.modified = this.modified || this.coords[COORD_ZX] !== zx;
+                this.coords[COORD_ZX] = zx;
             },
             enumerable: true,
             configurable: true
@@ -233,12 +233,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_XY];
+                return this.coords[COORD_XY];
             },
             set: function (xy) {
                 mustBeNumber('xy', xy);
-                this.modified = this.modified || this.data[COORD_XY] !== xy;
-                this.data[COORD_XY] = xy;
+                this.modified = this.modified || this.coords[COORD_XY] !== xy;
+                this.coords[COORD_XY] = xy;
             },
             enumerable: true,
             configurable: true
@@ -250,12 +250,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_XYZ];
+                return this.coords[COORD_XYZ];
             },
             set: function (β) {
                 mustBeNumber('β', β);
-                this.modified = this.modified || this.data[COORD_XYZ] !== β;
-                this.data[COORD_XYZ] = β;
+                this.modified = this.modified || this.coords[COORD_XYZ] !== β;
+                this.coords[COORD_XYZ] = β;
             },
             enumerable: true,
             configurable: true

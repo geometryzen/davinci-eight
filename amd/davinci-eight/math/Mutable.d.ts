@@ -3,10 +3,10 @@
  */
 interface Mutable<T> {
     /**
-     * @property data
+     * @property coords
      * @type T
      */
-    data: T;
+    coords: T;
     /**
      * @property callback
      * @type () => T

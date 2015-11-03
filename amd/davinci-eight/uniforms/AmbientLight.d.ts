@@ -1,4 +1,5 @@
 import Color = require('../core/Color');
+import ColorRGB = require('../core/ColorRGB');
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
 import Shareable = require('../utils/Shareable');
@@ -17,7 +18,7 @@ declare class AmbientLight extends Shareable implements IFacet {
      * @class AmbientLight
      * @constructor
      */
-    constructor();
+    constructor(color: ColorRGB);
     /**
      * @method destructor
      * @type {void}

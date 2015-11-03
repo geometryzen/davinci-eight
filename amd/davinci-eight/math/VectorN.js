@@ -61,7 +61,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
                 this._data = dataArg.value;
             }
         }
-        Object.defineProperty(VectorN.prototype, "data", {
+        Object.defineProperty(VectorN.prototype, "coords", {
             /**
              * @property data
              * @type {T[]}
@@ -115,7 +115,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
              * @readOnly
              */
             get: function () {
-                return this.data.length;
+                return this.coords.length;
             },
             enumerable: true,
             configurable: true
@@ -133,7 +133,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
          * @return {T}
          */
         VectorN.prototype.getComponent = function (index) {
-            return this.data[index];
+            return this.coords[index];
         };
         /**
          * @method pop
@@ -141,7 +141,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
          */
         VectorN.prototype.pop = function () {
             if (isUndefined(this._size)) {
-                return this.data.pop();
+                return this.coords.pop();
             }
             else {
                 throw new Error(verbotenPop());
@@ -154,9 +154,9 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
          */
         VectorN.prototype.push = function (value) {
             if (isUndefined(this._size)) {
-                var data = this.data;
+                var data = this.coords;
                 var newLength = data.push(value);
-                this.data = data;
+                this.coords = data;
                 return newLength;
             }
             else {
@@ -170,11 +170,11 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
          * @return {void}
          */
         VectorN.prototype.setComponent = function (index, value) {
-            var data = this.data;
+            var data = this.coords;
             var existing = data[index];
             if (value !== existing) {
                 data[index] = value;
-                this.data = data;
+                this.coords = data;
                 this.modified = true;
             }
         };
@@ -187,7 +187,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
         VectorN.prototype.toArray = function (array, offset) {
             if (array === void 0) { array = []; }
             if (offset === void 0) { offset = 0; }
-            var data = this.data;
+            var data = this.coords;
             var length = data.length;
             for (var i = 0; i < length; i++) {
                 array[offset + i] = data[i];
@@ -199,14 +199,14 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
          * @return {string}
          */
         VectorN.prototype.toLocaleString = function () {
-            return this.data.toLocaleString();
+            return this.coords.toLocaleString();
         };
         /**
          * @method toString
          * @return {string}
          */
         VectorN.prototype.toString = function () {
-            return this.data.toString();
+            return this.coords.toString();
         };
         return VectorN;
     })();

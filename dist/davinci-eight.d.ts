@@ -30,7 +30,7 @@ declare module EIGHT {
     }
 
     class IUnknownArray<T extends IUnknown> extends Shareable {
-        public length: number;
+        length: number;
         /**
          * Collection class for maintaining an array of types derived from IUnknown.
          * Provides a safer way to maintain reference counts than a native array.
@@ -171,9 +171,9 @@ declare module EIGHT {
      *
      */
     class DrawPrimitive {
-        public mode: DrawMode;
-        public indices: number[];
-        public attributes: { [name: string]: DrawAttribute };
+        mode: DrawMode;
+        indices: number[];
+        attributes: { [name: string]: DrawAttribute };
         constructor(mode: DrawMode, indices: number[], attributes: { [name: string]: DrawAttribute });
     }
 
@@ -181,8 +181,8 @@ declare module EIGHT {
      *
      */
     class DrawAttribute {
-        public values: number[];
-        public size: number;
+        values: number[];
+        size: number;
         constructor(values: number[], size: number);
     }
 
@@ -191,7 +191,7 @@ declare module EIGHT {
      * A k-simplex is the convex hull of its k + 1 vertices.
      */
     class Simplex {
-        public vertices: Vertex[];
+        vertices: Vertex[];
         /**
          * k: The initial number of vertices in the simplex is k + 1.
          */
@@ -199,29 +199,29 @@ declare module EIGHT {
         /**
          * An empty set can be consired to be a -1 simplex (algebraic topology).
          */
-        public static EMPTY: number;
+        static EMPTY: number;
         /**
          * A single point may be considered a 0-simplex.
          */
-        public static POINT: number;
+        static POINT: number;
         /**
          * A line segment may be considered a 1-simplex.
          */
-        public static LINE: number;
+        static LINE: number;
         /**
          * A 2-simplex is a triangle.
          */
-        public static TRIANGLE: number;
+        static TRIANGLE: number;
         /**
          * A 3-simplex is a tetrahedron.
          */
-        public static TETRAHEDRON: number;
+        static TETRAHEDRON: number;
         /**
          * A 4-simplex is a 5-cell.
          */
-        public static FIVE_CELL: number;
-        public static computeFaceNormals(simplex: Simplex, name: string);
-        public static indices(simplex: Simplex): number[];
+        static FIVE_CELL: number;
+        static computeFaceNormals(simplex: Simplex, name: string);
+        static indices(simplex: Simplex): number[];
         /**
          * Applies the boundary operation the specified number of times.
          * times: The number of times to apply the boundary operation.
@@ -229,7 +229,7 @@ declare module EIGHT {
          * lines are converted into two points.
          * points are converted into the empty geometry.
          */
-        public static boundary(geometry: Simplex[], n?: number): Simplex[];
+        static boundary(geometry: Simplex[], n?: number): Simplex[];
         /**
          * Applies the subdivide operation the specified number of times.
          * times: The number of times to apply the subdivide operation.
@@ -237,14 +237,14 @@ declare module EIGHT {
          * and then uses the original points and midpoints to create new simplices
          * that span the original simplex. 
          */
-        public static subdivide(simplices: Simplex[], times?: number): Simplex[];
+        static subdivide(simplices: Simplex[], times?: number): Simplex[];
     }
 
     /**
      *
      */
     class Vertex {
-        public attributes: { [name: string]: VectorN<number> };
+        attributes: { [name: string]: VectorN<number> };
         constructor();
     }
 
@@ -364,13 +364,20 @@ declare module EIGHT {
     }
 
     /**
-     *
+     * Utility class for managing a shader uniform variable.
      */
     class UniformLocation implements IContextProgramConsumer {
-        constructor(monitor: IContextProvider, name: string);
+        /**
+         *
+         */
+        constructor(manager: IContextProvider, name: string);
         contextFree(): void;
         contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
         contextLost(): void;
+        cartesian1(coords: VectorE1): void;
+        cartesian2(coords: VectorE2): void;
+        cartesian3(coords: VectorE3): void;
+        cartesian4(coords: VectorE4): void;
         uniform1f(x: number): void;
         uniform2f(x: number, y: number): void;
         uniform3f(x: number, y: number, z: number): void;
@@ -379,9 +386,10 @@ declare module EIGHT {
         matrix2(transpose: boolean, matrix: Matrix2): void;
         matrix3(transpose: boolean, matrix: Matrix3): void;
         matrix4(transpose: boolean, matrix: Matrix4): void;
-        vector2(vector: R2): void;
-        vector3(vector: R3): void;
-        vector4(vector: R4): void;
+        vector2(coords: number[]): void;
+        vector3(coords: number[]): void;
+        vector4(coords: number[]): void;
+        toString(): string;
     }
 
     /**
@@ -412,7 +420,7 @@ declare module EIGHT {
      *
      */
     interface Mutable<T> {
-        data: T;
+        coords: T;
         callback: () => T;
     }
 
@@ -492,47 +500,47 @@ declare module EIGHT {
         /**
          *
          */
-        public static ONE: Dimensions;
+        static ONE: Dimensions;
 
         /**
          *
          */
-        public static MASS: Dimensions;
+        static MASS: Dimensions;
 
         /**
          *
          */
-        public static LENGTH: Dimensions;
+        static LENGTH: Dimensions;
 
         /**
          *
          */
-        public static TIME: Dimensions;
+        static TIME: Dimensions;
 
         /**
          *
          */
-        public static CHARGE: Dimensions;
+        static CHARGE: Dimensions;
 
         /**
          *
          */
-        public static CURRENT: Dimensions;
+        static CURRENT: Dimensions;
 
         /**
          *
          */
-        public static TEMPERATURE: Dimensions;
+        static TEMPERATURE: Dimensions;
 
         /**
          *
          */
-        public static AMOUNT: Dimensions;
+        static AMOUNT: Dimensions;
 
         /**
          *
          */
-        public static INTENSITY: Dimensions;
+        static INTENSITY: Dimensions;
     }
 
     /**
@@ -635,36 +643,44 @@ declare module EIGHT {
          * The pseudoscalar component.
          */
         β: number;
+        /**
+         * The (optional) unit of measure.
+         */
         uom: Unit;
         magnitude(): number;
+        scale(α: number): Euclidean3
         squaredNorm(): number;
         toFixed(digits?: number): string;
         toString(): string;
+        /**
+         * Computes the normalized (<em>unitary</em>) value of this <em>multivector</em>.
+         */
+        unitary(): Euclidean3;
     }
 
     /**
      *
      */
     class AbstractMatrix implements Mutable<Float32Array> {
-        public data: Float32Array;
-        public dimensions: number;
-        public callback: () => Float32Array;
-        public modified: boolean;
-        constructor(data: Float32Array, dimensions: number);
+        elements: Float32Array;
+        dimensions: number;
+        callback: () => Float32Array;
+        modified: boolean;
+        constructor(elements: Float32Array, dimensions: number);
     }
 
     /**
      *
      */
     class Matrix2 extends AbstractMatrix {
-        constructor(data: Float32Array);
+        constructor(elements: Float32Array);
     }
 
     /**
      *
      */
     class Matrix3 extends AbstractMatrix {
-        constructor(data: Float32Array);
+        constructor(elements: Float32Array);
         /**
          * Generates a new identity matrix.
          */
@@ -683,7 +699,7 @@ declare module EIGHT {
      *
      */
     class Matrix4 extends AbstractMatrix {
-        constructor(data: Float32Array);
+        constructor(elements: Float32Array);
         /**
          * Generates a new identity matrix.
          */
@@ -1269,10 +1285,10 @@ declare module EIGHT {
      *
      */
     class VectorN<T> implements Mutable<T[]> {
-        public callback: () => T[];
-        public data: T[];
-        public modified: boolean;
-        constructor(data: T[], modified?: boolean, size?: number);
+        callback: () => T[];
+        coords: T[];
+        modified: boolean;
+        constructor(coords: T[], modified?: boolean, size?: number);
         clone(): VectorN<T>;
         getComponent(index: number): T;
         pop(): T;
@@ -1287,17 +1303,17 @@ declare module EIGHT {
      *
      */
     class R1 extends VectorN<number> implements VectorE1 {
-        public x: number;
-        constructor(data?: number[], modified?: boolean);
+        x: number;
+        constructor(coords?: number[], modified?: boolean);
     }
 
     /**
      *
      */
     class R2 extends VectorN<number> implements VectorE2 {
-        public x: number;
-        public y: number;
-        constructor(data?: number[], modified?: boolean);
+        x: number;
+        y: number;
+        constructor(coords?: number[], modified?: boolean);
         add(v: VectorE2): R2;
         add2(a: VectorE2, b: VectorE2): R2;
         copy(v: VectorE2): R2;
@@ -1826,22 +1842,22 @@ declare module EIGHT {
         /**
          * The bivector component in the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> plane.
          */
-        public yz: number;
+        yz: number;
 
         /**
          * The bivector component in the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> plane.
          */
-        public zx: number;
+        zx: number;
 
         /**
          * The bivector component in the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> plane.
          */
-        public xy: number;
+        xy: number;
 
         /**
          * The scalar component.
          */
-        public α: number;
+        α: number;
 
         /**
          * Constructs a <code>Spin3</code> with value <em>1</em>
@@ -1985,6 +2001,27 @@ declare module EIGHT {
     /**
      *
      */
+    class CartesianE3 implements VectorE3 {
+        x: number;
+        y: number;
+        z: number;
+        /**
+         *
+         */
+        constructor()
+        magnitude(): number;
+        squaredNorm(): number;
+        static zero: CartesianE3;
+        static e1: CartesianE3;
+        static e2: CartesianE3;
+        static e3: CartesianE3;
+        static fromVector(vector: VectorE3);
+        static normalize(vector: VectorE3);
+    }
+
+    /**
+     *
+     */
     class R3 extends VectorN<number> implements VectorE3 {
         x: number;
         y: number;
@@ -1992,7 +2029,6 @@ declare module EIGHT {
         static e1: R3;
         static e2: R3;
         static e3: R3;
-        static copy(vector: VectorE3): R3;
         constructor(coordinates?: number[], modified?: boolean);
         /**
          * this += alpha * vector
@@ -2009,7 +2045,7 @@ declare module EIGHT {
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          */
         magnitude(): number;
-        lerp(target: VectorE3, alpha: number): R3;
+        lerp(target: VectorE3, α: number): R3;
         scale(rhs: number): R3;
         normalize(): R3;
         squaredNorm(): number;
@@ -2019,8 +2055,11 @@ declare module EIGHT {
         set(x: number, y: number, z: number): R3;
         sub(rhs: VectorE3): R3;
         sub2(a: VectorE3, b: VectorE3): R3;
+        toExponential(): string;
+        toFixed(digits?: number): string;
+        toString(): string;
         static copy(vector: VectorE3): R3;
-        static lerp(a: VectorE3, b: VectorE3, alpha: number): R3;
+        static lerp(a: VectorE3, b: VectorE3, α: number): R3;
         static random(): R3;
     }
 
@@ -2038,11 +2077,11 @@ declare module EIGHT {
      *
      */
     class R4 extends VectorN<number> implements VectorE4 {
-        public x: number;
-        public y: number;
-        public z: number;
-        public w: number;
-        constructor(data?: number[], modified?: boolean);
+        x: number;
+        y: number;
+        z: number;
+        w: number;
+        constructor(coords?: number[], modified?: boolean);
     }
 
     /**
@@ -2059,9 +2098,9 @@ declare module EIGHT {
         uniformVectorE2(name: string, vector: VectorE2, canvasId: number): void;
         uniformVectorE3(name: string, vector: VectorE3, canvasId: number): void;
         uniformVectorE4(name: string, vector: VectorE4, canvasId: number): void;
-        vector2(name: string, data: number[], canvasId: number): void;
-        vector3(name: string, data: number[], canvasId: number): void;
-        vector4(name: string, data: number[], canvasId: number): void;
+        vector2(name: string, coords: number[], canvasId: number): void;
+        vector3(name: string, coords: number[], canvasId: number): void;
+        vector4(name: string, coords: number[], canvasId: number): void;
     }
 
     /**
@@ -2184,8 +2223,8 @@ declare module EIGHT {
      *
      */
     class Sphere {
-        public center: VectorE3;
-        public radius: number;
+        center: VectorE3;
+        radius: number;
         constructor(center?: VectorE3, radius?: number);
         setFromPoints(points: VectorE3[]);
     }
@@ -2209,12 +2248,12 @@ declare module EIGHT {
         /**
          * The geometry as a list of simplices. These may be triangles, lines or points.
          */
-        public data: Simplex[];
+        data: Simplex[];
         /**
          * Summary information on the simplices such as dimensionality and sizes for attributes.
          * This same data structure may be used to map vertex attribute names to program names.
          */
-        public meta: GeometryMeta;
+        meta: GeometryMeta;
         /**
          * The dimesionality of the simplices to be generated.
          */
@@ -2234,8 +2273,7 @@ declare module EIGHT {
         /**
          *
          */
-        constructor(type?: string);
-        destructor(): void;
+        constructor();
         regenerate(): void;
         isModified(): boolean;
         setModified(modified: boolean): SimplexGeometry;
@@ -2255,56 +2293,63 @@ declare module EIGHT {
          * 
          * times: The number of times to apply the boundary operation. Default is one (1).
          */
-        public boundary(times?: number): SimplexGeometry;
+        boundary(times?: number): SimplexGeometry;
         /**
          * Updates the `meta` property by scanning the vertices.
          */
-        public check(): SimplexGeometry;
+        check(): SimplexGeometry;
         /**
          * Subdivides the simplices of the geometry to produce finer detail.
          * times: The number of times to subdivide. Default is one (1).
          */
-        public subdivide(times?: number): SimplexGeometry;
+        subdivide(times?: number): SimplexGeometry;
         /**
          * Computes and returns the primitives used to draw in WebGL.
          */
-        public toPrimitives(): DrawPrimitive[];
+        toPrimitives(): DrawPrimitive[];
     }
 
     /**
      *
      */
     interface ColorRGB {
-        red: number;
-        green: number;
-        blue: number;
+        r: number;
+        g: number;
+        b: number;
     }
 
     /**
      *
      */
-    class Color implements ColorRGB {
-        public static black: Color;
-        public static blue: Color;
-        public static green: Color;
-        public static cyan: Color;
-        public static red: Color;
-        public static magenta: Color;
-        public static yellow: Color;
-        public static white: Color;
-        public red: number;
-        public green: number;
-        public blue: number;
-        public luminance: number;
-        public data: number[];
-        public modified: boolean;
-        constructor(data?: number[]);
+    interface ColorRGBA extends ColorRGB {
+        α: number;
+    }
+
+    /**
+     *
+     */
+    class Color extends VectorN<number> implements ColorRGB {
+        static black: Color;
+        static blue: Color;
+        static green: Color;
+        static cyan: Color;
+        static red: Color;
+        static magenta: Color;
+        static yellow: Color;
+        static white: Color;
+        r: number;
+        g: number;
+        b: number;
+        luminance: number;
+        constructor(r: number, g: number, b: number);
         clone(): Color;
-        public interpolate(target: ColorRGB, alpha: number): Color;
-        public static fromHSL(H: number, S: number, L: number): Color;
-        public static fromRGB(red: number, green: number, blue: number): Color;
-        public static copy(color: ColorRGB): Color;
-        public static interpolate(a: ColorRGB, b: ColorRGB, alpha: number): Color;
+        interpolate(target: ColorRGB, alpha: number): Color;
+
+        static fromColor(color: ColorRGB): Color;
+        static fromCoords(coords: number[]): Color;
+        static fromHSL(H: number, S: number, L: number): Color;
+        static fromRGB(red: number, green: number, blue: number): Color;
+        static interpolate(a: ColorRGB, b: ColorRGB, alpha: number): Color;
     }
 
     /**
@@ -2467,11 +2512,11 @@ declare module EIGHT {
         /**
          * The <em>position</em>, a vector. Initialized to <em>0</em>
          */
-        public X: G2;
+        X: G2;
         /**
          * The <em>attitude</em>, a unitary spinor. Initialized to <em>1</em>.
          */
-        public R: G2;
+        R: G2;
         /**
          * Constructs a <code>ModelE2</code> at the origin and with unity attitude.
          * Initializes <code>X</code> to <code>0</code>.
@@ -2509,15 +2554,15 @@ declare module EIGHT {
         /**
          * The position, a vector.
          */
-        public X: G3;
+        X: G3;
         /**
          * The attitude, a unitary spinor.
          */
-        public R: G3;
+        R: G3;
         /**
          * The overall scale.
          */
-        public scaleXYZ: R3;
+        scaleXYZ: R3;
         /**
          * Constructs a ModelFacetE3 at the origin and with unity attitude.
          */
@@ -2812,10 +2857,22 @@ declare module EIGHT {
         canvas: HTMLCanvasElement;
 
         /**
+         * <p>
+         * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
+         * <p>
+         */
+        clearColor(red: number, green: number, blue: number, alpha: number): void;
+
+        /**
          * Commands that are executed for context free, gain and loss events.
          * These commands are reference counted but don't hold references to this instance.
          */
         commands: IUnknownArray<IContextCommand>;
+
+        /**
+         *
+         */
+        enable(capability: Capability): void;
     }
 
     /**
@@ -2841,9 +2898,23 @@ declare module EIGHT {
          *
          */
         commands: IUnknownArray<IContextCommand>;
+
+        /**
+         *
+         */
         constructor(attributes?: WebGLContextAttributes);
+
         addContextListener(user: IContextConsumer): void;
+
         addRef(): number;
+
+        /**
+         * <p>
+         * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
+         * <p>
+         */
+        clearColor(red: number, green: number, blue: number, alpha: number): void;
+
         contextFree(canvasId: number): void;
         contextGain(manager: IContextProvider): void;
         contextLost(canvasId: number): void;
@@ -2852,14 +2923,37 @@ declare module EIGHT {
         createElementArrayBuffer(): IBuffer;
         createTexture2D(): ITexture2D;
         createTextureCubeMap(): ITextureCubeMap;
+
+        /**
+         * Turns off specific WebGL capabilities for this context.
+         */
+        disable(capability: Capability): void;
+
+        /**
+         * Turns on specific WebGL capabilities for this context.
+         */
+        enable(capability: Capability): void;
+
         release(): number;
+
         removeContextListener(user: IContextConsumer): void;
+
         /**
          *
          */
         synchronize(user: IContextConsumer): void;
-        setSize(width: number, height: number): void;
+
+        /**
+         * Defines what part of the canvas will be used in rendering the drawing buffer.
+         * @param x
+         * @param y
+         * @param width
+         * @param height
+         */
+        viewport(x: number, y: number, width: number, height: number): void;
+
         start(canvas: HTMLCanvasElement, canvasId: number): void;
+
         stop(): void;
     }
 
@@ -2870,54 +2964,49 @@ declare module EIGHT {
     }
 
     class AxialGeometry extends Geometry {
-        axis: VectorE3;
+        axis: CartesianE3;
         sliceAngle: number;
         sliceStart: VectorE3;
-        constructor();
+        constructor(axis: VectorE3);
     }
 
     class AxialSimplexGeometry extends SimplexGeometry {
         axis: R3;
-        constructor(axis: VectorE3, type: string)
+        constructor(axis: VectorE3)
     }
 
     class SliceSimplexGeometry extends AxialSimplexGeometry {
-        constructor(axis: VectorE3, type: string)
+        constructor(axis: VectorE3)
     }
 
     class ArrowGeometry extends AxialGeometry implements IGeometry<ArrowGeometry> {
         /**
          *
          */
-        public heightCone: number;
+        heightCone: number;
         /**
          *
          */
-        public radiusCone: number;
+        radiusCone: number;
         /**
          *
          */
-        public radiusShaft: number;
+        radiusShaft: number;
         /**
          *
          */
-        public thetaSegments: number;
+        thetaSegments: number;
         /**
          *
          */
-        constructor();
+        constructor(axis: VectorE3, sliceStart?: VectorE3);
         setPosition(position: VectorE3): ArrowGeometry;
         toPrimitives(): DrawPrimitive[];
     }
 
-    class ArrowSimplexGeometry extends SimplexGeometry {
-        vector: R3;
-        constructor(type?: string)
-    }
-
     class VortexSimplexGeometry extends SimplexGeometry {
         generator: SpinG3;
-        constructor(type?: string)
+        constructor()
     }
     /**
      *
@@ -2951,16 +3040,16 @@ declare module EIGHT {
         b: R3;
         c: R3;
         k: number;
-        constructor(type?: string);
+        constructor();
     }
 
     /**
      *
      */
     class ConeGeometry extends AxialGeometry implements IGeometry<ConeGeometry> {
-        public radius: number;
-        public height: number;
-        constructor();
+        radius: number;
+        height: number;
+        constructor(axis: VectorE3);
         setPosition(position: VectorE3): ConeGeometry;
         toPrimitives(): DrawPrimitive[];
     }
@@ -2969,13 +3058,13 @@ declare module EIGHT {
      *
      */
     class ConeSimplexGeometry extends SliceSimplexGeometry {
-        public radiusTop: number;
-        public radius: number;
-        public height: number;
-        public openTop: boolean;
-        public openBottom: boolean;
-        public thetaStart: number;
-        public thetaLength: number;
+        radiusTop: number;
+        radius: number;
+        height: number;
+        openTop: boolean;
+        openBottom: boolean;
+        thetaStart: number;
+        thetaLength: number;
         constructor(
             radius: number,
             height: number,
@@ -3034,9 +3123,9 @@ declare module EIGHT {
     }
 
     class CylinderGeometry extends AxialGeometry implements IGeometry<CylinderGeometry> {
-        public radius: number;
-        public height: number;
-        constructor();
+        radius: number;
+        height: number;
+        constructor(axis: VectorE3);
         setPosition(position: VectorE3): CylinderGeometry
         toPrimitives(): DrawPrimitive[];
     }
@@ -3136,9 +3225,9 @@ declare module EIGHT {
         uniformVectorE2(name: string, vector: VectorE2, canvasId: number): void;
         uniformVectorE3(name: string, vector: VectorE3, canvasId: number): void;
         uniformVectorE4(name: string, vector: VectorE4, canvasId: number): void;
-        vector2(name: string, data: number[], canvasId: number): void;
-        vector3(name: string, data: number[], canvasId: number): void;
-        vector4(name: string, data: number[], canvasId: number): void;
+        vector2(name: string, coords: number[], canvasId: number): void;
+        vector3(name: string, coords: number[], canvasId: number): void;
+        vector4(name: string, coords: number[], canvasId: number): void;
     }
 
     /**
@@ -3222,9 +3311,9 @@ declare module EIGHT {
 
     class SmartMaterialBuilder {
         constructor(elements?: DrawPrimitive);
-        public attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
-        public uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
-        public build(contexts: IContextMonitor[]): Material;
+        attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
+        uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
+        build(contexts: IContextMonitor[]): Material;
     }
 
     class AbstractFacet extends Shareable implements IFacet {
@@ -3234,30 +3323,56 @@ declare module EIGHT {
     }
 
     class AmbientLight extends AbstractFacet {
-        public color: Color;
-        constructor();
+        color: Color;
+        constructor(color: ColorRGB);
         destructor(): void;
     }
 
     /**
      *
      */
-    class ColorFacet extends AbstractFacet implements IUnknownExt<ColorFacet> {
-        red: number;
-        green: number;
-        blue: number;
-        constructor(name?: string)
+    class ColorFacet extends AbstractFacet implements ColorRGBA, IUnknownExt<ColorFacet> {
+        r: number;
+        g: number;
+        b: number;
+        α: number
+        constructor(name?: string);
         incRef(): ColorFacet;
         decRef(): ColorFacet;
-        scale(s: number): ColorFacet;
-        setColor(color: ColorRGB): ColorFacet;
+        scaleRGB(α: number): ColorFacet;
+        scaleRGBA(α: number): ColorFacet;
+        setColorRGB(color: ColorRGB): ColorFacet;
+        setColorRGBA(color: ColorRGBA): ColorFacet;
         setRGB(red: number, green: number, blue: number): ColorFacet;
+        setRGBA(red: number, green: number, blue: number, alpha: number): ColorFacet;
     }
 
+    /**
+     * <code>DirectionalLight</code> provides two uniform values.
+     * Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
+     * Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR
+     */
     class DirectionalLight extends AbstractFacet {
-        public direction: R3;
-        public color: Color;
-        constructor();
+        /**
+         * The <em>direction</em> (unit vector) in which the light is travelling.
+         */
+        direction: R3;
+        /**
+         * The <em>color</em> of the light.
+         */
+        color: Color;
+        /**
+         * Constructs a <code>DirectionalLight</code>.
+         * @param direction The initial direction.
+         * @param color The initial color. Defaults to white.
+         */
+        constructor(direction: VectorE3, color?: ColorRGB);
+        /**
+         * Sets the <code>direction</code> property by copying a vector.
+         * The direction is normalized to be a unit vector.
+         * @param direction
+         */
+        setDirection(direction: VectorE3): DirectionalLight;
     }
 
 
@@ -3283,12 +3398,77 @@ declare module EIGHT {
     }
 
     /**
+     * The enumerated blending factors for use with <code>WebGLBlendFunc</code>.
+     * Assuming destination with RGBA values of (R<sub>d</sub>, G<sub>d</sub>, B<sub>d</sub>, A<sub>d</sub>),
+     * and source fragment with values (R<sub>s</sub>, G<sub>s</sub>, B<sub>s</sub>, A<sub>s</sub>),
+     * <ul>
+     * <li>R<sub>result</sub> = R<sub>s</sub> * S<sub>r</sub> + R<sub>d</sub> * D<sub>r</sub></li>
+     * </ul>
+     */
+    enum BlendFactor {
+        /**
+         *
+         */
+        DST_ALPHA,
+
+        /**
+         *
+         */
+        DST_COLOR,
+
+        /**
+         *
+         */
+        ONE,
+
+        /**
+         *
+         */
+        ONE_MINUS_DST_ALPHA,
+
+        /**
+         *
+         */
+        ONE_MINUS_DST_COLOR,
+
+        /**
+         *
+         */
+        ONE_MINUS_SRC_ALPHA,
+
+        /**
+         *
+         */
+        ONE_MINUS_SRC_COLOR,
+
+        /**
+         *
+         */
+        SRC_ALPHA,
+
+        /**
+         *
+         */
+        SRC_ALPHA_SATURATE,
+
+        /**
+         *
+         */
+        SRC_COLOR,
+
+        /**
+         *
+         */
+        ZERO
+    }
+
+    /**
      * `blendFunc(sfactor: number, dfactor: number): void`
      */
     class WebGLBlendFunc extends Shareable implements IContextCommand {
-        sfactor: string;
-        dfactor: string;
-        constructor(sfactor?: string, dfactor?: string);
+        sfactor: BlendFactor;
+        dfactor: BlendFactor;
+        constructor(sfactor: BlendFactor, dfactor: BlendFactor);
         /**
          * canvasId
          */
@@ -3326,15 +3506,44 @@ declare module EIGHT {
         contextLost(canvasId: number): void;
     }
 
+    /**
+     * A capability that may be enabled or disabled for a <code>WebGLRenderingContext</code>.
+     */
+    enum Capability {
+        /**
+         * Blend computed fragment color values with color buffer values.
+         */
+        BLEND,
+
+        /**
+         * Let polygons be culled.
+         */
+        CULL_FACE,
+
+        /**
+         * Enable updates of the depth buffer.
+         */
+        DEPTH_TEST,
+
+        /**
+         * Add an offset to the depth values of a polygon's fragments.
+         */
+        POLYGON_OFFSET_FILL,
+
+        /**
+         * Abandon fragments outside a scissor rectangle.
+         */
+        SCISSOR_TEST
+    }
 
     /**
      * `disable(capability: number): void`
      */
     class WebGLDisable extends Shareable implements IContextCommand {
         /**
-         * capability e.g. 'DEPTH_TEST', 'BLEND'
+         *
          */
-        constructor(capability: string);
+        constructor(capability: Capability);
         /**
          *
          */
@@ -3354,9 +3563,9 @@ declare module EIGHT {
      */
     class WebGLEnable extends Shareable implements IContextCommand {
         /**
-         * capability e.g. 'DEPTH_TEST', 'BLEND'
+         *
          */
-        constructor(capability: string);
+        constructor(capability: Capability);
         /**
          *
          */
@@ -3460,9 +3669,9 @@ declare module EIGHT {
     }
 
     class WaitAnimation extends Shareable implements IAnimation {
-        public start: number;
-        public duration: number;
-        public fraction: number;
+        start: number;
+        duration: number;
+        fraction: number;
         constructor(duration: number);
         apply(target: IAnimationTarget, propName: string, now: number, offset: number): void;
         skip(): void;
@@ -3551,7 +3760,28 @@ declare module EIGHT {
     ///////////////////////////////////////////////////////////////////////////////
     function cos<T>(x: T): T;
     function cosh<T>(x: T): T;
+
+    /**
+     * <p>
+     * Returns e (the base of natural logarithms) raised to a power.
+     * </p>
+     * <p>
+     * The <em>exponential function</em> of a multivector A is denoted by exp A or e<sup>A</sup>
+     * and defined by
+     * </p>
+     * <p>
+     * exp A = e<sup>A</sup> = Σ<sub>k=0</sub> A<sup>k</sup> / k!
+     * </p>
+     * <p>
+     * = 1 + A / 1! + A<sup>2</sup> / 2! + ...
+     * </p>
+     */
     function exp<T>(x: T): T;
+
+    /**
+     * Returns the natural logarithm (base e) of a number.
+     */
+    function log<T>(x: T): T;
     function norm<T>(x: T): T;
     function quad<T>(x: T): T;
     function sin<T>(x: T): T;

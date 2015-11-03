@@ -29,11 +29,11 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
              * @type Number
              */
             get: function () {
-                return this.data[0];
+                return this.coords[0];
             },
             set: function (value) {
                 this.modified = this.modified || this.x !== value;
-                this.data[0] = value;
+                this.coords[0] = value;
             },
             enumerable: true,
             configurable: true
@@ -48,11 +48,11 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
              * @type Number
              */
             get: function () {
-                return this.data[1];
+                return this.coords[1];
             },
             set: function (value) {
                 this.modified = this.modified || this.y !== value;
-                this.data[1] = value;
+                this.coords[1] = value;
             },
             enumerable: true,
             configurable: true
@@ -67,11 +67,11 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
              * @type Number
              */
             get: function () {
-                return this.data[2];
+                return this.coords[2];
             },
             set: function (value) {
                 this.modified = this.modified || this.z !== value;
-                this.data[2] = value;
+                this.coords[2] = value;
             },
             enumerable: true,
             configurable: true
@@ -86,11 +86,11 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
              * @type Number
              */
             get: function () {
-                return this.data[3];
+                return this.coords[3];
             },
             set: function (value) {
                 this.modified = this.modified || this.w !== value;
-                this.data[3] = value;
+                this.coords[3] = value;
             },
             enumerable: true,
             configurable: true

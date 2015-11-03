@@ -16,8 +16,8 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
          * @class Matrix2
          * @constructor
          */
-        function Matrix2(data) {
-            _super.call(this, data, 2);
+        function Matrix2(elements) {
+            _super.call(this, elements, 2);
         }
         /**
          * <p>

@@ -10,8 +10,10 @@ import Spinor3Animation = require('davinci-eight/slideshow/animations/Spinor3Ani
 import Frustum = require('davinci-eight/cameras/Frustum');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
+import BlendFactor = require('davinci-eight/commands/BlendFactor');
 import WebGLBlendFunc = require('davinci-eight/commands/WebGLBlendFunc');
 import WebGLClearColor = require('davinci-eight/commands/WebGLClearColor');
+import Capability = require('davinci-eight/commands/Capability');
 import WebGLDisable = require('davinci-eight/commands/WebGLDisable');
 import WebGLEnable = require('davinci-eight/commands/WebGLEnable');
 import AttribLocation = require('davinci-eight/core/AttribLocation');
@@ -42,7 +44,6 @@ import Scene = require('davinci-eight/scene/Scene');
 import Canvas3D = require('davinci-eight/scene/Canvas3D');
 import AxialSimplexGeometry = require('davinci-eight/geometries/AxialSimplexGeometry');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
-import ArrowSimplexGeometry = require('davinci-eight/geometries/ArrowSimplexGeometry');
 import BarnSimplexGeometry = require('davinci-eight/geometries/BarnSimplexGeometry');
 import ConeGeometry = require('davinci-eight/geometries/ConeGeometry');
 import ConeSimplexGeometry = require('davinci-eight/geometries/ConeSimplexGeometry');
@@ -133,6 +134,8 @@ declare var eight: {
     MeshLambertMaterial: typeof MeshLambertMaterial;
     PointMaterial: typeof PointMaterial;
     SmartMaterialBuilder: typeof SmartMaterialBuilder;
+    BlendFactor: typeof BlendFactor;
+    Capability: typeof Capability;
     WebGLBlendFunc: typeof WebGLBlendFunc;
     WebGLClearColor: typeof WebGLClearColor;
     WebGLDisable: typeof WebGLDisable;
@@ -193,7 +196,6 @@ declare var eight: {
     Color: typeof Color;
     AxialSimplexGeometry: typeof AxialSimplexGeometry;
     ArrowGeometry: typeof ArrowGeometry;
-    ArrowSimplexGeometry: typeof ArrowSimplexGeometry;
     BarnSimplexGeometry: typeof BarnSimplexGeometry;
     ConeGeometry: typeof ConeGeometry;
     ConeSimplexGeometry: typeof ConeSimplexGeometry;
@@ -270,6 +272,7 @@ declare var eight: {
     cos: <T>(x: T) => T;
     cosh: <T>(x: T) => T;
     exp: <T>(x: T) => T;
+    log: <T>(x: T) => T;
     norm: <T>(x: T) => T;
     quad: <T>(x: T) => T;
     sin: <T>(x: T) => T;

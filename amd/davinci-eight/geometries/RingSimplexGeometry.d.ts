@@ -1,5 +1,5 @@
-import VectorE3 = require('../math/VectorE3');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class RingSimplexGeometry
  * @extends SliceSimplexGeometry
@@ -33,12 +33,6 @@ declare class RingSimplexGeometry extends SliceSimplexGeometry {
      * @param sliceAngle [number] The <code>sliceAngle</code> property.
      */
     constructor(a?: number, b?: number, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number);
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void;
     /**
      * @method isModified
      * @return {boolean}

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../checks/mustBeString', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3, SimplexGeometry, mustBeInteger, mustBeString, SpinG3, R2, R3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3, SimplexGeometry, mustBeInteger, SpinG3, R2, R3) {
     function perpendicular(to) {
         var random = new R3([Math.random(), Math.random(), Math.random()]);
         random.cross(to).normalize();
@@ -17,11 +17,9 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
         /**
          * @class VortexSimplexGeometry
          * @constructor
-         * @param type [string = 'VortexSimplexGeometry']
          */
-        function VortexSimplexGeometry(type) {
-            if (type === void 0) { type = 'VortexSimplexGeometry'; }
-            _super.call(this, mustBeString('type', type));
+        function VortexSimplexGeometry() {
+            _super.call(this);
             this.radius = 1;
             this.radiusCone = 0.08;
             this.radiusShaft = 0.01;
@@ -38,7 +36,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
         /**
          * @method setModified
          * @param modified {boolean}
-         * @return {ArrowSimplexGeometry}
+         * @return {VortexSimplexGeometry}
          */
         VortexSimplexGeometry.prototype.setModified = function (modified) {
             this.generator.modified = modified;

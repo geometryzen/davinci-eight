@@ -46,17 +46,60 @@ define(["require", "exports"], function (require, exports) {
          */
         Symbolic.ATTRIBUTE_TEXTURE_COORDS = 'aTextureCoords';
         /**
+         * 'uAlpha'
+         * @property UNIFORM_ALPHA
+         * @type {string}
+         * @static
+         */
+        Symbolic.UNIFORM_ALPHA = 'uAlpha';
+        /**
          * 'uAmbientLight'
          * @property UNIFORM_AMBIENT_LIGHT
          * @type {string}
          * @static
          */
         Symbolic.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
+        /**
+         * 'uColor'
+         * @property UNIFORM_COLOR
+         * @type {string}
+         * @static
+         */
         Symbolic.UNIFORM_COLOR = 'uColor';
+        /**
+         * 'uDirectionalLightColor'
+         * @property UNIFORM_DIRECTIONAL_LIGHT_COLOR
+         * @type {string}
+         * @static
+         */
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
+        /**
+         * 'uDirectionalLightDirection'
+         * @property UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
+         * @type {string}
+         * @static
+         */
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
+        /**
+         * 'uPointLightColor'
+         * @property UNIFORM_POINT_LIGHT_COLOR
+         * @type {string}
+         * @static
+         */
         Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
+        /**
+         * 'uPointLightPosition'
+         * @property UNIFORM_POINT_LIGHT_POSITION
+         * @type {string}
+         * @static
+         */
         Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
+        /**
+         * 'uPointSize'
+         * @property UNIFORM_POINT_SIZE
+         * @type {string}
+         * @static
+         */
         Symbolic.UNIFORM_POINT_SIZE = 'uPointSize';
         /**
          * 'uProjection'
@@ -67,9 +110,24 @@ define(["require", "exports"], function (require, exports) {
         Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjection';
         /**
          * 'uModel'
+         * @property UNIFORM_MODEL_MATRIX
+         * @type {string}
+         * @static
          */
         Symbolic.UNIFORM_MODEL_MATRIX = 'uModel';
+        /**
+         * 'uNormal'
+         * @property UNIFORM_NORMAL_MATRIX
+         * @type {string}
+         * @static
+         */
         Symbolic.UNIFORM_NORMAL_MATRIX = 'uNormal';
+        /**
+         * 'uView'
+         * @property UNIFORM_VIEW_MATRIX
+         * @type {string}
+         * @static
+         */
         Symbolic.UNIFORM_VIEW_MATRIX = 'uView';
         /**
          * 'vColor'

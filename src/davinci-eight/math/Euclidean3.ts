@@ -1,4 +1,6 @@
 import addE3 = require('../math/addE3')
+import b2 = require('../geometries/b2')
+import b3 = require('../geometries/b3')
 import Dimensions = require('../math/Dimensions')
 import extG3 = require('../math/extG3')
 import GeometricE3 = require('../math/GeometricE3')
@@ -356,20 +358,6 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         return new Euclidean3(α, x, y, z, xy, yz, zx, β, uom)
     }
 
-    /**
-     * @method fromSpinorE3
-     * @param spinor {SpinorE3}
-     * @return {Euclidean3}
-     */
-    static fromSpinorE3(spinor: SpinorE3): Euclidean3 {
-        if (isDefined(spinor)) {
-            return new Euclidean3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0)
-        }
-        else {
-            return void 0
-        }
-    }
-
     coordinates(): number[] {
         return [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz];
     }
@@ -492,6 +480,13 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     conj(): Euclidean3 {
         // FIXME; What kind of conjugation?
         return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+    }
+
+    cubicBezier(t: number, controlBegin: GeometricE3, controlEnd: GeometricE3, endPoint: GeometricE3) {
+        let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+        let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+        let z = b3(t, this.z, controlBegin.z, controlEnd.z, endPoint.z);
+        return new Euclidean3(0, x, y, z, 0, 0, 0, 0, this.uom);
     }
 
     /**
@@ -809,6 +804,17 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         throw new NotImplementedError('cosh(Euclidean3)');
     }
 
+    distanceTo(point: Euclidean3): number {
+        let dx = this.x - point.x
+        let dy = this.y - point.y
+        let dz = this.z - point.z
+        return sqrt(dx * dx + dy * dy + dz * dz)
+    }
+
+    equals(other: Euclidean3): boolean {
+        throw new Error("TODO: Euclidean3.equals")
+    }
+
     exp(): Euclidean3 {
         Unit.assertDimensionless(this.uom);
         var bivector = this.grade(2);
@@ -855,6 +861,13 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
     }
 
+    quadraticBezier(t: number, controlPoint: GeometricE3, endPoint: GeometricE3) {
+        let x = b2(t, this.x, controlPoint.x, endPoint.x);
+        let y = b2(t, this.y, controlPoint.y, endPoint.y);
+        let z = b2(t, this.z, controlPoint.z, endPoint.z);
+        return new Euclidean3(0, x, y, z, 0, 0, 0, 0, this.uom);
+    }
+
     squaredNorm(): number {
         return squaredNormG3(this)
     }
@@ -891,9 +904,10 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         return new Euclidean3(sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
     }
 
-    toStringCustom(
-        coordToString: (x: number) => string,
-        labels: string[]): string {
+    /**
+     * Intentionally undocumented.
+     */
+    toStringCustom(coordToString: (x: number) => string, labels: string[]): string {
         var quantityString: string = stringFromCoordinates(this.coordinates(), coordToString, labels);
         if (this.uom) {
             var unitString = this.uom.toString().trim();
@@ -915,7 +929,6 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
     }
 
     toFixed(digits?: number): string {
-        assertArgNumber('digits', digits);
         var coordToString = function(coord: number): string { return coord.toFixed(digits) };
         return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
     }
@@ -973,6 +986,35 @@ class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<E
         }
         return that
     }
+
+    /**
+     * @method fromSpinorE3
+     * @param spinor {SpinorE3}
+     * @return {Euclidean3}
+     */
+    static fromSpinorE3(spinor: SpinorE3): Euclidean3 {
+        if (isDefined(spinor)) {
+            return new Euclidean3(spinor.α, 0, 0, 0, spinor.xy, spinor.yz, spinor.zx, 0, void 0)
+        }
+        else {
+            return void 0
+        }
+    }
+
+    /**
+     * @method fromVectorE3
+     * @param vector {VectorE3}
+     * @return {Euclidean3}
+     */
+    static fromVectorE3(vector: VectorE3): Euclidean3 {
+        if (isDefined(vector)) {
+            return new Euclidean3(0, vector.x, vector.y, vector.z, 0, 0, 0, 0, void 0)
+        }
+        else {
+            return void 0
+        }
+    }
+
 }
 
 export = Euclidean3;

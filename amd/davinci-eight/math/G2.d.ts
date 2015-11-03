@@ -116,6 +116,8 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     conj(): G2;
+    distanceTo(point: GeometricE2): number;
+    equals(point: GeometricE2): boolean;
     /**
      * <p>
      * <code>this ⟼ this << m</code>
@@ -195,6 +197,15 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     copyVector(vector: VectorE2): G2;
+    /**
+     * @method cubicBezier
+     * @param t {number}
+     * @param controlBegin {GeometricE2}
+     * @param controlEnd {GeometricE2}
+     * @param endPoint {GeometricE2}
+     * @return {G2}
+     */
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2): G2;
     /**
      * <p>
      * <code>this ⟼ this / m</code>
@@ -362,6 +373,14 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     quad(): G2;
+    /**
+     * @method quadraticBezier
+     * @param t {number}
+     * @param controlPoint {GeometricE2}
+     * @param endPoint {GeometricE2}
+     * @return {G2}
+     */
+    quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): G2;
     /**
      * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
      * @method squaredNorm
@@ -658,6 +677,10 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     __neg__(): G2;
+    /**
+     * Intentionally undocumented.
+     */
+    static fromCartesian(α: number, x: number, y: number, β: number): G2;
     /**
      * The identity element for addition.
      * @property zero

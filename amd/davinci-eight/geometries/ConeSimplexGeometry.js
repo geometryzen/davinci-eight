@@ -27,7 +27,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SliceSimplexG
             if (openTop === void 0) { openTop = false; }
             if (openBottom === void 0) { openBottom = false; }
             if (thetaStart === void 0) { thetaStart = 0; }
-            _super.call(this, 'ConeSimplexGeometry', axis, void 0, void 0);
+            _super.call(this, axis, void 0, void 0);
             this.radiusTop = radiusTop;
             this.radius = radius;
             this.height = height;

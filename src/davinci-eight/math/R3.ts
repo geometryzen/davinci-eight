@@ -10,6 +10,7 @@ import isNumber = require('../checks/isNumber')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import SpinorE3 = require('../math/SpinorE3')
+import toStringCustom = require('../math/toStringCustom')
 import VectorN = require('../math/VectorN')
 import wedgeXY = require('../math/wedgeXY')
 import wedgeYZ = require('../math/wedgeYZ')
@@ -18,6 +19,18 @@ import wedgeZX = require('../math/wedgeZX')
 let exp = Math.exp
 let log = Math.log
 let sqrt = Math.sqrt
+
+let COORD_X = 0
+let COORD_Y = 1
+let COORD_Z = 2
+let BASIS_LABELS = ['e1', 'e2', 'e3']
+
+/**
+ * Coordinates corresponding to basis labels.
+ */
+function coordinates(m: VectorE3): number[] {
+    return [m.x, m.y, m.z]
+}
 
 /**
  * @class R3
@@ -66,33 +79,33 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
      * @type {number}
      */
     get x(): number {
-        return this.data[0];
+        return this.coords[COORD_X];
     }
     set x(value: number) {
         this.modified = this.modified || this.x !== value;
-        this.data[0] = value;
+        this.coords[COORD_X] = value;
     }
     /**
      * @property y
      * @type Number
      */
     get y(): number {
-        return this.data[1];
+        return this.coords[COORD_Y];
     }
     set y(value: number) {
         this.modified = this.modified || this.y !== value;
-        this.data[1] = value;
+        this.coords[COORD_Y] = value;
     }
     /**
      * @property z
      * @type Number
      */
     get z(): number {
-        return this.data[2];
+        return this.coords[COORD_Z];
     }
     set z(value: number) {
         this.modified = this.modified || this.z !== value;
-        this.data[2] = value;
+        this.coords[COORD_Z] = value;
     }
     /**
      * <p>
@@ -145,7 +158,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
         let y = this.y;
         let z = this.z;
 
-        let e = m.data;
+        let e = m.elements;
 
         this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z;
         this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z;
@@ -169,7 +182,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
 
         var x = this.x, y = this.y, z = this.z;
 
-        var e = m.data;
+        var e = m.elements;
 
         this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
         this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
@@ -238,6 +251,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
     clone() {
         return new R3([this.x, this.y, this.z]);
     }
+
     /**
      * <p>
      * <code>this ⟼ copy(v)</code>
@@ -254,6 +268,22 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
         this.z = v.z;
         return this;
     }
+
+    /**
+     * Copies the coordinate values into this <code>R3</code>.
+     * @method copyCoordinates
+     * @param coordinates {number[]}
+     * @return {R3} <code>this</code>
+     * @chainable
+     */
+    copyCoordinates(coordinates: number[]): R3 {
+        // Copy using the setters so that the modified flag is updated.
+        this.x = coordinates[COORD_X];
+        this.y = coordinates[COORD_Y];
+        this.z = coordinates[COORD_Z];
+        return this
+    }
+
     /**
      * <p>
      * <code>this ⟼ this ✕ v</code>
@@ -371,16 +401,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
         this.z = -this.z
         return this
     }
-    /**
-     * Returns the (Euclidean) inner product of this vector with itself.
-     * @method squaredNorm
-     * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
-     */
-    squaredNorm(): number {
-        // quad = scp(v, rev(v)) = scp(v, v)
-        // TODO: This is correct but could be optimized.
-        return dotVectorE3(this, this)
-    }
+
     /**
      * <p>
      * <code>this ⟼ this + α * (target - this)</code>
@@ -506,6 +527,17 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
     }
 
     /**
+     * Returns the (Euclidean) inner product of this vector with itself.
+     * @method squaredNorm
+     * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
+     */
+    squaredNorm(): number {
+        // quad = scp(v, rev(v)) = scp(v, v)
+        // TODO: This is correct but could be optimized.
+        return dotVectorE3(this, this)
+    }
+
+    /**
      * <p>
      * <code>this ⟼ this - v</code>
      * </p>
@@ -523,6 +555,7 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
         this.z -= v.z * α
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ a - b</code>
@@ -541,18 +574,33 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
         this.z = a.z - b.z
         return this
     }
+
+    /**
+     * @method toExponential
+     * @return {string}
+     */
     toExponential(): string {
-        return "TODO R2.toExponential"
+        var coordToString = function(coord: number): string { return coord.toExponential() };
+        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
     }
+
+    /**
+     * @method toFixed
+     * @param digits [number]
+     * @return {string}
+     */
     toFixed(digits?: number): string {
-        return "TODO R2.toFixed"
+        var coordToString = function(coord: number): string { return coord.toFixed(digits) };
+        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
     }
+
     /**
      * @method toString
-     * @return {string} A non-normative string representation of the target.
+     * @return {string}
      */
     toString(): string {
-        return "R3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})"
+        var coordToString = function(coord: number): string { return coord.toString() };
+        return toStringCustom(coordinates(this), void 0, coordToString, BASIS_LABELS)
     }
 
     /**
@@ -562,10 +610,10 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
      * @chainable
      */
     zero(): R3 {
-        this.x = 0
-        this.y = 0
-        this.z = 0
-        return this
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+        return this;
     }
 
     __add__(rhs: R3): R3 {

@@ -3,8 +3,9 @@ define(["require", "exports"], function (require, exports) {
     var acos = Math.acos;
     var asin = Math.asin;
     var atan = Math.atan;
-    var exp = Math.exp;
     var cos = Math.cos;
+    var exp = Math.exp;
+    var log = Math.log;
     var sin = Math.sin;
     var sqrt = Math.sqrt;
     var tan = Math.tan;
@@ -49,6 +50,7 @@ define(["require", "exports"], function (require, exports) {
         cos: makeUnaryUniversalFunction('cos', cos),
         cosh: makeUnaryUniversalFunction('cosh', cosh),
         exp: makeUnaryUniversalFunction('exp', exp),
+        log: makeUnaryUniversalFunction('log', log),
         norm: makeUnaryUniversalFunction('norm', abs),
         quad: makeUnaryUniversalFunction('quad', quad),
         sin: makeUnaryUniversalFunction('sin', sin),

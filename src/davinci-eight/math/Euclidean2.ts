@@ -1,3 +1,5 @@
+import b2 = require('../geometries/b2')
+import b3 = require('../geometries/b3')
 import extE2 = require('../math/extE2')
 import GeometricElement = require('../math/GeometricElement')
 import GeometricOperators = require('../math/GeometricOperators')
@@ -389,8 +391,26 @@ class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricElement<E
         return this.log().grade(2);
     }
 
+    clone(): Euclidean2 {
+        return this;
+    }
+
     conj(): Euclidean2 {
         throw new Error("TODO: adj")
+    }
+
+    cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
+        let x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x)
+        let y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y)
+        return new Euclidean2(0, x, y, 0, this.uom);
+    }
+
+    distanceTo(point: GeometricE2): number {
+        throw new Error("TODO: Euclidean2.distanceTo")
+    }
+
+    equals(point: GeometricE2): boolean {
+        throw new Error("TODO: Euclidean2.equals")
     }
 
     static sub(a: number[], b: number[]): number[] {
@@ -760,8 +780,21 @@ class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricElement<E
         return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
     }
 
+    /**
+     * Intentionally undocumented.
+     */
+    normalize(): Euclidean2 {
+        return this.unitary()
+    }
+
     quad(): Euclidean2 {
         return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+    }
+
+    quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
+        let x = b2(t, this.x, controlPoint.x, endPoint.x)
+        let y = b2(t, this.y, controlPoint.y, endPoint.y)
+        return new Euclidean2(0, x, y, 0 ,this.uom);
     }
 
     squaredNorm(): number {

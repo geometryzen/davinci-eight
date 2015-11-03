@@ -16,8 +16,8 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
          * @class Matrix3
          * @constructor
          */
-        function Matrix3(data) {
-            _super.call(this, data, 3);
+        function Matrix3(elements) {
+            _super.call(this, elements, 3);
         }
         /**
          * <p>
@@ -45,10 +45,10 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             return 1;
         };
         Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
-            // input: THREE.Matrix4
+            // input: Matrix4
             // ( based on http://code.google.com/p/webgl-mjs/ )
-            var me = matrix.data;
-            var te = this.data;
+            var me = matrix.elements;
+            var te = this.elements;
             te[0] = me[10] * me[5] - me[6] * me[9];
             te[1] = -me[10] * me[1] + me[2] * me[9];
             te[2] = me[6] * me[1] - me[2] * me[5];
@@ -86,11 +86,11 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
          * @return {number[]}
          */
         Matrix3.prototype.row = function (i) {
-            var te = this.data;
+            var te = this.elements;
             return [te[0 + i], te[3 + i], te[6 + i]];
         };
         Matrix3.prototype.scale = function (s) {
-            var m = this.data;
+            var m = this.elements;
             m[0] *= s;
             m[3] *= s;
             m[6] *= s;
@@ -109,7 +109,7 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             this.getInverse(m).transpose();
         };
         Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
-            var te = this.data;
+            var te = this.elements;
             te[0] = n11;
             te[3] = n12;
             te[6] = n13;
@@ -130,7 +130,7 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         };
         Matrix3.prototype.transpose = function () {
             var tmp;
-            var m = this.data;
+            var m = this.elements;
             tmp = m[1];
             m[1] = m[3];
             m[3] = tmp;

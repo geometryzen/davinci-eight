@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE2', '../math/quadVectorE2', '../i18n/readOnly', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, dotVector, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, readOnly, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
+define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2, b3, dotVector, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, quadVector, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -54,61 +54,6 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
             return void 0;
         }
     }
-    function makeConstantE2(label, α, x, y, xy) {
-        mustBeString('label', label);
-        mustBeNumber('α', α);
-        mustBeNumber('x', x);
-        mustBeNumber('y', y);
-        mustBeNumber('xy', xy);
-        var that;
-        that = {
-            get α() {
-                return α;
-            },
-            set α(unused) {
-                throw new Error(readOnly(label + '.α').message);
-            },
-            get x() {
-                return x;
-            },
-            set x(unused) {
-                throw new Error(readOnly(label + '.x').message);
-            },
-            get y() {
-                return y;
-            },
-            set y(unused) {
-                throw new Error(readOnly(label + '.y').message);
-            },
-            get β() {
-                return xy;
-            },
-            set β(unused) {
-                throw new Error(readOnly(label + '.β').message);
-            },
-            get xy() {
-                return xy;
-            },
-            set xy(unused) {
-                throw new Error(readOnly(label + '.xy').message);
-            },
-            magnitude: function () {
-                return sqrt(quadSpinor(that));
-            },
-            squaredNorm: function () {
-                return quadSpinor(that);
-            },
-            toString: function () {
-                return label;
-            }
-        };
-        return that;
-    }
-    var zero = makeConstantE2('0', 0, 0, 0, 0);
-    var one = makeConstantE2('1', 1, 0, 0, 0);
-    var e1 = makeConstantE2('e1', 0, 1, 0, 0);
-    var e2 = makeConstantE2('e2', 0, 0, 1, 0);
-    var I = makeConstantE2('I', 0, 0, 0, 1);
     /**
      * @class G2
      * @extends GeometricE2
@@ -133,11 +78,11 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_W];
+                return this.coords[COORD_W];
             },
             set: function (α) {
-                this.modified = this.modified || this.data[COORD_W] !== α;
-                this.data[COORD_W] = α;
+                this.modified = this.modified || this.coords[COORD_W] !== α;
+                this.coords[COORD_W] = α;
             },
             enumerable: true,
             configurable: true
@@ -149,11 +94,11 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_X];
+                return this.coords[COORD_X];
             },
             set: function (x) {
-                this.modified = this.modified || this.data[COORD_X] !== x;
-                this.data[COORD_X] = x;
+                this.modified = this.modified || this.coords[COORD_X] !== x;
+                this.coords[COORD_X] = x;
             },
             enumerable: true,
             configurable: true
@@ -165,11 +110,11 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_Y];
+                return this.coords[COORD_Y];
             },
             set: function (y) {
-                this.modified = this.modified || this.data[COORD_Y] !== y;
-                this.data[COORD_Y] = y;
+                this.modified = this.modified || this.coords[COORD_Y] !== y;
+                this.coords[COORD_Y] = y;
             },
             enumerable: true,
             configurable: true
@@ -181,22 +126,22 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
              * @type {number}
              */
             get: function () {
-                return this.data[COORD_XY];
+                return this.coords[COORD_XY];
             },
             set: function (β) {
-                this.modified = this.modified || this.data[COORD_XY] !== β;
-                this.data[COORD_XY] = β;
+                this.modified = this.modified || this.coords[COORD_XY] !== β;
+                this.coords[COORD_XY] = β;
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(G2.prototype, "xy", {
             get: function () {
-                return this.data[COORD_XY];
+                return this.coords[COORD_XY];
             },
             set: function (xy) {
-                this.modified = this.modified || this.data[COORD_XY] !== xy;
-                this.data[COORD_XY] = xy;
+                this.modified = this.modified || this.coords[COORD_XY] !== xy;
+                this.coords[COORD_XY] = xy;
             },
             enumerable: true,
             configurable: true
@@ -318,6 +263,12 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
             // Also need to think about various involutions.
             this.β = -this.β;
             return this;
+        };
+        G2.prototype.distanceTo = function (point) {
+            throw new Error("TODO: G2.distanceTo");
+        };
+        G2.prototype.equals = function (point) {
+            throw new Error("TODO: G2.equals");
         };
         /**
          * <p>
@@ -451,6 +402,25 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
             this.x = vector.x;
             this.y = vector.y;
             this.β = 0;
+            return this;
+        };
+        /**
+         * @method cubicBezier
+         * @param t {number}
+         * @param controlBegin {GeometricE2}
+         * @param controlEnd {GeometricE2}
+         * @param endPoint {GeometricE2}
+         * @return {G2}
+         */
+        G2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
+            var α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
+            var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            var β = b3(t, this.β, controlBegin.β, controlEnd.β, endPoint.β);
+            this.α = α;
+            this.x = x;
+            this.y = y;
+            this.β = β;
             return this;
         };
         /**
@@ -727,6 +697,24 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
             this.x = 0;
             this.y = 0;
             this.β = 0;
+            return this;
+        };
+        /**
+         * @method quadraticBezier
+         * @param t {number}
+         * @param controlPoint {GeometricE2}
+         * @param endPoint {GeometricE2}
+         * @return {G2}
+         */
+        G2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
+            var α = b2(t, this.α, controlPoint.α, endPoint.α);
+            var x = b2(t, this.x, controlPoint.x, endPoint.x);
+            var y = b2(t, this.y, controlPoint.y, endPoint.y);
+            var β = b2(t, this.β, controlPoint.β, endPoint.β);
+            this.α = α;
+            this.x = x;
+            this.y = y;
+            this.β = β;
             return this;
         };
         /**
@@ -1406,71 +1394,17 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
         G2.prototype.__neg__ = function () {
             return G2.copy(this).neg();
         };
-        Object.defineProperty(G2, "zero", {
-            /**
-             * The identity element for addition.
-             * @property zero
-             * @type {G2}
-             * @readOnly
-             * @static
-             */
-            get: function () { return G2.copy(zero); },
-            enumerable: true,
-            configurable: true
-        });
-        ;
-        Object.defineProperty(G2, "one", {
-            /**
-             * The identity element for multiplication.
-             * @property one
-             * @type {G2}
-             * @readOnly
-             * @static
-             */
-            get: function () { return G2.copy(one); },
-            enumerable: true,
-            configurable: true
-        });
-        ;
-        Object.defineProperty(G2, "e1", {
-            /**
-             * Basis vector corresponding to the <code>x</code> coordinate.
-             * @property e1
-             * @type {G2}
-             * @readOnly
-             * @static
-             */
-            get: function () { return G2.copy(e1); },
-            enumerable: true,
-            configurable: true
-        });
-        ;
-        Object.defineProperty(G2, "e2", {
-            /**
-             * Basis vector corresponding to the <code>y</code> coordinate.
-             * @property e2
-             * @type {G2}
-             * @readOnly
-             * @static
-             */
-            get: function () { return G2.copy(e2); },
-            enumerable: true,
-            configurable: true
-        });
-        ;
-        Object.defineProperty(G2, "I", {
-            /**
-             * Basis vector corresponding to the <code>β</code> coordinate.
-             * @property I
-             * @type {G2}
-             * @readOnly
-             * @static
-             */
-            get: function () { return G2.copy(I); },
-            enumerable: true,
-            configurable: true
-        });
-        ;
+        /**
+         * Intentionally undocumented.
+         */
+        G2.fromCartesian = function (α, x, y, β) {
+            var m = new G2();
+            m.α = α;
+            m.x = x;
+            m.y = y;
+            m.β = β;
+            return m;
+        };
         /**
          * @method copy
          * @param M {GeometricE2}
@@ -1542,6 +1476,46 @@ define(["require", "exports", '../math/dotVectorE2', '../math/extE2', '../checks
         G2.rotorFromDirections = function (a, b) {
             return new G2().rotorFromDirections(a, b);
         };
+        /**
+         * The identity element for addition.
+         * @property zero
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.zero = G2.fromCartesian(0, 0, 0, 0);
+        /**
+         * The identity element for multiplication.
+         * @property one
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.one = G2.fromCartesian(1, 0, 0, 0);
+        /**
+         * Basis vector corresponding to the <code>x</code> coordinate.
+         * @property e1
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.e1 = G2.fromCartesian(0, 1, 0, 0);
+        /**
+         * Basis vector corresponding to the <code>y</code> coordinate.
+         * @property e2
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.e2 = G2.fromCartesian(0, 0, 1, 0);
+        /**
+         * Basis vector corresponding to the <code>β</code> coordinate.
+         * @property I
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.I = G2.fromCartesian(0, 0, 0, 1);
         return G2;
     })(VectorN);
     return G2;

@@ -18,7 +18,7 @@ define(["require", "exports", '../math/G3', '../math/R2', '../math/R3'], functio
         }
         else {
             // console.warn("dataFromVectorN(source: VectorN<number>): number[], source.length => " + source.length)
-            return source.data;
+            return source.coords;
         }
     }
     return dataFromVectorN;

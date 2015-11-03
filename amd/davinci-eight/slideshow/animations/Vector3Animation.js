@@ -29,7 +29,9 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
                 if (this.from === void 0) {
                     var data = target.getProperty(propName);
                     if (data) {
-                        this.from = new R3(data);
+                        // Make sure to copy the coordinates so that we aren't
+                        // holding onto a reference to a mutable number array.
+                        this.from = new R3().copyCoordinates(data);
                     }
                 }
             }
@@ -60,7 +62,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
                     break;
             }
             var lerp = R3.lerp(this.from, this.to, rolloff);
-            target.setProperty(propName, lerp.data);
+            target.setProperty(propName, lerp.coords);
         };
         Vector3Animation.prototype.hurry = function (factor) {
             this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
@@ -76,7 +78,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
         Vector3Animation.prototype.done = function (target, propName) {
             if (this.fraction === 1) {
                 // Set final value.
-                target.setProperty(propName, this.to.data);
+                target.setProperty(propName, this.to.coords);
                 this.callback && this.callback();
                 this.callback = void 0;
                 return true;
@@ -87,7 +89,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
         };
         Vector3Animation.prototype.undo = function (target, propName) {
             if (this.from) {
-                target.setProperty(propName, this.from.data);
+                target.setProperty(propName, this.from.coords);
                 this.from = void 0;
                 this.start = void 0;
                 this.fraction = 0;

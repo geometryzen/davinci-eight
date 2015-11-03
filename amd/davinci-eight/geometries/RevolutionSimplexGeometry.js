@@ -13,9 +13,8 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../math/SpinG3',
          * @class RevolutionSimplexGeometry
          * @constructor
          */
-        function RevolutionSimplexGeometry(type) {
-            if (type === void 0) { type = 'RevolutionSimplexGeometry'; }
-            _super.call(this, type);
+        function RevolutionSimplexGeometry() {
+            _super.call(this);
         }
         /**
          * @method revolve

@@ -1,8 +1,8 @@
-import VectorE3 = require('../math/VectorE3');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
 import R1 = require('../math/R1');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
 import R3 = require('../math/R3');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class SphericalPolarSimplexGeometry
  * @extends SliceSimplexGeometry
@@ -37,12 +37,6 @@ declare class SphericalPolarSimplexGeometry extends SliceSimplexGeometry impleme
      * @param thetaLength [number]
      */
     constructor(radius: number, axis: VectorE3, phiStart: VectorE3, phiLength?: number, thetaStart?: number, thetaLength?: number);
-    /**
-     * @method destructor
-     * @return {void}
-     * @protected
-     */
-    protected destructor(): void;
     /**
      * @property radius
      * @type {number}

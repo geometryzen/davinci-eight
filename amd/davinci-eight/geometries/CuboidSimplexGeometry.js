@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometries/computeFaceNormals', '../feedback/feedback', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/R1', '../math/R3'], function (require, exports, cannotAssignTypeToProperty, computeFaceNormals, feedback, SimplexGeometry, quad, Simplex, Symbolic, R1, R3) {
+define(["require", "exports", '../math/CartesianE3', '../geometries/computeFaceNormals', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/R1', '../math/R3'], function (require, exports, CartesianE3, computeFaceNormals, SimplexGeometry, quad, Simplex, Symbolic, R1, R3) {
     /**
      * @class CuboidSimplexGeometry
      * @extends SimplexGeometry
@@ -19,9 +19,9 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
          * </p>
          * @class CuboidSimplexGeometry
          * @constructor
-         * @param a [VectorE3 = R3.e1]
-         * @param b [VectorE3 = R3.e1]
-         * @param c [VectorE3 = R3.e1]
+         * @param a [VectorE3 = CartesianE3.e1]
+         * @param b [VectorE3 = CartesianE3.e2]
+         * @param c [VectorE3 = CartesianE3.e3]
          * @param k [number = Simplex.TRIANGLE]
          * @param subdivide [number = 0]
          * @param boundary [number = 0]
@@ -32,13 +32,13 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
              var cube = new EIGHT.Drawable([primitive], material);
          */
         function CuboidSimplexGeometry(a, b, c, k, subdivide, boundary) {
-            if (a === void 0) { a = R3.e1; }
-            if (b === void 0) { b = R3.e2; }
-            if (c === void 0) { c = R3.e3; }
+            if (a === void 0) { a = CartesianE3.e1; }
+            if (b === void 0) { b = CartesianE3.e2; }
+            if (c === void 0) { c = CartesianE3.e3; }
             if (k === void 0) { k = Simplex.TRIANGLE; }
             if (subdivide === void 0) { subdivide = 0; }
             if (boundary === void 0) { boundary = 0; }
-            _super.call(this, 'CuboidSimplexGeometry');
+            _super.call(this);
             /**
              * Used to mark the parameters of this object dirty when they are possibly shared.
              * @property _isModified
@@ -46,17 +46,14 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
              * @private
              */
             this._isModified = true;
-            this.a = R3.copy(a);
-            this.b = R3.copy(b);
-            this.c = R3.copy(c);
+            this._a = CartesianE3.fromVectorE3(a);
+            this._b = CartesianE3.fromVectorE3(b);
+            this._c = CartesianE3.fromVectorE3(c);
             this.k = k;
             this.subdivide(subdivide);
             this.boundary(boundary);
             this.regenerate();
         }
-        CuboidSimplexGeometry.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
         Object.defineProperty(CuboidSimplexGeometry.prototype, "a", {
             /**
              * <p>
@@ -65,19 +62,14 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
              * Assignment is by reference making it possible for parameters to be shared references.
              * </p>
              * @property a
-             * @type {R3}
+             * @type {CartesianE3}
              */
             get: function () {
                 return this._a;
             },
             set: function (a) {
-                if (a instanceof R3) {
-                    this._a = a;
-                    this._isModified = true;
-                }
-                else {
-                    feedback.warn(cannotAssignTypeToProperty(typeof a, 'a'));
-                }
+                this._a = a;
+                this._isModified = true;
             },
             enumerable: true,
             configurable: true
@@ -90,19 +82,14 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
              * Assignment is by reference making it possible for parameters to be shared references.
              * </p>
              * @property b
-             * @type {R3}
+             * @type {CartesianE3}
              */
             get: function () {
                 return this._b;
             },
             set: function (b) {
-                if (b instanceof R3) {
-                    this._b = b;
-                    this._isModified = true;
-                }
-                else {
-                    feedback.warn(cannotAssignTypeToProperty(typeof b, 'b'));
-                }
+                this._b = b;
+                this._isModified = true;
             },
             enumerable: true,
             configurable: true
@@ -115,25 +102,20 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
              * Assignment is by reference making it possible for parameters to be shared references.
              * </p>
              * @property c
-             * @type {R3}
+             * @type {CartesianE3}
              */
             get: function () {
                 return this._c;
             },
             set: function (c) {
-                if (c instanceof R3) {
-                    this._c = c;
-                    this._isModified = true;
-                }
-                else {
-                    feedback.warn(cannotAssignTypeToProperty(typeof c, 'c'));
-                }
+                this._c = c;
+                this._isModified = true;
             },
             enumerable: true,
             configurable: true
         });
         CuboidSimplexGeometry.prototype.isModified = function () {
-            return this._isModified || this._a.modified || this._b.modified || this._c.modified || _super.prototype.isModified.call(this);
+            return this._isModified || _super.prototype.isModified.call(this);
         };
         /**
          * @method setModified
@@ -142,9 +124,6 @@ define(["require", "exports", '../i18n/cannotAssignTypeToProperty', '../geometri
          */
         CuboidSimplexGeometry.prototype.setModified = function (modified) {
             this._isModified = modified;
-            this._a.modified = modified;
-            this._b.modified = modified;
-            this._c.modified = modified;
             _super.prototype.setModified.call(this, modified);
             return this;
         };

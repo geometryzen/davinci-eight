@@ -140,6 +140,14 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      */
     copy(v: VectorE3): R3;
     /**
+     * Copies the coordinate values into this <code>R3</code>.
+     * @method copyCoordinates
+     * @param coordinates {number[]}
+     * @return {R3} <code>this</code>
+     * @chainable
+     */
+    copyCoordinates(coordinates: number[]): R3;
+    /**
      * <p>
      * <code>this ⟼ this ✕ v</code>
      * </p>
@@ -200,12 +208,6 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      * @chainable
      */
     neg(): R3;
-    /**
-     * Returns the (Euclidean) inner product of this vector with itself.
-     * @method squaredNorm
-     * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
-     */
-    squaredNorm(): number;
     /**
      * <p>
      * <code>this ⟼ this + α * (target - this)</code>
@@ -285,6 +287,12 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
     setZ(z: number): R3;
     slerp(target: VectorE3, α: number): R3;
     /**
+     * Returns the (Euclidean) inner product of this vector with itself.
+     * @method squaredNorm
+     * @return {number} <code>this ⋅ this</code> or <code>norm(this) * norm(this)</code>
+     */
+    squaredNorm(): number;
+    /**
      * <p>
      * <code>this ⟼ this - v</code>
      * </p>
@@ -306,11 +314,20 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      * @chainable
      */
     sub2(a: VectorE3, b: VectorE3): R3;
+    /**
+     * @method toExponential
+     * @return {string}
+     */
     toExponential(): string;
+    /**
+     * @method toFixed
+     * @param digits [number]
+     * @return {string}
+     */
     toFixed(digits?: number): string;
     /**
      * @method toString
-     * @return {string} A non-normative string representation of the target.
+     * @return {string}
      */
     toString(): string;
     /**
