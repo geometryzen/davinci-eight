@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, isDefined, isNumber, mustBeNumber, mustBeObject, toStringCustom, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/Matrix3', '../math/Matrix4', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, Matrix3, Matrix4, isDefined, isNumber, mustBeNumber, mustBeObject, toStringCustom, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     var exp = Math.exp;
     var log = Math.log;
     var sqrt = Math.sqrt;
@@ -128,15 +128,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
         };
         /**
          * <p>
-         * <code>this ⟼ m * this</code>
+         * <code>this ⟼ m * this<sup>T</sup></code>
          * </p>
-         * @method applyMatrix3
+         * @method applyMatrix
          * @param m {Matrix3}
          * @return {R3} <code>this</code>
          * @chainable
-         * @deprecated
          */
-        R3.prototype.applyMatrix3 = function (m) {
+        R3.prototype.applyMatrix = function (m) {
             var x = this.x;
             var y = this.y;
             var z = this.z;
@@ -152,18 +151,17 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
          * Strictly speaking, this method does not make much sense because the dimensions
          * of the square matrix and column vector don't match.
          * TODO: Used by TubeSimplexGeometry.
-         * @method applyMatrix
+         * @method applyMatrix4
          * @param m The 4x4 matrix that pre-multiplies this column vector.
          * @return {R3} <code>this</code>
          * @chainable
-         * @deprecated
          */
         R3.prototype.applyMatrix4 = function (m) {
             var x = this.x, y = this.y, z = this.z;
             var e = m.elements;
-            this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
-            this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
-            this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
+            this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC];
+            this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD];
+            this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE];
             return this;
         };
         /**
@@ -446,39 +444,13 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
             return this;
         };
         /**
-         * @method setX
-         * @param x {number}
-         * @return {R3} <code>this</code>
-         * @chainable
-         * @deprecated
-         */
-        R3.prototype.setX = function (x) {
-            mustBeNumber('x', x);
-            this.x = x;
-            return this;
-        };
-        /**
          * @method setY
-         * @param y {number}
-         * @return {R3} <code>this</code>
-         * @chainable
+         * @param {number}
          * @deprecated
          */
+        // FIXME: This is used by Cone and Cylinder Simplex Geometry
         R3.prototype.setY = function (y) {
-            mustBeNumber('y', y);
             this.y = y;
-            return this;
-        };
-        /**
-         * @method setZ
-         * @param z {number}
-         * @return {R3} <code>this</code>
-         * @chainable
-         * @deprecated
-         */
-        R3.prototype.setZ = function (z) {
-            mustBeNumber('z', z);
-            this.z = z;
             return this;
         };
         R3.prototype.slerp = function (target, α) {
@@ -586,9 +558,37 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../c
                 return void 0;
             }
         };
+        /**
+         * @method mul
+         * @param rhs {number}
+         * @return {R3}
+         * @private
+         */
         R3.prototype.__mul__ = function (rhs) {
             if (isNumber(rhs)) {
                 return this.clone().scale(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method rmul
+         * @param lhs {number}
+         * @return {R3}
+         * @private
+         */
+        R3.prototype.__rmul__ = function (lhs) {
+            if (typeof lhs === 'number') {
+                return this.clone().scale(lhs);
+            }
+            else if (lhs instanceof Matrix3) {
+                var m33 = lhs;
+                return this.clone().applyMatrix(m33);
+            }
+            else if (lhs instanceof Matrix4) {
+                var m44 = lhs;
+                return this.clone().applyMatrix4(m44);
             }
             else {
                 return void 0;

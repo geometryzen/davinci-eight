@@ -25,7 +25,7 @@ interface MutableLinearElement<I, M, S, V> extends LinearElement<I, M, S, V> {
      */
     sub2(a: I, b: I): M;
     /**
-     * Sets this element to the identity element for addition.
+     * Sets this element to the identity element for addition, <b>0</b>.
      */
     zero(): M;
 }

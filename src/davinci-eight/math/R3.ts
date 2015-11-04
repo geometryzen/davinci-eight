@@ -1,3 +1,4 @@
+import ColumnVector = require('../math/ColumnVector');
 import VectorE3 = require('../math/VectorE3');
 import dotVectorE3 = require('../math/dotVectorE3')
 import Euclidean3 = require('../math/Euclidean3')
@@ -36,7 +37,7 @@ function coordinates(m: VectorE3): number[] {
  * @class R3
  * @extends VectorN<number>
  */
-class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
+class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
     /**
      * @property e1
      * @type {Euclidean3}
@@ -143,17 +144,17 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
         this.z = a.z + b.z
         return this
     }
+
     /**
      * <p>
-     * <code>this ⟼ m * this</code>
+     * <code>this ⟼ m * this<sup>T</sup></code>
      * </p>
-     * @method applyMatrix3
+     * @method applyMatrix
      * @param m {Matrix3}
      * @return {R3} <code>this</code>
      * @chainable
-     * @deprecated
      */
-    applyMatrix3(m: Matrix3): R3 {
+    applyMatrix(m: Matrix3): R3 {
         let x = this.x;
         let y = this.y;
         let z = this.z;
@@ -166,17 +167,17 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
 
         return this;
     }
+
     /**
      * Pre-multiplies the column vector corresponding to this vector by the matrix.
      * The result is applied to this vector.
      * Strictly speaking, this method does not make much sense because the dimensions
      * of the square matrix and column vector don't match.
      * TODO: Used by TubeSimplexGeometry.
-     * @method applyMatrix
+     * @method applyMatrix4
      * @param m The 4x4 matrix that pre-multiplies this column vector.
      * @return {R3} <code>this</code>
      * @chainable
-     * @deprecated
      */
     applyMatrix4(m: Matrix4): R3 {
 
@@ -184,9 +185,9 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
 
         var e = m.elements;
 
-        this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
-        this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
-        this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
+        this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC];
+        this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD];
+        this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE];
 
         return this;
     }
@@ -483,40 +484,13 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
     }
 
     /**
-     * @method setX
-     * @param x {number}
-     * @return {R3} <code>this</code>
-     * @chainable
-     * @deprecated
-     */
-    setX(x: number): R3 {
-        mustBeNumber('x', x)
-        this.x = x;
-        return this;
-    }
-
-    /**
      * @method setY
-     * @param y {number}
-     * @return {R3} <code>this</code>
-     * @chainable
+     * @param {number}
      * @deprecated
      */
+    // FIXME: This is used by Cone and Cylinder Simplex Geometry
     setY(y: number): R3 {
-        mustBeNumber('y', y)
         this.y = y;
-        return this;
-    }
-    /**
-     * @method setZ
-     * @param z {number}
-     * @return {R3} <code>this</code>
-     * @chainable
-     * @deprecated
-     */
-    setZ(z: number): R3 {
-        mustBeNumber('z', z)
-        this.z = z;
         return this;
     }
 
@@ -632,9 +606,39 @@ class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<Vecto
             return void 0;
         }
     }
+
+    /**
+     * @method mul
+     * @param rhs {number}
+     * @return {R3}
+     * @private
+     */
     __mul__(rhs: number): R3 {
         if (isNumber(rhs)) {
             return this.clone().scale(rhs);
+        }
+        else {
+            return void 0;
+        }
+    }
+
+    /**
+     * @method rmul
+     * @param lhs {number}
+     * @return {R3}
+     * @private
+     */
+    __rmul__(lhs: any): R3 {
+        if (typeof lhs === 'number') {
+            return this.clone().scale(lhs);
+        }
+        else if (lhs instanceof Matrix3) {
+            let m33: Matrix3 = lhs;
+            return this.clone().applyMatrix(m33);
+        }
+        else if (lhs instanceof Matrix4) {
+            let m44: Matrix4 = lhs;
+            return this.clone().applyMatrix4(m44);
         }
         else {
             return void 0;

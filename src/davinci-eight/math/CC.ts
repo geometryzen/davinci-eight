@@ -107,7 +107,12 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
         throw new Error(readOnly('xy').message)
     }
 
-    coordinates(): number[] {
+    /**
+     * @property coords
+     * @type {number[]}
+     * @readOnly
+     */
+    get coords(): number[] {
         return [this.x, this.y]
     }
 
@@ -488,6 +493,14 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
         return new CC(x / divisor, y / divisor);
     }
 
+    /**
+     * @method tan
+     * @return {CC}
+     */
+    tan(): CC {
+      return this.sin().div(this.cos())
+    }
+
     toStringCustom(coordToString: (x: number) => string): string {
         var quantityString = "CC(" + coordToString(this.x) + ", " + coordToString(this.y) + ")";
         if (this.uom) {
@@ -542,6 +555,15 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
      */
     __rrshift__(other: any): CC {
         throw new Error("")
+    }
+
+    /**
+     * @method __bang__
+     * @return {CC}
+     * @private
+     */
+    __bang__(): CC {
+        return this.inv()
     }
 
     /**

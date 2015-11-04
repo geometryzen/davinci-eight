@@ -109,6 +109,20 @@ define(["require", "exports"], function (require, exports) {
          */
         Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjection';
         /**
+         * 'uReflectionOne'
+         * @property UNIFORM_REFLECTION_ONE_MATRIX
+         * @type {string}
+         * @static
+         */
+        Symbolic.UNIFORM_REFLECTION_ONE_MATRIX = 'uReflectionOne';
+        /**
+         * 'uReflectionTwo'
+         * @property UNIFORM_REFLECTION_TWO_MATRIX
+         * @type {string}
+         * @static
+         */
+        Symbolic.UNIFORM_REFLECTION_TWO_MATRIX = 'uReflectionTwo';
+        /**
          * 'uModel'
          * @property UNIFORM_MODEL_MATRIX
          * @type {string}

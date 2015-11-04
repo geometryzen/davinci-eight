@@ -143,6 +143,7 @@ class CuboidSimplexGeometry extends SimplexGeometry {
         super.setModified(modified)
         return this
     }
+
     /**
      * regenerate the geometry based upon the current parameters.
      * @method regenerate
@@ -151,6 +152,7 @@ class CuboidSimplexGeometry extends SimplexGeometry {
     public regenerate(): void {
         this.setModified(false)
 
+        // Define the anchor points relative to the origin.
         var pos: R3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) { return void 0 })
         pos[0] = new R3().sub(this._a).sub(this._b).add(this._c).divByScalar(2)
         pos[1] = new R3().add(this._a).sub(this._b).add(this._c).divByScalar(2)
@@ -160,6 +162,12 @@ class CuboidSimplexGeometry extends SimplexGeometry {
         pos[5] = new R3().copy(pos[2]).sub(this._c)
         pos[6] = new R3().copy(pos[1]).sub(this._c)
         pos[7] = new R3().copy(pos[0]).sub(this._c)
+
+        // Translate the points according to the position.
+        let position = this.position
+        pos.forEach(function(point: R3) {
+            point.add(position)
+        })
 
         function simplex(indices: number[]): Simplex {
             let simplex = new Simplex(indices.length - 1)

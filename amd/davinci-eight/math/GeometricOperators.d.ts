@@ -14,5 +14,13 @@ interface GeometricOperators<T> extends LinearOperators<T>, RingOperators<T> {
     __rlshift__(lhs: any): T;
     __rshift__(rhs: any): T;
     __rrshift__(lhs: any): T;
+    /**
+     * !x = x.inv()
+     */
+    __bang__(): T;
+    /**
+     * Inverse (may not exist).
+     */
+    inv(): T;
 }
 export = GeometricOperators;

@@ -30,7 +30,7 @@ declare class Euclidean1 implements Measure<Euclidean1> {
      * @return {number}
      */
     β: number;
-    coordinates(): number[];
+    coords: number[];
     copy(source: Euclidean1Coords): Euclidean1;
     difference(a: Euclidean1Coords, b: Euclidean1Coords): Euclidean1;
     add(rhs: Euclidean1): Euclidean1;

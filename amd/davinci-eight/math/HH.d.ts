@@ -25,6 +25,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     rco(rhs: HH): HH;
     rco2(a: HH, b: HH): HH;
     conj(): HH;
+    coords: number[];
     copy(quaternion: HH): HH;
     copyScalar(α: number): HH;
     copySpinor(spinor: HH): HH;
@@ -49,6 +50,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     sinh(): HH;
     neg(): HH;
     normalize(): HH;
+    one(): HH;
     quad(): HH;
     squaredNorm(): number;
     reflect(n: VectorE3): HH;
@@ -64,6 +66,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     scp2(a: HH, b: HH): HH;
     sub(q: HH, α?: number): HH;
     sub2(a: HH, b: HH): HH;
+    tan(): HH;
     grade(grade: number): HH;
     toExponential(): string;
     toFixed(digits?: number): string;
@@ -72,12 +75,6 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     toArray(array?: number[], offset?: number): number[];
     ext(rhs: HH): HH;
     ext2(a: HH, b: HH): HH;
-    /**
-     * Sets this quaternion to the identity element for addition, <b>0</b>.
-     * @method zero
-     * @return {HH}
-     * @chainable
-     */
     zero(): HH;
     static slerp(qa: HH, qb: HH, qm: HH, t: number): HH;
 }

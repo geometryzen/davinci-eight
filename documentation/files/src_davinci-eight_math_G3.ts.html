@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.150.0</em>
+            <em>API Docs for: 2.151.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
-                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -192,7 +193,7 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
-                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -251,6 +252,7 @@
     <pre class="code prettyprint linenums">
 import dotVectorCartesianE3 = require(&#x27;../math/dotVectorCartesianE3&#x27;)
 import dotVector = require(&#x27;../math/dotVectorE3&#x27;)
+import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
 import extG3 = require(&#x27;../math/extG3&#x27;)
 import GeometricE3 = require(&#x27;../math/GeometricE3&#x27;)
 import isNumber = require(&#x27;../checks/isNumber&#x27;)
@@ -1081,6 +1083,24 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 
     /**
+     * Sets this multivector to the identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
+     * @method one
+     * @return {G3}
+     * @chainable
+     */
+    one() {
+        this.α = 1
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        this.β = 0
+        return this
+    }
+
+    /**
     * &lt;p&gt;
     * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
     * &lt;/p&gt;
@@ -1115,18 +1135,12 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
      * @chainable
      */
     reflect(n: VectorE3): G3 {
-        // FIXME: This inly reflects the vector components.
+        // TODO: Optimize.
         mustBeObject(&#x27;n&#x27;, n);
-        let x = this.x;
-        let y = this.y;
-        let z = this.z;
-        let nx = n.x;
-        let ny = n.y;
-        let nz = n.z;
-        let dot2 = (x * nx + y * ny + z * nz) * 2;
-        this.x = x - dot2 * nx;
-        this.y = y - dot2 * ny;
-        this.z = z - dot2 * nz;
+        let N = Euclidean3.fromVectorE3(n);
+        let M = Euclidean3.copy(this);
+        let R = N.mul(M).mul(N).scale(-1);
+        this.copy(R);
         return this;
     }
 
@@ -1790,6 +1804,16 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 
     /**
+     * @method __bang__
+     * @return {G3}
+     * @private
+     * @chainable
+     */
+    __bang__(): G3 {
+        return G3.copy(this).inv()
+    }
+
+    /**
      * @method __pos__
      * @return {G3}
      * @private
@@ -1810,7 +1834,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 
     /**
-     * The identity element for addition.
+     * The identity element for addition, &lt;b&gt;0&lt;/b&gt;.
      * @property zero
      * @type {G3}
      * @readOnly
@@ -1819,7 +1843,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     static get zero(): G3 { return G3.copy(zero); };
 
     /**
-     * The identity element for multiplication.
+     * The identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
      * @property one
      * @type {G3}
      * @readOnly

@@ -23,11 +23,11 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
          * <p>
          * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
          * </p>
-         * @method identity
+         * @method one
          * @return {Matrix3}
          * @static
          */
-        Matrix3.identity = function () {
+        Matrix3.one = function () {
             return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
         };
         /**
@@ -68,13 +68,17 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
                 else {
                     console.warn(msg);
                 }
-                this.identity();
+                this.one();
                 return this;
             }
             this.scale(1.0 / det);
             return this;
         };
-        Matrix3.prototype.identity = function () {
+        /**
+         * @method one
+         * @return {Matrix3}
+         */
+        Matrix3.prototype.one = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
         };
         Matrix3.prototype.mul = function (rhs) {

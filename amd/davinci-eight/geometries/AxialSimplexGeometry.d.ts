@@ -40,11 +40,7 @@ declare class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeom
      * @return {AxialSimplexGeometry}
      * @chainable
      */
-    setPosition(position: {
-        x: number;
-        y: number;
-        z: number;
-    }): AxialSimplexGeometry;
+    setPosition(position: VectorE3): AxialSimplexGeometry;
     /**
      * @method enableTextureCoords
      * @param enable {boolean}

@@ -362,6 +362,13 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     normalize(): G2;
     /**
+     * Sets this multivector to the identity element for multiplication, <b>1</b>.
+     * @method one
+     * @return {G2}
+     * @chainable
+     */
+    one(): G2;
+    /**
      * <p>
      * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
      * </p>
@@ -664,6 +671,13 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     __rvbar__(lhs: any): G2;
     /**
+     * @method __bang__
+     * @return {G2}
+     * @private
+     * @chainable
+     */
+    __bang__(): G2;
+    /**
      * @method __pos__
      * @return {G2}
      * @private
@@ -682,7 +696,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     static fromCartesian(α: number, x: number, y: number, β: number): G2;
     /**
-     * The identity element for addition.
+     * The identity element for addition, <b>0</b>.
      * @property zero
      * @type {G2}
      * @readOnly
@@ -690,7 +704,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     static zero: G2;
     /**
-     * The identity element for multiplication.
+     * The identity element for multiplication, <b>1</b>.
      * @property one
      * @type {G2}
      * @readOnly

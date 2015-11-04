@@ -17,7 +17,7 @@ define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../co
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
         var refCount = 1;
         var base = createView(options);
-        var projectionMatrix = Matrix4.identity();
+        var projectionMatrix = Matrix4.one();
         var matrixNeedsUpdate = true;
         var self = {
             addRef: function () {

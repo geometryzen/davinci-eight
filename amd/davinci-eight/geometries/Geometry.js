@@ -50,7 +50,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeBoolean', 
         };
         /**
          * @method setPosition
-         * @param position {{x: number, y: number, z: number}}
+         * @param position {VectorE3}
          * @return Geometry
          * @chainable
          */

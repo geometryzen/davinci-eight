@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.150.0</em>
+            <em>API Docs for: 2.151.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
-                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -192,7 +193,7 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
-                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -253,7 +254,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_R3.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:68</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_R3.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:69</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -291,7 +292,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:68</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:69</code></a>
         </p>
 
 
@@ -360,15 +361,13 @@
                                 <a href="#method_add2">add2</a>
 
                             </li>
-                            <li class="index-item method deprecated">
+                            <li class="index-item method">
                                 <a href="#method_applyMatrix">applyMatrix</a>
 
-                                    <span class="flag deprecated">deprecated</span>
                             </li>
-                            <li class="index-item method deprecated">
-                                <a href="#method_applyMatrix3">applyMatrix3</a>
+                            <li class="index-item method">
+                                <a href="#method_applyMatrix4">applyMatrix4</a>
 
-                                    <span class="flag deprecated">deprecated</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_clone">clone</a>
@@ -429,6 +428,10 @@
                                 <a href="#method_magnitude">magnitude</a>
 
                             </li>
+                            <li class="index-item method private">
+                                <a href="#method_mul">mul</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_neg">neg</a>
 
@@ -450,6 +453,10 @@
                                 <a href="#method_reflect">reflect</a>
 
                             </li>
+                            <li class="index-item method private">
+                                <a href="#method_rmul">rmul</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_rotate">rotate</a>
 
@@ -464,17 +471,7 @@
                                     <span class="flag deprecated">deprecated</span>
                             </li>
                             <li class="index-item method deprecated">
-                                <a href="#method_setX">setX</a>
-
-                                    <span class="flag deprecated">deprecated</span>
-                            </li>
-                            <li class="index-item method deprecated">
                                 <a href="#method_setY">setY</a>
-
-                                    <span class="flag deprecated">deprecated</span>
-                            </li>
-                            <li class="index-item method deprecated">
-                                <a href="#method_setZ">setZ</a>
 
                                     <span class="flag deprecated">deprecated</span>
                             </li>
@@ -577,7 +574,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l110"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:110</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:111</code></a>
         </p>
 
 
@@ -658,7 +655,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:128</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:129</code></a>
         </p>
 
 
@@ -710,7 +707,7 @@
 
 
 </div>
-<div id="method_applyMatrix" class="method item deprecated">
+<div id="method_applyMatrix" class="method item">
     <h3 class="name"><code>applyMatrix</code></h3>
 
         <div class="args">
@@ -725,7 +722,6 @@
             <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
         </span>
 
-        <span class="flag deprecated">deprecated</span>
 
 
 
@@ -736,7 +732,74 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:169</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:148</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ m * this<sup>T</sup></code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">m</code>
+                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>:
+                    <p><code>this</code></p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_applyMatrix4" class="method item">
+    <h3 class="name"><code>applyMatrix4</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>m</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:171</code></a>
         </p>
 
 
@@ -782,74 +845,6 @@ TODO: Used by TubeSimplexGeometry.</p>
 
 
 </div>
-<div id="method_applyMatrix3" class="method item deprecated">
-    <h3 class="name"><code>applyMatrix3</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>m</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
-        </span>
-
-        <span class="flag deprecated">deprecated</span>
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l146"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:146</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-<code>this ⟼ m * this</code>
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_clone" class="method item">
     <h3 class="name"><code>clone</code></h3>
 
@@ -868,7 +863,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l247"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:247</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l248"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:248</code></a>
         </p>
 
 
@@ -917,7 +912,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l644"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:644</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l648"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:648</code></a>
         </p>
 
 
@@ -980,7 +975,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l255"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:255</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l256"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:256</code></a>
         </p>
 
 
@@ -1047,7 +1042,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l272"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:272</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l273"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:273</code></a>
         </p>
 
 
@@ -1113,7 +1108,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l287"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:287</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l288"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:288</code></a>
         </p>
 
 
@@ -1183,7 +1178,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l300"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:300</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l301"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:301</code></a>
         </p>
 
 
@@ -1259,7 +1254,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l324"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:324</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l325"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:325</code></a>
         </p>
 
 
@@ -1322,7 +1317,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l353"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:353</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l354"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:354</code></a>
         </p>
 
 
@@ -1392,7 +1387,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:58</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:59</code></a>
         </p>
 
 
@@ -1464,7 +1459,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l377"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:377</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l378"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:378</code></a>
         </p>
 
 
@@ -1530,7 +1525,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l405"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:405</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l406"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:406</code></a>
         </p>
 
 
@@ -1613,7 +1608,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l654"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:654</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l658"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:658</code></a>
         </p>
 
 
@@ -1704,7 +1699,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l423"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:423</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l424"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:424</code></a>
         </p>
 
 
@@ -1784,7 +1779,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l385"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:385</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l386"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:386</code></a>
         </p>
 
 
@@ -1802,6 +1797,69 @@ TODO: Used by TubeSimplexGeometry.</p>
 
             <div class="returns-description">
                         <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mul" class="method item private">
+    <h3 class="name"><code>mul</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l610"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:610</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>:
             </div>
         </div>
 
@@ -1826,7 +1884,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l393"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:393</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l394"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:394</code></a>
         </p>
 
 
@@ -1869,7 +1927,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l441"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:441</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l442"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:442</code></a>
         </p>
 
 
@@ -1919,7 +1977,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l337"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:337</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l338"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:338</code></a>
         </p>
 
 
@@ -1976,7 +2034,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l666"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:666</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l670"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:670</code></a>
         </p>
 
 
@@ -2023,7 +2081,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:193</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l194"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:194</code></a>
         </p>
 
 
@@ -2065,6 +2123,69 @@ TODO: Used by TubeSimplexGeometry.</p>
 
 
 </div>
+<div id="method_rmul" class="method item private">
+    <h3 class="name"><code>rmul</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>lhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l625"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:625</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">lhs</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_rotate" class="method item">
     <h3 class="name"><code>rotate</code></h3>
 
@@ -2090,7 +2211,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l216"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:216</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l217"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:217</code></a>
         </p>
 
 
@@ -2153,7 +2274,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l452"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:452</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l453"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:453</code></a>
         </p>
 
 
@@ -2218,7 +2339,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l466"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:466</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l467"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:467</code></a>
         </p>
 
 
@@ -2280,99 +2401,29 @@ TODO: Used by TubeSimplexGeometry.</p>
 
 
 </div>
-<div id="method_setX" class="method item deprecated">
-    <h3 class="name"><code>setX</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>x</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
-        </span>
-
-        <span class="flag deprecated">deprecated</span>
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l485"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:485</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_setY" class="method item deprecated">
     <h3 class="name"><code>setY</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>y</code>
+                        <code>UNKNOWN</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
-        </span>
 
         <span class="flag deprecated">deprecated</span>
 
 
 
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l498"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:498</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l486"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:486</code></a>
         </p>
 
 
@@ -2388,7 +2439,7 @@ TODO: Used by TubeSimplexGeometry.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">y</code>
+                        <code class="param-name">UNKNOWN</code>
                         <span class="type">Number</span>
 
 
@@ -2400,81 +2451,6 @@ TODO: Used by TubeSimplexGeometry.</p>
             </ul>
         </div>
 
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setZ" class="method item deprecated">
-    <h3 class="name"><code>setZ</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>z</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
-        </span>
-
-        <span class="flag deprecated">deprecated</span>
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l510"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:510</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">z</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>:
-                    <p><code>this</code></p>
-
-            </div>
-        </div>
 
 
 </div>
@@ -2496,7 +2472,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l529"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:529</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l503"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:503</code></a>
         </p>
 
 
@@ -2549,7 +2525,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l540"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:540</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l514"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:514</code></a>
         </p>
 
 
@@ -2630,7 +2606,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l559"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:559</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l533"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:533</code></a>
         </p>
 
 
@@ -2700,7 +2676,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l578"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:578</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l552"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:552</code></a>
         </p>
 
 
@@ -2746,7 +2722,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l587"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:587</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l561"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:561</code></a>
         </p>
 
 
@@ -2803,7 +2779,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l597"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:597</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l571"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:571</code></a>
         </p>
 
 
@@ -2844,7 +2820,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l606"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:606</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l580"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:580</code></a>
         </p>
 
 
@@ -2884,7 +2860,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:40</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:41</code></a>
         </p>
 
 
@@ -2909,7 +2885,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:46</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:47</code></a>
         </p>
 
 
@@ -2934,7 +2910,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:52</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:53</code></a>
         </p>
 
 
@@ -2958,7 +2934,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:77</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:78</code></a>
         </p>
 
 
@@ -2982,7 +2958,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:88</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:89</code></a>
         </p>
 
 
@@ -3006,7 +2982,7 @@ TODO: Used by TubeSimplexGeometry.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R3.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:99</code></a>
+        <a href="../files/src_davinci-eight_math_R3.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R3.ts:100</code></a>
         </p>
 
 

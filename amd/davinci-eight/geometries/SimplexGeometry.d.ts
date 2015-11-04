@@ -5,6 +5,7 @@ import Geometry = require('../geometries/Geometry');
 import Simplex = require('../geometries/Simplex');
 import R3 = require('../math/R3');
 import R2 = require('../math/R2');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class SimplexGeometry
  * @extends Geometry
@@ -111,7 +112,7 @@ declare class SimplexGeometry extends Geometry implements IGeometry<SimplexGeome
      * </p>
      *
      * @method boundary
-     * @param times {number} Determines the number of times the boundary operation is applied to this instance.
+     * @param times [number] Determines the number of times the boundary operation is applied to this instance.
      * @return {SimplexGeometry}
      */
     boundary(times?: number): SimplexGeometry;
@@ -132,21 +133,17 @@ declare class SimplexGeometry extends Geometry implements IGeometry<SimplexGeome
      * </p>
      *
      * @method subdivide
-     * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
+     * @param times [number] Determines the number of times the subdivide operation is applied to this instance.
      * @return {SimplexGeometry}
      */
     subdivide(times?: number): SimplexGeometry;
     /**
      * @method setPosition
-     * @param position {{x: number; y: number; z: number}}
+     * @param position {VectorE3}
      * @return {SimplexGeometry}
      * @chainable
      */
-    setPosition(position: {
-        x: number;
-        y: number;
-        z: number;
-    }): SimplexGeometry;
+    setPosition(position: VectorE3): SimplexGeometry;
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}
@@ -170,9 +167,38 @@ declare class SimplexGeometry extends Geometry implements IGeometry<SimplexGeome
      * @beta
      */
     triangle(positions: R3[], normals: R3[], uvs: R2[]): number;
+    /**
+     * Convenience method for pushing attribute data as a line segment simplex
+     * @method lineSegment
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
+     * @return {number}
+     */
     lineSegment(positions: R3[], normals: R3[], uvs: R2[]): number;
+    /**
+     * Convenience method for pushing attribute data as a point simplex
+     * @method point
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
+     * @return {number}
+     */
     point(positions: R3[], normals: R3[], uvs: R2[]): number;
+    /**
+     * Convenience method for pushing attribute data as an empty simplex
+     * @method empty
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
+     * @return {number}
+     */
     empty(positions: R3[], normals: R3[], uvs: R2[]): number;
+    /**
+     * @method enableTextureCoords
+     * @param enable {boolean}
+     * @return {SimplexGeometry}
+     */
     enableTextureCoords(enable: boolean): SimplexGeometry;
 }
 export = SimplexGeometry;

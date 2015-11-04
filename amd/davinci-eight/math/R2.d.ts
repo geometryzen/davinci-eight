@@ -1,11 +1,13 @@
-import VectorE2 = require('../math/VectorE2');
+import ColumnVector = require('../math/ColumnVector');
+import Matrix2 = require('../math/Matrix2');
 import MutableLinearElement = require('../math/MutableLinearElement');
 import SpinorE2 = require('../math/SpinorE2');
 import VectorN = require('../math/VectorN');
+import VectorE2 = require('../math/VectorE2');
 /**
  * @class R2
  */
-declare class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<VectorE2, R2, SpinorE2, VectorE2> {
+declare class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, VectorE2, MutableLinearElement<VectorE2, R2, SpinorE2, VectorE2> {
     /**
      * @class R2
      * @constructor
@@ -24,11 +26,19 @@ declare class R2 extends VectorN<number> implements VectorE2, MutableLinearEleme
      */
     y: number;
     set(x: number, y: number): R2;
-    setX(x: number): R2;
-    setY(y: number): R2;
     copy(v: VectorE2): R2;
     add(v: VectorE2, alpha?: number): R2;
     add2(a: VectorE2, b: VectorE2): R2;
+    /**
+     * <p>
+     * <code>this ⟼ m * this<sup>T</sup></code>
+     * </p>
+     * @method applyMatrix
+     * @param m {Matrix2}
+     * @return {R2} <code>this</code>
+     * @chainable
+     */
+    applyMatrix(m: Matrix2): R2;
     /**
      * @method cubicBezier
      * @param t {number}

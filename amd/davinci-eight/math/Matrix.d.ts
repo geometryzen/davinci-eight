@@ -8,10 +8,11 @@ interface Matrix<M> {
      */
     determinant(): number;
     /**
-     * @method identity
+     * Sets this matrix to the identity element for multiplication, <b>1</b>.
+     * @method one
      * @return {M}
      */
-    identity(): M;
+    one(): M;
     /**
      * @method mul
      * @param rhs {M}

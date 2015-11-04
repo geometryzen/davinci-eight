@@ -72,14 +72,14 @@ define([
       expect(a.coordinate(6)).toBe(zx);
       expect(a.coordinate(7)).toBe(xyz);
 
-      expect(a.coordinates()[0]).toBe(α);
-      expect(a.coordinates()[1]).toBe(x);
-      expect(a.coordinates()[2]).toBe(y);
-      expect(a.coordinates()[3]).toBe(z);
-      expect(a.coordinates()[4]).toBe(xy);
-      expect(a.coordinates()[5]).toBe(yz);
-      expect(a.coordinates()[6]).toBe(zx);
-      expect(a.coordinates()[7]).toBe(xyz);
+      expect(a.coords[0]).toBe(α);
+      expect(a.coords[1]).toBe(x);
+      expect(a.coords[2]).toBe(y);
+      expect(a.coords[3]).toBe(z);
+      expect(a.coords[4]).toBe(xy);
+      expect(a.coords[5]).toBe(yz);
+      expect(a.coords[6]).toBe(zx);
+      expect(a.coords[7]).toBe(xyz);
     });
 
     it('Should implement toString()', function() {

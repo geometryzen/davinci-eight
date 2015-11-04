@@ -60,14 +60,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             this.y = y;
             return this;
         };
-        R2.prototype.setX = function (x) {
-            this.x = x;
-            return this;
-        };
-        R2.prototype.setY = function (y) {
-            this.y = y;
-            return this;
-        };
         R2.prototype.copy = function (v) {
             this.x = v.x;
             this.y = v.y;
@@ -82,6 +74,23 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
         R2.prototype.add2 = function (a, b) {
             this.x = a.x + b.x;
             this.y = a.y + b.y;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ m * this<sup>T</sup></code>
+         * </p>
+         * @method applyMatrix
+         * @param m {Matrix2}
+         * @return {R2} <code>this</code>
+         * @chainable
+         */
+        R2.prototype.applyMatrix = function (m) {
+            var x = this.x;
+            var y = this.y;
+            var e = m.elements;
+            this.x = e[0x0] * x + e[0x2] * y;
+            this.y = e[0x1] * x + e[0x3] * y;
             return this;
         };
         /**

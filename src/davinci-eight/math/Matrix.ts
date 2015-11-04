@@ -7,17 +7,21 @@ interface Matrix<M> {
      * @return {number}
      */
     determinant(): number;
+
     /**
-     * @method identity
+     * Sets this matrix to the identity element for multiplication, <b>1</b>.
+     * @method one
      * @return {M}
      */
-    identity(): M;
+    one(): M;
+
     /**
      * @method mul
      * @param rhs {M}
      * @return {M}
      */
     mul(rhs: M): M;
+
     /**
      * @method mul2
      * @param a {M}

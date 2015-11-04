@@ -121,6 +121,22 @@ class Symbolic {
     public static UNIFORM_PROJECTION_MATRIX: string = 'uProjection';
 
     /**
+     * 'uReflectionOne'
+     * @property UNIFORM_REFLECTION_ONE_MATRIX
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_REFLECTION_ONE_MATRIX: string = 'uReflectionOne';
+
+    /**
+     * 'uReflectionTwo'
+     * @property UNIFORM_REFLECTION_TWO_MATRIX
+     * @type {string}
+     * @static
+     */
+    public static UNIFORM_REFLECTION_TWO_MATRIX: string = 'uReflectionTwo';
+
+    /**
      * 'uModel'
      * @property UNIFORM_MODEL_MATRIX
      * @type {string}

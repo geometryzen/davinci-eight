@@ -8,7 +8,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/R3', '../math/Matri
         var eye = new R3();
         var look = new R3();
         var up = R3.copy(Euclidean3.e2);
-        var viewMatrix = Matrix4.identity();
+        var viewMatrix = Matrix4.one();
         var viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
         // Force an update of the view matrix.
         eye.modified = true;

@@ -36,7 +36,9 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../math/Eucli
         };
         BarnSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
+            // FIXME: R3 would probably work fine here.
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
+            // Define the anchor points relative to the origin.
             points[0] = new G3().sub(this.a).sub(this.b).sub(this.c).divByScalar(2);
             points[1] = new G3().add(this.a).sub(this.b).sub(this.c).divByScalar(2);
             points[6] = new G3().add(this.a).sub(this.b).add(this.c).divByScalar(2);
@@ -47,9 +49,13 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../math/Eucli
             points[9] = new G3().copy(points[5]).add(this.b);
             points[3] = G3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divByScalar(2);
             points[8] = G3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divByScalar(2);
+            // Translate the points according to the position.
+            var position = G3.fromVector(this.position);
+            points = points.map(function (point) { return point.add(position); });
             function simplex(indices) {
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {
+                    // Why does this work? It's because of dataFromVectorN
                     simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = points[indices[i]];
                 }
                 return simplex;

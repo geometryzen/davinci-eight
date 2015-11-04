@@ -1,11 +1,12 @@
 import GeometricElement = require('../math/GeometricElement');
 import MutableLinearElement = require('../math/MutableLinearElement');
+import MutableRingElement = require('../math/MutableRingElement');
 
 /**
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
  */
-interface MutableGeometricElement<I, M, S, V> extends GeometricElement<I, M, S, V>, MutableLinearElement<I, M, S, V> {
+interface MutableGeometricElement<I, M, S, V> extends GeometricElement<I, M, S, V>, MutableLinearElement<I, M, S, V>, MutableRingElement<M> {
 
     /**
      * Sets this multivector to the left contraction of the multivectors.

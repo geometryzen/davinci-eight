@@ -25,7 +25,7 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
   let near: R1 = new R1();
   let far: R1 = new R1();
   // TODO: We should immediately create with a frustum static constructor?
-  let projectionMatrix: Matrix4 = Matrix4.identity();
+  let projectionMatrix: Matrix4 = Matrix4.one();
 
   function updateProjectionMatrix() {
     projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);

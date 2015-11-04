@@ -86,6 +86,13 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             this.z *= -1;
             return this;
         };
+        Object.defineProperty(HH.prototype, "coords", {
+            get: function () {
+                return [];
+            },
+            enumerable: true,
+            configurable: true
+        });
         HH.prototype.copy = function (quaternion) {
             this.x = quaternion.x;
             this.y = quaternion.y;
@@ -207,6 +214,13 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             this.y = this.y / modulus;
             this.z = this.z / modulus;
             this.t = this.t / modulus;
+            return this;
+        };
+        HH.prototype.one = function () {
+            this.t = 1;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
             return this;
         };
         HH.prototype.quad = function () {
@@ -372,6 +386,9 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             this.t = a.t - b.t;
             return this;
         };
+        HH.prototype.tan = function () {
+            return this.sin().div(this.cos());
+        };
         HH.prototype.grade = function (grade) {
             mustBeInteger('grade', grade);
             switch (grade) {
@@ -430,12 +447,6 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
         HH.prototype.ext2 = function (a, b) {
             return this;
         };
-        /**
-         * Sets this quaternion to the identity element for addition, <b>0</b>.
-         * @method zero
-         * @return {HH}
-         * @chainable
-         */
         HH.prototype.zero = function () {
             this.t = 0;
             this.x = 0;

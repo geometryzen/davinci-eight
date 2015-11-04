@@ -41,7 +41,7 @@ declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricE
     β: number;
     fromCartesian(α: number, x: number, y: number, β: number, uom: Unit): Euclidean2;
     fromPolar(α: number, r: number, θ: number, β: number, uom: Unit): Euclidean2;
-    coordinates(): number[];
+    coords: number[];
     coordinate(index: number): number;
     static add(a: number[], b: number[]): number[];
     add(rhs: Euclidean2): Euclidean2;
@@ -90,6 +90,7 @@ declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricE
     __vbar__(other: any): Euclidean2;
     __rvbar__(other: any): Euclidean2;
     pow(exponent: Euclidean2): Euclidean2;
+    __bang__(): Euclidean2;
     __pos__(): Euclidean2;
     neg(): Euclidean2;
     __neg__(): Euclidean2;
@@ -117,12 +118,23 @@ declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricE
     quad(): Euclidean2;
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): Euclidean2;
     squaredNorm(): number;
+    /**
+     * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
+     * @method reflect
+     * @param n {VectorE2}
+     * @return {Euclidean2}
+     */
     reflect(n: VectorE2): Euclidean2;
     rev(): Euclidean2;
     rotate(R: SpinorE2): Euclidean2;
     sin(): Euclidean2;
     sinh(): Euclidean2;
     slerp(target: Euclidean2, α: number): Euclidean2;
+    /**
+     * @method tan
+     * @return {Euclidean2}
+     */
+    tan(): Euclidean2;
     unitary(): Euclidean2;
     isOne(): boolean;
     isNaN(): boolean;
@@ -133,5 +145,19 @@ declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricE
     toString(): string;
     toStringIJK(): string;
     toStringLATEX(): string;
+    /**
+     * @method copy
+     * @param M {GeometricE2}
+     * @return {Euclidean2}
+     * @static
+     */
+    static copy(m: GeometricE2): Euclidean2;
+    /**
+     * @method fromVectorE2
+     * @param vector {VectorE2}
+     * @return {Euclidean2}
+     * @static
+     */
+    static fromVectorE2(vector: VectorE2): Euclidean2;
 }
 export = Euclidean2;

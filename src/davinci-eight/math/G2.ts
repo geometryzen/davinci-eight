@@ -1,6 +1,7 @@
 import b2 = require('../geometries/b2')
 import b3 = require('../geometries/b3')
 import dotVector = require('../math/dotVectorE2')
+import Euclidean2 = require('../math/Euclidean2')
 import extE2 = require('../math/extE2')
 import GeometricE2 = require('../math/GeometricE2')
 import isDefined = require('../checks/isDefined')
@@ -711,6 +712,20 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     }
 
     /**
+     * Sets this multivector to the identity element for multiplication, <b>1</b>.
+     * @method one
+     * @return {G2}
+     * @chainable
+     */
+    one() {
+        this.α = 1
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    /**
      * <p>
      * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
      * </p>
@@ -770,15 +785,12 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @chainable
      */
     reflect(n: VectorE2): G2 {
-        // FIXME: This inly reflects the vector components.
+        // TODO: Optimize.
         mustBeObject('n', n);
-        let x = this.x;
-        let y = this.y;
-        let nx = n.x;
-        let ny = n.y;
-        let dot2 = (x * nx + y * ny) * 2;
-        this.x = x - dot2 * nx;
-        this.y = y - dot2 * ny;
+        let N = Euclidean2.fromVectorE2(n);
+        let M = Euclidean2.copy(this);
+        let R = N.mul(M).mul(N).scale(-1);
+        this.copy(R);
         return this;
     }
 
@@ -1435,12 +1447,22 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     }
 
     /**
+     * @method __bang__
+     * @return {G2}
+     * @private
+     * @chainable
+     */
+    __bang__(): G2 {
+        return G2.copy(this).inv()
+    }
+
+    /**
      * @method __pos__
      * @return {G2}
      * @private
      * @chainable
      */
-    __pos__() {
+    __pos__(): G2 {
         // It's important that we make a copy whenever using operators.
         return G2.copy(this)/*.pos()*/
     }
@@ -1451,7 +1473,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      * @private
      * @chainable
      */
-    __neg__() {
+    __neg__(): G2 {
         return G2.copy(this).neg()
     }
 
@@ -1468,7 +1490,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     }
 
     /**
-     * The identity element for addition.
+     * The identity element for addition, <b>0</b>.
      * @property zero
      * @type {G2}
      * @readOnly
@@ -1477,7 +1499,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     static zero = G2.fromCartesian(0, 0, 0, 0);
 
     /**
-     * The identity element for multiplication.
+     * The identity element for multiplication, <b>1</b>.
      * @property one
      * @type {G2}
      * @readOnly

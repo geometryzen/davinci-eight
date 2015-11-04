@@ -22,7 +22,7 @@ let createView = function(options?: { viewMatrixName?: string }): View {
     let eye: R3 = new R3()
     let look: R3 = new R3()
     let up: R3 = R3.copy(Euclidean3.e2)
-    let viewMatrix: Matrix4 = Matrix4.identity()
+    let viewMatrix: Matrix4 = Matrix4.one()
     let viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName
 
     // Force an update of the view matrix.

@@ -18,19 +18,16 @@ declare class R4 extends VectorN<number> implements VectorE4, MutableLinearEleme
      * @type Number
      */
     x: number;
-    setX(x: number): R4;
     /**
      * @property y
      * @type Number
      */
     y: number;
-    setY(y: number): R4;
     /**
      * @property z
      * @type Number
      */
     z: number;
-    setZ(z: number): R4;
     /**
      * @property w
      * @type Number

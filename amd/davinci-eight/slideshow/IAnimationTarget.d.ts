@@ -1,6 +1,5 @@
 /**
  * @class IAnimationTarget
- * @extends IUnknown
  */
 interface IAnimationTarget {
     /**

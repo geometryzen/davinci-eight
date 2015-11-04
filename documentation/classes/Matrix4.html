@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.150.0</em>
+            <em>API Docs for: 2.151.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
-                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -192,7 +193,7 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
-                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -253,7 +254,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:25</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:26</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -284,7 +285,7 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:25</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:26</code></a>
         </p>
 
 
@@ -317,22 +318,126 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
+                            <li class="index-item method private">
+                                <a href="#method___mul__">__mul__</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method___rmul__">__rmul__</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_clone">clone</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_identity">identity</a>
+                                <a href="#method_compose">compose</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_copy">copy</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_determinant">determinant</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_frustum">frustum</a>
+
+                            </li>
+                            <li class="index-item method private deprecated">
+                                <a href="#method_invert">invert</a>
+
+                                    <span class="flag deprecated">deprecated</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mul">mul</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mul2">mul2</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_one">one</a>
 
                                     <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_one">one</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_reflection">reflection</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_rmul">rmul</a>
+
                             </li>
                             <li class="index-item method">
                                 <a href="#method_rotate">rotate</a>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_rotation">rotation</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_rotation">rotation</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_rotationAxis">rotationAxis</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_row">row</a>
 
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_scale">scale</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_scaleXYZ">scaleXYZ</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_scaling">scaling</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_scaling">scaling</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_set">set</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toFixed">toFixed</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_translate">translate</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_translation">translation</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_translation">translation</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_transpose">transpose</a>
@@ -350,16 +455,32 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property private inherited">
+                                <a href="#property__dimensions">_dimensions</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__elements">_elements</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__length">_length</a>
+
+                            </li>
                             <li class="index-item property inherited">
                                 <a href="#property_callback">callback</a>
 
                             </li>
                             <li class="index-item property inherited">
-                                <a href="#property_data">data</a>
+                                <a href="#property_dimensions">dimensions</a>
 
                             </li>
                             <li class="index-item property inherited">
-                                <a href="#property_dimensions">dimensions</a>
+                                <a href="#property_elements">elements</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_modified">modified</a>
 
                             </li>
                     </ul>
@@ -371,13 +492,141 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method___mul__" class="method item private">
+    <h3 class="name"><code>__mul__</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l533"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:533</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a> | Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method___rmul__" class="method item private">
+    <h3 class="name"><code>__rmul__</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>lhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l552"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:552</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">lhs</code>
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a> | Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_clone" class="method item">
     <h3 class="name"><code>clone</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Matrix</span>
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
         </span>
 
 
@@ -389,7 +638,7 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:65</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:93</code></a>
         </p>
 
 
@@ -406,19 +655,537 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Matrix</span>:
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
             </div>
         </div>
 
 
 </div>
-<div id="method_identity" class="method item">
-    <h3 class="name"><code>identity</code></h3>
+<div id="method_compose" class="method item">
+    <h3 class="name"><code>compose</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>scale</code>
+                </li>
+                <li class="arg">
+                        <code>attitude</code>
+                </li>
+                <li class="arg">
+                        <code>position</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:102</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">scale</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">attitude</code>
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">position</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_copy" class="method item">
+    <h3 class="name"><code>copy</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>m</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:119</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">m</code>
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_determinant" class="method item">
+    <h3 class="name"><code>determinant</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:129</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_frustum" class="method item">
+    <h3 class="name"><code>frustum</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>left</code>
+                </li>
+                <li class="arg">
+                        <code>right</code>
+                </li>
+                <li class="arg">
+                        <code>bottom</code>
+                </li>
+                <li class="arg">
+                        <code>top</code>
+                </li>
+                <li class="arg">
+                        <code>near</code>
+                </li>
+                <li class="arg">
+                        <code>far</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l257"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:257</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">left</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">right</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">bottom</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">top</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">near</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">far</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_invert" class="method item private deprecated">
+    <h3 class="name"><code>invert</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>m</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+        <span class="flag deprecated">deprecated</span>
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l162"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:162</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">m</code>
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mul" class="method item">
+    <h3 class="name"><code>mul</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l311"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:311</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mul2" class="method item">
+    <h3 class="name"><code>mul2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l320"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:320</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_one" class="method item">
+    <h3 class="name"><code>one</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
         </span>
 
 
@@ -431,7 +1198,7 @@ Constructs a Matrix4 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:34</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:35</code></a>
         </p>
 
 
@@ -449,7 +1216,174 @@ Creates a new matrix with all elements zero except those along the main diagonal
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_one" class="method item">
+    <h3 class="name"><code>one</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l215"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:215</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_reflection" class="method item">
+    <h3 class="name"><code>reflection</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>n</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l340"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:340</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ reflection(n)</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">n</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_rmul" class="method item">
+    <h3 class="name"><code>rmul</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>lhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l331"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:331</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">lhs</code>
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
             </div>
         </div>
 
@@ -461,11 +1395,14 @@ Creates a new matrix with all elements zero except those along the main diagonal
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>attitude</code>
+                        <code>spinor</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
 
 
 
@@ -476,7 +1413,73 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l238"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:238</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l371"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:371</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ rotation(spinor) * this</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">spinor</code>
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_rotation" class="method item">
+    <h3 class="name"><code>rotation</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>spinor</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l82"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:82</code></a>
         </p>
 
 
@@ -485,6 +1488,70 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
     <div class="description">
         
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">spinor</code>
+                        <span class="type"><a href="../classes/SpinorE3.html" class="crosslink">SpinorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_rotation" class="method item">
+    <h3 class="name"><code>rotation</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>attitude</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l383"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:383</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ rotation(spinor)</code>
+</p>
     </div>
 
         <div class="params">
@@ -505,6 +1572,89 @@ Creates a new matrix with all elements zero except those along the main diagonal
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_rotationAxis" class="method item">
+    <h3 class="name"><code>rotationAxis</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>axis</code>
+                </li>
+                <li class="arg">
+                        <code>angle</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l285"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:285</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">axis</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">angle</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
 
 
 </div>
@@ -520,7 +1670,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
         </div>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type">Array<number></span>
         </span>
 
 
@@ -532,7 +1682,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l264"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:264</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l414"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:414</code></a>
         </p>
 
 
@@ -565,7 +1715,591 @@ Creates a new matrix with all elements zero except those along the main diagonal
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
+                        <span class="type">Array<number></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_scale" class="method item">
+    <h3 class="name"><code>scale</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>s</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l224"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:224</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">s</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_scaleXYZ" class="method item">
+    <h3 class="name"><code>scaleXYZ</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>scale</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l424"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:424</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">scale</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_scaling" class="method item">
+    <h3 class="name"><code>scaling</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>scale</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l444"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:444</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">scale</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_scaling" class="method item">
+    <h3 class="name"><code>scaling</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>scale</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:60</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">scale</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_set" class="method item private">
+    <h3 class="name"><code>set</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l453"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:453</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toFixed" class="method item">
+    <h3 class="name"><code>toFixed</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>digits</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l486"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:486</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">digits</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>[number]</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l500"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:500</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_translate" class="method item">
+    <h3 class="name"><code>translate</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>displacement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l512"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:512</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+<code>this ⟼ translation(spinor) * this</code>
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">displacement</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_translation" class="method item">
+    <h3 class="name"><code>translation</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>displacement</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l524"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:524</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">displacement</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_translation" class="method item">
+    <h3 class="name"><code>translation</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>vector</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:71</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">vector</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>:
             </div>
         </div>
 
@@ -589,7 +2323,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:170</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l238"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:238</code></a>
         </p>
 
 
@@ -625,12 +2359,13 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:45</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix4.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix4.ts:47</code></a>
         </p>
 
 
@@ -659,18 +2394,19 @@ Creates a new matrix with all elements zero.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_callback" class="property item inherited">
-    <h3 class="name"><code>callback</code></h3>
-    <span class="type">() => Float32Array</span>
+<div id="property__dimensions" class="property item private inherited">
+    <h3 class="name"><code>_dimensions</code></h3>
+    <span class="type">Number</span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/AbstractMatrix.html#property_callback">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:49</code></a>
+                <a href="../classes/AbstractMatrix.html#property__dimensions">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:25</code></a>
         </p>
 
 
@@ -683,9 +2419,59 @@ Creates a new matrix with all elements zero.
 
 
 </div>
-<div id="property_data" class="property item inherited">
-    <h3 class="name"><code>data</code></h3>
+<div id="property__elements" class="property item private inherited">
+    <h3 class="name"><code>_elements</code></h3>
     <span class="type">Float32Array</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#property__elements">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:10</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__length" class="property item private inherited">
+    <h3 class="name"><code>_length</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#property__length">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:18</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_callback" class="property item inherited">
+    <h3 class="name"><code>callback</code></h3>
+    <span class="type">() => Float32Array</span>
 
 
 
@@ -693,8 +2479,8 @@ Creates a new matrix with all elements zero.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/AbstractMatrix.html#property_data">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:27</code></a>
+                <a href="../classes/AbstractMatrix.html#property_callback">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:75</code></a>
         </p>
 
 
@@ -718,7 +2504,55 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property_dimensions">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:60</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:87</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_elements" class="property item inherited">
+    <h3 class="name"><code>elements</code></h3>
+    <span class="type">Float32Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#property_elements">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:52</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_modified" class="property item inherited">
+    <h3 class="name"><code>modified</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#property_modified">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:32</code></a>
         </p>
 
 

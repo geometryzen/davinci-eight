@@ -453,6 +453,19 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
         this.α = this.α / modulus
         return this
     }
+
+
+    /**
+     * Sets this spinor to the identity element for multiplication, <b>1</b>.
+     * @return {SpinG2} <code>this</code>
+     * @chainable
+     */
+    one() {
+        this.α = 1
+        this.xy = 0
+        return this
+    }
+
     /**
     * <p>
     * <code>this ⟼ this * conj(this)</code>
@@ -699,7 +712,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     }
 
     /**
-     * Sets this spinor to the identity element for addition.
+     * Sets this spinor to the identity element for addition, <b>0</b>.
      * @return {SpinG2} <code>this</code>
      * @chainable
      */

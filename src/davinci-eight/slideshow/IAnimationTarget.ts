@@ -1,8 +1,5 @@
-//import IUnknown = require('../core/IUnknown')
-
 /**
  * @class IAnimationTarget
- * @extends IUnknown
  */
 interface IAnimationTarget {
   /**
@@ -11,12 +8,14 @@ interface IAnimationTarget {
    * @readOnly
    */
   uuid: string;
+
   /**
    * @method getProperty
    * @param name {String}
    * @return {number[]}
    */
   getProperty(name: string): number[];
+
   /**
    * @method setProperty
    * @param name {string}

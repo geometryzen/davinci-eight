@@ -50,17 +50,19 @@ class Geometry implements IGeometry<Geometry> {
         this.useTextureCoords = enable
         return this
     }
+
     /**
      * @method setPosition
-     * @param position {{x: number, y: number, z: number}}
+     * @param position {VectorE3}
      * @return Geometry
      * @chainable
      */
-    setPosition(position: { x: number, y: number, z: number }): Geometry {
+    setPosition(position: VectorE3): Geometry {
         mustBeObject('position', position)
         this._position = CartesianE3.fromVectorE3(position)
         return this
     }
+
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2, b3, dotVector, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, quadVector, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
+define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/Euclidean2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2, b3, dotVector, Euclidean2, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, quadVector, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -682,6 +682,19 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             return this;
         };
         /**
+         * Sets this multivector to the identity element for multiplication, <b>1</b>.
+         * @method one
+         * @return {G2}
+         * @chainable
+         */
+        G2.prototype.one = function () {
+            this.α = 1;
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
+            return this;
+        };
+        /**
          * <p>
          * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
          * </p>
@@ -739,15 +752,12 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * @chainable
          */
         G2.prototype.reflect = function (n) {
-            // FIXME: This inly reflects the vector components.
+            // TODO: Optimize.
             mustBeObject('n', n);
-            var x = this.x;
-            var y = this.y;
-            var nx = n.x;
-            var ny = n.y;
-            var dot2 = (x * nx + y * ny) * 2;
-            this.x = x - dot2 * nx;
-            this.y = y - dot2 * ny;
+            var N = Euclidean2.fromVectorE2(n);
+            var M = Euclidean2.copy(this);
+            var R = N.mul(M).mul(N).scale(-1);
+            this.copy(R);
             return this;
         };
         /**
@@ -1376,6 +1386,15 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             }
         };
         /**
+         * @method __bang__
+         * @return {G2}
+         * @private
+         * @chainable
+         */
+        G2.prototype.__bang__ = function () {
+            return G2.copy(this).inv();
+        };
+        /**
          * @method __pos__
          * @return {G2}
          * @private
@@ -1477,7 +1496,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             return new G2().rotorFromDirections(a, b);
         };
         /**
-         * The identity element for addition.
+         * The identity element for addition, <b>0</b>.
          * @property zero
          * @type {G2}
          * @readOnly
@@ -1485,7 +1504,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          */
         G2.zero = G2.fromCartesian(0, 0, 0, 0);
         /**
-         * The identity element for multiplication.
+         * The identity element for multiplication, <b>1</b>.
          * @property one
          * @type {G2}
          * @readOnly

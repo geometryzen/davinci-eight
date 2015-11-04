@@ -105,6 +105,9 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         this.z *= -1
         return this;
     }
+    get coords(): number[] {
+        return []
+    }
     copy(quaternion: HH): HH {
         this.x = quaternion.x;
         this.y = quaternion.y;
@@ -226,6 +229,14 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         this.y = this.y / modulus
         this.z = this.z / modulus
         this.t = this.t / modulus
+        return this
+    }
+
+    one(): HH {
+        this.t = 1
+        this.x = 0
+        this.y = 0
+        this.z = 0
         return this
     }
 
@@ -407,6 +418,11 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         this.t = a.t - b.t
         return this;
     }
+
+    tan(): HH {
+        return this.sin().div(this.cos())
+    }
+
     grade(grade: number): HH {
         mustBeInteger('grade', grade)
         switch (grade) {
@@ -462,12 +478,6 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         return this
     }
 
-    /**
-     * Sets this quaternion to the identity element for addition, <b>0</b>.
-     * @method zero
-     * @return {HH}
-     * @chainable
-     */
     zero(): HH {
         this.t = 0
         this.x = 0

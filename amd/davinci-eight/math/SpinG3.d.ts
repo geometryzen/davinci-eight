@@ -268,6 +268,12 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      */
     normalize(): SpinG3;
     /**
+     * Sets this spinor to the identity element for multiplication, <b>1</b>.
+     * @return {SpinG3} <code>this</code>
+     * @chainable
+     */
+    one(): SpinG3;
+    /**
     * <p>
     * <code>this ⟼ this * conj(this)</code>
     * </p>
@@ -399,7 +405,7 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
     ext(rhs: SpinorE3): SpinG3;
     ext2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**
-     * Sets this spinor to the identity element for addition.
+     * Sets this spinor to the identity element for addition, <b>0</b>.
      * @return {SpinG3} <code>this</code>
      * @chainable
      */

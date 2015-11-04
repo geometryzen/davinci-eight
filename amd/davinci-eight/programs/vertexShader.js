@@ -51,6 +51,15 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         else {
             glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
         }
+        // Reflections are applied first.
+        if (uniforms[Symbolic.UNIFORM_REFLECTION_ONE_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_REFLECTION_ONE_MATRIX));
+        }
+        if (uniforms[Symbolic.UNIFORM_REFLECTION_TWO_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_REFLECTION_TWO_MATRIX));
+        }
         if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
             glPosition.unshift(TIMES);
             glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));

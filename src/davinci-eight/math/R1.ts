@@ -39,10 +39,6 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         this.x = x;
         return this;
     }
-    setX(x: number) {
-        this.x = x;
-        return this;
-    }
     add(vector: VectorE1, alpha: number = 1) {
         this.x += vector.x * alpha
         return this
@@ -76,7 +72,7 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         this.x = exp(this.x)
         return this
     }
-    identity() {
+    one() {
         this.x = 1
         return this
     }

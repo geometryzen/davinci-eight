@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.150.0</em>
+            <em>API Docs for: 2.151.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
-                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -192,7 +193,7 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
-                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -417,6 +418,10 @@
                                 <a href="#method_check">check</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_empty">empty</a>
+
+                            </li>
                             <li class="index-item method inherited inherited">
                                 <a href="#method_enableTextureCoords">enableTextureCoords</a>
 
@@ -425,8 +430,16 @@
                                 <a href="#method_isModified">isModified</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_lineSegment">lineSegment</a>
+
+                            </li>
                             <li class="index-item method protected inherited">
                                 <a href="#method_mergeVertices">mergeVertices</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_point">point</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -573,7 +586,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#method_boundary">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:131</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:142</code></a>
         </p>
 
 
@@ -596,11 +609,11 @@ For example, triangles are converted to lines.
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">times</code>
-                        <span class="type">Number</span>
+                        <span class="type">Object</span>
 
 
                     <div class="param-description">
-                        <p>Determines the number of times the boundary operation is applied to this instance.</p>
+                        <p>[number] Determines the number of times the boundary operation is applied to this instance.</p>
 
                     </div>
 
@@ -636,7 +649,7 @@ For example, triangles are converted to lines.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#method_check">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l151"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:151</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l163"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:163</code></a>
         </p>
 
 
@@ -654,6 +667,95 @@ For example, triangles are converted to lines.
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/SimplexGeometry.html" class="crosslink">SimplexGeometry</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_empty" class="method item inherited">
+    <h3 class="name"><code>empty</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>positions</code>
+                </li>
+                <li class="arg">
+                        <code>normals</code>
+                </li>
+                <li class="arg">
+                        <code>uvs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/SimplexGeometry.html#method_empty">SimplexGeometry</a>:
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l307"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:307</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Convenience method for pushing attribute data as an empty simplex</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">positions</code>
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">normals</code>
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">uvs</code>
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
             </div>
         </div>
 
@@ -687,7 +789,7 @@ For example, triangles are converted to lines.
                 Geometry
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_AxialSimplexGeometry.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;AxialSimplexGeometry.ts:56</code></a>
+        <a href="../files/src_davinci-eight_geometries_AxialSimplexGeometry.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;AxialSimplexGeometry.ts:60</code></a>
         </p>
 
 
@@ -768,6 +870,95 @@ For example, triangles are converted to lines.
 
 
 </div>
+<div id="method_lineSegment" class="method item inherited">
+    <h3 class="name"><code>lineSegment</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>positions</code>
+                </li>
+                <li class="arg">
+                        <code>normals</code>
+                </li>
+                <li class="arg">
+                        <code>uvs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/SimplexGeometry.html#method_lineSegment">SimplexGeometry</a>:
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l261"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:261</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Convenience method for pushing attribute data as a line segment simplex</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">positions</code>
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">normals</code>
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">uvs</code>
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_mergeVertices" class="method item protected inherited">
     <h3 class="name"><code>mergeVertices</code></h3>
 
@@ -793,7 +984,7 @@ For example, triangles are converted to lines.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#method_mergeVertices">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:204</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l220"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:220</code></a>
         </p>
 
 
@@ -827,6 +1018,95 @@ For example, triangles are converted to lines.
 
             <div class="returns-description">
                         <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_point" class="method item inherited">
+    <h3 class="name"><code>point</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>positions</code>
+                </li>
+                <li class="arg">
+                        <code>normals</code>
+                </li>
+                <li class="arg">
+                        <code>uvs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/SimplexGeometry.html#method_point">SimplexGeometry</a>:
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:286</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Convenience method for pushing attribute data as a point simplex</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">positions</code>
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">normals</code>
+                        <span class="type"><a href="../classes/R3.html" class="crosslink">R3[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">uvs</code>
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
             </div>
         </div>
 
@@ -1097,7 +1377,7 @@ For example, triangles are converted to lines.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#method_subdivide">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l163"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:163</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:176</code></a>
         </p>
 
 
@@ -1119,11 +1399,11 @@ The subdivide operation creates new simplices of the same dimension as the origi
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">times</code>
-                        <span class="type">Number</span>
+                        <span class="type">Object</span>
 
 
                     <div class="param-description">
-                        <p>Determines the number of times the subdivide operation is applied to this instance.</p>
+                        <p>[number] Determines the number of times the subdivide operation is applied to this instance.</p>
 
                     </div>
 
@@ -1162,7 +1442,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
                 Geometry
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:193</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l208"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:208</code></a>
         </p>
 
 
@@ -1214,7 +1494,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#method_triangle">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:214</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l231"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:231</code></a>
         </p>
 
 
@@ -1290,7 +1570,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#property__k">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:36</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:39</code></a>
         </p>
 
 
@@ -1390,7 +1670,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#property_curvedSegments">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:43</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:47</code></a>
         </p>
 
 
@@ -1415,7 +1695,7 @@ The subdivide operation creates new simplices of the same dimension as the origi
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#property_data">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:22</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:23</code></a>
         </p>
 
 
@@ -1441,7 +1721,7 @@ A simplex, in the context of WebGL, will usually represent a triangle, line or p
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#property_flatSegments">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:50</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:55</code></a>
         </p>
 
 
@@ -1466,7 +1746,7 @@ A simplex, in the context of WebGL, will usually represent a triangle, line or p
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#property_k">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:83</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:89</code></a>
         </p>
 
 
@@ -1496,7 +1776,7 @@ The <code>k</code> parameter affects geometry generation.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#property_meta">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:29</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:31</code></a>
         </p>
 
 
@@ -1522,7 +1802,7 @@ This data structure may be used to map vertex attribute names to program names.<
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/SimplexGeometry.html#property_orientationColors">SimplexGeometry</a>:
-        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:57</code></a>
+        <a href="../files/src_davinci-eight_geometries_SimplexGeometry.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;SimplexGeometry.ts:63</code></a>
         </p>
 
 

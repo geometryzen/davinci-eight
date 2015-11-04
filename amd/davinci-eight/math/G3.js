@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE3', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, extG3, lcoG3, mulG3, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, rcoG3, readOnly, rotorFromDirections, scpG3, squaredNormG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE3', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, Euclidean3, extG3, lcoG3, mulG3, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, rcoG3, readOnly, rotorFromDirections, scpG3, squaredNormG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -809,6 +809,23 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             return this;
         };
         /**
+         * Sets this multivector to the identity element for multiplication, <b>1</b>.
+         * @method one
+         * @return {G3}
+         * @chainable
+         */
+        G3.prototype.one = function () {
+            this.α = 1;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            this.β = 0;
+            return this;
+        };
+        /**
         * <p>
         * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
         * </p>
@@ -842,18 +859,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
          * @chainable
          */
         G3.prototype.reflect = function (n) {
-            // FIXME: This inly reflects the vector components.
+            // TODO: Optimize.
             mustBeObject('n', n);
-            var x = this.x;
-            var y = this.y;
-            var z = this.z;
-            var nx = n.x;
-            var ny = n.y;
-            var nz = n.z;
-            var dot2 = (x * nx + y * ny + z * nz) * 2;
-            this.x = x - dot2 * nx;
-            this.y = y - dot2 * ny;
-            this.z = z - dot2 * nz;
+            var N = Euclidean3.fromVectorE3(n);
+            var M = Euclidean3.copy(this);
+            var R = N.mul(M).mul(N).scale(-1);
+            this.copy(R);
             return this;
         };
         /**
@@ -1488,6 +1499,15 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
             }
         };
         /**
+         * @method __bang__
+         * @return {G3}
+         * @private
+         * @chainable
+         */
+        G3.prototype.__bang__ = function () {
+            return G3.copy(this).inv();
+        };
+        /**
          * @method __pos__
          * @return {G3}
          * @private
@@ -1507,7 +1527,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         };
         Object.defineProperty(G3, "zero", {
             /**
-             * The identity element for addition.
+             * The identity element for addition, <b>0</b>.
              * @property zero
              * @type {G3}
              * @readOnly
@@ -1520,7 +1540,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/l
         ;
         Object.defineProperty(G3, "one", {
             /**
-             * The identity element for multiplication.
+             * The identity element for multiplication, <b>1</b>.
              * @property one
              * @type {G3}
              * @readOnly

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.150.0</em>
+            <em>API Docs for: 2.151.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
-                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -192,7 +193,7 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
-                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -253,7 +254,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:12</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:13</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -284,7 +285,7 @@ Constructs a Matrix3 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:12</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:13</code></a>
         </p>
 
 
@@ -318,9 +319,13 @@ Constructs a Matrix3 by wrapping a Float32Array.</p>
 
                     <ul class="index-list methods extends">
                             <li class="index-item method">
-                                <a href="#method_identity">identity</a>
+                                <a href="#method_one">one</a>
 
                                     <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_one">one</a>
+
                             </li>
                             <li class="index-item method">
                                 <a href="#method_row">row</a>
@@ -338,16 +343,32 @@ Constructs a Matrix3 by wrapping a Float32Array.</p>
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property private inherited">
+                                <a href="#property__dimensions">_dimensions</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__elements">_elements</a>
+
+                            </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property__length">_length</a>
+
+                            </li>
                             <li class="index-item property inherited">
                                 <a href="#property_callback">callback</a>
 
                             </li>
                             <li class="index-item property inherited">
-                                <a href="#property_data">data</a>
+                                <a href="#property_dimensions">dimensions</a>
 
                             </li>
                             <li class="index-item property inherited">
-                                <a href="#property_dimensions">dimensions</a>
+                                <a href="#property_elements">elements</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_modified">modified</a>
 
                             </li>
                     </ul>
@@ -359,8 +380,8 @@ Constructs a Matrix3 by wrapping a Float32Array.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_identity" class="method item">
-    <h3 class="name"><code>identity</code></h3>
+<div id="method_one" class="method item">
+    <h3 class="name"><code>one</code></h3>
 
         <span class="paren">()</span>
 
@@ -378,7 +399,7 @@ Constructs a Matrix3 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:21</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:22</code></a>
         </p>
 
 
@@ -389,6 +410,46 @@ Constructs a Matrix3 by wrapping a Float32Array.</p>
         <p>
 Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
 </p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_one" class="method item">
+    <h3 class="name"><code>one</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:95</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 
@@ -426,7 +487,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:100</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:107</code></a>
         </p>
 
 
@@ -484,7 +545,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:32</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:33</code></a>
         </p>
 
 
@@ -513,18 +574,19 @@ Creates a new matrix with all elements zero.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_callback" class="property item inherited">
-    <h3 class="name"><code>callback</code></h3>
-    <span class="type">() => Float32Array</span>
+<div id="property__dimensions" class="property item private inherited">
+    <h3 class="name"><code>_dimensions</code></h3>
+    <span class="type">Number</span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/AbstractMatrix.html#property_callback">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:49</code></a>
+                <a href="../classes/AbstractMatrix.html#property__dimensions">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:25</code></a>
         </p>
 
 
@@ -537,9 +599,59 @@ Creates a new matrix with all elements zero.
 
 
 </div>
-<div id="property_data" class="property item inherited">
-    <h3 class="name"><code>data</code></h3>
+<div id="property__elements" class="property item private inherited">
+    <h3 class="name"><code>_elements</code></h3>
     <span class="type">Float32Array</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#property__elements">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:10</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__length" class="property item private inherited">
+    <h3 class="name"><code>_length</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#property__length">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:18</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_callback" class="property item inherited">
+    <h3 class="name"><code>callback</code></h3>
+    <span class="type">() => Float32Array</span>
 
 
 
@@ -547,8 +659,8 @@ Creates a new matrix with all elements zero.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/AbstractMatrix.html#property_data">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:27</code></a>
+                <a href="../classes/AbstractMatrix.html#property_callback">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:75</code></a>
         </p>
 
 
@@ -572,7 +684,55 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property_dimensions">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:60</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:87</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_elements" class="property item inherited">
+    <h3 class="name"><code>elements</code></h3>
+    <span class="type">Float32Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#property_elements">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:52</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_modified" class="property item inherited">
+    <h3 class="name"><code>modified</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#property_modified">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:32</code></a>
         </p>
 
 

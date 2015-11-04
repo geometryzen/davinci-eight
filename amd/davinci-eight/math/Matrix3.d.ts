@@ -1,11 +1,12 @@
 import AbstractMatrix = require('../math/AbstractMatrix');
 import Matrix = require('../math/Matrix');
 import Matrix4 = require('./Matrix4');
+import Ring = require('../math/MutableRingElement');
 /**
  * @class Matrix3
  * @extends AbstractMatrix
  */
-declare class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
+declare class Matrix3 extends AbstractMatrix implements Matrix<Matrix3>, Ring<Matrix3> {
     /**
      * 3x3 (square) matrix of numbers.
      * Constructs a Matrix3 by wrapping a Float32Array.
@@ -17,11 +18,11 @@ declare class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
      * <p>
      * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
      * </p>
-     * @method identity
+     * @method one
      * @return {Matrix3}
      * @static
      */
-    static identity(): Matrix3;
+    static one(): Matrix3;
     /**
      * <p>
      * Creates a new matrix with all elements zero.
@@ -33,7 +34,11 @@ declare class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
     static zero(): Matrix3;
     determinant(): number;
     getInverse(matrix: Matrix4, throwOnInvertible?: boolean): Matrix3;
-    identity(): Matrix3;
+    /**
+     * @method one
+     * @return {Matrix3}
+     */
+    one(): Matrix3;
     mul(rhs: Matrix3): Matrix3;
     /**
      * @method row

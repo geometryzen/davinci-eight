@@ -41,10 +41,10 @@ define([
       expect(a.coordinate(2)).toBe(x2);
       expect(a.coordinate(3)).toBe(x3);
 
-      expect(a.coordinates()[0]).toBe(x0);
-      expect(a.coordinates()[1]).toBe(x1);
-      expect(a.coordinates()[2]).toBe(x2);
-      expect(a.coordinates()[3]).toBe(x3);
+      expect(a.coords[0]).toBe(x0);
+      expect(a.coords[1]).toBe(x1);
+      expect(a.coords[2]).toBe(x2);
+      expect(a.coords[3]).toBe(x3);
     });
 
     it('Should implement toString()', function() {

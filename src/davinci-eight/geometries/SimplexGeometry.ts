@@ -2,6 +2,7 @@ import DrawPrimitive = require('../geometries/DrawPrimitive')
 import Euclidean3 = require('../math/Euclidean3')
 import GeometryMeta = require('../geometries/GeometryMeta')
 import IGeometry = require('../geometries/IGeometry')
+import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeString = require('../checks/mustBeString')
 import Geometry = require('../geometries/Geometry')
@@ -26,6 +27,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
      * @type {Simplex[]}
      */
     public data: Simplex[] = [];
+
     /**
      * Summary information on the simplices such as dimensionality and sizes for attributes.
      * This data structure may be used to map vertex attribute names to program names.
@@ -33,6 +35,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
      * @type {GeometryMeta}
      */
     public meta: GeometryMeta;
+
     /**
      * The dimensionality of the simplices in this geometry.
      * @property _k
@@ -40,6 +43,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
      * @private
      */
     private _k = new R1([Simplex.TRIANGLE]);
+
     /**
      * Specifies the number of segments to use in curved directions.
      * @property curvedSegments
@@ -47,6 +51,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
      * @beta
      */
     public curvedSegments: number = 16;
+
     /**
      * Specifies the number of segments to use on flat surfaces.
      * @property flatSegments
@@ -54,6 +59,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
      * @beta
      */
     public flatSegments: number = 1;
+
     /**
      * <p>
      * Specifies that the geometry should set colors on vertex attributes
@@ -97,6 +103,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
     public set k(k: number) {
         this._k.x = mustBeInteger('k', k)
     }
+
     /**
      * Used to regenerate the simplex data from geometry parameters.
      * This method should be implemented by the derived geometry class.
@@ -106,6 +113,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
     public regenerate(): void {
         console.warn("`public regenerate(): void` method should be implemented in derived class.")
     }
+
     /**
      * Used to determine whether the geometry must be recalculated.
      * The base implementation is pessimistic and returns <code>true</code>.
@@ -116,6 +124,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
     public isModified(): boolean {
         return this._k.modified
     }
+
     /**
      * Sets the modification state of <code>this</code> instance.
      * Derived classes should override this method if they contain parameters which affect geometry calculation. 
@@ -125,9 +134,11 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
      * @chainable
      */
     public setModified(modified: boolean): SimplexGeometry {
+        mustBeBoolean('modified', modified)
         this._k.modified = modified
         return this
     }
+
     /**
      * <p>
      * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
@@ -138,7 +149,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
      * </p>
      *
      * @method boundary
-     * @param times {number} Determines the number of times the boundary operation is applied to this instance.
+     * @param times [number] Determines the number of times the boundary operation is applied to this instance.
      * @return {SimplexGeometry}
      */
     public boundary(times?: number): SimplexGeometry {
@@ -148,6 +159,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
         this.data = Simplex.boundary(this.data, times);
         return this.check();
     }
+
     /**
      * Updates the meta property of this instance to match the data.
      *
@@ -160,6 +172,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
         this.meta = simplicesToGeometryMeta(this.data);
         return this;
     }
+
     /**
      * <p>
      * Applies the subdivide operation to each Simplex in this instance the specified number of times.
@@ -169,7 +182,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
      * </p>
      *
      * @method subdivide
-     * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
+     * @param times [number] Determines the number of times the subdivide operation is applied to this instance.
      * @return {SimplexGeometry}
      */
     public subdivide(times?: number): SimplexGeometry {
@@ -180,16 +193,18 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
         this.check();
         return this;
     }
+
     /**
      * @method setPosition
-     * @param position {{x: number; y: number; z: number}}
+     * @param position {VectorE3}
      * @return {SimplexGeometry}
      * @chainable
      */
-    public setPosition(position: { x: number, y: number, z: number }): SimplexGeometry {
+    public setPosition(position: VectorE3): SimplexGeometry {
         super.setPosition(position)
         return this
     }
+
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}
@@ -201,6 +216,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
         this.check()
         return [simplicesToDrawPrimitive(this.data, this.meta)]
     }
+
     /**
      * @method mergeVertices
      * @param precisionPonts [number = 4]
@@ -211,6 +227,7 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
     protected mergeVertices(precisionPoints: number = 4): void {
         // console.warn("SimplexGeometry.mergeVertices not yet implemented");
     }
+
     /**
      * Convenience method for pushing attribute data as a triangular simplex
      * @method triangle
@@ -240,6 +257,15 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
         }
         return this.data.push(simplex)
     }
+
+    /**
+     * Convenience method for pushing attribute data as a line segment simplex
+     * @method lineSegment
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
+     * @return {number}
+     */
     public lineSegment(positions: R3[], normals: R3[], uvs: R2[]): number {
         var simplex = new Simplex(Simplex.LINE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
@@ -256,6 +282,15 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
         }
         return this.data.push(simplex)
     }
+
+    /**
+     * Convenience method for pushing attribute data as a point simplex
+     * @method point
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
+     * @return {number}
+     */
     public point(positions: R3[], normals: R3[], uvs: R2[]): number {
         var simplex = new Simplex(Simplex.POINT)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
@@ -268,13 +303,27 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
         }
         return this.data.push(simplex)
     }
+
+    /**
+     * Convenience method for pushing attribute data as an empty simplex
+     * @method empty
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
+     * @return {number}
+     */
     public empty(positions: R3[], normals: R3[], uvs: R2[]): number {
         var simplex = new Simplex(Simplex.EMPTY)
         return this.data.push(simplex)
     }
+
+    /**
+     * @method enableTextureCoords
+     * @param enable {boolean}
+     * @return {SimplexGeometry}
+     */
     enableTextureCoords(enable: boolean): SimplexGeometry {
-        //        mustBeBoolean('enable', enable)
-        //        this.useTextureCoords = enable
+        super.enableTextureCoords(enable)
         return this
     }
 }

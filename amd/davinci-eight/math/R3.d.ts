@@ -1,3 +1,4 @@
+import ColumnVector = require('../math/ColumnVector');
 import VectorE3 = require('../math/VectorE3');
 import Euclidean3 = require('../math/Euclidean3');
 import MutableLinearElement = require('../math/MutableLinearElement');
@@ -9,7 +10,7 @@ import VectorN = require('../math/VectorN');
  * @class R3
  * @extends VectorN<number>
  */
-declare class R3 extends VectorN<number> implements VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
+declare class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
     /**
      * @property e1
      * @type {Euclidean3}
@@ -82,26 +83,24 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
     add2(a: VectorE3, b: VectorE3): R3;
     /**
      * <p>
-     * <code>this ⟼ m * this</code>
+     * <code>this ⟼ m * this<sup>T</sup></code>
      * </p>
-     * @method applyMatrix3
+     * @method applyMatrix
      * @param m {Matrix3}
      * @return {R3} <code>this</code>
      * @chainable
-     * @deprecated
      */
-    applyMatrix3(m: Matrix3): R3;
+    applyMatrix(m: Matrix3): R3;
     /**
      * Pre-multiplies the column vector corresponding to this vector by the matrix.
      * The result is applied to this vector.
      * Strictly speaking, this method does not make much sense because the dimensions
      * of the square matrix and column vector don't match.
      * TODO: Used by TubeSimplexGeometry.
-     * @method applyMatrix
+     * @method applyMatrix4
      * @param m The 4x4 matrix that pre-multiplies this column vector.
      * @return {R3} <code>this</code>
      * @chainable
-     * @deprecated
      */
     applyMatrix4(m: Matrix4): R3;
     /**
@@ -262,29 +261,11 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
      */
     setXYZ(x: number, y: number, z: number): R3;
     /**
-     * @method setX
-     * @param x {number}
-     * @return {R3} <code>this</code>
-     * @chainable
-     * @deprecated
-     */
-    setX(x: number): R3;
-    /**
      * @method setY
-     * @param y {number}
-     * @return {R3} <code>this</code>
-     * @chainable
+     * @param {number}
      * @deprecated
      */
     setY(y: number): R3;
-    /**
-     * @method setZ
-     * @param z {number}
-     * @return {R3} <code>this</code>
-     * @chainable
-     * @deprecated
-     */
-    setZ(z: number): R3;
     slerp(target: VectorE3, α: number): R3;
     /**
      * Returns the (Euclidean) inner product of this vector with itself.
@@ -339,7 +320,20 @@ declare class R3 extends VectorN<number> implements VectorE3, MutableLinearEleme
     zero(): R3;
     __add__(rhs: R3): R3;
     __sub__(rhs: R3): R3;
+    /**
+     * @method mul
+     * @param rhs {number}
+     * @return {R3}
+     * @private
+     */
     __mul__(rhs: number): R3;
+    /**
+     * @method rmul
+     * @param lhs {number}
+     * @return {R3}
+     * @private
+     */
+    __rmul__(lhs: any): R3;
     /**
      * @method copy
      * @param vector {VectorE3}

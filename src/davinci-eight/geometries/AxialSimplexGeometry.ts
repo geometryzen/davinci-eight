@@ -15,6 +15,7 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<Axi
      * @type {CartesianE3}
      */
     public axis: CartesianE3;
+
     /**
      * <p>
      * A geometry which has axial symmetry, giving it an <code>axis</code> property.
@@ -32,6 +33,7 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<Axi
         super()
         this.setAxis(axis)
     }
+
     /**
      * @method setAxis
      * @param axis {VectorE3}
@@ -43,16 +45,18 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<Axi
         this.axis = CartesianE3.normalize(axis)
         return this
     }
+
     /**
      * @method setPosition
      * @param position {VectorE3}
      * @return {AxialSimplexGeometry}
      * @chainable
      */
-    setPosition(position: { x: number; y: number; z: number }): AxialSimplexGeometry {
+    setPosition(position: VectorE3): AxialSimplexGeometry {
         super.setPosition(position)
         return this
     }
+
     /**
      * @method enableTextureCoords
      * @param enable {boolean}

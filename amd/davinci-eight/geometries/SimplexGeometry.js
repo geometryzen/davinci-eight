@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3, mustBeInteger, Geometry, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, R1, R3) {
+define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '../checks/mustBeInteger', '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3, mustBeBoolean, mustBeInteger, Geometry, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, R1, R3) {
     /**
      * @class SimplexGeometry
      * @extends Geometry
@@ -111,6 +111,7 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
          * @chainable
          */
         SimplexGeometry.prototype.setModified = function (modified) {
+            mustBeBoolean('modified', modified);
             this._k.modified = modified;
             return this;
         };
@@ -124,7 +125,7 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
          * </p>
          *
          * @method boundary
-         * @param times {number} Determines the number of times the boundary operation is applied to this instance.
+         * @param times [number] Determines the number of times the boundary operation is applied to this instance.
          * @return {SimplexGeometry}
          */
         SimplexGeometry.prototype.boundary = function (times) {
@@ -155,7 +156,7 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
          * </p>
          *
          * @method subdivide
-         * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
+         * @param times [number] Determines the number of times the subdivide operation is applied to this instance.
          * @return {SimplexGeometry}
          */
         SimplexGeometry.prototype.subdivide = function (times) {
@@ -168,7 +169,7 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
         };
         /**
          * @method setPosition
-         * @param position {{x: number; y: number; z: number}}
+         * @param position {VectorE3}
          * @return {SimplexGeometry}
          * @chainable
          */
@@ -225,6 +226,14 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
             }
             return this.data.push(simplex);
         };
+        /**
+         * Convenience method for pushing attribute data as a line segment simplex
+         * @method lineSegment
+         * @param positions {R3[]}
+         * @param normals {R3[]}
+         * @param uvs {R2[]}
+         * @return {number}
+         */
         SimplexGeometry.prototype.lineSegment = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.LINE);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
@@ -239,6 +248,14 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
             }
             return this.data.push(simplex);
         };
+        /**
+         * Convenience method for pushing attribute data as a point simplex
+         * @method point
+         * @param positions {R3[]}
+         * @param normals {R3[]}
+         * @param uvs {R2[]}
+         * @return {number}
+         */
         SimplexGeometry.prototype.point = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.POINT);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
@@ -249,13 +266,25 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '
             }
             return this.data.push(simplex);
         };
+        /**
+         * Convenience method for pushing attribute data as an empty simplex
+         * @method empty
+         * @param positions {R3[]}
+         * @param normals {R3[]}
+         * @param uvs {R2[]}
+         * @return {number}
+         */
         SimplexGeometry.prototype.empty = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.EMPTY);
             return this.data.push(simplex);
         };
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {SimplexGeometry}
+         */
         SimplexGeometry.prototype.enableTextureCoords = function (enable) {
-            //        mustBeBoolean('enable', enable)
-            //        this.useTextureCoords = enable
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return SimplexGeometry;

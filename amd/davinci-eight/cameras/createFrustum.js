@@ -14,7 +14,7 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
         var near = new R1();
         var far = new R1();
         // TODO: We should immediately create with a frustum static constructor?
-        var projectionMatrix = Matrix4.identity();
+        var projectionMatrix = Matrix4.one();
         function updateProjectionMatrix() {
             projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
         }

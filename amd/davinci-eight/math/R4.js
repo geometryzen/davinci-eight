@@ -38,10 +38,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             enumerable: true,
             configurable: true
         });
-        R4.prototype.setX = function (x) {
-            this.x = x;
-            return this;
-        };
         Object.defineProperty(R4.prototype, "y", {
             /**
              * @property y
@@ -57,10 +53,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             enumerable: true,
             configurable: true
         });
-        R4.prototype.setY = function (y) {
-            this.y = y;
-            return this;
-        };
         Object.defineProperty(R4.prototype, "z", {
             /**
              * @property z
@@ -76,10 +68,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             enumerable: true,
             configurable: true
         });
-        R4.prototype.setZ = function (z) {
-            this.z = z;
-            return this;
-        };
         Object.defineProperty(R4.prototype, "w", {
             /**
              * @property w

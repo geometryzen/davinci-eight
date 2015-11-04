@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.150.0</em>
+            <em>API Docs for: 2.151.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
-                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -192,7 +193,7 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
-                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -359,6 +360,16 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
                             </li>
                             <li class="index-item property">
                                 <a href="#property_UNIFORM_PROJECTION_MATRIX">UNIFORM_PROJECTION_MATRIX</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_UNIFORM_REFLECTION_ONE_MATRIX">UNIFORM_REFLECTION_ONE_MATRIX</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_UNIFORM_REFLECTION_TWO_MATRIX">UNIFORM_REFLECTION_TWO_MATRIX</a>
 
                                     <span class="flag static">static</span>
                             </li>
@@ -659,7 +670,7 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:123</code></a>
+        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l139"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:139</code></a>
         </p>
 
 
@@ -685,7 +696,7 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:131</code></a>
+        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:147</code></a>
         </p>
 
 
@@ -803,6 +814,58 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
 
 
 </div>
+<div id="property_UNIFORM_REFLECTION_ONE_MATRIX" class="property item">
+    <h3 class="name"><code>UNIFORM_REFLECTION_ONE_MATRIX</code></h3>
+    <span class="type">String</span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:123</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>'uReflectionOne'</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_UNIFORM_REFLECTION_TWO_MATRIX" class="property item">
+    <h3 class="name"><code>UNIFORM_REFLECTION_TWO_MATRIX</code></h3>
+    <span class="type">String</span>
+
+
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:131</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>'uReflectionTwo'</p>
+
+    </div>
+
+
+
+</div>
 <div id="property_UNIFORM_VIEW_MATRIX" class="property item">
     <h3 class="name"><code>UNIFORM_VIEW_MATRIX</code></h3>
     <span class="type">String</span>
@@ -815,7 +878,7 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l139"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:139</code></a>
+        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:155</code></a>
         </p>
 
 
@@ -841,7 +904,7 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l147"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:147</code></a>
+        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l163"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:163</code></a>
         </p>
 
 
@@ -867,7 +930,7 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l155"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:155</code></a>
+        <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:171</code></a>
         </p>
 
 

@@ -36,7 +36,7 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
 
   var refCount = 1
   let base: View = createView(options)
-  let projectionMatrix: Matrix4 = Matrix4.identity()
+  let projectionMatrix: Matrix4 = Matrix4.one()
   var matrixNeedsUpdate = true
 
   let self: Perspective = {

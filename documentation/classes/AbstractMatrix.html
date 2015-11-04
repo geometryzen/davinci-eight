@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.150.0</em>
+            <em>API Docs for: 2.151.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
-                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -192,7 +193,7 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
-                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -250,7 +251,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:14</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:38</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -270,7 +271,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>data</code>
+                        <code>elements</code>
                 </li>
                 <li class="arg">
                         <code>dimensions</code>
@@ -288,7 +289,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:14</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:38</code></a>
         </p>
 
 
@@ -304,7 +305,7 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">data</code>
+                        <code class="param-name">elements</code>
                         <span class="type">Float32Array</span>
 
 
@@ -347,16 +348,32 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
+                            <li class="index-item property private">
+                                <a href="#property__dimensions">_dimensions</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__elements">_elements</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__length">_length</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_callback">callback</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_data">data</a>
+                                <a href="#property_dimensions">dimensions</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_dimensions">dimensions</a>
+                                <a href="#property_elements">elements</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_modified">modified</a>
 
                             </li>
                     </ul>
@@ -369,18 +386,19 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_callback" class="property item">
-    <h3 class="name"><code>callback</code></h3>
-    <span class="type">() => Float32Array</span>
+<div id="property__dimensions" class="property item private">
+    <h3 class="name"><code>_dimensions</code></h3>
+    <span class="type">Number</span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:49</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:25</code></a>
         </p>
 
 
@@ -393,9 +411,59 @@
 
 
 </div>
-<div id="property_data" class="property item">
-    <h3 class="name"><code>data</code></h3>
+<div id="property__elements" class="property item private">
+    <h3 class="name"><code>_elements</code></h3>
     <span class="type">Float32Array</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:10</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property__length" class="property item private">
+    <h3 class="name"><code>_length</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:18</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_callback" class="property item">
+    <h3 class="name"><code>callback</code></h3>
+    <span class="type">() => Float32Array</span>
 
 
 
@@ -404,7 +472,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:27</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:75</code></a>
         </p>
 
 
@@ -428,7 +496,55 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:60</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:87</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_elements" class="property item">
+    <h3 class="name"><code>elements</code></h3>
+    <span class="type">Float32Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:52</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_modified" class="property item">
+    <h3 class="name"><code>modified</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:32</code></a>
         </p>
 
 

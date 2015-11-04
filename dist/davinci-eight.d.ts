@@ -452,12 +452,12 @@ declare module EIGHT {
         inv(): QQ;
 
         /**
-         * Determines whether this rational number is the multiplicative identity (1).
+         * Determines whether this rational number is the multiplicative identity, <b>1</b>.
          */
         isOne(): boolean;
 
         /**
-         * Determines whether this rational number is the additive identity (0).
+         * Determines whether this rational number is the additive identity, <b>0</b>.
          */
         isZero(): boolean;
 
@@ -469,13 +469,13 @@ declare module EIGHT {
         static MINUS_ONE: QQ;
 
         /**
-         * The multiplicative identity (1) for rational numbers.
+         * The multiplicative identity <b>1</b> for rational numbers.
          */
         static ONE: QQ;
         static TWO: QQ;
 
         /**
-         * The additive identity (0) for rational numbers.
+         * The additive identity <b>0</b> for rational numbers.
          */
         static ZERO: QQ;
     }
@@ -606,20 +606,19 @@ declare module EIGHT {
      * A measure with an optional unit of measure.
      */
     class Euclidean3 implements VectorE3, SpinorE3 {
-        static zero: Euclidean3;
-        static one: Euclidean3;
+        static ampere: Euclidean3;
+        static candela: Euclidean3;
+        static coulomb: Euclidean3;
         static e1: Euclidean3;
         static e2: Euclidean3;
         static e3: Euclidean3;
+        static kelvin: Euclidean3;
         static kilogram: Euclidean3;
         static meter: Euclidean3;
-        static second: Euclidean3;
-        static coulomb: Euclidean3;
-        static ampere: Euclidean3;
-        static kelvin: Euclidean3;
         static mole: Euclidean3;
-        static candela: Euclidean3;
-        static fromSpinorE3(spinor: SpinorE3): Euclidean3;
+        static one: Euclidean3;
+        static second: Euclidean3;
+        static zero: Euclidean3;
         /**
          * The scalar component.
          */
@@ -647,21 +646,78 @@ declare module EIGHT {
          * The (optional) unit of measure.
          */
         uom: Unit;
+        add(rhs: Euclidean3): Euclidean3;
+        addPseudo(β: number): Euclidean3;
+        addScalar(α: number): Euclidean3;
+        adj(): Euclidean3;
+        angle(); Euclidean3;
+        conj(): Euclidean3;
+        coordinate(index: number): number;
+        cos(): Euclidean3;
+        cosh(): Euclidean3;
+        cross(vector: Euclidean3): Euclidean3;
+        cubicBezier(t: number, controlBegin: GeometricE3, controlEnd: GeometricE3, endPoint: GeometricE3): Euclidean3;
+        distanceTo(point: Euclidean3): number;
+        div(rhs: Euclidean3): Euclidean3;
+        divByScalar(α: number): Euclidean3;
+        dual(): Euclidean3;
+        equals(other: Euclidean3): Euclidean3;
+        exp(): Euclidean3;
+        ext(rhs: Euclidean3): Euclidean3;
+        grade(index: number): Euclidean3;
+        inv(): Euclidean3;
+        isOne(): boolean;
+        isZero(): boolean;
+        lco(rhs: Euclidean3): Euclidean3;
+        lerp(target: Euclidean3, α: number): Euclidean3;
+        log(): Euclidean3;
         magnitude(): number;
-        scale(α: number): Euclidean3
+        mul(rhs: Euclidean3): Euclidean3;
+        neg(): Euclidean3;
+        norm(): Euclidean3;
+        pow(exponent: Euclidean3): Euclidean3;
+        quad(): Euclidean3;
+        quadraticBezier(t: number, controlPoint: GeometricE3, endPoint: GeometricE3): Euclidean3;
+        rco(rhs: Euclidean3): Euclidean3;
+        reflect(n: VectorE3): Euclidean3;
+        rev(): Euclidean3;
+        rotate(s: SpinorE3): Euclidean3;
+        scale(α: number): Euclidean3;
+        scp(rhs: Euclidean3): Euclidean3;
+        sin(): Euclidean3;
+        sinh(): Euclidean3;
+        slerp(target: Euclidean3, α: number): Euclidean3;
+        sqrt(): Euclidean3;
         squaredNorm(): number;
+        sub(rhs: Euclidean3): Euclidean3;
+        toExponential(): string;
         toFixed(digits?: number): string;
         toString(): string;
-        /**
-         * Computes the normalized (<em>unitary</em>) value of this <em>multivector</em>.
-         */
         unitary(): Euclidean3;
+        static fromSpinorE3(spinor: SpinorE3): Euclidean3;
+        static fromVectorE3(vector: VectorE3): Euclidean3;
     }
 
     /**
      *
      */
-    class AbstractMatrix implements Mutable<Float32Array> {
+    interface MutableMatrix<T> {
+        /**
+         * @property elements
+         * @type T
+         */
+        elements: T;
+        /**
+         * @property callback
+         * @type () => T
+         */
+        callback: () => T;
+    }
+
+    /**
+     *
+     */
+    class AbstractMatrix implements MutableMatrix<Float32Array> {
         elements: Float32Array;
         dimensions: number;
         callback: () => Float32Array;
@@ -681,14 +737,17 @@ declare module EIGHT {
      */
     class Matrix3 extends AbstractMatrix {
         constructor(elements: Float32Array);
+
         /**
          * Generates a new identity matrix.
          */
-        static identity(): Matrix3;
+        static one(): Matrix3;
+
         /**
-         *
+         * Sets this matrix to the identity element for multiplication, <b>1</b>.
          */
-        identity(): Matrix4;
+        one(): Matrix4;
+
         /**
          *
          */
@@ -700,51 +759,146 @@ declare module EIGHT {
      */
     class Matrix4 extends AbstractMatrix {
         constructor(elements: Float32Array);
-        /**
-         * Generates a new identity matrix.
-         */
-        static identity(): Matrix4;
-        /**
-         * Generates a new scaling matrix.
-         */
-        static scaling(scale: VectorE3): Matrix4;
-        /**
-         * Generates a new translation matrix.
-         */
-        static translation(vector: VectorE3): Matrix4;
-        /**
-         * Generates a new rotation matrix.
-         */
-        static rotation(spinor: SpinorE3): Matrix4;
+
         /**
          *
          */
         clone(): Matrix4;
+
+        /**
+         *
+         */
+        compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4;
+
         /**
          *
          */
         copy(matrix: Matrix4): Matrix4;
+
         /**
          *
          */
         determinant(): number;
+
         /**
          *
          */
-        identity(): Matrix4;
-        invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
-        mul(matrix: Matrix4): Matrix4;
-        mul2(a: Matrix4, b: Matrix4): Matrix4;
-        rotate(spinor: SpinorE3): Matrix4;
-        rotation(spinor: SpinorE3): Matrix4;
-        scale(scale: VectorE3): Matrix4;
-        scaling(scale: VectorE3): Matrix4;
-        translate(displacement: VectorE3): Matrix4;
-        translation(displacement: VectorE3): Matrix4;
-        transpose(): Matrix4;
         frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4;
-        toString(): string;
+
+        /**
+         * Generates a new identity matrix.
+         */
+        static one(): Matrix4;
+
+        /**
+         * Sets this matrix to the identity element for multiplication, <b>1</b>.
+         */
+        one(): Matrix4;
+
+        /**
+         *
+         */
+        invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
+
+        /**
+         *
+         */
+        mul(rhs: Matrix4): Matrix4;
+
+        /**
+         *
+         */
+        mul2(a: Matrix4, b: Matrix4): Matrix4;
+
+        /**
+         *
+         */
+        reflection(n: VectorE3): Matrix4;
+
+        /**
+         *
+         */
+        rmul(lhs: Matrix4): Matrix4;
+
+        /**
+         *
+         */
+        rotate(spinor: SpinorE3): Matrix4;
+
+        /**
+         * Generates a new rotation matrix.
+         */
+        static rotation(spinor: SpinorE3): Matrix4;
+
+        /**
+         *
+         */
+        rotation(spinor: SpinorE3): Matrix4;
+
+        /**
+         *
+         */
+        rotationAxisAngle(axis: VectorE3, angle: number): Matrix4;
+
+        /**
+         *
+         */
+        row(i): Array<number>;
+
+        /**
+         *
+         */
+        scale(scale: VectorE3): Matrix4;
+
+        /**
+         *
+         */
+        scaleXYZ(scale: VectorE3): Matrix4;
+
+        /**
+         * Generates a new scaling matrix.
+         */
+        static scaling(scale: VectorE3): Matrix4;
+
+        /**
+         *
+         */
+        scaling(scale: VectorE3): Matrix4;
+
+        /**
+         *
+         */
         toFixed(digits?: number): string;
+
+        /**
+         *
+         */
+        toString(): string;
+
+        /**
+         *
+         */
+        translate(displacement: VectorE3): Matrix4;
+
+        /**
+         * Generates a new translation matrix.
+         */
+        static translation(vector: VectorE3): Matrix4;
+
+        /**
+         *
+         */
+        translation(displacement: VectorE3): Matrix4;
+
+        /**
+         *
+         */
+        transpose(): Matrix4;
+
+        /**
+         *
+         */
+        zero(): Matrix4;
     }
 
     /**
@@ -1216,12 +1370,12 @@ declare module EIGHT {
         toString(): string;
 
         /**
-         * The identity element for addition, 0.
+         * The identity element for addition, <b>0</b>.
          */
         static zero: G2;
 
         /**
-         * The identity element for multiplication, 1.
+         * The identity element for multiplication, <b>1</b>.
          */
         static one: G2;
 
@@ -1786,12 +1940,12 @@ declare module EIGHT {
         toString(): string;
 
         /**
-         * The identity element for addition, 0.
+         * The identity element for addition, <b>0</b>.
          */
         static zero: G3;
 
         /**
-         * The identity element for multiplication, 1.
+         * The identity element for multiplication, <b>1</b>.
          */
         static one: G3;
 
@@ -2026,41 +2180,45 @@ declare module EIGHT {
         x: number;
         y: number;
         z: number;
-        static e1: R3;
-        static e2: R3;
-        static e3: R3;
         constructor(coordinates?: number[], modified?: boolean);
         /**
          * this += alpha * vector
          */
         add(vector: VectorE3, alpha?: number): R3;
         add2(a: VectorE3, b: VectorE3): R3;
+        applyMatrix4(m: Matrix4): R3;
+        applyMatrix(m: Matrix3): R3;
         clone(): R3;
         copy(v: VectorE3): R3;
+        static copy(vector: VectorE3): R3;
+        copyCoordinates(coordinates: number[]): R3;
         cross(v: VectorE3): R3;
         cross2(a: VectorE3, b: VectorE3): R3;
-        distanceTo(position: VectorE3): number;
+        distanceTo(point: VectorE3): number;
         divByScalar(rhs: number): R3;
+        static dot(a: VectorE3, b: VectorE3): number;
+        dot(v: VectorE3): number;
+        lerp(target: VectorE3, α: number): R3;
+        static lerp(a: VectorE3, b: VectorE3, α: number): R3;
+        lerp2(a: VectorE3, b: VectorE3, α: number): R3;
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          */
         magnitude(): number;
-        lerp(target: VectorE3, α: number): R3;
-        scale(rhs: number): R3;
+        neg(): R3;
         normalize(): R3;
-        squaredNorm(): number;
-        quadranceTo(position: VectorE3): number;
+        quadranceTo(point: VectorE3): number;
+        static random(): R3;
         reflect(n: VectorE3): R3;
         rotate(rotor: SpinorE3): R3;
+        scale(rhs: number): R3;
         set(x: number, y: number, z: number): R3;
+        squaredNorm(): number;
         sub(rhs: VectorE3): R3;
         sub2(a: VectorE3, b: VectorE3): R3;
         toExponential(): string;
         toFixed(digits?: number): string;
         toString(): string;
-        static copy(vector: VectorE3): R3;
-        static lerp(a: VectorE3, b: VectorE3, α: number): R3;
-        static random(): R3;
     }
 
     /**
@@ -2244,7 +2402,7 @@ declare module EIGHT {
     /**
      * A geometry holds a list of simplices.
      */
-    class SimplexGeometry extends Shareable implements IGeometry<SimplexGeometry> {
+    class SimplexGeometry extends Geometry {
         /**
          * The geometry as a list of simplices. These may be triangles, lines or points.
          */
@@ -2674,6 +2832,8 @@ declare module EIGHT {
         static UNIFORM_POINT_LIGHT_COLOR: string;
         static UNIFORM_POINT_LIGHT_POSITION: string;
         static UNIFORM_PROJECTION_MATRIX: string;
+        static UNIFORM_REFLECTION_ONE_MATRIX: string;
+        static UNIFORM_REFLECTION_TWO_MATRIX: string;
         static UNIFORM_MODEL_MATRIX: string;
         static UNIFORM_NORMAL_MATRIX: string;
         static UNIFORM_VIEW_MATRIX: string;
@@ -2958,9 +3118,21 @@ declare module EIGHT {
     }
 
     class Geometry {
-        position: VectorE3;
+        /**
+         * The local <code>position</code> property used for geometry generation.
+         /*
+        position: CartesianE3;
+        /**
+         *
+         */
         useTextureCoords: boolean;
+        /**
+         *
+         */
         constructor();
+        enableTextureCoords(enable: boolean): Geometry;
+        setPosition(position: VectorE3): Geometry;
+        toPrimitives(): DrawPrimitive[];
     }
 
     class AxialGeometry extends Geometry {
@@ -3376,7 +3548,7 @@ declare module EIGHT {
     }
 
 
-    class PointSize extends AbstractFacet {
+    class PointSizeFacet extends AbstractFacet {
         pointSize: number
         constructor(pointSize?: number);
     }
@@ -3389,8 +3561,41 @@ declare module EIGHT {
     /**
      * A (name: string, vector: R3) pair that can be used to set a uniform variable.
      */
-    class Vector3Uniform extends AbstractFacet {
+    class Vector3Facet extends AbstractFacet {
         constructor(name: string, vector: R3);
+    }
+
+    /**
+     *
+     */
+    class ReflectionFacet extends Shareable implements IFacet {
+        /**
+         * The vector perpendicular to the (hyper-)plane of reflection.
+         *
+         */
+        public normal: R3;
+
+        /**
+         * @param name The name of the uniform variable associated with this facet.
+         */
+        constructor(name: string);
+
+        /**
+         * @param name
+         */
+        getProperty(name: string): Array<number>;
+
+        /**
+         * @param name
+         * @param value
+         */
+        setProperty(name: string, value: Array<number>): void;
+
+        /**
+         * @param visitor
+         * @param canvasId
+         */
+        setUniforms(visitor: IFacetVisitor, canvasId: number): void;
     }
 
     // commands

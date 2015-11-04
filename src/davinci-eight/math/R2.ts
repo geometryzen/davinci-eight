@@ -1,9 +1,11 @@
+import ColumnVector = require('../math/ColumnVector')
 import b2 = require('../geometries/b2')
 import b3 = require('../geometries/b3')
-import VectorE2 = require('../math/VectorE2');
+import Matrix2 = require('../math/Matrix2');
 import MutableLinearElement = require('../math/MutableLinearElement');
 import SpinorE2 = require('../math/SpinorE2');
 import VectorN = require('../math/VectorN');
+import VectorE2 = require('../math/VectorE2');
 import expectArg = require('../checks/expectArg');
 
 let exp = Math.exp
@@ -15,7 +17,7 @@ let COORD_Y = 1
 /**
  * @class R2
  */
-class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<VectorE2, R2, SpinorE2, VectorE2> {
+class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, VectorE2, MutableLinearElement<VectorE2, R2, SpinorE2, VectorE2> {
     /**
      * @class R2
      * @constructor
@@ -52,14 +54,6 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
         this.y = y;
         return this;
     }
-    setX(x: number) {
-        this.x = x;
-        return this;
-    }
-    setY(y: number) {
-        this.y = y;
-        return this;
-    }
     copy(v: VectorE2) {
         this.x = v.x;
         this.y = v.y;
@@ -73,6 +67,27 @@ class R2 extends VectorN<number> implements VectorE2, MutableLinearElement<Vecto
     add2(a: VectorE2, b: VectorE2) {
         this.x = a.x + b.x;
         this.y = a.y + b.y;
+        return this;
+    }
+
+    /**
+     * <p>
+     * <code>this ⟼ m * this<sup>T</sup></code>
+     * </p>
+     * @method applyMatrix
+     * @param m {Matrix2}
+     * @return {R2} <code>this</code>
+     * @chainable
+     */
+    applyMatrix(m: Matrix2): R2 {
+        let x = this.x;
+        let y = this.y;
+
+        let e = m.elements;
+
+        this.x = e[0x0] * x + e[0x2] * y;
+        this.y = e[0x1] * x + e[0x3] * y;
+
         return this;
     }
 

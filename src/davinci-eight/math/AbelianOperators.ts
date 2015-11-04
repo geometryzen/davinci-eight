@@ -40,7 +40,7 @@ interface AbelianOperators<T> {
      neg(): T
 
      /**
-      * Determines whether this element is the additive identity (0).
+      * Determines whether this element is the additive identity, <b>0</b>.
       */
      isZero(): boolean
 }

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.150.0</em>
+            <em>API Docs for: 2.151.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
-                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -192,7 +193,7 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
-                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -253,6 +254,7 @@ import DrawPrimitive = require(&#x27;../geometries/DrawPrimitive&#x27;)
 import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
 import GeometryMeta = require(&#x27;../geometries/GeometryMeta&#x27;)
 import IGeometry = require(&#x27;../geometries/IGeometry&#x27;)
+import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import Geometry = require(&#x27;../geometries/Geometry&#x27;)
@@ -277,6 +279,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
      * @type {Simplex[]}
      */
     public data: Simplex[] = [];
+
     /**
      * Summary information on the simplices such as dimensionality and sizes for attributes.
      * This data structure may be used to map vertex attribute names to program names.
@@ -284,6 +287,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
      * @type {GeometryMeta}
      */
     public meta: GeometryMeta;
+
     /**
      * The dimensionality of the simplices in this geometry.
      * @property _k
@@ -291,6 +295,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
      * @private
      */
     private _k = new R1([Simplex.TRIANGLE]);
+
     /**
      * Specifies the number of segments to use in curved directions.
      * @property curvedSegments
@@ -298,6 +303,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
      * @beta
      */
     public curvedSegments: number = 16;
+
     /**
      * Specifies the number of segments to use on flat surfaces.
      * @property flatSegments
@@ -305,6 +311,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
      * @beta
      */
     public flatSegments: number = 1;
+
     /**
      * &lt;p&gt;
      * Specifies that the geometry should set colors on vertex attributes
@@ -348,6 +355,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
     public set k(k: number) {
         this._k.x = mustBeInteger(&#x27;k&#x27;, k)
     }
+
     /**
      * Used to regenerate the simplex data from geometry parameters.
      * This method should be implemented by the derived geometry class.
@@ -357,6 +365,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
     public regenerate(): void {
         console.warn(&quot;&#x60;public regenerate(): void&#x60; method should be implemented in derived class.&quot;)
     }
+
     /**
      * Used to determine whether the geometry must be recalculated.
      * The base implementation is pessimistic and returns &lt;code&gt;true&lt;/code&gt;.
@@ -367,6 +376,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
     public isModified(): boolean {
         return this._k.modified
     }
+
     /**
      * Sets the modification state of &lt;code&gt;this&lt;/code&gt; instance.
      * Derived classes should override this method if they contain parameters which affect geometry calculation. 
@@ -376,9 +386,11 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
      * @chainable
      */
     public setModified(modified: boolean): SimplexGeometry {
+        mustBeBoolean(&#x27;modified&#x27;, modified)
         this._k.modified = modified
         return this
     }
+
     /**
      * &lt;p&gt;
      * Applies the &lt;em&gt;boundary&lt;/em&gt; operation to each Simplex in this instance the specified number of times.
@@ -389,7 +401,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
      * &lt;/p&gt;
      *
      * @method boundary
-     * @param times {number} Determines the number of times the boundary operation is applied to this instance.
+     * @param times [number] Determines the number of times the boundary operation is applied to this instance.
      * @return {SimplexGeometry}
      */
     public boundary(times?: number): SimplexGeometry {
@@ -399,6 +411,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
         this.data = Simplex.boundary(this.data, times);
         return this.check();
     }
+
     /**
      * Updates the meta property of this instance to match the data.
      *
@@ -411,6 +424,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
         this.meta = simplicesToGeometryMeta(this.data);
         return this;
     }
+
     /**
      * &lt;p&gt;
      * Applies the subdivide operation to each Simplex in this instance the specified number of times.
@@ -420,7 +434,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
      * &lt;/p&gt;
      *
      * @method subdivide
-     * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
+     * @param times [number] Determines the number of times the subdivide operation is applied to this instance.
      * @return {SimplexGeometry}
      */
     public subdivide(times?: number): SimplexGeometry {
@@ -431,16 +445,18 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
         this.check();
         return this;
     }
+
     /**
      * @method setPosition
-     * @param position {{x: number; y: number; z: number}}
+     * @param position {VectorE3}
      * @return {SimplexGeometry}
      * @chainable
      */
-    public setPosition(position: { x: number, y: number, z: number }): SimplexGeometry {
+    public setPosition(position: VectorE3): SimplexGeometry {
         super.setPosition(position)
         return this
     }
+
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}
@@ -452,6 +468,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
         this.check()
         return [simplicesToDrawPrimitive(this.data, this.meta)]
     }
+
     /**
      * @method mergeVertices
      * @param precisionPonts [number = 4]
@@ -462,6 +479,7 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
     protected mergeVertices(precisionPoints: number = 4): void {
         // console.warn(&quot;SimplexGeometry.mergeVertices not yet implemented&quot;);
     }
+
     /**
      * Convenience method for pushing attribute data as a triangular simplex
      * @method triangle
@@ -491,6 +509,15 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
         }
         return this.data.push(simplex)
     }
+
+    /**
+     * Convenience method for pushing attribute data as a line segment simplex
+     * @method lineSegment
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
+     * @return {number}
+     */
     public lineSegment(positions: R3[], normals: R3[], uvs: R2[]): number {
         var simplex = new Simplex(Simplex.LINE)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
@@ -507,6 +534,15 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
         }
         return this.data.push(simplex)
     }
+
+    /**
+     * Convenience method for pushing attribute data as a point simplex
+     * @method point
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
+     * @return {number}
+     */
     public point(positions: R3[], normals: R3[], uvs: R2[]): number {
         var simplex = new Simplex(Simplex.POINT)
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0]
@@ -519,13 +555,27 @@ class SimplexGeometry extends Geometry implements IGeometry&lt;SimplexGeometry&g
         }
         return this.data.push(simplex)
     }
+
+    /**
+     * Convenience method for pushing attribute data as an empty simplex
+     * @method empty
+     * @param positions {R3[]}
+     * @param normals {R3[]}
+     * @param uvs {R2[]}
+     * @return {number}
+     */
     public empty(positions: R3[], normals: R3[], uvs: R2[]): number {
         var simplex = new Simplex(Simplex.EMPTY)
         return this.data.push(simplex)
     }
+
+    /**
+     * @method enableTextureCoords
+     * @param enable {boolean}
+     * @return {SimplexGeometry}
+     */
     enableTextureCoords(enable: boolean): SimplexGeometry {
-        //        mustBeBoolean(&#x27;enable&#x27;, enable)
-        //        this.useTextureCoords = enable
+        super.enableTextureCoords(enable)
         return this
     }
 }

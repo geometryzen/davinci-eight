@@ -375,6 +375,13 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      */
     normalize(): G3;
     /**
+     * Sets this multivector to the identity element for multiplication, <b>1</b>.
+     * @method one
+     * @return {G3}
+     * @chainable
+     */
+    one(): G3;
+    /**
     * <p>
     * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
     * </p>
@@ -681,6 +688,13 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      */
     __rvbar__(lhs: any): G3;
     /**
+     * @method __bang__
+     * @return {G3}
+     * @private
+     * @chainable
+     */
+    __bang__(): G3;
+    /**
      * @method __pos__
      * @return {G3}
      * @private
@@ -695,7 +709,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      */
     __neg__(): G3;
     /**
-     * The identity element for addition.
+     * The identity element for addition, <b>0</b>.
      * @property zero
      * @type {G3}
      * @readOnly
@@ -703,7 +717,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      */
     static zero: G3;
     /**
-     * The identity element for multiplication.
+     * The identity element for multiplication, <b>1</b>.
      * @property one
      * @type {G3}
      * @readOnly

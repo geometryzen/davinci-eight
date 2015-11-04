@@ -3,20 +3,39 @@ import MutableMatrix = require('../math/MutableMatrix');
  * @class AbstractMatrix
  */
 declare class AbstractMatrix implements MutableMatrix<Float32Array> {
-    private _data;
+    /**
+     * @property _elements
+     * @type {Float32Array}
+     * @private
+     */
+    private _elements;
     private _callback;
+    /**
+     * @property _length
+     * @type {number}
+     * @private
+     */
     private _length;
+    /**
+     * @property _dimensions
+     * @type {number}
+     * @private
+     */
     private _dimensions;
+    /**
+     * @property modified
+     * @type {boolean}
+     */
     modified: boolean;
     /**
      * @class AbstractMatrix
      * @constructor
-     * @param data {Float32Array}
+     * @param elements {Float32Array}
      * @param dimensions {number}
      */
-    constructor(data: Float32Array, dimensions: number);
+    constructor(elements: Float32Array, dimensions: number);
     /**
-     * @property data
+     * @property elements
      * @type {Float32Array}
      */
     elements: Float32Array;

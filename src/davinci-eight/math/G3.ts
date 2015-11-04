@@ -1,5 +1,6 @@
 import dotVectorCartesianE3 = require('../math/dotVectorCartesianE3')
 import dotVector = require('../math/dotVectorE3')
+import Euclidean3 = require('../math/Euclidean3')
 import extG3 = require('../math/extG3')
 import GeometricE3 = require('../math/GeometricE3')
 import isNumber = require('../checks/isNumber')
@@ -830,6 +831,24 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
+     * Sets this multivector to the identity element for multiplication, <b>1</b>.
+     * @method one
+     * @return {G3}
+     * @chainable
+     */
+    one() {
+        this.α = 1
+        this.x = 0
+        this.y = 0
+        this.z = 0
+        this.yz = 0
+        this.zx = 0
+        this.xy = 0
+        this.β = 0
+        return this
+    }
+
+    /**
     * <p>
     * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
     * </p>
@@ -864,18 +883,12 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @chainable
      */
     reflect(n: VectorE3): G3 {
-        // FIXME: This inly reflects the vector components.
+        // TODO: Optimize.
         mustBeObject('n', n);
-        let x = this.x;
-        let y = this.y;
-        let z = this.z;
-        let nx = n.x;
-        let ny = n.y;
-        let nz = n.z;
-        let dot2 = (x * nx + y * ny + z * nz) * 2;
-        this.x = x - dot2 * nx;
-        this.y = y - dot2 * ny;
-        this.z = z - dot2 * nz;
+        let N = Euclidean3.fromVectorE3(n);
+        let M = Euclidean3.copy(this);
+        let R = N.mul(M).mul(N).scale(-1);
+        this.copy(R);
         return this;
     }
 
@@ -1539,6 +1552,16 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
+     * @method __bang__
+     * @return {G3}
+     * @private
+     * @chainable
+     */
+    __bang__(): G3 {
+        return G3.copy(this).inv()
+    }
+
+    /**
      * @method __pos__
      * @return {G3}
      * @private
@@ -1559,7 +1582,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
-     * The identity element for addition.
+     * The identity element for addition, <b>0</b>.
      * @property zero
      * @type {G3}
      * @readOnly
@@ -1568,7 +1591,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     static get zero(): G3 { return G3.copy(zero); };
 
     /**
-     * The identity element for multiplication.
+     * The identity element for multiplication, <b>1</b>.
      * @property one
      * @type {G3}
      * @readOnly

@@ -1,6 +1,7 @@
 import CartesianE3 = require('../math/CartesianE3');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IGeometry = require('../geometries/IGeometry');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class Geometry
  */
@@ -38,15 +39,11 @@ declare class Geometry implements IGeometry<Geometry> {
     enableTextureCoords(enable: boolean): Geometry;
     /**
      * @method setPosition
-     * @param position {{x: number, y: number, z: number}}
+     * @param position {VectorE3}
      * @return Geometry
      * @chainable
      */
-    setPosition(position: {
-        x: number;
-        y: number;
-        z: number;
-    }): Geometry;
+    setPosition(position: VectorE3): Geometry;
     /**
      * @method toPrimitives
      * @return {DrawPrimitive[]}

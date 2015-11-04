@@ -84,7 +84,7 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         throw new Error(readOnly('β').message)
     }
 
-    coordinates(): number[] {
+    get coords(): number[] {
         return [this.w, this.x]
     }
 

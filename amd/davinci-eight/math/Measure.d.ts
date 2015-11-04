@@ -8,7 +8,7 @@ interface Measure<T> {
      * The pseudoscalar part of the measure, as a <code>number</code>.
      */
     β: number;
-    coordinates(): number[];
+    coords: number[];
     uom: Unit;
     add(rhs: T): T;
     angle(): T;

@@ -32,10 +32,6 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
         this.modified = this.modified || this.x !== value;
         this.coords[0] = value;
     }
-    setX(x: number) {
-        this.x = x;
-        return this;
-    }
     /**
      * @property y
      * @type Number
@@ -47,10 +43,7 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
         this.modified = this.modified || this.y !== value;
         this.coords[1] = value;
     }
-    setY(y: number) {
-        this.y = y;
-        return this;
-    }
+
     /**
      * @property z
      * @type Number
@@ -62,10 +55,7 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
         this.modified = this.modified || this.z !== value;
         this.coords[2] = value;
     }
-    setZ(z: number) {
-        this.z = z;
-        return this;
-    }
+
     /**
      * @property w
      * @type Number

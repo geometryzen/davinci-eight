@@ -83,9 +83,18 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeInteger', '..
             enumerable: true,
             configurable: true
         });
-        CC.prototype.coordinates = function () {
-            return [this.x, this.y];
-        };
+        Object.defineProperty(CC.prototype, "coords", {
+            /**
+             * @property coords
+             * @type {number[]}
+             * @readOnly
+             */
+            get: function () {
+                return [this.x, this.y];
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * @method add
          * @param rhs {CC}
@@ -427,6 +436,13 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeInteger', '..
             var divisor = norm(x, y);
             return new CC(x / divisor, y / divisor);
         };
+        /**
+         * @method tan
+         * @return {CC}
+         */
+        CC.prototype.tan = function () {
+            return this.sin().div(this.cos());
+        };
         CC.prototype.toStringCustom = function (coordToString) {
             var quantityString = "CC(" + coordToString(this.x) + ", " + coordToString(this.y) + ")";
             if (this.uom) {
@@ -474,6 +490,14 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeInteger', '..
          */
         CC.prototype.__rrshift__ = function (other) {
             throw new Error("");
+        };
+        /**
+         * @method __bang__
+         * @return {CC}
+         * @private
+         */
+        CC.prototype.__bang__ = function () {
+            return this.inv();
         };
         /**
          * @method __pos__

@@ -157,27 +157,31 @@ import R4 = require('davinci-eight/math/R4')
 import VectorN = require('davinci-eight/math/VectorN')
 import HH = require('davinci-eight/math/HH')
 
+// facets and animation targets
+import AmbientLight = require('davinci-eight/facets/AmbientLight')
+import ColorFacet = require('davinci-eight/facets/ColorFacet')
+import DirectionalLight = require('davinci-eight/facets/DirectionalLight')
+import EulerFacet = require('davinci-eight/facets/EulerFacet')
+import ModelFacetE3 = require('davinci-eight/facets/ModelFacetE3')
+import PointSizeFacet = require('davinci-eight/facets/PointSizeFacet')
+import ReflectionFacet = require('davinci-eight/facets/ReflectionFacet')
+import RigidBodyFacetE3 = require('davinci-eight/facets/RigidBodyFacetE3')
+import Vector3Facet = require('davinci-eight/facets/Vector3Facet')
+
 // models
-import ModelE2 = require('davinci-eight/physics/ModelE2')
-import ModelE3 = require('davinci-eight/physics/ModelE3')
-import EulerFacet = require('davinci-eight/models/EulerFacet')
-import RigidBodyFacetE3 = require('davinci-eight/models/RigidBodyFacetE3')
-import ModelFacetE3 = require('davinci-eight/models/ModelFacetE3')
-import RigidBodyE2 = require('davinci-eight/physics/RigidBodyE2')
-import RigidBodyE3 = require('davinci-eight/physics/RigidBodyE3')
+import ModelE2 = require('davinci-eight/models/ModelE2')
+import ModelE3 = require('davinci-eight/models/ModelE3')
+import RigidBodyE2 = require('davinci-eight/models/RigidBodyE2')
+import RigidBodyE3 = require('davinci-eight/models/RigidBodyE3')
 
 // programs
 import IMaterial = require('davinci-eight/core/IMaterial')
+
 // renderers
 import IContextRenderer = require('davinci-eight/renderers/IContextRenderer')
 import initWebGL = require('davinci-eight/renderers/initWebGL')
 import renderer = require('davinci-eight/renderers/renderer')
-// uniforms
-import AmbientLight = require('davinci-eight/uniforms/AmbientLight')
-import ColorFacet = require('davinci-eight/uniforms/ColorFacet')
-import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight')
-import PointSize = require('davinci-eight/uniforms/PointSize')
-import Vector3Uniform = require('davinci-eight/uniforms/Vector3Uniform')
+
 
 // utils
 import contextProxy = require('davinci-eight/utils/contextProxy')
@@ -356,8 +360,9 @@ var eight = {
     get AmbientLight() { return AmbientLight },
     get ColorFacet() { return ColorFacet },
     get DirectionalLight() { return DirectionalLight },
-    get PointSize() { return PointSize },
-    get Vector3Uniform() { return Vector3Uniform },
+    get PointSizeFacet() { return PointSizeFacet },
+    get ReflectionFacet() { return ReflectionFacet },
+    get Vector3Facet() { return Vector3Facet },
     // utils
     get IUnknownArray() { return IUnknownArray },
     get NumberIUnknownMap() { return NumberIUnknownMap },

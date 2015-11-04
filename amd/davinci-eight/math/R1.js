@@ -43,10 +43,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x = x;
             return this;
         };
-        R1.prototype.setX = function (x) {
-            this.x = x;
-            return this;
-        };
         R1.prototype.add = function (vector, alpha) {
             if (alpha === void 0) { alpha = 1; }
             this.x += vector.x * alpha;
@@ -79,7 +75,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x = exp(this.x);
             return this;
         };
-        R1.prototype.identity = function () {
+        R1.prototype.one = function () {
             this.x = 1;
             return this;
         };

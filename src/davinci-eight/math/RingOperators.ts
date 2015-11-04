@@ -21,7 +21,7 @@ interface RingOperators<T> extends AbelianOperators<T> {
     inv(): T
 
     /**
-     * Determines whether this element is the multiplicative identity (1).
+     * Determines whether this element is the multiplicative identity, <b>1</b>.
      */
     isOne(): boolean
 }

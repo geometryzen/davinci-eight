@@ -20,7 +20,6 @@ declare class R1 extends VectorN<number> implements VectorE1, MutableLinearEleme
      */
     x: number;
     set(x: number): R1;
-    setX(x: number): R1;
     add(vector: VectorE1, alpha?: number): R1;
     add2(a: VectorE1, b: VectorE1): R1;
     scp(v: VectorE1): R1;
@@ -30,7 +29,7 @@ declare class R1 extends VectorN<number> implements VectorE1, MutableLinearEleme
     determinant(): number;
     dual(): R1;
     exp(): R1;
-    identity(): R1;
+    one(): R1;
     inv(): R1;
     lco(v: VectorE1): R1;
     log(): R1;

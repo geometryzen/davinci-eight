@@ -3,12 +3,13 @@ import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import Matrix = require('../math/Matrix');
 import Matrix4 = require('./Matrix4');
+import Ring = require('../math/MutableRingElement');
 
 /**
  * @class Matrix3
  * @extends AbstractMatrix
  */
-class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
+class Matrix3 extends AbstractMatrix implements Matrix<Matrix3>, Ring<Matrix3> {
     /**
      * 3x3 (square) matrix of numbers.
      * Constructs a Matrix3 by wrapping a Float32Array.
@@ -22,11 +23,11 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
      * <p>
      * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
      * </p>
-     * @method identity
+     * @method one
      * @return {Matrix3}
      * @static
      */
-    public static identity() {
+    public static one() {
         return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
     }
     /**
@@ -79,7 +80,7 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
 
             }
 
-            this.identity();
+            this.one();
 
             return this;
 
@@ -90,9 +91,15 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
         return this;
 
     }
-    identity(): Matrix3 {
+
+    /**
+     * @method one
+     * @return {Matrix3}
+     */
+    one(): Matrix3 {
         return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
     }
+
     mul(rhs: Matrix3) {
         return this.mul2(this, rhs);
     }

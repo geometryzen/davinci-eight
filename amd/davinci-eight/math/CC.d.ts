@@ -48,7 +48,12 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      */
     β: number;
     xy: number;
-    coordinates(): number[];
+    /**
+     * @property coords
+     * @type {number[]}
+     * @readOnly
+     */
+    coords: number[];
     /**
      * @method add
      * @param rhs {CC}
@@ -219,6 +224,11 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @return {CC}
      */
     unitary(): CC;
+    /**
+     * @method tan
+     * @return {CC}
+     */
+    tan(): CC;
     toStringCustom(coordToString: (x: number) => string): string;
     toExponential(): string;
     toFixed(digits?: number): string;
@@ -239,6 +249,12 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
      * @private
      */
     __rrshift__(other: any): CC;
+    /**
+     * @method __bang__
+     * @return {CC}
+     * @private
+     */
+    __bang__(): CC;
     /**
      * @method __pos__
      * @return {CC}

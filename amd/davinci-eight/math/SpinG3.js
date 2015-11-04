@@ -505,6 +505,18 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
             return this;
         };
         /**
+         * Sets this spinor to the identity element for multiplication, <b>1</b>.
+         * @return {SpinG3} <code>this</code>
+         * @chainable
+         */
+        SpinG3.prototype.one = function () {
+            this.α = 1;
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            return this;
+        };
+        /**
         * <p>
         * <code>this ⟼ this * conj(this)</code>
         * </p>
@@ -774,7 +786,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
             return this;
         };
         /**
-         * Sets this spinor to the identity element for addition.
+         * Sets this spinor to the identity element for addition, <b>0</b>.
          * @return {SpinG3} <code>this</code>
          * @chainable
          */

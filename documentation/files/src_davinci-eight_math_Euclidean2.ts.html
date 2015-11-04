@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.150.0</em>
+            <em>API Docs for: 2.151.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
-                                <li><a href="../classes/PointSize.html">PointSize</a></li>
+                                <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
@@ -158,6 +158,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -192,7 +193,7 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
-                                <li><a href="../classes/Vector3Uniform.html">Vector3Uniform</a></li>
+                                <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -255,6 +256,7 @@ import extE2 = require(&#x27;../math/extE2&#x27;)
 import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
 import GeometricOperators = require(&#x27;../math/GeometricOperators&#x27;)
 import GeometricE2 = require(&#x27;../math/GeometricE2&#x27;)
+import isDefined = require(&#x27;../checks/isDefined&#x27;)
 import lcoE2 = require(&#x27;../math/lcoE2&#x27;)
 import rcoE2 = require(&#x27;../math/rcoE2&#x27;)
 import Measure = require(&#x27;../math/Measure&#x27;)
@@ -562,7 +564,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
         return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom)
     }
 
-    coordinates(): number[] {
+    get coords(): number[] {
         return [this.w, this.x, this.y, this.xy];
     }
 
@@ -600,7 +602,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
 
     add(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
-        var xs = Euclidean2.add(this.coordinates(), rhs.coordinates());
+        var xs = Euclidean2.add(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
     }
 
@@ -682,7 +684,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
 
     sub(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
-        var xs = Euclidean2.sub(this.coordinates(), rhs.coordinates());
+        var xs = Euclidean2.sub(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
     }
 
@@ -823,7 +825,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
 
     ext(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
-        var xs = Euclidean2.ext(this.coordinates(), rhs.coordinates());
+        var xs = Euclidean2.ext(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
     }
 
@@ -872,7 +874,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
 
     lco(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
-        var xs = Euclidean2.lshift(this.coordinates(), rhs.coordinates());
+        var xs = Euclidean2.lshift(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
     }
 
@@ -916,7 +918,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
 
     rco(rhs: Euclidean2): Euclidean2 {
         assertArgEuclidean2(&#x27;rhs&#x27;, rhs);
-        var xs = Euclidean2.rshift(this.coordinates(), rhs.coordinates());
+        var xs = Euclidean2.rshift(this.coords, rhs.coords);
         return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
     }
 
@@ -959,6 +961,10 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
     pow(exponent: Euclidean2): Euclidean2 {
         // assertArgEuclidean2(&#x27;exponent&#x27;, exponent);
         throw new Error(&#x27;pow&#x27;);
+    }
+
+    __bang__(): Euclidean2 {
+        return this.inv()
     }
 
     __pos__(): Euclidean2 {
@@ -1045,15 +1051,23 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
         let x = b2(t, this.x, controlPoint.x, endPoint.x)
         let y = b2(t, this.y, controlPoint.y, endPoint.y)
-        return new Euclidean2(0, x, y, 0 ,this.uom);
+        return new Euclidean2(0, x, y, 0, this.uom);
     }
 
     squaredNorm(): number {
         return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
     }
 
+    /**
+     * Computes the &lt;em&gt;reflection&lt;/em&gt; of this multivector in the plane with normal &lt;code&gt;n&lt;/code&gt;.
+     * @method reflect
+     * @param n {VectorE2}
+     * @return {Euclidean2}
+     */
     reflect(n: VectorE2): Euclidean2 {
-        throw new Error(&#x27;reflect&#x27;);
+        // TODO: Optimize to minimize object creation and increase performance.
+        let m = Euclidean2.fromVectorE2(n)
+        return m.mul(this).mul(m).scale(-1)
     }
 
     rev(): Euclidean2 {
@@ -1076,6 +1090,15 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
         // FIXME: TODO
         return this
     }
+
+    /**
+     * @method tan
+     * @return {Euclidean2}
+     */
+    tan(): Euclidean2 {
+        return this.sin().div(this.cos())
+    }
+
     unitary(): Euclidean2 {
         throw new Error(&#x27;unitary&#x27;);
     }
@@ -1087,7 +1110,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
     toStringCustom(
         coordToString: (x: number) =&gt; string,
         labels: string[]): string {
-        var quantityString: string = stringFromCoordinates(this.coordinates(), coordToString, labels);
+        var quantityString: string = stringFromCoordinates(this.coords, coordToString, labels);
         if (this.uom) {
             var unitString = this.uom.toString().trim();
             if (unitString) {
@@ -1125,6 +1148,41 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
     toStringLATEX(): string {
         var coordToString = function(coord: number): string { return coord.toString() };
         return this.toStringCustom(coordToString, [&quot;1&quot;, &quot;e_{1}&quot;, &quot;e_{2}&quot;, &quot;e_{12}&quot;]);
+    }
+
+    /**
+     * @method copy
+     * @param M {GeometricE2}
+     * @return {Euclidean2}
+     * @static
+     */
+    static copy(m: GeometricE2): Euclidean2 {
+        if (m instanceof Euclidean2) {
+            return m
+        }
+        else {
+            return new Euclidean2(m.α, m.x, m.y, m.β, void 0)
+        }
+    }
+
+    /**
+     * @method fromVectorE2
+     * @param vector {VectorE2}
+     * @return {Euclidean2}
+     * @static
+     */
+    static fromVectorE2(vector: VectorE2): Euclidean2 {
+        if (isDefined(vector)) {
+            if (vector instanceof Euclidean2) {
+                return new Euclidean2(0, vector.x, vector.y, 0, vector.uom)
+            }
+            else {
+                return new Euclidean2(0, vector.x, vector.y, 0, void 0)
+            }
+        }
+        else {
+            return void 0
+        }
     }
 }
 

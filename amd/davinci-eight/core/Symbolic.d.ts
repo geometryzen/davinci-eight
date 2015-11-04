@@ -106,6 +106,20 @@ declare class Symbolic {
      */
     static UNIFORM_PROJECTION_MATRIX: string;
     /**
+     * 'uReflectionOne'
+     * @property UNIFORM_REFLECTION_ONE_MATRIX
+     * @type {string}
+     * @static
+     */
+    static UNIFORM_REFLECTION_ONE_MATRIX: string;
+    /**
+     * 'uReflectionTwo'
+     * @property UNIFORM_REFLECTION_TWO_MATRIX
+     * @type {string}
+     * @static
+     */
+    static UNIFORM_REFLECTION_TWO_MATRIX: string;
+    /**
      * 'uModel'
      * @property UNIFORM_MODEL_MATRIX
      * @type {string}

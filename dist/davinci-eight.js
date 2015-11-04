@@ -2474,14 +2474,6 @@ define('davinci-eight/math/R2',["require", "exports", '../geometries/b2', '../ge
             this.y = y;
             return this;
         };
-        R2.prototype.setX = function (x) {
-            this.x = x;
-            return this;
-        };
-        R2.prototype.setY = function (y) {
-            this.y = y;
-            return this;
-        };
         R2.prototype.copy = function (v) {
             this.x = v.x;
             this.y = v.y;
@@ -2496,6 +2488,23 @@ define('davinci-eight/math/R2',["require", "exports", '../geometries/b2', '../ge
         R2.prototype.add2 = function (a, b) {
             this.x = a.x + b.x;
             this.y = a.y + b.y;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ m * this<sup>T</sup></code>
+         * </p>
+         * @method applyMatrix
+         * @param m {Matrix2}
+         * @return {R2} <code>this</code>
+         * @chainable
+         */
+        R2.prototype.applyMatrix = function (m) {
+            var x = this.x;
+            var y = this.y;
+            var e = m.elements;
+            this.x = e[0x0] * x + e[0x2] * y;
+            this.y = e[0x1] * x + e[0x3] * y;
             return this;
         };
         /**
@@ -4952,14 +4961,6 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
     var sin = Math.sin;
     var sinh = mathcore.Math.sinh;
     var sqrt = Math.sqrt;
-    function assertArgNumber(name, x) {
-        if (typeof x === 'number') {
-            return x;
-        }
-        else {
-            throw new Error("Argument '" + name + "' must be a number");
-        }
-    }
     function assertArgEuclidean3(name, arg) {
         if (arg instanceof Euclidean3) {
             return arg;
@@ -5003,6 +5004,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         var x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
         return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
     }
+    // FIXME: Need to use tensor representations to find inverse, if it exists.
     var divide = function (a000, a001, a010, a011, a100, a101, a110, a111, b000, b001, b010, b011, b100, b101, b110, b111, uom) {
         var c000;
         var c001;
@@ -5139,14 +5141,14 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          * @param uom The optional unit of measure.
          */
         function Euclidean3(α, x, y, z, xy, yz, zx, β, uom) {
-            this.w = assertArgNumber('α', α);
-            this.x = assertArgNumber('x', x);
-            this.y = assertArgNumber('y', y);
-            this.z = assertArgNumber('z', z);
-            this.xy = assertArgNumber('xy', xy);
-            this.yz = assertArgNumber('yz', yz);
-            this.zx = assertArgNumber('zx', zx);
-            this.xyz = assertArgNumber('β', β);
+            this.w = mustBeNumber('α', α);
+            this.x = mustBeNumber('x', x);
+            this.y = mustBeNumber('y', y);
+            this.z = mustBeNumber('z', z);
+            this.xy = mustBeNumber('xy', xy);
+            this.yz = mustBeNumber('yz', yz);
+            this.zx = mustBeNumber('zx', zx);
+            this.xyz = mustBeNumber('β', β);
             this.uom = assertArgUnitOrUndefined('uom', uom);
             if (this.uom && this.uom.multiplier !== 1) {
                 var multiplier = this.uom.multiplier;
@@ -5191,23 +5193,51 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method fromCartesian
+         * @param α {number}
+         * @param x {number}
+         * @param y {number}
+         * @param z {number}
+         * @param xy {number}
+         * @param yz {number}
+         * @param zx {number}
+         * @param β {number}
+         * @param uom [Unit]
+         * @return {Euclidean3}
+         * @chainable
+         * @static
+         */
         Euclidean3.fromCartesian = function (α, x, y, z, xy, yz, zx, β, uom) {
-            assertArgNumber('α', α);
-            assertArgNumber('x', x);
-            assertArgNumber('y', y);
-            assertArgNumber('z', z);
-            assertArgNumber('xy', xy);
-            assertArgNumber('yz', yz);
-            assertArgNumber('zx', zx);
-            assertArgNumber('β', β);
+            mustBeNumber('α', α);
+            mustBeNumber('x', x);
+            mustBeNumber('y', y);
+            mustBeNumber('z', z);
+            mustBeNumber('xy', xy);
+            mustBeNumber('yz', yz);
+            mustBeNumber('zx', zx);
+            mustBeNumber('β', β);
             assertArgUnitOrUndefined('uom', uom);
             return new Euclidean3(α, x, y, z, xy, yz, zx, β, uom);
         };
-        Euclidean3.prototype.coordinates = function () {
-            return [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz];
-        };
+        Object.defineProperty(Euclidean3.prototype, "coords", {
+            /**
+             * @property coords
+             * @type {number[]}
+             */
+            get: function () {
+                return [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz];
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method coordinate
+         * @param index {number}
+         * @return {number}
+         */
         Euclidean3.prototype.coordinate = function (index) {
-            assertArgNumber('index', index);
+            mustBeNumber('index', index);
             switch (index) {
                 case 0:
                     return this.w;
@@ -5243,7 +5273,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
                 return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
             };
-            return compute(addE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.compatible(this.uom, rhs.uom));
+            return compute(addE3, this.coords, rhs.coords, coord, pack, Unit.compatible(this.uom, rhs.uom));
         };
         /**
          * Computes <code>this + Iβ</code>
@@ -5283,22 +5313,40 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                 return void 0;
             }
         };
-        Euclidean3.prototype.__add__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.add(other);
+        /**
+         * @method __add__
+         * @param rhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Euclidean3) {
+                return this.add(rhs);
             }
-            else if (typeof other === 'number') {
-                return this.add(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__radd__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.add(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).add(this);
+            else if (typeof rhs === 'number') {
+                return this.addScalar(rhs);
             }
         };
+        /**
+         * @method __radd__
+         * @param lhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Euclidean3) {
+                return lhs.add(this);
+            }
+            else if (typeof lhs === 'number') {
+                return this.addScalar(lhs);
+            }
+        };
+        /**
+         * @method adj
+         * @return {Euclidean3}
+         * @chainable
+         * @beta
+         */
         Euclidean3.prototype.adj = function () {
             // TODO
             return this;
@@ -5311,13 +5359,24 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             return this.log().grade(2);
         };
         /**
+         * Computes the <e>Clifford conjugate</em> of this multivector.
+         * The grade multiplier is -1<sup>x(x+1)/2</sup>
          * @method conj
          * @return {Euclidean3}
+         * @chainable
          */
         Euclidean3.prototype.conj = function () {
-            // FIXME; What kind of conjugation?
-            return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
+            return new Euclidean3(this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, +this.xyz, this.uom);
         };
+        /**
+         * @method cubicBezier
+         * @param t {number}
+         * @param controlBegin {GeometricE3}
+         * @param controlEnd {GeometricE3}
+         * @param endPoint {GeometricE3}
+         * @return {Euclidean3}
+         * @chainable
+         */
         Euclidean3.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
             var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
             var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
@@ -5336,168 +5395,309 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
                 return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
             };
-            return compute(subE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.compatible(this.uom, rhs.uom));
+            return compute(subE3, this.coords, rhs.coords, coord, pack, Unit.compatible(this.uom, rhs.uom));
         };
-        Euclidean3.prototype.__sub__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.sub(other);
+        /**
+         * @method __sub__
+         * @param rhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Euclidean3) {
+                return this.sub(rhs);
             }
-            else if (typeof other === 'number') {
-                return this.sub(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rsub__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.sub(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).sub(this);
+            else if (typeof rhs === 'number') {
+                return this.addScalar(-rhs);
             }
         };
+        /**
+         * @method __rsub__
+         * @param lhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Euclidean3) {
+                return lhs.sub(this);
+            }
+            else if (typeof lhs === 'number') {
+                return this.neg().addScalar(lhs);
+            }
+        };
+        /**
+         * @method mul
+         * @param rhs {Euclidean3}
+         */
         Euclidean3.prototype.mul = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             mulG3(this, rhs, Euclidean3.mutator(out));
             return out;
         };
-        Euclidean3.prototype.__mul__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.mul(other);
+        /**
+         * @method __mul__
+         * @param rhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Euclidean3) {
+                return this.mul(rhs);
             }
-            else if (typeof other === 'number') {
-                return this.mul(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rmul__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.mul(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).mul(this);
+            else if (typeof rhs === 'number') {
+                return this.scale(rhs);
             }
         };
+        /**
+         * @method __rmul__
+         * @param lhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Euclidean3) {
+                return lhs.mul(this);
+            }
+            else if (typeof lhs === 'number') {
+                return this.scale(lhs);
+            }
+        };
+        /**
+         * @method scale
+         * @param α {number}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.scale = function (α) {
             return new Euclidean3(this.w * α, this.x * α, this.y * α, this.z * α, this.xy * α, this.yz * α, this.zx * α, this.xyz * α, this.uom);
         };
+        /**
+         * @method div
+         * @param rhs {Euclidean3}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.div = function (rhs) {
             assertArgEuclidean3('rhs', rhs);
             return divide(this.w, this.x, this.y, this.xy, this.z, -this.zx, this.yz, this.xyz, rhs.w, rhs.x, rhs.y, rhs.xy, rhs.z, -rhs.zx, rhs.yz, rhs.xyz, Unit.div(this.uom, rhs.uom));
         };
+        /**
+         * @method divByScalar
+         * @param α {number}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.divByScalar = function (α) {
             return new Euclidean3(this.w / α, this.x / α, this.y / α, this.z / α, this.xy / α, this.yz / α, this.zx / α, this.xyz / α, this.uom);
         };
-        Euclidean3.prototype.__div__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.div(other);
+        /**
+         * @method __div__
+         * @param rhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__div__ = function (rhs) {
+            if (rhs instanceof Euclidean3) {
+                return this.div(rhs);
             }
-            else if (typeof other === 'number') {
-                // FIXME divByScalar would be good?
-                return this.div(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rdiv__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.div(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).div(this);
+            else if (typeof rhs === 'number') {
+                return this.divByScalar(rhs);
             }
         };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof Euclidean3) {
+                return lhs.div(this);
+            }
+            else if (typeof lhs === 'number') {
+                return new Euclidean3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).div(this);
+            }
+        };
+        /**
+         * @method dual
+         * @return {Euclidean3}
+         * @beta
+         */
         Euclidean3.prototype.dual = function () {
             // FIXME: TODO
             return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
         };
+        /**
+         * @method scp
+         * @param rhs {Euclidean3}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.scp = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             scpG3(this, rhs, Euclidean3.mutator(out));
             return out;
         };
+        /**
+         * @method ext
+         * @param rhs {Euclidean3}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.ext = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             extG3(this, rhs, Euclidean3.mutator(out));
             return out;
         };
-        Euclidean3.prototype.__vbar__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.scp(other);
+        /**
+         * @method __vbar__
+         * @param rhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__vbar__ = function (rhs) {
+            if (rhs instanceof Euclidean3) {
+                return this.scp(rhs);
             }
-            else if (typeof other === 'number') {
-                return this.scp(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rvbar__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.scp(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).scp(this);
+            else if (typeof rhs === 'number') {
+                return this.scp(new Euclidean3(rhs, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
-        Euclidean3.prototype.__wedge__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.ext(other);
+        /**
+         * @method __rvbar__
+         * @param lhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__rvbar__ = function (lhs) {
+            if (lhs instanceof Euclidean3) {
+                return lhs.scp(this);
             }
-            else if (typeof other === 'number') {
-                return this.ext(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rwedge__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.ext(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).ext(this);
+            else if (typeof lhs === 'number') {
+                return new Euclidean3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).scp(this);
             }
         };
+        /**
+         * @method __wedge__
+         * @param rhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__wedge__ = function (rhs) {
+            if (rhs instanceof Euclidean3) {
+                return this.ext(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.scale(rhs);
+            }
+        };
+        /**
+         * @method __rwedge__
+         * @param lhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__rwedge__ = function (lhs) {
+            if (lhs instanceof Euclidean3) {
+                return lhs.ext(this);
+            }
+            else if (typeof lhs === 'number') {
+                return this.scale(lhs);
+            }
+        };
+        /**
+         * @method lco
+         * @param rhs {Euclidean3}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.lco = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             lcoG3(this, rhs, Euclidean3.mutator(out));
             return out;
         };
-        Euclidean3.prototype.__lshift__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.lco(other);
+        /**
+         * @method __lshift__
+         * @param rhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__lshift__ = function (rhs) {
+            if (rhs instanceof Euclidean3) {
+                return this.lco(rhs);
             }
-            else if (typeof other === 'number') {
-                return this.lco(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rlshift__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.lco(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).lco(this);
+            else if (typeof rhs === 'number') {
+                return this.lco(new Euclidean3(rhs, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
+        /**
+         * @method __rlshift__
+         * @param lhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__rlshift__ = function (lhs) {
+            if (lhs instanceof Euclidean3) {
+                return lhs.lco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return new Euclidean3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).lco(this);
+            }
+        };
+        /**
+         * @method rco
+         * @param rhs {Euclidean3}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.rco = function (rhs) {
             var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
             var w = out.w;
             rcoG3(this, rhs, Euclidean3.mutator(out));
             return out;
         };
-        Euclidean3.prototype.__rshift__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.rco(other);
+        /**
+         * @method __rshift__
+         * @param rhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__rshift__ = function (rhs) {
+            if (rhs instanceof Euclidean3) {
+                return this.rco(rhs);
             }
-            else if (typeof other === 'number') {
-                return this.rco(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rrshift__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.rco(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).rco(this);
+            else if (typeof rhs === 'number') {
+                return this.rco(new Euclidean3(rhs, 0, 0, 0, 0, 0, 0, 0, void 0));
             }
         };
+        /**
+         * @method __rrshift__
+         * @param lhs {any}
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__rrshift__ = function (lhs) {
+            if (lhs instanceof Euclidean3) {
+                return lhs.rco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return new Euclidean3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).rco(this);
+            }
+        };
+        /**
+         * @method pow
+         * @param exponent {Euclidean3}
+         * @return {Euclidean3}
+         * @beta
+         */
         Euclidean3.prototype.pow = function (exponent) {
             // assertArgEuclidean3('exponent', exponent);
             throw new Error('pow');
+        };
+        /**
+         * @method __bang__
+         * @return {Euclidean3}
+         * @private
+         */
+        Euclidean3.prototype.__bang__ = function () {
+            return this.inv();
         };
         /**
          * Unary plus(+).
@@ -5525,7 +5725,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             return this.neg();
         };
         /**
-         * @method reverse
+         * @method rev
          * @return {Euclidean3}
          */
         Euclidean3.prototype.rev = function () {
@@ -5540,6 +5740,11 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         Euclidean3.prototype.__tilde__ = function () {
             return this.rev();
         };
+        /**
+         * @method grade
+         * @param grade {number}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.grade = function (grade) {
             mustBeInteger('grade', grade);
             switch (grade) {
@@ -5555,10 +5760,19 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                     return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, 0, this.uom);
             }
         };
-        // FIXME: This should return a Euclidean3
-        Euclidean3.prototype.dot = function (vector) {
-            return this.x * vector.x + this.y * vector.y + this.z * vector.z;
-        };
+        /**
+         * Intentionally undocumented
+         */
+        /*
+        dot(vector: Euclidean3): number {
+          return this.x * vector.x + this.y * vector.y + this.z * vector.z;
+        }
+        */
+        /**
+         * @method cross
+         * @param vector {Euclidean3}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.cross = function (vector) {
             var x;
             var x1;
@@ -5580,38 +5794,76 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             z = x1 * y2 - y1 * x2;
             return new Euclidean3(0, x, y, z, 0, 0, 0, 0, Unit.mul(this.uom, vector.uom));
         };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
         Euclidean3.prototype.isOne = function () {
             return (this.w === 1) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
         };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
         Euclidean3.prototype.isZero = function () {
             return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
         };
-        Euclidean3.prototype.length = function () {
-            return sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
-        };
+        /*
+        length() {
+          return sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
+        }
+        */
+        /**
+         * @method lerp
+         * @param target {Euclidean3}
+         * @param α {number}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.lerp = function (target, α) {
             // FIXME: TODO
             return this;
         };
+        /**
+         * @method cos
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.cos = function () {
             // TODO: Generalize to full multivector.
             Unit.assertDimensionless(this.uom);
             var cosW = cos(this.w);
             return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0, void 0);
         };
+        /**
+         * @method cosh
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.cosh = function () {
             //Unit.assertDimensionless(this.uom);
             throw new NotImplementedError('cosh(Euclidean3)');
         };
+        /**
+         * @method distanceTo
+         * @param point {Euclidean3}
+         * @return {number}
+         */
         Euclidean3.prototype.distanceTo = function (point) {
             var dx = this.x - point.x;
             var dy = this.y - point.y;
             var dz = this.z - point.z;
             return sqrt(dx * dx + dy * dy + dz * dz);
         };
+        /**
+         * @method equals
+         * @param other {Euclidean3}
+         * @return {boolean}
+         */
         Euclidean3.prototype.equals = function (other) {
             throw new Error("TODO: Euclidean3.equals");
         };
+        /**
+         * @method exp
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.exp = function () {
             Unit.assertDimensionless(this.uom);
             var bivector = this.grade(2);
@@ -5626,10 +5878,21 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                 return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
             }
         };
+        /**
+         * Computes the <em>inverse</em> of this multivector, if it exists.
+         * inv(A) = ~A / (A * ~A)
+         * @method inv
+         * @return {Euclidean3}
+         * @beta
+         */
         Euclidean3.prototype.inv = function () {
-            // FIXME: TODO
-            return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
+            // FIXME: This is not the definition above.
+            return this.rev().divByScalar(this.squaredNorm());
         };
+        /**
+         * @method log
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.log = function () {
             // FIXME: TODO
             return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
@@ -5644,56 +5907,114 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         };
         /**
          * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
+         * @method norm
+         * @return {Euclidean3}
          */
-        Euclidean3.prototype.norm = function () { return new Euclidean3(Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz), 0, 0, 0, 0, 0, 0, 0, this.uom); };
+        Euclidean3.prototype.norm = function () {
+            return new Euclidean3(this.magnitude(), 0, 0, 0, 0, 0, 0, 0, this.uom);
+        };
         /**
          * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
+         * @method quad
+         * @return {Euclidean3}
          */
         Euclidean3.prototype.quad = function () {
             return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
         };
+        /**
+         * @method quadraticBezier
+         * @param t {number}
+         * @param controlPoint {GeometricE3}
+         * @param endPoint {GeometricE3}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
             var x = b2(t, this.x, controlPoint.x, endPoint.x);
             var y = b2(t, this.y, controlPoint.y, endPoint.y);
             var z = b2(t, this.z, controlPoint.z, endPoint.z);
             return new Euclidean3(0, x, y, z, 0, 0, 0, 0, this.uom);
         };
+        /**
+         * @method squaredNorm
+         * @return {number}
+         */
         Euclidean3.prototype.squaredNorm = function () {
             return squaredNormG3(this);
         };
+        /**
+         * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
+         * @method reflect
+         * @param n {VectorE3}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.reflect = function (n) {
-            // TODO
-            return this;
+            // TODO: Optimize to minimize object creation and increase performance.
+            var m = Euclidean3.fromVectorE3(n);
+            return m.mul(this).mul(m).scale(-1);
         };
+        /**
+         * @method rotate
+         * @param s {SpinorE3}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.rotate = function (s) {
             // TODO
             return this;
         };
+        /**
+         * @method sin
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.sin = function () {
             // TODO: Generalize to full multivector.
             Unit.assertDimensionless(this.uom);
             var sinW = sin(this.w);
             return new Euclidean3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
         };
+        /**
+         * @method sinh
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.sinh = function () {
             //Unit.assertDimensionless(this.uom);
             throw new Error('sinh');
         };
+        /**
+         * @method slerp
+         * @param target {Euclidean3}
+         * @param α {number}
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.slerp = function (target, α) {
             // FIXME: TODO
             return this;
         };
+        /**
+         * @method unitary
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.unitary = function () {
             return this.div(this.norm());
         };
+        /**
+         * @method sqrt
+         * @return {Euclidean3}
+         */
         Euclidean3.prototype.sqrt = function () {
             return new Euclidean3(sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
+        };
+        /**
+         * @method tan
+         * @return {Euclidean3}
+         */
+        Euclidean3.prototype.tan = function () {
+            return this.sin().div(this.cos());
         };
         /**
          * Intentionally undocumented.
          */
         Euclidean3.prototype.toStringCustom = function (coordToString, labels) {
-            var quantityString = stringFromCoordinates(this.coordinates(), coordToString, labels);
+            var quantityString = stringFromCoordinates(this.coords, coordToString, labels);
             if (this.uom) {
                 var unitString = this.uom.toString().trim();
                 if (unitString) {
@@ -5707,22 +6028,41 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                 return quantityString;
             }
         };
+        /**
+         * @method toExponential
+         * @return {string}
+         */
         Euclidean3.prototype.toExponential = function () {
             var coordToString = function (coord) { return coord.toExponential(); };
             return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
         };
+        /**
+         * @method toFixed
+         * @param digits [number]
+         * @return {string}
+         */
         Euclidean3.prototype.toFixed = function (digits) {
             var coordToString = function (coord) { return coord.toFixed(digits); };
             return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
         };
+        /**
+         * @method toString
+         * @return {string}
+         */
         Euclidean3.prototype.toString = function () {
             var coordToString = function (coord) { return coord.toString(); };
             return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
         };
+        /**
+         * Intentionally undocumented.
+         */
         Euclidean3.prototype.toStringIJK = function () {
             var coordToString = function (coord) { return coord.toString(); };
             return this.toStringCustom(coordToString, ["1", "i", "j", "k", "ij", "jk", "ki", "I"]);
         };
+        /**
+         * Intentionally undocumented.
+         */
         Euclidean3.prototype.toStringLATEX = function () {
             var coordToString = function (coord) { return coord.toString(); };
             return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{3}", "e_{12}", "e_{23}", "e_{31}", "e_{123}"]);
@@ -5766,9 +6106,24 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             return that;
         };
         /**
+         * @method copy
+         * @param m {GeometricE3}
+         * @return {Euclidean3}
+         * @static
+         */
+        Euclidean3.copy = function (m) {
+            if (m instanceof Euclidean3) {
+                return m;
+            }
+            else {
+                return new Euclidean3(m.α, m.x, m.y, m.z, m.xy, m.yz, m.zx, m.β, void 0);
+            }
+        };
+        /**
          * @method fromSpinorE3
          * @param spinor {SpinorE3}
          * @return {Euclidean3}
+         * @static
          */
         Euclidean3.fromSpinorE3 = function (spinor) {
             if (isDefined(spinor)) {
@@ -5782,6 +6137,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          * @method fromVectorE3
          * @param vector {VectorE3}
          * @return {Euclidean3}
+         * @static
          */
         Euclidean3.fromVectorE3 = function (vector) {
             if (isDefined(vector)) {
@@ -5797,21 +6153,872 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          * @static
          */
         Euclidean3.zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
+        /**
+         * @property one
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
+        /**
+         * @property e1
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
+        /**
+         * @property e2
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.e2 = new Euclidean3(0, 0, 1, 0, 0, 0, 0, 0);
+        /**
+         * @property e3
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.e3 = new Euclidean3(0, 0, 0, 1, 0, 0, 0, 0);
+        /**
+         * @property kilogram
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.kilogram = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KILOGRAM);
+        /**
+         * @property meter
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.meter = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.METER);
+        /**
+         * @property second
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.second = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.SECOND);
+        /**
+         * @property coulomb
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.coulomb = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.COULOMB);
+        /**
+         * @property ampere
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.ampere = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.AMPERE);
+        /**
+         * @property kelvin
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.kelvin = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KELVIN);
+        /**
+         * @property mole
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.mole = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.MOLE);
+        /**
+         * @property candela
+         * @type {Euclidean3}
+         * @static
+         */
         Euclidean3.candela = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.CANDELA);
         return Euclidean3;
     })();
     return Euclidean3;
+});
+
+define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mustBeInteger', '../checks/expectArg', '../i18n/readOnly'], function (require, exports, mustBeInteger, expectArg, readOnly) {
+    /**
+     * @class AbstractMatrix
+     */
+    var AbstractMatrix = (function () {
+        /**
+         * @class AbstractMatrix
+         * @constructor
+         * @param elements {Float32Array}
+         * @param dimensions {number}
+         */
+        function AbstractMatrix(elements, dimensions) {
+            this._dimensions = mustBeInteger('dimensions', dimensions);
+            this._length = dimensions * dimensions;
+            expectArg('elements', elements).toSatisfy(elements.length === this._length, 'elements must have length ' + this._length);
+            this._elements = elements;
+            this.modified = false;
+        }
+        Object.defineProperty(AbstractMatrix.prototype, "elements", {
+            /**
+             * @property elements
+             * @type {Float32Array}
+             */
+            get: function () {
+                if (this._elements) {
+                    return this._elements;
+                }
+                else if (this._callback) {
+                    var elements = this._callback();
+                    expectArg('callback()', elements).toSatisfy(elements.length === this._length, "callback() length must be " + this._length);
+                    return this._callback();
+                }
+                else {
+                    throw new Error("Matrix" + Math.sqrt(this._length) + " is undefined.");
+                }
+            },
+            set: function (elements) {
+                expectArg('elements', elements).toSatisfy(elements.length === this._length, "elements length must be " + this._length);
+                this._elements = elements;
+                this._callback = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractMatrix.prototype, "callback", {
+            /**
+             * @property callback
+             * @type {() => Float32Array}
+             */
+            get: function () {
+                return this._callback;
+            },
+            set: function (reactTo) {
+                this._callback = reactTo;
+                this._elements = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(AbstractMatrix.prototype, "dimensions", {
+            /**
+             * @property dimensions
+             * @type {number}
+             * @readOnly
+             */
+            get: function () {
+                return this._dimensions;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('dimensions').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return AbstractMatrix;
+    })();
+    return AbstractMatrix;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
+    /**
+     * @class Matrix3
+     * @extends AbstractMatrix
+     */
+    var Matrix3 = (function (_super) {
+        __extends(Matrix3, _super);
+        /**
+         * 3x3 (square) matrix of numbers.
+         * Constructs a Matrix3 by wrapping a Float32Array.
+         * @class Matrix3
+         * @constructor
+         */
+        function Matrix3(elements) {
+            _super.call(this, elements, 3);
+        }
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+         * </p>
+         * @method one
+         * @return {Matrix3}
+         * @static
+         */
+        Matrix3.one = function () {
+            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+        };
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero.
+         * </p>
+         * @method zero
+         * @return {Matrix3}
+         * @static
+         */
+        Matrix3.zero = function () {
+            return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
+        };
+        Matrix3.prototype.determinant = function () {
+            return 1;
+        };
+        Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
+            // input: Matrix4
+            // ( based on http://code.google.com/p/webgl-mjs/ )
+            var me = matrix.elements;
+            var te = this.elements;
+            te[0] = me[10] * me[5] - me[6] * me[9];
+            te[1] = -me[10] * me[1] + me[2] * me[9];
+            te[2] = me[6] * me[1] - me[2] * me[5];
+            te[3] = -me[10] * me[4] + me[6] * me[8];
+            te[4] = me[10] * me[0] - me[2] * me[8];
+            te[5] = -me[6] * me[0] + me[2] * me[4];
+            te[6] = me[9] * me[4] - me[5] * me[8];
+            te[7] = -me[9] * me[0] + me[1] * me[8];
+            te[8] = me[5] * me[0] - me[1] * me[4];
+            var det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
+            // no inverse
+            if (det === 0) {
+                var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
+                if (throwOnInvertible || !throwOnInvertible) {
+                    throw new Error(msg);
+                }
+                else {
+                    console.warn(msg);
+                }
+                this.one();
+                return this;
+            }
+            this.scale(1.0 / det);
+            return this;
+        };
+        /**
+         * @method one
+         * @return {Matrix3}
+         */
+        Matrix3.prototype.one = function () {
+            return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
+        };
+        Matrix3.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
+        };
+        /**
+         * @method row
+         * @param i {number} the zero-based index of the row.
+         * @return {number[]}
+         */
+        Matrix3.prototype.row = function (i) {
+            var te = this.elements;
+            return [te[0 + i], te[3 + i], te[6 + i]];
+        };
+        Matrix3.prototype.scale = function (s) {
+            var m = this.elements;
+            m[0] *= s;
+            m[3] *= s;
+            m[6] *= s;
+            m[1] *= s;
+            m[4] *= s;
+            m[7] *= s;
+            m[2] *= s;
+            m[5] *= s;
+            m[8] *= s;
+            return this;
+        };
+        Matrix3.prototype.mul2 = function (a, b) {
+            return this;
+        };
+        Matrix3.prototype.normalFromMatrix4 = function (m) {
+            this.getInverse(m).transpose();
+        };
+        Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
+            var te = this.elements;
+            te[0] = n11;
+            te[3] = n12;
+            te[6] = n13;
+            te[1] = n21;
+            te[4] = n22;
+            te[7] = n23;
+            te[2] = n31;
+            te[5] = n32;
+            te[8] = n33;
+            return this;
+        };
+        Matrix3.prototype.toString = function () {
+            var text = [];
+            for (var i = 0; i < this.dimensions; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        Matrix3.prototype.transpose = function () {
+            var tmp;
+            var m = this.elements;
+            tmp = m[1];
+            m[1] = m[3];
+            m[3] = tmp;
+            tmp = m[2];
+            m[2] = m[6];
+            m[6] = tmp;
+            tmp = m[5];
+            m[5] = m[7];
+            m[7] = tmp;
+            return this;
+        };
+        return Matrix3;
+    })(AbstractMatrix);
+    return Matrix3;
+});
+
+define('davinci-eight/math/_M4_x_M4_',["require", "exports"], function (require, exports) {
+    function _M4_x_M4_(ae, be, oe) {
+        var a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
+        var a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
+        var a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
+        var a41 = ae[0x3], a42 = ae[0x7], a43 = ae[0xB], a44 = ae[0xF];
+        var b11 = be[0], b12 = be[4], b13 = be[8], b14 = be[12];
+        var b21 = be[1], b22 = be[5], b23 = be[9], b24 = be[13];
+        var b31 = be[2], b32 = be[6], b33 = be[10], b34 = be[14];
+        var b41 = be[3], b42 = be[7], b43 = be[11], b44 = be[15];
+        oe[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
+        oe[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
+        oe[8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
+        oe[12] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
+        oe[1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
+        oe[5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
+        oe[9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
+        oe[13] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
+        oe[2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
+        oe[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
+        oe[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
+        oe[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
+        oe[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
+        oe[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
+        oe[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
+        oe[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+        return oe;
+    }
+    return _M4_x_M4_;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../checks/isDefined', '../checks/mustBeNumber', '../math/_M4_x_M4_'], function (require, exports, AbstractMatrix, expectArg, isDefined, mustBeNumber, _M4_x_M4_) {
+    /**
+     * @class Matrix4
+     * @extends AbstractMatrix
+     */
+    var Matrix4 = (function (_super) {
+        __extends(Matrix4, _super);
+        // The correspondence between the elements property index and the matrix entries is...
+        //
+        //  0  4  8 12
+        //  1  5  9 13
+        //  2  6 10 14
+        //  3  7 11 15
+        /**
+         * 4x4 (square) matrix of numbers.
+         * Constructs a Matrix4 by wrapping a Float32Array.
+         * @class Matrix4
+         * @constructor
+         */
+        function Matrix4(elements) {
+            _super.call(this, elements, 4);
+        }
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+         * </p>
+         * @method one
+         * @return {Matrix4}
+         * @static
+         */
+        Matrix4.one = function () {
+            return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+        };
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero.
+         * </p>
+         * @method zero
+         * @return {Matrix4}
+         * @chainable
+         * @static
+         */
+        Matrix4.zero = function () {
+            return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+        };
+        /**
+         * @method scaling
+         * @param scale {VectorE3}
+         * @return {Matrix4}
+         * @chainable
+         * @static
+         */
+        Matrix4.scaling = function (scale) {
+            return Matrix4.one().scaling(scale);
+        };
+        /**
+         * @method translation
+         * @param vector {VectorE3}
+         * @return {Matrix4}
+         * @chainable
+         * @static
+         */
+        Matrix4.translation = function (vector) {
+            return Matrix4.one().translation(vector);
+        };
+        /**
+         * @method rotation
+         * @param spinor {SpinorE3}
+         * @return {Matrix4}
+         * @chainable
+         * @static
+         */
+        Matrix4.rotation = function (spinor) {
+            return Matrix4.one().rotation(spinor);
+        };
+        /**
+         * Returns a copy of this Matrix4 instance.
+         * @method clone
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.clone = function () {
+            return Matrix4.zero().copy(this);
+        };
+        /**
+         * @method compose
+         * @param scale {VectorE3}
+         * @param attitude {SpinorE3}
+         * @param position {VectorE3}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.compose = function (scale, attitude, position) {
+            // We 
+            // this.one();
+            // this.scale(scale);
+            this.scaling(scale);
+            this.rotate(attitude);
+            this.translate(position);
+            return this;
+        };
+        /**
+         * @method copy
+         * @param m {Matrix4}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.copy = function (m) {
+            this.elements.set(m.elements);
+            return this;
+        };
+        /**
+         * @method determinant
+         * @return {number}
+         */
+        Matrix4.prototype.determinant = function () {
+            var te = this.elements;
+            var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
+            var n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
+            var n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
+            var n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
+            //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
+            var n1122 = n11 * n22;
+            var n1123 = n11 * n23;
+            var n1124 = n11 * n24;
+            var n1221 = n12 * n21;
+            var n1223 = n12 * n23;
+            var n1224 = n12 * n24;
+            var n1321 = n13 * n21;
+            var n1322 = n13 * n22;
+            var n1324 = n13 * n24;
+            var n1421 = n14 * n21;
+            var n1422 = n14 * n22;
+            var n1423 = n14 * n23;
+            return n41 * ((n1423 - n1324) * n32 + (n1224 - n1422) * n33 + (n1322 - n1223) * n34) +
+                n42 * ((n1324 - n1423) * n31 + (n1421 - n1124) * n33 + (n1123 - n1321) * n34) +
+                n43 * ((n1422 - n1224) * n31 + (n1124 - n1421) * n32 + (n1221 - n1122) * n34) +
+                n44 * ((n1223 - n1322) * n31 + (n1321 - n1123) * n32 + (n1122 - n1221) * n33);
+        };
+        /**
+         * @method invert
+         * @param m {Matrix4}
+         * @return {Matrix4}
+         * @deprecated
+         * @private
+         */
+        Matrix4.prototype.invert = function (m, throwOnSingular) {
+            if (throwOnSingular === void 0) { throwOnSingular = false; }
+            // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
+            var te = this.elements;
+            var me = m.elements;
+            var n11 = me[0], n12 = me[4], n13 = me[8], n14 = me[12];
+            var n21 = me[1], n22 = me[5], n23 = me[9], n24 = me[13];
+            var n31 = me[2], n32 = me[6], n33 = me[10], n34 = me[14];
+            var n41 = me[3], n42 = me[7], n43 = me[11], n44 = me[15];
+            te[0] = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
+            te[4] = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44;
+            te[8] = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44;
+            te[12] = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
+            te[1] = n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44;
+            te[5] = n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44;
+            te[9] = n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44;
+            te[13] = n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34;
+            te[2] = n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44;
+            te[6] = n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44;
+            te[10] = n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44;
+            te[14] = n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34;
+            te[3] = n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43;
+            te[7] = n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43;
+            te[11] = n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43;
+            te[15] = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
+            var det = n11 * te[0] + n21 * te[4] + n31 * te[8] + n41 * te[12];
+            if (det !== 0) {
+                return this.scale(1 / det);
+            }
+            else {
+                var msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
+                if (throwOnSingular) {
+                    throw new Error(msg);
+                }
+                else {
+                    console.warn(msg);
+                }
+                this.one();
+                return this;
+            }
+        };
+        /**
+         * Sets this matrix to the identity element for multiplication, <b>1</b>.
+         * @method one
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.one = function () {
+            return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        };
+        /**
+         * @method scale
+         * @param s {number}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.scale = function (s) {
+            var te = this.elements;
+            te[0] *= s;
+            te[4] *= s;
+            te[8] *= s;
+            te[12] *= s;
+            te[1] *= s;
+            te[5] *= s;
+            te[9] *= s;
+            te[13] *= s;
+            te[2] *= s;
+            te[6] *= s;
+            te[10] *= s;
+            te[14] *= s;
+            te[3] *= s;
+            te[7] *= s;
+            te[11] *= s;
+            te[15] *= s;
+            return this;
+        };
+        /**
+         * @method transpose
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.transpose = function () {
+            var te = this.elements;
+            var tmp;
+            tmp = te[1];
+            te[1] = te[4];
+            te[4] = tmp;
+            tmp = te[2];
+            te[2] = te[8];
+            te[8] = tmp;
+            tmp = te[6];
+            te[6] = te[9];
+            te[9] = tmp;
+            tmp = te[3];
+            te[3] = te[12];
+            te[12] = tmp;
+            tmp = te[7];
+            te[7] = te[13];
+            te[13] = tmp;
+            tmp = te[11];
+            te[11] = te[14];
+            te[14] = tmp;
+            return this;
+        };
+        /**
+         * @method frustum
+         * @param left {number}
+         * @param right {number}
+         * @param bottom {number}
+         * @param top {number}
+         * @param near {number}
+         * @param far {number}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.frustum = function (left, right, bottom, top, near, far) {
+            var te = this.elements;
+            var x = 2 * near / (right - left);
+            var y = 2 * near / (top - bottom);
+            var a = (right + left) / (right - left);
+            var b = (top + bottom) / (top - bottom);
+            var c = -(far + near) / (far - near);
+            var d = -2 * far * near / (far - near);
+            te[0] = x;
+            te[4] = 0;
+            te[8] = a;
+            te[12] = 0;
+            te[1] = 0;
+            te[5] = y;
+            te[9] = b;
+            te[13] = 0;
+            te[2] = 0;
+            te[6] = 0;
+            te[10] = c;
+            te[14] = d;
+            te[3] = 0;
+            te[7] = 0;
+            te[11] = -1;
+            te[15] = 0;
+            return this;
+        };
+        /**
+         * @method rotationAxis
+         * @param axis {VectorE3}
+         * @param angle {number}
+         * @return {Matrix4}
+         * @chainable
+         * @beta
+         */
+        Matrix4.prototype.rotationAxis = function (axis, angle) {
+            // Based on http://www.gamedev.net/reference/articles/article1199.asp
+            var c = Math.cos(angle);
+            var s = Math.sin(angle);
+            var t = 1 - c;
+            var x = axis.x, y = axis.y, z = axis.z;
+            var tx = t * x, ty = t * y;
+            return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
+        };
+        /**
+         * @method mul
+         * @param rhs {Matrix4}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
+        };
+        /**
+         * @method mul2
+         * @param a {Matrix4}
+         * @param b {Matrix4}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.mul2 = function (a, b) {
+            _M4_x_M4_(a.elements, b.elements, this.elements);
+            return this;
+        };
+        /**
+         * @method rmul
+         * @param lhs {Matrix4}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.rmul = function (lhs) {
+            return this.mul2(lhs, this);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ reflection(n)</code>
+         * </p>
+         * @method reflection
+         * @param n {VectorE3}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.reflection = function (n) {
+            var nx = mustBeNumber('n.x', n.x);
+            var ny = mustBeNumber('n.y', n.y);
+            var nz = mustBeNumber('n.z', n.z);
+            var aa = -2 * nx * ny;
+            var cc = -2 * ny * nz;
+            var bb = -2 * nz * nx;
+            var xx = 1 - 2 * nx * nx;
+            var yy = 1 - 2 * ny * ny;
+            var zz = 1 - 2 * nz * nz;
+            this.set(xx, aa, bb, 0, aa, yy, cc, 0, bb, cc, zz, 0, 0, 0, 0, 1);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ rotation(spinor) * this</code>
+         * </p>
+         * @method rotate
+         * @param spinor {SpinorE3}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.rotate = function (spinor) {
+            return this.rmul(Matrix4.rotation(spinor));
+        };
+        /**
+         * <p>
+         * <code>this ⟼ rotation(spinor)</code>
+         * </p>
+         * @method rotation
+         * @param attitude  The spinor from which the rotation will be computed.
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.rotation = function (spinor) {
+            // The correspondence between quaternions and spinors is
+            // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
+            var x = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
+            var y = -expectArg('spinor.zx', spinor.zx).toBeNumber().value;
+            var z = -expectArg('spinor.xy', spinor.xy).toBeNumber().value;
+            var α = expectArg('spinor.α', spinor.α).toBeNumber().value;
+            var x2 = x + x, y2 = y + y, z2 = z + z;
+            var xx = x * x2, xy = x * y2, xz = x * z2;
+            var yy = y * y2, yz = y * z2, zz = z * z2;
+            var wx = α * x2, wy = α * y2, wz = α * z2;
+            this.set(1 - yy - zz, xy - wz, xz + wy, 0, xy + wz, 1 - xx - zz, yz - wx, 0, xz - wy, yz + wx, 1 - xx - yy, 0, 0, 0, 0, 1);
+            return this;
+        };
+        /**
+         * @method row
+         * @param i {number} the zero-based index of the row.
+         * @return {Array<number>}
+         */
+        Matrix4.prototype.row = function (i) {
+            var te = this.elements;
+            return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
+        };
+        /**
+         * @method scaleXYZ
+         * @param scale {VectorE3}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.scaleXYZ = function (scale) {
+            // We treat the scale operation as pre-multiplication: 
+            // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
+            // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
+            // |0 0 z 0|   |m[2] m[6] m[A] m[E]|   |z * m[2] z * m[6] z * m[A] z * m[E]|
+            // |0 0 0 1|   |m[3] m[7] m[B] m[F]|   |    m[3]     m[7]     m[B]     m[F]|
+            // The following would be post-multiplication:
+            // |m[0] m[4] m[8] m[C]|   |x 0 0 0|   |x * m[0] y * m[4] z * m[8]     m[C]|
+            // |m[1] m[5] m[9] m[D]| * |0 y 0 0| = |x * m[1] y * m[5] z * m[9]     m[D]|
+            // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
+            // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
+            return this.rmul(Matrix4.scaling(scale));
+        };
+        /**
+         * @method scaling
+         * @param scale {VectorE3}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.scaling = function (scale) {
+            return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
+        };
+        /**
+         * @method set
+         * @return {Matrix4}
+         * @private
+         */
+        Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
+            var te = this.elements;
+            te[0] = n11;
+            te[4] = n12;
+            te[8] = n13;
+            te[12] = n14;
+            te[1] = n21;
+            te[5] = n22;
+            te[9] = n23;
+            te[13] = n24;
+            te[2] = n31;
+            te[6] = n32;
+            te[10] = n33;
+            te[14] = n34;
+            te[3] = n41;
+            te[7] = n42;
+            te[11] = n43;
+            te[15] = n44;
+            return this;
+        };
+        /**
+         * @method toFixed
+         * @param digits [number]
+         * @return {string}
+         */
+        Matrix4.prototype.toFixed = function (digits) {
+            if (isDefined(digits)) {
+                expectArg('digits', digits).toBeNumber();
+            }
+            var text = [];
+            for (var i = 0; i <= this.dimensions - 1; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        /**
+         * @method toString
+         * @return {string}
+         */
+        Matrix4.prototype.toString = function () {
+            var text = [];
+            for (var i = 0; i <= 3; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        /**
+         * <p>
+         * <code>this ⟼ translation(spinor) * this</code>
+         * </p>
+         * @method translate
+         * @param displacement {VectorE3}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.translate = function (displacement) {
+            return this.rmul(Matrix4.translation(displacement));
+        };
+        /**
+         * @method translation
+         * @param displacement {VectorE3}
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.translation = function (displacement) {
+            return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
+        };
+        /**
+         * @method __mul__
+         * @param rhs {Matrix4|number}
+         * @return {Matrix4}
+         * @chainable
+         * @private
+         */
+        Matrix4.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Matrix4) {
+                return Matrix4.one().mul2(this, rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.clone().scale(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rmul__
+         * @param lhs {Matrix4|number}
+         * @return {Matrix4}
+         * @chainable
+         * @private
+         */
+        Matrix4.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Matrix4) {
+                return Matrix4.one().mul2(lhs, this);
+            }
+            else if (typeof lhs === 'number') {
+                return this.clone().scale(lhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        return Matrix4;
+    })(AbstractMatrix);
+    return Matrix4;
 });
 
 define('davinci-eight/checks/isObject',["require", "exports"], function (require, exports) {
@@ -5886,7 +7093,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/R3',["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, isDefined, isNumber, mustBeNumber, mustBeObject, toStringCustom, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/R3',["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/Matrix3', '../math/Matrix4', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, Matrix3, Matrix4, isDefined, isNumber, mustBeNumber, mustBeObject, toStringCustom, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     var exp = Math.exp;
     var log = Math.log;
     var sqrt = Math.sqrt;
@@ -6011,15 +7218,14 @@ define('davinci-eight/math/R3',["require", "exports", '../math/dotVectorE3', '..
         };
         /**
          * <p>
-         * <code>this ⟼ m * this</code>
+         * <code>this ⟼ m * this<sup>T</sup></code>
          * </p>
-         * @method applyMatrix3
+         * @method applyMatrix
          * @param m {Matrix3}
          * @return {R3} <code>this</code>
          * @chainable
-         * @deprecated
          */
-        R3.prototype.applyMatrix3 = function (m) {
+        R3.prototype.applyMatrix = function (m) {
             var x = this.x;
             var y = this.y;
             var z = this.z;
@@ -6035,18 +7241,17 @@ define('davinci-eight/math/R3',["require", "exports", '../math/dotVectorE3', '..
          * Strictly speaking, this method does not make much sense because the dimensions
          * of the square matrix and column vector don't match.
          * TODO: Used by TubeSimplexGeometry.
-         * @method applyMatrix
+         * @method applyMatrix4
          * @param m The 4x4 matrix that pre-multiplies this column vector.
          * @return {R3} <code>this</code>
          * @chainable
-         * @deprecated
          */
         R3.prototype.applyMatrix4 = function (m) {
             var x = this.x, y = this.y, z = this.z;
             var e = m.elements;
-            this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
-            this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
-            this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
+            this.x = e[0x0] * x + e[0x4] * y + e[0x8] * z + e[0xC];
+            this.y = e[0x1] * x + e[0x5] * y + e[0x9] * z + e[0xD];
+            this.z = e[0x2] * x + e[0x6] * y + e[0xA] * z + e[0xE];
             return this;
         };
         /**
@@ -6329,39 +7534,13 @@ define('davinci-eight/math/R3',["require", "exports", '../math/dotVectorE3', '..
             return this;
         };
         /**
-         * @method setX
-         * @param x {number}
-         * @return {R3} <code>this</code>
-         * @chainable
-         * @deprecated
-         */
-        R3.prototype.setX = function (x) {
-            mustBeNumber('x', x);
-            this.x = x;
-            return this;
-        };
-        /**
          * @method setY
-         * @param y {number}
-         * @return {R3} <code>this</code>
-         * @chainable
+         * @param {number}
          * @deprecated
          */
+        // FIXME: This is used by Cone and Cylinder Simplex Geometry
         R3.prototype.setY = function (y) {
-            mustBeNumber('y', y);
             this.y = y;
-            return this;
-        };
-        /**
-         * @method setZ
-         * @param z {number}
-         * @return {R3} <code>this</code>
-         * @chainable
-         * @deprecated
-         */
-        R3.prototype.setZ = function (z) {
-            mustBeNumber('z', z);
-            this.z = z;
             return this;
         };
         R3.prototype.slerp = function (target, α) {
@@ -6469,9 +7648,37 @@ define('davinci-eight/math/R3',["require", "exports", '../math/dotVectorE3', '..
                 return void 0;
             }
         };
+        /**
+         * @method mul
+         * @param rhs {number}
+         * @return {R3}
+         * @private
+         */
         R3.prototype.__mul__ = function (rhs) {
             if (isNumber(rhs)) {
                 return this.clone().scale(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method rmul
+         * @param lhs {number}
+         * @return {R3}
+         * @private
+         */
+        R3.prototype.__rmul__ = function (lhs) {
+            if (typeof lhs === 'number') {
+                return this.clone().scale(lhs);
+            }
+            else if (lhs instanceof Matrix3) {
+                var m33 = lhs;
+                return this.clone().applyMatrix(m33);
+            }
+            else if (lhs instanceof Matrix4) {
+                var m44 = lhs;
+                return this.clone().applyMatrix4(m44);
             }
             else {
                 return void 0;
@@ -7144,6 +8351,16 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
             return this;
         };
         /**
+         * Sets this spinor to the identity element for multiplication, <b>1</b>.
+         * @return {SpinG2} <code>this</code>
+         * @chainable
+         */
+        SpinG2.prototype.one = function () {
+            this.α = 1;
+            this.xy = 0;
+            return this;
+        };
+        /**
         * <p>
         * <code>this ⟼ this * conj(this)</code>
         * </p>
@@ -7375,7 +8592,7 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
             return this;
         };
         /**
-         * Sets this spinor to the identity element for addition.
+         * Sets this spinor to the identity element for addition, <b>0</b>.
          * @return {SpinG2} <code>this</code>
          * @chainable
          */
@@ -8071,6 +9288,18 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/dotVectorCart
             return this;
         };
         /**
+         * Sets this spinor to the identity element for multiplication, <b>1</b>.
+         * @return {SpinG3} <code>this</code>
+         * @chainable
+         */
+        SpinG3.prototype.one = function () {
+            this.α = 1;
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            return this;
+        };
+        /**
         * <p>
         * <code>this ⟼ this * conj(this)</code>
         * </p>
@@ -8340,7 +9569,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/dotVectorCart
             return this;
         };
         /**
-         * Sets this spinor to the identity element for addition.
+         * Sets this spinor to the identity element for addition, <b>0</b>.
          * @return {SpinG3} <code>this</code>
          * @chainable
          */
@@ -8499,469 +9728,6 @@ define('davinci-eight/slideshow/animations/Spinor3Animation',["require", "export
     return Spinor3Animation;
 });
 
-define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mustBeInteger', '../checks/expectArg'], function (require, exports, mustBeInteger, expectArg) {
-    /**
-     * @class AbstractMatrix
-     */
-    var AbstractMatrix = (function () {
-        /**
-         * @class AbstractMatrix
-         * @constructor
-         * @param data {Float32Array}
-         * @param dimensions {number}
-         */
-        function AbstractMatrix(data, dimensions) {
-            this._dimensions = mustBeInteger('dimensions', dimensions);
-            this._length = dimensions * dimensions;
-            expectArg('data', data).toSatisfy(data.length === this._length, 'data must have length ' + this._length);
-            this._data = data;
-            this.modified = false;
-        }
-        Object.defineProperty(AbstractMatrix.prototype, "elements", {
-            /**
-             * @property data
-             * @type {Float32Array}
-             */
-            get: function () {
-                if (this._data) {
-                    return this._data;
-                }
-                else if (this._callback) {
-                    var data = this._callback();
-                    expectArg('callback()', data).toSatisfy(data.length === this._length, "callback() length must be " + this._length);
-                    return this._callback();
-                }
-                else {
-                    throw new Error("Matrix" + Math.sqrt(this._length) + " is undefined.");
-                }
-            },
-            set: function (data) {
-                expectArg('data', data).toSatisfy(data.length === this._length, "data length must be " + this._length);
-                this._data = data;
-                this._callback = void 0;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AbstractMatrix.prototype, "callback", {
-            /**
-             * @property callback
-             * @type {() => Float32Array}
-             */
-            get: function () {
-                return this._callback;
-            },
-            set: function (reactTo) {
-                this._callback = reactTo;
-                this._data = void 0;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(AbstractMatrix.prototype, "dimensions", {
-            /**
-             * @property dimensions
-             * @type {number}
-             * @readOnly
-             */
-            get: function () {
-                return this._dimensions;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return AbstractMatrix;
-    })();
-    return AbstractMatrix;
-});
-
-define('davinci-eight/math/_M4_x_M4_',["require", "exports"], function (require, exports) {
-    function _M4_x_M4_(ae, be, oe) {
-        var a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
-        var a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
-        var a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
-        var a41 = ae[0x3], a42 = ae[0x7], a43 = ae[0xB], a44 = ae[0xF];
-        var b11 = be[0], b12 = be[4], b13 = be[8], b14 = be[12];
-        var b21 = be[1], b22 = be[5], b23 = be[9], b24 = be[13];
-        var b31 = be[2], b32 = be[6], b33 = be[10], b34 = be[14];
-        var b41 = be[3], b42 = be[7], b43 = be[11], b44 = be[15];
-        oe[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
-        oe[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
-        oe[8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
-        oe[12] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
-        oe[1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
-        oe[5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
-        oe[9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
-        oe[13] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
-        oe[2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
-        oe[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
-        oe[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
-        oe[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
-        oe[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-        oe[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-        oe[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-        oe[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
-        return oe;
-    }
-    return _M4_x_M4_;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../checks/isDefined', '../math/_M4_x_M4_'], function (require, exports, AbstractMatrix, expectArg, isDefined, _M4_x_M4_) {
-    /**
-     * @class Matrix4
-     * @extends AbstractMatrix
-     */
-    var Matrix4 = (function (_super) {
-        __extends(Matrix4, _super);
-        // The correspondence between the elements property index and the matrix entries is...
-        //
-        //  0  4  8 12
-        //  1  5  9 13
-        //  2  6 10 14
-        //  3  7 11 15
-        /**
-         * 4x4 (square) matrix of numbers.
-         * Constructs a Matrix4 by wrapping a Float32Array.
-         * @class Matrix4
-         * @constructor
-         */
-        function Matrix4(elements) {
-            _super.call(this, elements, 4);
-        }
-        /**
-         * <p>
-         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-         * </p>
-         * @method identity
-         * @return {Matrix3}
-         * @static
-         */
-        Matrix4.identity = function () {
-            return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
-        };
-        /**
-         * <p>
-         * Creates a new matrix with all elements zero.
-         * </p>
-         * @method zero
-         * @return {Matrix4}
-         * @static
-         */
-        Matrix4.zero = function () {
-            return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
-        };
-        Matrix4.scaling = function (scale) {
-            return Matrix4.identity().scaling(scale);
-        };
-        Matrix4.translation = function (vector) {
-            return Matrix4.identity().translation(vector);
-        };
-        Matrix4.rotation = function (spinor) {
-            return Matrix4.identity().rotation(spinor);
-        };
-        /**
-         * Returns a copy of this Matrix4 instance.
-         * @method clone
-         * @return {Matrix}
-         */
-        Matrix4.prototype.clone = function () {
-            return Matrix4.zero().copy(this);
-        };
-        Matrix4.prototype.compose = function (scale, attitude, position) {
-            // We 
-            // this.identity();
-            // this.scale(scale);
-            this.scaling(scale);
-            this.rotate(attitude);
-            this.translate(position);
-            return this;
-        };
-        Matrix4.prototype.copy = function (m) {
-            this.elements.set(m.elements);
-            return this;
-        };
-        Matrix4.prototype.determinant = function () {
-            var te = this.elements;
-            var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
-            var n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
-            var n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
-            var n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
-            //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
-            var n1122 = n11 * n22;
-            var n1123 = n11 * n23;
-            var n1124 = n11 * n24;
-            var n1221 = n12 * n21;
-            var n1223 = n12 * n23;
-            var n1224 = n12 * n24;
-            var n1321 = n13 * n21;
-            var n1322 = n13 * n22;
-            var n1324 = n13 * n24;
-            var n1421 = n14 * n21;
-            var n1422 = n14 * n22;
-            var n1423 = n14 * n23;
-            return n41 * ((n1423 - n1324) * n32 + (n1224 - n1422) * n33 + (n1322 - n1223) * n34) +
-                n42 * ((n1324 - n1423) * n31 + (n1421 - n1124) * n33 + (n1123 - n1321) * n34) +
-                n43 * ((n1422 - n1224) * n31 + (n1124 - n1421) * n32 + (n1221 - n1122) * n34) +
-                n44 * ((n1223 - n1322) * n31 + (n1321 - n1123) * n32 + (n1122 - n1221) * n33);
-        };
-        Matrix4.prototype.invert = function (m, throwOnSingular) {
-            if (throwOnSingular === void 0) { throwOnSingular = false; }
-            // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
-            var te = this.elements;
-            var me = m.elements;
-            var n11 = me[0], n12 = me[4], n13 = me[8], n14 = me[12];
-            var n21 = me[1], n22 = me[5], n23 = me[9], n24 = me[13];
-            var n31 = me[2], n32 = me[6], n33 = me[10], n34 = me[14];
-            var n41 = me[3], n42 = me[7], n43 = me[11], n44 = me[15];
-            te[0] = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
-            te[4] = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44;
-            te[8] = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44;
-            te[12] = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
-            te[1] = n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44;
-            te[5] = n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44;
-            te[9] = n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44;
-            te[13] = n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34;
-            te[2] = n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44;
-            te[6] = n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44;
-            te[10] = n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44;
-            te[14] = n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34;
-            te[3] = n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43;
-            te[7] = n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43;
-            te[11] = n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43;
-            te[15] = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
-            var det = n11 * te[0] + n21 * te[4] + n31 * te[8] + n41 * te[12];
-            if (det !== 0) {
-                return this.scale(1 / det);
-            }
-            else {
-                var msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
-                if (throwOnSingular) {
-                    throw new Error(msg);
-                }
-                else {
-                    console.warn(msg);
-                }
-                this.identity();
-                return this;
-            }
-        };
-        Matrix4.prototype.identity = function () {
-            return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-        };
-        Matrix4.prototype.scale = function (s) {
-            var te = this.elements;
-            te[0] *= s;
-            te[4] *= s;
-            te[8] *= s;
-            te[12] *= s;
-            te[1] *= s;
-            te[5] *= s;
-            te[9] *= s;
-            te[13] *= s;
-            te[2] *= s;
-            te[6] *= s;
-            te[10] *= s;
-            te[14] *= s;
-            te[3] *= s;
-            te[7] *= s;
-            te[11] *= s;
-            te[15] *= s;
-            return this;
-        };
-        /**
-         * @method transpose
-         * @return {Matrix4}
-         */
-        Matrix4.prototype.transpose = function () {
-            var te = this.elements;
-            var tmp;
-            tmp = te[1];
-            te[1] = te[4];
-            te[4] = tmp;
-            tmp = te[2];
-            te[2] = te[8];
-            te[8] = tmp;
-            tmp = te[6];
-            te[6] = te[9];
-            te[9] = tmp;
-            tmp = te[3];
-            te[3] = te[12];
-            te[12] = tmp;
-            tmp = te[7];
-            te[7] = te[13];
-            te[13] = tmp;
-            tmp = te[11];
-            te[11] = te[14];
-            te[14] = tmp;
-            return this;
-        };
-        /**
-         *
-         */
-        Matrix4.prototype.frustum = function (left, right, bottom, top, near, far) {
-            var te = this.elements;
-            var x = 2 * near / (right - left);
-            var y = 2 * near / (top - bottom);
-            var a = (right + left) / (right - left);
-            var b = (top + bottom) / (top - bottom);
-            var c = -(far + near) / (far - near);
-            var d = -2 * far * near / (far - near);
-            te[0] = x;
-            te[4] = 0;
-            te[8] = a;
-            te[12] = 0;
-            te[1] = 0;
-            te[5] = y;
-            te[9] = b;
-            te[13] = 0;
-            te[2] = 0;
-            te[6] = 0;
-            te[10] = c;
-            te[14] = d;
-            te[3] = 0;
-            te[7] = 0;
-            te[11] = -1;
-            te[15] = 0;
-            return this;
-        };
-        Matrix4.prototype.rotationAxis = function (axis, angle) {
-            // Based on http://www.gamedev.net/reference/articles/article1199.asp
-            var c = Math.cos(angle);
-            var s = Math.sin(angle);
-            var t = 1 - c;
-            var x = axis.x, y = axis.y, z = axis.z;
-            var tx = t * x, ty = t * y;
-            return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
-        };
-        Matrix4.prototype.mul = function (rhs) {
-            return this.mul2(this, rhs);
-        };
-        Matrix4.prototype.mul2 = function (a, b) {
-            _M4_x_M4_(a.elements, b.elements, this.elements);
-            return this;
-        };
-        // TODO: This should not be here.
-        Matrix4.prototype.rotate = function (spinor) {
-            var S = Matrix4.rotation(spinor);
-            _M4_x_M4_(S.elements, this.elements, this.elements);
-            return this;
-        };
-        /**
-         * @method rotate
-         * @param attitude  The spinor from which the rotation will be computed.
-         */
-        Matrix4.prototype.rotation = function (spinor) {
-            // The correspondence between quaternions and spinors is
-            // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
-            var x = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
-            var y = -expectArg('spinor.zx', spinor.zx).toBeNumber().value;
-            var z = -expectArg('spinor.xy', spinor.xy).toBeNumber().value;
-            var α = expectArg('spinor.α', spinor.α).toBeNumber().value;
-            var x2 = x + x, y2 = y + y, z2 = z + z;
-            var xx = x * x2, xy = x * y2, xz = x * z2;
-            var yy = y * y2, yz = y * z2, zz = z * z2;
-            var wx = α * x2, wy = α * y2, wz = α * z2;
-            this.set(1 - yy - zz, xy - wz, xz + wy, 0, xy + wz, 1 - xx - zz, yz - wx, 0, xz - wy, yz + wx, 1 - xx - yy, 0, 0, 0, 0, 1);
-            return this;
-        };
-        /**
-         * @method row
-         * @param i {number} the zero-based index of the row.
-         * @return {number[]}
-         */
-        Matrix4.prototype.row = function (i) {
-            var te = this.elements;
-            return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
-        };
-        Matrix4.prototype.scaleXYZ = function (scale) {
-            // We treat the scale operation as pre-multiplication: 
-            // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
-            // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
-            // |0 0 z 0|   |m[2] m[6] m[A] m[E]|   |z * m[2] z * m[6] z * m[A] z * m[E]|
-            // |0 0 0 1|   |m[3] m[7] m[B] m[F]|   |    m[3]     m[7]     m[B]     m[F]|
-            // The following would be post-multiplication:
-            // |m[0] m[4] m[8] m[C]|   |x 0 0 0|   |x * m[0] y * m[4] z * m[8]     m[C]|
-            // |m[1] m[5] m[9] m[D]| * |0 y 0 0| = |x * m[1] y * m[5] z * m[9]     m[D]|
-            // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
-            // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
-            var S = Matrix4.scaling(scale);
-            _M4_x_M4_(S.elements, this.elements, this.elements);
-            return this;
-        };
-        Matrix4.prototype.scaling = function (scale) {
-            return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
-        };
-        Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-            var te = this.elements;
-            te[0] = n11;
-            te[4] = n12;
-            te[8] = n13;
-            te[12] = n14;
-            te[1] = n21;
-            te[5] = n22;
-            te[9] = n23;
-            te[13] = n24;
-            te[2] = n31;
-            te[6] = n32;
-            te[10] = n33;
-            te[14] = n34;
-            te[3] = n41;
-            te[7] = n42;
-            te[11] = n43;
-            te[15] = n44;
-            return this;
-        };
-        Matrix4.prototype.toFixed = function (digits) {
-            if (isDefined(digits)) {
-                expectArg('digits', digits).toBeNumber();
-            }
-            var text = [];
-            for (var i = 0; i <= this.dimensions - 1; i++) {
-                text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));
-            }
-            return text.join('\n');
-        };
-        Matrix4.prototype.toString = function () {
-            var text = [];
-            for (var i = 0; i <= 3; i++) {
-                text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
-            }
-            return text.join('\n');
-        };
-        Matrix4.prototype.translate = function (displacement) {
-            var T = Matrix4.translation(displacement);
-            _M4_x_M4_(T.elements, this.elements, this.elements);
-            return this;
-        };
-        Matrix4.prototype.translation = function (displacement) {
-            return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
-        };
-        Matrix4.prototype.__mul__ = function (other) {
-            if (other instanceof Matrix4) {
-                return Matrix4.identity().mul2(this, other);
-            }
-            else if (typeof other === 'number') {
-                return this.clone().scale(other);
-            }
-        };
-        Matrix4.prototype.__rmul__ = function (other) {
-            if (other instanceof Matrix4) {
-                return Matrix4.identity().mul2(other, this);
-            }
-            else if (typeof other === 'number') {
-                return this.clone().scale(other);
-            }
-        };
-        return Matrix4;
-    })(AbstractMatrix);
-    return Matrix4;
-});
-
 define('davinci-eight/core/Symbolic',["require", "exports"], function (require, exports) {
     /**
      * <p>
@@ -9073,6 +9839,20 @@ define('davinci-eight/core/Symbolic',["require", "exports"], function (require, 
          */
         Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjection';
         /**
+         * 'uReflectionOne'
+         * @property UNIFORM_REFLECTION_ONE_MATRIX
+         * @type {string}
+         * @static
+         */
+        Symbolic.UNIFORM_REFLECTION_ONE_MATRIX = 'uReflectionOne';
+        /**
+         * 'uReflectionTwo'
+         * @property UNIFORM_REFLECTION_TWO_MATRIX
+         * @type {string}
+         * @static
+         */
+        Symbolic.UNIFORM_REFLECTION_TWO_MATRIX = 'uReflectionTwo';
+        /**
          * 'uModel'
          * @property UNIFORM_MODEL_MATRIX
          * @type {string}
@@ -9150,7 +9930,7 @@ define('davinci-eight/cameras/viewArray',["require", "exports", '../math/R3', '.
 
 define('davinci-eight/cameras/viewMatrix',["require", "exports", '../checks/isDefined', '../math/Matrix4', '../cameras/viewArray'], function (require, exports, isDefined, Matrix4, viewArray) {
     function viewMatrix(eye, look, up, matrix) {
-        var m = isDefined(matrix) ? matrix : Matrix4.identity();
+        var m = isDefined(matrix) ? matrix : Matrix4.one();
         viewArray(eye, look, up, m.elements);
         return m;
     }
@@ -9167,7 +9947,7 @@ define('davinci-eight/cameras/createView',["require", "exports", '../math/Euclid
         var eye = new R3();
         var look = new R3();
         var up = R3.copy(Euclidean3.e2);
-        var viewMatrix = Matrix4.identity();
+        var viewMatrix = Matrix4.one();
         var viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
         // Force an update of the view matrix.
         eye.modified = true;
@@ -9296,10 +10076,6 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             this.x = x;
             return this;
         };
-        R1.prototype.setX = function (x) {
-            this.x = x;
-            return this;
-        };
         R1.prototype.add = function (vector, alpha) {
             if (alpha === void 0) { alpha = 1; }
             this.x += vector.x * alpha;
@@ -9332,7 +10108,7 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             this.x = exp(this.x);
             return this;
         };
-        R1.prototype.identity = function () {
+        R1.prototype.one = function () {
             this.x = 1;
             return this;
         };
@@ -9557,7 +10333,7 @@ define('davinci-eight/cameras/createFrustum',["require", "exports", 'davinci-eig
         var near = new R1();
         var far = new R1();
         // TODO: We should immediately create with a frustum static constructor?
-        var projectionMatrix = Matrix4.identity();
+        var projectionMatrix = Matrix4.one();
         function updateProjectionMatrix() {
             projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
         }
@@ -9719,7 +10495,7 @@ define('davinci-eight/cameras/perspectiveArray',["require", "exports", '../camer
 
 define('davinci-eight/cameras/perspectiveMatrix',["require", "exports", '../checks/isDefined', '../math/Matrix4', '../cameras/perspectiveArray'], function (require, exports, isDefined, Matrix4, perspectiveArray) {
     function perspectiveMatrix(fov, aspect, near, far, matrix) {
-        var m = isDefined(matrix) ? matrix : Matrix4.identity();
+        var m = isDefined(matrix) ? matrix : Matrix4.one();
         perspectiveArray(fov, aspect, near, far, m.elements);
         return m;
     }
@@ -9745,7 +10521,7 @@ define('davinci-eight/cameras/createPerspective',["require", "exports", '../came
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
         var refCount = 1;
         var base = createView(options);
-        var projectionMatrix = Matrix4.identity();
+        var projectionMatrix = Matrix4.one();
         var matrixNeedsUpdate = true;
         var self = {
             addRef: function () {
@@ -10399,10 +11175,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-03',
+        LAST_MODIFIED: '2015-11-04',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.150.0'
+        VERSION: '2.151.0'
     };
     return core;
 });
@@ -11254,7 +12030,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE3', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, extG3, lcoG3, mulG3, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, rcoG3, readOnly, rotorFromDirections, scpG3, squaredNormG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE3', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, Euclidean3, extG3, lcoG3, mulG3, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, rcoG3, readOnly, rotorFromDirections, scpG3, squaredNormG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -12060,6 +12836,23 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
             return this;
         };
         /**
+         * Sets this multivector to the identity element for multiplication, <b>1</b>.
+         * @method one
+         * @return {G3}
+         * @chainable
+         */
+        G3.prototype.one = function () {
+            this.α = 1;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.yz = 0;
+            this.zx = 0;
+            this.xy = 0;
+            this.β = 0;
+            return this;
+        };
+        /**
         * <p>
         * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
         * </p>
@@ -12093,18 +12886,12 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
          * @chainable
          */
         G3.prototype.reflect = function (n) {
-            // FIXME: This inly reflects the vector components.
+            // TODO: Optimize.
             mustBeObject('n', n);
-            var x = this.x;
-            var y = this.y;
-            var z = this.z;
-            var nx = n.x;
-            var ny = n.y;
-            var nz = n.z;
-            var dot2 = (x * nx + y * ny + z * nz) * 2;
-            this.x = x - dot2 * nx;
-            this.y = y - dot2 * ny;
-            this.z = z - dot2 * nz;
+            var N = Euclidean3.fromVectorE3(n);
+            var M = Euclidean3.copy(this);
+            var R = N.mul(M).mul(N).scale(-1);
+            this.copy(R);
             return this;
         };
         /**
@@ -12739,6 +13526,15 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
             }
         };
         /**
+         * @method __bang__
+         * @return {G3}
+         * @private
+         * @chainable
+         */
+        G3.prototype.__bang__ = function () {
+            return G3.copy(this).inv();
+        };
+        /**
          * @method __pos__
          * @return {G3}
          * @private
@@ -12758,7 +13554,7 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
         };
         Object.defineProperty(G3, "zero", {
             /**
-             * The identity element for addition.
+             * The identity element for addition, <b>0</b>.
              * @property zero
              * @type {G3}
              * @readOnly
@@ -12771,7 +13567,7 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
         ;
         Object.defineProperty(G3, "one", {
             /**
-             * The identity element for multiplication.
+             * The identity element for multiplication, <b>1</b>.
              * @property one
              * @type {G3}
              * @readOnly
@@ -16136,7 +16932,7 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Carte
         };
         /**
          * @method setPosition
-         * @param position {{x: number, y: number, z: number}}
+         * @param position {VectorE3}
          * @return Geometry
          * @chainable
          */
@@ -16163,7 +16959,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../math/Euclidean3', '../checks/mustBeInteger', '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3, mustBeInteger, Geometry, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, R1, R3) {
+define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '../checks/mustBeInteger', '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3, mustBeBoolean, mustBeInteger, Geometry, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, R1, R3) {
     /**
      * @class SimplexGeometry
      * @extends Geometry
@@ -16271,6 +17067,7 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../mat
          * @chainable
          */
         SimplexGeometry.prototype.setModified = function (modified) {
+            mustBeBoolean('modified', modified);
             this._k.modified = modified;
             return this;
         };
@@ -16284,7 +17081,7 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../mat
          * </p>
          *
          * @method boundary
-         * @param times {number} Determines the number of times the boundary operation is applied to this instance.
+         * @param times [number] Determines the number of times the boundary operation is applied to this instance.
          * @return {SimplexGeometry}
          */
         SimplexGeometry.prototype.boundary = function (times) {
@@ -16315,7 +17112,7 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../mat
          * </p>
          *
          * @method subdivide
-         * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
+         * @param times [number] Determines the number of times the subdivide operation is applied to this instance.
          * @return {SimplexGeometry}
          */
         SimplexGeometry.prototype.subdivide = function (times) {
@@ -16328,7 +17125,7 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../mat
         };
         /**
          * @method setPosition
-         * @param position {{x: number; y: number; z: number}}
+         * @param position {VectorE3}
          * @return {SimplexGeometry}
          * @chainable
          */
@@ -16385,6 +17182,14 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../mat
             }
             return this.data.push(simplex);
         };
+        /**
+         * Convenience method for pushing attribute data as a line segment simplex
+         * @method lineSegment
+         * @param positions {R3[]}
+         * @param normals {R3[]}
+         * @param uvs {R2[]}
+         * @return {number}
+         */
         SimplexGeometry.prototype.lineSegment = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.LINE);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
@@ -16399,6 +17204,14 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../mat
             }
             return this.data.push(simplex);
         };
+        /**
+         * Convenience method for pushing attribute data as a point simplex
+         * @method point
+         * @param positions {R3[]}
+         * @param normals {R3[]}
+         * @param uvs {R2[]}
+         * @return {number}
+         */
         SimplexGeometry.prototype.point = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.POINT);
             simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
@@ -16409,13 +17222,25 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../mat
             }
             return this.data.push(simplex);
         };
+        /**
+         * Convenience method for pushing attribute data as an empty simplex
+         * @method empty
+         * @param positions {R3[]}
+         * @param normals {R3[]}
+         * @param uvs {R2[]}
+         * @return {number}
+         */
         SimplexGeometry.prototype.empty = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.EMPTY);
             return this.data.push(simplex);
         };
+        /**
+         * @method enableTextureCoords
+         * @param enable {boolean}
+         * @return {SimplexGeometry}
+         */
         SimplexGeometry.prototype.enableTextureCoords = function (enable) {
-            //        mustBeBoolean('enable', enable)
-            //        this.useTextureCoords = enable
+            _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return SimplexGeometry;
@@ -17046,7 +17871,9 @@ define('davinci-eight/geometries/BarnSimplexGeometry',["require", "exports", '..
         };
         BarnSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
+            // FIXME: R3 would probably work fine here.
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
+            // Define the anchor points relative to the origin.
             points[0] = new G3().sub(this.a).sub(this.b).sub(this.c).divByScalar(2);
             points[1] = new G3().add(this.a).sub(this.b).sub(this.c).divByScalar(2);
             points[6] = new G3().add(this.a).sub(this.b).add(this.c).divByScalar(2);
@@ -17057,9 +17884,13 @@ define('davinci-eight/geometries/BarnSimplexGeometry',["require", "exports", '..
             points[9] = new G3().copy(points[5]).add(this.b);
             points[3] = G3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divByScalar(2);
             points[8] = G3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divByScalar(2);
+            // Translate the points according to the position.
+            var position = G3.fromVector(this.position);
+            points = points.map(function (point) { return point.add(position); });
             function simplex(indices) {
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {
+                    // Why does this work? It's because of dataFromVectorN
                     simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = points[indices[i]];
                 }
                 return simplex;
@@ -17578,6 +18409,7 @@ define('davinci-eight/geometries/CuboidSimplexGeometry',["require", "exports", '
          */
         CuboidSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
+            // Define the anchor points relative to the origin.
             var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
             pos[0] = new R3().sub(this._a).sub(this._b).add(this._c).divByScalar(2);
             pos[1] = new R3().add(this._a).sub(this._b).add(this._c).divByScalar(2);
@@ -17587,6 +18419,11 @@ define('davinci-eight/geometries/CuboidSimplexGeometry',["require", "exports", '
             pos[5] = new R3().copy(pos[2]).sub(this._c);
             pos[6] = new R3().copy(pos[1]).sub(this._c);
             pos[7] = new R3().copy(pos[0]).sub(this._c);
+            // Translate the points according to the position.
+            var position = this.position;
+            pos.forEach(function (point) {
+                point.add(position);
+            });
             function simplex(indices) {
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {
@@ -19755,6 +20592,15 @@ define('davinci-eight/programs/vertexShader',["require", "exports", '../core/get
         else {
             glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
         }
+        // Reflections are applied first.
+        if (uniforms[Symbolic.UNIFORM_REFLECTION_ONE_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_REFLECTION_ONE_MATRIX));
+        }
+        if (uniforms[Symbolic.UNIFORM_REFLECTION_TWO_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_REFLECTION_TWO_MATRIX));
+        }
         if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
             glPosition.unshift(TIMES);
             glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));
@@ -21104,7 +21950,7 @@ define('davinci-eight/math/scpE2',["require", "exports"], function (require, exp
     return scpE2;
 });
 
-define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/extE2', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, b2, b3, extE2, lcoE2, rcoE2, mulE2, mustBeInteger, readOnly, scpE2, stringFromCoordinates, Unit) {
+define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/extE2', '../checks/isDefined', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, b2, b3, extE2, isDefined, lcoE2, rcoE2, mulE2, mustBeInteger, readOnly, scpE2, stringFromCoordinates, Unit) {
     var exp = Math.exp;
     var cos = Math.cos;
     var sin = Math.sin;
@@ -21383,9 +22229,13 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
             assertArgUnitOrUndefined('uom', uom);
             return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom);
         };
-        Euclidean2.prototype.coordinates = function () {
-            return [this.w, this.x, this.y, this.xy];
-        };
+        Object.defineProperty(Euclidean2.prototype, "coords", {
+            get: function () {
+                return [this.w, this.x, this.y, this.xy];
+            },
+            enumerable: true,
+            configurable: true
+        });
         Euclidean2.prototype.coordinate = function (index) {
             assertArgNumber('index', index);
             switch (index) {
@@ -21418,7 +22268,7 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         };
         Euclidean2.prototype.add = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.add(this.coordinates(), rhs.coordinates());
+            var xs = Euclidean2.add(this.coords, rhs.coords);
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
         };
         Euclidean2.prototype.addPseudo = function (β) {
@@ -21487,7 +22337,7 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         };
         Euclidean2.prototype.sub = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.sub(this.coordinates(), rhs.coordinates());
+            var xs = Euclidean2.sub(this.coords, rhs.coords);
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
         };
         Euclidean2.prototype.__sub__ = function (other) {
@@ -21614,7 +22464,7 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         };
         Euclidean2.prototype.ext = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.ext(this.coordinates(), rhs.coordinates());
+            var xs = Euclidean2.ext(this.coords, rhs.coords);
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
         };
         Euclidean2.prototype.__wedge__ = function (other) {
@@ -21658,7 +22508,7 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         };
         Euclidean2.prototype.lco = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.lshift(this.coordinates(), rhs.coordinates());
+            var xs = Euclidean2.lshift(this.coords, rhs.coords);
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
         };
         Euclidean2.prototype.__lshift__ = function (other) {
@@ -21698,7 +22548,7 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         };
         Euclidean2.prototype.rco = function (rhs) {
             assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.rshift(this.coordinates(), rhs.coordinates());
+            var xs = Euclidean2.rshift(this.coords, rhs.coords);
             return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
         };
         Euclidean2.prototype.__rshift__ = function (other) {
@@ -21736,6 +22586,9 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         Euclidean2.prototype.pow = function (exponent) {
             // assertArgEuclidean2('exponent', exponent);
             throw new Error('pow');
+        };
+        Euclidean2.prototype.__bang__ = function () {
+            return this.inv();
         };
         Euclidean2.prototype.__pos__ = function () {
             return this;
@@ -21812,8 +22665,16 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         Euclidean2.prototype.squaredNorm = function () {
             return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
         };
+        /**
+         * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
+         * @method reflect
+         * @param n {VectorE2}
+         * @return {Euclidean2}
+         */
         Euclidean2.prototype.reflect = function (n) {
-            throw new Error('reflect');
+            // TODO: Optimize to minimize object creation and increase performance.
+            var m = Euclidean2.fromVectorE2(n);
+            return m.mul(this).mul(m).scale(-1);
         };
         Euclidean2.prototype.rev = function () {
             throw new Error('rev');
@@ -21831,6 +22692,13 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
             // FIXME: TODO
             return this;
         };
+        /**
+         * @method tan
+         * @return {Euclidean2}
+         */
+        Euclidean2.prototype.tan = function () {
+            return this.sin().div(this.cos());
+        };
         Euclidean2.prototype.unitary = function () {
             throw new Error('unitary');
         };
@@ -21838,7 +22706,7 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         Euclidean2.prototype.isNaN = function () { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy); };
         Euclidean2.prototype.isZero = function () { return this.w === 0 && this.x === 0 && this.y === 0 && this.xy === 0; };
         Euclidean2.prototype.toStringCustom = function (coordToString, labels) {
-            var quantityString = stringFromCoordinates(this.coordinates(), coordToString, labels);
+            var quantityString = stringFromCoordinates(this.coords, coordToString, labels);
             if (this.uom) {
                 var unitString = this.uom.toString().trim();
                 if (unitString) {
@@ -21872,6 +22740,39 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
             var coordToString = function (coord) { return coord.toString(); };
             return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{12}"]);
         };
+        /**
+         * @method copy
+         * @param M {GeometricE2}
+         * @return {Euclidean2}
+         * @static
+         */
+        Euclidean2.copy = function (m) {
+            if (m instanceof Euclidean2) {
+                return m;
+            }
+            else {
+                return new Euclidean2(m.α, m.x, m.y, m.β, void 0);
+            }
+        };
+        /**
+         * @method fromVectorE2
+         * @param vector {VectorE2}
+         * @return {Euclidean2}
+         * @static
+         */
+        Euclidean2.fromVectorE2 = function (vector) {
+            if (isDefined(vector)) {
+                if (vector instanceof Euclidean2) {
+                    return new Euclidean2(0, vector.x, vector.y, 0, vector.uom);
+                }
+                else {
+                    return new Euclidean2(0, vector.x, vector.y, 0, void 0);
+                }
+            }
+            else {
+                return void 0;
+            }
+        };
         return Euclidean2;
     })();
     return Euclidean2;
@@ -21882,156 +22783,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
-    /**
-     * @class Matrix3
-     * @extends AbstractMatrix
-     */
-    var Matrix3 = (function (_super) {
-        __extends(Matrix3, _super);
-        /**
-         * 3x3 (square) matrix of numbers.
-         * Constructs a Matrix3 by wrapping a Float32Array.
-         * @class Matrix3
-         * @constructor
-         */
-        function Matrix3(elements) {
-            _super.call(this, elements, 3);
-        }
-        /**
-         * <p>
-         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-         * </p>
-         * @method identity
-         * @return {Matrix3}
-         * @static
-         */
-        Matrix3.identity = function () {
-            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
-        };
-        /**
-         * <p>
-         * Creates a new matrix with all elements zero.
-         * </p>
-         * @method zero
-         * @return {Matrix3}
-         * @static
-         */
-        Matrix3.zero = function () {
-            return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
-        };
-        Matrix3.prototype.determinant = function () {
-            return 1;
-        };
-        Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
-            // input: Matrix4
-            // ( based on http://code.google.com/p/webgl-mjs/ )
-            var me = matrix.elements;
-            var te = this.elements;
-            te[0] = me[10] * me[5] - me[6] * me[9];
-            te[1] = -me[10] * me[1] + me[2] * me[9];
-            te[2] = me[6] * me[1] - me[2] * me[5];
-            te[3] = -me[10] * me[4] + me[6] * me[8];
-            te[4] = me[10] * me[0] - me[2] * me[8];
-            te[5] = -me[6] * me[0] + me[2] * me[4];
-            te[6] = me[9] * me[4] - me[5] * me[8];
-            te[7] = -me[9] * me[0] + me[1] * me[8];
-            te[8] = me[5] * me[0] - me[1] * me[4];
-            var det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
-            // no inverse
-            if (det === 0) {
-                var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
-                if (throwOnInvertible || !throwOnInvertible) {
-                    throw new Error(msg);
-                }
-                else {
-                    console.warn(msg);
-                }
-                this.identity();
-                return this;
-            }
-            this.scale(1.0 / det);
-            return this;
-        };
-        Matrix3.prototype.identity = function () {
-            return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
-        };
-        Matrix3.prototype.mul = function (rhs) {
-            return this.mul2(this, rhs);
-        };
-        /**
-         * @method row
-         * @param i {number} the zero-based index of the row.
-         * @return {number[]}
-         */
-        Matrix3.prototype.row = function (i) {
-            var te = this.elements;
-            return [te[0 + i], te[3 + i], te[6 + i]];
-        };
-        Matrix3.prototype.scale = function (s) {
-            var m = this.elements;
-            m[0] *= s;
-            m[3] *= s;
-            m[6] *= s;
-            m[1] *= s;
-            m[4] *= s;
-            m[7] *= s;
-            m[2] *= s;
-            m[5] *= s;
-            m[8] *= s;
-            return this;
-        };
-        Matrix3.prototype.mul2 = function (a, b) {
-            return this;
-        };
-        Matrix3.prototype.normalFromMatrix4 = function (m) {
-            this.getInverse(m).transpose();
-        };
-        Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
-            var te = this.elements;
-            te[0] = n11;
-            te[3] = n12;
-            te[6] = n13;
-            te[1] = n21;
-            te[4] = n22;
-            te[7] = n23;
-            te[2] = n31;
-            te[5] = n32;
-            te[8] = n33;
-            return this;
-        };
-        Matrix3.prototype.toString = function () {
-            var text = [];
-            for (var i = 0; i < this.dimensions; i++) {
-                text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
-            }
-            return text.join('\n');
-        };
-        Matrix3.prototype.transpose = function () {
-            var tmp;
-            var m = this.elements;
-            tmp = m[1];
-            m[1] = m[3];
-            m[3] = tmp;
-            tmp = m[2];
-            m[2] = m[6];
-            m[6] = tmp;
-            tmp = m[5];
-            m[5] = m[7];
-            m[7] = tmp;
-            return this;
-        };
-        return Matrix3;
-    })(AbstractMatrix);
-    return Matrix3;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2, b3, dotVector, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, quadVector, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
+define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/Euclidean2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2, b3, dotVector, Euclidean2, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, quadVector, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -22710,6 +23462,19 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
             return this;
         };
         /**
+         * Sets this multivector to the identity element for multiplication, <b>1</b>.
+         * @method one
+         * @return {G2}
+         * @chainable
+         */
+        G2.prototype.one = function () {
+            this.α = 1;
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
+            return this;
+        };
+        /**
          * <p>
          * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
          * </p>
@@ -22767,15 +23532,12 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
          * @chainable
          */
         G2.prototype.reflect = function (n) {
-            // FIXME: This inly reflects the vector components.
+            // TODO: Optimize.
             mustBeObject('n', n);
-            var x = this.x;
-            var y = this.y;
-            var nx = n.x;
-            var ny = n.y;
-            var dot2 = (x * nx + y * ny) * 2;
-            this.x = x - dot2 * nx;
-            this.y = y - dot2 * ny;
+            var N = Euclidean2.fromVectorE2(n);
+            var M = Euclidean2.copy(this);
+            var R = N.mul(M).mul(N).scale(-1);
+            this.copy(R);
             return this;
         };
         /**
@@ -23404,6 +24166,15 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
             }
         };
         /**
+         * @method __bang__
+         * @return {G2}
+         * @private
+         * @chainable
+         */
+        G2.prototype.__bang__ = function () {
+            return G2.copy(this).inv();
+        };
+        /**
          * @method __pos__
          * @return {G2}
          * @private
@@ -23505,7 +24276,7 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
             return new G2().rotorFromDirections(a, b);
         };
         /**
-         * The identity element for addition.
+         * The identity element for addition, <b>0</b>.
          * @property zero
          * @type {G2}
          * @readOnly
@@ -23513,7 +24284,7 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
          */
         G2.zero = G2.fromCartesian(0, 0, 0, 0);
         /**
-         * The identity element for multiplication.
+         * The identity element for multiplication, <b>1</b>.
          * @property one
          * @type {G2}
          * @readOnly
@@ -23589,10 +24360,6 @@ define('davinci-eight/math/R4',["require", "exports", '../math/VectorN'], functi
             enumerable: true,
             configurable: true
         });
-        R4.prototype.setX = function (x) {
-            this.x = x;
-            return this;
-        };
         Object.defineProperty(R4.prototype, "y", {
             /**
              * @property y
@@ -23608,10 +24375,6 @@ define('davinci-eight/math/R4',["require", "exports", '../math/VectorN'], functi
             enumerable: true,
             configurable: true
         });
-        R4.prototype.setY = function (y) {
-            this.y = y;
-            return this;
-        };
         Object.defineProperty(R4.prototype, "z", {
             /**
              * @property z
@@ -23627,10 +24390,6 @@ define('davinci-eight/math/R4',["require", "exports", '../math/VectorN'], functi
             enumerable: true,
             configurable: true
         });
-        R4.prototype.setZ = function (z) {
-            this.z = z;
-            return this;
-        };
         Object.defineProperty(R4.prototype, "w", {
             /**
              * @property w
@@ -23761,675 +24520,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/physics/ModelE2',["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R2', '../math/SpinG2', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, mustBeString, G2, R2, SpinG2, readOnly, Shareable) {
-    /**
-     * @class ModelE2
-     */
-    var ModelE2 = (function (_super) {
-        __extends(ModelE2, _super);
-        /**
-         * <p>
-         * A collection of properties for Rigid Body Modeling.
-         * </p>
-         * <p>
-         * ModelE2 implements IFacet required for manipulating a drawable object.
-         * </p>
-         * <p>
-         * Constructs a ModelE2 at the origin and with unity attitude.
-         * </p>
-         * @class ModelE2
-         * @constructor
-         * @param type [string = 'ModelE2'] The name used for reference counting.
-         */
-        function ModelE2(type) {
-            if (type === void 0) { type = 'ModelE2'; }
-            _super.call(this, mustBeString('type', type));
-            this._position = new G2().zero();
-            this._attitude = new G2().zero().addScalar(1);
-            /**
-             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-             * @property _posCache
-             * @type {R2}
-             * @private
-             */
-            this._posCache = new R2();
-            /**
-             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-             * @property _attCache
-             * @type {SpinG2}
-             * @private
-             */
-            this._attCache = new SpinG2();
-            this._position.modified = true;
-            this._attitude.modified = true;
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        ModelE2.prototype.destructor = function () {
-            this._position = void 0;
-            this._attitude = void 0;
-        };
-        Object.defineProperty(ModelE2.prototype, "R", {
-            /**
-             * <p>
-             * The <em>attitude</em>, a unitary spinor.
-             * </p>
-             * @property R
-             * @type G2
-             * @readOnly
-             */
-            get: function () {
-                return this._attitude;
-            },
-            set: function (unused) {
-                throw new Error(readOnly(ModelE2.PROP_ATTITUDE).message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ModelE2.prototype, "X", {
-            /**
-             * <p>
-             * The <em>position</em>, a vector.
-             * The vector <b>X</b> designates the center of mass of the body (Physics).
-             * The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
-             * </p>
-             *
-             * @property X
-             * @type G2
-             * @readOnly
-             */
-            get: function () {
-                return this._position;
-            },
-            set: function (unused) {
-                throw new Error(readOnly(ModelE2.PROP_POSITION).message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method getProperty
-         * @param name {string}
-         * @return {number[]}
-         */
-        ModelE2.prototype.getProperty = function (name) {
-            switch (name) {
-                case ModelE2.PROP_ATTITUDE: {
-                    return this._attCache.copy(this._attitude).coords;
-                }
-                case ModelE2.PROP_POSITION: {
-                    return this._posCache.copy(this._position).coords;
-                }
-                default: {
-                    console.warn("ModelE2.getProperty " + name);
-                    return void 0;
-                }
-            }
-        };
-        /**
-         * @method setProperty
-         * @param name {string}
-         * @param data {number[]}
-         * @return {void}
-         */
-        ModelE2.prototype.setProperty = function (name, data) {
-            switch (name) {
-                case ModelE2.PROP_ATTITUDE:
-                    {
-                        this._attCache.coords = data;
-                        this._attitude.copySpinor(this._attCache);
-                    }
-                    break;
-                case ModelE2.PROP_POSITION:
-                    {
-                        this._posCache.coords = data;
-                        this._position.copyVector(this._posCache);
-                    }
-                    break;
-                default: {
-                    console.warn("ModelE2.setProperty " + name);
-                }
-            }
-        };
-        /**
-         * The name of the property that designates the attitude.
-         * @property PROP_ATTITUDE
-         * @type {string}
-         * @default 'R'
-         * @static
-         * @readOnly
-         */
-        ModelE2.PROP_ATTITUDE = 'R';
-        /**
-         * The name of the property that designates the position.
-         * @property PROP_POSITION
-         * @type {string}
-         * @default 'X'
-         * @static
-         * @readOnly
-         */
-        ModelE2.PROP_POSITION = 'X';
-        return ModelE2;
-    })(Shareable);
-    return ModelE2;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/physics/ModelE3',["require", "exports", '../checks/mustBeString', '../math/G3', '../math/R3', '../math/SpinG3', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, mustBeString, G3, R3, SpinG3, readOnly, Shareable) {
-    /**
-     * @class ModelE3
-     */
-    var ModelE3 = (function (_super) {
-        __extends(ModelE3, _super);
-        /**
-         * <p>
-         * A collection of properties for Rigid Body Modeling.
-         * </p>
-         * <p>
-         * ModelE3 implements IFacet required for manipulating a drawable object.
-         * </p>
-         * <p>
-         * Constructs a ModelE3 at the origin and with unity attitude.
-         * </p>
-         * @class ModelE3
-         * @constructor
-         * @param type [string = 'ModelE3'] The name used for reference counting.
-         */
-        function ModelE3(type) {
-            if (type === void 0) { type = 'ModelE3'; }
-            _super.call(this, mustBeString('type', type));
-            /**
-             * @property _position
-             * @type {G3}
-             * @private
-             */
-            this._position = new G3().zero();
-            /**
-             * @property _attitude
-             * @type {G3}
-             * @private
-             */
-            this._attitude = new G3().zero().addScalar(1);
-            /**
-             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-             * @property _posCache
-             * @type {R3}
-             * @private
-             */
-            this._posCache = new R3();
-            /**
-             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-             * @property _attCache
-             * @type {SpinG3}
-             * @private
-             */
-            this._attCache = new SpinG3();
-            this._position.modified = true;
-            this._attitude.modified = true;
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        ModelE3.prototype.destructor = function () {
-            this._position = void 0;
-            this._attitude = void 0;
-            _super.prototype.destructor.call(this);
-        };
-        Object.defineProperty(ModelE3.prototype, "R", {
-            /**
-             * <p>
-             * The <em>attitude</em>, a unitary spinor.
-             * </p>
-             * @property R
-             * @type G3
-             * @readOnly
-             */
-            get: function () {
-                return this._attitude;
-            },
-            set: function (unused) {
-                throw new Error(readOnly(ModelE3.PROP_ATTITUDE).message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ModelE3.prototype, "X", {
-            /**
-             * <p>
-             * The <em>position</em>, a vector.
-             * The vector <b>X</b> designates the center of mass of the body (Physics).
-             * The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
-             * </p>
-             *
-             * @property X
-             * @type G3
-             * @readOnly
-             */
-            get: function () {
-                return this._position;
-            },
-            set: function (unused) {
-                throw new Error(readOnly(ModelE3.PROP_POSITION).message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method getProperty
-         * @param name {string}
-         * @return {number[]}
-         */
-        ModelE3.prototype.getProperty = function (name) {
-            switch (name) {
-                case ModelE3.PROP_ATTITUDE: {
-                    return this._attCache.copy(this._attitude).coords;
-                }
-                case ModelE3.PROP_POSITION: {
-                    return this._posCache.copy(this._position).coords;
-                }
-                default: {
-                    console.warn("ModelE3.getProperty " + name);
-                    return void 0;
-                }
-            }
-        };
-        /**
-         * @method setProperty
-         * @param name {string}
-         * @param data {number[]}
-         * @return {void}
-         */
-        ModelE3.prototype.setProperty = function (name, data) {
-            switch (name) {
-                case ModelE3.PROP_ATTITUDE:
-                    {
-                        this._attCache.coords = data;
-                        this._attitude.copySpinor(this._attCache);
-                    }
-                    break;
-                case ModelE3.PROP_POSITION:
-                    {
-                        this._posCache.coords = data;
-                        this._position.copyVector(this._posCache);
-                    }
-                    break;
-                default: {
-                    console.warn("ModelE3.setProperty " + name);
-                }
-            }
-        };
-        /**
-         * The name of the property that designates the attitude.
-         * @property PROP_ATTITUDE
-         * @type {string}
-         * @default 'R'
-         * @static
-         * @readOnly
-         */
-        ModelE3.PROP_ATTITUDE = 'R';
-        /**
-         * The name of the property that designates the position.
-         * @property PROP_POSITION
-         * @type {string}
-         * @default 'X'
-         * @static
-         * @readOnly
-         */
-        ModelE3.PROP_POSITION = 'X';
-        return ModelE3;
-    })(Shareable);
-    return ModelE3;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/models/EulerFacet',["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/R3'], function (require, exports, readOnly, Shareable, R3) {
-    /**
-     * @class EulerFacet
-     */
-    var EulerFacet = (function (_super) {
-        __extends(EulerFacet, _super);
-        /**
-         * @class EulerFacet
-         * @constructor
-         */
-        function EulerFacet() {
-            _super.call(this, 'EulerFacet');
-            this._rotation = new R3();
-        }
-        EulerFacet.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        EulerFacet.prototype.getProperty = function (name) {
-            return void 0;
-        };
-        EulerFacet.prototype.setProperty = function (name, value) {
-        };
-        /**
-         * @method setUniforms
-         * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
-         * @return {void}
-         */
-        EulerFacet.prototype.setUniforms = function (visitor, canvasId) {
-            console.warn("EulerFacet.setUniforms");
-        };
-        Object.defineProperty(EulerFacet.prototype, "rotation", {
-            /**
-             * @property rotation
-             * @type {R3}
-             * @readOnly
-             */
-            get: function () {
-                return this._rotation;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('rotation').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return EulerFacet;
-    })(Shareable);
-    return EulerFacet;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/models/ModelFacetE3',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../physics/ModelE3', '../checks/mustBeString', '../math/R3', '../i18n/readOnly', '../core/Symbolic'], function (require, exports, Matrix3, Matrix4, ModelE3, mustBeString, R3, readOnly, Symbolic) {
-    /**
-     * @class ModelFacetE3
-     */
-    var ModelFacetE3 = (function (_super) {
-        __extends(ModelFacetE3, _super);
-        /**
-         * <p>
-         * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
-         * </p>
-         * <p>
-         * In Physics, the drawable object may represent a rigid body.
-         * In Computer Graphics, the drawable object is a collection of drawing primitives.
-         * </p>
-         * <p>
-         * ModelFacetE3 implements IFacet required for manipulating a drawable object.
-         * </p>
-         * <p>
-         * Constructs a ModelFacetE3 at the origin and with unity attitude.
-         * </p>
-         * @class ModelFacetE3
-         * @constructor
-         * @param type [string = 'ModelFacetE3'] The name used for reference counting.
-         */
-        function ModelFacetE3(type) {
-            if (type === void 0) { type = 'ModelFacetE3'; }
-            _super.call(this, mustBeString('type', type));
-            // FIXME: I don't like this non-geometric scaling.
-            this._scaleXYZ = new R3([1, 1, 1]);
-            this.matM = Matrix4.identity();
-            this.matN = Matrix3.identity();
-            this.matR = Matrix4.identity();
-            this.matS = Matrix4.identity();
-            this.matT = Matrix4.identity();
-            this._scaleXYZ.modified = true;
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        ModelFacetE3.prototype.destructor = function () {
-            this._scaleXYZ = void 0;
-            this.matM = void 0;
-            this.matN = void 0;
-            this.matR = void 0;
-            this.matS = void 0;
-            this.matT = void 0;
-            _super.prototype.destructor.call(this);
-        };
-        Object.defineProperty(ModelFacetE3.prototype, "scaleXYZ", {
-            /**
-             * @property scaleXYZ
-             * @type R3
-             * @readOnly
-             */
-            get: function () {
-                return this._scaleXYZ;
-            },
-            set: function (unused) {
-                throw new Error(readOnly(ModelFacetE3.PROP_SCALEXYZ).message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method setUniforms
-         * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
-         */
-        ModelFacetE3.prototype.setUniforms = function (visitor, canvasId) {
-            if (this.X.modified) {
-                this.matT.translation(this.X);
-                this.X.modified = false;
-            }
-            if (this.R.modified) {
-                this.matR.rotation(this.R);
-                this.R.modified = false;
-            }
-            if (this.scaleXYZ.modified) {
-                this.matS.scaling(this.scaleXYZ);
-                this.scaleXYZ.modified = false;
-            }
-            this.matM.copy(this.matT).mul(this.matR).mul(this.matS);
-            this.matN.normalFromMatrix4(this.matM);
-            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId);
-            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId);
-        };
-        /**
-         * @method incRef
-         * @return {ModelFacetE3}
-         * @chainable
-         */
-        ModelFacetE3.prototype.incRef = function () {
-            this.addRef();
-            return this;
-        };
-        /**
-         * @method decRef
-         * @return {ModelFacetE3}
-         * @chainable
-         */
-        ModelFacetE3.prototype.decRef = function () {
-            this.release();
-            return this;
-        };
-        // FIXME: Make this scale so that we can be geometric?
-        ModelFacetE3.PROP_SCALEXYZ = 'scaleXYZ';
-        return ModelFacetE3;
-    })(ModelE3);
-    return ModelFacetE3;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/models/RigidBodyFacetE3',["require", "exports", '../math/Euclidean3', '../models/ModelFacetE3', '../math/G3'], function (require, exports, Euclidean3, ModelFacetE3, G3) {
-    /**
-     * @class RigidBodyFacetE3
-     * @extends ModelFacetE3
-     */
-    var RigidBodyFacetE3 = (function (_super) {
-        __extends(RigidBodyFacetE3, _super);
-        /**
-         * <p>
-         * Constructs a RigidBodyFacetE3.
-         * </p>
-         * @class RigidBodyFacetE3
-         * @constructor
-         * @param [type = 'RigidBodyFacetE3'] {string} The name used for reference counting.
-         */
-        function RigidBodyFacetE3(type) {
-            if (type === void 0) { type = 'RigidBodyFacetE3'; }
-            _super.call(this, type);
-            /**
-             * <p>
-             * The <em>linear velocity</em>, a vector.
-             * </p>
-             * @property V
-             * @type {G3}
-             */
-            this.V = new G3().copy(Euclidean3.zero);
-            /**
-             * <p>
-             * The <em>rotational velocity</em>, a spinor.
-             * </p>
-             * @property Ω
-             * @type {G3}
-             */
-            this.Ω = new G3();
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        RigidBodyFacetE3.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        return RigidBodyFacetE3;
-    })(ModelFacetE3);
-    return RigidBodyFacetE3;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/physics/RigidBodyE2',["require", "exports", '../physics/ModelE2', '../math/G2'], function (require, exports, ModelE2, G2) {
-    /**
-     * @class RigidBodyE2
-     * @extends ModelE2
-     */
-    var RigidBodyE2 = (function (_super) {
-        __extends(RigidBodyE2, _super);
-        /**
-         * <p>
-         * Constructs a RigidBodyE2.
-         * </p>
-         * @class RigidBodyE2
-         * @constructor
-         * @param [type = 'RigidBodyE2'] {string} The name used for reference counting.
-         */
-        function RigidBodyE2(type) {
-            if (type === void 0) { type = 'RigidBodyE2'; }
-            _super.call(this, type);
-            /**
-             * <p>
-             * The <em>linear velocity</em>, a vector.
-             * </p>
-             * @property V
-             * @type {G2}
-             */
-            this.V = new G2().zero();
-            /**
-             * <p>
-             * The <em>rotational velocity</em>, a spinor.
-             * </p>
-             * @property Ω
-             * @type {G2}
-             */
-            this.Ω = new G2().zero().addScalar(1);
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        RigidBodyE2.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        return RigidBodyE2;
-    })(ModelE2);
-    return RigidBodyE2;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/physics/RigidBodyE3',["require", "exports", '../physics/ModelE3', '../math/G3'], function (require, exports, ModelE3, G3) {
-    /**
-     * @class RigidBodyE3
-     * @extends ModelE3
-     */
-    var RigidBodyE3 = (function (_super) {
-        __extends(RigidBodyE3, _super);
-        /**
-         * <p>
-         * Constructs a RigidBodyE3.
-         * </p>
-         * @class RigidBodyE3
-         * @constructor
-         * @param [type = 'RigidBodyE3'] {string} The name used for reference counting.
-         */
-        function RigidBodyE3(type) {
-            if (type === void 0) { type = 'RigidBodyE3'; }
-            _super.call(this, type);
-            /**
-             * <p>
-             * The <em>linear velocity</em>, a vector.
-             * </p>
-             * @property V
-             * @type {G3}
-             */
-            this.V = new G3().zero();
-            /**
-             * <p>
-             * The <em>rotational velocity</em>, a spinor.
-             * </p>
-             * @property Ω
-             * @type {G3}
-             */
-            this.Ω = new G3().zero().addScalar(1);
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        RigidBodyE3.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        return RigidBodyE3;
-    })(ModelE3);
-    return RigidBodyE3;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Color', '../checks/mustBeNumber', '../checks/mustBeObject', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Color, mustBeNumber, mustBeObject, Shareable, Symbolic) {
+define('davinci-eight/facets/AmbientLight',["require", "exports", '../core/Color', '../checks/mustBeNumber', '../checks/mustBeObject', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Color, mustBeNumber, mustBeObject, Shareable, Symbolic) {
     var LOGGING_NAME = 'AmbientLight';
     function contextBuilder() {
         return LOGGING_NAME;
@@ -24487,7 +24578,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/uniforms/ColorFacet',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable', '../core/Symbolic'], function (require, exports, mustBeNumber, Shareable, Symbolic) {
+define('davinci-eight/facets/ColorFacet',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable', '../core/Symbolic'], function (require, exports, mustBeNumber, Shareable, Symbolic) {
     var COORD_R = 0;
     var COORD_G = 1;
     var COORD_B = 2;
@@ -24781,7 +24872,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/uniforms/DirectionalLight',["require", "exports", '../core/Color', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable', '../core/Symbolic', '../math/R3'], function (require, exports, Color, mustBeObject, mustBeString, Shareable, Symbolic, R3) {
+define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/Color', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable', '../core/Symbolic', '../math/R3'], function (require, exports, Color, mustBeObject, mustBeString, Shareable, Symbolic, R3) {
     var LOGGING_NAME = 'DirectionalLight';
     function contextBuilder() {
         return LOGGING_NAME;
@@ -24917,39 +25008,55 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/uniforms/PointSize',["require", "exports", '../checks/mustBeInteger', '../utils/Shareable', '../core/Symbolic'], function (require, exports, mustBeInteger, Shareable, Symbolic) {
-    var LOGGING_NAME = 'PointSize';
-    function contextBuilder() {
-        return LOGGING_NAME;
-    }
+define('davinci-eight/facets/EulerFacet',["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/R3'], function (require, exports, readOnly, Shareable, R3) {
     /**
-     * @class PointSize
+     * @class EulerFacet
      */
-    var PointSize = (function (_super) {
-        __extends(PointSize, _super);
+    var EulerFacet = (function (_super) {
+        __extends(EulerFacet, _super);
         /**
-         * @class PointSize
+         * @class EulerFacet
          * @constructor
          */
-        function PointSize(pointSize) {
-            if (pointSize === void 0) { pointSize = 2; }
-            _super.call(this, 'PointSize');
-            this.pointSize = mustBeInteger('pointSize', pointSize);
+        function EulerFacet() {
+            _super.call(this, 'EulerFacet');
+            this._rotation = new R3();
         }
-        PointSize.prototype.destructor = function () {
+        EulerFacet.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        PointSize.prototype.getProperty = function (name) {
+        EulerFacet.prototype.getProperty = function (name) {
             return void 0;
         };
-        PointSize.prototype.setProperty = function (name, value) {
+        EulerFacet.prototype.setProperty = function (name, value) {
         };
-        PointSize.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.uniform1f(Symbolic.UNIFORM_POINT_SIZE, this.pointSize, canvasId);
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param canvasId {number}
+         * @return {void}
+         */
+        EulerFacet.prototype.setUniforms = function (visitor, canvasId) {
+            console.warn("EulerFacet.setUniforms");
         };
-        return PointSize;
+        Object.defineProperty(EulerFacet.prototype, "rotation", {
+            /**
+             * @property rotation
+             * @type {R3}
+             * @readOnly
+             */
+            get: function () {
+                return this._rotation;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('rotation').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return EulerFacet;
     })(Shareable);
-    return PointSize;
+    return EulerFacet;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -24957,41 +25064,794 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/uniforms/Vector3Uniform',["require", "exports", '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeObject, mustBeString, Shareable) {
-    var LOGGING_NAME = 'Vector3Uniform';
+define('davinci-eight/models/ModelE3',["require", "exports", '../checks/mustBeString', '../math/G3', '../math/R3', '../math/SpinG3', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, mustBeString, G3, R3, SpinG3, readOnly, Shareable) {
+    /**
+     * @class ModelE3
+     */
+    var ModelE3 = (function (_super) {
+        __extends(ModelE3, _super);
+        /**
+         * <p>
+         * A collection of properties for Rigid Body Modeling.
+         * </p>
+         * <p>
+         * ModelE3 implements IFacet required for manipulating a drawable object.
+         * </p>
+         * <p>
+         * Constructs a ModelE3 at the origin and with unity attitude.
+         * </p>
+         * @class ModelE3
+         * @constructor
+         * @param type [string = 'ModelE3'] The name used for reference counting.
+         */
+        function ModelE3(type) {
+            if (type === void 0) { type = 'ModelE3'; }
+            _super.call(this, mustBeString('type', type));
+            /**
+             * @property _position
+             * @type {G3}
+             * @private
+             */
+            this._position = new G3().zero();
+            /**
+             * @property _attitude
+             * @type {G3}
+             * @private
+             */
+            this._attitude = new G3().zero().addScalar(1);
+            /**
+             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+             * @property _posCache
+             * @type {R3}
+             * @private
+             */
+            this._posCache = new R3();
+            /**
+             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+             * @property _attCache
+             * @type {SpinG3}
+             * @private
+             */
+            this._attCache = new SpinG3();
+            this._position.modified = true;
+            this._attitude.modified = true;
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        ModelE3.prototype.destructor = function () {
+            this._position = void 0;
+            this._attitude = void 0;
+            _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(ModelE3.prototype, "R", {
+            /**
+             * <p>
+             * The <em>attitude</em>, a unitary spinor.
+             * </p>
+             * @property R
+             * @type G3
+             * @readOnly
+             */
+            get: function () {
+                return this._attitude;
+            },
+            set: function (unused) {
+                throw new Error(readOnly(ModelE3.PROP_ATTITUDE).message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ModelE3.prototype, "X", {
+            /**
+             * <p>
+             * The <em>position</em>, a vector.
+             * The vector <b>X</b> designates the center of mass of the body (Physics).
+             * The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
+             * </p>
+             *
+             * @property X
+             * @type G3
+             * @readOnly
+             */
+            get: function () {
+                return this._position;
+            },
+            set: function (unused) {
+                throw new Error(readOnly(ModelE3.PROP_POSITION).message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method getProperty
+         * @param name {string}
+         * @return {number[]}
+         */
+        ModelE3.prototype.getProperty = function (name) {
+            switch (name) {
+                case ModelE3.PROP_ATTITUDE: {
+                    return this._attCache.copy(this._attitude).coords;
+                }
+                case ModelE3.PROP_POSITION: {
+                    return this._posCache.copy(this._position).coords;
+                }
+                default: {
+                    console.warn("ModelE3.getProperty " + name);
+                    return void 0;
+                }
+            }
+        };
+        /**
+         * @method setProperty
+         * @param name {string}
+         * @param data {number[]}
+         * @return {void}
+         */
+        ModelE3.prototype.setProperty = function (name, data) {
+            switch (name) {
+                case ModelE3.PROP_ATTITUDE:
+                    {
+                        this._attCache.coords = data;
+                        this._attitude.copySpinor(this._attCache);
+                    }
+                    break;
+                case ModelE3.PROP_POSITION:
+                    {
+                        this._posCache.coords = data;
+                        this._position.copyVector(this._posCache);
+                    }
+                    break;
+                default: {
+                    console.warn("ModelE3.setProperty " + name);
+                }
+            }
+        };
+        /**
+         * The name of the property that designates the attitude.
+         * @property PROP_ATTITUDE
+         * @type {string}
+         * @default 'R'
+         * @static
+         * @readOnly
+         */
+        ModelE3.PROP_ATTITUDE = 'R';
+        /**
+         * The name of the property that designates the position.
+         * @property PROP_POSITION
+         * @type {string}
+         * @default 'X'
+         * @static
+         * @readOnly
+         */
+        ModelE3.PROP_POSITION = 'X';
+        return ModelE3;
+    })(Shareable);
+    return ModelE3;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/facets/ModelFacetE3',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../models/ModelE3', '../checks/mustBeString', '../math/R3', '../i18n/readOnly', '../core/Symbolic'], function (require, exports, Matrix3, Matrix4, ModelE3, mustBeString, R3, readOnly, Symbolic) {
+    /**
+     * @class ModelFacetE3
+     */
+    var ModelFacetE3 = (function (_super) {
+        __extends(ModelFacetE3, _super);
+        /**
+         * <p>
+         * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
+         * </p>
+         * <p>
+         * In Physics, the drawable object may represent a rigid body.
+         * In Computer Graphics, the drawable object is a collection of drawing primitives.
+         * </p>
+         * <p>
+         * ModelFacetE3 implements IFacet required for manipulating a drawable object.
+         * </p>
+         * <p>
+         * Constructs a ModelFacetE3 at the origin and with unity attitude.
+         * </p>
+         * @class ModelFacetE3
+         * @constructor
+         * @param type [string = 'ModelFacetE3'] The name used for reference counting.
+         */
+        function ModelFacetE3(type) {
+            if (type === void 0) { type = 'ModelFacetE3'; }
+            _super.call(this, mustBeString('type', type));
+            // FIXME: I don't like this non-geometric scaling.
+            this._scaleXYZ = new R3([1, 1, 1]);
+            this.matM = Matrix4.one();
+            this.matN = Matrix3.one();
+            this.matR = Matrix4.one();
+            this.matS = Matrix4.one();
+            this.matT = Matrix4.one();
+            this._scaleXYZ.modified = true;
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        ModelFacetE3.prototype.destructor = function () {
+            this._scaleXYZ = void 0;
+            this.matM = void 0;
+            this.matN = void 0;
+            this.matR = void 0;
+            this.matS = void 0;
+            this.matT = void 0;
+            _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(ModelFacetE3.prototype, "scaleXYZ", {
+            /**
+             * @property scaleXYZ
+             * @type R3
+             * @readOnly
+             */
+            get: function () {
+                return this._scaleXYZ;
+            },
+            set: function (unused) {
+                throw new Error(readOnly(ModelFacetE3.PROP_SCALEXYZ).message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param canvasId {number}
+         */
+        ModelFacetE3.prototype.setUniforms = function (visitor, canvasId) {
+            if (this.X.modified) {
+                this.matT.translation(this.X);
+                this.X.modified = false;
+            }
+            if (this.R.modified) {
+                this.matR.rotation(this.R);
+                this.R.modified = false;
+            }
+            if (this.scaleXYZ.modified) {
+                this.matS.scaling(this.scaleXYZ);
+                this.scaleXYZ.modified = false;
+            }
+            this.matM.copy(this.matT).mul(this.matR).mul(this.matS);
+            this.matN.normalFromMatrix4(this.matM);
+            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId);
+            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId);
+        };
+        /**
+         * @method incRef
+         * @return {ModelFacetE3}
+         * @chainable
+         */
+        ModelFacetE3.prototype.incRef = function () {
+            this.addRef();
+            return this;
+        };
+        /**
+         * @method decRef
+         * @return {ModelFacetE3}
+         * @chainable
+         */
+        ModelFacetE3.prototype.decRef = function () {
+            this.release();
+            return this;
+        };
+        // FIXME: Make this scale so that we can be geometric?
+        ModelFacetE3.PROP_SCALEXYZ = 'scaleXYZ';
+        return ModelFacetE3;
+    })(ModelE3);
+    return ModelFacetE3;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/facets/PointSizeFacet',["require", "exports", '../checks/mustBeInteger', '../utils/Shareable', '../core/Symbolic'], function (require, exports, mustBeInteger, Shareable, Symbolic) {
+    var LOGGING_NAME = 'PointSizeFacet';
     function contextBuilder() {
         return LOGGING_NAME;
     }
     /**
-     * @class Vector3Uniform
+     * @class PointSizeFacet
      */
-    var Vector3Uniform = (function (_super) {
-        __extends(Vector3Uniform, _super);
+    var PointSizeFacet = (function (_super) {
+        __extends(PointSizeFacet, _super);
         /**
-         * @class Vector3Uniform
+         * @class PointSizeFacet
+         * @constructor
+         * @param pointSize [number = 2]
+         */
+        function PointSizeFacet(pointSize) {
+            if (pointSize === void 0) { pointSize = 2; }
+            _super.call(this, 'PointSizeFacet');
+            this.pointSize = mustBeInteger('pointSize', pointSize);
+        }
+        PointSizeFacet.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        PointSizeFacet.prototype.getProperty = function (name) {
+            return void 0;
+        };
+        PointSizeFacet.prototype.setProperty = function (name, value) {
+        };
+        PointSizeFacet.prototype.setUniforms = function (visitor, canvasId) {
+            visitor.uniform1f(Symbolic.UNIFORM_POINT_SIZE, this.pointSize, canvasId);
+        };
+        return PointSizeFacet;
+    })(Shareable);
+    return PointSizeFacet;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/facets/ReflectionFacet',["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '../checks/mustBeString', '../math/R3', '../math/Matrix4', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, CartesianE3, mustBeArray, mustBeString, R3, Matrix4, readOnly, Shareable) {
+    /**
+     * @class ReflectionFacet
+     * @extends Shareable
+     */
+    var ReflectionFacet = (function (_super) {
+        __extends(ReflectionFacet, _super);
+        /**
+         * @class ReflectionFacet
+         * @constructor
+         * @param name {string} The name of the uniform variable.
+         */
+        function ReflectionFacet(name) {
+            _super.call(this, 'ReflectionFacet');
+            /**
+             * @property matrix
+             * @type {Matrix4}
+             * @private
+             */
+            this.matrix = Matrix4.one();
+            this.name = mustBeString('name', name);
+            // The mathematics of the reflection causes a zero vector to be the identity transformation.
+            this._normal = new R3().copy(CartesianE3.zero);
+            this._normal.modified = true;
+        }
+        Object.defineProperty(ReflectionFacet.prototype, "normal", {
+            /**
+             * @property normal
+             * @type R3
+             * @readOnly
+             */
+            get: function () {
+                return this._normal;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('normal').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        ReflectionFacet.prototype.destructor = function () {
+            this._normal = void 0;
+            this.matrix = void 0;
+            _super.prototype.destructor.call(this);
+        };
+        /**
+         * @method getProperty
+         * @param name {string}
+         * @return {Array<number>}
+         */
+        ReflectionFacet.prototype.getProperty = function (name) {
+            mustBeString('name', name);
+            return void 0;
+        };
+        /**
+         * @method setProperty
+         * @param name {string}
+         * @param value {Array<number>}
+         * @return {void}
+         */
+        ReflectionFacet.prototype.setProperty = function (name, value) {
+            mustBeString('name', name);
+            mustBeArray('value', value);
+        };
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param canvasId {number}
+         * @return {void}
+         */
+        ReflectionFacet.prototype.setUniforms = function (visitor, canvasId) {
+            if (this._normal.modified) {
+                this.matrix.reflection(this._normal);
+                this._normal.modified = false;
+            }
+            visitor.uniformMatrix4(this.name, false, this.matrix, canvasId);
+        };
+        return ReflectionFacet;
+    })(Shareable);
+    return ReflectionFacet;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/facets/RigidBodyFacetE3',["require", "exports", '../facets/ModelFacetE3', '../math/G3'], function (require, exports, ModelFacetE3, G3) {
+    /**
+     * @class RigidBodyFacetE3
+     * @extends ModelFacetE3
+     */
+    var RigidBodyFacetE3 = (function (_super) {
+        __extends(RigidBodyFacetE3, _super);
+        /**
+         * <p>
+         * Constructs a RigidBodyFacetE3.
+         * </p>
+         * @class RigidBodyFacetE3
+         * @constructor
+         * @param [type = 'RigidBodyFacetE3'] {string} The name used for reference counting.
+         */
+        function RigidBodyFacetE3(type) {
+            if (type === void 0) { type = 'RigidBodyFacetE3'; }
+            _super.call(this, type);
+            /**
+             * <p>
+             * The <em>linear velocity</em>, a vector.
+             * </p>
+             * @property V
+             * @type {G3}
+             * @default 0
+             */
+            this.V = new G3().zero();
+            /**
+             * <p>
+             * The <em>rotational velocity</em>, a bivector.
+             * </p>
+             * @property Ω
+             * @type {G3}
+             * @default <b>1</b>
+             */
+            this.Ω = new G3().one();
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        RigidBodyFacetE3.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        RigidBodyFacetE3.prototype.getProperty = function (name) {
+            return _super.prototype.getProperty.call(this, name);
+        };
+        RigidBodyFacetE3.prototype.setProperty = function (name, value) {
+            return _super.prototype.setProperty.call(this, name, value);
+        };
+        return RigidBodyFacetE3;
+    })(ModelFacetE3);
+    return RigidBodyFacetE3;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/facets/Vector3Facet',["require", "exports", '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeObject, mustBeString, Shareable) {
+    var LOGGING_NAME = 'Vector3Facet';
+    function contextBuilder() {
+        return LOGGING_NAME;
+    }
+    /**
+     * @class Vector3Facet
+     */
+    var Vector3Facet = (function (_super) {
+        __extends(Vector3Facet, _super);
+        /**
+         * @class Vector3Facet
          * @constructor
          * @param name {string}
          * @param vector {R3}
          */
-        function Vector3Uniform(name, vector) {
-            _super.call(this, 'Vector3Uniform');
+        function Vector3Facet(name, vector) {
+            _super.call(this, 'Vector3Facet');
             this._name = mustBeString('name', name, contextBuilder);
             this._vector = mustBeObject('vector', vector, contextBuilder);
         }
-        Vector3Uniform.prototype.destructor = function () {
+        Vector3Facet.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
-        Vector3Uniform.prototype.getProperty = function (name) {
+        Vector3Facet.prototype.getProperty = function (name) {
             return void 0;
         };
-        Vector3Uniform.prototype.setProperty = function (name, value) {
+        Vector3Facet.prototype.setProperty = function (name, value) {
         };
-        Vector3Uniform.prototype.setUniforms = function (visitor, canvasId) {
+        Vector3Facet.prototype.setUniforms = function (visitor, canvasId) {
             visitor.uniformVectorE3(this._name, this._vector, canvasId);
         };
-        return Vector3Uniform;
+        return Vector3Facet;
     })(Shareable);
-    return Vector3Uniform;
+    return Vector3Facet;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/models/ModelE2',["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R2', '../math/SpinG2', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, mustBeString, G2, R2, SpinG2, readOnly, Shareable) {
+    /**
+     * @class ModelE2
+     */
+    var ModelE2 = (function (_super) {
+        __extends(ModelE2, _super);
+        /**
+         * <p>
+         * A collection of properties for Rigid Body Modeling.
+         * </p>
+         * <p>
+         * ModelE2 implements IFacet required for manipulating a drawable object.
+         * </p>
+         * <p>
+         * Constructs a ModelE2 at the origin and with unity attitude.
+         * </p>
+         * @class ModelE2
+         * @constructor
+         * @param type [string = 'ModelE2'] The name used for reference counting.
+         */
+        function ModelE2(type) {
+            if (type === void 0) { type = 'ModelE2'; }
+            _super.call(this, mustBeString('type', type));
+            this._position = new G2().zero();
+            this._attitude = new G2().zero().addScalar(1);
+            /**
+             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+             * @property _posCache
+             * @type {R2}
+             * @private
+             */
+            this._posCache = new R2();
+            /**
+             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
+             * @property _attCache
+             * @type {SpinG2}
+             * @private
+             */
+            this._attCache = new SpinG2();
+            this._position.modified = true;
+            this._attitude.modified = true;
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        ModelE2.prototype.destructor = function () {
+            this._position = void 0;
+            this._attitude = void 0;
+        };
+        Object.defineProperty(ModelE2.prototype, "R", {
+            /**
+             * <p>
+             * The <em>attitude</em>, a unitary spinor.
+             * </p>
+             * @property R
+             * @type G2
+             * @readOnly
+             */
+            get: function () {
+                return this._attitude;
+            },
+            set: function (unused) {
+                throw new Error(readOnly(ModelE2.PROP_ATTITUDE).message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ModelE2.prototype, "X", {
+            /**
+             * <p>
+             * The <em>position</em>, a vector.
+             * The vector <b>X</b> designates the center of mass of the body (Physics).
+             * The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
+             * </p>
+             *
+             * @property X
+             * @type G2
+             * @readOnly
+             */
+            get: function () {
+                return this._position;
+            },
+            set: function (unused) {
+                throw new Error(readOnly(ModelE2.PROP_POSITION).message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method getProperty
+         * @param name {string}
+         * @return {number[]}
+         */
+        ModelE2.prototype.getProperty = function (name) {
+            switch (name) {
+                case ModelE2.PROP_ATTITUDE: {
+                    return this._attCache.copy(this._attitude).coords;
+                }
+                case ModelE2.PROP_POSITION: {
+                    return this._posCache.copy(this._position).coords;
+                }
+                default: {
+                    console.warn("ModelE2.getProperty " + name);
+                    return void 0;
+                }
+            }
+        };
+        /**
+         * @method setProperty
+         * @param name {string}
+         * @param data {number[]}
+         * @return {void}
+         */
+        ModelE2.prototype.setProperty = function (name, data) {
+            switch (name) {
+                case ModelE2.PROP_ATTITUDE:
+                    {
+                        this._attCache.coords = data;
+                        this._attitude.copySpinor(this._attCache);
+                    }
+                    break;
+                case ModelE2.PROP_POSITION:
+                    {
+                        this._posCache.coords = data;
+                        this._position.copyVector(this._posCache);
+                    }
+                    break;
+                default: {
+                    console.warn("ModelE2.setProperty " + name);
+                }
+            }
+        };
+        /**
+         * The name of the property that designates the attitude.
+         * @property PROP_ATTITUDE
+         * @type {string}
+         * @default 'R'
+         * @static
+         * @readOnly
+         */
+        ModelE2.PROP_ATTITUDE = 'R';
+        /**
+         * The name of the property that designates the position.
+         * @property PROP_POSITION
+         * @type {string}
+         * @default 'X'
+         * @static
+         * @readOnly
+         */
+        ModelE2.PROP_POSITION = 'X';
+        return ModelE2;
+    })(Shareable);
+    return ModelE2;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/models/RigidBodyE2',["require", "exports", '../models/ModelE2', '../math/G2'], function (require, exports, ModelE2, G2) {
+    /**
+     * @class RigidBodyE2
+     * @extends ModelE2
+     */
+    var RigidBodyE2 = (function (_super) {
+        __extends(RigidBodyE2, _super);
+        /**
+         * <p>
+         * Constructs a RigidBodyE2.
+         * </p>
+         * @class RigidBodyE2
+         * @constructor
+         * @param [type = 'RigidBodyE2'] {string} The name used for reference counting.
+         */
+        function RigidBodyE2(type) {
+            if (type === void 0) { type = 'RigidBodyE2'; }
+            _super.call(this, type);
+            /**
+             * <p>
+             * The <em>linear velocity</em>, a vector.
+             * </p>
+             * @property V
+             * @type {G2}
+             */
+            this.V = new G2().zero();
+            /**
+             * <p>
+             * The <em>rotational velocity</em>, a spinor.
+             * </p>
+             * @property Ω
+             * @type {G2}
+             */
+            this.Ω = new G2().zero().addScalar(1);
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        RigidBodyE2.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        return RigidBodyE2;
+    })(ModelE2);
+    return RigidBodyE2;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/models/RigidBodyE3',["require", "exports", '../models/ModelE3', '../math/G3'], function (require, exports, ModelE3, G3) {
+    /**
+     * @class RigidBodyE3
+     * @extends ModelE3
+     */
+    var RigidBodyE3 = (function (_super) {
+        __extends(RigidBodyE3, _super);
+        /**
+         * <p>
+         * Constructs a RigidBodyE3.
+         * </p>
+         * @class RigidBodyE3
+         * @constructor
+         * @param [type = 'RigidBodyE3'] {string} The name used for reference counting.
+         */
+        function RigidBodyE3(type) {
+            if (type === void 0) { type = 'RigidBodyE3'; }
+            _super.call(this, type);
+            /**
+             * <p>
+             * The <em>linear velocity</em>, a vector.
+             * </p>
+             * @property V
+             * @type {G3}
+             */
+            this.V = new G3().zero();
+            /**
+             * <p>
+             * The <em>rotational velocity</em>, a spinor.
+             * </p>
+             * @property Ω
+             * @type {G3}
+             */
+            this.Ω = new G3().zero().addScalar(1);
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        RigidBodyE3.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        return RigidBodyE3;
+    })(ModelE3);
+    return RigidBodyE3;
 });
 
 define('davinci-eight/utils/workbench3D',["require", "exports"], function (require, exports) {
@@ -25187,7 +26047,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/physics/ModelE2', 'davinci-eight/physics/ModelE3', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/RigidBodyFacetE3', 'davinci-eight/models/ModelFacetE3', 'davinci-eight/physics/RigidBodyE2', 'davinci-eight/physics/RigidBodyE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/PointSize', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Matrix3, Matrix4, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, ModelE2, ModelE3, EulerFacet, RigidBodyFacetE3, ModelFacetE3, RigidBodyE2, RigidBodyE3, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, PointSize, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLight', 'davinci-eight/facets/EulerFacet', 'davinci-eight/facets/ModelFacetE3', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacet', 'davinci-eight/facets/RigidBodyFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/models/ModelE2', 'davinci-eight/models/ModelE3', 'davinci-eight/models/RigidBodyE2', 'davinci-eight/models/RigidBodyE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Matrix3, Matrix4, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, AmbientLight, ColorFacet, DirectionalLight, EulerFacet, ModelFacetE3, PointSizeFacet, ReflectionFacet, RigidBodyFacetE3, Vector3Facet, ModelE2, ModelE3, RigidBodyE2, RigidBodyE3, initWebGL, renderer, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -25341,8 +26201,9 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get AmbientLight() { return AmbientLight; },
         get ColorFacet() { return ColorFacet; },
         get DirectionalLight() { return DirectionalLight; },
-        get PointSize() { return PointSize; },
-        get Vector3Uniform() { return Vector3Uniform; },
+        get PointSizeFacet() { return PointSizeFacet; },
+        get ReflectionFacet() { return ReflectionFacet; },
+        get Vector3Facet() { return Vector3Facet; },
         // utils
         get IUnknownArray() { return IUnknownArray; },
         get NumberIUnknownMap() { return NumberIUnknownMap; },

@@ -77,9 +77,13 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
             enumerable: true,
             configurable: true
         });
-        Euclidean1.prototype.coordinates = function () {
-            return [this.w, this.x];
-        };
+        Object.defineProperty(Euclidean1.prototype, "coords", {
+            get: function () {
+                return [this.w, this.x];
+            },
+            enumerable: true,
+            configurable: true
+        });
         Euclidean1.prototype.copy = function (source) {
             this.w = source.w;
             this.x = source.x;
