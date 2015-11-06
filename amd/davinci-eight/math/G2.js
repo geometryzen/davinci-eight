@@ -17,7 +17,18 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
     var cos = Math.cos;
     var sin = Math.sin;
     var sqrt = Math.sqrt;
-    var BASIS_LABELS = ["1", "e1", "e2", "I"];
+    //let ANTICLOCKWISE_GAPPED_CIRCLE = "⟲"
+    //let ANTICLOCKWISE_CLOSED_CIRCLE = "⥀"
+    //let CLOCKWISE_GAPPED_CIRCLE = "⟳"
+    var LEFTWARDS_ARROW = "←";
+    var RIGHTWARDS_ARROW = "→";
+    var UPWARDS_ARROW = "↑";
+    var DOWNWARDS_ARROW = "↓";
+    var BULLSEYE = "◎";
+    var CLOCKWISE_OPEN_CIRCLE_ARROW = "↻";
+    var ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺";
+    var ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
+    var STANDARD_LABELS = ["1", "e1", "e2", "I"];
     /**
      * Coordinates corresponding to basis labels.
      */
@@ -56,7 +67,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
     }
     /**
      * @class G2
-     * @extends GeometricE2
+     * @extends VectorN
      * @beta
      */
     var G2 = (function (_super) {
@@ -264,85 +275,17 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             this.β = -this.β;
             return this;
         };
+        G2.prototype.cos = function () {
+            throw new Error("TODO: G2.cos");
+        };
+        G2.prototype.cosh = function () {
+            throw new Error("TODO: G2.cosh");
+        };
         G2.prototype.distanceTo = function (point) {
             throw new Error("TODO: G2.distanceTo");
         };
         G2.prototype.equals = function (point) {
             throw new Error("TODO: G2.equals");
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this << m</code>
-         * </p>
-         * @method lco
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.lco = function (m) {
-            return this.lco2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a << b</code>
-         * </p>
-         * @method lco2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.lco2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this >> m</code>
-         * </p>
-         * @method rco
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.rco = function (m) {
-            return this.rco2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a >> b</code>
-         * </p>
-         * @method rco2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.rco2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
         };
         /**
          * <p>
@@ -536,6 +479,43 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         };
         /**
          * <p>
+         * <code>this ⟼ this << m</code>
+         * </p>
+         * @method lco
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.lco = function (m) {
+            return this.lco2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a << b</code>
+         * </p>
+         * @method lco2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.lco2 = function (a, b) {
+            var a0 = a.α;
+            var a1 = a.x;
+            var a2 = a.y;
+            var a3 = a.β;
+            var b0 = b.α;
+            var b1 = b.x;
+            var b2 = b.y;
+            var b3 = b.β;
+            this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ this + α * (target - this)</code>
          * </p>
          * @method lerp
@@ -694,6 +674,9 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             this.β = 0;
             return this;
         };
+        G2.prototype.pow = function () {
+            throw new Error("TODO: G2.pow");
+        };
         /**
          * <p>
          * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
@@ -731,16 +714,41 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             return this;
         };
         /**
-         * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
-         * @method squaredNorm
-         * @return {number} <code>this | ~this</code>
+         * <p>
+         * <code>this ⟼ this >> m</code>
+         * </p>
+         * @method rco
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
          */
-        G2.prototype.squaredNorm = function () {
-            var w = this.α;
-            var x = this.x;
-            var y = this.y;
-            var B = this.β;
-            return w * w + x * x + y * y + B * B;
+        G2.prototype.rco = function (m) {
+            return this.rco2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a >> b</code>
+         * </p>
+         * @method rco2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.rco2 = function (a, b) {
+            var a0 = a.α;
+            var a1 = a.x;
+            var a2 = a.y;
+            var a3 = a.β;
+            var b0 = b.α;
+            var b1 = b.x;
+            var b2 = b.y;
+            var b3 = b.β;
+            this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return this;
         };
         /**
          * <p>
@@ -775,6 +783,12 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             this.y = this.y;
             this.β = -this.β;
             return this;
+        };
+        G2.prototype.sin = function () {
+            throw new Error("G2.sin");
+        };
+        G2.prototype.sinh = function () {
+            throw new Error("G2.sinh");
         };
         /**
          * @method __tilde__
@@ -932,6 +946,18 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             return this;
         };
         /**
+         * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
+         * @method squaredNorm
+         * @return {number} <code>this | ~this</code>
+         */
+        G2.prototype.squaredNorm = function () {
+            var w = this.α;
+            var x = this.x;
+            var y = this.y;
+            var B = this.β;
+            return w * w + x * x + y * y + B * B;
+        };
+        /**
          * <p>
          * <code>this ⟼ this - M * α</code>
          * </p>
@@ -977,7 +1003,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          */
         G2.prototype.toExponential = function () {
             var coordToString = function (coord) { return coord.toExponential(); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
         };
         /**
          * Returns a string representing the number in fixed-point notation.
@@ -987,7 +1013,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          */
         G2.prototype.toFixed = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
         };
         /**
          * Returns a string representation of the number.
@@ -996,7 +1022,11 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          */
         G2.prototype.toString = function () {
             var coordToString = function (coord) { return coord.toString(); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
+        };
+        G2.prototype.unitary = function () {
+            // FIXME: Duplicates normalize
+            throw new Error("G2.unitary");
         };
         G2.prototype.grade = function (grade) {
             mustBeInteger('grade', grade);
@@ -1495,6 +1525,11 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         G2.rotorFromDirections = function (a, b) {
             return new G2().rotorFromDirections(a, b);
         };
+        /**
+         * @property BASIS_LABELS
+         * @type {(string | string[])[]}
+         */
+        G2.BASIS_LABELS = STANDARD_LABELS;
         /**
          * The identity element for addition, <b>0</b>.
          * @property zero

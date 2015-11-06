@@ -1,13 +1,22 @@
-import MutableGeometricElement = require('../math/MutableGeometricElement');
+import Measure = require('../math/Measure');
 import Mutable = require('../math/Mutable');
+import MutableGeometricElement = require('../math/MutableGeometricElement');
 import SpinorE2 = require('../math/SpinorE2');
+import Unit = require('../math/Unit');
 import VectorE2 = require('../math/VectorE2');
 import VectorN = require('../math/VectorN');
 /**
  * @class SpinG2
  * @extends VectorN<number>
  */
-declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, MutableGeometricElement<SpinorE2, SpinG2, SpinG2, VectorE2> {
+declare class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, SpinG2, SpinG2, VectorE2> {
+    /**
+     * The optional unit of measure.
+     * @property uom
+     * @type {Unit}
+     * @beta
+     */
+    uom: Unit;
     /**
      * Constructs a <code>SpinG2</code> from a <code>number[]</code>.
      * For a <em>geometric</em> implementation, use the static methods.
@@ -115,6 +124,8 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      * Intentionally undocumented.
      */
     copyVector(vector: VectorE2): SpinG2;
+    cos(): SpinG2;
+    cosh(): SpinG2;
     /**
      * <p>
      * <code>this ⟼ this / s</code>
@@ -255,6 +266,7 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
      * @chainable
      */
     one(): SpinG2;
+    pow(): SpinG2;
     /**
     * <p>
     * <code>this ⟼ this * conj(this)</code>
@@ -264,6 +276,8 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number
     * @chainable
     */
     quad(): SpinG2;
+    sin(): SpinG2;
+    sinh(): SpinG2;
     /**
      * @method squaredNorm
      * @return {number} <code>this * conj(this)</code>

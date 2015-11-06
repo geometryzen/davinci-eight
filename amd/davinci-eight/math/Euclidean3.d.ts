@@ -1,6 +1,6 @@
 import GeometricE3 = require('../math/GeometricE3');
 import GeometricOperators = require('../math/GeometricOperators');
-import Measure = require('../math/Measure');
+import ImmutableMeasure = require('../math/ImmutableMeasure');
 import GeometricElement = require('../math/GeometricElement');
 import SpinorE3 = require('../math/SpinorE3');
 import TrigMethods = require('../math/TrigMethods');
@@ -9,7 +9,16 @@ import VectorE3 = require('../math/VectorE3');
 /**
  * @class Euclidean3
  */
-declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
+declare class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
+    static BASIS_LABELS_GEOMETRIC: string[][];
+    static BASIS_LABELS_HAMILTON: string[][];
+    static BASIS_LABELS_STANDARD: string[][];
+    static BASIS_LABELS_STANDARD_HTML: string[][];
+    /**
+     * @property BASIS_LABELS
+     * @type {string[][]}
+     */
+    static BASIS_LABELS: string[][];
     /**
      * @property zero
      * @type {Euclidean3}
@@ -616,7 +625,7 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
     /**
      * Intentionally undocumented.
      */
-    toStringCustom(coordToString: (x: number) => string, labels: string[]): string;
+    toStringCustom(coordToString: (x: number) => string, labels: (string | string[])[]): string;
     /**
      * @method toExponential
      * @return {string}
@@ -633,14 +642,6 @@ declare class Euclidean3 implements Measure<Euclidean3>, GeometricE3, GeometricE
      * @return {string}
      */
     toString(): string;
-    /**
-     * Intentionally undocumented.
-     */
-    toStringIJK(): string;
-    /**
-     * Intentionally undocumented.
-     */
-    toStringLATEX(): string;
     /**
      * Provides access to the internals of Euclidean3 in order to use `product` functions.
      */

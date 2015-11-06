@@ -1,18 +1,19 @@
 import dotVectorCartesian = require('../math/dotVectorCartesianE2')
 import copyToArray = require('../collections/copyToArray')
 import dotVector = require('../math/dotVectorE2')
-import expectArg = require('../checks/expectArg')
 import isDefined = require('../checks/isDefined')
-import MutableGeometricElement = require('../math/MutableGeometricElement')
+import Measure = require('../math/Measure')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import Mutable = require('../math/Mutable')
+import MutableGeometricElement = require('../math/MutableGeometricElement')
 import quadSpinor = require('../math/quadSpinorE2')
 import quadVector = require('../math/quadVectorE2')
 import rotorFromDirections = require('../math/rotorFromDirections')
 import SpinorE2 = require('../math/SpinorE2')
 import TrigMethods = require('../math/TrigMethods')
+import Unit = require('../math/Unit')
 import VectorE2 = require('../math/VectorE2')
 import VectorN = require('../math/VectorN')
 import wedgeXY = require('../math/wedgeXY')
@@ -43,8 +44,16 @@ let sqrt = Math.sqrt
  * @class SpinG2
  * @extends VectorN<number>
  */
-class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, MutableGeometricElement<SpinorE2, SpinG2, SpinG2, VectorE2>
+class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, SpinG2, SpinG2, VectorE2>
 {
+    /**
+     * The optional unit of measure.
+     * @property uom
+     * @type {Unit}
+     * @beta
+     */
+    uom: Unit;
+
     /**
      * Constructs a <code>SpinG2</code> from a <code>number[]</code>.
      * For a <em>geometric</em> implementation, use the static methods.
@@ -219,6 +228,14 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
     copyVector(vector: VectorE2): SpinG2 {
         // The spinor has no vector components.
         return this.zero()
+    }
+
+    cos(): SpinG2 {
+        throw new Error("SpinG2.cos")
+    }
+
+    cosh(): SpinG2 {
+        throw new Error("SpinG2.cosh")
     }
 
     /**
@@ -466,6 +483,10 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
         return this
     }
 
+    pow(): SpinG2 {
+        throw new Error("SpinG2.pow")
+    }
+
     /**
     * <p>
     * <code>this ⟼ this * conj(this)</code>
@@ -478,6 +499,15 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Mutable<number[]>, Mut
         let squaredNorm = this.squaredNorm()
         return this.zero().addScalar(squaredNorm)
     }
+
+    sin(): SpinG2 {
+        throw new Error("SpinG2.sin")
+    }
+
+    sinh(): SpinG2 {
+        throw new Error("SpinG2.sinh")
+    }
+
     /**
      * @method squaredNorm
      * @return {number} <code>this * conj(this)</code>

@@ -1,6 +1,6 @@
 import Euclidean1Coords = require('../math/Euclidean1Coords')
 import LinearElement = require('../math/LinearElement')
-import Measure = require('../math/Measure')
+import ImmutableMeasure = require('../math/ImmutableMeasure')
 import mustBeInteger = require('../checks/mustBeInteger')
 import readOnly = require('../i18n/readOnly')
 import Unit = require('../math/Unit')
@@ -35,7 +35,7 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
 /**
  * @class Euclidean1
  */
-class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclidean1Coords>,*/ Measure<Euclidean1> {
+class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclidean1Coords>,*/ ImmutableMeasure<Euclidean1> {
     private w: number;
     private x: number;
     public uom: Unit;

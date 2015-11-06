@@ -3573,52 +3573,108 @@ define('davinci-eight/math/squaredNormG3',["require", "exports"], function (requ
     return squaredNormG3;
 });
 
-define('davinci-eight/math/stringFromCoordinates',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
-    function stringFromCoordinates(coordinates, numberToString, labels) {
-        var i, _i, _ref;
-        var str;
-        var sb = [];
-        var append = function (coord, label) {
-            var n;
-            if (coord !== 0) {
-                if (coord >= 0) {
-                    if (sb.length > 0) {
-                        sb.push("+");
-                    }
+define('davinci-eight/math/stringFromCoordinates',["require", "exports", '../checks/isDefined', '../checks/mustBeArray'], function (require, exports, isDefined, mustBeArray) {
+    function isLabelOne(label) {
+        if (typeof label === 'string') {
+            return label === "1";
+        }
+        else {
+            var labels = mustBeArray('label', label);
+            if (labels.length === 2) {
+                return isLabelOne(labels[0]) && isLabelOne(labels[1]);
+            }
+            else if (labels.length === 1) {
+                return isLabelOne(labels[0]);
+            }
+            else {
+                return false;
+            }
+        }
+    }
+    function appendLabel(coord, label, sb) {
+        if (typeof label === 'string') {
+            sb.push(label);
+        }
+        else {
+            var labels = mustBeArray('label', label);
+            if (labels.length === 2) {
+                sb.push(coord > 0 ? labels[1] : labels[0]);
+            }
+            else if (labels.length === 1) {
+                sb.push(labels[0]);
+            }
+            else if (labels.length === 0) {
+            }
+            else {
+                throw new Error("Unexpected basis label array length: " + labels.length);
+            }
+        }
+    }
+    function appendCoord(coord, numberToString, label, sb) {
+        if (coord !== 0) {
+            if (coord >= 0) {
+                if (sb.length > 0) {
+                    sb.push("+");
                 }
-                else {
+            }
+            else {
+                // The coordinate is negative.
+                if (typeof label === 'string') {
+                    // There's only one label, we must use minus signs.
                     sb.push("-");
                 }
-                n = Math.abs(coord);
-                if (n === 1) {
-                    sb.push(label);
-                }
                 else {
-                    sb.push(numberToString(n));
-                    if (label !== "1") {
-                        sb.push("*");
-                        sb.push(label);
+                    var labels = mustBeArray('label', label);
+                    if (labels.length === 2) {
+                        if (labels[0] !== labels[1]) {
+                            if (sb.length > 0) {
+                                sb.push("+");
+                            }
+                        }
+                        else {
+                            sb.push("-");
+                        }
+                    }
+                    else if (labels.length === 1) {
+                        sb.push("-");
+                    }
+                    else {
+                        // This could be considered an error, but we'll let appendLabel deal with it!
+                        sb.push("-");
                     }
                 }
             }
-        };
-        for (i = _i = 0, _ref = coordinates.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+            var n = Math.abs(coord);
+            if (n === 1) {
+                // 1 times something is just 1, so we only need the label.
+                appendLabel(coord, label, sb);
+            }
+            else {
+                sb.push(numberToString(n));
+                if (!isLabelOne(label)) {
+                    sb.push("*");
+                    appendLabel(coord, label, sb);
+                }
+                else {
+                }
+            }
+        }
+        else {
+        }
+    }
+    function stringFromCoordinates(coordinates, numberToString, labels) {
+        var sb = [];
+        for (var i = 0, iLength = coordinates.length; i < iLength; i++) {
             var coord = coordinates[i];
             if (isDefined(coord)) {
-                append(coord, labels[i]);
+                appendCoord(coord, numberToString, labels[i], sb);
             }
             else {
                 // We'll just say that the whole thing is undefined.
                 return void 0;
             }
         }
-        if (sb.length > 0) {
-            str = sb.join("");
-        }
-        else {
-            str = "0";
-        }
-        return str;
+        return sb.length > 0 ? sb.join("") : "0";
     }
     return stringFromCoordinates;
 });
@@ -4954,7 +5010,101 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
     return Unit;
 });
 
-define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '../geometries/b2', '../geometries/b3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, b2, b3, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeInteger, mustBeNumber, NotImplementedError, rcoG3, readOnly, scpG3, squaredNormG3, stringFromCoordinates, subE3, Unit) {
+define('davinci-eight/math/BASIS_LABELS_G3_GEOMETRIC',["require", "exports"], function (require, exports) {
+    var SCALAR_POS_SYMBOL = "1";
+    var E1_NEG_SYMBOL = "←";
+    var E1_POS_SYMBOL = "→";
+    var E2_POS_SYMBOL = "↑";
+    var E2_NEG_SYMBOL = "↓";
+    var E3_POS_SYMBOL = "⊙";
+    var E3_NEG_SYMBOL = "⊗";
+    var E12_NEG_SYMBOL = "↻";
+    var E12_POS_SYMBOL = "↺";
+    var E31_POS_SYMBOL = "⊶";
+    var E31_NEG_SYMBOL = "⊷";
+    var E23_NEG_SYMBOL = "⬘";
+    var E23_POS_SYMBOL = "⬙";
+    var PSEUDO_POS_SYMBOL = "☐";
+    var BASIS_LABELS_G3_GEOMETRIC = [
+        [SCALAR_POS_SYMBOL, SCALAR_POS_SYMBOL],
+        [E1_NEG_SYMBOL, E1_POS_SYMBOL],
+        [E2_NEG_SYMBOL, E2_POS_SYMBOL],
+        [E3_NEG_SYMBOL, E3_POS_SYMBOL],
+        [E12_NEG_SYMBOL, E12_POS_SYMBOL],
+        [E23_NEG_SYMBOL, E23_POS_SYMBOL],
+        [E31_NEG_SYMBOL, E31_POS_SYMBOL],
+        [PSEUDO_POS_SYMBOL, PSEUDO_POS_SYMBOL]
+    ];
+    return BASIS_LABELS_G3_GEOMETRIC;
+});
+
+define('davinci-eight/math/BASIS_LABELS_G3_HAMILTON',["require", "exports"], function (require, exports) {
+    var SCALAR_SYMBOL = "1";
+    var E1_SYMBOL = "i";
+    var E2_SYMBOL = "j";
+    var E3_SYMBOL = "k";
+    var E12_SYMBOL = "ij";
+    var E23_SYMBOL = "jk";
+    var E31_SYMBOL = "ki";
+    var PSEUDO_SYMBOL = "ijk";
+    var BASIS_LABELS_G3_HAMILTON = [
+        [SCALAR_SYMBOL],
+        [E1_SYMBOL],
+        [E2_SYMBOL],
+        [E3_SYMBOL],
+        [E12_SYMBOL],
+        [E23_SYMBOL],
+        [E31_SYMBOL],
+        [PSEUDO_SYMBOL]
+    ];
+    return BASIS_LABELS_G3_HAMILTON;
+});
+
+define('davinci-eight/math/BASIS_LABELS_G3_STANDARD',["require", "exports"], function (require, exports) {
+    var SCALAR_SYMBOL = "1";
+    var E1_SYMBOL = "e1";
+    var E2_SYMBOL = "e2";
+    var E3_SYMBOL = "e3";
+    var E12_SYMBOL = "e12";
+    var E23_SYMBOL = "e23";
+    var E31_SYMBOL = "e31";
+    var PSEUDO_SYMBOL = "I";
+    var BASIS_LABELS_G3_STANDARD = [
+        [SCALAR_SYMBOL],
+        [E1_SYMBOL],
+        [E2_SYMBOL],
+        [E3_SYMBOL],
+        [E12_SYMBOL],
+        [E23_SYMBOL],
+        [E31_SYMBOL],
+        [PSEUDO_SYMBOL]
+    ];
+    return BASIS_LABELS_G3_STANDARD;
+});
+
+define('davinci-eight/math/BASIS_LABELS_G3_STANDARD_HTML',["require", "exports"], function (require, exports) {
+    var SCALAR_SYMBOL = "1";
+    var E1_SYMBOL = "<b>e</b><sub>1</sub>";
+    var E2_SYMBOL = "<b>e</b><sub>2</sub>";
+    var E3_SYMBOL = "<b>e</b><sub>3</sub>";
+    var E12_SYMBOL = E1_SYMBOL + E2_SYMBOL;
+    var E23_SYMBOL = E2_SYMBOL + E3_SYMBOL;
+    var E31_SYMBOL = E3_SYMBOL + E1_SYMBOL;
+    var PSEUDO_SYMBOL = E1_SYMBOL + E2_SYMBOL + E3_SYMBOL;
+    var BASIS_LABELS_G3_STANDARD_HTML = [
+        [SCALAR_SYMBOL],
+        [E1_SYMBOL],
+        [E2_SYMBOL],
+        [E3_SYMBOL],
+        [E12_SYMBOL],
+        [E23_SYMBOL],
+        [E31_SYMBOL],
+        [PSEUDO_SYMBOL]
+    ];
+    return BASIS_LABELS_G3_STANDARD_HTML;
+});
+
+define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '../geometries/b2', '../geometries/b3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit', '../math/BASIS_LABELS_G3_GEOMETRIC', '../math/BASIS_LABELS_G3_HAMILTON', '../math/BASIS_LABELS_G3_STANDARD', '../math/BASIS_LABELS_G3_STANDARD_HTML'], function (require, exports, addE3, b2, b3, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeInteger, mustBeNumber, NotImplementedError, rcoG3, readOnly, scpG3, squaredNormG3, stringFromCoordinates, subE3, Unit, BASIS_LABELS_G3_GEOMETRIC, BASIS_LABELS_G3_HAMILTON, BASIS_LABELS_G3_STANDARD, BASIS_LABELS_G3_STANDARD_HTML) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -5005,7 +5155,30 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
     }
     // FIXME: Need to use tensor representations to find inverse, if it exists.
-    var divide = function (a000, a001, a010, a011, a100, a101, a110, a111, b000, b001, b010, b011, b100, b101, b110, b111, uom) {
+    // I don't remember how I came up with this, but part was Hestenes NFCM problem (7.2) p38.
+    // Let A = α + a, where a is a non-zero vector.
+    // Find inv(A) as a function of α and a.
+    // etc
+    // Perwass describes how to convert multivectors to a tensor representation and then use
+    // matrices to find inverses. Essentially we are invoking theorems on the determinant
+    // which apply to the antisymmetric product.
+    var divide = function (a000, // a.w
+        a001, // a.x
+        a010, // a.y
+        a011, // a.xy
+        a100, // a.z
+        a101, // -a.zx or a.xz
+        a110, // a.yz
+        a111, // a.xyz
+        b000, // b.w
+        b001, // b.x
+        b010, // b.y
+        b011, // b.xy
+        b100, // b.z
+        b101, // -b.zx or b.xz
+        b110, // b.yz
+        b111, // b.xyz
+        uom) {
         var c000;
         var c001;
         var c010;
@@ -5063,14 +5236,17 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         var yz;
         var z;
         var zx;
-        r000 = +b000;
-        r001 = +b001;
-        r010 = +b010;
-        r011 = -b011;
-        r100 = +b100;
-        r101 = -b101;
-        r110 = -b110;
-        r111 = -b111;
+        // This looks like the reversion of b, but there is a strange sign flip for zx
+        // r = ~b
+        r000 = +b000; // => b.w
+        r001 = +b001; // => b.x
+        r010 = +b010; // => b.y
+        r011 = -b011; // => -b.xy
+        r100 = +b100; // => b.z
+        r101 = -b101; // => +b.zx
+        r110 = -b110; // => -b.yz
+        r111 = -b111; // => -b.xyz
+        // m = (b * r) grades 0 and 1
         m000 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 0);
         m001 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 1);
         m010 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 2);
@@ -5079,6 +5255,8 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         m101 = 0;
         m110 = 0;
         m111 = 0;
+        // Clifford conjugation.
+        // c = cc(m)
         c000 = +m000;
         c001 = -m001;
         c010 = -m010;
@@ -5087,6 +5265,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         c101 = -m101;
         c110 = -m110;
         c111 = +m111;
+        // s = r * c
         s000 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 0);
         s001 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 1);
         s010 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 2);
@@ -5095,7 +5274,9 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         s101 = -mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 6);
         s110 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 5);
         s111 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 7);
+        // k = (b * s), grade 0 part
         k000 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, s000, s001, s010, s100, s011, s110, -s101, s111, 0);
+        // i = s / k
         i000 = s000 / k000;
         i001 = s001 / k000;
         i010 = s010 / k000;
@@ -5104,6 +5285,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         i101 = s101 / k000;
         i110 = s110 / k000;
         i111 = s111 / k000;
+        // x = a * i
         x000 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 0);
         x001 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 1);
         x010 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 2);
@@ -5112,6 +5294,13 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         x101 = -mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 6);
         x110 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 5);
         x111 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 7);
+        // this = x
+        //      = a * i
+        //      = a * s / k
+        //      = a * s / grade(b * s, 0)
+        //      = a * r * c / grade(b * r * c, 0)
+        //      = a * r * cc(b * r) / grade(b * r * cc(b * r), 0)
+        //      = a * ~b * cc(b * ~b) / grade(b * ~b * cc(b * ~b), 0)
         w = x000;
         x = x001;
         y = x010;
@@ -5163,6 +5352,30 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
+        Object.defineProperty(Euclidean3, "BASIS_LABELS_GEOMETRIC", {
+            get: function () { return BASIS_LABELS_G3_GEOMETRIC; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(Euclidean3, "BASIS_LABELS_HAMILTON", {
+            get: function () { return BASIS_LABELS_G3_HAMILTON; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(Euclidean3, "BASIS_LABELS_STANDARD", {
+            get: function () { return BASIS_LABELS_G3_STANDARD; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(Euclidean3, "BASIS_LABELS_STANDARD_HTML", {
+            get: function () { return BASIS_LABELS_G3_STANDARD_HTML; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
         Object.defineProperty(Euclidean3.prototype, "α", {
             /**
              * The scalar part of this multivector.
@@ -6034,7 +6247,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          */
         Euclidean3.prototype.toExponential = function () {
             var coordToString = function (coord) { return coord.toExponential(); };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
+            return this.toStringCustom(coordToString, Euclidean3.BASIS_LABELS);
         };
         /**
          * @method toFixed
@@ -6043,7 +6256,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          */
         Euclidean3.prototype.toFixed = function (digits) {
             var coordToString = function (coord) { return coord.toFixed(digits); };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
+            return this.toStringCustom(coordToString, Euclidean3.BASIS_LABELS);
         };
         /**
          * @method toString
@@ -6051,21 +6264,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          */
         Euclidean3.prototype.toString = function () {
             var coordToString = function (coord) { return coord.toString(); };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
-        };
-        /**
-         * Intentionally undocumented.
-         */
-        Euclidean3.prototype.toStringIJK = function () {
-            var coordToString = function (coord) { return coord.toString(); };
-            return this.toStringCustom(coordToString, ["1", "i", "j", "k", "ij", "jk", "ki", "I"]);
-        };
-        /**
-         * Intentionally undocumented.
-         */
-        Euclidean3.prototype.toStringLATEX = function () {
-            var coordToString = function (coord) { return coord.toString(); };
-            return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{3}", "e_{12}", "e_{23}", "e_{31}", "e_{123}"]);
+            return this.toStringCustom(coordToString, Euclidean3.BASIS_LABELS);
         };
         /**
          * Provides access to the internals of Euclidean3 in order to use `product` functions.
@@ -6147,6 +6346,11 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                 return void 0;
             }
         };
+        /**
+         * @property BASIS_LABELS
+         * @type {string[][]}
+         */
+        Euclidean3.BASIS_LABELS = BASIS_LABELS_G3_STANDARD;
         /**
          * @property zero
          * @type {Euclidean3}
@@ -8129,6 +8333,12 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
             // The spinor has no vector components.
             return this.zero();
         };
+        SpinG2.prototype.cos = function () {
+            throw new Error("SpinG2.cos");
+        };
+        SpinG2.prototype.cosh = function () {
+            throw new Error("SpinG2.cosh");
+        };
         /**
          * <p>
          * <code>this ⟼ this / s</code>
@@ -8360,6 +8570,9 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
             this.xy = 0;
             return this;
         };
+        SpinG2.prototype.pow = function () {
+            throw new Error("SpinG2.pow");
+        };
         /**
         * <p>
         * <code>this ⟼ this * conj(this)</code>
@@ -8371,6 +8584,12 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
         SpinG2.prototype.quad = function () {
             var squaredNorm = this.squaredNorm();
             return this.zero().addScalar(squaredNorm);
+        };
+        SpinG2.prototype.sin = function () {
+            throw new Error("SpinG2.sin");
+        };
+        SpinG2.prototype.sinh = function () {
+            throw new Error("SpinG2.sinh");
         };
         /**
          * @method squaredNorm
@@ -11175,10 +11394,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-04',
+        LAST_MODIFIED: '2015-11-06',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.151.0'
+        VERSION: '2.152.0'
     };
     return core;
 });
@@ -21950,19 +22169,11 @@ define('davinci-eight/math/scpE2',["require", "exports"], function (require, exp
     return scpE2;
 });
 
-define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/extE2', '../checks/isDefined', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, b2, b3, extE2, isDefined, lcoE2, rcoE2, mulE2, mustBeInteger, readOnly, scpE2, stringFromCoordinates, Unit) {
+define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/extE2', '../checks/isDefined', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, b2, b3, extE2, isDefined, lcoE2, rcoE2, mulE2, mustBeInteger, mustBeNumber, readOnly, scpE2, stringFromCoordinates, Unit) {
     var exp = Math.exp;
     var cos = Math.cos;
     var sin = Math.sin;
     var sqrt = Math.sqrt;
-    function assertArgNumber(name, x) {
-        if (typeof x === 'number') {
-            return x;
-        }
-        else {
-            throw new Error("Argument '" + name + "' must be a number");
-        }
-    }
     function assertArgEuclidean2(name, arg) {
         if (arg instanceof Euclidean2) {
             return arg;
@@ -22168,10 +22379,10 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
          * @param uom The optional unit of measure.
          */
         function Euclidean2(α, x, y, β, uom) {
-            this.w = assertArgNumber('α', α);
-            this.x = assertArgNumber('x', x);
-            this.y = assertArgNumber('y', y);
-            this.xy = assertArgNumber('β', β);
+            this.w = mustBeNumber('α', α);
+            this.x = mustBeNumber('x', x);
+            this.y = mustBeNumber('y', y);
+            this.xy = mustBeNumber('β', β);
             this.uom = assertArgUnitOrUndefined('uom', uom);
             if (this.uom && this.uom.multiplier !== 1) {
                 var multiplier = this.uom.multiplier;
@@ -22214,18 +22425,18 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         });
         // FIXME: Replace x & y with a VectorE2, a
         Euclidean2.prototype.fromCartesian = function (α, x, y, β, uom) {
-            assertArgNumber('α', α);
-            assertArgNumber('x', x);
-            assertArgNumber('y', y);
-            assertArgNumber('β', β);
+            mustBeNumber('α', α);
+            mustBeNumber('x', x);
+            mustBeNumber('y', y);
+            mustBeNumber('β', β);
             assertArgUnitOrUndefined('uom', uom);
             return new Euclidean2(α, x, y, β, uom);
         };
         Euclidean2.prototype.fromPolar = function (α, r, θ, β, uom) {
-            assertArgNumber('α', α);
-            assertArgNumber('r', r);
-            assertArgNumber('θ', θ);
-            assertArgNumber('β', β);
+            mustBeNumber('α', α);
+            mustBeNumber('r', r);
+            mustBeNumber('θ', θ);
+            mustBeNumber('β', β);
             assertArgUnitOrUndefined('uom', uom);
             return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom);
         };
@@ -22237,7 +22448,7 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
             configurable: true
         });
         Euclidean2.prototype.coordinate = function (index) {
-            assertArgNumber('index', index);
+            mustBeNumber('index', index);
             switch (index) {
                 case 0:
                     return this.w;
@@ -22797,7 +23008,18 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
     var cos = Math.cos;
     var sin = Math.sin;
     var sqrt = Math.sqrt;
-    var BASIS_LABELS = ["1", "e1", "e2", "I"];
+    //let ANTICLOCKWISE_GAPPED_CIRCLE = "⟲"
+    //let ANTICLOCKWISE_CLOSED_CIRCLE = "⥀"
+    //let CLOCKWISE_GAPPED_CIRCLE = "⟳"
+    var LEFTWARDS_ARROW = "←";
+    var RIGHTWARDS_ARROW = "→";
+    var UPWARDS_ARROW = "↑";
+    var DOWNWARDS_ARROW = "↓";
+    var BULLSEYE = "◎";
+    var CLOCKWISE_OPEN_CIRCLE_ARROW = "↻";
+    var ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺";
+    var ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
+    var STANDARD_LABELS = ["1", "e1", "e2", "I"];
     /**
      * Coordinates corresponding to basis labels.
      */
@@ -22836,7 +23058,7 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
     }
     /**
      * @class G2
-     * @extends GeometricE2
+     * @extends VectorN
      * @beta
      */
     var G2 = (function (_super) {
@@ -23044,85 +23266,17 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
             this.β = -this.β;
             return this;
         };
+        G2.prototype.cos = function () {
+            throw new Error("TODO: G2.cos");
+        };
+        G2.prototype.cosh = function () {
+            throw new Error("TODO: G2.cosh");
+        };
         G2.prototype.distanceTo = function (point) {
             throw new Error("TODO: G2.distanceTo");
         };
         G2.prototype.equals = function (point) {
             throw new Error("TODO: G2.equals");
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this << m</code>
-         * </p>
-         * @method lco
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.lco = function (m) {
-            return this.lco2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a << b</code>
-         * </p>
-         * @method lco2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.lco2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this >> m</code>
-         * </p>
-         * @method rco
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.rco = function (m) {
-            return this.rco2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a >> b</code>
-         * </p>
-         * @method rco2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.rco2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
         };
         /**
          * <p>
@@ -23316,6 +23470,43 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
         };
         /**
          * <p>
+         * <code>this ⟼ this << m</code>
+         * </p>
+         * @method lco
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.lco = function (m) {
+            return this.lco2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a << b</code>
+         * </p>
+         * @method lco2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.lco2 = function (a, b) {
+            var a0 = a.α;
+            var a1 = a.x;
+            var a2 = a.y;
+            var a3 = a.β;
+            var b0 = b.α;
+            var b1 = b.x;
+            var b2 = b.y;
+            var b3 = b.β;
+            this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ this + α * (target - this)</code>
          * </p>
          * @method lerp
@@ -23474,6 +23665,9 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
             this.β = 0;
             return this;
         };
+        G2.prototype.pow = function () {
+            throw new Error("TODO: G2.pow");
+        };
         /**
          * <p>
          * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
@@ -23511,16 +23705,41 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
             return this;
         };
         /**
-         * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
-         * @method squaredNorm
-         * @return {number} <code>this | ~this</code>
+         * <p>
+         * <code>this ⟼ this >> m</code>
+         * </p>
+         * @method rco
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
          */
-        G2.prototype.squaredNorm = function () {
-            var w = this.α;
-            var x = this.x;
-            var y = this.y;
-            var B = this.β;
-            return w * w + x * x + y * y + B * B;
+        G2.prototype.rco = function (m) {
+            return this.rco2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a >> b</code>
+         * </p>
+         * @method rco2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.rco2 = function (a, b) {
+            var a0 = a.α;
+            var a1 = a.x;
+            var a2 = a.y;
+            var a3 = a.β;
+            var b0 = b.α;
+            var b1 = b.x;
+            var b2 = b.y;
+            var b3 = b.β;
+            this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return this;
         };
         /**
          * <p>
@@ -23555,6 +23774,12 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
             this.y = this.y;
             this.β = -this.β;
             return this;
+        };
+        G2.prototype.sin = function () {
+            throw new Error("G2.sin");
+        };
+        G2.prototype.sinh = function () {
+            throw new Error("G2.sinh");
         };
         /**
          * @method __tilde__
@@ -23712,6 +23937,18 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
             return this;
         };
         /**
+         * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
+         * @method squaredNorm
+         * @return {number} <code>this | ~this</code>
+         */
+        G2.prototype.squaredNorm = function () {
+            var w = this.α;
+            var x = this.x;
+            var y = this.y;
+            var B = this.β;
+            return w * w + x * x + y * y + B * B;
+        };
+        /**
          * <p>
          * <code>this ⟼ this - M * α</code>
          * </p>
@@ -23757,7 +23994,7 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
          */
         G2.prototype.toExponential = function () {
             var coordToString = function (coord) { return coord.toExponential(); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
         };
         /**
          * Returns a string representing the number in fixed-point notation.
@@ -23767,7 +24004,7 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
          */
         G2.prototype.toFixed = function (fractionDigits) {
             var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
         };
         /**
          * Returns a string representation of the number.
@@ -23776,7 +24013,11 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
          */
         G2.prototype.toString = function () {
             var coordToString = function (coord) { return coord.toString(); };
-            return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS);
+            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
+        };
+        G2.prototype.unitary = function () {
+            // FIXME: Duplicates normalize
+            throw new Error("G2.unitary");
         };
         G2.prototype.grade = function (grade) {
             mustBeInteger('grade', grade);
@@ -24275,6 +24516,11 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
         G2.rotorFromDirections = function (a, b) {
             return new G2().rotorFromDirections(a, b);
         };
+        /**
+         * @property BASIS_LABELS
+         * @type {(string | string[])[]}
+         */
+        G2.BASIS_LABELS = STANDARD_LABELS;
         /**
          * The identity element for addition, <b>0</b>.
          * @property zero

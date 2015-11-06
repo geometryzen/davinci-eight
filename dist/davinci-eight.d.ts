@@ -606,6 +606,22 @@ declare module EIGHT {
      * A measure with an optional unit of measure.
      */
     class Euclidean3 implements VectorE3, SpinorE3 {
+        /**
+         * The labels to use for the basis vectors.
+         * For G3 there must be eight (8) labels.
+         * e.g.
+         * [['1'], ['e1'], ['e2'], ['e3'],['e12'], ['e23'], ['e32'], ['e123']]
+         * or
+         * [["1"], ["i"], ["j"], ["k"], ["ij"], ["jk"], ["ki"], ["I"]]
+         */
+        static BASIS_LABELS: string[][];
+        // FIXME: When TypeScript has been upgraded we can do this...
+        // static BASIS_LABELS: (string | string[])[];
+        static BASIS_LABELS_GEOMETRIC: string[][];
+        static BASIS_LABELS_HAMILTON: string[][];
+        static BASIS_LABELS_STANDARD: string[][];
+        static BASIS_LABELS_STANDARD_HTML: string[][];
+
         static ampere: Euclidean3;
         static candela: Euclidean3;
         static coulomb: Euclidean3;
@@ -980,6 +996,29 @@ declare module EIGHT {
      * The Geometric Algebra of the Euclidean plane
      */
     class G2 extends VectorN<number> implements GeometricE2 {
+        /**
+         * The labels to use for the basis vectors.
+         * For G2 there must be four (4) labels.
+         * The first is the scalar symbol.
+         * The second is the first vector symbol.
+         * The third is the second vector symbol.
+         * The fourth is the symbol for the pseudoscalar.
+         * e.g.
+         * [['1'], ['e1'], ['e2'], ['e12']]
+         * or
+         * [['1'], ['e1'], ['e2'], ['I']]
+         * For compass directions you might use
+         * [['1'], ['E'], ['N'], ['ccw']]
+         * You can also use different symbols depending upon the sign.
+         * The symbol for the negative sign goes on the left, positive on the right.
+         * [['1'], ['W','E'], ['S','N'], ['clockwise','ccw']]
+         * You can also use Unicode symbols
+         * 
+         */
+        static BASIS_LABELS: string[][];
+        // FIXME: When TypeScript has been upgraded we can do this...
+        // static BASIS_LABELS: (string | string[])[];
+
         /**
          * Constructs a <code>G2</code>.
          * The multivector is initialized to zero.

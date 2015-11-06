@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.151.0</em>
+            <em>API Docs for: 2.152.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -251,15 +251,17 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Unit = require(&#x27;../math/Unit&#x27;)
+//
+// Measure is used to make implementations consistent.
+// It is not part of the public API.
+// DO NOT USE ANNOTATIONS
+// The pseudoscalar is omitted to allow this interface to be used on spinors.
+//
 interface Measure&lt;T&gt; {
     /**
      * The scalar part of the measure, as a &lt;code&gt;number&lt;/code&gt;.
      */
     α: number;
-    /**
-     * The pseudoscalar part of the measure, as a &lt;code&gt;number&lt;/code&gt;.
-     */
-    β: number;
     coords: number[];
     uom: Unit;
     add(rhs: T): T;
@@ -291,7 +293,6 @@ interface Measure&lt;T&gt; {
     sinh(): T;
     slerp(target: T, α: number): T;
     sub(rhs: T): T;
-    unitary(): T;
 }
 export = Measure
     </pre>

@@ -1,7 +1,7 @@
 import GeometricElement = require('../math/GeometricElement');
 import GeometricOperators = require('../math/GeometricOperators');
 import GeometricE2 = require('../math/GeometricE2');
-import Measure = require('../math/Measure');
+import ImmutableMeasure = require('../math/ImmutableMeasure');
 import SpinorE2 = require('../math/SpinorE2');
 import TrigMethods = require('../math/TrigMethods');
 import Unit = require('../math/Unit');
@@ -9,7 +9,7 @@ import VectorE2 = require('../math/VectorE2');
 /**
  * @class Euclidean2
  */
-declare class Euclidean2 implements Measure<Euclidean2>, GeometricE2, GeometricElement<Euclidean2, Euclidean2, SpinorE2, VectorE2>, GeometricOperators<Euclidean2>, TrigMethods<Euclidean2> {
+declare class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, GeometricElement<Euclidean2, Euclidean2, SpinorE2, VectorE2>, GeometricOperators<Euclidean2>, TrigMethods<Euclidean2> {
     private w;
     x: number;
     y: number;

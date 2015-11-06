@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.151.0</em>
+            <em>API Docs for: 2.152.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -259,10 +259,11 @@ import GeometricE2 = require(&#x27;../math/GeometricE2&#x27;)
 import isDefined = require(&#x27;../checks/isDefined&#x27;)
 import lcoE2 = require(&#x27;../math/lcoE2&#x27;)
 import rcoE2 = require(&#x27;../math/rcoE2&#x27;)
-import Measure = require(&#x27;../math/Measure&#x27;)
+import ImmutableMeasure = require(&#x27;../math/ImmutableMeasure&#x27;)
 import mulE2 = require(&#x27;../math/mulE2&#x27;)
 import mulG2 = require(&#x27;../math/mulG2&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import scpE2 = require(&#x27;../math/scpE2&#x27;)
 import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;)
@@ -275,15 +276,6 @@ let exp = Math.exp
 let cos = Math.cos
 let sin = Math.sin
 let sqrt = Math.sqrt
-
-function assertArgNumber(name: string, x: number): number {
-    if (typeof x === &#x27;number&#x27;) {
-        return x;
-    }
-    else {
-        throw new Error(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
-    }
-}
 
 function assertArgEuclidean2(name: string, arg: Euclidean2): Euclidean2 {
     if (arg instanceof Euclidean2) {
@@ -488,7 +480,7 @@ var divide = function(
 /**
  * @class Euclidean2
  */
-class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricElement&lt;Euclidean2, Euclidean2, SpinorE2, VectorE2&gt;, GeometricOperators&lt;Euclidean2&gt;, TrigMethods&lt;Euclidean2&gt; {
+class Euclidean2 implements ImmutableMeasure&lt;Euclidean2&gt;, GeometricE2, GeometricElement&lt;Euclidean2, Euclidean2, SpinorE2, VectorE2&gt;, GeometricOperators&lt;Euclidean2&gt;, TrigMethods&lt;Euclidean2&gt; {
     private w: number;
     public x: number;
     public y: number;
@@ -506,10 +498,10 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
      * @param uom The optional unit of measure.
      */
     constructor(α: number, x: number, y: number, β: number, uom?: Unit) {
-        this.w = assertArgNumber(&#x27;α&#x27;, α);
-        this.x = assertArgNumber(&#x27;x&#x27;, x);
-        this.y = assertArgNumber(&#x27;y&#x27;, y);
-        this.xy = assertArgNumber(&#x27;β&#x27;, β);
+        this.w = mustBeNumber(&#x27;α&#x27;, α);
+        this.x = mustBeNumber(&#x27;x&#x27;, x);
+        this.y = mustBeNumber(&#x27;y&#x27;, y);
+        this.xy = mustBeNumber(&#x27;β&#x27;, β);
         this.uom = assertArgUnitOrUndefined(&#x27;uom&#x27;, uom);
         if (this.uom &amp;&amp; this.uom.multiplier !== 1) {
             var multiplier: number = this.uom.multiplier;
@@ -547,19 +539,19 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
 
     // FIXME: Replace x &amp; y with a VectorE2, a
     fromCartesian(α: number, x: number, y: number, β: number, uom: Unit): Euclidean2 {
-        assertArgNumber(&#x27;α&#x27;, α)
-        assertArgNumber(&#x27;x&#x27;, x)
-        assertArgNumber(&#x27;y&#x27;, y)
-        assertArgNumber(&#x27;β&#x27;, β)
+        mustBeNumber(&#x27;α&#x27;, α)
+        mustBeNumber(&#x27;x&#x27;, x)
+        mustBeNumber(&#x27;y&#x27;, y)
+        mustBeNumber(&#x27;β&#x27;, β)
         assertArgUnitOrUndefined(&#x27;uom&#x27;, uom)
         return new Euclidean2(α, x, y, β, uom)
     }
 
     fromPolar(α: number, r: number, θ: number, β: number, uom: Unit): Euclidean2 {
-        assertArgNumber(&#x27;α&#x27;, α)
-        assertArgNumber(&#x27;r&#x27;, r)
-        assertArgNumber(&#x27;θ&#x27;, θ)
-        assertArgNumber(&#x27;β&#x27;, β)
+        mustBeNumber(&#x27;α&#x27;, α)
+        mustBeNumber(&#x27;r&#x27;, r)
+        mustBeNumber(&#x27;θ&#x27;, θ)
+        mustBeNumber(&#x27;β&#x27;, β)
         assertArgUnitOrUndefined(&#x27;uom&#x27;, uom)
         return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom)
     }
@@ -569,7 +561,7 @@ class Euclidean2 implements Measure&lt;Euclidean2&gt;, GeometricE2, GeometricEle
     }
 
     coordinate(index: number): number {
-        assertArgNumber(&#x27;index&#x27;, index);
+        mustBeNumber(&#x27;index&#x27;, index);
         switch (index) {
             case 0:
                 return this.w;

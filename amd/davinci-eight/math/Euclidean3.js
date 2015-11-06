@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometries/b3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit'], function (require, exports, addE3, b2, b3, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeInteger, mustBeNumber, NotImplementedError, rcoG3, readOnly, scpG3, squaredNormG3, stringFromCoordinates, subE3, Unit) {
+define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometries/b3', '../math/extG3', '../checks/isDefined', '../math/lcoG3', '../math/mathcore', '../math/mulE3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/NotImplementedError', '../math/rcoG3', '../i18n/readOnly', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/subE3', '../math/Unit', '../math/BASIS_LABELS_G3_GEOMETRIC', '../math/BASIS_LABELS_G3_HAMILTON', '../math/BASIS_LABELS_G3_STANDARD', '../math/BASIS_LABELS_G3_STANDARD_HTML'], function (require, exports, addE3, b2, b3, extG3, isDefined, lcoG3, mathcore, mulE3, mulG3, mustBeInteger, mustBeNumber, NotImplementedError, rcoG3, readOnly, scpG3, squaredNormG3, stringFromCoordinates, subE3, Unit, BASIS_LABELS_G3_GEOMETRIC, BASIS_LABELS_G3_HAMILTON, BASIS_LABELS_G3_STANDARD, BASIS_LABELS_G3_STANDARD_HTML) {
     var cos = Math.cos;
     var cosh = mathcore.Math.cosh;
     var exp = Math.exp;
@@ -49,7 +49,30 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
     }
     // FIXME: Need to use tensor representations to find inverse, if it exists.
-    var divide = function (a000, a001, a010, a011, a100, a101, a110, a111, b000, b001, b010, b011, b100, b101, b110, b111, uom) {
+    // I don't remember how I came up with this, but part was Hestenes NFCM problem (7.2) p38.
+    // Let A = α + a, where a is a non-zero vector.
+    // Find inv(A) as a function of α and a.
+    // etc
+    // Perwass describes how to convert multivectors to a tensor representation and then use
+    // matrices to find inverses. Essentially we are invoking theorems on the determinant
+    // which apply to the antisymmetric product.
+    var divide = function (a000, // a.w
+        a001, // a.x
+        a010, // a.y
+        a011, // a.xy
+        a100, // a.z
+        a101, // -a.zx or a.xz
+        a110, // a.yz
+        a111, // a.xyz
+        b000, // b.w
+        b001, // b.x
+        b010, // b.y
+        b011, // b.xy
+        b100, // b.z
+        b101, // -b.zx or b.xz
+        b110, // b.yz
+        b111, // b.xyz
+        uom) {
         var c000;
         var c001;
         var c010;
@@ -107,14 +130,17 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         var yz;
         var z;
         var zx;
-        r000 = +b000;
-        r001 = +b001;
-        r010 = +b010;
-        r011 = -b011;
-        r100 = +b100;
-        r101 = -b101;
-        r110 = -b110;
-        r111 = -b111;
+        // This looks like the reversion of b, but there is a strange sign flip for zx
+        // r = ~b
+        r000 = +b000; // => b.w
+        r001 = +b001; // => b.x
+        r010 = +b010; // => b.y
+        r011 = -b011; // => -b.xy
+        r100 = +b100; // => b.z
+        r101 = -b101; // => +b.zx
+        r110 = -b110; // => -b.yz
+        r111 = -b111; // => -b.xyz
+        // m = (b * r) grades 0 and 1
         m000 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 0);
         m001 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 1);
         m010 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 2);
@@ -123,6 +149,8 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         m101 = 0;
         m110 = 0;
         m111 = 0;
+        // Clifford conjugation.
+        // c = cc(m)
         c000 = +m000;
         c001 = -m001;
         c010 = -m010;
@@ -131,6 +159,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         c101 = -m101;
         c110 = -m110;
         c111 = +m111;
+        // s = r * c
         s000 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 0);
         s001 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 1);
         s010 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 2);
@@ -139,7 +168,9 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         s101 = -mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 6);
         s110 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 5);
         s111 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 7);
+        // k = (b * s), grade 0 part
         k000 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, s000, s001, s010, s100, s011, s110, -s101, s111, 0);
+        // i = s / k
         i000 = s000 / k000;
         i001 = s001 / k000;
         i010 = s010 / k000;
@@ -148,6 +179,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         i101 = s101 / k000;
         i110 = s110 / k000;
         i111 = s111 / k000;
+        // x = a * i
         x000 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 0);
         x001 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 1);
         x010 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 2);
@@ -156,6 +188,13 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         x101 = -mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 6);
         x110 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 5);
         x111 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 7);
+        // this = x
+        //      = a * i
+        //      = a * s / k
+        //      = a * s / grade(b * s, 0)
+        //      = a * r * c / grade(b * r * c, 0)
+        //      = a * r * cc(b * r) / grade(b * r * cc(b * r), 0)
+        //      = a * ~b * cc(b * ~b) / grade(b * ~b * cc(b * ~b), 0)
         w = x000;
         x = x001;
         y = x010;
@@ -207,6 +246,30 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 this.uom = new Unit(1, uom.dimensions, uom.labels);
             }
         }
+        Object.defineProperty(Euclidean3, "BASIS_LABELS_GEOMETRIC", {
+            get: function () { return BASIS_LABELS_G3_GEOMETRIC; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(Euclidean3, "BASIS_LABELS_HAMILTON", {
+            get: function () { return BASIS_LABELS_G3_HAMILTON; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(Euclidean3, "BASIS_LABELS_STANDARD", {
+            get: function () { return BASIS_LABELS_G3_STANDARD; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(Euclidean3, "BASIS_LABELS_STANDARD_HTML", {
+            get: function () { return BASIS_LABELS_G3_STANDARD_HTML; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
         Object.defineProperty(Euclidean3.prototype, "α", {
             /**
              * The scalar part of this multivector.
@@ -1078,7 +1141,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
          */
         Euclidean3.prototype.toExponential = function () {
             var coordToString = function (coord) { return coord.toExponential(); };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
+            return this.toStringCustom(coordToString, Euclidean3.BASIS_LABELS);
         };
         /**
          * @method toFixed
@@ -1087,7 +1150,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
          */
         Euclidean3.prototype.toFixed = function (digits) {
             var coordToString = function (coord) { return coord.toFixed(digits); };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
+            return this.toStringCustom(coordToString, Euclidean3.BASIS_LABELS);
         };
         /**
          * @method toString
@@ -1095,21 +1158,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
          */
         Euclidean3.prototype.toString = function () {
             var coordToString = function (coord) { return coord.toString(); };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
-        };
-        /**
-         * Intentionally undocumented.
-         */
-        Euclidean3.prototype.toStringIJK = function () {
-            var coordToString = function (coord) { return coord.toString(); };
-            return this.toStringCustom(coordToString, ["1", "i", "j", "k", "ij", "jk", "ki", "I"]);
-        };
-        /**
-         * Intentionally undocumented.
-         */
-        Euclidean3.prototype.toStringLATEX = function () {
-            var coordToString = function (coord) { return coord.toString(); };
-            return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{3}", "e_{12}", "e_{23}", "e_{31}", "e_{123}"]);
+            return this.toStringCustom(coordToString, Euclidean3.BASIS_LABELS);
         };
         /**
          * Provides access to the internals of Euclidean3 in order to use `product` functions.
@@ -1191,6 +1240,11 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 return void 0;
             }
         };
+        /**
+         * @property BASIS_LABELS
+         * @type {string[][]}
+         */
+        Euclidean3.BASIS_LABELS = BASIS_LABELS_G3_STANDARD;
         /**
          * @property zero
          * @type {Euclidean3}

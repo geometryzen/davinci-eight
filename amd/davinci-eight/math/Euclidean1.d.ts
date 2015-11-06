@@ -1,10 +1,10 @@
 import Euclidean1Coords = require('../math/Euclidean1Coords');
-import Measure = require('../math/Measure');
+import ImmutableMeasure = require('../math/ImmutableMeasure');
 import Unit = require('../math/Unit');
 /**
  * @class Euclidean1
  */
-declare class Euclidean1 implements Measure<Euclidean1> {
+declare class Euclidean1 implements ImmutableMeasure<Euclidean1> {
     private w;
     private x;
     uom: Unit;

@@ -4,10 +4,6 @@ interface Measure<T> {
      * The scalar part of the measure, as a <code>number</code>.
      */
     α: number;
-    /**
-     * The pseudoscalar part of the measure, as a <code>number</code>.
-     */
-    β: number;
     coords: number[];
     uom: Unit;
     add(rhs: T): T;
@@ -39,6 +35,5 @@ interface Measure<T> {
     sinh(): T;
     slerp(target: T, α: number): T;
     sub(rhs: T): T;
-    unitary(): T;
 }
 export = Measure;

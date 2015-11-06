@@ -1,15 +1,29 @@
 import GeometricE2 = require('../math/GeometricE2');
 import GeometricOperators = require('../math/GeometricOperators');
+import Measure = require('../math/Measure');
 import MutableGeometricElement = require('../math/MutableGeometricElement');
 import SpinorE2 = require('../math/SpinorE2');
+import Unit = require('../math/Unit');
 import VectorE2 = require('../math/VectorE2');
 import VectorN = require('../math/VectorN');
 /**
  * @class G2
- * @extends GeometricE2
+ * @extends VectorN
  * @beta
  */
-declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement<GeometricE2, G2, SpinorE2, VectorE2>, GeometricOperators<G2> {
+declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeometricElement<GeometricE2, G2, SpinorE2, VectorE2>, GeometricOperators<G2> {
+    /**
+     * @property BASIS_LABELS
+     * @type {(string | string[])[]}
+     */
+    static BASIS_LABELS: (string | string[])[];
+    /**
+     * The optional unit of measure.
+     * @property uom
+     * @type {Unit}
+     * @beta
+     */
+    uom: Unit;
     /**
      * Constructs a <code>G2</code>.
      * The multivector is initialized to zero.
@@ -116,50 +130,10 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     conj(): G2;
+    cos(): G2;
+    cosh(): G2;
     distanceTo(point: GeometricE2): number;
     equals(point: GeometricE2): boolean;
-    /**
-     * <p>
-     * <code>this ⟼ this << m</code>
-     * </p>
-     * @method lco
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    lco(m: GeometricE2): G2;
-    /**
-     * <p>
-     * <code>this ⟼ a << b</code>
-     * </p>
-     * @method lco2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    lco2(a: GeometricE2, b: GeometricE2): G2;
-    /**
-     * <p>
-     * <code>this ⟼ this >> m</code>
-     * </p>
-     * @method rco
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    rco(m: GeometricE2): G2;
-    /**
-     * <p>
-     * <code>this ⟼ a >> b</code>
-     * </p>
-     * @method rco2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    rco2(a: GeometricE2, b: GeometricE2): G2;
     /**
      * <p>
      * <code>this ⟼ copy(M)</code>
@@ -277,6 +251,27 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
     isZero(): boolean;
     /**
      * <p>
+     * <code>this ⟼ this << m</code>
+     * </p>
+     * @method lco
+     * @param m {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    lco(m: GeometricE2): G2;
+    /**
+     * <p>
+     * <code>this ⟼ a << b</code>
+     * </p>
+     * @method lco2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    lco2(a: GeometricE2, b: GeometricE2): G2;
+    /**
+     * <p>
      * <code>this ⟼ this + α * (target - this)</code>
      * </p>
      * @method lerp
@@ -368,6 +363,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     one(): G2;
+    pow(): G2;
     /**
      * <p>
      * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
@@ -389,11 +385,26 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): G2;
     /**
-     * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
-     * @method squaredNorm
-     * @return {number} <code>this | ~this</code>
+     * <p>
+     * <code>this ⟼ this >> m</code>
+     * </p>
+     * @method rco
+     * @param m {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
      */
-    squaredNorm(): number;
+    rco(m: GeometricE2): G2;
+    /**
+     * <p>
+     * <code>this ⟼ a >> b</code>
+     * </p>
+     * @method rco2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    rco2(a: GeometricE2, b: GeometricE2): G2;
     /**
      * <p>
      * <code>this ⟼ - n * this * n</code>
@@ -413,6 +424,8 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @chainable
      */
     rev(): G2;
+    sin(): G2;
+    sinh(): G2;
     /**
      * @method __tilde__
      * @return {G2}
@@ -489,6 +502,12 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      */
     spinor(a: VectorE2, b: VectorE2): G2;
     /**
+     * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
+     * @method squaredNorm
+     * @return {number} <code>this | ~this</code>
+     */
+    squaredNorm(): number;
+    /**
      * <p>
      * <code>this ⟼ this - M * α</code>
      * </p>
@@ -529,6 +548,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, MutableGeometri
      * @return {string}
      */
     toString(): string;
+    unitary(): G2;
     grade(grade: number): G2;
     /**
      * <p>

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.151.0</em>
+            <em>API Docs for: 2.152.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -253,18 +253,19 @@
 import dotVectorCartesian = require(&#x27;../math/dotVectorCartesianE2&#x27;)
 import copyToArray = require(&#x27;../collections/copyToArray&#x27;)
 import dotVector = require(&#x27;../math/dotVectorE2&#x27;)
-import expectArg = require(&#x27;../checks/expectArg&#x27;)
 import isDefined = require(&#x27;../checks/isDefined&#x27;)
-import MutableGeometricElement = require(&#x27;../math/MutableGeometricElement&#x27;)
+import Measure = require(&#x27;../math/Measure&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
 import Mutable = require(&#x27;../math/Mutable&#x27;)
+import MutableGeometricElement = require(&#x27;../math/MutableGeometricElement&#x27;)
 import quadSpinor = require(&#x27;../math/quadSpinorE2&#x27;)
 import quadVector = require(&#x27;../math/quadVectorE2&#x27;)
 import rotorFromDirections = require(&#x27;../math/rotorFromDirections&#x27;)
 import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;)
 import TrigMethods = require(&#x27;../math/TrigMethods&#x27;)
+import Unit = require(&#x27;../math/Unit&#x27;)
 import VectorE2 = require(&#x27;../math/VectorE2&#x27;)
 import VectorN = require(&#x27;../math/VectorN&#x27;)
 import wedgeXY = require(&#x27;../math/wedgeXY&#x27;)
@@ -295,8 +296,16 @@ let sqrt = Math.sqrt
  * @class SpinG2
  * @extends VectorN&lt;number&gt;
  */
-class SpinG2 extends VectorN&lt;number&gt; implements SpinorE2, Mutable&lt;number[]&gt;, MutableGeometricElement&lt;SpinorE2, SpinG2, SpinG2, VectorE2&gt;
+class SpinG2 extends VectorN&lt;number&gt; implements SpinorE2, Measure&lt;SpinG2&gt;, Mutable&lt;number[]&gt;, MutableGeometricElement&lt;SpinorE2, SpinG2, SpinG2, VectorE2&gt;
 {
+    /**
+     * The optional unit of measure.
+     * @property uom
+     * @type {Unit}
+     * @beta
+     */
+    uom: Unit;
+
     /**
      * Constructs a &lt;code&gt;SpinG2&lt;/code&gt; from a &lt;code&gt;number[]&lt;/code&gt;.
      * For a &lt;em&gt;geometric&lt;/em&gt; implementation, use the static methods.
@@ -471,6 +480,14 @@ class SpinG2 extends VectorN&lt;number&gt; implements SpinorE2, Mutable&lt;numbe
     copyVector(vector: VectorE2): SpinG2 {
         // The spinor has no vector components.
         return this.zero()
+    }
+
+    cos(): SpinG2 {
+        throw new Error(&quot;SpinG2.cos&quot;)
+    }
+
+    cosh(): SpinG2 {
+        throw new Error(&quot;SpinG2.cosh&quot;)
     }
 
     /**
@@ -718,6 +735,10 @@ class SpinG2 extends VectorN&lt;number&gt; implements SpinorE2, Mutable&lt;numbe
         return this
     }
 
+    pow(): SpinG2 {
+        throw new Error(&quot;SpinG2.pow&quot;)
+    }
+
     /**
     * &lt;p&gt;
     * &lt;code&gt;this ⟼ this * conj(this)&lt;/code&gt;
@@ -730,6 +751,15 @@ class SpinG2 extends VectorN&lt;number&gt; implements SpinorE2, Mutable&lt;numbe
         let squaredNorm = this.squaredNorm()
         return this.zero().addScalar(squaredNorm)
     }
+
+    sin(): SpinG2 {
+        throw new Error(&quot;SpinG2.sin&quot;)
+    }
+
+    sinh(): SpinG2 {
+        throw new Error(&quot;SpinG2.sinh&quot;)
+    }
+
     /**
      * @method squaredNorm
      * @return {number} &lt;code&gt;this * conj(this)&lt;/code&gt;

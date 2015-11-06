@@ -9,6 +9,7 @@ import isNumber = require('../checks/isNumber')
 import isObject = require('../checks/isObject')
 import lcoE2 = require('../math/lcoE2')
 import GeometricOperators = require('../math/GeometricOperators')
+import Measure = require('../math/Measure')
 import mulE2 = require('../math/mulE2')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
@@ -23,6 +24,7 @@ import rotorFromDirections = require('../math/rotorFromDirections')
 import scpE2 = require('../math/scpE2')
 import SpinorE2 = require('../math/SpinorE2')
 import stringFromCoordinates = require('../math/stringFromCoordinates')
+import Unit = require('../math/Unit')
 import VectorE2 = require('../math/VectorE2')
 import VectorN = require('../math/VectorN')
 import wedgeXY = require('../math/wedgeXY')
@@ -44,7 +46,21 @@ let cos = Math.cos
 let sin = Math.sin
 let sqrt = Math.sqrt
 
-let BASIS_LABELS = ["1", "e1", "e2", "I"]
+//let ANTICLOCKWISE_GAPPED_CIRCLE = "⟲"
+//let ANTICLOCKWISE_CLOSED_CIRCLE = "⥀"
+//let CLOCKWISE_GAPPED_CIRCLE = "⟳"
+
+let LEFTWARDS_ARROW = "←"
+let RIGHTWARDS_ARROW = "→"
+let UPWARDS_ARROW = "↑"
+let DOWNWARDS_ARROW = "↓"
+let BULLSEYE = "◎"
+let CLOCKWISE_OPEN_CIRCLE_ARROW = "↻"
+let ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺"
+
+let ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]]
+let STANDARD_LABELS = ["1", "e1", "e2", "I"]
+
 /**
  * Coordinates corresponding to basis labels.
  */
@@ -85,10 +101,24 @@ function duckCopy(value: any): G2 {
 
 /**
  * @class G2
- * @extends GeometricE2
+ * @extends VectorN
  * @beta
  */
-class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement<GeometricE2, G2, SpinorE2, VectorE2>, GeometricOperators<G2> {
+class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeometricElement<GeometricE2, G2, SpinorE2, VectorE2>, GeometricOperators<G2> {
+    /**
+     * @property BASIS_LABELS
+     * @type {(string | string[])[]}
+     */
+    static BASIS_LABELS: (string | string[])[] = STANDARD_LABELS
+
+    /**
+     * The optional unit of measure.
+     * @property uom
+     * @type {Unit}
+     * @beta
+     */
+    uom: Unit;
+
     /**
      * Constructs a <code>G2</code>.
      * The multivector is initialized to zero.
@@ -278,85 +308,21 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.β = -this.β;
         return this
     }
+
+    cos(): G2 {
+        throw new Error("TODO: G2.cos")
+    }
+
+    cosh(): G2 {
+        throw new Error("TODO: G2.cosh")
+    }
+
     distanceTo(point: GeometricE2): number {
         throw new Error("TODO: G2.distanceTo")
     }
+
     equals(point: GeometricE2): boolean {
         throw new Error("TODO: G2.equals")
-    }
-    /**
-     * <p>
-     * <code>this ⟼ this << m</code>
-     * </p>
-     * @method lco
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    lco(m: GeometricE2): G2 {
-        return this.lco2(this, m)
-    }
-    /**
-     * <p>
-     * <code>this ⟼ a << b</code>
-     * </p>
-     * @method lco2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    lco2(a: GeometricE2, b: GeometricE2): G2 {
-        let a0 = a.α
-        let a1 = a.x
-        let a2 = a.y
-        let a3 = a.β
-        let b0 = b.α
-        let b1 = b.x
-        let b2 = b.y
-        let b3 = b.β
-        this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
-        this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
-        this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
-        return this
-    }
-    /**
-     * <p>
-     * <code>this ⟼ this >> m</code>
-     * </p>
-     * @method rco
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    rco(m: GeometricE2): G2 {
-        return this.rco2(this, m)
-    }
-    /**
-     * <p>
-     * <code>this ⟼ a >> b</code>
-     * </p>
-     * @method rco2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    rco2(a: GeometricE2, b: GeometricE2): G2 {
-        let a0 = a.α
-        let a1 = a.x
-        let a2 = a.y
-        let a3 = a.β
-        let b0 = b.α
-        let b1 = b.x
-        let b2 = b.y
-        let b3 = b.β
-        this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
-        this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
-        this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
-        return this
     }
 
     /**
@@ -561,6 +527,45 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
     /**
      * <p>
+     * <code>this ⟼ this << m</code>
+     * </p>
+     * @method lco
+     * @param m {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    lco(m: GeometricE2): G2 {
+        return this.lco2(this, m)
+    }
+
+    /**
+     * <p>
+     * <code>this ⟼ a << b</code>
+     * </p>
+     * @method lco2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    lco2(a: GeometricE2, b: GeometricE2): G2 {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
+    }
+
+    /**
+     * <p>
      * <code>this ⟼ this + α * (target - this)</code>
      * </p>
      * @method lerp
@@ -725,6 +730,10 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         return this
     }
 
+    pow(): G2 {
+        throw new Error("TODO: G2.pow")
+    }
+
     /**
      * <p>
      * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
@@ -764,17 +773,43 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
     }
 
     /**
-     * Computes the <em>squared norm</em> of this <code>G2</code> multivector. 
-     * @method squaredNorm
-     * @return {number} <code>this | ~this</code>
+     * <p>
+     * <code>this ⟼ this >> m</code>
+     * </p>
+     * @method rco
+     * @param m {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
      */
-    squaredNorm(): number {
-        let w = this.α
-        let x = this.x
-        let y = this.y
-        let B = this.β
-        return w * w + x * x + y * y + B * B
+    rco(m: GeometricE2): G2 {
+        return this.rco2(this, m)
     }
+    /**
+     * <p>
+     * <code>this ⟼ a >> b</code>
+     * </p>
+     * @method rco2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    rco2(a: GeometricE2, b: GeometricE2): G2 {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
+        return this
+    }
+
     /**
      * <p>
      * <code>this ⟼ - n * this * n</code>
@@ -810,6 +845,15 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
         this.β = -this.β
         return this
     }
+
+    sin(): G2 {
+        throw new Error("G2.sin")
+    }
+
+    sinh(): G2 {
+        throw new Error("G2.sinh")
+    }
+
     /**
      * @method __tilde__
      * @return {G2}
@@ -975,6 +1019,20 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
 
         return this
     }
+
+    /**
+     * Computes the <em>squared norm</em> of this <code>G2</code> multivector. 
+     * @method squaredNorm
+     * @return {number} <code>this | ~this</code>
+     */
+    squaredNorm(): number {
+        let w = this.α
+        let x = this.x
+        let y = this.y
+        let B = this.β
+        return w * w + x * x + y * y + B * B
+    }
+
     /**
      * <p>
      * <code>this ⟼ this - M * α</code>
@@ -1021,7 +1079,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      */
     toExponential(): string {
         var coordToString = function(coord: number): string { return coord.toExponential() };
-        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+        return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
     }
 
     /**
@@ -1032,7 +1090,7 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      */
     toFixed(fractionDigits?: number): string {
         var coordToString = function(coord: number): string { return coord.toFixed(fractionDigits) };
-        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+        return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
     }
 
     /**
@@ -1042,7 +1100,12 @@ class G2 extends VectorN<number> implements GeometricE2, MutableGeometricElement
      */
     toString(): string {
         let coordToString = function(coord: number): string { return coord.toString() };
-        return stringFromCoordinates(coordinates(this), coordToString, BASIS_LABELS)
+        return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
+    }
+
+    unitary(): G2 {
+        // FIXME: Duplicates normalize
+        throw new Error("G2.unitary")
     }
 
     grade(grade: number): G2 {

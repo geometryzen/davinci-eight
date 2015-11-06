@@ -1,16 +1,8 @@
-define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/extE2', '../checks/isDefined', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, b2, b3, extE2, isDefined, lcoE2, rcoE2, mulE2, mustBeInteger, readOnly, scpE2, stringFromCoordinates, Unit) {
+define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/extE2', '../checks/isDefined', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, b2, b3, extE2, isDefined, lcoE2, rcoE2, mulE2, mustBeInteger, mustBeNumber, readOnly, scpE2, stringFromCoordinates, Unit) {
     var exp = Math.exp;
     var cos = Math.cos;
     var sin = Math.sin;
     var sqrt = Math.sqrt;
-    function assertArgNumber(name, x) {
-        if (typeof x === 'number') {
-            return x;
-        }
-        else {
-            throw new Error("Argument '" + name + "' must be a number");
-        }
-    }
     function assertArgEuclidean2(name, arg) {
         if (arg instanceof Euclidean2) {
             return arg;
@@ -216,10 +208,10 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/e
          * @param uom The optional unit of measure.
          */
         function Euclidean2(α, x, y, β, uom) {
-            this.w = assertArgNumber('α', α);
-            this.x = assertArgNumber('x', x);
-            this.y = assertArgNumber('y', y);
-            this.xy = assertArgNumber('β', β);
+            this.w = mustBeNumber('α', α);
+            this.x = mustBeNumber('x', x);
+            this.y = mustBeNumber('y', y);
+            this.xy = mustBeNumber('β', β);
             this.uom = assertArgUnitOrUndefined('uom', uom);
             if (this.uom && this.uom.multiplier !== 1) {
                 var multiplier = this.uom.multiplier;
@@ -262,18 +254,18 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/e
         });
         // FIXME: Replace x & y with a VectorE2, a
         Euclidean2.prototype.fromCartesian = function (α, x, y, β, uom) {
-            assertArgNumber('α', α);
-            assertArgNumber('x', x);
-            assertArgNumber('y', y);
-            assertArgNumber('β', β);
+            mustBeNumber('α', α);
+            mustBeNumber('x', x);
+            mustBeNumber('y', y);
+            mustBeNumber('β', β);
             assertArgUnitOrUndefined('uom', uom);
             return new Euclidean2(α, x, y, β, uom);
         };
         Euclidean2.prototype.fromPolar = function (α, r, θ, β, uom) {
-            assertArgNumber('α', α);
-            assertArgNumber('r', r);
-            assertArgNumber('θ', θ);
-            assertArgNumber('β', β);
+            mustBeNumber('α', α);
+            mustBeNumber('r', r);
+            mustBeNumber('θ', θ);
+            mustBeNumber('β', β);
             assertArgUnitOrUndefined('uom', uom);
             return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom);
         };
@@ -285,7 +277,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/e
             configurable: true
         });
         Euclidean2.prototype.coordinate = function (index) {
-            assertArgNumber('index', index);
+            mustBeNumber('index', index);
             switch (index) {
                 case 0:
                     return this.w;

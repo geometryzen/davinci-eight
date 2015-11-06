@@ -199,6 +199,12 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
             // The spinor has no vector components.
             return this.zero();
         };
+        SpinG2.prototype.cos = function () {
+            throw new Error("SpinG2.cos");
+        };
+        SpinG2.prototype.cosh = function () {
+            throw new Error("SpinG2.cosh");
+        };
         /**
          * <p>
          * <code>this ⟼ this / s</code>
@@ -430,6 +436,9 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
             this.xy = 0;
             return this;
         };
+        SpinG2.prototype.pow = function () {
+            throw new Error("SpinG2.pow");
+        };
         /**
         * <p>
         * <code>this ⟼ this * conj(this)</code>
@@ -441,6 +450,12 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         SpinG2.prototype.quad = function () {
             var squaredNorm = this.squaredNorm();
             return this.zero().addScalar(squaredNorm);
+        };
+        SpinG2.prototype.sin = function () {
+            throw new Error("SpinG2.sin");
+        };
+        SpinG2.prototype.sinh = function () {
+            throw new Error("SpinG2.sinh");
         };
         /**
          * @method squaredNorm

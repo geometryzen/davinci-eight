@@ -1,0 +1,2 @@
+declare let BASIS_LABELS_G3_STANDARD_HTML: string[][];
+export = BASIS_LABELS_G3_STANDARD_HTML;
