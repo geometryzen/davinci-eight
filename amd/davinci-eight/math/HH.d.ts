@@ -49,7 +49,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     sin(): HH;
     sinh(): HH;
     neg(): HH;
-    normalize(): HH;
+    direction(): HH;
     one(): HH;
     quad(): HH;
     squaredNorm(): number;

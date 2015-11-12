@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/isDefined', '../checks/mustBeNumber', '../math/R3'], function (require, exports, AxialSimplexGeometry, isDefined, mustBeNumber, R3) {
     function perpendicular(axis) {
-        return R3.random().cross(axis).normalize();
+        return R3.random().cross(axis).direction();
     }
     /**
      * @class SliceSimplexGeometry
@@ -43,7 +43,7 @@ define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/i
             this.sliceAngle = 2 * Math.PI;
             if (isDefined(sliceStart)) {
                 // TODO: Verify that sliceStart is orthogonal to axis.
-                this.sliceStart = R3.copy(sliceStart).normalize();
+                this.sliceStart = R3.copy(sliceStart).direction();
             }
             else {
                 this.sliceStart = perpendicular(this.axis);

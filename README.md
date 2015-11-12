@@ -253,6 +253,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.150.0: 2015-11-03 log
 * 2.151.0: 2015-11-04 reflection
 * 2.152.0: 2015-11-06 basis
+* 2.153.0: 2015-11-12 direction
 
 ## Unit
 Copyright (c) 2014-2015 David Holmes

@@ -255,11 +255,11 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {SpinG2} <code>this</code>
      * @chainable
      */
-    normalize(): SpinG2;
+    direction(): SpinG2;
     /**
      * Sets this spinor to the identity element for multiplication, <b>1</b>.
      * @return {SpinG2} <code>this</code>

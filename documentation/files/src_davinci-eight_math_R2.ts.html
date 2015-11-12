@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -460,7 +460,7 @@ class R2 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix2, R2&gt
         return sqrt(this.squaredNorm());
     }
 
-    normalize() {
+    direction() {
         return this.divByScalar(this.magnitude());
     }
 

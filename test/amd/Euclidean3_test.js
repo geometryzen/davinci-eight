@@ -87,7 +87,7 @@ define([
       var a = new Euclidean3(1, 2, 3, 4, 5, 6, 7, 8);
       expect(a.toString()).toBe("1+2*→+3*↑+4*⊙+5*↺+6*⬙+7*⊶+8*☐");
       var a = new Euclidean3(-1, -2, -3, -4, -5, -6, -7, -8);
-      expect(a.toString()).toBe("-1+2*←+3*↓+4*⊗+5*↻+6*⬘+7*⊷-8*☐");
+      expect(a.toString()).toBe("-1+2*←+3*↓+4*⊗+5*↻+6*⬘+7*⊷+8*■");
     });
 
     it('Should implement toString(), STANDARD', function() {

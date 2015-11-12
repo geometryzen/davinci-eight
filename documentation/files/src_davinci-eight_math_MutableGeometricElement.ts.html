@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -286,6 +286,11 @@ interface MutableGeometricElement&lt;I, M, S, V&gt; extends GeometricElement&lt;
     copyVector(vector: V): M;
 
     /**
+     * Sets this multivector to this / norm(this)
+     */
+    direction(): void;
+
+    /**
      * Sets this multivector to a / b. This may not be defined.
      */
     div2(a: I, b: I): M;
@@ -296,12 +301,7 @@ interface MutableGeometricElement&lt;I, M, S, V&gt; extends GeometricElement&lt;
     mul2(a: I, b: I): M;
 
     /**
-     * Sets this multivector to this / norm(this)
-     */
-    normalize(): void;
-
-    /**
-     * Sets this multivector to a unitary spinor (a rotor), even if the vectors are not normalized.
+     * Sets this multivector to a unitary spinor (a rotor), even if the vectors are not unitary.
      */
     rotorFromDirections(a: V, b: V): M;
 

@@ -404,11 +404,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
          * <p>
          * <code>this ⟼ this / norm(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {R3} <code>this</code>
          * @chainable
          */
-        R3.prototype.normalize = function () {
+        R3.prototype.direction = function () {
             return this.divByScalar(this.magnitude());
         };
         /**

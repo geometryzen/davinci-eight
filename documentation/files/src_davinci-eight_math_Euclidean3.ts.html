@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -938,6 +938,14 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
     }
 
     /**
+     * @method direction
+     * @return {Euclidean3}
+     */
+    direction(): Euclidean3 {
+        return this.div(this.norm());
+    }
+
+    /**
      * @method sub
      * @param rhs {Euclidean3}
      * @return {Euclidean3}
@@ -1468,7 +1476,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
         if (!a.isZero()) {
             var c = a.cos();
             var s = a.sin();
-            var B = bivector.unitary();
+            var B = bivector.direction();
             return c.add(B.mul(s));
         }
         else {
@@ -1597,14 +1605,6 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
     slerp(target: Euclidean3, α: number): Euclidean3 {
         // FIXME: TODO
         return this
-    }
-
-    /**
-     * @method unitary
-     * @return {Euclidean3}
-     */
-    unitary(): Euclidean3 {
-        return this.div(this.norm());
     }
 
     /**

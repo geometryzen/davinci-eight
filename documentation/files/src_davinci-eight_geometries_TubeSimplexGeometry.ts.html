@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -434,7 +434,7 @@ class FrenetFrames {
         u = i / (numpoints - 1);
 
         tangents[i] = path.getTangentAt(u);
-        tangents[i].normalize();
+        tangents[i].direction();
 
     }
 
@@ -446,16 +446,16 @@ class FrenetFrames {
       normals[ 0 ] = new R3();
       binormals[ 0 ] = new R3();
       if (lastBinormal===undefined) lastBinormal = new R3( 0, 0, 1 );
-      normals[ 0 ].cross2( lastBinormal, tangents[ 0 ] ).normalize();
-      binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).normalize();
+      normals[ 0 ].cross2( lastBinormal, tangents[ 0 ] ).direction();
+      binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).direction();
     }
     function initialNormal2() {
       // This uses the Frenet-Serret formula for deriving binormal
       var t2 = path.getTangentAt( epsilon );
-      normals[ 0 ] = new R3().difference( t2, tangents[ 0 ] ).normalize();
+      normals[ 0 ] = new R3().difference( t2, tangents[ 0 ] ).direction();
       binormals[ 0 ] = new R3().cross2( tangents[ 0 ], normals[ 0 ] );
-      normals[ 0 ].cross2( binormals[ 0 ], tangents[ 0 ] ).normalize(); // last binormal x tangent
-      binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).normalize();
+      normals[ 0 ].cross2( binormals[ 0 ], tangents[ 0 ] ).direction(); // last binormal x tangent
+      binormals[ 0 ].cross2( tangents[ 0 ], normals[ 0 ] ).direction();
     }
     */
 
@@ -484,7 +484,7 @@ class FrenetFrames {
             normal.set(0, 0, 1);
         }
 
-        vec.cross2(tangents[0], normal).normalize();
+        vec.cross2(tangents[0], normal).direction();
 
         normals[0].cross2(tangents[0], vec);
         binormals[0].cross2(tangents[0], normals[0]);
@@ -503,7 +503,7 @@ class FrenetFrames {
 
         if (vec.magnitude() &gt; epsilon) {
 
-            vec.normalize();
+            vec.direction();
 
             theta = Math.acos(clamp(tangents[i - 1].dot(tangents[i]), - 1, 1)); // clamp for floating pt errors
 

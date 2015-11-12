@@ -95,12 +95,12 @@ class CartesianE3 implements VectorE3 {
         return new CartesianE3(vector.x, vector.y, vector.z, true)
     }
     /**
-     * @method normalize
+     * @method direction
      * @param vector {VectorE3}
      * @return {CartesianE3}
      * @static
      */
-    static normalize(vector: { x: number, y: number, z: number }): CartesianE3 {
+    static direction(vector: { x: number, y: number, z: number }): CartesianE3 {
         let x = vector.x;
         let y = vector.y;
         let z = vector.z;

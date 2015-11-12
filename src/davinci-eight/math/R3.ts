@@ -443,11 +443,11 @@ class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3,
      * <p>
      * <code>this ⟼ this / norm(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {R3} <code>this</code>
      * @chainable
      */
-    normalize(): R3 {
+    direction(): R3 {
         return this.divByScalar(this.magnitude());
     }
     /**

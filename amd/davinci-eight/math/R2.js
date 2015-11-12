@@ -206,7 +206,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
         R2.prototype.magnitude = function () {
             return sqrt(this.squaredNorm());
         };
-        R2.prototype.normalize = function () {
+        R2.prototype.direction = function () {
             return this.divByScalar(this.magnitude());
         };
         R2.prototype.squaredNorm = function () {

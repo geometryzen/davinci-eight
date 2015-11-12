@@ -67,10 +67,10 @@ function makeTriangles(points: R3[], uvs: R2[], radius: number, heightSegments: 
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: R3 = R3.copy(points[v0]).normalize();
-            var n1: R3 = R3.copy(points[v1]).normalize();
-            var n2: R3 = R3.copy(points[v2]).normalize();
-            var n3: R3 = R3.copy(points[v3]).normalize();
+            var n0: R3 = R3.copy(points[v0]).direction();
+            var n1: R3 = R3.copy(points[v1]).direction();
+            var n2: R3 = R3.copy(points[v2]).direction();
+            var n3: R3 = R3.copy(points[v3]).direction();
 
             // Grab the uv coordinates too.
             var uv0: R2 = uvs[v0].clone();
@@ -107,10 +107,10 @@ function makeLineSegments(points: R3[], uvs: R2[], radius: number, heightSegment
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: R3 = R3.copy(points[v0]).normalize();
-            var n1: R3 = R3.copy(points[v1]).normalize();
-            var n2: R3 = R3.copy(points[v2]).normalize();
-            var n3: R3 = R3.copy(points[v3]).normalize();
+            var n0: R3 = R3.copy(points[v0]).direction();
+            var n1: R3 = R3.copy(points[v1]).direction();
+            var n2: R3 = R3.copy(points[v2]).direction();
+            var n3: R3 = R3.copy(points[v3]).direction();
 
             // Grab the uv coordinates too.
             var uv0: R2 = uvs[v0].clone();
@@ -148,10 +148,10 @@ function makePoints(points: R3[], uvs: R2[], radius: number, heightSegments: num
             var v3: number = vertexIndex(qIndex, 3, widthSegments)
 
             // The normal vectors for the sphere are simply the normalized position vectors.
-            var n0: R3 = R3.copy(points[v0]).normalize();
-            var n1: R3 = R3.copy(points[v1]).normalize();
-            var n2: R3 = R3.copy(points[v2]).normalize();
-            var n3: R3 = R3.copy(points[v3]).normalize();
+            var n0: R3 = R3.copy(points[v0]).direction();
+            var n1: R3 = R3.copy(points[v1]).direction();
+            var n2: R3 = R3.copy(points[v2]).direction();
+            var n3: R3 = R3.copy(points[v3]).direction();
 
             // Grab the uv coordinates too.
             var uv0: R2 = uvs[v0].clone();

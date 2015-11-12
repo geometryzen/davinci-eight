@@ -8,7 +8,7 @@ define(["require", "exports", '../math/R3', '../checks/expectArg', '../checks/is
             n.z = 1;
         }
         else {
-            n.normalize();
+            n.direction();
         }
         var u = new R3().cross2(up, n);
         var v = new R3().cross2(n, u);

@@ -351,11 +351,11 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {G2} <code>this</code>
      * @chainable
      */
-    normalize(): G2;
+    direction(): G2;
     /**
      * Sets this multivector to the identity element for multiplication, <b>1</b>.
      * @method one
@@ -548,7 +548,6 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @return {string}
      */
     toString(): string;
-    unitary(): G2;
     grade(grade: number): G2;
     /**
      * <p>

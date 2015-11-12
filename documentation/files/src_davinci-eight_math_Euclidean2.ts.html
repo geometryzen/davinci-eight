@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -650,6 +650,10 @@ class Euclidean2 implements ImmutableMeasure&lt;Euclidean2&gt;, GeometricE2, Geo
         return new Euclidean2(0, x, y, 0, this.uom);
     }
 
+    direction(): Euclidean2 {
+        throw new Error(&#x27;direction&#x27;);
+    }
+
     distanceTo(point: GeometricE2): number {
         throw new Error(&quot;TODO: Euclidean2.distanceTo&quot;)
     }
@@ -1029,13 +1033,6 @@ class Euclidean2 implements ImmutableMeasure&lt;Euclidean2&gt;, GeometricE2, Geo
         return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
     }
 
-    /**
-     * Intentionally undocumented.
-     */
-    normalize(): Euclidean2 {
-        return this.unitary()
-    }
-
     quad(): Euclidean2 {
         return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
     }
@@ -1089,10 +1086,6 @@ class Euclidean2 implements ImmutableMeasure&lt;Euclidean2&gt;, GeometricE2, Geo
      */
     tan(): Euclidean2 {
         return this.sin().div(this.cos())
-    }
-
-    unitary(): Euclidean2 {
-        throw new Error(&#x27;unitary&#x27;);
     }
 
     isOne(): boolean { return this.w === 1 &amp;&amp; this.x === 0 &amp;&amp; this.y === 0 &amp;&amp; this.xy === 0 }

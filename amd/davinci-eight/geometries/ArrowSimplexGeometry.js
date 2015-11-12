@@ -86,7 +86,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSim
                 var generator = SpinG3.dual(nearest(direction));
                 return { "points": points, "generator": generator };
             };
-            var direction = R3.copy(this.vector).normalize();
+            var direction = R3.copy(this.vector).direction();
             var arrow = computeArrow(direction);
             var R = SpinG3.rotorFromDirections(nearest(direction), direction);
             this.data = [];

@@ -427,10 +427,10 @@ define(["require", "exports", '../math/mathcore', '../checks/mustBeInteger', '..
             return this;
         };
         /**
-         * @method unitary
+         * @method direction
          * @return {CC}
          */
-        CC.prototype.unitary = function () {
+        CC.prototype.direction = function () {
             var x = this.x;
             var y = this.y;
             var divisor = norm(x, y);

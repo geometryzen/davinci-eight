@@ -149,7 +149,7 @@ define(["require", "exports"], function (require, exports) {
             var pt1 = this.getPoint(t1);
             var pt2 = this.getPoint(t2);
             var tangent = pt2.sub(pt1);
-            return tangent.unitary();
+            return tangent.direction();
         };
         Curve.prototype.getTangentAt = function (u) {
             var t = this.getUtoTmapping(u);

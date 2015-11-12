@@ -77,7 +77,7 @@ declare class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, V
      * @return {number}
      */
     magnitude(): number;
-    normalize(): R2;
+    direction(): R2;
     squaredNorm(): number;
     quadranceTo(position: VectorE2): number;
     /**

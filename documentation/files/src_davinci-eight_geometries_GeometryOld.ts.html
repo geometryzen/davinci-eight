@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -264,9 +264,9 @@ function updateFaceNormal(face: Face3, vertices: VectorE3[]) {
     let vA: VectorE3 = vertices[face.a];
     let vB: VectorE3 = vertices[face.b];
     let vC: VectorE3 = vertices[face.c];
-    let cb = new R3().difference(vC, vB);
-    let ab = new R3().difference(vA, vB);
-    let normal = new R3().cross2(cb, ab).normalize();
+    let cb = new R3().sub2(vC, vB);
+    let ab = new R3().sub2(vA, vB);
+    let normal = new R3().cross2(cb, ab).direction();
     // TODO: I think we only need to push one normal here?
     face.vertexNormals.push(normal);
     face.vertexNormals.push(normal);
@@ -358,7 +358,7 @@ class SimplexGeometry {
         }
 
         for (v = 0, vl = this.vertices.length; v &lt; vl; v++) {
-            vertexNormals[v].normalize();
+            vertexNormals[v].direction();
         }
 
         for (f = 0, fl = this.faces.length; f &lt; fl; f++) {

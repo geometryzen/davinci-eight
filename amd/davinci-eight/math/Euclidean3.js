@@ -491,6 +491,13 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             return new Euclidean3(0, x, y, z, 0, 0, 0, 0, this.uom);
         };
         /**
+         * @method direction
+         * @return {Euclidean3}
+         */
+        Euclidean3.prototype.direction = function () {
+            return this.div(this.norm());
+        };
+        /**
          * @method sub
          * @param rhs {Euclidean3}
          * @return {Euclidean3}
@@ -978,7 +985,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
             if (!a.isZero()) {
                 var c = a.cos();
                 var s = a.sin();
-                var B = bivector.unitary();
+                var B = bivector.direction();
                 return c.add(B.mul(s));
             }
             else {
@@ -1095,13 +1102,6 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         Euclidean3.prototype.slerp = function (target, α) {
             // FIXME: TODO
             return this;
-        };
-        /**
-         * @method unitary
-         * @return {Euclidean3}
-         */
-        Euclidean3.prototype.unitary = function () {
-            return this.div(this.norm());
         };
         /**
          * @method sqrt

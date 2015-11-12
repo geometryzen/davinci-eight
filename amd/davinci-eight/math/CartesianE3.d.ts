@@ -54,12 +54,12 @@ declare class CartesianE3 implements VectorE3 {
         z: number;
     }): CartesianE3;
     /**
-     * @method normalize
+     * @method direction
      * @param vector {VectorE3}
      * @return {CartesianE3}
      * @static
      */
-    static normalize(vector: {
+    static direction(vector: {
         x: number;
         y: number;
         z: number;

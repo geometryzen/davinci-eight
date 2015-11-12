@@ -42,7 +42,7 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<Axi
      */
     setAxis(axis: VectorE3): AxialSimplexGeometry {
         mustBeObject('axis', axis)
-        this.axis = CartesianE3.normalize(axis)
+        this.axis = CartesianE3.direction(axis)
         return this
     }
 

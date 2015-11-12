@@ -63,7 +63,7 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
      */
     setAxis(axis: VectorE3): AxialGeometry {
         mustBeObject('axis', axis)
-        this._axis = CartesianE3.normalize(axis)
+        this._axis = CartesianE3.direction(axis)
         this.setSliceStart(R3.random().cross(this._axis))
         return this
     }
@@ -88,7 +88,6 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
         return this._sliceStart
     }
     set sliceStart(sliceStart: CartesianE3) {
-        // Make sure that we normalize the vector.
         this.setSliceStart(sliceStart)
     }
     /**
@@ -103,7 +102,7 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     }
     setSliceStart(sliceStart: VectorE3) {
         mustBeObject('sliceStart', sliceStart)
-        this._sliceStart = CartesianE3.normalize(sliceStart)
+        this._sliceStart = CartesianE3.direction(sliceStart)
     }
     /**
      * @method enableTextureCoords

@@ -81,8 +81,8 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SliceSimplexG
                     na = R3.copy(points[vertices[1][x]]);
                     nb = R3.copy(points[vertices[1][x + 1]]);
                 }
-                na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
-                nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
+                na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).direction();
+                nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).direction();
                 for (y = 0; y < heightSegments; y++) {
                     var v1 = vertices[y][x];
                     var v2 = vertices[y + 1][x];

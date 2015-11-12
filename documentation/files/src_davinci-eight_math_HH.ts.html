@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -415,7 +415,7 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3&gt;, TrigM
         return this;
     }
     inv(): HH {
-        this.conj().normalize();
+        this.conj().direction();
         return this;
     }
     lerp(target: HH, α: number): HH {
@@ -475,7 +475,7 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3&gt;, TrigM
         this.z = -this.z
         return this;
     }
-    normalize(): HH {
+    direction(): HH {
         let modulus = this.magnitude()
         this.x = this.x / modulus
         this.y = this.y / modulus
@@ -601,7 +601,7 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3&gt;, TrigM
         this.y = v1.y;
         this.z = v1.z;
         this.t = r;
-        this.normalize();
+        this.direction();
         return this;
     }
     slerp(qb: HH, t: number): HH {

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -347,8 +347,8 @@ class ConeSimplexGeometry extends SliceSimplexGeometry {
                 na = R3.copy(points[vertices[1][x]]);
                 nb = R3.copy(points[vertices[1][x + 1]]);
             }
-            na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
-            nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
+            na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).direction();
+            nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).direction();
             for (y = 0; y &lt; heightSegments; y++) {
                 let v1: number = vertices[y][x];
                 let v2: number = vertices[y + 1][x];

@@ -48,10 +48,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = R3.copy(points[v0]).normalize();
-                var n1 = R3.copy(points[v1]).normalize();
-                var n2 = R3.copy(points[v2]).normalize();
-                var n3 = R3.copy(points[v3]).normalize();
+                var n0 = R3.copy(points[v0]).direction();
+                var n1 = R3.copy(points[v1]).direction();
+                var n2 = R3.copy(points[v2]).direction();
+                var n3 = R3.copy(points[v3]).direction();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -84,10 +84,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = R3.copy(points[v0]).normalize();
-                var n1 = R3.copy(points[v1]).normalize();
-                var n2 = R3.copy(points[v2]).normalize();
-                var n3 = R3.copy(points[v3]).normalize();
+                var n0 = R3.copy(points[v0]).direction();
+                var n1 = R3.copy(points[v1]).direction();
+                var n2 = R3.copy(points[v2]).direction();
+                var n3 = R3.copy(points[v3]).direction();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -121,10 +121,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = R3.copy(points[v0]).normalize();
-                var n1 = R3.copy(points[v1]).normalize();
-                var n2 = R3.copy(points[v2]).normalize();
-                var n3 = R3.copy(points[v3]).normalize();
+                var n0 = R3.copy(points[v0]).direction();
+                var n1 = R3.copy(points[v1]).direction();
+                var n2 = R3.copy(points[v2]).direction();
+                var n3 = R3.copy(points[v3]).direction();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();

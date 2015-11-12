@@ -416,11 +416,11 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {SpinG2} <code>this</code>
          * @chainable
          */
-        SpinG2.prototype.normalize = function () {
+        SpinG2.prototype.direction = function () {
             var modulus = this.magnitude();
             this.xy = this.xy / modulus;
             this.α = this.α / modulus;

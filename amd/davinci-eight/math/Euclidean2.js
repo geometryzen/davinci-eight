@@ -354,6 +354,9 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/e
             var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
             return new Euclidean2(0, x, y, 0, this.uom);
         };
+        Euclidean2.prototype.direction = function () {
+            throw new Error('direction');
+        };
         Euclidean2.prototype.distanceTo = function (point) {
             throw new Error("TODO: Euclidean2.distanceTo");
         };
@@ -688,12 +691,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/e
         Euclidean2.prototype.norm = function () {
             return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
         };
-        /**
-         * Intentionally undocumented.
-         */
-        Euclidean2.prototype.normalize = function () {
-            return this.unitary();
-        };
         Euclidean2.prototype.quad = function () {
             return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
         };
@@ -738,9 +735,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/e
          */
         Euclidean2.prototype.tan = function () {
             return this.sin().div(this.cos());
-        };
-        Euclidean2.prototype.unitary = function () {
-            throw new Error('unitary');
         };
         Euclidean2.prototype.isOne = function () { return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0; };
         Euclidean2.prototype.isNaN = function () { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy); };

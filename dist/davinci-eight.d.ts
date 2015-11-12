@@ -709,7 +709,7 @@ declare module EIGHT {
         toExponential(): string;
         toFixed(digits?: number): string;
         toString(): string;
-        unitary(): Euclidean3;
+        direction(): Euclidean3;
         static fromSpinorE3(spinor: SpinorE3): Euclidean3;
         static fromVectorE3(vector: VectorE3): Euclidean3;
     }
@@ -1265,7 +1265,7 @@ declare module EIGHT {
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
          */
-        normalize(): G2;
+        direction(): G2;
 
         /**
          * <p>
@@ -1825,7 +1825,7 @@ declare module EIGHT {
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
          */
-        normalize(): G3
+        direction(): G3
 
         /**
          * <p>
@@ -2108,9 +2108,9 @@ declare module EIGHT {
         mul2(a: SpinorE3, b: SpinorE3): SpinG3;
         /**
          * this ⟼ this / magnitude(this)
-         * <em>s.normalize()</em> scales the target spinor, <em>s</em>, so that it has unit magnitude.
+         * <em>s.direction()</em> scales the target spinor, <em>s</em>, so that it has unit magnitude.
          */
-        normalize(): SpinG3;
+        direction(): SpinG3;
         /**
          * this ⟼ this * α
          */
@@ -2209,7 +2209,7 @@ declare module EIGHT {
         static e2: CartesianE3;
         static e3: CartesianE3;
         static fromVector(vector: VectorE3);
-        static normalize(vector: VectorE3);
+        static direction(vector: VectorE3);
     }
 
     /**
@@ -2245,7 +2245,7 @@ declare module EIGHT {
          */
         magnitude(): number;
         neg(): R3;
-        normalize(): R3;
+        direction(): R3;
         quadranceTo(point: VectorE3): number;
         static random(): R3;
         reflect(n: VectorE3): R3;

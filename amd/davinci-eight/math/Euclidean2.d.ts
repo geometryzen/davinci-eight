@@ -58,6 +58,7 @@ declare class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, G
     clone(): Euclidean2;
     conj(): Euclidean2;
     cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2): Euclidean2;
+    direction(): Euclidean2;
     distanceTo(point: GeometricE2): number;
     equals(point: GeometricE2): boolean;
     static sub(a: number[], b: number[]): number[];
@@ -111,10 +112,6 @@ declare class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, G
      */
     magnitude(): number;
     norm(): Euclidean2;
-    /**
-     * Intentionally undocumented.
-     */
-    normalize(): Euclidean2;
     quad(): Euclidean2;
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): Euclidean2;
     squaredNorm(): number;
@@ -135,7 +132,6 @@ declare class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, G
      * @return {Euclidean2}
      */
     tan(): Euclidean2;
-    unitary(): Euclidean2;
     isOne(): boolean;
     isNaN(): boolean;
     isZero(): boolean;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -344,7 +344,7 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
             var generator = SpinG3.dual(nearest(direction))
             return { &quot;points&quot;: points, &quot;generator&quot;: generator }
         }
-        var direction = R3.copy(this.vector).normalize()
+        var direction = R3.copy(this.vector).direction()
         var arrow = computeArrow(direction)
         var R = SpinG3.rotorFromDirections(nearest(direction), direction)
         this.data = []

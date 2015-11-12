@@ -182,9 +182,10 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         return sqrt(this.squaredNorm());
     }
 
-    normalize() {
+    direction() {
         return this.divByScalar(this.magnitude());
     }
+
     mul2(a: VectorE1, b: VectorE1) {
         return this
     }

@@ -15,7 +15,7 @@ function viewArray(eye: VectorE3, look: VectorE3, up: VectorE3, matrix?: Float32
         n.z = 1;
     }
     else {
-        n.normalize();
+        n.direction();
     }
     let u = new R3().cross2(up, n);
     let v = new R3().cross2(n, u);

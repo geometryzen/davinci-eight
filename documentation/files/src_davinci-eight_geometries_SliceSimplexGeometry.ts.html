@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -258,7 +258,7 @@ import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import R3 = require(&#x27;../math/R3&#x27;)
 
 function perpendicular(axis: VectorE3) {
-    return R3.random().cross(axis).normalize()
+    return R3.random().cross(axis).direction()
 }
 
 /**
@@ -302,7 +302,7 @@ class SliceSimplexGeometry extends AxialSimplexGeometry {
         super(axis)
         if (isDefined(sliceStart)) {
             // TODO: Verify that sliceStart is orthogonal to axis.
-            this.sliceStart = R3.copy(sliceStart).normalize()
+            this.sliceStart = R3.copy(sliceStart).direction()
         }
         else {
             this.sliceStart = perpendicular(this.axis)

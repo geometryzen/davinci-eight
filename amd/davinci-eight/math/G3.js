@@ -791,11 +791,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.normalize = function () {
+        G3.prototype.direction = function () {
             // The squaredNorm is the squared norm.
             var norm = this.magnitude();
             this.α = this.α / norm;

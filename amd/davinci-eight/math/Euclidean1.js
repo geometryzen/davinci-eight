@@ -177,8 +177,8 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
             // FIXME: TODO
             return this;
         };
-        Euclidean1.prototype.unitary = function () {
-            throw new Error('unitary');
+        Euclidean1.prototype.direction = function () {
+            throw new Error('direction');
         };
         Euclidean1.prototype.grade = function (grade) {
             mustBeInteger('grade', grade);

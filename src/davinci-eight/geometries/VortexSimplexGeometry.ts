@@ -11,7 +11,7 @@ import R3 = require('../math/R3')
 
 function perpendicular(to: VectorE3): Euclidean3 {
     var random = new R3([Math.random(), Math.random(), Math.random()])
-    random.cross(to).normalize()
+    random.cross(to).direction()
     return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0)
 }
 
@@ -134,7 +134,7 @@ class VortexSimplexGeometry extends SimplexGeometry {
                 points.push(vertex);
 
                 uvs.push(new R2([i / circleSegments, j / radialSegments]));
-                normals.push(R3.copy(r).normalize());
+                normals.push(R3.copy(r).direction());
             }
         }
 

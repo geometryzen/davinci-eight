@@ -148,7 +148,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.inv = function () {
-            this.conj().normalize();
+            this.conj().direction();
             return this;
         };
         HH.prototype.lerp = function (target, α) {
@@ -208,7 +208,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             this.z = -this.z;
             return this;
         };
-        HH.prototype.normalize = function () {
+        HH.prototype.direction = function () {
             var modulus = this.magnitude();
             this.x = this.x / modulus;
             this.y = this.y / modulus;
@@ -321,7 +321,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             this.y = v1.y;
             this.z = v1.z;
             this.t = r;
-            this.normalize();
+            this.direction();
             return this;
         };
         HH.prototype.slerp = function (qb, t) {

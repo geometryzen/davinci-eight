@@ -369,11 +369,11 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {G3} <code>this</code>
      * @chainable
      */
-    normalize(): G3;
+    direction(): G3;
     /**
      * Sets this multivector to the identity element for multiplication, <b>1</b>.
      * @method one

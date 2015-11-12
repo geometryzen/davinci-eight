@@ -34,6 +34,11 @@ interface MutableGeometricElement<I, M, S, V> extends GeometricElement<I, M, S, 
     copyVector(vector: V): M;
 
     /**
+     * Sets this multivector to this / norm(this)
+     */
+    direction(): void;
+
+    /**
      * Sets this multivector to a / b. This may not be defined.
      */
     div2(a: I, b: I): M;
@@ -44,12 +49,7 @@ interface MutableGeometricElement<I, M, S, V> extends GeometricElement<I, M, S, 
     mul2(a: I, b: I): M;
 
     /**
-     * Sets this multivector to this / norm(this)
-     */
-    normalize(): void;
-
-    /**
-     * Sets this multivector to a unitary spinor (a rotor), even if the vectors are not normalized.
+     * Sets this multivector to a unitary spinor (a rotor), even if the vectors are not unitary.
      */
     rotorFromDirections(a: V, b: V): M;
 

@@ -39,7 +39,7 @@ function computeFaceNormals(simplex: Simplex, positionName = Symbolic.ATTRIBUTE_
   let y = wedgeZX(ax, ay, az, bx, by, bz);
   let z = wedgeXY(ax, ay, az, bx, by, bz);
 
-  let normal = new R3([x, y, z]).normalize();
+  let normal = new R3([x, y, z]).direction();
 
   vertex0[normalName] = normal;
   vertex1[normalName] = normal;

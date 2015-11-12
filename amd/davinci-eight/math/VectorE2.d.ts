@@ -47,10 +47,10 @@ interface VectorE2 {
      */
     equals(point: VectorE2): boolean;
     /**
-     * @method normalize
+     * @method direction
      * @return {VectorE2}
      */
-    normalize(): VectorE2;
+    direction(): VectorE2;
     /**
      * @method quadraticBezier
      * @param t {number}

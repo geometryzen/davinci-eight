@@ -73,7 +73,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/R3', '../math/Matri
                 up.x = value.x;
                 up.y = value.y;
                 up.z = value.z;
-                up.normalize();
+                up.direction();
                 return self;
             },
             setUniforms: function (visitor, canvasId) {

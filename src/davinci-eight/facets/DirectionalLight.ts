@@ -63,7 +63,7 @@ class DirectionalLight extends Shareable implements IFacet {
         super('DirectionalLight')
         mustBeObject('direction', direction)
         mustBeObject('color', color)
-        this.direction = R3.copy(direction).normalize()
+        this.direction = R3.copy(direction).direction()
         this.color = Color.fromColor(color)
     }
 
@@ -140,7 +140,7 @@ class DirectionalLight extends Shareable implements IFacet {
      */
     setDirection(direction: VectorE3): DirectionalLight {
         mustBeObject('direction', direction)
-        this.direction.copy(direction).normalize()
+        this.direction.copy(direction).direction()
         return this
     }
 

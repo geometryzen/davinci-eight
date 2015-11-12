@@ -203,7 +203,7 @@ class Curve {
         var pt2: Euclidean3 = this.getPoint(t2);
 
         var tangent: Euclidean3 = pt2.sub(pt1);
-        return tangent.unitary();
+        return tangent.direction();
     }
 
     getTangentAt(u: number): Euclidean3 {

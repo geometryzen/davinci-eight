@@ -234,11 +234,11 @@ declare class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, V
      * <p>
      * <code>this ⟼ this / norm(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {R3} <code>this</code>
      * @chainable
      */
-    normalize(): R3;
+    direction(): R3;
     /**
      * <p>
      * <code>this ⟼ this * α</code>

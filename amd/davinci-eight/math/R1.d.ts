@@ -67,7 +67,7 @@ declare class R1 extends VectorN<number> implements VectorE1, MutableLinearEleme
      * @return {number}
      */
     magnitude(): number;
-    normalize(): R1;
+    direction(): R1;
     mul2(a: VectorE1, b: VectorE1): R1;
     quad(): R1;
     squaredNorm(): number;

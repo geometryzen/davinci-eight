@@ -67,8 +67,8 @@ class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry>
         var vLength = topo.vLength
         var vSegments = vLength - 1
 
-        var a = R3.copy(this.sliceStart).normalize().scale(this.radius)
-        var b = new R3().cross2(a, this.axis).normalize().scale(this.radius)
+        var a = R3.copy(this.sliceStart).direction().scale(this.radius)
+        var b = new R3().cross2(a, this.axis).direction().scale(this.radius)
         var h = R3.copy(this.axis).scale(this.height)
         for (var uIndex = 0; uIndex < uLength; uIndex++) {
             var u = uIndex / uSegments
@@ -79,7 +79,7 @@ class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry>
                 var v = vIndex / vSegments
                 var position = new R3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v)
                 var peak = R3.copy(h).sub(position)
-                var normal = new R3().cross2(peak, position).cross(peak).normalize()
+                var normal = new R3().cross2(peak, position).cross(peak).direction()
                 var vertex = topo.vertex(uIndex, vIndex)
                 vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position)
                 vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal

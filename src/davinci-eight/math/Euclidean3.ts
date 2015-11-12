@@ -686,6 +686,14 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
     }
 
     /**
+     * @method direction
+     * @return {Euclidean3}
+     */
+    direction(): Euclidean3 {
+        return this.div(this.norm());
+    }
+
+    /**
      * @method sub
      * @param rhs {Euclidean3}
      * @return {Euclidean3}
@@ -1216,7 +1224,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
         if (!a.isZero()) {
             var c = a.cos();
             var s = a.sin();
-            var B = bivector.unitary();
+            var B = bivector.direction();
             return c.add(B.mul(s));
         }
         else {
@@ -1345,14 +1353,6 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
     slerp(target: Euclidean3, α: number): Euclidean3 {
         // FIXME: TODO
         return this
-    }
-
-    /**
-     * @method unitary
-     * @return {Euclidean3}
-     */
-    unitary(): Euclidean3 {
-        return this.div(this.norm());
     }
 
     /**

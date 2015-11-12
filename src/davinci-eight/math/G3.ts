@@ -812,11 +812,11 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {G3} <code>this</code>
      * @chainable
      */
-    normalize(): G3 {
+    direction(): G3 {
         // The squaredNorm is the squared norm.
         let norm = this.magnitude()
         this.α = this.α / norm

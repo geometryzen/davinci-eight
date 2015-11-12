@@ -163,7 +163,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         return this;
     }
     inv(): HH {
-        this.conj().normalize();
+        this.conj().direction();
         return this;
     }
     lerp(target: HH, α: number): HH {
@@ -223,7 +223,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         this.z = -this.z
         return this;
     }
-    normalize(): HH {
+    direction(): HH {
         let modulus = this.magnitude()
         this.x = this.x / modulus
         this.y = this.y / modulus
@@ -349,7 +349,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         this.y = v1.y;
         this.z = v1.z;
         this.t = r;
-        this.normalize();
+        this.direction();
         return this;
     }
     slerp(qb: HH, t: number): HH {

@@ -89,7 +89,7 @@ let createView = function(options?: { viewMatrixName?: string }): View {
             up.x = value.x
             up.y = value.y
             up.z = value.z
-            up.normalize()
+            up.direction()
             return self
         },
         setUniforms(visitor: IFacetVisitor, canvasId: number) {

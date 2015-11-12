@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -263,7 +263,7 @@ import R2 = require(&#x27;../math/R2&#x27;)
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 
 function side(basis: R3[], uSegments: number, vSegments: number): GridTopology {
-    var normal = R3.copy(basis[0]).cross(basis[1]).normalize()
+    var normal = R3.copy(basis[0]).cross(basis[1]).direction()
     var aNeg = R3.copy(basis[0]).scale(-0.5)
     var aPos = R3.copy(basis[0]).scale(+0.5)
     var bNeg = R3.copy(basis[1]).scale(-0.5)
@@ -313,7 +313,7 @@ class CuboidGeometry extends Geometry implements IGeometry&lt;CuboidGeometry&gt;
     }
     set width(width: number) {
         mustBeNumber(&#x27;width&#x27;, width)
-        this._a.normalize().scale(width)
+        this._a.direction().scale(width)
     }
     /**
      * @property height
@@ -324,7 +324,7 @@ class CuboidGeometry extends Geometry implements IGeometry&lt;CuboidGeometry&gt;
     }
     set height(height: number) {
         mustBeNumber(&#x27;height&#x27;, height)
-        this._b.normalize().scale(height)
+        this._b.direction().scale(height)
     }
     /**
      * @property depth
@@ -335,7 +335,7 @@ class CuboidGeometry extends Geometry implements IGeometry&lt;CuboidGeometry&gt;
     }
     set depth(depth: number) {
         mustBeNumber(&#x27;depth&#x27;, depth)
-        this._c.normalize().scale(depth)
+        this._c.direction().scale(depth)
     }
     private regenerate(): void {
         this.sides = []

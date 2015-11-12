@@ -11,7 +11,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
         /**
          * A displacement in the direction of axis that we must move for each height step.
          */
-        var stepH = R3.copy(axis).normalize().scale(height / heightSegments);
+        var stepH = R3.copy(axis).direction().scale(height / heightSegments);
         for (var i = 0; i <= heightSegments; i++) {
             /**
              * The displacement to the current level.
@@ -106,8 +106,8 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
                     nb = R3.copy(points[vertices[1][j + 1]]);
                 }
                 // FIXME: This isn't geometric.
-                na.setY(0).normalize();
-                nb.setY(0).normalize();
+                na.setY(0).direction();
+                nb.setY(0).direction();
                 for (var i = 0; i < heightSegments; i++) {
                     /**
                      *  2-------3

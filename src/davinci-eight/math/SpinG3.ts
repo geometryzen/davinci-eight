@@ -515,11 +515,11 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {SpinG3} <code>this</code>
      * @chainable
      */
-    normalize(): SpinG3 {
+    direction(): SpinG3 {
         let modulus = this.magnitude()
         this.yz = this.yz / modulus
         this.zx = this.zx / modulus

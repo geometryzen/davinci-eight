@@ -274,6 +274,11 @@ declare class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, G
      */
     cubicBezier(t: number, controlBegin: GeometricE3, controlEnd: GeometricE3, endPoint: GeometricE3): Euclidean3;
     /**
+     * @method direction
+     * @return {Euclidean3}
+     */
+    direction(): Euclidean3;
+    /**
      * @method sub
      * @param rhs {Euclidean3}
      * @return {Euclidean3}
@@ -607,11 +612,6 @@ declare class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, G
      * @return {Euclidean3}
      */
     slerp(target: Euclidean3, α: number): Euclidean3;
-    /**
-     * @method unitary
-     * @return {Euclidean3}
-     */
-    unitary(): Euclidean3;
     /**
      * @method sqrt
      * @return {Euclidean3}

@@ -6,7 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3, SimplexGeometry, mustBeInteger, SpinG3, R2, R3) {
     function perpendicular(to) {
         var random = new R3([Math.random(), Math.random(), Math.random()]);
-        random.cross(to).normalize();
+        random.cross(to).direction();
         return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0);
     }
     /**
@@ -106,7 +106,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
                     vertex.add2(center, r);
                     points.push(vertex);
                     uvs.push(new R2([i / circleSegments, j / radialSegments]));
-                    normals.push(R3.copy(r).normalize());
+                    normals.push(R3.copy(r).direction());
                 }
             }
             for (var j = 1; j <= radialSegments; j++) {

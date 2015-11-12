@@ -26,7 +26,7 @@ define(["require", "exports", '../core/Symbolic', '../math/R3', '../math/wedgeXY
         var x = wedgeYZ(ax, ay, az, bx, by, bz);
         var y = wedgeZX(ax, ay, az, bx, by, bz);
         var z = wedgeXY(ax, ay, az, bx, by, bz);
-        var normal = new R3([x, y, z]).normalize();
+        var normal = new R3([x, y, z]).direction();
         vertex0[normalName] = normal;
         vertex1[normalName] = normal;
         vertex2[normalName] = normal;

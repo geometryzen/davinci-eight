@@ -492,11 +492,11 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {SpinG3} <code>this</code>
          * @chainable
          */
-        SpinG3.prototype.normalize = function () {
+        SpinG3.prototype.direction = function () {
             var modulus = this.magnitude();
             this.yz = this.yz / modulus;
             this.zx = this.zx / modulus;

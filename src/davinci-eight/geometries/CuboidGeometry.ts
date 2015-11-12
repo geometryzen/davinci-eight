@@ -11,7 +11,7 @@ import R2 = require('../math/R2')
 import VectorE3 = require('../math/VectorE3')
 
 function side(basis: R3[], uSegments: number, vSegments: number): GridTopology {
-    var normal = R3.copy(basis[0]).cross(basis[1]).normalize()
+    var normal = R3.copy(basis[0]).cross(basis[1]).direction()
     var aNeg = R3.copy(basis[0]).scale(-0.5)
     var aPos = R3.copy(basis[0]).scale(+0.5)
     var bNeg = R3.copy(basis[1]).scale(-0.5)
@@ -61,7 +61,7 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     }
     set width(width: number) {
         mustBeNumber('width', width)
-        this._a.normalize().scale(width)
+        this._a.direction().scale(width)
     }
     /**
      * @property height
@@ -72,7 +72,7 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     }
     set height(height: number) {
         mustBeNumber('height', height)
-        this._b.normalize().scale(height)
+        this._b.direction().scale(height)
     }
     /**
      * @property depth
@@ -83,7 +83,7 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     }
     set depth(depth: number) {
         mustBeNumber('depth', depth)
-        this._c.normalize().scale(depth)
+        this._c.direction().scale(depth)
     }
     private regenerate(): void {
         this.sides = []

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -954,11 +954,11 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, Measure&lt;G2&gt;
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ this / magnitude(this)&lt;/code&gt;
      * &lt;/p&gt;
-     * @method normalize
+     * @method direction
      * @return {G2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    normalize(): G2 {
+    direction(): G2 {
         // The squaredNorm is the squared norm.
         let norm = sqrt(this.squaredNorm())
         this.α = this.α / norm
@@ -1353,11 +1353,6 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, Measure&lt;G2&gt;
     toString(): string {
         let coordToString = function(coord: number): string { return coord.toString() };
         return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
-    }
-
-    unitary(): G2 {
-        // FIXME: Duplicates normalize
-        throw new Error(&quot;G2.unitary&quot;)
     }
 
     grade(grade: number): G2 {

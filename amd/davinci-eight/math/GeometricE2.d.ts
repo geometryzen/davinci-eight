@@ -29,10 +29,10 @@ interface GeometricE2 extends Pseudo, Scalar, SpinorE2, VectorE2 {
      */
     distanceTo(point: GeometricE2): number;
     /**
-     * @method normalize
+     * @method direction
      * @return {GeometricE2}
      */
-    normalize(): GeometricE2;
+    direction(): GeometricE2;
     /**
      * @method quadraticBezier
      * @param t {number}

@@ -26,7 +26,7 @@ function inclination(pos: VectorE3): number {
  * OK!
  */
 function prepare(point: VectorE3, points: R3[]): VectorE3 {
-    let vertex: R3 = R3.copy(point).normalize()
+    let vertex: R3 = R3.copy(point).direction()
     points.push(vertex)
     // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
     let u = azimuth(point) / 2 / Math.PI + 0.5;

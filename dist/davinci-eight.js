@@ -2620,7 +2620,7 @@ define('davinci-eight/math/R2',["require", "exports", '../geometries/b2', '../ge
         R2.prototype.magnitude = function () {
             return sqrt(this.squaredNorm());
         };
-        R2.prototype.normalize = function () {
+        R2.prototype.direction = function () {
             return this.divByScalar(this.magnitude());
         };
         R2.prototype.squaredNorm = function () {
@@ -5025,6 +5025,7 @@ define('davinci-eight/math/BASIS_LABELS_G3_GEOMETRIC',["require", "exports"], fu
     var E23_NEG_SYMBOL = "⬘";
     var E23_POS_SYMBOL = "⬙";
     var PSEUDO_POS_SYMBOL = "☐";
+    var PSEUDO_NEG_SYMBOL = "■";
     var BASIS_LABELS_G3_GEOMETRIC = [
         [SCALAR_POS_SYMBOL, SCALAR_POS_SYMBOL],
         [E1_NEG_SYMBOL, E1_POS_SYMBOL],
@@ -5033,7 +5034,7 @@ define('davinci-eight/math/BASIS_LABELS_G3_GEOMETRIC',["require", "exports"], fu
         [E12_NEG_SYMBOL, E12_POS_SYMBOL],
         [E23_NEG_SYMBOL, E23_POS_SYMBOL],
         [E31_NEG_SYMBOL, E31_POS_SYMBOL],
-        [PSEUDO_POS_SYMBOL, PSEUDO_POS_SYMBOL]
+        [PSEUDO_NEG_SYMBOL, PSEUDO_POS_SYMBOL]
     ];
     return BASIS_LABELS_G3_GEOMETRIC;
 });
@@ -5597,6 +5598,13 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             return new Euclidean3(0, x, y, z, 0, 0, 0, 0, this.uom);
         };
         /**
+         * @method direction
+         * @return {Euclidean3}
+         */
+        Euclidean3.prototype.direction = function () {
+            return this.div(this.norm());
+        };
+        /**
          * @method sub
          * @param rhs {Euclidean3}
          * @return {Euclidean3}
@@ -6084,7 +6092,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
             if (!a.isZero()) {
                 var c = a.cos();
                 var s = a.sin();
-                var B = bivector.unitary();
+                var B = bivector.direction();
                 return c.add(B.mul(s));
             }
             else {
@@ -6201,13 +6209,6 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         Euclidean3.prototype.slerp = function (target, α) {
             // FIXME: TODO
             return this;
-        };
-        /**
-         * @method unitary
-         * @return {Euclidean3}
-         */
-        Euclidean3.prototype.unitary = function () {
-            return this.div(this.norm());
         };
         /**
          * @method sqrt
@@ -7698,11 +7699,11 @@ define('davinci-eight/math/R3',["require", "exports", '../math/dotVectorE3', '..
          * <p>
          * <code>this ⟼ this / norm(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {R3} <code>this</code>
          * @chainable
          */
-        R3.prototype.normalize = function () {
+        R3.prototype.direction = function () {
             return this.divByScalar(this.magnitude());
         };
         /**
@@ -8550,11 +8551,11 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {SpinG2} <code>this</code>
          * @chainable
          */
-        SpinG2.prototype.normalize = function () {
+        SpinG2.prototype.direction = function () {
             var modulus = this.magnitude();
             this.xy = this.xy / modulus;
             this.α = this.α / modulus;
@@ -9494,11 +9495,11 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/dotVectorCart
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {SpinG3} <code>this</code>
          * @chainable
          */
-        SpinG3.prototype.normalize = function () {
+        SpinG3.prototype.direction = function () {
             var modulus = this.magnitude();
             this.yz = this.yz / modulus;
             this.zx = this.zx / modulus;
@@ -10121,7 +10122,7 @@ define('davinci-eight/cameras/viewArray',["require", "exports", '../math/R3', '.
             n.z = 1;
         }
         else {
-            n.normalize();
+            n.direction();
         }
         var u = new R3().cross2(up, n);
         var v = new R3().cross2(n, u);
@@ -10231,7 +10232,7 @@ define('davinci-eight/cameras/createView',["require", "exports", '../math/Euclid
                 up.x = value.x;
                 up.y = value.y;
                 up.z = value.z;
-                up.normalize();
+                up.direction();
                 return self;
             },
             setUniforms: function (visitor, canvasId) {
@@ -10434,7 +10435,7 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
         R1.prototype.magnitude = function () {
             return sqrt(this.squaredNorm());
         };
-        R1.prototype.normalize = function () {
+        R1.prototype.direction = function () {
             return this.divByScalar(this.magnitude());
         };
         R1.prototype.mul2 = function (a, b) {
@@ -11394,10 +11395,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-06',
+        LAST_MODIFIED: '2015-11-12',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.152.0'
+        VERSION: '2.153.0'
     };
     return core;
 });
@@ -11787,7 +11788,7 @@ define('davinci-eight/curves/Curve',["require", "exports"], function (require, e
             var pt1 = this.getPoint(t1);
             var pt2 = this.getPoint(t2);
             var tangent = pt2.sub(pt1);
-            return tangent.unitary();
+            return tangent.direction();
         };
         Curve.prototype.getTangentAt = function (u) {
             var t = this.getUtoTmapping(u);
@@ -13037,11 +13038,11 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {G3} <code>this</code>
          * @chainable
          */
-        G3.prototype.normalize = function () {
+        G3.prototype.direction = function () {
             // The squaredNorm is the squared norm.
             var norm = this.magnitude();
             this.α = this.α / norm;
@@ -14062,7 +14063,7 @@ define('davinci-eight/geometries/computeFaceNormals',["require", "exports", '../
         var x = wedgeYZ(ax, ay, az, bx, by, bz);
         var y = wedgeZX(ax, ay, az, bx, by, bz);
         var z = wedgeXY(ax, ay, az, bx, by, bz);
-        var normal = new R3([x, y, z]).normalize();
+        var normal = new R3([x, y, z]).direction();
         vertex0[normalName] = normal;
         vertex1[normalName] = normal;
         vertex2[normalName] = normal;
@@ -17078,12 +17079,12 @@ define('davinci-eight/math/CartesianE3',["require", "exports", '../checks/mustBe
             return new CartesianE3(vector.x, vector.y, vector.z, true);
         };
         /**
-         * @method normalize
+         * @method direction
          * @param vector {VectorE3}
          * @return {CartesianE3}
          * @static
          */
-        CartesianE3.normalize = function (vector) {
+        CartesianE3.direction = function (vector) {
             var x = vector.x;
             var y = vector.y;
             var z = vector.z;
@@ -17504,7 +17505,7 @@ define('davinci-eight/geometries/AxialSimplexGeometry',["require", "exports", '.
          */
         AxialSimplexGeometry.prototype.setAxis = function (axis) {
             mustBeObject('axis', axis);
-            this.axis = CartesianE3.normalize(axis);
+            this.axis = CartesianE3.direction(axis);
             return this;
         };
         /**
@@ -17587,7 +17588,7 @@ define('davinci-eight/geometries/AxialGeometry',["require", "exports", '../math/
          */
         AxialGeometry.prototype.setAxis = function (axis) {
             mustBeObject('axis', axis);
-            this._axis = CartesianE3.normalize(axis);
+            this._axis = CartesianE3.direction(axis);
             this.setSliceStart(R3.random().cross(this._axis));
             return this;
         };
@@ -17617,7 +17618,6 @@ define('davinci-eight/geometries/AxialGeometry',["require", "exports", '../math/
                 return this._sliceStart;
             },
             set: function (sliceStart) {
-                // Make sure that we normalize the vector.
                 this.setSliceStart(sliceStart);
             },
             enumerable: true,
@@ -17635,7 +17635,7 @@ define('davinci-eight/geometries/AxialGeometry',["require", "exports", '../math/
         };
         AxialGeometry.prototype.setSliceStart = function (sliceStart) {
             mustBeObject('sliceStart', sliceStart);
-            this._sliceStart = CartesianE3.normalize(sliceStart);
+            this._sliceStart = CartesianE3.direction(sliceStart);
         };
         /**
          * @method enableTextureCoords
@@ -17716,8 +17716,8 @@ define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geomet
             var uSegments = uLength - 1;
             var vLength = topo.vLength;
             var vSegments = vLength - 1;
-            var a = R3.copy(this.sliceStart).normalize().scale(this.radius);
-            var b = new R3().cross2(a, this.axis).normalize().scale(this.radius);
+            var a = R3.copy(this.sliceStart).direction().scale(this.radius);
+            var b = new R3().cross2(a, this.axis).direction().scale(this.radius);
             var h = R3.copy(this.axis).scale(this.height);
             for (var uIndex = 0; uIndex < uLength; uIndex++) {
                 var u = uIndex / uSegments;
@@ -17728,7 +17728,7 @@ define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geomet
                     var v = vIndex / vSegments;
                     var position = new R3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
                     var peak = R3.copy(h).sub(position);
-                    var normal = new R3().cross2(peak, position).cross(peak).normalize();
+                    var normal = new R3().cross2(peak, position).cross(peak).direction();
                     var vertex = topo.vertex(uIndex, vIndex);
                     vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position);
                     vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
@@ -18167,7 +18167,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define('davinci-eight/geometries/SliceSimplexGeometry',["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/isDefined', '../checks/mustBeNumber', '../math/R3'], function (require, exports, AxialSimplexGeometry, isDefined, mustBeNumber, R3) {
     function perpendicular(axis) {
-        return R3.random().cross(axis).normalize();
+        return R3.random().cross(axis).direction();
     }
     /**
      * @class SliceSimplexGeometry
@@ -18205,7 +18205,7 @@ define('davinci-eight/geometries/SliceSimplexGeometry',["require", "exports", '.
             this.sliceAngle = 2 * Math.PI;
             if (isDefined(sliceStart)) {
                 // TODO: Verify that sliceStart is orthogonal to axis.
-                this.sliceStart = R3.copy(sliceStart).normalize();
+                this.sliceStart = R3.copy(sliceStart).direction();
             }
             else {
                 this.sliceStart = perpendicular(this.axis);
@@ -18300,8 +18300,8 @@ define('davinci-eight/geometries/ConeSimplexGeometry',["require", "exports", '..
                     na = R3.copy(points[vertices[1][x]]);
                     nb = R3.copy(points[vertices[1][x + 1]]);
                 }
-                na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
-                nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
+                na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).direction();
+                nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).direction();
                 for (y = 0; y < heightSegments; y++) {
                     var v1 = vertices[y][x];
                     var v2 = vertices[y + 1][x];
@@ -18366,7 +18366,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeNumber', '../math/R3', '../core/Symbolic', '../math/R2'], function (require, exports, Euclidean3, GridTopology, Geometry, mustBeNumber, R3, Symbolic, R2) {
     function side(basis, uSegments, vSegments) {
-        var normal = R3.copy(basis[0]).cross(basis[1]).normalize();
+        var normal = R3.copy(basis[0]).cross(basis[1]).direction();
         var aNeg = R3.copy(basis[0]).scale(-0.5);
         var aPos = R3.copy(basis[0]).scale(+0.5);
         var bNeg = R3.copy(basis[1]).scale(-0.5);
@@ -18416,7 +18416,7 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../math
             },
             set: function (width) {
                 mustBeNumber('width', width);
-                this._a.normalize().scale(width);
+                this._a.direction().scale(width);
             },
             enumerable: true,
             configurable: true
@@ -18431,7 +18431,7 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../math
             },
             set: function (height) {
                 mustBeNumber('height', height);
-                this._b.normalize().scale(height);
+                this._b.direction().scale(height);
             },
             enumerable: true,
             configurable: true
@@ -18446,7 +18446,7 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../math
             },
             set: function (depth) {
                 mustBeNumber('depth', depth);
-                this._c.normalize().scale(depth);
+                this._c.direction().scale(depth);
             },
             enumerable: true,
             configurable: true
@@ -18738,7 +18738,7 @@ define('davinci-eight/geometries/CylinderSimplexGeometry',["require", "exports",
         /**
          * A displacement in the direction of axis that we must move for each height step.
          */
-        var stepH = R3.copy(axis).normalize().scale(height / heightSegments);
+        var stepH = R3.copy(axis).direction().scale(height / heightSegments);
         for (var i = 0; i <= heightSegments; i++) {
             /**
              * The displacement to the current level.
@@ -18833,8 +18833,8 @@ define('davinci-eight/geometries/CylinderSimplexGeometry',["require", "exports",
                     nb = R3.copy(points[vertices[1][j + 1]]);
                 }
                 // FIXME: This isn't geometric.
-                na.setY(0).normalize();
-                nb.setY(0).normalize();
+                na.setY(0).direction();
+                nb.setY(0).direction();
                 for (var i = 0; i < heightSegments; i++) {
                     /**
                      *  2-------3
@@ -18928,7 +18928,7 @@ define('davinci-eight/geometries/PolyhedronSimplexGeometry',["require", "exports
      * OK!
      */
     function prepare(point, points) {
-        var vertex = R3.copy(point).normalize();
+        var vertex = R3.copy(point).direction();
         points.push(vertex);
         // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
         var u = azimuth(point) / 2 / Math.PI + 0.5;
@@ -19778,10 +19778,10 @@ define('davinci-eight/geometries/SphericalPolarSimplexGeometry',["require", "exp
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = R3.copy(points[v0]).normalize();
-                var n1 = R3.copy(points[v1]).normalize();
-                var n2 = R3.copy(points[v2]).normalize();
-                var n3 = R3.copy(points[v3]).normalize();
+                var n0 = R3.copy(points[v0]).direction();
+                var n1 = R3.copy(points[v1]).direction();
+                var n2 = R3.copy(points[v2]).direction();
+                var n3 = R3.copy(points[v3]).direction();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -19814,10 +19814,10 @@ define('davinci-eight/geometries/SphericalPolarSimplexGeometry',["require", "exp
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = R3.copy(points[v0]).normalize();
-                var n1 = R3.copy(points[v1]).normalize();
-                var n2 = R3.copy(points[v2]).normalize();
-                var n3 = R3.copy(points[v3]).normalize();
+                var n0 = R3.copy(points[v0]).direction();
+                var n1 = R3.copy(points[v1]).direction();
+                var n2 = R3.copy(points[v2]).direction();
+                var n3 = R3.copy(points[v3]).direction();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -19851,10 +19851,10 @@ define('davinci-eight/geometries/SphericalPolarSimplexGeometry',["require", "exp
                 var v2 = vertexIndex(qIndex, 2, widthSegments);
                 var v3 = vertexIndex(qIndex, 3, widthSegments);
                 // The normal vectors for the sphere are simply the normalized position vectors.
-                var n0 = R3.copy(points[v0]).normalize();
-                var n1 = R3.copy(points[v1]).normalize();
-                var n2 = R3.copy(points[v2]).normalize();
-                var n3 = R3.copy(points[v3]).normalize();
+                var n0 = R3.copy(points[v0]).direction();
+                var n1 = R3.copy(points[v1]).direction();
+                var n2 = R3.copy(points[v2]).direction();
+                var n3 = R3.copy(points[v3]).direction();
                 // Grab the uv coordinates too.
                 var uv0 = uvs[v0].clone();
                 var uv1 = uvs[v1].clone();
@@ -20077,7 +20077,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 define('davinci-eight/geometries/VortexSimplexGeometry',["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3, SimplexGeometry, mustBeInteger, SpinG3, R2, R3) {
     function perpendicular(to) {
         var random = new R3([Math.random(), Math.random(), Math.random()]);
-        random.cross(to).normalize();
+        random.cross(to).direction();
         return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0);
     }
     /**
@@ -20177,7 +20177,7 @@ define('davinci-eight/geometries/VortexSimplexGeometry',["require", "exports", '
                     vertex.add2(center, r);
                     points.push(vertex);
                     uvs.push(new R2([i / circleSegments, j / radialSegments]));
-                    normals.push(R3.copy(r).normalize());
+                    normals.push(R3.copy(r).direction());
                 }
             }
             for (var j = 1; j <= radialSegments; j++) {
@@ -22525,6 +22525,9 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
             var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
             return new Euclidean2(0, x, y, 0, this.uom);
         };
+        Euclidean2.prototype.direction = function () {
+            throw new Error('direction');
+        };
         Euclidean2.prototype.distanceTo = function (point) {
             throw new Error("TODO: Euclidean2.distanceTo");
         };
@@ -22859,12 +22862,6 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         Euclidean2.prototype.norm = function () {
             return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
         };
-        /**
-         * Intentionally undocumented.
-         */
-        Euclidean2.prototype.normalize = function () {
-            return this.unitary();
-        };
         Euclidean2.prototype.quad = function () {
             return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
         };
@@ -22909,9 +22906,6 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
          */
         Euclidean2.prototype.tan = function () {
             return this.sin().div(this.cos());
-        };
-        Euclidean2.prototype.unitary = function () {
-            throw new Error('unitary');
         };
         Euclidean2.prototype.isOne = function () { return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0; };
         Euclidean2.prototype.isNaN = function () { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy); };
@@ -23639,11 +23633,11 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.normalize = function () {
+        G2.prototype.direction = function () {
             // The squaredNorm is the squared norm.
             var norm = sqrt(this.squaredNorm());
             this.α = this.α / norm;
@@ -24014,10 +24008,6 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
         G2.prototype.toString = function () {
             var coordToString = function (coord) { return coord.toString(); };
             return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
-        };
-        G2.prototype.unitary = function () {
-            // FIXME: Duplicates normalize
-            throw new Error("G2.unitary");
         };
         G2.prototype.grade = function (grade) {
             mustBeInteger('grade', grade);
@@ -25140,7 +25130,7 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
             _super.call(this, 'DirectionalLight');
             mustBeObject('direction', direction);
             mustBeObject('color', color);
-            this.direction = R3.copy(direction).normalize();
+            this.direction = R3.copy(direction).direction();
             this.color = Color.fromColor(color);
         }
         /**
@@ -25212,7 +25202,7 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
          */
         DirectionalLight.prototype.setDirection = function (direction) {
             mustBeObject('direction', direction);
-            this.direction.copy(direction).normalize();
+            this.direction.copy(direction).direction();
             return this;
         };
         /**

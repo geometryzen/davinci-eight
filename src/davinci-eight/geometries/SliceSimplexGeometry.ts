@@ -6,7 +6,7 @@ import mustBeNumber = require('../checks/mustBeNumber')
 import R3 = require('../math/R3')
 
 function perpendicular(axis: VectorE3) {
-    return R3.random().cross(axis).normalize()
+    return R3.random().cross(axis).direction()
 }
 
 /**
@@ -50,7 +50,7 @@ class SliceSimplexGeometry extends AxialSimplexGeometry {
         super(axis)
         if (isDefined(sliceStart)) {
             // TODO: Verify that sliceStart is orthogonal to axis.
-            this.sliceStart = R3.copy(sliceStart).normalize()
+            this.sliceStart = R3.copy(sliceStart).direction()
         }
         else {
             this.sliceStart = perpendicular(this.axis)

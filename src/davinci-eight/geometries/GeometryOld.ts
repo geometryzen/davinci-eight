@@ -12,9 +12,9 @@ function updateFaceNormal(face: Face3, vertices: VectorE3[]) {
     let vA: VectorE3 = vertices[face.a];
     let vB: VectorE3 = vertices[face.b];
     let vC: VectorE3 = vertices[face.c];
-    let cb = new R3().difference(vC, vB);
-    let ab = new R3().difference(vA, vB);
-    let normal = new R3().cross2(cb, ab).normalize();
+    let cb = new R3().sub2(vC, vB);
+    let ab = new R3().sub2(vA, vB);
+    let normal = new R3().cross2(cb, ab).direction();
     // TODO: I think we only need to push one normal here?
     face.vertexNormals.push(normal);
     face.vertexNormals.push(normal);
@@ -106,7 +106,7 @@ class SimplexGeometry {
         }
 
         for (v = 0, vl = this.vertices.length; v < vl; v++) {
-            vertexNormals[v].normalize();
+            vertexNormals[v].direction();
         }
 
         for (f = 0, fl = this.faces.length; f < fl; f++) {

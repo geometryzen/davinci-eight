@@ -113,12 +113,12 @@ define(["require", "exports", '../checks/mustBeNumber', '../i18n/readOnly'], fun
             return new CartesianE3(vector.x, vector.y, vector.z, true);
         };
         /**
-         * @method normalize
+         * @method direction
          * @param vector {VectorE3}
          * @return {CartesianE3}
          * @static
          */
-        CartesianE3.normalize = function (vector) {
+        CartesianE3.direction = function (vector) {
             var x = vector.x;
             var y = vector.y;
             var z = vector.z;

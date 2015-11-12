@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -271,7 +271,7 @@ function computeVertices(radius: number, height: number, axis: VectorE3, start: 
     /**
      * A displacement in the direction of axis that we must move for each height step.
      */
-    let stepH = R3.copy(axis).normalize().scale(height / heightSegments)
+    let stepH = R3.copy(axis).direction().scale(height / heightSegments)
 
     for (var i = 0; i &lt;= heightSegments; i++) {
         /**
@@ -377,8 +377,8 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
                 nb = R3.copy(points[vertices[1][j + 1]]);
             }
             // FIXME: This isn&#x27;t geometric.
-            na.setY(0).normalize();
-            nb.setY(0).normalize();
+            na.setY(0).direction();
+            nb.setY(0).direction();
             for (let i = 0; i &lt; heightSegments; i++) {
                 /**
                  *  2-------3

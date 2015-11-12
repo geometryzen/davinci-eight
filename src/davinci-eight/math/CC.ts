@@ -483,10 +483,10 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
     }
 
     /**
-     * @method unitary
+     * @method direction
      * @return {CC}
      */
-    unitary(): CC {
+    direction(): CC {
         var x = this.x;
         var y = this.y;
         var divisor = norm(x, y);

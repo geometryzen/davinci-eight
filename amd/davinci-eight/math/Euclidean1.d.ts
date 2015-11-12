@@ -59,7 +59,7 @@ declare class Euclidean1 implements ImmutableMeasure<Euclidean1> {
     sin(): Euclidean1;
     sinh(): Euclidean1;
     slerp(target: Euclidean1, α: number): Euclidean1;
-    unitary(): Euclidean1;
+    direction(): Euclidean1;
     grade(grade: number): Euclidean1;
     toExponential(): string;
     toFixed(digits?: number): string;

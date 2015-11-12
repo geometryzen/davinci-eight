@@ -262,11 +262,11 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {SpinG3} <code>this</code>
      * @chainable
      */
-    normalize(): SpinG3;
+    direction(): SpinG3;
     /**
      * Sets this spinor to the identity element for multiplication, <b>1</b>.
      * @return {SpinG3} <code>this</code>

@@ -182,7 +182,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         R1.prototype.magnitude = function () {
             return sqrt(this.squaredNorm());
         };
-        R1.prototype.normalize = function () {
+        R1.prototype.direction = function () {
             return this.divByScalar(this.magnitude());
         };
         R1.prototype.mul2 = function (a, b) {

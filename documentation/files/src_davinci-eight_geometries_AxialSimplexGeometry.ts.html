@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -294,7 +294,7 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry&lt;
      */
     setAxis(axis: VectorE3): AxialSimplexGeometry {
         mustBeObject(&#x27;axis&#x27;, axis)
-        this.axis = CartesianE3.normalize(axis)
+        this.axis = CartesianE3.direction(axis)
         return this
     }
 

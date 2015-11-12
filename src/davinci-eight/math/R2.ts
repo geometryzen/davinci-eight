@@ -208,7 +208,7 @@ class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, VectorE2,
         return sqrt(this.squaredNorm());
     }
 
-    normalize() {
+    direction() {
         return this.divByScalar(this.magnitude());
     }
 

@@ -20,7 +20,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
      * OK!
      */
     function prepare(point, points) {
-        var vertex = R3.copy(point).normalize();
+        var vertex = R3.copy(point).direction();
         points.push(vertex);
         // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
         var u = azimuth(point) / 2 / Math.PI + 0.5;

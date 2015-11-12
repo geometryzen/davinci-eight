@@ -398,6 +398,10 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         return new Euclidean2(0, x, y, 0, this.uom);
     }
 
+    direction(): Euclidean2 {
+        throw new Error('direction');
+    }
+
     distanceTo(point: GeometricE2): number {
         throw new Error("TODO: Euclidean2.distanceTo")
     }
@@ -777,13 +781,6 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
     }
 
-    /**
-     * Intentionally undocumented.
-     */
-    normalize(): Euclidean2 {
-        return this.unitary()
-    }
-
     quad(): Euclidean2 {
         return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
     }
@@ -837,10 +834,6 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
      */
     tan(): Euclidean2 {
         return this.sin().div(this.cos())
-    }
-
-    unitary(): Euclidean2 {
-        throw new Error('unitary');
     }
 
     isOne(): boolean { return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0 }

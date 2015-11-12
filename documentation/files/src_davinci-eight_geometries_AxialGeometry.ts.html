@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -315,7 +315,7 @@ class AxialGeometry extends Geometry implements IAxialGeometry&lt;AxialGeometry&
      */
     setAxis(axis: VectorE3): AxialGeometry {
         mustBeObject(&#x27;axis&#x27;, axis)
-        this._axis = CartesianE3.normalize(axis)
+        this._axis = CartesianE3.direction(axis)
         this.setSliceStart(R3.random().cross(this._axis))
         return this
     }
@@ -340,7 +340,6 @@ class AxialGeometry extends Geometry implements IAxialGeometry&lt;AxialGeometry&
         return this._sliceStart
     }
     set sliceStart(sliceStart: CartesianE3) {
-        // Make sure that we normalize the vector.
         this.setSliceStart(sliceStart)
     }
     /**
@@ -355,7 +354,7 @@ class AxialGeometry extends Geometry implements IAxialGeometry&lt;AxialGeometry&
     }
     setSliceStart(sliceStart: VectorE3) {
         mustBeObject(&#x27;sliceStart&#x27;, sliceStart)
-        this._sliceStart = CartesianE3.normalize(sliceStart)
+        this._sliceStart = CartesianE3.direction(sliceStart)
     }
     /**
      * @method enableTextureCoords

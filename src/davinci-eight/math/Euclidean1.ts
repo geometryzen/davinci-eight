@@ -204,8 +204,8 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         // FIXME: TODO
         return this
     }
-    unitary(): Euclidean1 {
-        throw new Error('unitary')
+    direction(): Euclidean1 {
+        throw new Error('direction')
     }
 
     grade(grade: number): Euclidean1 {

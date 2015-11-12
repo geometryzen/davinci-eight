@@ -35,7 +35,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeObject', '
          */
         AxialSimplexGeometry.prototype.setAxis = function (axis) {
             mustBeObject('axis', axis);
-            this.axis = CartesianE3.normalize(axis);
+            this.axis = CartesianE3.direction(axis);
             return this;
         };
         /**

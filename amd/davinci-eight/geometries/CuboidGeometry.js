@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeNumber', '../math/R3', '../core/Symbolic', '../math/R2'], function (require, exports, Euclidean3, GridTopology, Geometry, mustBeNumber, R3, Symbolic, R2) {
     function side(basis, uSegments, vSegments) {
-        var normal = R3.copy(basis[0]).cross(basis[1]).normalize();
+        var normal = R3.copy(basis[0]).cross(basis[1]).direction();
         var aNeg = R3.copy(basis[0]).scale(-0.5);
         var aPos = R3.copy(basis[0]).scale(+0.5);
         var bNeg = R3.copy(basis[1]).scale(-0.5);
@@ -55,7 +55,7 @@ define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology'
             },
             set: function (width) {
                 mustBeNumber('width', width);
-                this._a.normalize().scale(width);
+                this._a.direction().scale(width);
             },
             enumerable: true,
             configurable: true
@@ -70,7 +70,7 @@ define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology'
             },
             set: function (height) {
                 mustBeNumber('height', height);
-                this._b.normalize().scale(height);
+                this._b.direction().scale(height);
             },
             enumerable: true,
             configurable: true
@@ -85,7 +85,7 @@ define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology'
             },
             set: function (depth) {
                 mustBeNumber('depth', depth);
-                this._c.normalize().scale(depth);
+                this._c.direction().scale(depth);
             },
             enumerable: true,
             configurable: true

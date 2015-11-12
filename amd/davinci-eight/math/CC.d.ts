@@ -220,10 +220,10 @@ declare class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>
     sinh(): CC;
     slerp(target: CC, α: number): CC;
     /**
-     * @method unitary
+     * @method direction
      * @return {CC}
      */
-    unitary(): CC;
+    direction(): CC;
     /**
      * @method tan
      * @return {CC}

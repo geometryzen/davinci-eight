@@ -53,7 +53,7 @@ define(["require", "exports", '../math/CartesianE3', '../geometries/Geometry', '
          */
         AxialGeometry.prototype.setAxis = function (axis) {
             mustBeObject('axis', axis);
-            this._axis = CartesianE3.normalize(axis);
+            this._axis = CartesianE3.direction(axis);
             this.setSliceStart(R3.random().cross(this._axis));
             return this;
         };
@@ -83,7 +83,6 @@ define(["require", "exports", '../math/CartesianE3', '../geometries/Geometry', '
                 return this._sliceStart;
             },
             set: function (sliceStart) {
-                // Make sure that we normalize the vector.
                 this.setSliceStart(sliceStart);
             },
             enumerable: true,
@@ -101,7 +100,7 @@ define(["require", "exports", '../math/CartesianE3', '../geometries/Geometry', '
         };
         AxialGeometry.prototype.setSliceStart = function (sliceStart) {
             mustBeObject('sliceStart', sliceStart);
-            this._sliceStart = CartesianE3.normalize(sliceStart);
+            this._sliceStart = CartesianE3.direction(sliceStart);
         };
         /**
          * @method enableTextureCoords

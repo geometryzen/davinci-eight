@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -455,7 +455,7 @@ class Curve {
         var pt2: Euclidean3 = this.getPoint(t2);
 
         var tangent: Euclidean3 = pt2.sub(pt1);
-        return tangent.unitary();
+        return tangent.direction();
     }
 
     getTangentAt(u: number): Euclidean3 {

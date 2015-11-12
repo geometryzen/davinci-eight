@@ -25,7 +25,7 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
             _super.call(this, 'DirectionalLight');
             mustBeObject('direction', direction);
             mustBeObject('color', color);
-            this.direction = R3.copy(direction).normalize();
+            this.direction = R3.copy(direction).direction();
             this.color = Color.fromColor(color);
         }
         /**
@@ -97,7 +97,7 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
          */
         DirectionalLight.prototype.setDirection = function (direction) {
             mustBeObject('direction', direction);
-            this.direction.copy(direction).normalize();
+            this.direction.copy(direction).direction();
             return this;
         };
         /**

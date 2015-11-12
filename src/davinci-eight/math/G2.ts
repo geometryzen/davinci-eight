@@ -702,11 +702,11 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {G2} <code>this</code>
      * @chainable
      */
-    normalize(): G2 {
+    direction(): G2 {
         // The squaredNorm is the squared norm.
         let norm = sqrt(this.squaredNorm())
         this.α = this.α / norm
@@ -1101,11 +1101,6 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     toString(): string {
         let coordToString = function(coord: number): string { return coord.toString() };
         return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
-    }
-
-    unitary(): G2 {
-        // FIXME: Duplicates normalize
-        throw new Error("G2.unitary")
     }
 
     grade(grade: number): G2 {

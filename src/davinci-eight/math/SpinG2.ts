@@ -460,11 +460,11 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
      * <p>
      * <code>this ⟼ this / magnitude(this)</code>
      * </p>
-     * @method normalize
+     * @method direction
      * @return {SpinG2} <code>this</code>
      * @chainable
      */
-    normalize(): SpinG2 {
+    direction(): SpinG2 {
         let modulus = this.magnitude()
         this.xy = this.xy / modulus
         this.α = this.α / modulus

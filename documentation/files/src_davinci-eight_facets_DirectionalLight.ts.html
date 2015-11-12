@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.152.0</em>
+            <em>API Docs for: 2.153.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -315,7 +315,7 @@ class DirectionalLight extends Shareable implements IFacet {
         super(&#x27;DirectionalLight&#x27;)
         mustBeObject(&#x27;direction&#x27;, direction)
         mustBeObject(&#x27;color&#x27;, color)
-        this.direction = R3.copy(direction).normalize()
+        this.direction = R3.copy(direction).direction()
         this.color = Color.fromColor(color)
     }
 
@@ -392,7 +392,7 @@ class DirectionalLight extends Shareable implements IFacet {
      */
     setDirection(direction: VectorE3): DirectionalLight {
         mustBeObject(&#x27;direction&#x27;, direction)
-        this.direction.copy(direction).normalize()
+        this.direction.copy(direction).direction()
         return this
     }
 

@@ -648,11 +648,11 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * <p>
          * <code>this ⟼ this / magnitude(this)</code>
          * </p>
-         * @method normalize
+         * @method direction
          * @return {G2} <code>this</code>
          * @chainable
          */
-        G2.prototype.normalize = function () {
+        G2.prototype.direction = function () {
             // The squaredNorm is the squared norm.
             var norm = sqrt(this.squaredNorm());
             this.α = this.α / norm;
@@ -1023,10 +1023,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         G2.prototype.toString = function () {
             var coordToString = function (coord) { return coord.toString(); };
             return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
-        };
-        G2.prototype.unitary = function () {
-            // FIXME: Duplicates normalize
-            throw new Error("G2.unitary");
         };
         G2.prototype.grade = function (grade) {
             mustBeInteger('grade', grade);
