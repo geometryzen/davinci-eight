@@ -112,7 +112,7 @@ declare class SimplexGeometry extends Geometry implements IGeometry<SimplexGeome
      * </p>
      *
      * @method boundary
-     * @param times [number] Determines the number of times the boundary operation is applied to this instance.
+     * @param [times] {number} Determines the number of times the boundary operation is applied to this instance.
      * @return {SimplexGeometry}
      */
     boundary(times?: number): SimplexGeometry;
@@ -133,7 +133,7 @@ declare class SimplexGeometry extends Geometry implements IGeometry<SimplexGeome
      * </p>
      *
      * @method subdivide
-     * @param times [number] Determines the number of times the subdivide operation is applied to this instance.
+     * @param [times] {number} Determines the number of times the subdivide operation is applied to this instance.
      * @return {SimplexGeometry}
      */
     subdivide(times?: number): SimplexGeometry;
@@ -151,7 +151,7 @@ declare class SimplexGeometry extends Geometry implements IGeometry<SimplexGeome
     toPrimitives(): DrawPrimitive[];
     /**
      * @method mergeVertices
-     * @param precisionPonts [number = 4]
+     * @param [precisionPonts = 4] {number}
      * @return {void}
      * @protected
      * @beta

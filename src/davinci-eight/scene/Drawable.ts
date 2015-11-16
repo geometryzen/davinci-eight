@@ -48,7 +48,8 @@ class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
   public _material: M;
   /**
    * @property name
-   * @type [string]
+   * @type {string}
+   * @optional
    */
   public name: string;
   /**

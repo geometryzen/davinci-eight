@@ -19,8 +19,8 @@ define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], functi
         /**
          * @class OctahedronSimplexGeometry
          * @constructor
-         * @param radius [number]
-         * @param detail [number]
+         * @param [radius] {number}
+         * @param [detail] {number}
          */
         function OctahedronSimplexGeometry(radius, detail) {
             _super.call(this, vertices, indices, radius, detail);

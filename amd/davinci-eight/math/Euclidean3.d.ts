@@ -633,7 +633,7 @@ declare class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, G
     toExponential(): string;
     /**
      * @method toFixed
-     * @param digits [number]
+     * @param [digits] {number}
      * @return {string}
      */
     toFixed(digits?: number): string;

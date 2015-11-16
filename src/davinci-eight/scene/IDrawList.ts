@@ -33,7 +33,7 @@ interface IDrawList extends IContextConsumer {
    * Gets a collection of drawable elements by name.
    * @method getDrawablesByName
    * @param name {string}
-   * @retrurn {IUnknownArray<IDrawable>}
+   * @return {IUnknownArray}
    */
   getDrawablesByName(name: string): IUnknownArray<IDrawable>;
   /**

@@ -442,7 +442,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         };
         /**
          * @method toFixed
-         * @param digits [number]
+         * @param [digits] {number}
          * @return {string}
          */
         Matrix4.prototype.toFixed = function (digits) {

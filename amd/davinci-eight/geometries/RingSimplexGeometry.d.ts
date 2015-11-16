@@ -26,11 +26,11 @@ declare class RingSimplexGeometry extends SliceSimplexGeometry {
      * </p>
      * @class RingSimplexGeometry
      * @constructor
-     * @param a [number = 1] The outer radius
-     * @param b [number = 0] The inner radius
-     * @param axis [VectorE3] The <code>axis</code> property.
-     * @param sliceStart [VectorE3] The <code>sliceStart</code> property.
-     * @param sliceAngle [number] The <code>sliceAngle</code> property.
+     * @param [a = 1] {number} The outer radius
+     * @param [b = 0] {number} The inner radius
+     * @param [axis] {VectorE3} The <code>axis</code> property.
+     * @param [sliceStart] {VectorE3} The <code>sliceStart</code> property.
+     * @param [sliceAngle] {number} The <code>sliceAngle</code> property.
      */
     constructor(a?: number, b?: number, axis?: VectorE3, sliceStart?: VectorE3, sliceAngle?: number);
     /**

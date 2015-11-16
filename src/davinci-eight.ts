@@ -73,7 +73,7 @@ import IDrawList = require('davinci-eight/scene/IDrawList')
 import Drawable = require('davinci-eight/scene/Drawable')
 import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera')
 import Scene = require('davinci-eight/scene/Scene')
-import Canvas3D = require('davinci-eight/scene/Canvas3D')
+import ContextGL = require('davinci-eight/scene/ContextGL')
 // geometries
 import AxialSimplexGeometry = require('davinci-eight/geometries/AxialSimplexGeometry')
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
@@ -275,7 +275,7 @@ var eight = {
     get Scene() { return Scene },
     get Drawable() { return Drawable },
     get PerspectiveCamera() { return PerspectiveCamera },
-    get Canvas3D() { return Canvas3D },
+    get ContextGL() { return ContextGL },
     get createDrawList() { return createDrawList },
     get renderer() { return renderer },
     get webgl() { return contextProxy },

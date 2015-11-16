@@ -23,7 +23,7 @@ function transferOwnership<T extends IUnknown>(data: T[]): IUnknownArray<T> {
 }
 
 /**
- * @class IUnknownArray<T extends IUnknown>
+ * @class IUnknownArray
  * @extends Shareable
  */
 class IUnknownArray<T extends IUnknown> extends Shareable {
@@ -107,8 +107,8 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
    * The slice() method returns a shallow copy of a portion of an array into a new array object.
    * It does not remove elements from the original array.
    * @method slice
-   * @param begin [number]
-   * @param end [number]
+   * @param [begin] {number}
+   * @param [end] {number}
    */
   slice(begin?: number, end?: number): IUnknownArray<T> {
     return new IUnknownArray<T>(this._elements.slice(begin, end))

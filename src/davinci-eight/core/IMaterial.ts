@@ -16,60 +16,72 @@ import IFacetVisitor = require('../core/IFacetVisitor');
  * @beta
  */
 interface IMaterial extends IResource, IFacetVisitor {
+
   /**
-   * @property programId
+   * @property uuid
    * @type string
    */
-  // FIXME: rename material id or simply uuid.
-  programId: string;
+  uuid: string;
+
   /**
    * @property vertexShader
    * @type string
    */
   vertexShader: string;
+
   /**
    * @property fragmentShader
    * @type string
    */
   fragmentShader: string;
+
   /**
    * Makes the Program the current program for WebGL.
    * @method use
-   * @param canvasId {number} Determines which WebGLProgram to use.
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
    * @return {void}
    */
-  use(canvasId: number): void;
+  use(canvasId?: number): void;
+
   /**
-   * @property attributeLocations
-   * @type { [name: string]: AttribLocation }
+   * @method attributes
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {{ [name: string]: AttribLocation }}
    */
-  attributes(canvasId: number): { [name: string]: AttribLocation };
+  attributes(canvasId?: number): { [name: string]: AttribLocation };
+
   /**
-   * @property uniforms
-   * @type { [name: string]: UniformLocation }
+   * @method uniforms
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {{ [name: string]: UniformLocation }}
    */
-  // FIXME: Need canvasId because of locations.
-  uniforms(canvasId: number): { [name: string]: UniformLocation };
+  uniforms(canvasId?: number): { [name: string]: UniformLocation };
+
   /**
    * <p>
    * Enables an attribute location of a WebGLProgram.
    * </p>
    * @method enableAttrib
    * @param name {string} The name of the attribute to enable.
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    * @beta
    */
   // FIXME: Can we move to the attribute index?
-  enableAttrib(name: string, canvasId: number): void;
+  enableAttrib(name: string, canvasId?: number): void;
+
   /**
    * <p>
-   * Enables an attribute location of a WebGLProgram.
+   * Disables an attribute location of a WebGLProgram.
    * </p>
    * @method disableAttrib
    * @param name {string} The name of the attribute disable.
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    * @beta
    */
   // FIXME: Can we move to the attribute index?
-  disableAttrib(name: string, canvasId: number): void;
+  disableAttrib(name: string, canvasId?: number): void;
 }
 
 export = IMaterial;

@@ -25,8 +25,8 @@ define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], functi
         /**
          * @class OcosahedronGeometry
          * @constructor
-         * @param radius [number]
-         * @param detail [number]
+         * @param [radius] {number}
+         * @param [detail] {number}
          */
         function IcosahedronSimplexGeometry(radius, detail) {
             _super.call(this, vertices, indices, radius, detail);

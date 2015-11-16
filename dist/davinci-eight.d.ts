@@ -150,6 +150,7 @@ declare module EIGHT {
         draw(): void;
         unbind(): void;
     }
+
     /**
      *
      */
@@ -182,8 +183,8 @@ declare module EIGHT {
      */
     class DrawAttribute {
         values: number[];
-        size: number;
-        constructor(values: number[], size: number);
+        chunkSize: number;
+        constructor(values: number[], chunkSize: number);
     }
 
     /**
@@ -2287,7 +2288,7 @@ declare module EIGHT {
     interface IFacetVisitor {
         uniform1f(name: string, x: number, canvasId: number): void;
         uniform2f(name: string, x: number, y: number, canvasId: number): void;
-        uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
+        uniform3f(name: string, x: number, y: number, z: number, canvasId?: number): void;
         uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
         uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
         uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;
@@ -2556,7 +2557,7 @@ declare module EIGHT {
         programId: string;
         vertexShader: string;
         fragmentShader: string;
-        use(canvasId: number): void;
+        use(canvasId?: number): void;
         attributes(canvasId: number): { [name: string]: AttribLocation };
         uniforms(canvasId: number): { [name: string]: UniformLocation };
         enableAttrib(name: string, canvasId: number): void;
@@ -2898,7 +2899,7 @@ declare module EIGHT {
      *
      */
     interface ContextController {
-        start(canvas: HTMLCanvasElement, canvasId: number): void
+        start(canvas: HTMLCanvasElement, canvasId?: number): void
         stop(): void;
         // TODO: kill
         // kill(): void;
@@ -3077,7 +3078,7 @@ declare module EIGHT {
     /**
      *
      */
-    class Canvas3D implements ContextController, IContextMonitor, IContextRenderer {
+    class ContextGL implements ContextController, IContextMonitor, IContextRenderer {
         /**
          *
          */
@@ -3089,7 +3090,7 @@ declare module EIGHT {
         /**
          * If the canvas property has not been initialized by calling `start()`,
          * then any attempt to access this property will trigger the construction of
-         * a new HTML canvas element which will remain in effect for this Canvas3D
+         * a new HTML canvas element which will remain in effect for this ContextGL
          * until `stop()` is called.
          */
         canvas: HTMLCanvasElement;
@@ -3151,7 +3152,12 @@ declare module EIGHT {
          */
         viewport(x: number, y: number, width: number, height: number): void;
 
-        start(canvas: HTMLCanvasElement, canvasId: number): void;
+        /**
+         * Initializes the WebGL context for the specified <code>canvas</code>.
+         * @param canvas The HTML canvas element.
+         * @param canvasId An optional user-defined alias for the canvas when using multi-canvas.
+         */
+        start(canvas: HTMLCanvasElement, canvasId?: number): void;
 
         stop(): void;
     }
@@ -3420,7 +3426,7 @@ declare module EIGHT {
         constructor(monitors: IContextMonitor[], name: string);
         addRef(): number;
         release(): number;
-        use(canvasId: number): void;
+        use(canvasId?: number): void;
         enableAttrib(name: string, canvasId: number): void;
         disableAttrib(name: string, canvasId: number): void;
         contextFree(canvasId: number): void;
@@ -3428,7 +3434,7 @@ declare module EIGHT {
         contextLost(canvasId: number): void;
         uniform1f(name: string, x: number, canvasId: number): void;
         uniform2f(name: string, x: number, y: number, canvasId: number): void;
-        uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
+        uniform3f(name: string, x: number, y: number, z: number, canvasId?: number): void;
         uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
         uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
         uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;

@@ -1401,7 +1401,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
 
     /**
      * @method toFixed
-     * @param digits [number]
+     * @param [digits] {number}
      * @return {string}
      */
     toFixed(digits?: number): string {

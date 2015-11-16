@@ -17,7 +17,7 @@ interface VectorE2 {
     /**
      * @method add
      * @param point {VectorE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {VectorE2}
      */
     add(point: VectorE2, α?: number): VectorE2;
@@ -67,7 +67,7 @@ interface VectorE2 {
     /**
      * @method sub
      * @param point {VectorE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {VectorE2}
      */
     sub(point: VectorE2, α?: number): VectorE2;

@@ -14,12 +14,12 @@ declare class ConeSimplexGeometry extends SliceSimplexGeometry {
     /**
      * @class ConeSimplexGeometry
      * @constructor
-     * @param radiusTop [number = 0.5]
-     * @param radius [number = 0.5]
-     * @param height [number = 1]
-     * @param openTop [boolean = false]
-     * @param openBottom [boolean = false]
-     * @param thetaStart [number = 0]
+     * @param [radiusTop = 0.5] {number}
+     * @param [radius = 0.5] {number}
+     * @param [height = 1] {number}
+     * @param [openTop = false] {boolean}
+     * @param [openBottom = false] {boolean}
+     * @param [thetaStart = 0] {number}
      */
     constructor(radius: number, height: number, axis: VectorE3, radiusTop?: number, openTop?: boolean, openBottom?: boolean, thetaStart?: number);
     regenerate(): void;

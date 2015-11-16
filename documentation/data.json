@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.153.0",
+        "version": "2.154.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -61,7 +61,6 @@
             "name": "src/davinci-eight/collections/IUnknownArray.ts",
             "modules": {},
             "classes": {
-                "IUnknownArray<T extends IUnknown>": 1,
                 "IUnknownArray": 1
             },
             "fors": {},
@@ -325,7 +324,7 @@
             "name": "src/davinci-eight/core/IFacet.ts",
             "modules": {},
             "classes": {
-                "IFacet\nextends IAnimationTarget\nextends IUnknown": 1
+                "IFacet": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1790,11 +1789,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/scene/Canvas3D.ts": {
-            "name": "src/davinci-eight/scene/Canvas3D.ts",
+        "src/davinci-eight/scene/ContextGL.ts": {
+            "name": "src/davinci-eight/scene/ContextGL.ts",
             "modules": {},
             "classes": {
-                "Canvas3D": 1
+                "ContextGL": 1
             },
             "fors": {},
             "namespaces": {}
@@ -2009,7 +2008,6 @@
                 "Perspective": 1,
                 "View": 1,
                 "createView": 1,
-                "IUnknownArray<T extends IUnknown>": 1,
                 "IUnknownArray": 1,
                 "NumberIUnknownMap<V>": 1,
                 "StringIUnknownMap": 1,
@@ -2037,7 +2035,7 @@
                 "IContextMonitor": 1,
                 "IContextProvider": 1,
                 "IDrawable": 1,
-                "IFacet\nextends IAnimationTarget\nextends IUnknown": 1,
+                "IFacet": 1,
                 "IFacetVisitor": 1,
                 "IMaterial": 1,
                 "IUnknown": 1,
@@ -2155,7 +2153,7 @@
                 "RigidBodyE2": 1,
                 "RigidBodyE3": 1,
                 "IContextRenderer": 1,
-                "Canvas3D": 1,
+                "ContextGL": 1,
                 "Drawable": 1,
                 "IDrawList": 1,
                 "PerspectiveCamera": 1,
@@ -2245,19 +2243,6 @@
             "line": 15,
             "is_constructor": 1
         },
-        "IUnknownArray<T extends IUnknown>": {
-            "name": "IUnknownArray<T extends IUnknown>",
-            "shortname": "IUnknownArray<T extends IUnknown>",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/collections/IUnknownArray.ts",
-            "line": 25,
-            "extends": "Shareable"
-        },
         "IUnknownArray": {
             "name": "IUnknownArray",
             "shortname": "IUnknownArray",
@@ -2269,6 +2254,7 @@
             "module": "EIGHT",
             "file": "src/davinci-eight/collections/IUnknownArray.ts",
             "line": 36,
+            "extends": "Shareable",
             "description": "Collection class for maintaining an array of types derived from IUnknown.\nProvides a safer way to maintain reference counts than a native array.",
             "is_constructor": 1
         },
@@ -2720,9 +2706,9 @@
             "description": "<p>\nThe Drawable interface indicates that the implementation can make a call\nto either drawArrays or drawElements on the WebGL rendering context.\nIt also contains other meta-data that may be used to optimize the rendering.\ne.g. transparency, visibility, bounding volumes, etc.\n</p>",
             "extends": "IResource"
         },
-        "IFacet\nextends IAnimationTarget\nextends IUnknown": {
-            "name": "IFacet\nextends IAnimationTarget\nextends IUnknown",
-            "shortname": "IFacet\nextends IAnimationTarget\nextends IUnknown",
+        "IFacet": {
+            "name": "IFacet",
+            "shortname": "IFacet",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2730,7 +2716,8 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/IFacet.ts",
-            "line": 5
+            "line": 5,
+            "extends": "IUnknown"
         },
         "IFacetVisitor": {
             "name": "IFacetVisitor",
@@ -2961,7 +2948,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 91,
+            "line": 93,
             "is_constructor": 1
         },
         "DirectionalLight": {
@@ -3036,8 +3023,11 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "pointSize",
-                    "description": "[number = 2]"
+                    "name": "pointSize ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 2"
                 }
             ]
         },
@@ -3239,28 +3229,46 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "radiusTop",
-                    "description": "[number = 0.5]"
+                    "name": "radiusTop ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0.5"
                 },
                 {
-                    "name": "radius",
-                    "description": "[number = 0.5]"
+                    "name": "radius ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0.5"
                 },
                 {
-                    "name": "height",
-                    "description": "[number = 1]"
+                    "name": "height ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 },
                 {
-                    "name": "openTop",
-                    "description": "[boolean = false]"
+                    "name": "openTop ",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": " false"
                 },
                 {
-                    "name": "openBottom",
-                    "description": "[boolean = false]"
+                    "name": "openBottom ",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": " false"
                 },
                 {
-                    "name": "thetaStart",
-                    "description": "[number = 0]"
+                    "name": "thetaStart ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
                 }
             ]
         },
@@ -3295,28 +3303,46 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "a",
-                    "description": "[VectorE3 = CartesianE3.e1]"
+                    "name": "a ",
+                    "description": "",
+                    "type": "VectorE3",
+                    "optional": true,
+                    "optdefault": " e1"
                 },
                 {
-                    "name": "b",
-                    "description": "[VectorE3 = CartesianE3.e2]"
+                    "name": "b ",
+                    "description": "",
+                    "type": "VectorE3",
+                    "optional": true,
+                    "optdefault": " e2"
                 },
                 {
-                    "name": "c",
-                    "description": "[VectorE3 = CartesianE3.e3]"
+                    "name": "c ",
+                    "description": "",
+                    "type": "VectorE3",
+                    "optional": true,
+                    "optdefault": " e3"
                 },
                 {
-                    "name": "k",
-                    "description": "[number = Simplex.TRIANGLE]"
+                    "name": "k ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " Simplex.TRIANGLE"
                 },
                 {
-                    "name": "subdivide",
-                    "description": "[number = 0]"
+                    "name": "subdivide ",
+                    "description": "",
+                    "type": "Number = 0",
+                    "optional": true,
+                    "optdefault": " 0"
                 },
                 {
-                    "name": "boundary",
-                    "description": "[number = 0]"
+                    "name": "boundary ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
                 }
             ],
             "example": [
@@ -3366,12 +3392,18 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "radius",
-                    "description": "[number = 1]"
+                    "name": "radius ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 },
                 {
-                    "name": "height",
-                    "description": "[number = 1]"
+                    "name": "height ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 },
                 {
                     "name": "axis",
@@ -3404,11 +3436,15 @@
             "params": [
                 {
                     "name": "radius",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "detail",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ]
         },
@@ -3423,7 +3459,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/DrawAttribute.ts",
-            "line": 49,
+            "line": 48,
             "is_constructor": 1,
             "params": [
                 {
@@ -3628,11 +3664,15 @@
             "params": [
                 {
                     "name": "radius",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "detail",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ]
         },
@@ -3681,11 +3721,15 @@
             "params": [
                 {
                     "name": "radius",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "detail",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ]
         },
@@ -3802,24 +3846,36 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "a",
-                    "description": "[number = 1] The outer radius"
+                    "name": "a ",
+                    "description": "The outer radius",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 },
                 {
-                    "name": "b",
-                    "description": "[number = 0] The inner radius"
+                    "name": "b ",
+                    "description": "The inner radius",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
                 },
                 {
                     "name": "axis",
-                    "description": "[VectorE3] The <code>axis</code> property."
+                    "description": "The <code>axis</code> property.",
+                    "type": "VectorE3",
+                    "optional": true
                 },
                 {
                     "name": "sliceStart",
-                    "description": "[VectorE3] The <code>sliceStart</code> property."
+                    "description": "The <code>sliceStart</code> property.",
+                    "type": "VectorE3",
+                    "optional": true
                 },
                 {
                     "name": "sliceAngle",
-                    "description": "[number] The <code>sliceAngle</code> property."
+                    "description": "The <code>sliceAngle</code> property.",
+                    "type": "Number",
+                    "optional": true
                 }
             ]
         },
@@ -3906,16 +3962,24 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "axis",
-                    "description": "[VectorE3 = R3.e3] The <code>axis</code> property."
+                    "name": "axis ",
+                    "description": "The <code>axis</code> property.",
+                    "type": "VectorE3",
+                    "optional": true,
+                    "optdefault": " e3"
                 },
                 {
                     "name": "sliceStart",
-                    "description": "[VectorE3] The <code>sliceStart</code> property."
+                    "description": "The <code>sliceStart</code> property.",
+                    "type": "VectorE3",
+                    "optional": true
                 },
                 {
-                    "name": "sliceAngle",
-                    "description": "[number = 2 * Math.PI] The <code>sliceAngle</code> property."
+                    "name": "sliceAngle ",
+                    "description": "The <code>sliceAngle</code> property.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 2 * Math.PI"
                 }
             ]
         },
@@ -3936,28 +4000,44 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "radius",
-                    "description": "[number = 1]"
+                    "name": "radius ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 },
                 {
                     "name": "axis",
-                    "description": "[VectorE3]"
+                    "description": "",
+                    "type": "VectorE3",
+                    "optional": true
                 },
                 {
                     "name": "phiStart",
-                    "description": "[vectorE3]"
+                    "description": "",
+                    "type": "VectorE3",
+                    "optional": true
                 },
                 {
-                    "name": "phiLength",
-                    "description": "[number = 2 * Math.PI]"
+                    "name": "phiLength ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 2 * Math.PI"
                 },
                 {
-                    "name": "thetaStart",
-                    "description": "[number]"
+                    "name": "thetaStart ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
                 },
                 {
-                    "name": "thetaLength",
-                    "description": "[number]"
+                    "name": "thetaLength ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " Math.PI"
                 }
             ]
         },
@@ -3978,11 +4058,15 @@
             "params": [
                 {
                     "name": "radius",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "detail",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ]
         },
@@ -4115,8 +4199,8 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 43,
-            "extends": "IMaterial",
+            "line": 45,
+            "extends": "Shareable",
             "is_constructor": 1,
             "params": [
                 {
@@ -4126,7 +4210,7 @@
                 },
                 {
                     "name": "type",
-                    "description": "The class name, used for logging and serialization.",
+                    "description": "The class name, used for logging.",
                     "type": "String"
                 }
             ]
@@ -4722,8 +4806,11 @@
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "data",
-                    "description": "[number[] = [0, 0, 0]]"
+                    "name": "data ",
+                    "description": "",
+                    "type": "Number[]",
+                    "optional": true,
+                    "optdefault": " [0, 0, 0]"
                 },
                 {
                     "name": "modified",
@@ -5166,9 +5253,9 @@
             "description": "This interface is to be implemented by classes associated with a single context.\nThis means that the commands are not shared.",
             "extends": "IUnknown"
         },
-        "Canvas3D": {
-            "name": "Canvas3D",
-            "shortname": "Canvas3D",
+        "ContextGL": {
+            "name": "ContextGL",
+            "shortname": "ContextGL",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -5176,22 +5263,15 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
+            "file": "src/davinci-eight/scene/ContextGL.ts",
             "line": 53,
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "canvasBuilder",
-                    "description": "The canvas is created lazily, allowing construction during DOM load.",
-                    "type": "() => HTMLCanvasElement"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "[number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique."
-                },
-                {
                     "name": "attributes",
-                    "description": "[WebGLContextAttributes] Allow the context to be configured."
+                    "description": "Allow the context to be configured.",
+                    "type": "WebGLContextAttributes",
+                    "optional": true
                 }
             ],
             "beta": 1
@@ -5207,7 +5287,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 74,
+            "line": 75,
             "extends": "IDrawable",
             "is_constructor": 1,
             "params": [
@@ -5253,7 +5333,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 55,
+            "line": 58,
             "description": "<p>\n\n</p>",
             "is_constructor": 1,
             "params": [
@@ -5891,7 +5971,7 @@
             "file": "src/davinci-eight/collections/IUnknownArray.ts",
             "line": 4,
             "description": "Essentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
-            "class": "IUnknownArray<T extends IUnknown>"
+            "class": "IUnknownArray"
         },
         {
             "file": "src/davinci-eight/collections/IUnknownArray.ts",
@@ -5901,7 +5981,7 @@
             "type": "{T[]}",
             "access": "private",
             "tagname": "",
-            "class": "IUnknownArray<T extends IUnknown>"
+            "class": "IUnknownArray"
         },
         {
             "file": "src/davinci-eight/collections/IUnknownArray.ts",
@@ -5997,11 +6077,15 @@
             "params": [
                 {
                     "name": "begin",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 },
                 {
                     "name": "end",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "class": "IUnknownArray"
@@ -7557,7 +7641,9 @@
                 },
                 {
                     "name": "usage",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -7649,12 +7735,13 @@
             "description": "User assigned name of the drawable object. Allows an object to be found in a scene.",
             "itemtype": "property",
             "name": "name",
-            "type": "[string]",
+            "type": "{string}",
+            "optional": 1,
             "class": "IDrawable"
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 31,
+            "line": 32,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -7672,7 +7759,7 @@
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 37,
+            "line": 38,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -7690,7 +7777,7 @@
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 43,
+            "line": 44,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -7732,11 +7819,11 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "IFacet\nextends IAnimationTarget\nextends IUnknown"
+            "class": "IFacet"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 15,
+            "line": 16,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -7752,15 +7839,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 22,
+            "line": 25,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -7781,15 +7873,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 30,
+            "line": 35,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -7815,15 +7912,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 39,
+            "line": 46,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -7854,15 +7956,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 49,
+            "line": 58,
             "itemtype": "method",
             "name": "uniformMatrix2",
             "params": [
@@ -7883,15 +7990,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 57,
+            "line": 68,
             "itemtype": "method",
             "name": "uniformMatrix3",
             "params": [
@@ -7912,15 +8024,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 65,
+            "line": 78,
             "itemtype": "method",
             "name": "uniformMatrix4",
             "params": [
@@ -7941,15 +8058,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 73,
+            "line": 88,
             "itemtype": "method",
             "name": "uniformVectorE2",
             "params": [
@@ -7965,15 +8087,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 80,
+            "line": 97,
             "itemtype": "method",
             "name": "uniformVectorE3",
             "params": [
@@ -7989,15 +8116,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 87,
+            "line": 106,
             "itemtype": "method",
             "name": "uniformVectorE4",
             "params": [
@@ -8013,15 +8145,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 94,
+            "line": 115,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -8037,15 +8174,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 101,
+            "line": 124,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -8061,15 +8203,20 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
-            "line": 108,
+            "line": 133,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -8085,23 +8232,28 @@
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IMaterial.ts",
-            "line": 19,
+            "line": 20,
             "itemtype": "property",
-            "name": "programId",
+            "name": "uuid",
             "type": "string",
             "class": "IMaterial"
         },
         {
             "file": "src/davinci-eight/core/IMaterial.ts",
-            "line": 25,
+            "line": 26,
             "itemtype": "property",
             "name": "vertexShader",
             "type": "string",
@@ -8109,7 +8261,7 @@
         },
         {
             "file": "src/davinci-eight/core/IMaterial.ts",
-            "line": 30,
+            "line": 32,
             "itemtype": "property",
             "name": "fragmentShader",
             "type": "string",
@@ -8117,7 +8269,7 @@
         },
         {
             "file": "src/davinci-eight/core/IMaterial.ts",
-            "line": 35,
+            "line": 38,
             "description": "Makes the Program the current program for WebGL.",
             "itemtype": "method",
             "name": "use",
@@ -8125,7 +8277,8 @@
                 {
                     "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -8136,23 +8289,45 @@
         },
         {
             "file": "src/davinci-eight/core/IMaterial.ts",
-            "line": 42,
-            "itemtype": "property",
-            "name": "attributeLocations",
-            "type": "{ [name: string]: AttribLocation }",
-            "class": "IMaterial"
-        },
-        {
-            "file": "src/davinci-eight/core/IMaterial.ts",
-            "line": 47,
-            "itemtype": "property",
-            "name": "uniforms",
-            "type": "{ [name: string]: UniformLocation }",
+            "line": 46,
+            "itemtype": "method",
+            "name": "attributes",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "}",
+                "type": " [name: string]: AttribLocation"
+            },
             "class": "IMaterial"
         },
         {
             "file": "src/davinci-eight/core/IMaterial.ts",
             "line": 53,
+            "itemtype": "method",
+            "name": "uniforms",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "}",
+                "type": " [name: string]: UniformLocation"
+            },
+            "class": "IMaterial"
+        },
+        {
+            "file": "src/davinci-eight/core/IMaterial.ts",
+            "line": 60,
             "description": "<p>\nEnables an attribute location of a WebGLProgram.\n</p>",
             "itemtype": "method",
             "name": "enableAttrib",
@@ -8161,15 +8336,25 @@
                     "name": "name",
                     "description": "The name of the attribute to enable.",
                     "type": "String"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "beta": 1,
             "class": "IMaterial"
         },
         {
             "file": "src/davinci-eight/core/IMaterial.ts",
-            "line": 63,
-            "description": "<p>\nEnables an attribute location of a WebGLProgram.\n</p>",
+            "line": 73,
+            "description": "<p>\nDisables an attribute location of a WebGLProgram.\n</p>",
             "itemtype": "method",
             "name": "disableAttrib",
             "params": [
@@ -8177,8 +8362,18 @@
                     "name": "name",
                     "description": "The name of the attribute disable.",
                     "type": "String"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "beta": 1,
             "class": "IMaterial"
         },
@@ -8755,12 +8950,13 @@
             "description": "Specifies an optional override of the name used as a key.",
             "itemtype": "property",
             "name": "name",
-            "type": "[string]",
+            "type": "{string}",
+            "optional": 1,
             "class": "UniformMetaInfo"
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
-            "line": 11,
+            "line": 12,
             "description": "The type keyword as it appears in the GLSL shader program.",
             "itemtype": "property",
             "name": "glslType",
@@ -9014,20 +9210,22 @@
             "description": "The name of the GLSL uniform variable that will be set.",
             "itemtype": "property",
             "name": "uAlphaName",
-            "type": "[string]",
+            "type": "{string}",
+            "optional": 1,
             "class": "ColorFacet"
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 85,
+            "line": 86,
             "itemtype": "property",
             "name": "uColorName",
-            "type": "[string]",
+            "type": "{string}",
+            "optional": 1,
             "class": "ColorFacet"
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 101,
+            "line": 103,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -9040,7 +9238,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 121,
+            "line": 123,
             "description": "The red component of the color.",
             "itemtype": "property",
             "name": "r",
@@ -9049,7 +9247,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 134,
+            "line": 136,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "g",
@@ -9058,7 +9256,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 147,
+            "line": 149,
             "description": "The blue component of the color.",
             "itemtype": "property",
             "name": "b",
@@ -9067,7 +9265,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 159,
+            "line": 161,
             "description": "The alpha component of the color.",
             "itemtype": "property",
             "name": "α",
@@ -9076,7 +9274,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 171,
+            "line": 173,
             "itemtype": "method",
             "name": "scaleRGB",
             "params": [
@@ -9095,7 +9293,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 184,
+            "line": 186,
             "itemtype": "method",
             "name": "scaleRGBA",
             "params": [
@@ -9114,7 +9312,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 198,
+            "line": 200,
             "itemtype": "method",
             "name": "setColorRGB",
             "params": [
@@ -9133,7 +9331,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 212,
+            "line": 214,
             "itemtype": "method",
             "name": "setColorRGBA",
             "params": [
@@ -9152,7 +9350,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 226,
+            "line": 228,
             "itemtype": "method",
             "name": "setRGB",
             "params": [
@@ -9181,7 +9379,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 242,
+            "line": 244,
             "itemtype": "method",
             "name": "setRGBA",
             "params": [
@@ -9215,7 +9413,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 259,
+            "line": 261,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -9233,7 +9431,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 282,
+            "line": 284,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -9256,7 +9454,7 @@
         },
         {
             "file": "src/davinci-eight/facets/ColorFacet.ts",
-            "line": 306,
+            "line": 308,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -10620,8 +10818,11 @@
             "name": "getSpacedPoints",
             "params": [
                 {
-                    "name": "divisions",
-                    "description": "[number = 40]"
+                    "name": "divisions ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 40"
                 },
                 {
                     "name": "closedPath",
@@ -10642,8 +10843,11 @@
             "name": "getPoints",
             "params": [
                 {
-                    "name": "divisiions",
-                    "description": "[number = 12]"
+                    "name": "divisiions ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 12"
                 },
                 {
                     "name": "closedPath",
@@ -10750,28 +10954,21 @@
         },
         {
             "file": "src/davinci-eight/geometries/PathArgs.ts",
-            "line": 7,
+            "line": 8,
             "itemtype": "property",
             "name": "controlBegin",
-            "type": "[Euclidean3]",
+            "type": "{Euclidean3}",
+            "optional": 1,
             "class": "PathArgs",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/PathArgs.ts",
-            "line": 12,
+            "line": 15,
             "itemtype": "property",
             "name": "controlEnd",
-            "type": "[Euclidean3]",
-            "class": "PathArgs",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/PathArgs.ts",
-            "line": 17,
-            "itemtype": "property",
-            "name": "endPoint",
-            "type": "[Euclidean3]",
+            "type": "{Euclidean3}",
+            "optional": 1,
             "class": "PathArgs",
             "module": "EIGHT"
         },
@@ -10779,8 +10976,19 @@
             "file": "src/davinci-eight/geometries/PathArgs.ts",
             "line": 22,
             "itemtype": "property",
+            "name": "endPoint",
+            "type": "{Euclidean3}",
+            "optional": 1,
+            "class": "PathArgs",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/PathArgs.ts",
+            "line": 28,
+            "itemtype": "property",
             "name": "radius",
-            "type": "[number]",
+            "type": "{number}",
+            "optional": 1,
             "class": "PathArgs",
             "module": "EIGHT"
         },
@@ -11411,7 +11619,9 @@
             "params": [
                 {
                     "name": "times",
-                    "description": "[number] Determines the number of times the boundary operation is applied to this instance."
+                    "description": "Determines the number of times the boundary operation is applied to this instance.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -11444,7 +11654,9 @@
             "params": [
                 {
                     "name": "times",
-                    "description": "[number] Determines the number of times the subdivide operation is applied to this instance."
+                    "description": "Determines the number of times the subdivide operation is applied to this instance.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -11493,8 +11705,11 @@
             "name": "mergeVertices",
             "params": [
                 {
-                    "name": "precisionPonts",
-                    "description": "[number = 4]"
+                    "name": "precisionPonts ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 4"
                 }
             ],
             "return": {
@@ -12067,7 +12282,18 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 56,
+            "line": 33,
+            "itemtype": "property",
+            "name": "inner",
+            "type": "{IMaterial}",
+            "access": "private",
+            "tagname": "",
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 59,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -12081,10 +12307,679 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 77,
+            "line": 74,
+            "itemtype": "method",
+            "name": "makeReady",
+            "params": [
+                {
+                    "name": "async",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 87,
             "itemtype": "property",
             "name": "monitors",
             "type": "{IContextMonitor[]}",
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 95,
+            "itemtype": "property",
+            "name": "fragmentShader",
+            "type": "{string}",
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 103,
+            "itemtype": "method",
+            "name": "use",
+            "params": [
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 129,
+            "itemtype": "method",
+            "name": "attributes",
+            "params": [
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "}",
+                "type": "[name: string]: AttribLocation"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 153,
+            "itemtype": "method",
+            "name": "uniforms",
+            "params": [
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "}",
+                "type": "[name: string]: UniformLocation"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 174,
+            "itemtype": "method",
+            "name": "enableAttrib",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 196,
+            "itemtype": "method",
+            "name": "disableAttrib",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 218,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 229,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 243,
+            "itemtype": "method",
+            "name": "contextLost",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 254,
+            "itemtype": "method",
+            "name": "createMaterial",
+            "return": {
+                "description": "",
+                "type": "IMaterial"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 264,
+            "itemtype": "method",
+            "name": "uniform1f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 290,
+            "itemtype": "method",
+            "name": "uniform2f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 317,
+            "itemtype": "method",
+            "name": "uniform3f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 345,
+            "itemtype": "method",
+            "name": "uniform4f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "w",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 374,
+            "itemtype": "method",
+            "name": "uniformMatrix2",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "transpose",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix2"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 401,
+            "itemtype": "method",
+            "name": "uniformMatrix3",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "transpose",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix3"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 428,
+            "itemtype": "method",
+            "name": "uniformMatrix4",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "transpose",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix4"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 457,
+            "itemtype": "method",
+            "name": "uniformVectorE2",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "VectorE2"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 483,
+            "itemtype": "method",
+            "name": "uniformVectorE3",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "VectorE3"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 509,
+            "itemtype": "method",
+            "name": "uniformVectorE4",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "VectorE4"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 535,
+            "itemtype": "method",
+            "name": "vector2",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 561,
+            "itemtype": "method",
+            "name": "vector3",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 587,
+            "itemtype": "method",
+            "name": "vector4",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Number[]"
+                },
+                {
+                    "name": "canvasId ",
+                    "description": "Determines which WebGLProgram to use.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 613,
+            "itemtype": "property",
+            "name": "vertexShader",
+            "type": "{string}",
             "class": "Material",
             "module": "EIGHT"
         },
@@ -15169,7 +16064,9 @@
             "params": [
                 {
                     "name": "digits",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -15345,8 +16242,11 @@
                     "type": "GeometricE2"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -15412,8 +16312,11 @@
                     "type": "VectorE2"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -16318,8 +17221,11 @@
                     "type": "GeometricE2"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -16378,7 +17284,9 @@
             "params": [
                 {
                     "name": "fractionDigits",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -17147,8 +18055,11 @@
                     "type": "GeometricE3"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -17214,8 +18125,11 @@
                     "type": "VectorE3"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -18064,8 +18978,11 @@
                     "type": "GeometricE3"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -18124,7 +19041,9 @@
             "params": [
                 {
                     "name": "fractionDigits",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -18813,8 +19732,11 @@
                     "type": "GeometricE2"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -18926,8 +19848,11 @@
                     "type": "GeometricE2"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -19809,7 +20734,9 @@
             "params": [
                 {
                     "name": "digits",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -20142,8 +21069,11 @@
                     "type": "MutableVector"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -21103,8 +22033,11 @@
                     "type": "R3"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -21590,8 +22523,11 @@
                     "type": "VectorE3"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -21648,7 +22584,9 @@
             "params": [
                 {
                     "name": "digits",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -21911,8 +22849,11 @@
                     "type": "SpinorE2"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -22531,8 +23472,11 @@
                     "type": "SpinorE2"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -22743,8 +23687,11 @@
                     "type": "SpinorE3"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -23409,8 +24356,11 @@
                     "type": "SpinorE3"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -24058,8 +25008,11 @@
                     "type": "Vector"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -24131,8 +25084,11 @@
                     "type": "VectorE2"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -24289,8 +25245,11 @@
                     "type": "VectorE2"
                 },
                 {
-                    "name": "α",
-                    "description": "[number = 1]"
+                    "name": "α ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 1"
                 }
             ],
             "return": {
@@ -25285,21 +26244,21 @@
             "file": "src/davinci-eight/renderers/initWebGL.ts",
             "line": 3,
             "description": "Returns the WebGLRenderingContext given a canvas.\ncanvas\nattributes\nIf the canvas is undefined then an undefined value is returned for the context.",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/renderers/renderer.ts",
             "line": 26,
             "description": "We need to know the canvasId so that we can tell drawables where to draw.\nHowever, we don't need an don't want a canvas because we can only get that once the\ncanvas has loaded. I suppose a promise would be OK, but that's for another day.\n\nPart of the role of this class is to manage the commands that are executed at startup/prolog.",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/resources/TextureResource.ts",
             "line": 9,
             "description": "Name used for reference count monitoring and logging.",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
@@ -25307,7 +26266,7 @@
             "line": 73,
             "itemtype": "method",
             "name": "bind",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
@@ -25315,45 +26274,45 @@
             "line": 84,
             "itemtype": "method",
             "name": "unbind",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
+            "file": "src/davinci-eight/scene/ContextGL.ts",
             "line": 39,
             "itemtype": "property",
             "name": "_kahuna",
             "type": "{ContextKahuna}",
             "access": "private",
             "tagname": "",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
+            "file": "src/davinci-eight/scene/ContextGL.ts",
             "line": 46,
             "itemtype": "property",
             "name": "_renderer",
             "type": "{IContextRenderer}",
             "access": "private",
             "tagname": "",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 70,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 68,
             "itemtype": "method",
             "name": "destructor!~YUIDOC_LINE~!return",
             "type": "Void",
             "access": "protected",
             "tagname": "",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 84,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 82,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -25367,41 +26326,41 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 93,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 91,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 104,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 102,
             "itemtype": "property",
             "name": "canvasId",
             "type": "{number}",
             "readonly": "",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 117,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 115,
             "itemtype": "property",
             "name": "commands",
             "type": "{IUnknownArray}",
             "beta": 1,
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 126,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 124,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -25431,12 +26390,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 141,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 139,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -25450,12 +26409,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 150,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 148,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -25469,12 +26428,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 159,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 157,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
@@ -25488,24 +26447,24 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 168,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 166,
             "itemtype": "method",
             "name": "createArrayBuffer",
             "return": {
                 "description": "",
                 "type": "IBuffer"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 176,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 174,
             "itemtype": "method",
             "name": "createBufferGeometry",
             "params": [
@@ -25516,55 +26475,57 @@
                 },
                 {
                     "name": "usage",
-                    "description": "[number]"
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
                 "description": "",
                 "type": "IBufferGeometry"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 186,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 184,
             "itemtype": "method",
             "name": "createElementArrayBuffer",
             "return": {
                 "description": "",
                 "type": "IBuffer"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 194,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 192,
             "itemtype": "method",
             "name": "createTextureCubeMap",
             "return": {
                 "description": "",
                 "type": "ITextureCubeMap"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 202,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 200,
             "itemtype": "method",
             "name": "createTexture2D",
             "return": {
                 "description": "",
                 "type": "ITexture2D"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 210,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 208,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -25579,12 +26540,12 @@
                 "description": "This method does not return a value.",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 220,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 218,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -25599,22 +26560,22 @@
                 "description": "This method does not return a value.",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 230,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 228,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
             "readonly": "",
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 239,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 237,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -25628,12 +26589,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 248,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 246,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -25663,48 +26624,50 @@
                 "description": "This method does not return a value.",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 261,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 259,
+            "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
             "params": [
                 {
                     "name": "canvas",
-                    "description": "",
+                    "description": "The HTML canvas element.",
                     "type": "HTMLCanvasElement"
                 },
                 {
                     "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
+                    "description": "An optional user-defined alias for the canvas when using multi-canvas.",
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 280,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 278,
             "itemtype": "method",
             "name": "stop",
             "return": {
                 "description": "",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 288,
+            "file": "src/davinci-eight/scene/ContextGL.ts",
+            "line": 286,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -25718,7 +26681,7 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Canvas3D",
+            "class": "ContextGL",
             "module": "EIGHT"
         },
         {
@@ -25753,20 +26716,21 @@
             "line": 49,
             "itemtype": "property",
             "name": "name",
-            "type": "[string]",
+            "type": "{string}",
+            "optional": 1,
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 54,
+            "line": 55,
             "description": "FIXME This is a bad name because it is not just a collection of buffersByCanvasId.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lokup",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 60,
+            "line": 61,
             "itemtype": "property",
             "name": "uniforms",
             "type": "{StringIUnknownMap<IFacet>}",
@@ -25777,7 +26741,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 66,
+            "line": 67,
             "itemtype": "property",
             "name": "mode",
             "type": "{number}",
@@ -25788,7 +26752,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 150,
+            "line": 151,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -25807,7 +26771,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 162,
+            "line": 163,
             "itemtype": "property",
             "name": "material",
             "type": "{M}\n\nProvides a reference counted reference to the material.",
@@ -25889,7 +26853,10 @@
                     "type": "String"
                 }
             ],
-            "retrurn": "{IUnknownArray<IDrawable>}",
+            "return": {
+                "description": "",
+                "type": "IUnknownArray"
+            },
             "class": "IDrawList",
             "module": "EIGHT"
         },
@@ -25982,22 +26949,23 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 46,
+            "line": 47,
             "itemtype": "property",
             "name": "name",
-            "type": "[string]",
+            "type": "{string}",
+            "optional": 1,
             "class": "PerspectiveCamera",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 51,
+            "line": 54,
             "class": "PerspectiveCamera",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 81,
+            "line": 84,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -26021,7 +26989,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 128,
+            "line": 131,
             "description": "The aspect ratio (width / height) of the camera viewport.",
             "itemtype": "property",
             "name": "aspect",
@@ -26032,7 +27000,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 138,
+            "line": 141,
             "itemtype": "method",
             "name": "setAspect",
             "params": [
@@ -26052,7 +27020,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 149,
+            "line": 152,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "eye",
@@ -26063,7 +27031,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 159,
+            "line": 162,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -26083,7 +27051,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 170,
+            "line": 173,
             "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
             "itemtype": "property",
             "name": "fov",
@@ -26094,7 +27062,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 184,
+            "line": 187,
             "itemtype": "method",
             "name": "setFov",
             "params": [
@@ -26114,7 +27082,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 203,
+            "line": 206,
             "description": "The distance to the near plane.",
             "itemtype": "property",
             "name": "near",
@@ -26125,7 +27093,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 215,
+            "line": 218,
             "itemtype": "method",
             "name": "setNear",
             "params": [
@@ -26333,7 +27301,7 @@
             "line": 24,
             "itemtype": "property",
             "name": "slides",
-            "type": "{IUnknownArray<Slide>}",
+            "type": "{IUnknownArray}",
             "class": "Director",
             "module": "EIGHT"
         },
@@ -26920,10 +27888,6 @@
         {
             "message": "param name missing: {number}",
             "line": " src/davinci-eight/math/R3.ts:486"
-        },
-        {
-            "message": "unknown tag: retrurn",
-            "line": " src/davinci-eight/scene/IDrawList.ts:32"
         },
         {
             "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -27791,7 +28755,7 @@
         },
         {
             "message": "Missing item type\nFIXME This is a bad name because it is not just a collection of buffersByCanvasId.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lokup",
-            "line": " src/davinci-eight/scene/Drawable.ts:54"
+            "line": " src/davinci-eight/scene/Drawable.ts:55"
         },
         {
             "message": "Missing item type\nImplementation Only.",
@@ -27807,7 +28771,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/scene/PerspectiveCamera.ts:51"
+            "line": " src/davinci-eight/scene/PerspectiveCamera.ts:54"
         },
         {
             "message": "Missing item type\nA grouping of IDrawable, by IMaterial.",

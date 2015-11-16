@@ -122,7 +122,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             var program = drawable.material;
             if (program) {
                 try {
-                    var programId = program.programId;
+                    var programId = program.uuid;
                     var group = this._groups.get(programId);
                     if (!group) {
                         group = new DrawableGroup(program);
@@ -144,7 +144,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             var material = drawable.material;
             if (material) {
                 try {
-                    var group = this._groups.getWeakRef(material.programId);
+                    var group = this._groups.getWeakRef(material.uuid);
                     if (group) {
                         return group.containsDrawable(drawable);
                     }
@@ -164,7 +164,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             var material = drawable.material;
             if (material) {
                 try {
-                    var programId = material.programId;
+                    var programId = material.uuid;
                     if (this._groups.exists(programId)) {
                         var group = this._groups.get(programId);
                         try {

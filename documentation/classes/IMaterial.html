@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.153.0</em>
+            <em>API Docs for: 2.154.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,7 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
-                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -62,6 +61,7 @@
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
+                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -110,16 +110,11 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet
-                extends IAnimationTarget
-                extends IUnknown.html">IFacet
-                extends IAnimationTarget
-                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
-                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineCurve.html">LineCurve</a></li>
@@ -287,6 +282,10 @@ The Program must be able to provide introspection information that describes the
 
                     <ul class="index-list methods extends">
                             <li class="index-item method">
+                                <a href="#method_attributes">attributes</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_disableAttrib">disableAttrib</a>
 
                             </li>
@@ -316,6 +315,10 @@ The Program must be able to provide introspection information that describes the
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_uniformMatrix4">uniformMatrix4</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_uniforms">uniforms</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -354,19 +357,11 @@ The Program must be able to provide introspection information that describes the
 
                     <ul class="index-list properties extends">
                             <li class="index-item property">
-                                <a href="#property_attributeLocations">attributeLocations</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_fragmentShader">fragmentShader</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_programId">programId</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_uniforms">uniforms</a>
+                                <a href="#property_uuid">uuid</a>
 
                             </li>
                             <li class="index-item property">
@@ -382,17 +377,20 @@ The Program must be able to provide introspection information that describes the
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_disableAttrib" class="method item">
-    <h3 class="name"><code>disableAttrib</code></h3>
+<div id="method_attributes" class="method item">
+    <h3 class="name"><code>attributes</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>name</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">name: string: AttribLocation</span>
+        </span>
 
 
 
@@ -403,7 +401,76 @@ The Program must be able to provide introspection information that describes the
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:63</code></a>
+        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:46</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines which WebGLProgram to use.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">name: string: AttribLocation</span>:
+                    <p>}</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_disableAttrib" class="method item">
+    <h3 class="name"><code>disableAttrib</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:73</code></a>
         </p>
 
 
@@ -412,7 +479,7 @@ The Program must be able to provide introspection information that describes the
 
     <div class="description">
         <p>
-Enables an attribute location of a WebGLProgram.
+Disables an attribute location of a WebGLProgram.
 </p>
     </div>
 
@@ -431,9 +498,28 @@ Enables an attribute location of a WebGLProgram.
                     </div>
 
                 </li>
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines which WebGLProgram to use.</p>
+
+                    </div>
+
+                </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -445,9 +531,15 @@ Enables an attribute location of a WebGLProgram.
                 <li class="arg">
                         <code>name</code>
                 </li>
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -458,7 +550,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:53</code></a>
+        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:60</code></a>
         </p>
 
 
@@ -486,9 +578,28 @@ Enables an attribute location of a WebGLProgram.
                     </div>
 
                 </li>
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines which WebGLProgram to use.</p>
+
+                    </div>
+
+                </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -504,11 +615,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>x</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -519,7 +633,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniform1f">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:15</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:16</code></a>
         </p>
 
 
@@ -555,18 +669,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -585,11 +708,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>y</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -600,7 +726,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniform2f">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:22</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:25</code></a>
         </p>
 
 
@@ -646,18 +772,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -679,11 +814,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>z</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -697,7 +835,7 @@ Enables an attribute location of a WebGLProgram.
                 IFacetVisitor
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:30</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:35</code></a>
         </p>
 
 
@@ -753,18 +891,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -783,11 +930,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>matrix</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -798,7 +948,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformMatrix2">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:49</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:58</code></a>
         </p>
 
 
@@ -844,18 +994,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -874,11 +1033,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>matrix</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -889,7 +1051,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformMatrix3">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:57</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:68</code></a>
         </p>
 
 
@@ -935,18 +1097,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -965,11 +1136,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>matrix</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -980,7 +1154,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformMatrix4">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:65</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:78</code></a>
         </p>
 
 
@@ -1026,18 +1200,93 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_uniforms" class="method item">
+    <h3 class="name"><code>uniforms</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">name: string: UniformLocation</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:53</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines which WebGLProgram to use.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">name: string: UniformLocation</span>:
+                    <p>}</p>
+
+            </div>
+        </div>
 
 
 </div>
@@ -1053,11 +1302,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>vector</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -1068,7 +1320,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformVectorE2">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:73</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:88</code></a>
         </p>
 
 
@@ -1104,18 +1356,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -1131,11 +1392,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>vector</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -1146,7 +1410,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformVectorE3">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:80</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l97"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:97</code></a>
         </p>
 
 
@@ -1182,18 +1446,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -1209,11 +1482,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>vector</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -1224,7 +1500,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_uniformVectorE4">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:87</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:106</code></a>
         </p>
 
 
@@ -1260,18 +1536,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -1281,7 +1566,7 @@ Enables an attribute location of a WebGLProgram.
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1299,7 +1584,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:35</code></a>
+        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:38</code></a>
         </p>
 
 
@@ -1316,8 +1601,9 @@ Enables an attribute location of a WebGLProgram.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -1351,11 +1637,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>data</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -1366,7 +1655,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_vector2">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:94</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:115</code></a>
         </p>
 
 
@@ -1402,18 +1691,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -1429,11 +1727,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>data</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -1444,7 +1745,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_vector3">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l101"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:101</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l124"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:124</code></a>
         </p>
 
 
@@ -1480,18 +1781,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -1507,11 +1817,14 @@ Enables an attribute location of a WebGLProgram.
                         <code>data</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
 
 
 
@@ -1522,7 +1835,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/IFacetVisitor.html#method_vector4">IFacetVisitor</a>:
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:108</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l133"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:133</code></a>
         </p>
 
 
@@ -1558,18 +1871,27 @@ Enables an attribute location of a WebGLProgram.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>Determines which WebGLProgram to use.</p>
+
                     </div>
 
                 </li>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
 
 
 </div>
@@ -1578,30 +1900,6 @@ Enables an attribute location of a WebGLProgram.
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_attributeLocations" class="property item">
-    <h3 class="name"><code>attributeLocations</code></h3>
-    <span class="type">name: string: AttribLocation</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:42</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
 <div id="property_fragmentShader" class="property item">
     <h3 class="name"><code>fragmentShader</code></h3>
     <span class="type">String</span>
@@ -1613,7 +1911,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:30</code></a>
+        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:32</code></a>
         </p>
 
 
@@ -1626,8 +1924,8 @@ Enables an attribute location of a WebGLProgram.
 
 
 </div>
-<div id="property_programId" class="property item">
-    <h3 class="name"><code>programId</code></h3>
+<div id="property_uuid" class="property item">
+    <h3 class="name"><code>uuid</code></h3>
     <span class="type">String</span>
 
 
@@ -1637,31 +1935,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:19</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_uniforms" class="property item">
-    <h3 class="name"><code>uniforms</code></h3>
-    <span class="type">name: string: UniformLocation</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:47</code></a>
+        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:20</code></a>
         </p>
 
 
@@ -1685,7 +1959,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:25</code></a>
+        <a href="../files/src_davinci-eight_core_IMaterial.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IMaterial.ts:26</code></a>
         </p>
 
 

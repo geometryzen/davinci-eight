@@ -159,12 +159,12 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
          * Constructs a geometry consisting of triangular simplices based on spherical coordinates.
          * @class SphericalPolarSimplexGeometry
          * @constructor
-         * @param radius [number = 1]
-         * @param axis [VectorE3]
-         * @param phiStart [vectorE3]
-         * @param phiLength [number = 2 * Math.PI]
-         * @param thetaStart [number]
-         * @param thetaLength [number]
+         * @param [radius = 1] {number}
+         * @param [axis] {VectorE3}
+         * @param [phiStart] {vectorE3}
+         * @param [phiLength = 2 * Math.PI] {number}
+         * @param [thetaStart = 0] {number}
+         * @param [thetaLength = Math.PI] {number}
          */
         function SphericalPolarSimplexGeometry(radius, axis, phiStart, phiLength, thetaStart, thetaLength) {
             if (radius === void 0) { radius = 1; }

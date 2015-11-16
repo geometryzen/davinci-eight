@@ -13,12 +13,12 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SliceSimplexG
         /**
          * @class ConeSimplexGeometry
          * @constructor
-         * @param radiusTop [number = 0.5]
-         * @param radius [number = 0.5]
-         * @param height [number = 1]
-         * @param openTop [boolean = false]
-         * @param openBottom [boolean = false]
-         * @param thetaStart [number = 0]
+         * @param [radiusTop = 0.5] {number}
+         * @param [radius = 0.5] {number}
+         * @param [height = 1] {number}
+         * @param [openTop = false] {boolean}
+         * @param [openBottom = false] {boolean}
+         * @param [thetaStart = 0] {number}
          */
         function ConeSimplexGeometry(radius, height, axis, radiusTop, openTop, openBottom, thetaStart) {
             if (radius === void 0) { radius = 0.5; }

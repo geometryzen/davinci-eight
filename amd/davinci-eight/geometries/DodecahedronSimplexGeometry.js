@@ -45,8 +45,8 @@ define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], functi
         /**
          * @class DodecahedronSimplexGeometry
          * @constructor
-         * @param radius [number]
-         * @param detail [number]
+         * @param [radius] {number}
+         * @param [detail] {number}
          */
         function DodecahedronSimplexGeometry(radius, detail) {
             _super.call(this, vertices, indices, radius, detail);

@@ -14,7 +14,7 @@ interface GeometricE2 extends Pseudo, Scalar, SpinorE2, VectorE2 {
     /**
      * @method add
      * @param point {GeometricE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {GeometricE2}
      */
     add(point: GeometricE2, α?: number): GeometricE2;
@@ -57,7 +57,7 @@ interface GeometricE2 extends Pseudo, Scalar, SpinorE2, VectorE2 {
     /**
      * @method sub
      * @param point {GeometricE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {GeometricE2}
      */
     sub(point: GeometricE2, α?: number): GeometricE2;

@@ -41,7 +41,7 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * </p>
      * @method add
      * @param spinor {SpinorE3}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {SpinG3} <code>this</code>
      * @chainable
      */
@@ -367,7 +367,7 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      * </p>
      * @method sub
      * @param s {SpinorE3}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {SpinG3} <code>this</code>
      * @chainable
      */

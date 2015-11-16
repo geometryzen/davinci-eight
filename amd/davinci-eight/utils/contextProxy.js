@@ -553,6 +553,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                 return mesh;
             },
             start: function (canvas, canvasId) {
+                if (canvasId === void 0) { canvasId = 0; }
                 var alreadyStarted = isDefined(_canvas);
                 if (!alreadyStarted) {
                     // cache the arguments

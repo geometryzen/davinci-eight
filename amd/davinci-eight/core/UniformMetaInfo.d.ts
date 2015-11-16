@@ -5,7 +5,8 @@ interface UniformMetaInfo {
     /**
      * Specifies an optional override of the name used as a key.
      * @property name
-     * @type [string]
+     * @type {string}
+     * @optional
      */
     name?: string;
     /**

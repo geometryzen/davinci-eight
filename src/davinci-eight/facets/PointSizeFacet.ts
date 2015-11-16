@@ -26,7 +26,7 @@ class PointSizeFacet extends Shareable implements IFacet {
     /**
      * @class PointSizeFacet
      * @constructor
-     * @param pointSize [number = 2]
+     * @param [pointSize = 2] {number}
      */
     constructor(pointSize: number = 2) {
         super('PointSizeFacet')

@@ -44,7 +44,6 @@ class DrawAttribute {
      * @property chunkSize
      * @type {number}
      */
-    // FIXME: rename to chunkSize.
     public chunkSize: number;
     /**
      * @class DrawAttribute

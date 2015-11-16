@@ -16,8 +16,8 @@ class TetrahedronSimplexGeometry extends PolyhedronSimplexGeometry {
   /**
    * @class TetrahedronSimplexGeometry
    * @constructor
-   * @param radius [number]
-   * @param detail [number]
+   * @param [radius] {number}
+   * @param [detail] {number}
    */
   constructor(radius?: number, detail?: number) {
     super(vertices, indices, radius, detail)

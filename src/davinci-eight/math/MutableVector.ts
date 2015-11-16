@@ -15,7 +15,7 @@ interface MutableVector extends Mutable<number>, Vector {
     /**
      * @method sub
      * @param rhs {MutableVector}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {MutableVector}
      */
     sub(rhs: MutableVector, α?: number): MutableVector;

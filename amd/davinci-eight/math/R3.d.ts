@@ -40,7 +40,7 @@ declare class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, V
     /**
      * @class R3
      * @constructor
-     * @param data [number[] = [0, 0, 0]]
+     * @param [data = [0, 0, 0]] {number[]}
      * @param modified [boolean = false]
      */
     constructor(data?: number[], modified?: boolean);
@@ -65,7 +65,7 @@ declare class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, V
      * </p>
      * @method add
      * @param vector {R3}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {R3} <code>this</code>
      * @chainable
      */
@@ -279,7 +279,7 @@ declare class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, V
      * </p>
      * @method sub
      * @param v {VectorE3}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {R3} <code>this</code>
      * @chainable
      */
@@ -302,7 +302,7 @@ declare class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, V
     toExponential(): string;
     /**
      * @method toFixed
-     * @param digits [number]
+     * @param [digits] {number}
      * @return {string}
      */
     toFixed(digits?: number): string;

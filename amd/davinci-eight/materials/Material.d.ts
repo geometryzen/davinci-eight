@@ -13,19 +13,22 @@ import VectorE4 = require('../math/VectorE4');
 /**
  * @class Material
  * @extends Shareable
- * @extends IMaterial
  */
 declare class Material extends Shareable implements IMaterial {
+    /**
+     * @property inner
+     * @type {IMaterial}
+     * @private
+     */
     private inner;
     private readyPending;
     private _monitors;
     private type;
-    programId: string;
     /**
      * @class Material
      * @constructor
      * @param contexts {IContextMonitor[]}
-     * @param type {string} The class name, used for logging and serialization.
+     * @param type {string} The class name, used for logging.
      */
     constructor(contexts: IContextMonitor[], type: string);
     /**
@@ -34,39 +37,199 @@ declare class Material extends Shareable implements IMaterial {
      * @protected
      */
     protected destructor(): void;
+    /**
+     * @method makeReady
+     * @param async {boolean}
+     * @protected
+     */
     protected makeReady(async: boolean): void;
     /**
      * @property monitors
      * @type {IContextMonitor[]}
      */
     monitors: IContextMonitor[];
+    /**
+     * @property fragmentShader
+     * @type {string}
+     */
     fragmentShader: string;
-    use(canvasId: number): void;
-    attributes(canvasId: number): {
+    /**
+     * @method use
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    use(canvasId?: number): void;
+    /**
+     * @method attributes
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {{[name: string]: AttribLocation}}
+     */
+    attributes(canvasId?: number): {
         [name: string]: AttribLocation;
     };
-    uniforms(canvasId: number): {
+    /**
+     * @method uniforms
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {{[name: string]: UniformLocation}}
+     */
+    uniforms(canvasId?: number): {
         [name: string]: UniformLocation;
     };
-    enableAttrib(name: string, canvasId: number): void;
-    disableAttrib(name: string, canvasId: number): void;
+    /**
+     * @method enableAttrib
+     * @param name {string}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    enableAttrib(name: string, canvasId?: number): void;
+    /**
+     * @method disableAttrib
+     * @param name {string}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    disableAttrib(name: string, canvasId?: number): void;
+    /**
+     * @method contextFree
+     * @param canvasId {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
     contextFree(canvasId: number): void;
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextGain(manager: IContextProvider): void;
+    /**
+     * @method contextLost
+     * @param canvasId {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
     contextLost(canvasId: number): void;
+    /**
+     * @method createMaterial
+     * @return {IMaterial}
+     * @protected
+     */
     protected createMaterial(): IMaterial;
-    uniform1f(name: string, x: number, canvasId: number): void;
-    uniform2f(name: string, x: number, y: number, canvasId: number): void;
-    uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
-    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
-    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
-    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void;
-    uniformVectorE2(name: string, vector: VectorE2, canvasId: number): void;
-    uniformVectorE3(name: string, vector: VectorE3, canvasId: number): void;
-    uniformVectorE4(name: string, vector: VectorE4, canvasId: number): void;
-    vector2(name: string, data: number[], canvasId: number): void;
-    vector3(name: string, data: number[], canvasId: number): void;
-    vector4(name: string, data: number[], canvasId: number): void;
+    /**
+     * @method uniform1f
+     * @param name {string}
+     * @param x {number}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniform1f(name: string, x: number, canvasId?: number): void;
+    /**
+     * @method uniform2f
+     * @param name {string}
+     * @param x {number}
+     * @param y {number}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniform2f(name: string, x: number, y: number, canvasId?: number): void;
+    /**
+     * @method uniform3f
+     * @param name {string}
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniform3f(name: string, x: number, y: number, z: number, canvasId?: number): void;
+    /**
+     * @method uniform4f
+     * @param name {string}
+     * @param x {number}
+     * @param y {number}
+     * @param z {number}
+     * @param w {number}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId?: number): void;
+    /**
+     * @method uniformMatrix2
+     * @param name {string}
+     * @param transpose {boolean}
+     * @param matrix {Matrix2}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number): void;
+    /**
+     * @method uniformMatrix3
+     * @param name {string}
+     * @param transpose {boolean}
+     * @param matrix {Matrix3}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId?: number): void;
+    /**
+     * @method uniformMatrix4
+     * @param name {string}
+     * @param transpose {boolean}
+     * @param matrix {Matrix4}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number): void;
+    /**
+     * @method uniformVectorE2
+     * @param name {string}
+     * @param vector {VectorE2}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniformVectorE2(name: string, vector: VectorE2, canvasId?: number): void;
+    /**
+     * @method uniformVectorE3
+     * @param name {string}
+     * @param vector {VectorE3}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniformVectorE3(name: string, vector: VectorE3, canvasId?: number): void;
+    /**
+     * @method uniformVectorE4
+     * @param name {string}
+     * @param vector {VectorE4}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    uniformVectorE4(name: string, vector: VectorE4, canvasId?: number): void;
+    /**
+     * @method vector2
+     * @param name {string}
+     * @param data {number[]}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    vector2(name: string, data: number[], canvasId?: number): void;
+    /**
+     * @method vector3
+     * @param name {string}
+     * @param data {number[]}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    vector3(name: string, data: number[], canvasId?: number): void;
+    /**
+     * @method vector4
+     * @param name {string}
+     * @param data {number[]}
+     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @return {void}
+     */
+    vector4(name: string, data: number[], canvasId?: number): void;
+    /**
+     * @property vertexShader
+     * @type {string}
+     */
     vertexShader: string;
 }
 export = Material;

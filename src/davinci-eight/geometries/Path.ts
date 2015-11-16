@@ -47,7 +47,7 @@ class Path extends CurvePath {
 
     /**
      * @method getSpacedPoints
-     * @param divisions [number = 40]
+     * @param [divisions = 40] {number}
      * @param closedPath [boolean]
      * @return {Euclidean3[]}
      */
@@ -66,7 +66,7 @@ class Path extends CurvePath {
 
     /**
      * @method getPoints
-     * @param divisiions [number = 12]
+     * @param [divisiions = 12] {number}
      * @param closedPath [boolean]
      * @return {Euclidean3[]}
      */

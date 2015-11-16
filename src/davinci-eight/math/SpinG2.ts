@@ -98,7 +98,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
      * </p>
      * @method add
      * @param spinor {SpinorE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {SpinG2} <code>this</code>
      * @chainable
      */
@@ -648,7 +648,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
      * </p>
      * @method sub
      * @param s {SpinorE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {SpinG2} <code>this</code>
      * @chainable
      */

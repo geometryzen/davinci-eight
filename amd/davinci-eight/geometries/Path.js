@@ -35,7 +35,7 @@ define(["require", "exports", '../curves/CubicBezierCurve', '../curves/CurvePath
         };
         /**
          * @method getSpacedPoints
-         * @param divisions [number = 40]
+         * @param [divisions = 40] {number}
          * @param closedPath [boolean]
          * @return {Euclidean3[]}
          */
@@ -54,7 +54,7 @@ define(["require", "exports", '../curves/CubicBezierCurve', '../curves/CurvePath
         };
         /**
          * @method getPoints
-         * @param divisiions [number = 12]
+         * @param [divisiions = 12] {number}
          * @param closedPath [boolean]
          * @return {Euclidean3[]}
          */

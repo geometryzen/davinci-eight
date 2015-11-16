@@ -60,12 +60,14 @@ declare class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimat
     /**
      * The name of the GLSL uniform variable that will be set.
      * @property uAlphaName
-     * @type [string]
+     * @type {string}
+     * @optional
      */
     uAlphaName: string;
     /**
      * @property uColorName
-     * @type [string]
+     * @type {string}
+     * @optional
      */
     uColorName: string;
     /**

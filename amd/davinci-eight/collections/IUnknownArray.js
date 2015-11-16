@@ -25,7 +25,7 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
         }
     }
     /**
-     * @class IUnknownArray<T extends IUnknown>
+     * @class IUnknownArray
      * @extends Shareable
      */
     var IUnknownArray = (function (_super) {
@@ -109,8 +109,8 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
          * The slice() method returns a shallow copy of a portion of an array into a new array object.
          * It does not remove elements from the original array.
          * @method slice
-         * @param begin [number]
-         * @param end [number]
+         * @param [begin] {number}
+         * @param [end] {number}
          */
         IUnknownArray.prototype.slice = function (begin, end) {
             return new IUnknownArray(this._elements.slice(begin, end));

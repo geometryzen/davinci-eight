@@ -12,30 +12,37 @@ import Matrix4 = require('../math/Matrix4');
  * @beta
  */
 interface IFacetVisitor {
+
   /**
    * @method uniform1f
    * @param name {string}
    * @param x {number}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniform1f(name: string, x: number, canvasId: number): void;
+  uniform1f(name: string, x: number, canvasId?: number): void;
+
   /**
    * @method uniform2f
    * @param name {string}
    * @param x {number}
    * @param y {number}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniform2f(name: string, x: number, y: number, canvasId: number): void;
+  uniform2f(name: string, x: number, y: number, canvasId?: number): void;
+
   /**
    * @method uniform3f
    * @param name {string}
    * @param x {number}
    * @param y {number}
    * @param z {number}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
+  uniform3f(name: string, x: number, y: number, z: number, canvasId?: number): void;
+
   /**
    * @method uniform3f
    * @param name {string}
@@ -43,75 +50,94 @@ interface IFacetVisitor {
    * @param y {number}
    * @param z {number}
    * @param w {number}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
+  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId?: number): void;
+
   /**
    * @method uniformMatrix2
    * @param name {string}
    * @param transpose {boolean}
    * @param matrix {Matrix2}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number): void;
+
   /**
    * @method uniformMatrix3
    * @param name {string}
    * @param transpose {boolean}
    * @param matrix {Matrix3}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId?: number): void;
+
   /**
    * @method uniformMatrix4
    * @param name {string}
    * @param transpose {boolean}
    * @param matrix {Matrix4}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void;
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number): void;
+
   /**
    * @method uniformVectorE2
    * @param name {string}
    * @param vector {VectorE2}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniformVectorE2(name: string, vector: VectorE2, canvasId: number): void;
+  uniformVectorE2(name: string, vector: VectorE2, canvasId?: number): void;
+
   /**
    * @method uniformVectorE3
    * @param name {string}
    * @param vector {VectorE3}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniformVectorE3(name: string, vector: VectorE3, canvasId: number): void;
+  uniformVectorE3(name: string, vector: VectorE3, canvasId?: number): void;
+
   /**
    * @method uniformVectorE4
    * @param name {string}
    * @param vector {VectorE4}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  uniformVectorE4(name: string, vector: VectorE4, canvasId: number): void;
+  uniformVectorE4(name: string, vector: VectorE4, canvasId?: number): void;
+
   /**
    * @method vector2
    * @param name {string}
    * @param data {number[]}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  vector2(name: string, data: number[], canvasId: number): void;
+  vector2(name: string, data: number[], canvasId?: number): void;
+
   /**
    * @method vector3
    * @param name {string}
    * @param data {number[]}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  vector3(name: string, data: number[], canvasId: number): void;
+  vector3(name: string, data: number[], canvasId?: number): void;
+
   /**
    * @method vector4
    * @param name {string}
    * @param data {number[]}
-   * @param canvasId {number}
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    */
-  vector4(name: string, data: number[], canvasId: number): void;
+  vector4(name: string, data: number[], canvasId?: number): void;
 }
 
 export = IFacetVisitor;

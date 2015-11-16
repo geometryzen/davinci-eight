@@ -86,7 +86,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../collections
                     programsByCanvasId.remove(canvasId);
                 }
             },
-            get programId() {
+            get uuid() {
                 return uuid;
             },
             use: function (canvasId) {

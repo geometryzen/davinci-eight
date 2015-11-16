@@ -26,7 +26,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         /**
          * @class R3
          * @constructor
-         * @param data [number[] = [0, 0, 0]]
+         * @param [data = [0, 0, 0]] {number[]}
          * @param modified [boolean = false]
          */
         function R3(data, modified) {
@@ -95,7 +95,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
          * </p>
          * @method add
          * @param vector {R3}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {R3} <code>this</code>
          * @chainable
          */
@@ -474,7 +474,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
          * </p>
          * @method sub
          * @param v {VectorE3}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {R3} <code>this</code>
          * @chainable
          */
@@ -515,7 +515,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         };
         /**
          * @method toFixed
-         * @param digits [number]
+         * @param [digits] {number}
          * @return {string}
          */
         R3.prototype.toFixed = function (digits) {

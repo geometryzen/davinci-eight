@@ -16,8 +16,8 @@ class OctahedronSimplexGeometry extends PolyhedronSimplexGeometry {
   /**
    * @class OctahedronSimplexGeometry
    * @constructor
-   * @param radius [number]
-   * @param detail [number]
+   * @param [radius] {number}
+   * @param [detail] {number}
    */
   constructor(radius?: number, detail?: number) {
     super(vertices, indices, radius, detail);

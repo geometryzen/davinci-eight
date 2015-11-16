@@ -266,7 +266,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
          * </p>
          * @method add
          * @param M {GeometricE3}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {G3} <code>this</code>
          * @chainable
          */
@@ -318,7 +318,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
          * </p>
          * @method addVector
          * @param v {VectorE3}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {G3} <code>this</code>
          * @chainable
          */
@@ -1056,7 +1056,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
          * </p>
          * @method sub
          * @param M {GeometricE3}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {G3} <code>this</code>
          * @chainable
          */
@@ -1109,7 +1109,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         /**
          * Returns a string representing the number in fixed-point notation.
          * @method toFixed
-         * @param fractionDigits [number]
+         * @param [fractionDigits] {number}
          * @return {string}
          */
         G3.prototype.toFixed = function (fractionDigits) {

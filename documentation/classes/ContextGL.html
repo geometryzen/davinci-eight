@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Canvas3D - davinci-eight</title>
+    <title>ContextGL - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.153.0</em>
+            <em>API Docs for: 2.154.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,7 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
-                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -62,6 +61,7 @@
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
+                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -110,16 +110,11 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet
-                extends IAnimationTarget
-                extends IUnknown.html">IFacet
-                extends IAnimationTarget
-                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
-                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineCurve.html">LineCurve</a></li>
@@ -246,12 +241,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Canvas3D Class</h1>
+<h1>ContextGL Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:53</code></a>
+            Defined in: <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:53</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -265,19 +260,13 @@
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_Canvas3D" class="method item">
-    <h3 class="name"><code>Canvas3D</code></h3>
+<div id="method_ContextGL" class="method item">
+    <h3 class="name"><code>ContextGL</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>canvasBuilder</code>
-                </li>
-                <li class="arg">
-                        <code>canvasId</code>
-                </li>
-                <li class="arg">
-                        <code>attributes</code>
+                        <code class="optional">[attributes]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -292,7 +281,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:53</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:53</code></a>
         </p>
 
 
@@ -308,34 +297,13 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">canvasBuilder</code>
-                        <span class="type">() => HTMLCanvasElement</span>
+                        <code class="param-name optional">[attributes]</code>
+                        <span class="type">WebGLContextAttributes</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>The canvas is created lazily, allowing construction during DOM load.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">canvasId</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                        <p>[number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">attributes</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                        <p>[WebGLContextAttributes] Allow the context to be configured.</p>
+                        <p>Allow the context to be configured.</p>
 
                     </div>
 
@@ -508,7 +476,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:84</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l82"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:82</code></a>
         </p>
 
 
@@ -609,7 +577,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:126</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l124"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:124</code></a>
         </p>
 
 
@@ -703,7 +671,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:141</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l139"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:139</code></a>
         </p>
 
 
@@ -765,7 +733,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l150"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:150</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:148</code></a>
         </p>
 
 
@@ -827,7 +795,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:159</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l157"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:157</code></a>
         </p>
 
 
@@ -883,7 +851,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l168"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:168</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l166"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:166</code></a>
         </p>
 
 
@@ -914,7 +882,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
                         <code>primitive</code>
                 </li>
                 <li class="arg">
-                        <code>usage</code>
+                        <code class="optional">[usage]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -932,7 +900,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l176"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:176</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:174</code></a>
         </p>
 
 
@@ -958,13 +926,13 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
                 </li>
                 <li class="param">
-                        <code class="param-name">usage</code>
-                        <span class="type">Object</span>
+                        <code class="param-name optional">[usage]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>[number]</p>
-
+                         
                     </div>
 
                 </li>
@@ -999,7 +967,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l186"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:186</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l184"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:184</code></a>
         </p>
 
 
@@ -1039,7 +1007,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l202"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:202</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l200"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:200</code></a>
         </p>
 
 
@@ -1079,7 +1047,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l194"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:194</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:192</code></a>
         </p>
 
 
@@ -1117,7 +1085,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l70"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:70</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:68</code></a>
         </p>
 
 
@@ -1156,7 +1124,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l210"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:210</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l208"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:208</code></a>
         </p>
 
 
@@ -1221,7 +1189,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l220"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:220</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:218</code></a>
         </p>
 
 
@@ -1286,7 +1254,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l239"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:239</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l237"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:237</code></a>
         </p>
 
 
@@ -1333,7 +1301,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
                         <code>canvas</code>
                 </li>
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1351,7 +1319,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l261"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:261</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l259"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:259</code></a>
         </p>
 
 
@@ -1359,7 +1327,8 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     </div>
 
     <div class="description">
-        
+        <p>Initializes the WebGL context for the specified <code>canvas</code>.</p>
+
     </div>
 
         <div class="params">
@@ -1372,17 +1341,20 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
 
                     <div class="param-description">
-                         
+                        <p>The HTML canvas element.</p>
+
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                         
+                        <p>An optional user-defined alias for the canvas when using multi-canvas.</p>
+
                     </div>
 
                 </li>
@@ -1417,7 +1389,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l280"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:280</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l278"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:278</code></a>
         </p>
 
 
@@ -1463,7 +1435,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l288"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:288</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:286</code></a>
         </p>
 
 
@@ -1564,7 +1536,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l248"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:248</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l246"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:246</code></a>
         </p>
 
 
@@ -1652,7 +1624,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:39</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:39</code></a>
         </p>
 
 
@@ -1677,7 +1649,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:46</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:46</code></a>
         </p>
 
 
@@ -1701,7 +1673,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:93</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:91</code></a>
         </p>
 
 
@@ -1725,7 +1697,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:104</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:102</code></a>
         </p>
 
 
@@ -1749,7 +1721,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:117</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:115</code></a>
         </p>
 
 
@@ -1773,7 +1745,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Canvas3D.ts.html#l230"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Canvas3D.ts:230</code></a>
+        <a href="../files/src_davinci-eight_scene_ContextGL.ts.html#l228"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;ContextGL.ts:228</code></a>
         </p>
 
 

@@ -78,7 +78,7 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
          * </p>
          * @method add
          * @param spinor {SpinorE2}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {SpinG2} <code>this</code>
          * @chainable
          */
@@ -586,7 +586,7 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
          * </p>
          * @method sub
          * @param s {SpinorE2}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {SpinG2} <code>this</code>
          * @chainable
          */

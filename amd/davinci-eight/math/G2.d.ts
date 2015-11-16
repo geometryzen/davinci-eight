@@ -63,7 +63,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * </p>
      * @method add
      * @param M {GeometricE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {G2} <code>this</code>
      * @chainable
      */
@@ -94,7 +94,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * </p>
      * @method addVector
      * @param v {VectorE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {G2} <code>this</code>
      * @chainable
      */
@@ -513,7 +513,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * </p>
      * @method sub
      * @param M {GeometricE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {G2} <code>this</code>
      * @chainable
      */
@@ -538,7 +538,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
     /**
      * Returns a string representing the number in fixed-point notation.
      * @method toFixed
-     * @param fractionDigits [number]
+     * @param [fractionDigits] {number}
      * @return {string}
      */
     toFixed(fractionDigits?: number): string;

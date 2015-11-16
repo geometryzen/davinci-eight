@@ -1145,7 +1145,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         };
         /**
          * @method toFixed
-         * @param digits [number]
+         * @param [digits] {number}
          * @return {string}
          */
         Euclidean3.prototype.toFixed = function (digits) {

@@ -23,7 +23,7 @@ class Director extends Shareable implements IDirector {
     private step: number;
     /**
      * @property slides
-     * @type {IUnknownArray<Slide>}
+     * @type {IUnknownArray}
      */
     public slides: IUnknownArray<Slide>;
     /**

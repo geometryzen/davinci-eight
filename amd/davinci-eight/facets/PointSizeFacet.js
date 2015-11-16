@@ -16,7 +16,7 @@ define(["require", "exports", '../checks/mustBeInteger', '../utils/Shareable', '
         /**
          * @class PointSizeFacet
          * @constructor
-         * @param pointSize [number = 2]
+         * @param [pointSize = 2] {number}
          */
         function PointSizeFacet(pointSize) {
             if (pointSize === void 0) { pointSize = 2; }

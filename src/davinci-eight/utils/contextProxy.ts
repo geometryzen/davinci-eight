@@ -625,7 +625,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
             indexBuffer.release()
             return mesh;
         },
-        start(canvas: HTMLCanvasElement, canvasId: number): void {
+        start(canvas: HTMLCanvasElement, canvasId: number = 0): void {
             let alreadyStarted = isDefined(_canvas);
             if (!alreadyStarted) {
                 // cache the arguments

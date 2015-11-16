@@ -25,9 +25,9 @@ define(["require", "exports", '../geometries/AxialSimplexGeometry', '../checks/i
          * </p>
          * @class SliceSimplexGeometry
          * @constructor
-         * @param axis [VectorE3 = R3.e3] The <code>axis</code> property.
-         * @param sliceStart [VectorE3] The <code>sliceStart</code> property.
-         * @param sliceAngle [number = 2 * Math.PI] The <code>sliceAngle</code> property.
+         * @param [axis = e3] {VectorE3} The <code>axis</code> property.
+         * @param [sliceStart] {VectorE3} The <code>sliceStart</code> property.
+         * @param [sliceAngle = 2 * Math.PI] {number} The <code>sliceAngle</code> property.
          */
         function SliceSimplexGeometry(axis, sliceStart, sliceAngle) {
             if (axis === void 0) { axis = R3.e3; }

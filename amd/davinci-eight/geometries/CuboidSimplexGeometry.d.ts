@@ -43,12 +43,12 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * </p>
      * @class CuboidSimplexGeometry
      * @constructor
-     * @param a [VectorE3 = CartesianE3.e1]
-     * @param b [VectorE3 = CartesianE3.e2]
-     * @param c [VectorE3 = CartesianE3.e3]
-     * @param k [number = Simplex.TRIANGLE]
-     * @param subdivide [number = 0]
-     * @param boundary [number = 0]
+     * @param [a = e1] {VectorE3}
+     * @param [b = e2] {VectorE3}
+     * @param [c = e3] {VectorE3}
+     * @param [k = Simplex.TRIANGLE] {number}
+     * @param [subdivide = 0] {number = 0}
+     * @param [boundary = 0] {number}
      * @example
          var geometry = new EIGHT.CuboidSimplexGeometry();
          var primitive = geometry.toDrawPrimitive();

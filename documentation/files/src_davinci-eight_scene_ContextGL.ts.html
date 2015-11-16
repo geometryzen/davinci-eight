@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>IUnknownArray&lt;T extends IUnknown&gt; - davinci-eight</title>
+    <title>src/davinci-eight/scene/ContextGL.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.153.0</em>
+            <em>API Docs for: 2.154.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,7 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
-                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -62,6 +61,7 @@
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
+                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -110,16 +110,11 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet
-                extends IAnimationTarget
-                extends IUnknown.html">IFacet
-                extends IAnimationTarget
-                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
-                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineCurve.html">LineCurve</a></li>
@@ -246,278 +241,307 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>IUnknownArray&lt;T extends IUnknown&gt; Class</h1>
-<div class="box meta">
-
-        <div class="extends">
-            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
-        </div>
-
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_collections_IUnknownArray.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;IUnknownArray.ts:25</code></a>
-        </div>
-
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
-
-</div>
-
-
-<div class="box intro">
-    
-</div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_destructor">destructor</a>
-
-                            </li>
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property private">
-                                <a href="#property__elements">_elements</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_uuid">uuid</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_addRef">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:24</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    The new value of the reference count.
-            </div>
-        </div>
-
-
-</div>
-<div id="method_destructor" class="method item protected inherited">
-    <h3 class="name"><code>destructor</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#method_destructor">Shareable</a>:
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:58</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Outputs a warning to the console that this method should be implemented by the derived class.
-</p>
-<p>
-<em>This method should be implemented by derived classes.</em>
-</p>
-<p>
-<em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_release">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:37</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    The new value of the reference count.
-            </div>
-        </div>
-
-
-</div>
-            </div>
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property__elements" class="property item private">
-    <h3 class="name"><code>_elements</code></h3>
-    <span class="type">T</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_collections_IUnknownArray.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;IUnknownArray.ts:30</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_uuid" class="property item inherited">
-    <h3 class="name"><code>uuid</code></h3>
-    <span class="type">String</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:77</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: src/davinci-eight/scene/ContextGL.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Capability = require(&#x27;../commands/Capability&#x27;)
+import createRenderer = require(&#x27;../renderers/renderer&#x27;)
+import ContextController = require(&#x27;../core/ContextController&#x27;)
+import ContextKahuna = require(&#x27;../core/ContextKahuna&#x27;)
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
+import IContextMonitor = require(&#x27;../core/IContextMonitor&#x27;)
+import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;)
+import contextProxy = require(&#x27;../utils/contextProxy&#x27;)
+import IContextRenderer = require(&#x27;../renderers/IContextRenderer&#x27;)
+import core = require(&#x27;../core&#x27;)
+import DrawPrimitive = require(&#x27;../geometries/DrawPrimitive&#x27;)
+import IBuffer = require(&#x27;../core/IBuffer&#x27;)
+import IContextCommand = require(&#x27;../core/IContextCommand&#x27;)
+import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
+import IBufferGeometry = require(&#x27;../geometries/IBufferGeometry&#x27;)
+import ITexture2D = require(&#x27;../core/ITexture2D&#x27;)
+import ITextureCubeMap = require(&#x27;../core/ITextureCubeMap&#x27;)
+import IUnknown = require(&#x27;../core/IUnknown&#x27;)
+import IUnknownArray = require(&#x27;../collections/IUnknownArray&#x27;)
+import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
+import mustBeFunction = require(&#x27;../checks/mustBeFunction&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import mustSatisfy = require(&#x27;../checks/mustSatisfy&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
+import Scene = require(&#x27;../scene/Scene&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import IFacet = require(&#x27;../core/IFacet&#x27;)
+
+function beHTMLCanvasElement(): string {
+    return &quot;be an HTMLCanvasElement&quot;
+}
+
+let defaultCanvasBuilder = () =&gt; { return document.createElement(&#x27;canvas&#x27;) }
+
+/**
+ * @class ContextGL
+ */
+class ContextGL extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
+    /**
+     * @property _kahuna
+     * @type {ContextKahuna}
+     * @private
+     */
+    private _kahuna: ContextKahuna;
+
+    /**
+     * @property _renderer
+     * @type {IContextRenderer}
+     * @private
+     */
+    private _renderer: IContextRenderer;
+
+    /**
+     * @class ContextGL
+     * @constructor
+     * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
+     * @beta
+     */
+    // FIXME: Move attributes to start()
+    constructor(attributes?: WebGLContextAttributes) {
+        super(&#x27;ContextGL&#x27;)
+        this._kahuna = contextProxy(attributes)
+        this._renderer = createRenderer()
+        this._kahuna.addContextListener(this._renderer)
+        this._kahuna.synchronize(this._renderer)
+    }
+
+    /**
+     * @method destructor
+     * return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        this._kahuna.removeContextListener(this._renderer)
+        this._kahuna.release()
+        this._kahuna = void 0
+        this._renderer.release()
+        this._renderer = void 0
+        super.destructor()
+    }
+
+    /**
+     * @method addContextListener
+     * @param user {IContextConsumer}
+     * @return {void}
+     */
+    addContextListener(user: IContextConsumer): void {
+        this._kahuna.addContextListener(user)
+    }
+
+    /**
+     * @property canvas
+     * @type {HTMLCanvasElement}
+     */
+    get canvas(): HTMLCanvasElement {
+        return this._kahuna.canvas;
+    }
+    set canvas(canvas: HTMLCanvasElement) {
+        this._kahuna.canvas = canvas;
+    }
+
+    /**
+     * @property canvasId
+     * @type {number}
+     * @readOnly
+     */
+    get canvasId(): number {
+        return this._kahuna.canvasId;
+    }
+    set canvasId(unused) {
+        // FIXME: DRY delegate to kahuna? Should give the same result.
+        throw new Error(readOnly(&#x27;canvasId&#x27;).message)
+    }
+
+    /**
+     * @property commands
+     * @type {IUnknownArray}
+     * @beta
+     */
+    get commands(): IUnknownArray&lt;IContextCommand&gt; {
+        return this._renderer.commands;
+    }
+
+    /**
+     * &lt;p&gt;
+     * Specifies color values to use by the &lt;code&gt;clear&lt;/code&gt; method to clear the color buffer.
+     * &lt;p&gt;
+     * @method clearColor
+     * @param red {number}
+     * @param green {number}
+     * @param blue {number}
+     * @param alpha {number}
+     * @return {void}
+     */
+    clearColor(red: number, green: number, blue: number, alpha: number): void {
+        return this._renderer.clearColor(red, green, blue, alpha)
+    }
+
+    /**
+     * @method contextFree
+     * @param canvasId {number}
+     * @return {void}
+     */
+    contextFree(canvasId: number): void {
+        return this._renderer.contextFree(canvasId)
+    }
+
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
+    contextGain(manager: IContextProvider): void {
+        return this._renderer.contextGain(manager)
+    }
+
+    /**
+     * @method contextLost
+     * @param canvasId {number}
+     * @return {void}
+     */
+    contextLost(canvasId: number) {
+        this._renderer.contextLost(canvasId)
+    }
+
+    /**
+     * @method createArrayBuffer
+     * @return {IBuffer}
+     */
+    createArrayBuffer(): IBuffer {
+        return this._kahuna.createArrayBuffer()
+    }
+
+    /**
+     * @method createBufferGeometry
+     * @param primitive {DrawPrimitive}
+     * @param [usage] {number}
+     * @return {IBufferGeometry}
+     */
+    createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry {
+        return this._kahuna.createBufferGeometry(primitive, usage)
+    }
+
+    /**
+     * @method createElementArrayBuffer
+     * @return {IBuffer}
+     */
+    createElementArrayBuffer(): IBuffer {
+        return this._kahuna.createElementArrayBuffer()
+    }
+
+    /**
+     * @method createTextureCubeMap
+     * @return {ITextureCubeMap}
+     */
+    createTextureCubeMap(): ITextureCubeMap {
+        return this._kahuna.createTextureCubeMap()
+    }
+
+    /**
+     * @method createTexture2D
+     * @return {ITexture2D}
+     */
+    createTexture2D(): ITexture2D {
+        return this._kahuna.createTexture2D()
+    }
+
+    /**
+     * Turns off specific WebGL capabilities for this context.
+     * @method disable
+     * @param capability {Capability}
+     * @return {void} This method does not return a value.
+     */
+    disable(capability: Capability): void {
+        return this._renderer.disable(capability)
+    }
+
+    /**
+     * Turns on specific WebGL capabilities for this context.
+     * @method enable
+     * @param capability {Capability}
+     * @return {void} This method does not return a value.
+     */
+    enable(capability: Capability): void {
+        return this._renderer.enable(capability)
+    }
+
+    /**
+     * @property gl
+     * @type {WebGLRenderingContext}
+     * @readOnly
+     */
+    get gl(): WebGLRenderingContext {
+        return this._kahuna.gl
+    }
+
+    /**
+     * @method removeContextListener
+     * @param user {IContextConsumer}
+     * @return {void}
+     */
+    removeContextListener(user: IContextConsumer): void {
+        return this._kahuna.removeContextListener(user)
+    }
+
+    /**
+     * Defines what part of the canvas will be used in rendering the drawing buffer.
+     * @method viewport
+     * @param x {number}
+     * @param y {number}
+     * @param width {number}
+     * @param height {number}
+     * @return {void} This method does not return a value.
+     */
+    viewport(x: number, y: number, width: number, height: number): void {
+        return this._renderer.viewport(x, y, width, height)
+    }
+
+    /**
+     * Initializes the WebGL context for the specified &lt;code&gt;canvas&lt;/code&gt;.
+     * @method start
+     * @param canvas {HTMLCanvasElement} The HTML canvas element.
+     * @param [canvasId] {number} An optional user-defined alias for the canvas when using multi-canvas.
+     * @return {void}
+     */
+    start(canvas: HTMLCanvasElement, canvasId?: number): void {
+        // FIXME: DRY delegate to kahuna.
+        if (!(canvas instanceof HTMLElement)) {
+            if (core.verbose) {
+                console.warn(&quot;canvas must be an HTMLCanvasElement to start the context.&quot;)
+            }
+            return
+        }
+        mustBeDefined(&#x27;canvas&#x27;, canvas)
+        this._kahuna.start(canvas, canvasId)
+    }
+
+    /**
+     * @method stop
+     * @return {void}
+     */
+    stop(): void {
+        return this._kahuna.stop()
+    }
+
+    /**
+     * @method synchronize
+     * @param user {IContextConsumer}
+     * @return {void}
+     */
+    synchronize(user: IContextConsumer): void {
+        return this._kahuna.synchronize(user)
+    }
+}
+
+export = ContextGL
+    </pre>
 </div>
                     </div>
                 </div>

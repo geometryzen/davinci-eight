@@ -205,17 +205,17 @@ class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxi
      * Constructs a geometry consisting of triangular simplices based on spherical coordinates.
      * @class SphericalPolarSimplexGeometry
      * @constructor
-     * @param radius [number = 1]
-     * @param axis [VectorE3]
-     * @param phiStart [vectorE3]
-     * @param phiLength [number = 2 * Math.PI]
-     * @param thetaStart [number]
-     * @param thetaLength [number]
+     * @param [radius = 1] {number}
+     * @param [axis] {VectorE3}
+     * @param [phiStart] {vectorE3}
+     * @param [phiLength = 2 * Math.PI] {number}
+     * @param [thetaStart = 0] {number}
+     * @param [thetaLength = Math.PI] {number}
      */
     constructor(
         radius: number = 1,
         axis: VectorE3,
-        phiStart: VectorE3,
+        phiStart?: VectorE3,
         phiLength: number = 2 * Math.PI,
         thetaStart: number = 0,
         thetaLength: number = Math.PI

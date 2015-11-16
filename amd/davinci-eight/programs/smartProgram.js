@@ -11,8 +11,8 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
         var vLight = vLightRequired(attributes, uniforms);
         var innerProgram = createMaterial(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
         var self = {
-            get programId() {
-                return innerProgram.programId;
+            get uuid() {
+                return innerProgram.uuid;
             },
             attributes: function (canvasId) {
                 return innerProgram.attributes(canvasId);

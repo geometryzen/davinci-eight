@@ -4,8 +4,8 @@ import IUnknown = require('../core/IUnknown')
 
 /**
  * @class IFacet
- * extends IAnimationTarget
- * extends IUnknown
+ * @extends IAnimationTarget
+ * @extends IUnknown
  */
 // FIXME: Does not need to extend IAnimationTarget.
 interface IFacet extends IAnimationTarget, IUnknown {

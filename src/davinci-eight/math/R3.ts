@@ -69,7 +69,7 @@ class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3,
     /**
      * @class R3
      * @constructor
-     * @param data [number[] = [0, 0, 0]]
+     * @param [data = [0, 0, 0]] {number[]}
      * @param modified [boolean = false]
      */
     constructor(data: number[] = [0, 0, 0], modified = false) {
@@ -114,7 +114,7 @@ class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3,
      * </p>
      * @method add
      * @param vector {R3}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {R3} <code>this</code>
      * @chainable
      */
@@ -517,7 +517,7 @@ class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3,
      * </p>
      * @method sub
      * @param v {VectorE3}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {R3} <code>this</code>
      * @chainable
      */
@@ -560,7 +560,7 @@ class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3,
 
     /**
      * @method toFixed
-     * @param digits [number]
+     * @param [digits] {number}
      * @return {string}
      */
     toFixed(digits?: number): string {

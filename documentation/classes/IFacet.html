@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>IFacet
-extends IAnimationTarget
-extends IUnknown - davinci-eight</title>
+    <title>IFacet - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +17,7 @@ extends IUnknown - davinci-eight</title>
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.153.0</em>
+            <em>API Docs for: 2.154.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,7 +50,6 @@ extends IUnknown - davinci-eight</title>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
-                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -64,6 +61,7 @@ extends IUnknown - davinci-eight</title>
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
+                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -112,16 +110,11 @@ extends IUnknown - davinci-eight</title>
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet
-                extends IAnimationTarget
-                extends IUnknown.html">IFacet
-                extends IAnimationTarget
-                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
-                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineCurve.html">LineCurve</a></li>
@@ -248,11 +241,12 @@ extends IUnknown - davinci-eight</title>
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>IFacet
-extends IAnimationTarget
-extends IUnknown Class</h1>
+<h1>IFacet Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/IUnknown.html" class="crosslink">IUnknown</a>
+        </div>
 
         <div class="foundat">
             Defined in: <a href="../files/src_davinci-eight_core_IFacet.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacet.ts:5</code></a>
@@ -282,7 +276,15 @@ extends IUnknown Class</h1>
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_release">release</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_setUniforms">setUniforms</a>
 
@@ -297,6 +299,96 @@ extends IUnknown Class</h1>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/IUnknown.html#method_addRef">IUnknown</a>:
+        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:9</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Increments the reference count of an IUnknown instance.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>
+The new reference count. This value is intended to be used only for test purposes.
+</p>
+            </div>
+        </div>
+
+
+</div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/IUnknown.html#method_release">IUnknown</a>:
+        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:20</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Decrements the reference count of an IUnknown instance.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>
+The new reference count. This value is intended to be used only for test purposes.
+</p>
+            </div>
+        </div>
+
+
+</div>
 <div id="method_setUniforms" class="method item">
     <h3 class="name"><code>setUniforms</code></h3>
 

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.153.0</em>
+            <em>API Docs for: 2.154.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,7 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
-                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -62,6 +61,7 @@
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
+                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -110,16 +110,11 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet
-                extends IAnimationTarget
-                extends IUnknown.html">IFacet
-                extends IAnimationTarget
-                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
-                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineCurve.html">LineCurve</a></li>
@@ -292,290 +287,290 @@ let LOGGING_NAME_IMATERIAL = &#x27;IMaterial&#x27;
 // FIXME: Handle list of shaders? Else createSimpleProgram
 
 let createMaterial = function(monitors: IContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]): IMaterial {
-  MonitorList.verify(&#x27;monitors&#x27;, monitors, () =&gt; { return &quot;createMaterial&quot;})
-  // FIXME multi-context
-  if (typeof vertexShader !== &#x27;string&#x27;) {
-    throw new Error(&quot;vertexShader argument must be a string.&quot;)
-  }
-
-  if (typeof fragmentShader !== &#x27;string&#x27;) {
-    throw new Error(&quot;fragmentShader argument must be a string.&quot;)
-  }
-
-  var refCount: number = 1
-  /**
-   * Because we are multi-canvas aware, programs are tracked by the canvas id.
-   */
-  var programsByCanvasId = new NumberIUnknownMap&lt;SimpleWebGLProgram&gt;()
-
-  let uuid: string = uuid4().generate()
-
-  var self: IMaterial = {
-    get vertexShader() {
-      return vertexShader
-    },
-    get fragmentShader() {
-      return fragmentShader
-    },
-    attributes(canvasId: number): { [name: string]: AttribLocation } {
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        return program.attributes;
-      }
-    },
-    uniforms(canvasId: number): { [name: string]: UniformLocation } {
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        return program.uniforms;
-      }
-    },
-    addRef(): number {
-      refChange(uuid, LOGGING_NAME_IMATERIAL, +1)
-      refCount++
-      return refCount
-    },
-    release(): number {
-      refChange(uuid, LOGGING_NAME_IMATERIAL, -1)
-      refCount--
-      if (refCount === 0) {
-        MonitorList.removeContextListener(self, monitors)
-        programsByCanvasId.release()
-      }
-      return refCount
-    },
-    contextFree(canvasId: number) {
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        program.contextFree(canvasId)
-        programsByCanvasId.remove(canvasId)
-      }
-    },
-    contextGain(manager: IContextProvider): void {
-      var canvasId: number
-      var sprog: SimpleWebGLProgram
-      canvasId = manager.canvasId
-      if (!programsByCanvasId.exists(canvasId)) {
-        sprog = new SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs)
-        programsByCanvasId.putWeakRef(canvasId, sprog)
-      }
-      else {
-        sprog = programsByCanvasId.getWeakRef(canvasId)
-      }
-      sprog.contextGain(manager)
-    },
-    contextLost(canvasId: number) {
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        program.contextLost(canvasId)
-        programsByCanvasId.remove(canvasId)
-      }
-    },
-    get programId() {
-      return uuid
-    },
-    use(canvasId: number): void {
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        program.use()
-      }
-      else {
-        console.warn(LOGGING_NAME_IMATERIAL + &quot; use(canvasId: number) missing WebGLRenderingContext&quot;)
-      }
-    },
-    enableAttrib(name: string, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let attribLoc = program.attributes[name]
-        if (attribLoc) {
-          attribLoc.enable()
-        }
-        else {
-        }
-      }
-      else {
-      }
-    },
-    disableAttrib(name: string, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let attribLoc = program.attributes[name]
-        if (attribLoc) {
-          attribLoc.enable()
-        }
-        else {
-        }
-      }
-      else {
-      }
-    },
-    uniform1f(name: string, x: number, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.uniform1f(x)
-        }
-        else {
-          // warning
-        }
-      }
-      else {
-        // warning
-      }
-    },
-    uniform2f(name: string, x: number, y: number, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.uniform2f(x, y)
-        }
-      }
-    },
-    uniform3f(name: string, x: number, y: number, z: number, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.uniform3f(x, y, z)
-        }
-      }
-    },
-    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.uniform4f(x, y, z, w)
-        }
-      }
-    },
-    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.matrix2(transpose, matrix)
-        }
-      }
-    },
-    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.matrix3(transpose, matrix)
-        }
-      }
-    },
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.matrix4(transpose, matrix)
-        }
-      }
-      else {
-        if (core.verbose) {
-          console.warn(&quot;Ignoring uniformMatrix4 for &quot; + name + &quot; because &#x60;typeof canvasId&#x60; is &quot; + typeof canvasId)
-        }
-      }
-    },
-    uniformVectorE2(name: string, vector: VectorE2, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.cartesian2(vector)
-        }
-      }
-    },
-    uniformVectorE3(name: string, vector: VectorE3, canvasId: number) {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.cartesian3(vector)
-        }
-      }
-    },
-    uniformVectorE4(name: string, vector: VectorE4, canvasId: number): void {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.cartesian4(vector)
-        }
-      }
-    },
-    vector2(name: string, data: number[], canvasId: number): void {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.vector2(data)
-        }
-      }
-    },
-    vector3(name: string, data: number[], canvasId: number): void {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.vector3(data)
-        }
-      }
-    },
-    vector4(name: string, data: number[], canvasId: number): void {
-      mustBeString(&#x27;name&#x27;, name)
-      mustBeInteger(&#x27;canvasId&#x27;, canvasId)
-      let program = programsByCanvasId.getWeakRef(canvasId)
-      if (program) {
-        let uniformLoc = program.uniforms[name]
-        if (uniformLoc) {
-          uniformLoc.vector4(data)
-        }
-      }
+    MonitorList.verify(&#x27;monitors&#x27;, monitors, () =&gt; { return &quot;createMaterial&quot; })
+    // FIXME multi-context
+    if (typeof vertexShader !== &#x27;string&#x27;) {
+        throw new Error(&quot;vertexShader argument must be a string.&quot;)
     }
-  }
-  MonitorList.addContextListener(self, monitors)
-  MonitorList.synchronize(self, monitors)
-  refChange(uuid, LOGGING_NAME_IMATERIAL, +1)
-  return self
+
+    if (typeof fragmentShader !== &#x27;string&#x27;) {
+        throw new Error(&quot;fragmentShader argument must be a string.&quot;)
+    }
+
+    var refCount: number = 1
+    /**
+     * Because we are multi-canvas aware, programs are tracked by the canvas id.
+     */
+    var programsByCanvasId = new NumberIUnknownMap&lt;SimpleWebGLProgram&gt;()
+
+    let uuid: string = uuid4().generate()
+
+    var self: IMaterial = {
+        get vertexShader() {
+            return vertexShader
+        },
+        get fragmentShader() {
+            return fragmentShader
+        },
+        attributes(canvasId: number): { [name: string]: AttribLocation } {
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                return program.attributes;
+            }
+        },
+        uniforms(canvasId: number): { [name: string]: UniformLocation } {
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                return program.uniforms;
+            }
+        },
+        addRef(): number {
+            refChange(uuid, LOGGING_NAME_IMATERIAL, +1)
+            refCount++
+            return refCount
+        },
+        release(): number {
+            refChange(uuid, LOGGING_NAME_IMATERIAL, -1)
+            refCount--
+            if (refCount === 0) {
+                MonitorList.removeContextListener(self, monitors)
+                programsByCanvasId.release()
+            }
+            return refCount
+        },
+        contextFree(canvasId: number) {
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                program.contextFree(canvasId)
+                programsByCanvasId.remove(canvasId)
+            }
+        },
+        contextGain(manager: IContextProvider): void {
+            var canvasId: number
+            var sprog: SimpleWebGLProgram
+            canvasId = manager.canvasId
+            if (!programsByCanvasId.exists(canvasId)) {
+                sprog = new SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs)
+                programsByCanvasId.putWeakRef(canvasId, sprog)
+            }
+            else {
+                sprog = programsByCanvasId.getWeakRef(canvasId)
+            }
+            sprog.contextGain(manager)
+        },
+        contextLost(canvasId: number) {
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                program.contextLost(canvasId)
+                programsByCanvasId.remove(canvasId)
+            }
+        },
+        get uuid() {
+            return uuid
+        },
+        use(canvasId: number): void {
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                program.use()
+            }
+            else {
+                console.warn(LOGGING_NAME_IMATERIAL + &quot; use(canvasId: number) missing WebGLRenderingContext&quot;)
+            }
+        },
+        enableAttrib(name: string, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let attribLoc = program.attributes[name]
+                if (attribLoc) {
+                    attribLoc.enable()
+                }
+                else {
+                }
+            }
+            else {
+            }
+        },
+        disableAttrib(name: string, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let attribLoc = program.attributes[name]
+                if (attribLoc) {
+                    attribLoc.enable()
+                }
+                else {
+                }
+            }
+            else {
+            }
+        },
+        uniform1f(name: string, x: number, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.uniform1f(x)
+                }
+                else {
+                    // warning
+                }
+            }
+            else {
+                // warning
+            }
+        },
+        uniform2f(name: string, x: number, y: number, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.uniform2f(x, y)
+                }
+            }
+        },
+        uniform3f(name: string, x: number, y: number, z: number, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.uniform3f(x, y, z)
+                }
+            }
+        },
+        uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.uniform4f(x, y, z, w)
+                }
+            }
+        },
+        uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.matrix2(transpose, matrix)
+                }
+            }
+        },
+        uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.matrix3(transpose, matrix)
+                }
+            }
+        },
+        uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.matrix4(transpose, matrix)
+                }
+            }
+            else {
+                if (core.verbose) {
+                    console.warn(&quot;Ignoring uniformMatrix4 for &quot; + name + &quot; because &#x60;typeof canvasId&#x60; is &quot; + typeof canvasId)
+                }
+            }
+        },
+        uniformVectorE2(name: string, vector: VectorE2, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.cartesian2(vector)
+                }
+            }
+        },
+        uniformVectorE3(name: string, vector: VectorE3, canvasId: number) {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.cartesian3(vector)
+                }
+            }
+        },
+        uniformVectorE4(name: string, vector: VectorE4, canvasId: number): void {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.cartesian4(vector)
+                }
+            }
+        },
+        vector2(name: string, data: number[], canvasId: number): void {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.vector2(data)
+                }
+            }
+        },
+        vector3(name: string, data: number[], canvasId: number): void {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.vector3(data)
+                }
+            }
+        },
+        vector4(name: string, data: number[], canvasId: number): void {
+            mustBeString(&#x27;name&#x27;, name)
+            mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+            let program = programsByCanvasId.getWeakRef(canvasId)
+            if (program) {
+                let uniformLoc = program.uniforms[name]
+                if (uniformLoc) {
+                    uniformLoc.vector4(data)
+                }
+            }
+        }
+    }
+    MonitorList.addContextListener(self, monitors)
+    MonitorList.synchronize(self, monitors)
+    refChange(uuid, LOGGING_NAME_IMATERIAL, +1)
+    return self
 }
 
 export = createMaterial

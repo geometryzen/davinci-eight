@@ -43,11 +43,14 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
      * @type {IMaterial}
      */
     public material: IMaterial;
+
     /**
      * @property name
-     * @type [string]
+     * @type {string}
+     * @optional
      */
     public name: string;
+
     /**
      *
      */

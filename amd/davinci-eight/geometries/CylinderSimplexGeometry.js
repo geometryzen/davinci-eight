@@ -60,8 +60,8 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
          * </p>
          * @class CylinderSimplexGeometry
          * @constructor
-         * @param radius [number = 1]
-         * @param height [number = 1]
+         * @param [radius = 1] {number}
+         * @param [height = 1] {number}
          * @param axis [VectorE3 = R3.e2]
          * @param openTop [boolean = false]
          * @param openBottom [boolean = false]

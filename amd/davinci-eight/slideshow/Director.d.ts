@@ -17,7 +17,7 @@ declare class Director extends Shareable implements IDirector {
     private step;
     /**
      * @property slides
-     * @type {IUnknownArray<Slide>}
+     * @type {IUnknownArray}
      */
     slides: IUnknownArray<Slide>;
     /**

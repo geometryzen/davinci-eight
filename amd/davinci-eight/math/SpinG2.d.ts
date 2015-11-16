@@ -42,7 +42,7 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2
      * </p>
      * @method add
      * @param spinor {SpinorE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {SpinG2} <code>this</code>
      * @chainable
      */
@@ -352,7 +352,7 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2
      * </p>
      * @method sub
      * @param s {SpinorE2}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {SpinG2} <code>this</code>
      * @chainable
      */

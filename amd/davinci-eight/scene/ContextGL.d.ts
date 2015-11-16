@@ -13,9 +13,9 @@ import ITextureCubeMap = require('../core/ITextureCubeMap');
 import IUnknownArray = require('../collections/IUnknownArray');
 import Shareable = require('../utils/Shareable');
 /**
- * @class Canvas3D
+ * @class ContextGL
  */
-declare class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
+declare class ContextGL extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
     /**
      * @property _kahuna
      * @type {ContextKahuna}
@@ -29,11 +29,9 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
      */
     private _renderer;
     /**
-     * @class Canvas3D
+     * @class ContextGL
      * @constructor
-     * @param canvasBuilder {() => HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
-     * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
-     * @param attributes [WebGLContextAttributes] Allow the context to be configured.
+     * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
      * @beta
      */
     constructor(attributes?: WebGLContextAttributes);
@@ -104,7 +102,7 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
     /**
      * @method createBufferGeometry
      * @param primitive {DrawPrimitive}
-     * @param usage [number]
+     * @param [usage] {number}
      * @return {IBufferGeometry}
      */
     createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry;
@@ -160,12 +158,13 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
      */
     viewport(x: number, y: number, width: number, height: number): void;
     /**
+     * Initializes the WebGL context for the specified <code>canvas</code>.
      * @method start
-     * @param canvas {HTMLCanvasElement}
-     * @param canvasId {number}
+     * @param canvas {HTMLCanvasElement} The HTML canvas element.
+     * @param [canvasId] {number} An optional user-defined alias for the canvas when using multi-canvas.
      * @return {void}
      */
-    start(canvas: HTMLCanvasElement, canvasId: number): void;
+    start(canvas: HTMLCanvasElement, canvasId?: number): void;
     /**
      * @method stop
      * @return {void}
@@ -178,4 +177,4 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
      */
     synchronize(user: IContextConsumer): void;
 }
-export = Canvas3D;
+export = ContextGL;

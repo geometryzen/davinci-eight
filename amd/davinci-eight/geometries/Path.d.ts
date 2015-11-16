@@ -22,14 +22,14 @@ declare class Path extends CurvePath {
     fromPoints(points: Euclidean3[]): void;
     /**
      * @method getSpacedPoints
-     * @param divisions [number = 40]
+     * @param [divisions = 40] {number}
      * @param closedPath [boolean]
      * @return {Euclidean3[]}
      */
     getSpacedPoints(divisions?: number, closedPath?: boolean): Euclidean3[];
     /**
      * @method getPoints
-     * @param divisiions [number = 12]
+     * @param [divisiions = 12] {number}
      * @param closedPath [boolean]
      * @return {Euclidean3[]}
      */

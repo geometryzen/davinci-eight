@@ -199,7 +199,7 @@ declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     private set(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44);
     /**
      * @method toFixed
-     * @param digits [number]
+     * @param [digits] {number}
      * @return {string}
      */
     toFixed(digits?: number): string;

@@ -23,7 +23,8 @@ declare class Drawable<M extends IMaterial> extends Shareable implements IDrawab
     _material: M;
     /**
      * @property name
-     * @type [string]
+     * @type {string}
+     * @optional
      */
     name: string;
     /**

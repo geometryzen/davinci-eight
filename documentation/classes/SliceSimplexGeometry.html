@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.153.0</em>
+            <em>API Docs for: 2.154.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,7 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
-                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -62,6 +61,7 @@
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
+                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -110,16 +110,11 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet
-                extends IAnimationTarget
-                extends IUnknown.html">IFacet
-                extends IAnimationTarget
-                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
-                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineCurve.html">LineCurve</a></li>
@@ -282,13 +277,13 @@ Provides the <code>type</code> to the <code>AxialSimplexGeometry</code> base cla
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>axis</code>
+                        <code class="optional">[axis = e3]</code>
                 </li>
                 <li class="arg">
-                        <code>sliceStart</code>
+                        <code class="optional">[sliceStart]</code>
                 </li>
                 <li class="arg">
-                        <code>sliceAngle</code>
+                        <code class="optional">[sliceAngle = 2 * Math.PI]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -319,34 +314,37 @@ Provides the <code>type</code> to the <code>AxialSimplexGeometry</code> base cla
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">axis</code>
-                        <span class="type">Object</span>
+                        <code class="param-name optional">[axis = e3]</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>[VectorE3 = R3.e3] The <code>axis</code> property.</p>
+                        <p>The <code>axis</code> property.</p>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name">sliceStart</code>
-                        <span class="type">Object</span>
+                        <code class="param-name optional">[sliceStart]</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>[VectorE3] The <code>sliceStart</code> property.</p>
+                        <p>The <code>sliceStart</code> property.</p>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name">sliceAngle</code>
-                        <span class="type">Object</span>
+                        <code class="param-name optional">[sliceAngle = 2 * Math.PI]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>[number = 2 * Math.PI] The <code>sliceAngle</code> property.</p>
+                        <p>The <code>sliceAngle</code> property.</p>
 
                     </div>
 
@@ -509,7 +507,7 @@ Provides the <code>type</code> to the <code>AxialSimplexGeometry</code> base cla
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>times</code>
+                        <code class="optional">[times]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -549,12 +547,13 @@ For example, triangles are converted to lines.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">times</code>
-                        <span class="type">Object</span>
+                        <code class="param-name optional">[times]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>[number] Determines the number of times the boundary operation is applied to this instance.</p>
+                        <p>Determines the number of times the boundary operation is applied to this instance.</p>
 
                     </div>
 
@@ -908,7 +907,7 @@ This method should be implemented by the derived class to reduce frequent recalc
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>precisionPonts</code>
+                        <code class="optional">[precisionPonts = 4]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -943,13 +942,13 @@ This method should be implemented by the derived class to reduce frequent recalc
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">precisionPonts</code>
-                        <span class="type">Object</span>
+                        <code class="param-name optional">[precisionPonts = 4]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>[number = 4]</p>
-
+                         
                     </div>
 
                 </li>
@@ -1300,7 +1299,7 @@ Derived classes should override this method if they contain parameters which aff
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>times</code>
+                        <code class="optional">[times]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1339,12 +1338,13 @@ The subdivide operation creates new simplices of the same dimension as the origi
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">times</code>
-                        <span class="type">Object</span>
+                        <code class="param-name optional">[times]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>[number] Determines the number of times the subdivide operation is applied to this instance.</p>
+                        <p>Determines the number of times the subdivide operation is applied to this instance.</p>
 
                     </div>
 

@@ -3,8 +3,8 @@ import IFacetVisitor = require('../core/IFacetVisitor');
 import IUnknown = require('../core/IUnknown');
 /**
  * @class IFacet
- * extends IAnimationTarget
- * extends IUnknown
+ * @extends IAnimationTarget
+ * @extends IUnknown
  */
 interface IFacet extends IAnimationTarget, IUnknown {
     /**

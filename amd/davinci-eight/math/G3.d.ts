@@ -72,7 +72,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * </p>
      * @method add
      * @param M {GeometricE3}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {G3} <code>this</code>
      * @chainable
      */
@@ -103,7 +103,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * </p>
      * @method addVector
      * @param v {VectorE3}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {G3} <code>this</code>
      * @chainable
      */
@@ -511,7 +511,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
      * </p>
      * @method sub
      * @param M {GeometricE3}
-     * @param α [number = 1]
+     * @param [α = 1] {number}
      * @return {G3} <code>this</code>
      * @chainable
      */
@@ -536,7 +536,7 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     /**
      * Returns a string representing the number in fixed-point notation.
      * @method toFixed
-     * @param fractionDigits [number]
+     * @param [fractionDigits] {number}
      * @return {string}
      */
     toFixed(fractionDigits?: number): string;

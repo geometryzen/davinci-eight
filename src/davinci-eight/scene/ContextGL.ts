@@ -33,9 +33,9 @@ function beHTMLCanvasElement(): string {
 let defaultCanvasBuilder = () => { return document.createElement('canvas') }
 
 /**
- * @class Canvas3D
+ * @class ContextGL
  */
-class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
+class ContextGL extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
     /**
      * @property _kahuna
      * @type {ContextKahuna}
@@ -51,16 +51,14 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
     private _renderer: IContextRenderer;
 
     /**
-     * @class Canvas3D
+     * @class ContextGL
      * @constructor
-     * @param canvasBuilder {() => HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
-     * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
-     * @param attributes [WebGLContextAttributes] Allow the context to be configured.
+     * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
      * @beta
      */
     // FIXME: Move attributes to start()
     constructor(attributes?: WebGLContextAttributes) {
-        super('Canvas3D')
+        super('ContextGL')
         this._kahuna = contextProxy(attributes)
         this._renderer = createRenderer()
         this._kahuna.addContextListener(this._renderer)
@@ -176,7 +174,7 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
     /**
      * @method createBufferGeometry
      * @param primitive {DrawPrimitive}
-     * @param usage [number]
+     * @param [usage] {number}
      * @return {IBufferGeometry}
      */
     createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry {
@@ -259,12 +257,13 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
     }
 
     /**
+     * Initializes the WebGL context for the specified <code>canvas</code>.
      * @method start
-     * @param canvas {HTMLCanvasElement}
-     * @param canvasId {number}
+     * @param canvas {HTMLCanvasElement} The HTML canvas element.
+     * @param [canvasId] {number} An optional user-defined alias for the canvas when using multi-canvas.
      * @return {void}
      */
-    start(canvas: HTMLCanvasElement, canvasId: number): void {
+    start(canvas: HTMLCanvasElement, canvasId?: number): void {
         // FIXME: DRY delegate to kahuna.
         if (!(canvas instanceof HTMLElement)) {
             if (core.verbose) {
@@ -273,7 +272,6 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
             return
         }
         mustBeDefined('canvas', canvas)
-        mustBeInteger('canvasId', canvasId)
         this._kahuna.start(canvas, canvasId)
     }
 
@@ -295,4 +293,4 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
     }
 }
 
-export = Canvas3D
+export = ContextGL

@@ -1,7 +1,7 @@
 import IUnknown = require('../core/IUnknown');
 import Shareable = require('../utils/Shareable');
 /**
- * @class IUnknownArray<T extends IUnknown>
+ * @class IUnknownArray
  * @extends Shareable
  */
 declare class IUnknownArray<T extends IUnknown> extends Shareable {
@@ -54,8 +54,8 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
      * The slice() method returns a shallow copy of a portion of an array into a new array object.
      * It does not remove elements from the original array.
      * @method slice
-     * @param begin [number]
-     * @param end [number]
+     * @param [begin] {number}
+     * @param [end] {number}
      */
     slice(begin?: number, end?: number): IUnknownArray<T>;
     /**

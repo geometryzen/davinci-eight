@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.153.0</em>
+            <em>API Docs for: 2.154.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -50,7 +50,6 @@
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
-                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
                                 <li><a href="../classes/CC.html">CC</a></li>
@@ -62,6 +61,7 @@
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
+                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -110,16 +110,11 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet
-                extends IAnimationTarget
-                extends IUnknown.html">IFacet
-                extends IAnimationTarget
-                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
-                                <li><a href="../classes/IUnknownArray&lt;T extends IUnknown&gt;.html">IUnknownArray&lt;T extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LineCurve.html">LineCurve</a></li>
@@ -268,60 +263,72 @@ import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;);
  * @beta
  */
 interface IMaterial extends IResource, IFacetVisitor {
+
   /**
-   * @property programId
+   * @property uuid
    * @type string
    */
-  // FIXME: rename material id or simply uuid.
-  programId: string;
+  uuid: string;
+
   /**
    * @property vertexShader
    * @type string
    */
   vertexShader: string;
+
   /**
    * @property fragmentShader
    * @type string
    */
   fragmentShader: string;
+
   /**
    * Makes the Program the current program for WebGL.
    * @method use
-   * @param canvasId {number} Determines which WebGLProgram to use.
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
    * @return {void}
    */
-  use(canvasId: number): void;
+  use(canvasId?: number): void;
+
   /**
-   * @property attributeLocations
-   * @type { [name: string]: AttribLocation }
+   * @method attributes
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {{ [name: string]: AttribLocation }}
    */
-  attributes(canvasId: number): { [name: string]: AttribLocation };
+  attributes(canvasId?: number): { [name: string]: AttribLocation };
+
   /**
-   * @property uniforms
-   * @type { [name: string]: UniformLocation }
+   * @method uniforms
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {{ [name: string]: UniformLocation }}
    */
-  // FIXME: Need canvasId because of locations.
-  uniforms(canvasId: number): { [name: string]: UniformLocation };
+  uniforms(canvasId?: number): { [name: string]: UniformLocation };
+
   /**
    * &lt;p&gt;
    * Enables an attribute location of a WebGLProgram.
    * &lt;/p&gt;
    * @method enableAttrib
    * @param name {string} The name of the attribute to enable.
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    * @beta
    */
   // FIXME: Can we move to the attribute index?
-  enableAttrib(name: string, canvasId: number): void;
+  enableAttrib(name: string, canvasId?: number): void;
+
   /**
    * &lt;p&gt;
-   * Enables an attribute location of a WebGLProgram.
+   * Disables an attribute location of a WebGLProgram.
    * &lt;/p&gt;
    * @method disableAttrib
    * @param name {string} The name of the attribute disable.
+   * @param [canvasId] {number} Determines which WebGLProgram to use.
+   * @return {void}
    * @beta
    */
   // FIXME: Can we move to the attribute index?
-  disableAttrib(name: string, canvasId: number): void;
+  disableAttrib(name: string, canvasId?: number): void;
 }
 
 export = IMaterial;

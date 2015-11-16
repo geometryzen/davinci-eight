@@ -25,7 +25,8 @@ interface IDrawable extends IResource {
   /**
    * User assigned name of the drawable object. Allows an object to be found in a scene.
    * @property name
-   * @type [string]
+   * @type {string}
+   * @optional
    */
   name: string;
   /**

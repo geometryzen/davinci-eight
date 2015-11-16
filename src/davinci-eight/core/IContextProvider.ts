@@ -42,7 +42,7 @@ interface IContextProvider extends IContextMonitor {
   /**
    * @method createBufferGeometry
    * @param primitive {DrawPrimitive}
-   * @param usage [number]
+   * @param [usage] {number}
    * @return {IBufferGeometry}
    */
   createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry;

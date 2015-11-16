@@ -485,7 +485,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
 
   /**
    * @method toFixed
-   * @param digits [number]
+   * @param [digits] {number}
    * @return {string}
    */
   toFixed(digits?: number): string {

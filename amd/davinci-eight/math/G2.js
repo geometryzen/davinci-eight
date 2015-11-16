@@ -163,7 +163,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * </p>
          * @method add
          * @param M {GeometricE2}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {G2} <code>this</code>
          * @chainable
          */
@@ -211,7 +211,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * </p>
          * @method addVector
          * @param v {VectorE2}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {G2} <code>this</code>
          * @chainable
          */
@@ -963,7 +963,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * </p>
          * @method sub
          * @param M {GeometricE2}
-         * @param α [number = 1]
+         * @param [α = 1] {number}
          * @return {G2} <code>this</code>
          * @chainable
          */
@@ -1008,7 +1008,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         /**
          * Returns a string representing the number in fixed-point notation.
          * @method toFixed
-         * @param fractionDigits [number]
+         * @param [fractionDigits] {number}
          * @return {string}
          */
         G2.prototype.toFixed = function (fractionDigits) {
