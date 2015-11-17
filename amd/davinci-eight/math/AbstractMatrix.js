@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/mustBeInteger', '../checks/expectArg', '../i18n/readOnly'], function (require, exports, mustBeInteger, expectArg, readOnly) {
+define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/expectArg', '../i18n/readOnly'], function (require, exports, mustBeDefined, mustBeInteger, expectArg, readOnly) {
     /**
      * @class AbstractMatrix
      */
@@ -10,10 +10,10 @@ define(["require", "exports", '../checks/mustBeInteger', '../checks/expectArg', 
          * @param dimensions {number}
          */
         function AbstractMatrix(elements, dimensions) {
+            this._elements = mustBeDefined('elements', elements);
             this._dimensions = mustBeInteger('dimensions', dimensions);
             this._length = dimensions * dimensions;
             expectArg('elements', elements).toSatisfy(elements.length === this._length, 'elements must have length ' + this._length);
-            this._elements = elements;
             this.modified = false;
         }
         Object.defineProperty(AbstractMatrix.prototype, "elements", {

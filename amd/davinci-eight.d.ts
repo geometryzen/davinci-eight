@@ -79,6 +79,7 @@ import Dimensions = require('davinci-eight/math/Dimensions');
 import Euclidean2 = require('davinci-eight/math/Euclidean2');
 import Euclidean3 = require('davinci-eight/math/Euclidean3');
 import R1 = require('davinci-eight/math/R1');
+import Matrix2 = require('davinci-eight/math/Matrix2');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import QQ = require('davinci-eight/math/QQ');
@@ -228,6 +229,7 @@ declare var eight: {
     Unit: typeof Unit;
     Euclidean2: typeof Euclidean2;
     Euclidean3: typeof Euclidean3;
+    Matrix2: typeof Matrix2;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
     QQ: typeof QQ;

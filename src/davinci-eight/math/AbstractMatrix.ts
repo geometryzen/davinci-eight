@@ -1,3 +1,4 @@
+import mustBeDefined = require('../checks/mustBeDefined')
 import mustBeInteger = require('../checks/mustBeInteger')
 import MutableMatrix = require('../math/MutableMatrix')
 import expectArg = require('../checks/expectArg')
@@ -42,10 +43,10 @@ class AbstractMatrix implements MutableMatrix<Float32Array> {
      * @param dimensions {number}
      */
     constructor(elements: Float32Array, dimensions: number) {
+        this._elements = mustBeDefined('elements', elements)
         this._dimensions = mustBeInteger('dimensions', dimensions)
-        this._length = dimensions * dimensions;
+        this._length = dimensions * dimensions
         expectArg('elements', elements).toSatisfy(elements.length === this._length, 'elements must have length ' + this._length);
-        this._elements = elements;
         this.modified = false;
     }
 

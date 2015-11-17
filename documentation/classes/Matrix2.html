@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.154.0</em>
+            <em>API Docs for: 2.155.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -249,7 +249,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:12</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:20</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -280,7 +280,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:12</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:20</code></a>
         </p>
 
 
@@ -314,14 +314,74 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
 
                     <ul class="index-list methods extends">
                             <li class="index-item method">
+                                <a href="#method_add">add</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_determinant">determinant</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_inv">inv</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_isOne">isOne</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_isZero">isZero</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mul">mul</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mul2">mul2</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_neg">neg</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_one">one</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_one">one</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_row">row</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_scale">scale</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_set">set</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_sub">sub</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_zero">zero</a>
 
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_zero">zero</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
@@ -367,6 +427,452 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_add" class="method item">
+    <h3 class="name"><code>add</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:54</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_determinant" class="method item">
+    <h3 class="name"><code>determinant</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:89</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_inv" class="method item">
+    <h3 class="name"><code>inv</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:100</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_isOne" class="method item">
+    <h3 class="name"><code>isOne</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:115</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_isZero" class="method item">
+    <h3 class="name"><code>isZero</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:128</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mul" class="method item">
+    <h3 class="name"><code>mul</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:141</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mul2" class="method item">
+    <h3 class="name"><code>mul2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l151"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:151</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_neg" class="method item">
+    <h3 class="name"><code>neg</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l178"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:178</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_one" class="method item">
+    <h3 class="name"><code>one</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l187"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:187</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_one" class="method item">
     <h3 class="name"><code>one</code></h3>
 
@@ -386,7 +892,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:21</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:30</code></a>
         </p>
 
 
@@ -396,6 +902,380 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="description">
         <p>
 Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_row" class="method item">
+    <h3 class="name"><code>row</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>i</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Array<number></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l197"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:197</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">i</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>the zero-based index of the row.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Array<number></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_scale" class="method item">
+    <h3 class="name"><code>scale</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l207"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:207</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_set" class="method item">
+    <h3 class="name"><code>set</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>n11</code>
+                </li>
+                <li class="arg">
+                        <code>n12</code>
+                </li>
+                <li class="arg">
+                        <code>n21</code>
+                </li>
+                <li class="arg">
+                        <code>n22</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l222"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:222</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">n11</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">n12</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">n21</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">n22</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_sub" class="method item">
+    <h3 class="name"><code>sub</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l238"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:238</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l264"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:264</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_zero" class="method item">
+    <h3 class="name"><code>zero</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:42</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Creates a new matrix with all elements zero.
 </p>
     </div>
 
@@ -422,14 +1302,14 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
 
 
-        <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:32</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l276"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:276</code></a>
         </p>
 
 
@@ -437,9 +1317,8 @@ Creates a new matrix with all elements zero except those along the main diagonal
     </div>
 
     <div class="description">
-        <p>
-Creates a new matrix with all elements zero.
-</p>
+        <p>Sets this matrix to the identity element for addition, <b>0</b>.</p>
+
     </div>
 
 
@@ -470,7 +1349,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property__dimensions">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:25</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:26</code></a>
         </p>
 
 
@@ -495,7 +1374,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property__elements">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:10</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:11</code></a>
         </p>
 
 
@@ -520,7 +1399,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property__length">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:18</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:19</code></a>
         </p>
 
 
@@ -544,7 +1423,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property_callback">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:75</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:76</code></a>
         </p>
 
 
@@ -568,7 +1447,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property_dimensions">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:87</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:88</code></a>
         </p>
 
 
@@ -592,7 +1471,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property_elements">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:52</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:53</code></a>
         </p>
 
 
@@ -616,7 +1495,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property_modified">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:32</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:33</code></a>
         </p>
 
 

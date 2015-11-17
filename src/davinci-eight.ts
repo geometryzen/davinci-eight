@@ -326,6 +326,7 @@ var eight = {
     get Unit() { return Unit },
     get Euclidean2() { return Euclidean2 },
     get Euclidean3() { return Euclidean3 },
+    get Matrix2() { return Matrix2 },
     get Matrix3() { return Matrix3 },
     get Matrix4() { return Matrix4 },
     get QQ() { return QQ },

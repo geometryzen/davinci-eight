@@ -37,6 +37,7 @@ declare class Matrix3 extends AbstractMatrix implements Matrix<Matrix3>, Ring<Ma
     /**
      * @method one
      * @return {Matrix3}
+     * @chainable
      */
     one(): Matrix3;
     mul(rhs: Matrix3): Matrix3;
@@ -52,5 +53,12 @@ declare class Matrix3 extends AbstractMatrix implements Matrix<Matrix3>, Ring<Ma
     set(n11: number, n12: number, n13: number, n21: number, n22: number, n23: number, n31: number, n32: number, n33: number): Matrix3;
     toString(): string;
     transpose(): Matrix3;
+    /**
+     * Sets this matrix to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {Matrix3}
+     * @chainable
+     */
+    zero(): Matrix3;
 }
 export = Matrix3;

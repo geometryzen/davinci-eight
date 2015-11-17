@@ -41,9 +41,11 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3>, Ring<Matrix3> {
     public static zero(): Matrix3 {
         return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
     }
+
     determinant(): number {
         return 1;
     }
+
     getInverse(matrix: Matrix4, throwOnInvertible?: boolean): Matrix3 {
 
         // input: Matrix4
@@ -95,6 +97,7 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3>, Ring<Matrix3> {
     /**
      * @method one
      * @return {Matrix3}
+     * @chainable
      */
     one(): Matrix3 {
         return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
@@ -162,6 +165,16 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3>, Ring<Matrix3> {
 
         return this;
 
+    }
+
+    /**
+     * Sets this matrix to the identity element for addition, <b>0</b>.
+     * @method zero
+     * @return {Matrix3}
+     * @chainable
+     */
+    zero(): Matrix3 {
+        return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 

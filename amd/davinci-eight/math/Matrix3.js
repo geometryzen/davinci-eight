@@ -77,6 +77,7 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         /**
          * @method one
          * @return {Matrix3}
+         * @chainable
          */
         Matrix3.prototype.one = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
@@ -145,6 +146,15 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             m[5] = m[7];
             m[7] = tmp;
             return this;
+        };
+        /**
+         * Sets this matrix to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {Matrix3}
+         * @chainable
+         */
+        Matrix3.prototype.zero = function () {
+            return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
         };
         return Matrix3;
     })(AbstractMatrix);

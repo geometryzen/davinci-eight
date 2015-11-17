@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.154.0</em>
+            <em>API Docs for: 2.155.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -245,6 +245,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import MutableMatrix = require(&#x27;../math/MutableMatrix&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;)
@@ -289,10 +290,10 @@ class AbstractMatrix implements MutableMatrix&lt;Float32Array&gt; {
      * @param dimensions {number}
      */
     constructor(elements: Float32Array, dimensions: number) {
+        this._elements = mustBeDefined(&#x27;elements&#x27;, elements)
         this._dimensions = mustBeInteger(&#x27;dimensions&#x27;, dimensions)
-        this._length = dimensions * dimensions;
+        this._length = dimensions * dimensions
         expectArg(&#x27;elements&#x27;, elements).toSatisfy(elements.length === this._length, &#x27;elements must have length &#x27; + this._length);
-        this._elements = elements;
         this.modified = false;
     }
 

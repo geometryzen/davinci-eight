@@ -6435,7 +6435,18 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
     return Euclidean3;
 });
 
-define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mustBeInteger', '../checks/expectArg', '../i18n/readOnly'], function (require, exports, mustBeInteger, expectArg, readOnly) {
+define('davinci-eight/checks/mustBeDefined',["require", "exports", '../checks/mustSatisfy', '../checks/isDefined'], function (require, exports, mustSatisfy, isDefined) {
+    function beDefined() {
+        return "not be be `undefined`";
+    }
+    function mustBeDefined(name, value, contextBuilder) {
+        mustSatisfy(name, isDefined(value), beDefined, contextBuilder);
+        return value;
+    }
+    return mustBeDefined;
+});
+
+define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/expectArg', '../i18n/readOnly'], function (require, exports, mustBeDefined, mustBeInteger, expectArg, readOnly) {
     /**
      * @class AbstractMatrix
      */
@@ -6447,10 +6458,10 @@ define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mus
          * @param dimensions {number}
          */
         function AbstractMatrix(elements, dimensions) {
+            this._elements = mustBeDefined('elements', elements);
             this._dimensions = mustBeInteger('dimensions', dimensions);
             this._length = dimensions * dimensions;
             expectArg('elements', elements).toSatisfy(elements.length === this._length, 'elements must have length ' + this._length);
-            this._elements = elements;
             this.modified = false;
         }
         Object.defineProperty(AbstractMatrix.prototype, "elements", {
@@ -6593,6 +6604,7 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
         /**
          * @method one
          * @return {Matrix3}
+         * @chainable
          */
         Matrix3.prototype.one = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
@@ -6661,6 +6673,15 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             m[5] = m[7];
             m[7] = tmp;
             return this;
+        };
+        /**
+         * Sets this matrix to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {Matrix3}
+         * @chainable
+         */
+        Matrix3.prototype.zero = function () {
+            return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
         };
         return Matrix3;
     })(AbstractMatrix);
@@ -6731,6 +6752,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * </p>
          * @method one
          * @return {Matrix4}
+         * @chainable
          * @static
          */
         Matrix4.one = function () {
@@ -6782,6 +6804,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * Returns a copy of this Matrix4 instance.
          * @method clone
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.clone = function () {
             return Matrix4.zero().copy(this);
@@ -6792,6 +6815,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @param attitude {SpinorE3}
          * @param position {VectorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.compose = function (scale, attitude, position) {
             // We 
@@ -6806,6 +6830,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method copy
          * @param m {Matrix4}
          * @return {Matrix4}
+         * @chaninable
          */
         Matrix4.prototype.copy = function (m) {
             this.elements.set(m.elements);
@@ -6891,6 +6916,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * Sets this matrix to the identity element for multiplication, <b>1</b>.
          * @method one
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.one = function () {
             return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -6899,6 +6925,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method scale
          * @param s {number}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.scale = function (s) {
             var te = this.elements;
@@ -6923,6 +6950,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
         /**
          * @method transpose
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.transpose = function () {
             var te = this.elements;
@@ -6956,6 +6984,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @param near {number}
          * @param far {number}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.frustum = function (left, right, bottom, top, near, far) {
             var te = this.elements;
@@ -7004,6 +7033,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method mul
          * @param rhs {Matrix4}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.mul = function (rhs) {
             return this.mul2(this, rhs);
@@ -7013,6 +7043,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @param a {Matrix4}
          * @param b {Matrix4}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.mul2 = function (a, b) {
             _M4_x_M4_(a.elements, b.elements, this.elements);
@@ -7022,6 +7053,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method rmul
          * @param lhs {Matrix4}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.rmul = function (lhs) {
             return this.mul2(lhs, this);
@@ -7033,6 +7065,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method reflection
          * @param n {VectorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.reflection = function (n) {
             var nx = mustBeNumber('n.x', n.x);
@@ -7054,6 +7087,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method rotate
          * @param spinor {SpinorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.rotate = function (spinor) {
             return this.rmul(Matrix4.rotation(spinor));
@@ -7065,6 +7099,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method rotation
          * @param attitude  The spinor from which the rotation will be computed.
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.rotation = function (spinor) {
             // The correspondence between quaternions and spinors is
@@ -7093,6 +7128,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method scaleXYZ
          * @param scale {VectorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.scaleXYZ = function (scale) {
             // We treat the scale operation as pre-multiplication: 
@@ -7111,6 +7147,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method scaling
          * @param scale {VectorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.scaling = function (scale) {
             return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
@@ -7118,6 +7155,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
         /**
          * @method set
          * @return {Matrix4}
+         * @chainable
          * @private
          */
         Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
@@ -7150,7 +7188,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
                 expectArg('digits', digits).toBeNumber();
             }
             var text = [];
-            for (var i = 0; i <= this.dimensions - 1; i++) {
+            for (var i = 0; i < this.dimensions; i++) {
                 text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));
             }
             return text.join('\n');
@@ -7161,7 +7199,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          */
         Matrix4.prototype.toString = function () {
             var text = [];
-            for (var i = 0; i <= 3; i++) {
+            for (var i = 0; i < this.dimensions; i++) {
                 text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
             }
             return text.join('\n');
@@ -7173,6 +7211,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method translate
          * @param displacement {VectorE3}
          * @return {Matrix4}
+         * @chaninable
          */
         Matrix4.prototype.translate = function (displacement) {
             return this.rmul(Matrix4.translation(displacement));
@@ -7181,9 +7220,19 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @method translation
          * @param displacement {VectorE3}
          * @return {Matrix4}
+         * @chaninable
          */
         Matrix4.prototype.translation = function (displacement) {
             return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
+        };
+        /**
+         * Sets this matrix to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {Matrix4}
+         * @chainable
+         */
+        Matrix4.prototype.zero = function () {
+            return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         };
         /**
          * @method __mul__
@@ -11144,17 +11193,6 @@ define('davinci-eight/commands/Capability',["require", "exports"], function (req
     return Capability;
 });
 
-define('davinci-eight/checks/mustBeDefined',["require", "exports", '../checks/mustSatisfy', '../checks/isDefined'], function (require, exports, mustSatisfy, isDefined) {
-    function beDefined() {
-        return "not be be `undefined`";
-    }
-    function mustBeDefined(name, value, contextBuilder) {
-        mustSatisfy(name, isDefined(value), beDefined, contextBuilder);
-        return value;
-    }
-    return mustBeDefined;
-});
-
 define('davinci-eight/commands/glCapability',["require", "exports", '../commands/Capability', '../checks/isDefined', '../checks/mustBeDefined', '../checks/mustBeInteger'], function (require, exports, Capability, isDefined, mustBeDefined, mustBeInteger) {
     // Converts the Capability enum to a WebGLRenderingContext symbolic constant.
     function glCapability(capability, gl) {
@@ -11395,10 +11433,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-15',
+        LAST_MODIFIED: '2015-11-16',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.154.0'
+        VERSION: '2.155.0'
     };
     return core;
 });
@@ -23162,6 +23200,329 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
+    /**
+     * @class Matrix2
+     * @extends AbstractMatrix
+     */
+    var Matrix2 = (function (_super) {
+        __extends(Matrix2, _super);
+        // The correspondence between the elements property index and the matrix entries is...
+        //
+        //  0  2
+        //  1  3
+        /**
+         * 2x2 (square) matrix of numbers.
+         * Constructs a Matrix2 by wrapping a Float32Array.
+         * @class Matrix2
+         * @constructor
+         */
+        function Matrix2(elements) {
+            _super.call(this, elements, 2);
+        }
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+         * </p>
+         * @method one
+         * @return {Matrix2}
+         * @static
+         */
+        Matrix2.one = function () {
+            return new Matrix2(new Float32Array([1, 0, 0, 1]));
+        };
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero.
+         * </p>
+         * @method zero
+         * @return {Matrix2}
+         * @static
+         */
+        Matrix2.zero = function () {
+            return new Matrix2(new Float32Array([0, 0, 0, 0]));
+        };
+        /**
+         * @method add
+         * @param rhs {Matrix2}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.add = function (rhs) {
+            var te = this.elements;
+            var t11 = te[0];
+            var t21 = te[1];
+            var t12 = te[2];
+            var t22 = te[3];
+            var re = rhs.elements;
+            var r11 = re[0];
+            var r21 = re[1];
+            var r12 = re[2];
+            var r22 = re[3];
+            var n11 = t11 + r11;
+            var n21 = t21 + r21;
+            var n12 = t12 + r12;
+            var n22 = t22 + r22;
+            return this.set(n11, n12, n21, n22);
+        };
+        Matrix2.prototype.clone = function () {
+            var te = this.elements;
+            var n11 = te[0];
+            var n21 = te[1];
+            var n12 = te[2];
+            var n22 = te[3];
+            return Matrix2.zero().set(n11, n12, n21, n22);
+        };
+        /**
+         * @method determinant
+         * @return {number}
+         */
+        Matrix2.prototype.determinant = function () {
+            var te = this.elements;
+            var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
+            return 1;
+        };
+        /**
+         * @method inv
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.inv = function () {
+            var te = this.elements;
+            var a = te[0];
+            var c = te[1];
+            var b = te[2];
+            var d = te[3];
+            var det = this.determinant();
+            return this.set(d, -b, -c, a).scale(1 / det);
+        };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
+        Matrix2.prototype.isOne = function () {
+            var te = this.elements;
+            var a = te[0];
+            var c = te[1];
+            var b = te[2];
+            var d = te[3];
+            return (a === 1 && b === 0 && c === 0 && d === 1);
+        };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
+        Matrix2.prototype.isZero = function () {
+            var te = this.elements;
+            var a = te[0];
+            var c = te[1];
+            var b = te[2];
+            var d = te[3];
+            return (a === 0 && b === 0 && c === 0 && d === 0);
+        };
+        /**
+         * @method mul
+         * @param rhs {Matrix2}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
+        };
+        /**
+         * @method mul2
+         * @param a {Matrix2}
+         * @param b {Matrix2}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.mul2 = function (a, b) {
+            var ae = a.elements;
+            var a11 = ae[0];
+            var a21 = ae[1];
+            var a12 = ae[2];
+            var a22 = ae[3];
+            var be = b.elements;
+            var b11 = be[0];
+            var b21 = be[1];
+            var b12 = be[2];
+            var b22 = be[3];
+            var n11 = a11 * b11 + a12 * b21;
+            var n21 = a21 * b11 + a22 * b21;
+            var n12 = a11 * b12 + a12 * b22;
+            var n22 = a21 * b12 + a22 * b22;
+            return this.set(n11, n12, n21, n22);
+        };
+        /**
+         * @method neg
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.neg = function () {
+            return this.scale(-1);
+        };
+        /**
+         * Sets this matrix to the identity element for multiplication, <b>1</b>.
+         * @method one
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.one = function () {
+            return this.set(1, 0, 0, 1);
+        };
+        /**
+         * @method row
+         * @param i {number} the zero-based index of the row.
+         * @return {Array<number>}
+         */
+        Matrix2.prototype.row = function (i) {
+            var te = this.elements;
+            return [te[0 + i], te[2 + i]];
+        };
+        /**
+         * @method scale
+         * @param α {number}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.scale = function (α) {
+            var te = this.elements;
+            var n11 = te[0] * α;
+            var n21 = te[1] * α;
+            var n12 = te[2] * α;
+            var n22 = te[3] * α;
+            return this.set(n11, n12, n21, n22);
+        };
+        /**
+         * @method set
+         * @param n11 {number}
+         * @param n12 {number}
+         * @param n21 {number}
+         * @param n22 {number}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.set = function (n11, n12, n21, n22) {
+            var te = this.elements;
+            te[0x0] = n11;
+            te[0x2] = n12;
+            te[0x1] = n21;
+            te[0x3] = n22;
+            return this;
+        };
+        /**
+         * @method sub
+         * @param rhs {Matrix2}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.sub = function (rhs) {
+            var te = this.elements;
+            var t11 = te[0];
+            var t21 = te[1];
+            var t12 = te[2];
+            var t22 = te[3];
+            var re = rhs.elements;
+            var r11 = re[0];
+            var r21 = re[1];
+            var r12 = re[2];
+            var r22 = re[3];
+            var n11 = t11 - r11;
+            var n21 = t21 - r21;
+            var n12 = t12 - r12;
+            var n22 = t22 - r22;
+            return this.set(n11, n12, n21, n22);
+        };
+        /**
+         * @method toString
+         * @return {string}
+         */
+        Matrix2.prototype.toString = function () {
+            var text = [];
+            for (var i = 0, iLength = this.dimensions; i < iLength; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        /**
+         * Sets this matrix to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.zero = function () {
+            return this.set(0, 0, 0, 0);
+        };
+        Matrix2.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Matrix2) {
+                return this.clone().add(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Matrix2) {
+                return lhs.clone().add(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Matrix2) {
+                return this.clone().mul(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.clone().scale(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Matrix2) {
+                return lhs.clone().mul(this);
+            }
+            else if (typeof lhs === 'number') {
+                return this.clone().scale(lhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__pos__ = function () {
+            return this.clone();
+        };
+        Matrix2.prototype.__neg__ = function () {
+            return this.clone().scale(-1);
+        };
+        Matrix2.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Matrix2) {
+                return this.clone().sub(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix2.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Matrix2) {
+                return lhs.clone().sub(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        return Matrix2;
+    })(AbstractMatrix);
+    return Matrix2;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/Euclidean2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2, b3, dotVector, Euclidean2, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, quadVector, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
     // Symbolic constants for the coordinate indices into the data array.
     var COORD_W = 0;
@@ -26457,7 +26818,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/ContextGL', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLight', 'davinci-eight/facets/EulerFacet', 'davinci-eight/facets/ModelFacetE3', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacet', 'davinci-eight/facets/RigidBodyFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/models/ModelE2', 'davinci-eight/models/ModelE3', 'davinci-eight/models/RigidBodyE2', 'davinci-eight/models/RigidBodyE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, ContextGL, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Matrix3, Matrix4, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, AmbientLight, ColorFacet, DirectionalLight, EulerFacet, ModelFacetE3, PointSizeFacet, ReflectionFacet, RigidBodyFacetE3, Vector3Facet, ModelE2, ModelE3, RigidBodyE2, RigidBodyE3, initWebGL, renderer, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/ContextGL', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix2', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLight', 'davinci-eight/facets/EulerFacet', 'davinci-eight/facets/ModelFacetE3', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacet', 'davinci-eight/facets/RigidBodyFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/models/ModelE2', 'davinci-eight/models/ModelE3', 'davinci-eight/models/RigidBodyE2', 'davinci-eight/models/RigidBodyE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, ContextGL, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Matrix2, Matrix3, Matrix4, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, AmbientLight, ColorFacet, DirectionalLight, EulerFacet, ModelFacetE3, PointSizeFacet, ReflectionFacet, RigidBodyFacetE3, Vector3Facet, ModelE2, ModelE3, RigidBodyE2, RigidBodyE3, initWebGL, renderer, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -26579,6 +26940,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get Unit() { return Unit; },
         get Euclidean2() { return Euclidean2; },
         get Euclidean3() { return Euclidean3; },
+        get Matrix2() { return Matrix2; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
         get QQ() { return QQ; },

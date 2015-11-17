@@ -31,6 +31,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * </p>
          * @method one
          * @return {Matrix4}
+         * @chainable
          * @static
          */
         Matrix4.one = function () {
@@ -82,6 +83,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * Returns a copy of this Matrix4 instance.
          * @method clone
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.clone = function () {
             return Matrix4.zero().copy(this);
@@ -92,6 +94,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @param attitude {SpinorE3}
          * @param position {VectorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.compose = function (scale, attitude, position) {
             // We 
@@ -106,6 +109,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method copy
          * @param m {Matrix4}
          * @return {Matrix4}
+         * @chaninable
          */
         Matrix4.prototype.copy = function (m) {
             this.elements.set(m.elements);
@@ -191,6 +195,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * Sets this matrix to the identity element for multiplication, <b>1</b>.
          * @method one
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.one = function () {
             return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -199,6 +204,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method scale
          * @param s {number}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.scale = function (s) {
             var te = this.elements;
@@ -223,6 +229,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         /**
          * @method transpose
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.transpose = function () {
             var te = this.elements;
@@ -256,6 +263,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @param near {number}
          * @param far {number}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.frustum = function (left, right, bottom, top, near, far) {
             var te = this.elements;
@@ -304,6 +312,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method mul
          * @param rhs {Matrix4}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.mul = function (rhs) {
             return this.mul2(this, rhs);
@@ -313,6 +322,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @param a {Matrix4}
          * @param b {Matrix4}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.mul2 = function (a, b) {
             _M4_x_M4_(a.elements, b.elements, this.elements);
@@ -322,6 +332,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method rmul
          * @param lhs {Matrix4}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.rmul = function (lhs) {
             return this.mul2(lhs, this);
@@ -333,6 +344,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method reflection
          * @param n {VectorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.reflection = function (n) {
             var nx = mustBeNumber('n.x', n.x);
@@ -354,6 +366,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method rotate
          * @param spinor {SpinorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.rotate = function (spinor) {
             return this.rmul(Matrix4.rotation(spinor));
@@ -365,6 +378,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method rotation
          * @param attitude  The spinor from which the rotation will be computed.
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.rotation = function (spinor) {
             // The correspondence between quaternions and spinors is
@@ -393,6 +407,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method scaleXYZ
          * @param scale {VectorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.scaleXYZ = function (scale) {
             // We treat the scale operation as pre-multiplication: 
@@ -411,6 +426,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method scaling
          * @param scale {VectorE3}
          * @return {Matrix4}
+         * @chainable
          */
         Matrix4.prototype.scaling = function (scale) {
             return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
@@ -418,6 +434,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         /**
          * @method set
          * @return {Matrix4}
+         * @chainable
          * @private
          */
         Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
@@ -450,7 +467,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
                 expectArg('digits', digits).toBeNumber();
             }
             var text = [];
-            for (var i = 0; i <= this.dimensions - 1; i++) {
+            for (var i = 0; i < this.dimensions; i++) {
                 text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));
             }
             return text.join('\n');
@@ -461,7 +478,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          */
         Matrix4.prototype.toString = function () {
             var text = [];
-            for (var i = 0; i <= 3; i++) {
+            for (var i = 0; i < this.dimensions; i++) {
                 text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
             }
             return text.join('\n');
@@ -473,6 +490,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method translate
          * @param displacement {VectorE3}
          * @return {Matrix4}
+         * @chaninable
          */
         Matrix4.prototype.translate = function (displacement) {
             return this.rmul(Matrix4.translation(displacement));
@@ -481,9 +499,19 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method translation
          * @param displacement {VectorE3}
          * @return {Matrix4}
+         * @chaninable
          */
         Matrix4.prototype.translation = function (displacement) {
             return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
+        };
+        /**
+         * Sets this matrix to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {Matrix4}
+         * @chainable
+         */
+        Matrix4.prototype.zero = function () {
+            return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         };
         /**
          * @method __mul__

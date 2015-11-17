@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.154.0</em>
+            <em>API Docs for: 2.155.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -288,9 +288,11 @@ class Matrix3 extends AbstractMatrix implements Matrix&lt;Matrix3&gt;, Ring&lt;M
     public static zero(): Matrix3 {
         return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
     }
+
     determinant(): number {
         return 1;
     }
+
     getInverse(matrix: Matrix4, throwOnInvertible?: boolean): Matrix3 {
 
         // input: Matrix4
@@ -342,6 +344,7 @@ class Matrix3 extends AbstractMatrix implements Matrix&lt;Matrix3&gt;, Ring&lt;M
     /**
      * @method one
      * @return {Matrix3}
+     * @chainable
      */
     one(): Matrix3 {
         return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
@@ -409,6 +412,16 @@ class Matrix3 extends AbstractMatrix implements Matrix&lt;Matrix3&gt;, Ring&lt;M
 
         return this;
 
+    }
+
+    /**
+     * Sets this matrix to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
+     * @method zero
+     * @return {Matrix3}
+     * @chainable
+     */
+    zero(): Matrix3 {
+        return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 }
 
