@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.155.0</em>
+            <em>API Docs for: 2.156.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,7 +125,6 @@
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
-                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -249,7 +248,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:20</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:16</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -259,7 +258,10 @@
 
 <div class="box intro">
     <p>2x2 (square) matrix of numbers.
-Constructs a Matrix2 by wrapping a Float32Array.</p>
+Constructs a Matrix2 by wrapping a Float32Array.
+The elements are stored in column-major order:
+0 2
+1 3</p>
 
 </div>
 
@@ -268,7 +270,13 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
 <div id="method_Matrix2" class="method item">
     <h3 class="name"><code>Matrix2</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>elements</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
@@ -280,7 +288,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:20</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:16</code></a>
         </p>
 
 
@@ -291,6 +299,23 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">elements</code>
+                        <span class="type">Float32Array</span>
+
+
+                    <div class="param-description">
+                        <p>The elements of the matrix in column-major order.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -317,8 +342,12 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
                                 <a href="#method_add">add</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_copy">copy</a>
+
+                            </li>
                             <li class="index-item method">
-                                <a href="#method_determinant">determinant</a>
+                                <a href="#method_det">det</a>
 
                             </li>
                             <li class="index-item method">
@@ -331,6 +360,10 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_isZero">isZero</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_magnitude">magnitude</a>
 
                             </li>
                             <li class="index-item method">
@@ -348,11 +381,11 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_row">row</a>
@@ -377,11 +410,11 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
                             <li class="index-item method">
                                 <a href="#method_zero">zero</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_zero">zero</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
@@ -452,7 +485,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:54</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:55</code></a>
         </p>
 
 
@@ -490,8 +523,70 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
 
 
 </div>
-<div id="method_determinant" class="method item">
-    <h3 class="name"><code>determinant</code></h3>
+<div id="method_copy" class="method item inherited">
+    <h3 class="name"><code>copy</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>m</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">T</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/AbstractMatrix.html#method_copy">AbstractMatrix</a>:
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:88</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">m</code>
+                        <span class="type">T</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">T</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_det" class="method item">
+    <h3 class="name"><code>det</code></h3>
 
         <span class="paren">()</span>
 
@@ -508,7 +603,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:89</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l90"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:90</code></a>
         </p>
 
 
@@ -516,7 +611,8 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     </div>
 
     <div class="description">
-        
+        <p>Computes the determinant.</p>
+
     </div>
 
 
@@ -549,7 +645,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:100</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:99</code></a>
         </p>
 
 
@@ -589,7 +685,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:115</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:114</code></a>
         </p>
 
 
@@ -629,7 +725,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:128</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:127</code></a>
         </p>
 
 
@@ -646,6 +742,47 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
 
             <div class="returns-description">
                         <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_magnitude" class="method item">
+    <h3 class="name"><code>magnitude</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_GeometricElement.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;GeometricElement.ts:71</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes the <em>square root</em> of the <em>squared norm</em>.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
             </div>
         </div>
 
@@ -676,7 +813,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:141</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:140</code></a>
         </p>
 
 
@@ -742,7 +879,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l151"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:151</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l150"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:150</code></a>
         </p>
 
 
@@ -809,7 +946,7 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l178"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:178</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l177"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:177</code></a>
         </p>
 
 
@@ -843,14 +980,14 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
 
 
 
+        <span class="flag static">static</span>
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l187"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:187</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:31</code></a>
         </p>
 
 
@@ -858,8 +995,9 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     </div>
 
     <div class="description">
-        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
-
+        <p>
+Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+</p>
     </div>
 
 
@@ -885,14 +1023,14 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
 
 
 
-        <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:30</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l186"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:186</code></a>
         </p>
 
 
@@ -900,9 +1038,8 @@ Constructs a Matrix2 by wrapping a Float32Array.</p>
     </div>
 
     <div class="description">
-        <p>
-Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-</p>
+        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
+
     </div>
 
 
@@ -940,7 +1077,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l197"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:197</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l196"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:196</code></a>
         </p>
 
 
@@ -1004,7 +1141,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l207"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:207</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:206</code></a>
         </p>
 
 
@@ -1048,16 +1185,16 @@ Creates a new matrix with all elements zero except those along the main diagonal
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>n11</code>
+                        <code>m11</code>
                 </li>
                 <li class="arg">
-                        <code>n12</code>
+                        <code>m12</code>
                 </li>
                 <li class="arg">
-                        <code>n21</code>
+                        <code>m21</code>
                 </li>
                 <li class="arg">
-                        <code>n22</code>
+                        <code>m22</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1076,7 +1213,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l222"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:222</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l221"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:221</code></a>
         </p>
 
 
@@ -1084,7 +1221,8 @@ Creates a new matrix with all elements zero except those along the main diagonal
     </div>
 
     <div class="description">
-        
+        <p>Sets all elements of this matrix to the supplied row-major values m11, ..., m22.</p>
+
     </div>
 
         <div class="params">
@@ -1092,7 +1230,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">n11</code>
+                        <code class="param-name">m11</code>
                         <span class="type">Number</span>
 
 
@@ -1102,7 +1240,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
                 </li>
                 <li class="param">
-                        <code class="param-name">n12</code>
+                        <code class="param-name">m12</code>
                         <span class="type">Number</span>
 
 
@@ -1112,7 +1250,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
                 </li>
                 <li class="param">
-                        <code class="param-name">n21</code>
+                        <code class="param-name">m21</code>
                         <span class="type">Number</span>
 
 
@@ -1122,7 +1260,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
                 </li>
                 <li class="param">
-                        <code class="param-name">n22</code>
+                        <code class="param-name">m22</code>
                         <span class="type">Number</span>
 
 
@@ -1169,7 +1307,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l238"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:238</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l239"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:239</code></a>
         </p>
 
 
@@ -1225,7 +1363,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l264"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:264</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l265"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:265</code></a>
         </p>
 
 
@@ -1259,14 +1397,14 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
 
 
-        <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:42</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l277"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:277</code></a>
         </p>
 
 
@@ -1274,9 +1412,8 @@ Creates a new matrix with all elements zero except those along the main diagonal
     </div>
 
     <div class="description">
-        <p>
-Creates a new matrix with all elements zero.
-</p>
+        <p>Sets this matrix to the identity element for addition, <b>0</b>.</p>
+
     </div>
 
 
@@ -1302,14 +1439,14 @@ Creates a new matrix with all elements zero.
 
 
 
+        <span class="flag static">static</span>
 
-        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l276"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:276</code></a>
+        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:43</code></a>
         </p>
 
 
@@ -1317,8 +1454,9 @@ Creates a new matrix with all elements zero.
     </div>
 
     <div class="description">
-        <p>Sets this matrix to the identity element for addition, <b>0</b>.</p>
-
+        <p>
+Creates a new matrix with all elements zero.
+</p>
     </div>
 
 
@@ -1447,7 +1585,7 @@ Creates a new matrix with all elements zero.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/AbstractMatrix.html#property_dimensions">AbstractMatrix</a>:
-        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:88</code></a>
+        <a href="../files/src_davinci-eight_math_AbstractMatrix.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;AbstractMatrix.ts:99</code></a>
         </p>
 
 

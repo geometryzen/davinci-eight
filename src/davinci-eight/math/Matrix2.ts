@@ -1,27 +1,28 @@
-import AbstractMatrix = require('../math/AbstractMatrix');
+import AbstractMatrix = require('../math/AbstractMatrix')
+import det2x2 = require('../math/det2x2')
 import GeometricElement = require('../math/GeometricElement')
-import Matrix = require('../math/Matrix');
-import Ring = require('../math/MutableRingElement');
-import RingOperators = require('../math/RingOperators');
-import SpinorE2 = require('../math/SpinorE2');
+import Matrix = require('../math/Matrix')
+import Ring = require('../math/MutableRingElement')
+import RingOperators = require('../math/RingOperators')
+import SpinorE2 = require('../math/SpinorE2')
 import VectorE2 = require('../math/VectorE2')
 
 /**
  * @class Matrix2
  * @extends AbstractMatrix
  */
-class Matrix2 extends AbstractMatrix implements Matrix<Matrix2>, Ring<Matrix2>, RingOperators<Matrix2> {
-
-    // The correspondence between the elements property index and the matrix entries is...
-    //
-    //  0  2
-    //  1  3
+class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2>, Ring<Matrix2>, RingOperators<Matrix2> {
 
     /**
      * 2x2 (square) matrix of numbers.
      * Constructs a Matrix2 by wrapping a Float32Array.
+     * The elements are stored in column-major order:
+     * 0 2
+     * 1 3
+     *
      * @class Matrix2
      * @constructor
+     * @param elements {Float32Array} The elements of the matrix in column-major order.
      */
     constructor(elements: Float32Array) {
         super(elements, 2);
@@ -70,31 +71,29 @@ class Matrix2 extends AbstractMatrix implements Matrix<Matrix2>, Ring<Matrix2>, 
         let r12 = re[2];
         let r22 = re[3];
 
-        let n11 = t11 + r11;
-        let n21 = t21 + r21;
-        let n12 = t12 + r12;
-        let n22 = t22 + r22;
-        return this.set(n11, n12, n21, n22)
+        let m11 = t11 + r11;
+        let m21 = t21 + r21;
+        let m12 = t12 + r12;
+        let m22 = t22 + r22;
+        return this.set(m11, m12, m21, m22)
     }
 
     clone(): Matrix2 {
         let te = this.elements;
-        let n11 = te[0];
-        let n21 = te[1];
-        let n12 = te[2];
-        let n22 = te[3];
-        return Matrix2.zero().set(n11, n12, n21, n22)
+        let m11 = te[0];
+        let m21 = te[1];
+        let m12 = te[2];
+        let m22 = te[3];
+        return Matrix2.zero().set(m11, m12, m21, m22)
     }
 
     /**
-     * @method determinant
+     * Computes the determinant.
+     * @method det
      * @return {number}
      */
-    determinant(): number {
-        let te = this.elements;
-
-        let n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
-        return 1
+    det(): number {
+        return det2x2(this.elements)
     }
 
     /**
@@ -108,7 +107,7 @@ class Matrix2 extends AbstractMatrix implements Matrix<Matrix2>, Ring<Matrix2>, 
         let c = te[1];
         let b = te[2];
         let d = te[3];
-        let det = this.determinant()
+        let det = this.det()
         return this.set(d, -b, -c, a).scale(1 / det)
     }
 
@@ -168,11 +167,11 @@ class Matrix2 extends AbstractMatrix implements Matrix<Matrix2>, Ring<Matrix2>, 
         let b12 = be[2];
         let b22 = be[3];
 
-        let n11 = a11 * b11 + a12 * b21;
-        let n21 = a21 * b11 + a22 * b21;
-        let n12 = a11 * b12 + a12 * b22;
-        let n22 = a21 * b12 + a22 * b22;
-        return this.set(n11, n12, n21, n22)
+        let m11 = a11 * b11 + a12 * b21;
+        let m12 = a11 * b12 + a12 * b22;
+        let m21 = a21 * b11 + a22 * b21;
+        let m22 = a21 * b12 + a22 * b22;
+        return this.set(m11, m12, m21, m22)
     }
 
     /**
@@ -212,26 +211,28 @@ class Matrix2 extends AbstractMatrix implements Matrix<Matrix2>, Ring<Matrix2>, 
      */
     scale(α: number): Matrix2 {
         let te = this.elements;
-        let n11 = te[0] * α;
-        let n21 = te[1] * α;
-        let n12 = te[2] * α;
-        let n22 = te[3] * α;
-        return this.set(n11, n12, n21, n22);
+        let m11 = te[0] * α;
+        let m21 = te[1] * α;
+        let m12 = te[2] * α;
+        let m22 = te[3] * α;
+        return this.set(m11, m12, m21, m22);
     }
 
     /**
+     * Sets all elements of this matrix to the supplied row-major values m11, ..., m22.
      * @method set
-     * @param n11 {number}
-     * @param n12 {number}
-     * @param n21 {number}
-     * @param n22 {number}
+     * @param m11 {number}
+     * @param m12 {number}
+     * @param m21 {number}
+     * @param m22 {number}
      * @return {Matrix2}
      * @chainable
      */
-    set(n11: number, n12: number, n21: number, n22: number): Matrix2 {
+    set(m11: number, m12: number, m21: number, m22: number): Matrix2 {
         let te = this.elements;
-        te[0x0] = n11; te[0x2] = n12;
-        te[0x1] = n21; te[0x3] = n22;
+        // The elements are stored in column-major order.
+        te[0x0] = m11; te[0x2] = m12;
+        te[0x1] = m21; te[0x3] = m22;
         return this;
     }
 
@@ -254,11 +255,11 @@ class Matrix2 extends AbstractMatrix implements Matrix<Matrix2>, Ring<Matrix2>, 
         let r12 = re[2];
         let r22 = re[3];
 
-        let n11 = t11 - r11;
-        let n21 = t21 - r21;
-        let n12 = t12 - r12;
-        let n22 = t22 - r22;
-        return this.set(n11, n12, n21, n22)
+        let m11 = t11 - r11;
+        let m21 = t21 - r21;
+        let m12 = t12 - r12;
+        let m22 = t22 - r22;
+        return this.set(m11, m12, m21, m22)
     }
 
     /**

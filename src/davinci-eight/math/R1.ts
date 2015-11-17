@@ -62,7 +62,7 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         this.x = v.x;
         return this;
     }
-    determinant(): number {
+    det(): number {
         return this.x
     }
     dual() {

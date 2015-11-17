@@ -3,22 +3,23 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
+define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2'], function (require, exports, AbstractMatrix, det2x2) {
     /**
      * @class Matrix2
      * @extends AbstractMatrix
      */
     var Matrix2 = (function (_super) {
         __extends(Matrix2, _super);
-        // The correspondence between the elements property index and the matrix entries is...
-        //
-        //  0  2
-        //  1  3
         /**
          * 2x2 (square) matrix of numbers.
          * Constructs a Matrix2 by wrapping a Float32Array.
+         * The elements are stored in column-major order:
+         * 0 2
+         * 1 3
+         *
          * @class Matrix2
          * @constructor
+         * @param elements {Float32Array} The elements of the matrix in column-major order.
          */
         function Matrix2(elements) {
             _super.call(this, elements, 2);
@@ -62,28 +63,27 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             var r21 = re[1];
             var r12 = re[2];
             var r22 = re[3];
-            var n11 = t11 + r11;
-            var n21 = t21 + r21;
-            var n12 = t12 + r12;
-            var n22 = t22 + r22;
-            return this.set(n11, n12, n21, n22);
+            var m11 = t11 + r11;
+            var m21 = t21 + r21;
+            var m12 = t12 + r12;
+            var m22 = t22 + r22;
+            return this.set(m11, m12, m21, m22);
         };
         Matrix2.prototype.clone = function () {
             var te = this.elements;
-            var n11 = te[0];
-            var n21 = te[1];
-            var n12 = te[2];
-            var n22 = te[3];
-            return Matrix2.zero().set(n11, n12, n21, n22);
+            var m11 = te[0];
+            var m21 = te[1];
+            var m12 = te[2];
+            var m22 = te[3];
+            return Matrix2.zero().set(m11, m12, m21, m22);
         };
         /**
-         * @method determinant
+         * Computes the determinant.
+         * @method det
          * @return {number}
          */
-        Matrix2.prototype.determinant = function () {
-            var te = this.elements;
-            var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
-            return 1;
+        Matrix2.prototype.det = function () {
+            return det2x2(this.elements);
         };
         /**
          * @method inv
@@ -96,7 +96,7 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             var c = te[1];
             var b = te[2];
             var d = te[3];
-            var det = this.determinant();
+            var det = this.det();
             return this.set(d, -b, -c, a).scale(1 / det);
         };
         /**
@@ -150,11 +150,11 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             var b21 = be[1];
             var b12 = be[2];
             var b22 = be[3];
-            var n11 = a11 * b11 + a12 * b21;
-            var n21 = a21 * b11 + a22 * b21;
-            var n12 = a11 * b12 + a12 * b22;
-            var n22 = a21 * b12 + a22 * b22;
-            return this.set(n11, n12, n21, n22);
+            var m11 = a11 * b11 + a12 * b21;
+            var m12 = a11 * b12 + a12 * b22;
+            var m21 = a21 * b11 + a22 * b21;
+            var m22 = a21 * b12 + a22 * b22;
+            return this.set(m11, m12, m21, m22);
         };
         /**
          * @method neg
@@ -190,27 +190,29 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
          */
         Matrix2.prototype.scale = function (α) {
             var te = this.elements;
-            var n11 = te[0] * α;
-            var n21 = te[1] * α;
-            var n12 = te[2] * α;
-            var n22 = te[3] * α;
-            return this.set(n11, n12, n21, n22);
+            var m11 = te[0] * α;
+            var m21 = te[1] * α;
+            var m12 = te[2] * α;
+            var m22 = te[3] * α;
+            return this.set(m11, m12, m21, m22);
         };
         /**
+         * Sets all elements of this matrix to the supplied row-major values m11, ..., m22.
          * @method set
-         * @param n11 {number}
-         * @param n12 {number}
-         * @param n21 {number}
-         * @param n22 {number}
+         * @param m11 {number}
+         * @param m12 {number}
+         * @param m21 {number}
+         * @param m22 {number}
          * @return {Matrix2}
          * @chainable
          */
-        Matrix2.prototype.set = function (n11, n12, n21, n22) {
+        Matrix2.prototype.set = function (m11, m12, m21, m22) {
             var te = this.elements;
-            te[0x0] = n11;
-            te[0x2] = n12;
-            te[0x1] = n21;
-            te[0x3] = n22;
+            // The elements are stored in column-major order.
+            te[0x0] = m11;
+            te[0x2] = m12;
+            te[0x1] = m21;
+            te[0x3] = m22;
             return this;
         };
         /**
@@ -230,11 +232,11 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             var r21 = re[1];
             var r12 = re[2];
             var r22 = re[3];
-            var n11 = t11 - r11;
-            var n21 = t21 - r21;
-            var n12 = t12 - r12;
-            var n22 = t22 - r22;
-            return this.set(n11, n12, n21, n22);
+            var m11 = t11 - r11;
+            var m21 = t21 - r21;
+            var m12 = t12 - r12;
+            var m22 = t22 - r22;
+            return this.set(m11, m12, m21, m22);
         };
         /**
          * @method toString

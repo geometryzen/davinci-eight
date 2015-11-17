@@ -65,7 +65,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x = v.x;
             return this;
         };
-        R1.prototype.determinant = function () {
+        R1.prototype.det = function () {
             return this.x;
         };
         R1.prototype.dual = function () {

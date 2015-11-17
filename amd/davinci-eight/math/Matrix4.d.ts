@@ -7,7 +7,7 @@ import VectorE3 = require('../math/VectorE3');
  * @class Matrix4
  * @extends AbstractMatrix
  */
-declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4>, Ring<Matrix4> {
+declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4>, Ring<Matrix4> {
     /**
      * 4x4 (square) matrix of numbers.
      * Constructs a Matrix4 by wrapping a Float32Array.
@@ -83,10 +83,16 @@ declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4>, Ring<Ma
      */
     copy(m: Matrix4): Matrix4;
     /**
-     * @method determinant
+     * Computes the determinant.
+     * @method det
      * @return {number}
      */
-    determinant(): number;
+    det(): number;
+    /**
+     * @method inv
+     * @return {Matrix4}
+     */
+    inv(): Matrix4;
     /**
      * @method invert
      * @param m {Matrix4}
@@ -94,7 +100,7 @@ declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4>, Ring<Ma
      * @deprecated
      * @private
      */
-    invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
+    invert(m: Matrix4): Matrix4;
     /**
      * Sets this matrix to the identity element for multiplication, <b>1</b>.
      * @method one

@@ -26,7 +26,7 @@ declare class R1 extends VectorN<number> implements VectorE1, MutableLinearEleme
     adj(): R1;
     conj(): R1;
     copy(v: VectorE1): R1;
-    determinant(): number;
+    det(): number;
     dual(): R1;
     exp(): R1;
     one(): R1;

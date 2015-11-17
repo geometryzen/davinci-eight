@@ -1,10 +1,11 @@
 import AbstractMatrix = require('../math/AbstractMatrix');
 import expectArg = require('../checks/expectArg');
 import GeometricElement = require('../math/GeometricElement');
+import inv4x4 = require('../math/inv4x4')
 import isDefined = require('../checks/isDefined');
 import Matrix = require('../math/Matrix');
 import mustBeNumber = require('../checks/mustBeNumber')
-import _M4_x_M4_ = require('../math/_M4_x_M4_');
+import mul4x4 = require('../math/mul4x4');
 import Ring = require('../math/MutableRingElement');
 import SpinorE3 = require('../math/SpinorE3');
 import VectorE3 = require('../math/VectorE3');
@@ -17,7 +18,7 @@ import frustumMatrix = require('../cameras/frustumMatrix');
  * @class Matrix4
  * @extends AbstractMatrix
  */
-class Matrix4 extends AbstractMatrix implements Matrix<Matrix4>, Ring<Matrix4> {
+class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4>, Ring<Matrix4> {
 
     // The correspondence between the elements property index and the matrix entries is...
     //
@@ -134,10 +135,11 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4>, Ring<Matrix4> {
     }
 
     /**
-     * @method determinant
+     * Computes the determinant.
+     * @method det
      * @return {number}
      */
-    determinant(): number {
+    det(): number {
         let te = this.elements;
 
         let n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
@@ -167,56 +169,24 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4>, Ring<Matrix4> {
     }
 
     /**
+     * @method inv
+     * @return {Matrix4}
+     */
+    inv(): Matrix4 {
+        inv4x4(this.elements, this.elements)
+        return this
+    }
+
+    /**
      * @method invert
      * @param m {Matrix4}
      * @return {Matrix4}
      * @deprecated
      * @private
      */
-    invert(m: Matrix4, throwOnSingular: boolean = false): Matrix4 {
-
-        // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
-        var te = this.elements;
-        var me = m.elements;
-
-        var n11 = me[0], n12 = me[4], n13 = me[8], n14 = me[12];
-        var n21 = me[1], n22 = me[5], n23 = me[9], n24 = me[13];
-        var n31 = me[2], n32 = me[6], n33 = me[10], n34 = me[14];
-        var n41 = me[3], n42 = me[7], n43 = me[11], n44 = me[15];
-
-        te[0] = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
-        te[4] = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44;
-        te[8] = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44;
-        te[12] = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
-        te[1] = n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44;
-        te[5] = n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44;
-        te[9] = n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44;
-        te[13] = n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34;
-        te[2] = n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44;
-        te[6] = n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44;
-        te[10] = n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44;
-        te[14] = n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34;
-        te[3] = n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43;
-        te[7] = n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43;
-        te[11] = n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43;
-        te[15] = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
-
-        let det = n11 * te[0] + n21 * te[4] + n31 * te[8] + n41 * te[12];
-
-        if (det !== 0) {
-            return this.scale(1 / det);
-        }
-        else {
-            let msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
-            if (throwOnSingular) {
-                throw new Error(msg);
-            }
-            else {
-                console.warn(msg);
-            }
-            this.one();
-            return this;
-        }
+    invert(m: Matrix4): Matrix4 {
+        inv4x4(m.elements, this.elements)
+        return this
     }
 
     /**
@@ -337,7 +307,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4>, Ring<Matrix4> {
      * @chainable
      */
     mul2(a: Matrix4, b: Matrix4): Matrix4 {
-        _M4_x_M4_(a.elements, b.elements, this.elements);
+        mul4x4(a.elements, b.elements, this.elements);
         return this;
     }
 
@@ -495,10 +465,10 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4>, Ring<Matrix4> {
 
         var te = this.elements;
 
-        te[0] = n11; te[4] = n12; te[8] = n13; te[12] = n14;
-        te[1] = n21; te[5] = n22; te[9] = n23; te[13] = n24;
-        te[2] = n31; te[6] = n32; te[10] = n33; te[14] = n34;
-        te[3] = n41; te[7] = n42; te[11] = n43; te[15] = n44;
+        te[0x0] = n11; te[0x4] = n12; te[0x8] = n13; te[0xC] = n14;
+        te[0x1] = n21; te[0x5] = n22; te[0x9] = n23; te[0xD] = n24;
+        te[0x2] = n31; te[0x6] = n32; te[0xA] = n33; te[0xE] = n34;
+        te[0x3] = n41; te[0x7] = n42; te[0xB] = n43; te[0xF] = n44;
 
         return this;
     }

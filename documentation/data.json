@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.155.0",
+        "version": "2.156.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -1288,9 +1288,7 @@
         "src/davinci-eight/math/Matrix.ts": {
             "name": "src/davinci-eight/math/Matrix.ts",
             "modules": {},
-            "classes": {
-                "Matrix<M>": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -1568,6 +1566,20 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/math/det2x2.ts": {
+            "name": "src/davinci-eight/math/det2x2.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/det3x3.ts": {
+            "name": "src/davinci-eight/math/det3x3.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/math/dotVectorCartesianE2.ts": {
             "name": "src/davinci-eight/math/dotVectorCartesianE2.ts",
             "modules": {},
@@ -1577,6 +1589,27 @@
         },
         "src/davinci-eight/math/dotVectorCartesianE3.ts": {
             "name": "src/davinci-eight/math/dotVectorCartesianE3.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/inv2x2.ts": {
+            "name": "src/davinci-eight/math/inv2x2.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/inv3x3.ts": {
+            "name": "src/davinci-eight/math/inv3x3.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/inv4x4.ts": {
+            "name": "src/davinci-eight/math/inv4x4.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -2118,7 +2151,6 @@
                 "G3": 1,
                 "GeometricE2": 1,
                 "GeometricE3": 1,
-                "Matrix<M>": 1,
                 "Matrix2": 1,
                 "Matrix3": 1,
                 "Matrix4": 1,
@@ -4609,19 +4641,6 @@
             "line": 6,
             "extends": "VectorE3"
         },
-        "Matrix<M>": {
-            "name": "Matrix<M>",
-            "shortname": "Matrix<M>",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/math/Matrix.ts",
-            "line": 1
-        },
         "Matrix2": {
             "name": "Matrix2",
             "shortname": "Matrix2",
@@ -4633,10 +4652,17 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 20,
+            "line": 16,
             "extends": "AbstractMatrix",
-            "description": "2x2 (square) matrix of numbers.\nConstructs a Matrix2 by wrapping a Float32Array.",
-            "is_constructor": 1
+            "description": "2x2 (square) matrix of numbers.\nConstructs a Matrix2 by wrapping a Float32Array.\nThe elements are stored in column-major order:\n0 2\n1 3",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "elements",
+                    "description": "The elements of the matrix in column-major order.",
+                    "type": "Float32Array"
+                }
+            ]
         },
         "Matrix3": {
             "name": "Matrix3",
@@ -4649,9 +4675,9 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Matrix3.ts",
-            "line": 13,
+            "line": 17,
             "extends": "AbstractMatrix",
-            "description": "3x3 (square) matrix of numbers.\nConstructs a Matrix3 by wrapping a Float32Array.",
+            "description": "3x3 (square) matrix of numbers.\nConstructs a Matrix3 by wrapping a Float32Array.\nThe elements are stored in column-major order:\n0 3 6\n1 4 7\n2 5 8",
             "is_constructor": 1
         },
         "Matrix4": {
@@ -4665,7 +4691,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 28,
+            "line": 29,
             "extends": "AbstractMatrix",
             "description": "4x4 (square) matrix of numbers.\nConstructs a Matrix4 by wrapping a Float32Array.",
             "is_constructor": 1
@@ -13226,6 +13252,26 @@
         {
             "file": "src/davinci-eight/math/AbstractMatrix.ts",
             "line": 88,
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "T"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "T"
+            },
+            "chaninable": "",
+            "class": "AbstractMatrix",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/AbstractMatrix.ts",
+            "line": 99,
             "itemtype": "property",
             "name": "dimensions",
             "type": "{number}",
@@ -16621,7 +16667,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 512,
+            "line": 513,
             "itemtype": "method",
             "name": "isOne",
             "return": {
@@ -16633,7 +16679,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 520,
+            "line": 521,
             "itemtype": "method",
             "name": "isZero",
             "return": {
@@ -16645,7 +16691,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 528,
+            "line": 529,
             "description": "<p>\n<code>this ⟼ this << m</code>\n</p>",
             "itemtype": "method",
             "name": "lco",
@@ -16666,7 +16712,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 541,
+            "line": 542,
             "description": "<p>\n<code>this ⟼ a << b</code>\n</p>",
             "itemtype": "method",
             "name": "lco2",
@@ -16692,7 +16738,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 567,
+            "line": 568,
             "description": "<p>\n<code>this ⟼ this + α * (target - this)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp",
@@ -16718,7 +16764,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 586,
+            "line": 587,
             "description": "<p>\n<code>this ⟼ a + α * (b - a)</code>\n</p>",
             "itemtype": "method",
             "name": "lerp2",
@@ -16749,7 +16795,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 604,
+            "line": 605,
             "description": "<p>\n<code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>\n</p>",
             "itemtype": "method",
             "name": "log",
@@ -16763,7 +16809,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 623,
+            "line": 624,
             "description": "Computes the <em>square root</em> of the <em>squared norm</em>.",
             "itemtype": "method",
             "name": "magnitude",
@@ -16776,7 +16822,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 632,
+            "line": 633,
             "description": "<p>\n<code>this ⟼ this * s</code>\n</p>",
             "itemtype": "method",
             "name": "mul",
@@ -16797,7 +16843,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 644,
+            "line": 645,
             "description": "<p>\n<code>this ⟼ a * b</code>\n</p>",
             "itemtype": "method",
             "name": "mul2",
@@ -16823,7 +16869,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 669,
+            "line": 670,
             "description": "<p>\n<code>this ⟼ -1 * this</code>\n</p>",
             "itemtype": "method",
             "name": "neg",
@@ -16837,7 +16883,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 685,
+            "line": 686,
             "description": "<p>\n<code>this ⟼ sqrt(this * conj(this))</code>\n</p>",
             "itemtype": "method",
             "name": "norm",
@@ -16851,7 +16897,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 701,
+            "line": 702,
             "description": "<p>\n<code>this ⟼ this / magnitude(this)</code>\n</p>",
             "itemtype": "method",
             "name": "direction",
@@ -16865,7 +16911,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 719,
+            "line": 720,
             "description": "Sets this multivector to the identity element for multiplication, <b>1</b>.",
             "itemtype": "method",
             "name": "one",
@@ -16879,7 +16925,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 737,
+            "line": 738,
             "description": "<p>\nUpdates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.\n</p>\n<p>\n<code>this ⟼ scp(this, rev(this)) = this | ~this</code>\n</p>",
             "itemtype": "method",
             "name": "quad",
@@ -16893,7 +16939,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 756,
+            "line": 757,
             "itemtype": "method",
             "name": "quadraticBezier",
             "params": [
@@ -16922,7 +16968,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 775,
+            "line": 776,
             "description": "<p>\n<code>this ⟼ this >> m</code>\n</p>",
             "itemtype": "method",
             "name": "rco",
@@ -16943,7 +16989,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 787,
+            "line": 788,
             "description": "<p>\n<code>this ⟼ a >> b</code>\n</p>",
             "itemtype": "method",
             "name": "rco2",
@@ -16969,7 +17015,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 813,
+            "line": 814,
             "description": "<p>\n<code>this ⟼ - n * this * n</code>\n</p>",
             "itemtype": "method",
             "name": "reflect",
@@ -16990,7 +17036,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 832,
+            "line": 833,
             "description": "<p>\n<code>this ⟼ rev(this)</code>\n</p>",
             "itemtype": "method",
             "name": "reverse",
@@ -17004,7 +17050,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 857,
+            "line": 858,
             "itemtype": "method",
             "name": "__tilde__",
             "return": {
@@ -17016,7 +17062,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 864,
+            "line": 865,
             "description": "<p>\n<code>this ⟼ R * this * rev(R)</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -17037,7 +17083,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 890,
+            "line": 891,
             "description": "Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.",
             "itemtype": "method",
             "name": "rotorFromDirections",
@@ -17063,7 +17109,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 910,
+            "line": 911,
             "description": "<p>\n<code>this = ⟼ exp(- B * θ / 2)</code>\n</p>",
             "itemtype": "method",
             "name": "rotorFromGeneratorAngle",
@@ -17088,28 +17134,28 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 930,
+            "line": 931,
             "description": "Sandwich operation means we need the half-angle.",
             "class": "G2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 934,
+            "line": 935,
             "description": "scalar part = cos(|B| * θ / 2)",
             "class": "G2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 940,
+            "line": 941,
             "description": "pseudo part = -unit(B) * sin(|B| * θ / 2)",
             "class": "G2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 947,
+            "line": 948,
             "description": "<p>\n<code>this ⟼ scp(this, m)</code>\n</p>",
             "itemtype": "method",
             "name": "align",
@@ -17130,7 +17176,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 959,
+            "line": 960,
             "description": "<p>\n<code>this ⟼ scp(a, b)</code>\n</p>",
             "itemtype": "method",
             "name": "scp2",
@@ -17156,7 +17202,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 977,
+            "line": 978,
             "description": "<p>\n<code>this ⟼ this * α</code>\n</p>",
             "itemtype": "method",
             "name": "scale",
@@ -17172,7 +17218,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 999,
+            "line": 1000,
             "description": "<p>\n<code>this ⟼ a * b = a · b + a ^ b</code>\n</p>\nSets this G2 to the geometric product a * b of the vector arguments.",
             "itemtype": "method",
             "name": "spinor",
@@ -17197,7 +17243,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1023,
+            "line": 1024,
             "description": "Computes the <em>squared norm</em> of this <code>G2</code> multivector.",
             "itemtype": "method",
             "name": "squaredNorm",
@@ -17210,7 +17256,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1036,
+            "line": 1037,
             "description": "<p>\n<code>this ⟼ this - M * α</code>\n</p>",
             "itemtype": "method",
             "name": "sub",
@@ -17238,7 +17284,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1055,
+            "line": 1056,
             "description": "<p>\n<code>this ⟼ a - b</code>\n</p>",
             "itemtype": "method",
             "name": "sub2",
@@ -17264,7 +17310,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1075,
+            "line": 1076,
             "description": "Returns a string representing the number in exponential notation.",
             "itemtype": "method",
             "name": "toExponential",
@@ -17277,7 +17323,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1085,
+            "line": 1086,
             "description": "Returns a string representing the number in fixed-point notation.",
             "itemtype": "method",
             "name": "toFixed",
@@ -17298,7 +17344,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1096,
+            "line": 1097,
             "description": "Returns a string representation of the number.",
             "itemtype": "method",
             "name": "toString",
@@ -17311,7 +17357,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1136,
+            "line": 1137,
             "description": "<p>\n<code>this ⟼ this ^ m</code>\n</p>",
             "itemtype": "method",
             "name": "wedge",
@@ -17332,7 +17378,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1148,
+            "line": 1149,
             "description": "<p>\n<code>this ⟼ a ^ b</code>\n</p>",
             "itemtype": "method",
             "name": "ext2",
@@ -17358,7 +17404,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1174,
+            "line": 1175,
             "description": "Sets this multivector to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -17372,7 +17418,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1188,
+            "line": 1189,
             "itemtype": "method",
             "name": "__add__",
             "params": [
@@ -17393,7 +17439,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1214,
+            "line": 1215,
             "itemtype": "method",
             "name": "__div__",
             "params": [
@@ -17414,7 +17460,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1232,
+            "line": 1233,
             "itemtype": "method",
             "name": "__rdiv__",
             "params": [
@@ -17435,7 +17481,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1250,
+            "line": 1251,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
@@ -17456,7 +17502,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1276,
+            "line": 1277,
             "itemtype": "method",
             "name": "__rmul__",
             "params": [
@@ -17477,7 +17523,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1302,
+            "line": 1303,
             "itemtype": "method",
             "name": "__radd__",
             "params": [
@@ -17498,7 +17544,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1326,
+            "line": 1327,
             "itemtype": "method",
             "name": "__sub__",
             "params": [
@@ -17519,7 +17565,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1343,
+            "line": 1344,
             "itemtype": "method",
             "name": "__rsub__",
             "params": [
@@ -17540,7 +17586,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1361,
+            "line": 1362,
             "itemtype": "method",
             "name": "__wedge__",
             "params": [
@@ -17561,7 +17607,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1380,
+            "line": 1381,
             "itemtype": "method",
             "name": "__rwedge__",
             "params": [
@@ -17582,7 +17628,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1399,
+            "line": 1400,
             "itemtype": "method",
             "name": "__lshift__",
             "params": [
@@ -17603,7 +17649,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1417,
+            "line": 1418,
             "itemtype": "method",
             "name": "__rlshift__",
             "params": [
@@ -17624,7 +17670,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1435,
+            "line": 1436,
             "itemtype": "method",
             "name": "__rshift__",
             "params": [
@@ -17645,7 +17691,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1453,
+            "line": 1454,
             "itemtype": "method",
             "name": "__rrshift__",
             "params": [
@@ -17666,7 +17712,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1471,
+            "line": 1472,
             "itemtype": "method",
             "name": "__vbar__",
             "params": [
@@ -17687,7 +17733,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1489,
+            "line": 1490,
             "itemtype": "method",
             "name": "__rvbar__",
             "params": [
@@ -17708,7 +17754,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1507,
+            "line": 1508,
             "itemtype": "method",
             "name": "__bang__",
             "return": {
@@ -17723,7 +17769,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1517,
+            "line": 1518,
             "itemtype": "method",
             "name": "__pos__",
             "return": {
@@ -17738,7 +17784,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1528,
+            "line": 1529,
             "itemtype": "method",
             "name": "__neg__",
             "return": {
@@ -17753,14 +17799,14 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1538,
+            "line": 1539,
             "description": "Intentionally undocumented.",
             "class": "G2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1550,
+            "line": 1551,
             "description": "The identity element for addition, <b>0</b>.",
             "itemtype": "property",
             "name": "zero",
@@ -17772,7 +17818,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1559,
+            "line": 1560,
             "description": "The identity element for multiplication, <b>1</b>.",
             "itemtype": "property",
             "name": "one",
@@ -17784,7 +17830,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1568,
+            "line": 1569,
             "description": "Basis vector corresponding to the <code>x</code> coordinate.",
             "itemtype": "property",
             "name": "e1",
@@ -17796,7 +17842,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1577,
+            "line": 1578,
             "description": "Basis vector corresponding to the <code>y</code> coordinate.",
             "itemtype": "property",
             "name": "e2",
@@ -17808,7 +17854,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1586,
+            "line": 1587,
             "description": "Basis vector corresponding to the <code>β</code> coordinate.",
             "itemtype": "property",
             "name": "I",
@@ -17820,7 +17866,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1595,
+            "line": 1596,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -17840,7 +17886,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1610,
+            "line": 1611,
             "itemtype": "method",
             "name": "fromScalar",
             "params": [
@@ -17861,7 +17907,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1621,
+            "line": 1622,
             "itemtype": "method",
             "name": "fromSpinor",
             "params": [
@@ -17881,7 +17927,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1631,
+            "line": 1632,
             "itemtype": "method",
             "name": "fromVector",
             "params": [
@@ -17901,7 +17947,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1646,
+            "line": 1647,
             "itemtype": "method",
             "name": "lerp",
             "params": [
@@ -17931,7 +17977,7 @@
         },
         {
             "file": "src/davinci-eight/math/G2.ts",
-            "line": 1659,
+            "line": 1660,
             "description": "Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.",
             "itemtype": "method",
             "name": "rotorFromDirections",
@@ -19866,91 +19912,91 @@
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 2,
             "description": "This interface is provided to ensure consistency.\nIt is not part of the documented API.\nNotice that the effect on the target depends upon whether the target class in mutable.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 9,
             "description": "Addition of a pseudoscalar.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 14,
             "description": "Addition of a scalar.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 19,
             "description": "conjugate multiplied by norm (similar to inv)",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 24,
             "description": "Assumes a spinor as the multivector.\nangle(M) = log(M).grade(2)\nIn other words, throw away the scalar part of the result which is the scaling.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 31,
             "description": "Conjugate",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 36,
             "description": "Left contraction",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 41,
             "description": "divide really only applies to division algebras, may not be defined.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 46,
             "description": "Exponential",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 51,
             "description": "Exterior or Outer Product.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 56,
             "description": "extraction of grade.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 61,
             "description": "Inverse (may not exist).",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 66,
             "description": "Natural logarithm.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
@@ -19963,192 +20009,131 @@
                 "description": "",
                 "type": "Number"
             },
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 78,
             "description": "Multiplication.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 83,
             "description": "norm, ||x|| = sqrt(scp(x, rev(x)))",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 88,
             "description": "squared norm, scp(x, rev(x))",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 93,
             "description": "Right contraction",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 98,
             "description": "Reverse",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 103,
             "description": "squared norm, as a number",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 108,
             "description": "Scalar Product",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricOperators.ts",
             "line": 4,
             "description": "Special methods for operators on elements of geometric spaces.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricOperators.ts",
             "line": 23,
             "description": "!x = x.inv()",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricOperators.ts",
             "line": 28,
             "description": "Inverse (may not exist).",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/HH.ts",
             "line": 51,
             "description": "Intentionally undocumented.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/LinearElement.ts",
             "line": 1,
             "description": "This interface is provided to ensure consistency.\nIt is not part of the documented API.\nNotice that the effect on the target depends upon whether the target class in mutable.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/LinearElement.ts",
             "line": 7,
             "description": "addition, with an optional weight for the rhs.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/LinearElement.ts",
             "line": 13,
             "description": "The additive inverse.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/LinearOperators.ts",
             "line": 2,
             "description": "Special methods for operators on elements of linear spaces.\nThis is provided for interface consistency.\nIt may not adhere to strict mathematical definitions.",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/LinearOperators.ts",
             "line": 8,
             "description": "Unary ~",
-            "class": "Matrix<M>",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix.ts",
-            "line": 5,
-            "itemtype": "method",
-            "name": "determinant",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "Matrix<M>",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Matrix.ts",
-            "line": 11,
-            "description": "Sets this matrix to the identity element for multiplication, <b>1</b>.",
-            "itemtype": "method",
-            "name": "one",
-            "return": {
-                "description": "",
-                "type": "M"
-            },
-            "class": "Matrix<M>",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Matrix.ts",
-            "line": 18,
-            "itemtype": "method",
-            "name": "mul",
-            "params": [
-                {
-                    "name": "rhs",
-                    "description": "",
-                    "type": "M"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "M"
-            },
-            "class": "Matrix<M>",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Matrix.ts",
-            "line": 25,
-            "itemtype": "method",
-            "name": "mul2",
-            "params": [
-                {
-                    "name": "a",
-                    "description": "",
-                    "type": "M"
-                },
-                {
-                    "name": "b",
-                    "description": "",
-                    "type": "M"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "M"
-            },
-            "class": "Matrix<M>",
+            "line": 1,
+            "description": "Intentionally undocumented. This interface is for internal consistency only.\nNote that the methods pertain to a square matrix.",
+            "class": "Matrix2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 30,
+            "line": 31,
             "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
             "itemtype": "method",
             "name": "one",
@@ -20162,7 +20147,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 42,
+            "line": 43,
             "description": "<p>\nCreates a new matrix with all elements zero.\n</p>",
             "itemtype": "method",
             "name": "zero",
@@ -20176,7 +20161,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 54,
+            "line": 55,
             "itemtype": "method",
             "name": "add",
             "params": [
@@ -20196,9 +20181,10 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 89,
+            "line": 90,
+            "description": "Computes the determinant.",
             "itemtype": "method",
-            "name": "determinant",
+            "name": "det",
             "return": {
                 "description": "",
                 "type": "Number"
@@ -20208,7 +20194,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 100,
+            "line": 99,
             "itemtype": "method",
             "name": "inv",
             "return": {
@@ -20221,7 +20207,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 115,
+            "line": 114,
             "itemtype": "method",
             "name": "isOne",
             "return": {
@@ -20233,7 +20219,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 128,
+            "line": 127,
             "itemtype": "method",
             "name": "isZero",
             "return": {
@@ -20245,7 +20231,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 141,
+            "line": 140,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -20265,7 +20251,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 151,
+            "line": 150,
             "itemtype": "method",
             "name": "mul2",
             "params": [
@@ -20290,7 +20276,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 178,
+            "line": 177,
             "itemtype": "method",
             "name": "neg",
             "return": {
@@ -20303,7 +20289,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 187,
+            "line": 186,
             "description": "Sets this matrix to the identity element for multiplication, <b>1</b>.",
             "itemtype": "method",
             "name": "one",
@@ -20317,7 +20303,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 197,
+            "line": 196,
             "itemtype": "method",
             "name": "row",
             "params": [
@@ -20336,7 +20322,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 207,
+            "line": 206,
             "itemtype": "method",
             "name": "scale",
             "params": [
@@ -20356,27 +20342,28 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 222,
+            "line": 221,
+            "description": "Sets all elements of this matrix to the supplied row-major values m11, ..., m22.",
             "itemtype": "method",
             "name": "set",
             "params": [
                 {
-                    "name": "n11",
+                    "name": "m11",
                     "description": "",
                     "type": "Number"
                 },
                 {
-                    "name": "n12",
+                    "name": "m12",
                     "description": "",
                     "type": "Number"
                 },
                 {
-                    "name": "n21",
+                    "name": "m21",
                     "description": "",
                     "type": "Number"
                 },
                 {
-                    "name": "n22",
+                    "name": "m22",
                     "description": "",
                     "type": "Number"
                 }
@@ -20391,7 +20378,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 238,
+            "line": 239,
             "itemtype": "method",
             "name": "sub",
             "params": [
@@ -20411,7 +20398,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 264,
+            "line": 265,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -20423,7 +20410,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 276,
+            "line": 277,
             "description": "Sets this matrix to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -20437,35 +20424,192 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix3.ts",
-            "line": 22,
-            "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
+            "line": 32,
             "itemtype": "method",
-            "name": "one",
+            "name": "add",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Matrix3"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "Matrix3"
             },
-            "static": 1,
             "class": "Matrix3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix3.ts",
-            "line": 33,
-            "description": "<p>\nCreates a new matrix with all elements zero.\n</p>",
+            "line": 41,
+            "description": "Returns a copy of this Matrix3 instance.",
             "itemtype": "method",
-            "name": "zero",
+            "name": "clone",
             "return": {
                 "description": "",
                 "type": "Matrix3"
             },
-            "static": 1,
+            "chainable": 1,
             "class": "Matrix3",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix3.ts",
-            "line": 97,
+            "line": 51,
+            "description": "Computes the determinant.",
+            "itemtype": "method",
+            "name": "det",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 60,
+            "itemtype": "method",
+            "name": "getInverse",
+            "params": [
+                {
+                    "name": "matrix",
+                    "description": "",
+                    "type": "Matrix4"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "deprecated": true,
+            "access": "private",
+            "tagname": "",
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 115,
+            "itemtype": "method",
+            "name": "inv",
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "chainable": 1,
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 125,
+            "itemtype": "method",
+            "name": "isOne",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 137,
+            "itemtype": "method",
+            "name": "isZero",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 149,
+            "itemtype": "method",
+            "name": "mul",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Matrix3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "chainable": 1,
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 159,
+            "itemtype": "method",
+            "name": "mul2",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Matrix3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Matrix3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "chainable": 1,
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 171,
+            "itemtype": "method",
+            "name": "neg",
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "chainable": 1,
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 180,
+            "itemtype": "method",
+            "name": "normalFromMatrix4",
+            "params": [
+                {
+                    "name": "m",
+                    "description": "",
+                    "type": "Matrix4"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "deprecated": true,
+            "access": "private",
+            "tagname": "",
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 191,
             "itemtype": "method",
             "name": "one",
             "return": {
@@ -20478,7 +20622,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix3.ts",
-            "line": 110,
+            "line": 200,
             "itemtype": "method",
             "name": "row",
             "params": [
@@ -20497,7 +20641,130 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix3.ts",
-            "line": 170,
+            "line": 210,
+            "itemtype": "method",
+            "name": "scale",
+            "params": [
+                {
+                    "name": "s",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 223,
+            "description": "Sets all elements of this matrix to the supplied row-major values.",
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "m11",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "m12",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "m13",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "m21",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "m22",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "m23",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "m31",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "m32",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "m33",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "chainable": 1,
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 251,
+            "itemtype": "method",
+            "name": "sub",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Matrix3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 259,
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 271,
+            "itemtype": "method",
+            "name": "transpose",
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 286,
             "description": "Sets this matrix to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -20510,8 +20777,36 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 376,
+            "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
+            "itemtype": "method",
+            "name": "one",
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "static": 1,
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix3.ts",
+            "line": 388,
+            "description": "<p>\nCreates a new matrix with all elements zero.\n</p>",
+            "itemtype": "method",
+            "name": "zero",
+            "return": {
+                "description": "",
+                "type": "Matrix3"
+            },
+            "static": 1,
+            "class": "Matrix3",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 38,
+            "line": 39,
             "description": "<p>\nCreates a new matrix with all elements zero except those along the main diagonal which have the value unity.\n</p>",
             "itemtype": "method",
             "name": "one",
@@ -20526,7 +20821,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 51,
+            "line": 52,
             "description": "<p>\nCreates a new matrix with all elements zero.\n</p>",
             "itemtype": "method",
             "name": "zero",
@@ -20541,7 +20836,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 64,
+            "line": 65,
             "itemtype": "method",
             "name": "scaling",
             "params": [
@@ -20562,7 +20857,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 75,
+            "line": 76,
             "itemtype": "method",
             "name": "translation",
             "params": [
@@ -20583,7 +20878,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 86,
+            "line": 87,
             "itemtype": "method",
             "name": "rotation",
             "params": [
@@ -20604,7 +20899,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 97,
+            "line": 98,
             "description": "Returns a copy of this Matrix4 instance.",
             "itemtype": "method",
             "name": "clone",
@@ -20618,7 +20913,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 107,
+            "line": 108,
             "itemtype": "method",
             "name": "compose",
             "params": [
@@ -20648,7 +20943,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 125,
+            "line": 126,
             "itemtype": "method",
             "name": "copy",
             "params": [
@@ -20668,9 +20963,10 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 136,
+            "line": 137,
+            "description": "Computes the determinant.",
             "itemtype": "method",
-            "name": "determinant",
+            "name": "det",
             "return": {
                 "description": "",
                 "type": "Number"
@@ -20680,7 +20976,19 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 169,
+            "line": 171,
+            "itemtype": "method",
+            "name": "inv",
+            "return": {
+                "description": "",
+                "type": "Matrix4"
+            },
+            "class": "Matrix4",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Matrix4.ts",
+            "line": 180,
             "itemtype": "method",
             "name": "invert",
             "params": [
@@ -20702,7 +21010,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 222,
+            "line": 192,
             "description": "Sets this matrix to the identity element for multiplication, <b>1</b>.",
             "itemtype": "method",
             "name": "one",
@@ -20716,7 +21024,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 232,
+            "line": 202,
             "itemtype": "method",
             "name": "scale",
             "params": [
@@ -20736,7 +21044,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 247,
+            "line": 217,
             "itemtype": "method",
             "name": "transpose",
             "return": {
@@ -20749,7 +21057,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 267,
+            "line": 237,
             "itemtype": "method",
             "name": "frustum",
             "params": [
@@ -20794,7 +21102,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 296,
+            "line": 266,
             "itemtype": "method",
             "name": "rotationAxis",
             "params": [
@@ -20820,7 +21128,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 322,
+            "line": 292,
             "itemtype": "method",
             "name": "mul",
             "params": [
@@ -20840,7 +21148,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 332,
+            "line": 302,
             "itemtype": "method",
             "name": "mul2",
             "params": [
@@ -20865,7 +21173,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 344,
+            "line": 314,
             "itemtype": "method",
             "name": "rmul",
             "params": [
@@ -20885,7 +21193,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 354,
+            "line": 324,
             "description": "<p>\n<code>this ⟼ reflection(n)</code>\n</p>",
             "itemtype": "method",
             "name": "reflection",
@@ -20906,7 +21214,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 386,
+            "line": 356,
             "description": "<p>\n<code>this ⟼ rotation(spinor) * this</code>\n</p>",
             "itemtype": "method",
             "name": "rotate",
@@ -20927,7 +21235,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 399,
+            "line": 369,
             "description": "<p>\n<code>this ⟼ rotation(spinor)</code>\n</p>",
             "itemtype": "method",
             "name": "rotation",
@@ -20947,7 +21255,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 431,
+            "line": 401,
             "itemtype": "method",
             "name": "row",
             "params": [
@@ -20966,7 +21274,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 441,
+            "line": 411,
             "itemtype": "method",
             "name": "scaleXYZ",
             "params": [
@@ -20986,7 +21294,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 462,
+            "line": 432,
             "itemtype": "method",
             "name": "scaling",
             "params": [
@@ -21006,7 +21314,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 472,
+            "line": 442,
             "itemtype": "method",
             "name": "set",
             "return": {
@@ -21021,7 +21329,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 506,
+            "line": 476,
             "itemtype": "method",
             "name": "toFixed",
             "params": [
@@ -21041,7 +21349,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 520,
+            "line": 490,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -21053,7 +21361,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 532,
+            "line": 502,
             "description": "<p>\n<code>this ⟼ translation(spinor) * this</code>\n</p>",
             "itemtype": "method",
             "name": "translate",
@@ -21074,7 +21382,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 545,
+            "line": 515,
             "itemtype": "method",
             "name": "translation",
             "params": [
@@ -21094,7 +21402,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 555,
+            "line": 525,
             "description": "Sets this matrix to the identity element for addition, <b>0</b>.",
             "itemtype": "method",
             "name": "zero",
@@ -21108,7 +21416,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 565,
+            "line": 535,
             "itemtype": "method",
             "name": "__mul__",
             "params": [
@@ -21130,7 +21438,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 584,
+            "line": 554,
             "itemtype": "method",
             "name": "__rmul__",
             "params": [
@@ -25874,6 +26182,20 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/math/det2x2.ts",
+            "line": 1,
+            "description": "Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
+            "class": "BoxBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/det3x3.ts",
+            "line": 1,
+            "description": "Computes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.",
+            "class": "BoxBuilder",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/math/dotVectorCartesianE2.ts",
             "line": 1,
             "description": "Computes the dot product of the Cartesian components in a Euclidean metric",
@@ -25884,6 +26206,27 @@
             "file": "src/davinci-eight/math/dotVectorCartesianE3.ts",
             "line": 1,
             "description": "Computes the dot product of the Cartesian components in a Euclidean metric",
+            "class": "BoxBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/inv2x2.ts",
+            "line": 1,
+            "description": "Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
+            "class": "BoxBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/inv3x3.ts",
+            "line": 3,
+            "description": "Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
+            "class": "BoxBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/inv4x4.ts",
+            "line": 1,
+            "description": "Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.",
             "class": "BoxBuilder",
             "module": "EIGHT"
         },
@@ -28192,15 +28535,19 @@
         },
         {
             "message": "unknown tag: chaninable",
-            "line": " src/davinci-eight/math/Matrix4.ts:125"
+            "line": " src/davinci-eight/math/AbstractMatrix.ts:88"
         },
         {
             "message": "unknown tag: chaninable",
-            "line": " src/davinci-eight/math/Matrix4.ts:532"
+            "line": " src/davinci-eight/math/Matrix4.ts:126"
         },
         {
             "message": "unknown tag: chaninable",
-            "line": " src/davinci-eight/math/Matrix4.ts:545"
+            "line": " src/davinci-eight/math/Matrix4.ts:502"
+        },
+        {
+            "message": "unknown tag: chaninable",
+            "line": " src/davinci-eight/math/Matrix4.ts:515"
         },
         {
             "message": "unknown tag: xtends",
@@ -28652,19 +28999,19 @@
         },
         {
             "message": "Missing item type\nSandwich operation means we need the half-angle.",
-            "line": " src/davinci-eight/math/G2.ts:930"
+            "line": " src/davinci-eight/math/G2.ts:931"
         },
         {
             "message": "Missing item type\nscalar part = cos(|B| * θ / 2)",
-            "line": " src/davinci-eight/math/G2.ts:934"
+            "line": " src/davinci-eight/math/G2.ts:935"
         },
         {
             "message": "Missing item type\npseudo part = -unit(B) * sin(|B| * θ / 2)",
-            "line": " src/davinci-eight/math/G2.ts:940"
+            "line": " src/davinci-eight/math/G2.ts:941"
         },
         {
             "message": "Missing item type\nIntentionally undocumented.",
-            "line": " src/davinci-eight/math/G2.ts:1538"
+            "line": " src/davinci-eight/math/G2.ts:1539"
         },
         {
             "message": "Missing item type\nCoordinates corresponding to basis labels.",
@@ -28785,6 +29132,10 @@
         {
             "message": "Missing item type\nUnary ~",
             "line": " src/davinci-eight/math/LinearOperators.ts:8"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented. This interface is for internal consistency only.\nNote that the methods pertain to a square matrix.",
+            "line": " src/davinci-eight/math/Matrix.ts:1"
         },
         {
             "message": "Missing item type\nThe scalar part of the measure, as a <code>number</code>.",
@@ -28987,12 +29338,32 @@
             "line": " src/davinci-eight/math/VectorE4.ts:40"
         },
         {
+            "message": "Missing item type\nComputes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
+            "line": " src/davinci-eight/math/det2x2.ts:1"
+        },
+        {
+            "message": "Missing item type\nComputes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.",
+            "line": " src/davinci-eight/math/det3x3.ts:1"
+        },
+        {
             "message": "Missing item type\nComputes the dot product of the Cartesian components in a Euclidean metric",
             "line": " src/davinci-eight/math/dotVectorCartesianE2.ts:1"
         },
         {
             "message": "Missing item type\nComputes the dot product of the Cartesian components in a Euclidean metric",
             "line": " src/davinci-eight/math/dotVectorCartesianE3.ts:1"
+        },
+        {
+            "message": "Missing item type\nComputes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
+            "line": " src/davinci-eight/math/inv2x2.ts:1"
+        },
+        {
+            "message": "Missing item type\nComputes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
+            "line": " src/davinci-eight/math/inv3x3.ts:3"
+        },
+        {
+            "message": "Missing item type\nComputes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.",
+            "line": " src/davinci-eight/math/inv4x4.ts:1"
         },
         {
             "message": "Missing item type\nDetermines whether a property name is callable on an object.",

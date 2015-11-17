@@ -6,12 +6,17 @@ import RingOperators = require('../math/RingOperators');
  * @class Matrix2
  * @extends AbstractMatrix
  */
-declare class Matrix2 extends AbstractMatrix implements Matrix<Matrix2>, Ring<Matrix2>, RingOperators<Matrix2> {
+declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2>, Ring<Matrix2>, RingOperators<Matrix2> {
     /**
      * 2x2 (square) matrix of numbers.
      * Constructs a Matrix2 by wrapping a Float32Array.
+     * The elements are stored in column-major order:
+     * 0 2
+     * 1 3
+     *
      * @class Matrix2
      * @constructor
+     * @param elements {Float32Array} The elements of the matrix in column-major order.
      */
     constructor(elements: Float32Array);
     /**
@@ -41,10 +46,11 @@ declare class Matrix2 extends AbstractMatrix implements Matrix<Matrix2>, Ring<Ma
     add(rhs: Matrix2): Matrix2;
     clone(): Matrix2;
     /**
-     * @method determinant
+     * Computes the determinant.
+     * @method det
      * @return {number}
      */
-    determinant(): number;
+    det(): number;
     /**
      * @method inv
      * @return {Matrix2}
@@ -103,15 +109,16 @@ declare class Matrix2 extends AbstractMatrix implements Matrix<Matrix2>, Ring<Ma
      */
     scale(α: number): Matrix2;
     /**
+     * Sets all elements of this matrix to the supplied row-major values m11, ..., m22.
      * @method set
-     * @param n11 {number}
-     * @param n12 {number}
-     * @param n21 {number}
-     * @param n22 {number}
+     * @param m11 {number}
+     * @param m12 {number}
+     * @param m21 {number}
+     * @param m22 {number}
      * @return {Matrix2}
      * @chainable
      */
-    set(n11: number, n12: number, n21: number, n22: number): Matrix2;
+    set(m11: number, m12: number, m21: number, m22: number): Matrix2;
     /**
      * @method sub
      * @param rhs {Matrix2}

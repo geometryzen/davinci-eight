@@ -7,7 +7,7 @@ import readOnly = require('../i18n/readOnly')
 /**
  * @class AbstractMatrix
  */
-class AbstractMatrix implements MutableMatrix<Float32Array> {
+class AbstractMatrix<T extends { elements: Float32Array }> implements MutableMatrix<Float32Array> {
     /**
      * @property _elements
      * @type {Float32Array}
@@ -83,6 +83,17 @@ class AbstractMatrix implements MutableMatrix<Float32Array> {
     set callback(reactTo: () => Float32Array) {
         this._callback = reactTo;
         this._elements = void 0;
+    }
+
+    /**
+     * @method copy
+     * @param m {T}
+     * @return {T}
+     * @chaninable
+     */
+    copy(m: T): T {
+        this.elements.set(m.elements)
+        return <T><any>this;
     }
 
     /**

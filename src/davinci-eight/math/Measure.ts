@@ -35,6 +35,7 @@ interface Measure<T> {
     toExponential(): string;
     toFixed(digits?: number): string;
     toString(): string;
+    // When the underlying ring is commutative we don't have to specify left or right.
     scale(α: number): T;
     scp(rhs: T): T;
     sin(): T;

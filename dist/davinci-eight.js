@@ -6505,6 +6505,16 @@ define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mus
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method copy
+         * @param m {T}
+         * @return {T}
+         * @chaninable
+         */
+        AbstractMatrix.prototype.copy = function (m) {
+            this.elements.set(m.elements);
+            return this;
+        };
         Object.defineProperty(AbstractMatrix.prototype, "dimensions", {
             /**
              * @property dimensions
@@ -6525,12 +6535,82 @@ define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mus
     return AbstractMatrix;
 });
 
+define('davinci-eight/math/det3x3',["require", "exports"], function (require, exports) {
+    /**
+     * Computes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.
+     */
+    function det3x3(m) {
+        var m00 = m[0x0], m01 = m[0x3], m02 = m[0x6];
+        var m10 = m[0x1], m11 = m[0x4], m12 = m[0x7];
+        var m20 = m[0x2], m21 = m[0x5], m22 = m[0x8];
+        return m00 * m11 * m22 + m01 * m12 * m20 + m02 * m10 * m21 - m00 * m12 * m21 - m01 * m10 * m22 - m02 * m11 * m20;
+    }
+    return det3x3;
+});
+
+define('davinci-eight/math/inv3x3',["require", "exports", '../math/det3x3'], function (require, exports, det3x3) {
+    /**
+     * Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
+     */
+    function inv3x3(m, te) {
+        var det = det3x3(m);
+        var m11 = m[0x0], m12 = m[0x3], m13 = m[0x6];
+        var m21 = m[0x1], m22 = m[0x4], m23 = m[0x7];
+        var m31 = m[0x2], m32 = m[0x5], m33 = m[0x8];
+        // Row 1
+        var o11 = m22 * m33 - m23 * m32;
+        var o12 = m13 * m32 - m12 * m33;
+        var o13 = m12 * m23 - m13 * m22;
+        // Row 2
+        var o21 = m23 * m31 - m21 * m33;
+        var o22 = m11 * m33 - m13 * m31;
+        var o23 = m13 * m21 - m11 * m23;
+        // Row 3
+        var o31 = m21 * m32 - m22 * m31;
+        var o32 = m12 * m31 - m11 * m32;
+        var o33 = m11 * m22 - m12 * m21;
+        var α = 1 / det;
+        te[0x0] = o11 * α;
+        te[0x3] = o12 * α;
+        te[0x6] = o13 * α;
+        te[0x1] = o21 * α;
+        te[0x4] = o22 * α;
+        te[0x7] = o23 * α;
+        te[0x2] = o31 * α;
+        te[0x5] = o32 * α;
+        te[0x8] = o33 * α;
+    }
+    return inv3x3;
+});
+
+define('davinci-eight/math/mul3x3',["require", "exports"], function (require, exports) {
+    function mul3x3(a, b, c) {
+        var a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
+        var a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];
+        var a31 = a[0x2], a32 = a[0x5], a33 = a[0x8];
+        var b11 = b[0x0], b12 = b[0x3], b13 = b[0x6];
+        var b21 = b[0x1], b22 = b[0x4], b23 = b[0x7];
+        var b31 = b[0x2], b32 = b[0x5], b33 = b[0x8];
+        c[0x0] = a11 * b11 + a12 * b21 + a13 * b31;
+        c[0x3] = a11 * b12 + a12 * b22 + a13 * b32;
+        c[0x6] = a11 * b13 + a12 * b23 + a13 * b33;
+        c[0x1] = a21 * b11 + a22 * b21 + a23 * b31;
+        c[0x4] = a21 * b12 + a22 * b22 + a23 * b32;
+        c[0x7] = a21 * b13 + a22 * b23 + a23 * b33;
+        c[0x2] = a31 * b11 + a32 * b21 + a33 * b31;
+        c[0x5] = a31 * b12 + a32 * b22 + a33 * b32;
+        c[0x8] = a31 * b13 + a32 * b23 + a33 * b33;
+        return c;
+    }
+    return mul3x3;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
+define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../math/inv3x3', '../math/mul3x3'], function (require, exports, AbstractMatrix, det3x3, inv3x3, mul3x3) {
     /**
      * @class Matrix3
      * @extends AbstractMatrix
@@ -6540,6 +6620,11 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
         /**
          * 3x3 (square) matrix of numbers.
          * Constructs a Matrix3 by wrapping a Float32Array.
+         * The elements are stored in column-major order:
+         * 0 3 6
+         * 1 4 7
+         * 2 5 8
+         *
          * @class Matrix3
          * @constructor
          */
@@ -6547,30 +6632,37 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             _super.call(this, elements, 3);
         }
         /**
-         * <p>
-         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-         * </p>
-         * @method one
+         * @method add
+         * @param rhs {Matrix3}
          * @return {Matrix3}
-         * @static
          */
-        Matrix3.one = function () {
-            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+        Matrix3.prototype.add = function (rhs) {
+            return this;
         };
         /**
-         * <p>
-         * Creates a new matrix with all elements zero.
-         * </p>
-         * @method zero
+         * Returns a copy of this Matrix3 instance.
+         * @method clone
          * @return {Matrix3}
-         * @static
+         * @chainable
          */
-        Matrix3.zero = function () {
-            return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
+        Matrix3.prototype.clone = function () {
+            return Matrix3.zero().copy(this);
         };
-        Matrix3.prototype.determinant = function () {
-            return 1;
+        /**
+         * Computes the determinant.
+         * @method det
+         * @return {number}
+         */
+        Matrix3.prototype.det = function () {
+            return det3x3(this.elements);
         };
+        /**
+         * @method getInverse
+         * @param matrix {Matrix4}
+         * @return {Matrix3}
+         * @deprecated
+         * @private
+         */
         Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
             // input: Matrix4
             // ( based on http://code.google.com/p/webgl-mjs/ )
@@ -6602,15 +6694,81 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             return this;
         };
         /**
+         * @method inv
+         * @return {Matrix3}
+         * @chainable
+         */
+        Matrix3.prototype.inv = function () {
+            inv3x3(this.elements, this.elements);
+            return this;
+        };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
+        Matrix3.prototype.isOne = function () {
+            var te = this.elements;
+            var m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
+            var m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
+            var m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
+            return (m11 === 1 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 1 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 1);
+        };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
+        Matrix3.prototype.isZero = function () {
+            var te = this.elements;
+            var m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
+            var m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
+            var m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
+            return (m11 === 0 && m12 === 0 && m13 === 0 && m21 === 0 && m22 === 0 && m23 === 0 && m31 === 0 && m32 === 0 && m33 === 0);
+        };
+        /**
+         * @method mul
+         * @param rhs {Matrix3}
+         * @return {Matrix3}
+         * @chainable
+         */
+        Matrix3.prototype.mul = function (rhs) {
+            return this.mul2(this, rhs);
+        };
+        /**
+         * @method mul2
+         * @param a {Matrix3}
+         * @param b {Matrix3}
+         * @return {Matrix3}
+         * @chainable
+         */
+        Matrix3.prototype.mul2 = function (a, b) {
+            mul3x3(a.elements, b.elements, this.elements);
+            return this;
+        };
+        /**
+         * @method neg
+         * @return {Matrix3}
+         * @chainable
+         */
+        Matrix3.prototype.neg = function () {
+            return this.scale(-1);
+        };
+        /**
+         * @method normalFromMatrix4
+         * @param m {Matrix4}
+         * @return {Matrix3}
+         * @deprecated
+         * @private
+         */
+        Matrix3.prototype.normalFromMatrix4 = function (m) {
+            return this.getInverse(m).transpose();
+        };
+        /**
          * @method one
          * @return {Matrix3}
          * @chainable
          */
         Matrix3.prototype.one = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
-        };
-        Matrix3.prototype.mul = function (rhs) {
-            return this.mul2(this, rhs);
         };
         /**
          * @method row
@@ -6621,6 +6779,11 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             var te = this.elements;
             return [te[0 + i], te[3 + i], te[6 + i]];
         };
+        /**
+         * @method scale
+         * @param s {number}
+         * @return {Matrix3}
+         */
         Matrix3.prototype.scale = function (s) {
             var m = this.elements;
             m[0] *= s;
@@ -6634,12 +6797,21 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             m[8] *= s;
             return this;
         };
-        Matrix3.prototype.mul2 = function (a, b) {
-            return this;
-        };
-        Matrix3.prototype.normalFromMatrix4 = function (m) {
-            this.getInverse(m).transpose();
-        };
+        /**
+         * Sets all elements of this matrix to the supplied row-major values.
+         * @method set
+         * @param m11 {number}
+         * @param m12 {number}
+         * @param m13 {number}
+         * @param m21 {number}
+         * @param m22 {number}
+         * @param m23 {number}
+         * @param m31 {number}
+         * @param m32 {number}
+         * @param m33 {number}
+         * @return {Matrix3}
+         * @chainable
+         */
         Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
             var te = this.elements;
             te[0] = n11;
@@ -6653,6 +6825,18 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             te[8] = n33;
             return this;
         };
+        /**
+         * @method sub
+         * @param rhs {Matrix3}
+         * @return {Matrix3}
+         */
+        Matrix3.prototype.sub = function (rhs) {
+            return this;
+        };
+        /**
+         * @method toString
+         * @return {string}
+         */
         Matrix3.prototype.toString = function () {
             var text = [];
             for (var i = 0; i < this.dimensions; i++) {
@@ -6660,6 +6844,10 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
             }
             return text.join('\n');
         };
+        /**
+         * @method transpose
+         * @return {Matrix3}
+         */
         Matrix3.prototype.transpose = function () {
             var tmp;
             var m = this.elements;
@@ -6683,40 +6871,173 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
         Matrix3.prototype.zero = function () {
             return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
         };
+        Matrix3.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Matrix3) {
+                return this.clone().add(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix3.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Matrix3) {
+                return lhs.clone().add(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix3.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Matrix3) {
+                return this.clone().mul(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return this.clone().scale(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix3.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Matrix3) {
+                return lhs.clone().mul(this);
+            }
+            else if (typeof lhs === 'number') {
+                return this.clone().scale(lhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix3.prototype.__pos__ = function () {
+            return this.clone();
+        };
+        Matrix3.prototype.__neg__ = function () {
+            return this.clone().scale(-1);
+        };
+        Matrix3.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Matrix3) {
+                return this.clone().sub(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Matrix3.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Matrix3) {
+                return lhs.clone().sub(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+         * </p>
+         * @method one
+         * @return {Matrix3}
+         * @static
+         */
+        Matrix3.one = function () {
+            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+        };
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero.
+         * </p>
+         * @method zero
+         * @return {Matrix3}
+         * @static
+         */
+        Matrix3.zero = function () {
+            return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
+        };
         return Matrix3;
     })(AbstractMatrix);
     return Matrix3;
 });
 
-define('davinci-eight/math/_M4_x_M4_',["require", "exports"], function (require, exports) {
-    function _M4_x_M4_(ae, be, oe) {
-        var a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
-        var a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
-        var a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
-        var a41 = ae[0x3], a42 = ae[0x7], a43 = ae[0xB], a44 = ae[0xF];
-        var b11 = be[0], b12 = be[4], b13 = be[8], b14 = be[12];
-        var b21 = be[1], b22 = be[5], b23 = be[9], b24 = be[13];
-        var b31 = be[2], b32 = be[6], b33 = be[10], b34 = be[14];
-        var b41 = be[3], b42 = be[7], b43 = be[11], b44 = be[15];
-        oe[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
-        oe[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
-        oe[8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
-        oe[12] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
-        oe[1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
-        oe[5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
-        oe[9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
-        oe[13] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
-        oe[2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
-        oe[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
-        oe[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
-        oe[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
-        oe[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-        oe[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-        oe[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-        oe[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
-        return oe;
+define('davinci-eight/math/inv4x4',["require", "exports"], function (require, exports) {
+    /**
+     * Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
+     */
+    function inv4x4(me, te) {
+        var n11 = me[0x0], n12 = me[0x4], n13 = me[0x8], n14 = me[0xC];
+        var n21 = me[0x1], n22 = me[0x5], n23 = me[0x9], n24 = me[0xD];
+        var n31 = me[0x2], n32 = me[0x6], n33 = me[0xA], n34 = me[0xE];
+        var n41 = me[0x3], n42 = me[0x7], n43 = me[0xB], n44 = me[0xF];
+        // Row 1
+        var o11 = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
+        var o12 = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44;
+        var o13 = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44;
+        var o14 = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
+        // Row 2
+        var o21 = n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44;
+        var o22 = n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44;
+        var o23 = n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44;
+        var o24 = n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34;
+        // Row 3
+        var o31 = n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44;
+        var o32 = n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44;
+        var o33 = n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44;
+        var o34 = n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34;
+        // Row 4
+        var o41 = n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43;
+        var o42 = n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43;
+        var o43 = n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43;
+        var o44 = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
+        var det = n11 * o11 + n21 * o12 + n31 * o13 + n41 * o14;
+        var α = 1 / det;
+        te[0x0] = o11 * α;
+        te[0x4] = o12 * α;
+        te[0x8] = o13 * α;
+        te[0xC] = o14 * α;
+        te[0x1] = o21 * α;
+        te[0x5] = o22 * α;
+        te[0x9] = o23 * α;
+        te[0xD] = o24 * α;
+        te[0x2] = o31 * α;
+        te[0x6] = o32 * α;
+        te[0xA] = o33 * α;
+        te[0xE] = o34 * α;
+        te[0x3] = o41 * α;
+        te[0x7] = o42 * α;
+        te[0xB] = o43 * α;
+        te[0xF] = o44 * α;
     }
-    return _M4_x_M4_;
+    return inv4x4;
+});
+
+define('davinci-eight/math/mul4x4',["require", "exports"], function (require, exports) {
+    function mul4x4(a, b, c) {
+        var a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
+        var a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];
+        var a31 = a[0x2], a32 = a[0x6], a33 = a[0xA], a34 = a[0xE];
+        var a41 = a[0x3], a42 = a[0x7], a43 = a[0xB], a44 = a[0xF];
+        var b11 = b[0x0], b12 = b[0x4], b13 = b[0x8], b14 = b[0xC];
+        var b21 = b[0x1], b22 = b[0x5], b23 = b[0x9], b24 = b[0xD];
+        var b31 = b[0x2], b32 = b[0x6], b33 = b[0xA], b34 = b[0xE];
+        var b41 = b[0x3], b42 = b[0x7], b43 = b[0xB], b44 = b[0xF];
+        c[0x0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
+        c[0x4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
+        c[0x8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
+        c[0xC] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
+        c[0x1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
+        c[0x5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
+        c[0x9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
+        c[0xD] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
+        c[0x2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
+        c[0x6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
+        c[0xA] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
+        c[0xE] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
+        c[0x3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
+        c[0x7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
+        c[0xB] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
+        c[0xF] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+        return c;
+    }
+    return mul4x4;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -6724,7 +7045,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../checks/isDefined', '../checks/mustBeNumber', '../math/_M4_x_M4_'], function (require, exports, AbstractMatrix, expectArg, isDefined, mustBeNumber, _M4_x_M4_) {
+define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../checks/mustBeNumber', '../math/mul4x4'], function (require, exports, AbstractMatrix, expectArg, inv4x4, isDefined, mustBeNumber, mul4x4) {
     /**
      * @class Matrix4
      * @extends AbstractMatrix
@@ -6837,10 +7158,11 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
             return this;
         };
         /**
-         * @method determinant
+         * Computes the determinant.
+         * @method det
          * @return {number}
          */
-        Matrix4.prototype.determinant = function () {
+        Matrix4.prototype.det = function () {
             var te = this.elements;
             var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
             var n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
@@ -6865,52 +7187,23 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
                 n44 * ((n1223 - n1322) * n31 + (n1321 - n1123) * n32 + (n1122 - n1221) * n33);
         };
         /**
+         * @method inv
+         * @return {Matrix4}
+         */
+        Matrix4.prototype.inv = function () {
+            inv4x4(this.elements, this.elements);
+            return this;
+        };
+        /**
          * @method invert
          * @param m {Matrix4}
          * @return {Matrix4}
          * @deprecated
          * @private
          */
-        Matrix4.prototype.invert = function (m, throwOnSingular) {
-            if (throwOnSingular === void 0) { throwOnSingular = false; }
-            // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
-            var te = this.elements;
-            var me = m.elements;
-            var n11 = me[0], n12 = me[4], n13 = me[8], n14 = me[12];
-            var n21 = me[1], n22 = me[5], n23 = me[9], n24 = me[13];
-            var n31 = me[2], n32 = me[6], n33 = me[10], n34 = me[14];
-            var n41 = me[3], n42 = me[7], n43 = me[11], n44 = me[15];
-            te[0] = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
-            te[4] = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44;
-            te[8] = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44;
-            te[12] = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
-            te[1] = n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44;
-            te[5] = n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44;
-            te[9] = n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44;
-            te[13] = n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34;
-            te[2] = n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44;
-            te[6] = n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44;
-            te[10] = n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44;
-            te[14] = n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34;
-            te[3] = n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43;
-            te[7] = n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43;
-            te[11] = n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43;
-            te[15] = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
-            var det = n11 * te[0] + n21 * te[4] + n31 * te[8] + n41 * te[12];
-            if (det !== 0) {
-                return this.scale(1 / det);
-            }
-            else {
-                var msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
-                if (throwOnSingular) {
-                    throw new Error(msg);
-                }
-                else {
-                    console.warn(msg);
-                }
-                this.one();
-                return this;
-            }
+        Matrix4.prototype.invert = function (m) {
+            inv4x4(m.elements, this.elements);
+            return this;
         };
         /**
          * Sets this matrix to the identity element for multiplication, <b>1</b>.
@@ -7046,7 +7339,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @chainable
          */
         Matrix4.prototype.mul2 = function (a, b) {
-            _M4_x_M4_(a.elements, b.elements, this.elements);
+            mul4x4(a.elements, b.elements, this.elements);
             return this;
         };
         /**
@@ -7160,22 +7453,22 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          */
         Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
             var te = this.elements;
-            te[0] = n11;
-            te[4] = n12;
-            te[8] = n13;
-            te[12] = n14;
-            te[1] = n21;
-            te[5] = n22;
-            te[9] = n23;
-            te[13] = n24;
-            te[2] = n31;
-            te[6] = n32;
-            te[10] = n33;
-            te[14] = n34;
-            te[3] = n41;
-            te[7] = n42;
-            te[11] = n43;
-            te[15] = n44;
+            te[0x0] = n11;
+            te[0x4] = n12;
+            te[0x8] = n13;
+            te[0xC] = n14;
+            te[0x1] = n21;
+            te[0x5] = n22;
+            te[0x9] = n23;
+            te[0xD] = n24;
+            te[0x2] = n31;
+            te[0x6] = n32;
+            te[0xA] = n33;
+            te[0xE] = n34;
+            te[0x3] = n41;
+            te[0x7] = n42;
+            te[0xB] = n43;
+            te[0xF] = n44;
             return this;
         };
         /**
@@ -10367,7 +10660,7 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             this.x = v.x;
             return this;
         };
-        R1.prototype.determinant = function () {
+        R1.prototype.det = function () {
             return this.x;
         };
         R1.prototype.dual = function () {
@@ -11433,10 +11726,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-16',
+        LAST_MODIFIED: '2015-11-17',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.155.0'
+        VERSION: '2.156.0'
     };
     return core;
 });
@@ -23195,27 +23488,40 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
     return Euclidean2;
 });
 
+define('davinci-eight/math/det2x2',["require", "exports"], function (require, exports) {
+    /**
+     * Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
+     */
+    function det2x2(m) {
+        var n11 = m[0x0], n12 = m[0x2];
+        var n21 = m[0x1], n22 = m[0x3];
+        return n11 * n22 - n12 * n21;
+    }
+    return det2x2;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
+define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatrix', '../math/det2x2'], function (require, exports, AbstractMatrix, det2x2) {
     /**
      * @class Matrix2
      * @extends AbstractMatrix
      */
     var Matrix2 = (function (_super) {
         __extends(Matrix2, _super);
-        // The correspondence between the elements property index and the matrix entries is...
-        //
-        //  0  2
-        //  1  3
         /**
          * 2x2 (square) matrix of numbers.
          * Constructs a Matrix2 by wrapping a Float32Array.
+         * The elements are stored in column-major order:
+         * 0 2
+         * 1 3
+         *
          * @class Matrix2
          * @constructor
+         * @param elements {Float32Array} The elements of the matrix in column-major order.
          */
         function Matrix2(elements) {
             _super.call(this, elements, 2);
@@ -23259,28 +23565,27 @@ define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatr
             var r21 = re[1];
             var r12 = re[2];
             var r22 = re[3];
-            var n11 = t11 + r11;
-            var n21 = t21 + r21;
-            var n12 = t12 + r12;
-            var n22 = t22 + r22;
-            return this.set(n11, n12, n21, n22);
+            var m11 = t11 + r11;
+            var m21 = t21 + r21;
+            var m12 = t12 + r12;
+            var m22 = t22 + r22;
+            return this.set(m11, m12, m21, m22);
         };
         Matrix2.prototype.clone = function () {
             var te = this.elements;
-            var n11 = te[0];
-            var n21 = te[1];
-            var n12 = te[2];
-            var n22 = te[3];
-            return Matrix2.zero().set(n11, n12, n21, n22);
+            var m11 = te[0];
+            var m21 = te[1];
+            var m12 = te[2];
+            var m22 = te[3];
+            return Matrix2.zero().set(m11, m12, m21, m22);
         };
         /**
-         * @method determinant
+         * Computes the determinant.
+         * @method det
          * @return {number}
          */
-        Matrix2.prototype.determinant = function () {
-            var te = this.elements;
-            var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
-            return 1;
+        Matrix2.prototype.det = function () {
+            return det2x2(this.elements);
         };
         /**
          * @method inv
@@ -23293,7 +23598,7 @@ define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatr
             var c = te[1];
             var b = te[2];
             var d = te[3];
-            var det = this.determinant();
+            var det = this.det();
             return this.set(d, -b, -c, a).scale(1 / det);
         };
         /**
@@ -23347,11 +23652,11 @@ define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatr
             var b21 = be[1];
             var b12 = be[2];
             var b22 = be[3];
-            var n11 = a11 * b11 + a12 * b21;
-            var n21 = a21 * b11 + a22 * b21;
-            var n12 = a11 * b12 + a12 * b22;
-            var n22 = a21 * b12 + a22 * b22;
-            return this.set(n11, n12, n21, n22);
+            var m11 = a11 * b11 + a12 * b21;
+            var m12 = a11 * b12 + a12 * b22;
+            var m21 = a21 * b11 + a22 * b21;
+            var m22 = a21 * b12 + a22 * b22;
+            return this.set(m11, m12, m21, m22);
         };
         /**
          * @method neg
@@ -23387,27 +23692,29 @@ define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatr
          */
         Matrix2.prototype.scale = function (α) {
             var te = this.elements;
-            var n11 = te[0] * α;
-            var n21 = te[1] * α;
-            var n12 = te[2] * α;
-            var n22 = te[3] * α;
-            return this.set(n11, n12, n21, n22);
+            var m11 = te[0] * α;
+            var m21 = te[1] * α;
+            var m12 = te[2] * α;
+            var m22 = te[3] * α;
+            return this.set(m11, m12, m21, m22);
         };
         /**
+         * Sets all elements of this matrix to the supplied row-major values m11, ..., m22.
          * @method set
-         * @param n11 {number}
-         * @param n12 {number}
-         * @param n21 {number}
-         * @param n22 {number}
+         * @param m11 {number}
+         * @param m12 {number}
+         * @param m21 {number}
+         * @param m22 {number}
          * @return {Matrix2}
          * @chainable
          */
-        Matrix2.prototype.set = function (n11, n12, n21, n22) {
+        Matrix2.prototype.set = function (m11, m12, m21, m22) {
             var te = this.elements;
-            te[0x0] = n11;
-            te[0x2] = n12;
-            te[0x1] = n21;
-            te[0x3] = n22;
+            // The elements are stored in column-major order.
+            te[0x0] = m11;
+            te[0x2] = m12;
+            te[0x1] = m21;
+            te[0x3] = m22;
             return this;
         };
         /**
@@ -23427,11 +23734,11 @@ define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatr
             var r21 = re[1];
             var r12 = re[2];
             var r22 = re[3];
-            var n11 = t11 - r11;
-            var n21 = t21 - r21;
-            var n12 = t12 - r12;
-            var n22 = t22 - r22;
-            return this.set(n11, n12, n21, n22);
+            var m11 = t11 - r11;
+            var m21 = t21 - r21;
+            var m12 = t12 - r12;
+            var m22 = t22 - r22;
+            return this.set(m11, m12, m21, m22);
         };
         /**
          * @method toString

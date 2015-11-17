@@ -2,7 +2,9 @@ import MutableMatrix = require('../math/MutableMatrix');
 /**
  * @class AbstractMatrix
  */
-declare class AbstractMatrix implements MutableMatrix<Float32Array> {
+declare class AbstractMatrix<T extends {
+    elements: Float32Array;
+}> implements MutableMatrix<Float32Array> {
     /**
      * @property _elements
      * @type {Float32Array}
@@ -44,6 +46,13 @@ declare class AbstractMatrix implements MutableMatrix<Float32Array> {
      * @type {() => Float32Array}
      */
     callback: () => Float32Array;
+    /**
+     * @method copy
+     * @param m {T}
+     * @return {T}
+     * @chaninable
+     */
+    copy(m: T): T;
     /**
      * @property dimensions
      * @type {number}

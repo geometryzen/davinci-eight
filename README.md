@@ -256,6 +256,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.153.0: 2015-11-12 direction
 * 2.154.0: 2015-11-15 ContextGL
 * 2.155.0: 2015-11-16 Matrix2
+* 2.156.0: 2015-11-17 Matrix3
 
 ## Unit
 Copyright (c) 2014-2015 David Holmes

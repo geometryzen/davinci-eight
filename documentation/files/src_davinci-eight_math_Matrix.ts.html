@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.155.0</em>
+            <em>API Docs for: 2.156.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,7 +125,6 @@
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
-                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -246,36 +245,15 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
- * @class Matrix&lt;M&gt;
+ * Intentionally undocumented. This interface is for internal consistency only.
+ * Note that the methods pertain to a square matrix.
  */
 interface Matrix&lt;M&gt; {
-    /**
-     * @method determinant
-     * @return {number}
-     */
-    determinant(): number;
-
-    /**
-     * Sets this matrix to the identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
-     * @method one
-     * @return {M}
-     */
-    one(): M;
-
-    /**
-     * @method mul
-     * @param rhs {M}
-     * @return {M}
-     */
+    det(): number;
+    inv(): M;
     mul(rhs: M): M;
-
-    /**
-     * @method mul2
-     * @param a {M}
-     * @param b {M}
-     * @return {M}
-     */
     mul2(a: M, b: M): M;
+    one(): M;
 }
 
 export = Matrix;

@@ -503,6 +503,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * @chainable
      */
     inv(): G2 {
+        
         // FIXME: TODO
         this.conj()
         // this.divByScalar(this.squaredNorm());

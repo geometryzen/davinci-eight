@@ -57,6 +57,16 @@ define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeIntege
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method copy
+         * @param m {T}
+         * @return {T}
+         * @chaninable
+         */
+        AbstractMatrix.prototype.copy = function (m) {
+            this.elements.set(m.elements);
+            return this;
+        };
         Object.defineProperty(AbstractMatrix.prototype, "dimensions", {
             /**
              * @property dimensions

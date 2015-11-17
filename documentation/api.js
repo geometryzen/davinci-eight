@@ -87,7 +87,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Matrix2",
         "Matrix3",
         "Matrix4",
-        "Matrix<M>",
         "MeshLambertMaterial",
         "MeshMaterial",
         "MeshTopology",
