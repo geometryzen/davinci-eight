@@ -110,9 +110,9 @@ declare class UniformLocation implements IContextProgramConsumer {
     matrix4(transpose: boolean, matrix: Matrix4): void;
     /**
      * @method vector2
-     * @param data {number[]}
+     * @param data {Array<number> | Float32Array}
      */
-    vector2(data: number[]): void;
+    vector2(data: number[] | Float32Array): void;
     /**
      * @method vector3
      * @param data {number[]}

@@ -89,13 +89,13 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
         uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
             return innerProgram.uniform4f(name, x, y, z, w, canvasId);
         },
-        uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number) {
+        uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number) {
             return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
         },
-        uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number) {
+        uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId?: number) {
             return innerProgram.uniformMatrix3(name, transpose, matrix, canvasId);
         },
-        uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
+        uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number) {
             return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
         },
         uniformVectorE2(name: string, vector: R2, canvasId: number) {

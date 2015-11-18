@@ -350,7 +350,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
          * @param name {string}
          * @param transpose {boolean}
          * @param matrix {Matrix2}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         Material.prototype.uniformMatrix2 = function (name, transpose, matrix, canvasId) {

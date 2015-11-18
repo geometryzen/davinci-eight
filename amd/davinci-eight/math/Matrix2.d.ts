@@ -2,11 +2,12 @@ import AbstractMatrix = require('../math/AbstractMatrix');
 import Matrix = require('../math/Matrix');
 import Ring = require('../math/MutableRingElement');
 import RingOperators = require('../math/RingOperators');
+import VectorE2 = require('../math/VectorE2');
 /**
  * @class Matrix2
  * @extends AbstractMatrix
  */
-declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2>, Ring<Matrix2>, RingOperators<Matrix2> {
+declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE2>, Ring<Matrix2>, RingOperators<Matrix2> {
     /**
      * 2x2 (square) matrix of numbers.
      * Constructs a Matrix2 by wrapping a Float32Array.
@@ -96,6 +97,18 @@ declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2>
      */
     one(): Matrix2;
     /**
+     * Sets this matrix to the transformation for a
+     * reflection in the line normal to the unit vector <code>n</code>.
+     * <p>
+     * <code>this ⟼ reflection(n)</code>
+     * </p>
+     * @method reflection
+     * @param n {VectorE2}
+     * @return {Matrix2}
+     * @chainable
+     */
+    reflection(n: VectorE2): Matrix2;
+    /**
      * @method row
      * @param i {number} the zero-based index of the row.
      * @return {Array<number>}
@@ -126,6 +139,17 @@ declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2>
      * @chainable
      */
     sub(rhs: Matrix2): Matrix2;
+    /**
+     * @method toExponential
+     * @return {string}
+     */
+    toExponential(): string;
+    /**
+     * @method toFixed
+     * @param [digits] {number}
+     * @return {string}
+     */
+    toFixed(digits?: number): string;
     /**
      * @method toString
      * @return {string}

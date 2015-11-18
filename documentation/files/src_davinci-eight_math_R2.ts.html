@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.156.0</em>
+            <em>API Docs for: 2.157.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,7 +71,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -152,7 +152,8 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
-                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
+                                <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
+                                <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -273,6 +274,7 @@ class R2 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix2, R2&gt
     constructor(data = [0, 0], modified = false) {
         super(data, modified, 2);
     }
+
     /**
      * @property x
      * @type Number
@@ -284,6 +286,7 @@ class R2 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix2, R2&gt
         this.modified = this.modified || this.x !== value;
         this.coords[COORD_X] = value;
     }
+
     /**
      * @property y
      * @type Number
@@ -291,20 +294,31 @@ class R2 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix2, R2&gt
     get y(): number {
         return this.coords[COORD_Y];
     }
+
     set y(value: number) {
         this.modified = this.modified || this.y !== value;
         this.coords[COORD_Y] = value;
     }
+    /**
     set(x: number, y: number): R2 {
         this.x = x;
         this.y = y;
         return this;
     }
-    copy(v: VectorE2) {
+    */
+    /**
+     * @method copy
+     * @param v {{x: number; y: number}}
+     * @return {R2}
+     * @chainable
+     */
+    copy(v: { x: number; y: number }): R2 {
         this.x = v.x;
         this.y = v.y;
         return this;
     }
+
+    
     add(v: VectorE2, alpha: number = 1) {
         this.x += v.x * alpha
         this.y += v.y * alpha
@@ -560,11 +574,11 @@ class R2 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix2, R2&gt
 
     /**
      * @method copy
-     * @param vector {VectorE2}
+     * @param vector {{x: number; y: number}}
      * @return {R2}
      * @static
      */
-    static copy(vector: VectorE2): R2 {
+    static copy(vector: { x: number; y: number }): R2 {
         return new R2([vector.x, vector.y])
     }
 

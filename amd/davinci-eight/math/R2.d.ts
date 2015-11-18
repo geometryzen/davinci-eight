@@ -25,8 +25,23 @@ declare class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, V
      * @type Number
      */
     y: number;
-    set(x: number, y: number): R2;
-    copy(v: VectorE2): R2;
+    /**
+    set(x: number, y: number): R2 {
+        this.x = x;
+        this.y = y;
+        return this;
+    }
+    */
+    /**
+     * @method copy
+     * @param v {{x: number; y: number}}
+     * @return {R2}
+     * @chainable
+     */
+    copy(v: {
+        x: number;
+        y: number;
+    }): R2;
     add(v: VectorE2, alpha?: number): R2;
     add2(a: VectorE2, b: VectorE2): R2;
     /**
@@ -130,11 +145,14 @@ declare class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, V
     zero(): R2;
     /**
      * @method copy
-     * @param vector {VectorE2}
+     * @param vector {{x: number; y: number}}
      * @return {R2}
      * @static
      */
-    static copy(vector: VectorE2): R2;
+    static copy(vector: {
+        x: number;
+        y: number;
+    }): R2;
     /**
      * @method lerp
      * @param a {VectorE2}

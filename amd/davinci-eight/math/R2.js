@@ -55,11 +55,19 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             enumerable: true,
             configurable: true
         });
-        R2.prototype.set = function (x, y) {
+        /**
+        set(x: number, y: number): R2 {
             this.x = x;
             this.y = y;
             return this;
-        };
+        }
+        */
+        /**
+         * @method copy
+         * @param v {{x: number; y: number}}
+         * @return {R2}
+         * @chainable
+         */
         R2.prototype.copy = function (v) {
             this.x = v.x;
             this.y = v.y;
@@ -307,7 +315,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
         };
         /**
          * @method copy
-         * @param vector {VectorE2}
+         * @param vector {{x: number; y: number}}
          * @return {R2}
          * @static
          */

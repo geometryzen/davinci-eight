@@ -1,7 +1,10 @@
 import AbstractMatrix = require('../math/AbstractMatrix')
 import det2x2 = require('../math/det2x2')
 import GeometricElement = require('../math/GeometricElement')
+import isDefined = require('../checks/isDefined')
 import Matrix = require('../math/Matrix')
+import mustBeInteger = require('../checks/mustBeInteger')
+import mustBeNumber = require('../checks/mustBeNumber')
 import Ring = require('../math/MutableRingElement')
 import RingOperators = require('../math/RingOperators')
 import SpinorE2 = require('../math/SpinorE2')
@@ -11,7 +14,7 @@ import VectorE2 = require('../math/VectorE2')
  * @class Matrix2
  * @extends AbstractMatrix
  */
-class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2>, Ring<Matrix2>, RingOperators<Matrix2> {
+class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE2>, Ring<Matrix2>, RingOperators<Matrix2> {
 
     /**
      * 2x2 (square) matrix of numbers.
@@ -194,6 +197,30 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2>, Ring<M
     }
 
     /**
+     * Sets this matrix to the transformation for a
+     * reflection in the line normal to the unit vector <code>n</code>.
+     * <p>
+     * <code>this ⟼ reflection(n)</code>
+     * </p>
+     * @method reflection
+     * @param n {VectorE2}
+     * @return {Matrix2}
+     * @chainable
+     */
+    reflection(n: VectorE2): Matrix2 {
+
+        let nx = mustBeNumber('n.x', n.x);
+        let ny = mustBeNumber('n.y', n.y);
+
+        let aa = -2 * nx * ny
+
+        let xx = 1 - 2 * nx * nx
+        let yy = 1 - 2 * ny * ny
+
+        return this.set(xx, aa, aa, yy)
+    }
+
+    /**
      * @method row
      * @param i {number} the zero-based index of the row.
      * @return {Array<number>}
@@ -260,6 +287,34 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2>, Ring<M
         let m12 = t12 - r12;
         let m22 = t22 - r22;
         return this.set(m11, m12, m21, m22)
+    }
+
+    /**
+     * @method toExponential
+     * @return {string}
+     */
+    toExponential(): string {
+        let text: string[] = [];
+        for (var i = 0; i < this.dimensions; i++) {
+            text.push(this.row(i).map(function(element: number, index: number) { return element.toExponential() }).join(' '));
+        }
+        return text.join('\n');
+    }
+
+    /**
+     * @method toFixed
+     * @param [digits] {number}
+     * @return {string}
+     */
+    toFixed(digits?: number): string {
+        if (isDefined(digits)) {
+            mustBeInteger('digits', digits)
+        }
+        let text: string[] = [];
+        for (var i = 0; i < this.dimensions; i++) {
+            text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(digits) }).join(' '));
+        }
+        return text.join('\n');
     }
 
     /**

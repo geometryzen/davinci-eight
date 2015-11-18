@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.156.0</em>
+            <em>API Docs for: 2.157.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,7 +71,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -152,7 +152,8 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
-                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
+                                <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
+                                <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -247,7 +248,10 @@
 import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;)
 import det2x2 = require(&#x27;../math/det2x2&#x27;)
 import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
+import isDefined = require(&#x27;../checks/isDefined&#x27;)
 import Matrix = require(&#x27;../math/Matrix&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import Ring = require(&#x27;../math/MutableRingElement&#x27;)
 import RingOperators = require(&#x27;../math/RingOperators&#x27;)
 import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;)
@@ -257,7 +261,7 @@ import VectorE2 = require(&#x27;../math/VectorE2&#x27;)
  * @class Matrix2
  * @extends AbstractMatrix
  */
-class Matrix2 extends AbstractMatrix&lt;Matrix2&gt; implements Matrix&lt;Matrix2&gt;, Ring&lt;Matrix2&gt;, RingOperators&lt;Matrix2&gt; {
+class Matrix2 extends AbstractMatrix&lt;Matrix2&gt; implements Matrix&lt;Matrix2, VectorE2&gt;, Ring&lt;Matrix2&gt;, RingOperators&lt;Matrix2&gt; {
 
     /**
      * 2x2 (square) matrix of numbers.
@@ -440,6 +444,30 @@ class Matrix2 extends AbstractMatrix&lt;Matrix2&gt; implements Matrix&lt;Matrix2
     }
 
     /**
+     * Sets this matrix to the transformation for a
+     * reflection in the line normal to the unit vector &lt;code&gt;n&lt;/code&gt;.
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ reflection(n)&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method reflection
+     * @param n {VectorE2}
+     * @return {Matrix2}
+     * @chainable
+     */
+    reflection(n: VectorE2): Matrix2 {
+
+        let nx = mustBeNumber(&#x27;n.x&#x27;, n.x);
+        let ny = mustBeNumber(&#x27;n.y&#x27;, n.y);
+
+        let aa = -2 * nx * ny
+
+        let xx = 1 - 2 * nx * nx
+        let yy = 1 - 2 * ny * ny
+
+        return this.set(xx, aa, aa, yy)
+    }
+
+    /**
      * @method row
      * @param i {number} the zero-based index of the row.
      * @return {Array&lt;number&gt;}
@@ -506,6 +534,34 @@ class Matrix2 extends AbstractMatrix&lt;Matrix2&gt; implements Matrix&lt;Matrix2
         let m12 = t12 - r12;
         let m22 = t22 - r22;
         return this.set(m11, m12, m21, m22)
+    }
+
+    /**
+     * @method toExponential
+     * @return {string}
+     */
+    toExponential(): string {
+        let text: string[] = [];
+        for (var i = 0; i &lt; this.dimensions; i++) {
+            text.push(this.row(i).map(function(element: number, index: number) { return element.toExponential() }).join(&#x27; &#x27;));
+        }
+        return text.join(&#x27;\n&#x27;);
+    }
+
+    /**
+     * @method toFixed
+     * @param [digits] {number}
+     * @return {string}
+     */
+    toFixed(digits?: number): string {
+        if (isDefined(digits)) {
+            mustBeInteger(&#x27;digits&#x27;, digits)
+        }
+        let text: string[] = [];
+        for (var i = 0; i &lt; this.dimensions; i++) {
+            text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(digits) }).join(&#x27; &#x27;));
+        }
+        return text.join(&#x27;\n&#x27;);
     }
 
     /**

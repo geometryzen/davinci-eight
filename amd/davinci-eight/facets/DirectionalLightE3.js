@@ -4,25 +4,25 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable', '../core/Symbolic', '../math/R3'], function (require, exports, Color, mustBeObject, mustBeString, Shareable, Symbolic, R3) {
-    var LOGGING_NAME = 'DirectionalLight';
+    var LOGGING_NAME = 'DirectionalLightE3';
     function contextBuilder() {
         return LOGGING_NAME;
     }
     /**
-     * @class DirectionalLight
+     * @class DirectionalLightE3
      * @extends Shareable
      */
-    var DirectionalLight = (function (_super) {
-        __extends(DirectionalLight, _super);
+    var DirectionalLightE3 = (function (_super) {
+        __extends(DirectionalLightE3, _super);
         /**
-         * @class DirectionalLight
+         * @class DirectionalLightE3
          * @constructor
          * @param direction {VectorE3}
          * @param color [ColorRGB = Color.white]
          */
-        function DirectionalLight(direction, color) {
+        function DirectionalLightE3(direction, color) {
             if (color === void 0) { color = Color.white; }
-            _super.call(this, 'DirectionalLight');
+            _super.call(this, 'DirectionalLightE3');
             mustBeObject('direction', direction);
             mustBeObject('color', color);
             this.direction = R3.copy(direction).direction();
@@ -33,7 +33,7 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
          * @type {void}
          * @protected
          */
-        DirectionalLight.prototype.destructor = function () {
+        DirectionalLightE3.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
         /**
@@ -41,13 +41,13 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
          * @param name {string}
          * @return {number[]}
          */
-        DirectionalLight.prototype.getProperty = function (name) {
+        DirectionalLightE3.prototype.getProperty = function (name) {
             mustBeString('name', name);
             switch (name) {
-                case DirectionalLight.PROP_COLOR: {
+                case DirectionalLightE3.PROP_COLOR: {
                     return this.color.coords;
                 }
-                case DirectionalLight.PROP_DIRECTION: {
+                case DirectionalLightE3.PROP_DIRECTION: {
                     return this.direction.coords;
                 }
                 default: {
@@ -61,15 +61,15 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
          * @param value {number[]}
          * @return {void}
          */
-        DirectionalLight.prototype.setProperty = function (name, value) {
+        DirectionalLightE3.prototype.setProperty = function (name, value) {
             mustBeString('name', name);
             mustBeObject('value', value);
             switch (name) {
-                case DirectionalLight.PROP_COLOR: {
+                case DirectionalLightE3.PROP_COLOR: {
                     this.color.coords = value;
                     break;
                 }
-                case DirectionalLight.PROP_DIRECTION: {
+                case DirectionalLightE3.PROP_DIRECTION: {
                     this.direction.coords = value;
                     break;
                 }
@@ -81,10 +81,10 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
         /**
          * @method setColor
          * @param color {ColorRGB}
-         * @return {DirectionalLight}
+         * @return {DirectionalLightE3}
          * @chainable
          */
-        DirectionalLight.prototype.setColor = function (color) {
+        DirectionalLightE3.prototype.setColor = function (color) {
             mustBeObject('color', color);
             this.color.copy(color);
             return this;
@@ -92,10 +92,10 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
         /**
          * @method setDirection
          * @param direction {VectorE3}
-         * @return {DirectionalLight}
+         * @return {DirectionalLightE3}
          * @chainable
          */
-        DirectionalLight.prototype.setDirection = function (direction) {
+        DirectionalLightE3.prototype.setDirection = function (direction) {
             mustBeObject('direction', direction);
             this.direction.copy(direction).direction();
             return this;
@@ -106,7 +106,7 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
          * @param canvasId {number}
          * @return {void}
          */
-        DirectionalLight.prototype.setUniforms = function (visitor, canvasId) {
+        DirectionalLightE3.prototype.setUniforms = function (visitor, canvasId) {
             visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords, canvasId);
             var coords = [this.color.r, this.color.g, this.color.b];
             visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords, canvasId);
@@ -119,7 +119,7 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
          * @static
          * @readOnly
          */
-        DirectionalLight.PROP_COLOR = 'color';
+        DirectionalLightE3.PROP_COLOR = 'color';
         /**
          * The name of the property that designates the direction.
          * @property PROP_DIRECTION
@@ -128,8 +128,8 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
          * @static
          * @readOnly
          */
-        DirectionalLight.PROP_DIRECTION = 'direction';
-        return DirectionalLight;
+        DirectionalLightE3.PROP_DIRECTION = 'direction';
+        return DirectionalLightE3;
     })(Shareable);
-    return DirectionalLight;
+    return DirectionalLightE3;
 });

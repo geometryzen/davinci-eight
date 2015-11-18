@@ -156,7 +156,7 @@ declare class Material extends Shareable implements IMaterial {
      * @param name {string}
      * @param transpose {boolean}
      * @param matrix {Matrix2}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number): void;

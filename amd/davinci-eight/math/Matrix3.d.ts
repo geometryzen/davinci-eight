@@ -3,11 +3,12 @@ import Matrix = require('../math/Matrix');
 import Matrix4 = require('./Matrix4');
 import Ring = require('../math/MutableRingElement');
 import RingOperators = require('../math/RingOperators');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class Matrix3
  * @extends AbstractMatrix
  */
-declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3>, Ring<Matrix3>, RingOperators<Matrix3> {
+declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3, VectorE3>, Ring<Matrix3>, RingOperators<Matrix3> {
     /**
      * 3x3 (square) matrix of numbers.
      * Constructs a Matrix3 by wrapping a Float32Array.
@@ -98,6 +99,18 @@ declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3>
      * @chainable
      */
     one(): Matrix3;
+    /**
+     * Sets this matrix to the transformation for a
+     * reflection in the plane normal to the unit vector <code>n</code>.
+     * <p>
+     * <code>this ⟼ reflection(n)</code>
+     * </p>
+     * @method reflection
+     * @param n {VectorE3}
+     * @return {Matrix3}
+     * @chainable
+     */
+    reflection(n: VectorE3): Matrix3;
     /**
      * @method row
      * @param i {number} the zero-based index of the row.

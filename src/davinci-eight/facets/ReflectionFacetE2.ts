@@ -1,53 +1,52 @@
-import CartesianE3 = require('../math/CartesianE3')
 import IFacet = require('../core/IFacet')
 import IFacetVisitor = require('../core/IFacetVisitor')
 import mustBeArray = require('../checks/mustBeArray')
 import mustBeString = require('../checks/mustBeString')
-import R3 = require('../math/R3')
-import Matrix4 = require('../math/Matrix4')
+import R2 = require('../math/R2')
+import Matrix2 = require('../math/Matrix2')
 import readOnly = require('../i18n/readOnly');
 import Shareable = require('../utils/Shareable')
 import Symbolic = require('../core/Symbolic')
 
 /**
- * @class ReflectionFacet
+ * @class ReflectionFacetE2
  * @extends Shareable
  */
-class ReflectionFacet extends Shareable implements IFacet {
+class ReflectionFacetE2 extends Shareable implements IFacet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      * @property _normal
-     * @type {R3}
+     * @type {R2}
      * @private
      */
-    public _normal: R3;
+    public _normal: R2;
     /**
      * @property matrix
-     * @type {Matrix4}
+     * @type {Matrix2}
      * @private
      */
-    private matrix = Matrix4.one();
+    private matrix = Matrix2.one();
     private name: string;
 
     /**
-     * @class ReflectionFacet
+     * @class ReflectionFacetE2
      * @constructor
      * @param name {string} The name of the uniform variable.
      */
     constructor(name: string) {
-        super('ReflectionFacet')
+        super('ReflectionFacetE2')
         this.name = mustBeString('name', name)
         // The mathematics of the reflection causes a zero vector to be the identity transformation.
-        this._normal = new R3().copy(CartesianE3.zero)
+        this._normal = new R2().zero()
         this._normal.modified = true
     }
 
     /**
      * @property normal
-     * @type R3
+     * @type R2
      * @readOnly
      */
-    get normal(): R3 {
+    get normal(): R2 {
         return this._normal
     }
     set normal(unused) {
@@ -89,16 +88,16 @@ class ReflectionFacet extends Shareable implements IFacet {
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
-     * @param canvasId {number}
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void {
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
         if (this._normal.modified) {
             this.matrix.reflection(this._normal)
             this._normal.modified = false
         }
-        visitor.uniformMatrix4(this.name, false, this.matrix, canvasId)
+        visitor.uniformMatrix2(this.name, false, this.matrix, canvasId)
     }
 }
 
-export = ReflectionFacet
+export = ReflectionFacetE2

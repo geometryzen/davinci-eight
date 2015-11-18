@@ -3,11 +3,12 @@ import Matrix = require('../math/Matrix');
 import Ring = require('../math/MutableRingElement');
 import SpinorE3 = require('../math/SpinorE3');
 import VectorE3 = require('../math/VectorE3');
+import VectorE4 = require('../math/VectorE4');
 /**
  * @class Matrix4
  * @extends AbstractMatrix
  */
-declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4>, Ring<Matrix4> {
+declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE4>, Ring<Matrix4> {
     /**
      * 4x4 (square) matrix of numbers.
      * Constructs a Matrix4 by wrapping a Float32Array.
@@ -165,6 +166,8 @@ declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4>
      */
     rmul(lhs: Matrix4): Matrix4;
     /**
+     * Sets this matrix to the transformation for a
+     * reflection in the plane normal to the unit vector <code>n</code>.
      * <p>
      * <code>this ⟼ reflection(n)</code>
      * </p>

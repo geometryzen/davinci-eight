@@ -172,9 +172,9 @@ class UniformLocation implements IContextProgramConsumer {
     }
     /**
      * @method vector2
-     * @param data {number[]}
+     * @param data {Array<number> | Float32Array}
      */
-    vector2(data: number[]): void {
+    vector2(data: number[] | Float32Array): void {
         this._context.useProgram(this._program);
         this._context.uniform2fv(this._location, data);
     }

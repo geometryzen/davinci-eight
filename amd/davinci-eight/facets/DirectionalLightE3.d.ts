@@ -6,10 +6,10 @@ import Shareable = require('../utils/Shareable');
 import R3 = require('../math/R3');
 import VectorE3 = require('../math/VectorE3');
 /**
- * @class DirectionalLight
+ * @class DirectionalLightE3
  * @extends Shareable
  */
-declare class DirectionalLight extends Shareable implements IFacet {
+declare class DirectionalLightE3 extends Shareable implements IFacet {
     /**
      * The name of the property that designates the color.
      * @property PROP_COLOR
@@ -39,7 +39,7 @@ declare class DirectionalLight extends Shareable implements IFacet {
      */
     color: Color;
     /**
-     * @class DirectionalLight
+     * @class DirectionalLightE3
      * @constructor
      * @param direction {VectorE3}
      * @param color [ColorRGB = Color.white]
@@ -67,17 +67,17 @@ declare class DirectionalLight extends Shareable implements IFacet {
     /**
      * @method setColor
      * @param color {ColorRGB}
-     * @return {DirectionalLight}
+     * @return {DirectionalLightE3}
      * @chainable
      */
-    setColor(color: ColorRGB): DirectionalLight;
+    setColor(color: ColorRGB): DirectionalLightE3;
     /**
      * @method setDirection
      * @param direction {VectorE3}
-     * @return {DirectionalLight}
+     * @return {DirectionalLightE3}
      * @chainable
      */
-    setDirection(direction: VectorE3): DirectionalLight;
+    setDirection(direction: VectorE3): DirectionalLightE3;
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
@@ -86,4 +86,4 @@ declare class DirectionalLight extends Shareable implements IFacet {
      */
     setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
-export = DirectionalLight;
+export = DirectionalLightE3;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.156.0</em>
+            <em>API Docs for: 2.157.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,7 +71,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -152,7 +152,8 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
-                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
+                                <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
+                                <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -335,13 +336,13 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
         uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
             return innerProgram.uniform4f(name, x, y, z, w, canvasId);
         },
-        uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number) {
+        uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number) {
             return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
         },
-        uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number) {
+        uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId?: number) {
             return innerProgram.uniformMatrix3(name, transpose, matrix, canvasId);
         },
-        uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
+        uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number) {
             return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
         },
         uniformVectorE2(name: string, vector: R2, canvasId: number) {

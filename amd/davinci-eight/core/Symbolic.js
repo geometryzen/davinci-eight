@@ -67,19 +67,19 @@ define(["require", "exports"], function (require, exports) {
          */
         Symbolic.UNIFORM_COLOR = 'uColor';
         /**
-         * 'uDirectionalLightColor'
+         * 'uDirectionalLightE3Color'
          * @property UNIFORM_DIRECTIONAL_LIGHT_COLOR
          * @type {string}
          * @static
          */
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightE3Color';
         /**
-         * 'uDirectionalLightDirection'
+         * 'uDirectionalLightE3Direction'
          * @property UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
          * @type {string}
          * @static
          */
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightE3Direction';
         /**
          * 'uPointLightColor'
          * @property UNIFORM_POINT_LIGHT_COLOR

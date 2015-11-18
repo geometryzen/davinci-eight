@@ -204,6 +204,10 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             // FIXME: TODO
             return this;
         };
+        R1.prototype.reflection = function (n) {
+            // FIXME: TODO
+            return this;
+        };
         R1.prototype.rotate = function (rotor) {
             return this;
         };

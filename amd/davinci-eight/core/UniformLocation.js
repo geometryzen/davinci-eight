@@ -153,7 +153,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         };
         /**
          * @method vector2
-         * @param data {number[]}
+         * @param data {Array<number> | Float32Array}
          */
         UniformLocation.prototype.vector2 = function (data) {
             this._context.useProgram(this._program);

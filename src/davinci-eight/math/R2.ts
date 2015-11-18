@@ -27,6 +27,7 @@ class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, VectorE2,
     constructor(data = [0, 0], modified = false) {
         super(data, modified, 2);
     }
+
     /**
      * @property x
      * @type Number
@@ -38,6 +39,7 @@ class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, VectorE2,
         this.modified = this.modified || this.x !== value;
         this.coords[COORD_X] = value;
     }
+
     /**
      * @property y
      * @type Number
@@ -45,20 +47,31 @@ class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, VectorE2,
     get y(): number {
         return this.coords[COORD_Y];
     }
+
     set y(value: number) {
         this.modified = this.modified || this.y !== value;
         this.coords[COORD_Y] = value;
     }
+    /**
     set(x: number, y: number): R2 {
         this.x = x;
         this.y = y;
         return this;
     }
-    copy(v: VectorE2) {
+    */
+    /**
+     * @method copy
+     * @param v {{x: number; y: number}}
+     * @return {R2}
+     * @chainable
+     */
+    copy(v: { x: number; y: number }): R2 {
         this.x = v.x;
         this.y = v.y;
         return this;
     }
+
+    
     add(v: VectorE2, alpha: number = 1) {
         this.x += v.x * alpha
         this.y += v.y * alpha
@@ -314,11 +327,11 @@ class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, VectorE2,
 
     /**
      * @method copy
-     * @param vector {VectorE2}
+     * @param vector {{x: number; y: number}}
      * @return {R2}
      * @static
      */
-    static copy(vector: VectorE2): R2 {
+    static copy(vector: { x: number; y: number }): R2 {
         return new R2([vector.x, vector.y])
     }
 

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2'], function (require, exports, AbstractMatrix, det2x2) {
+define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, det2x2, isDefined, mustBeInteger, mustBeNumber) {
     /**
      * @class Matrix2
      * @extends AbstractMatrix
@@ -174,6 +174,25 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2'], funct
             return this.set(1, 0, 0, 1);
         };
         /**
+         * Sets this matrix to the transformation for a
+         * reflection in the line normal to the unit vector <code>n</code>.
+         * <p>
+         * <code>this ⟼ reflection(n)</code>
+         * </p>
+         * @method reflection
+         * @param n {VectorE2}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.reflection = function (n) {
+            var nx = mustBeNumber('n.x', n.x);
+            var ny = mustBeNumber('n.y', n.y);
+            var aa = -2 * nx * ny;
+            var xx = 1 - 2 * nx * nx;
+            var yy = 1 - 2 * ny * ny;
+            return this.set(xx, aa, aa, yy);
+        };
+        /**
          * @method row
          * @param i {number} the zero-based index of the row.
          * @return {Array<number>}
@@ -237,6 +256,32 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2'], funct
             var m12 = t12 - r12;
             var m22 = t22 - r22;
             return this.set(m11, m12, m21, m22);
+        };
+        /**
+         * @method toExponential
+         * @return {string}
+         */
+        Matrix2.prototype.toExponential = function () {
+            var text = [];
+            for (var i = 0; i < this.dimensions; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toExponential(); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        /**
+         * @method toFixed
+         * @param [digits] {number}
+         * @return {string}
+         */
+        Matrix2.prototype.toFixed = function (digits) {
+            if (isDefined(digits)) {
+                mustBeInteger('digits', digits);
+            }
+            var text = [];
+            for (var i = 0; i < this.dimensions; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));
+            }
+            return text.join('\n');
         };
         /**
          * @method toString

@@ -2469,11 +2469,19 @@ define('davinci-eight/math/R2',["require", "exports", '../geometries/b2', '../ge
             enumerable: true,
             configurable: true
         });
-        R2.prototype.set = function (x, y) {
+        /**
+        set(x: number, y: number): R2 {
             this.x = x;
             this.y = y;
             return this;
-        };
+        }
+        */
+        /**
+         * @method copy
+         * @param v {{x: number; y: number}}
+         * @return {R2}
+         * @chainable
+         */
         R2.prototype.copy = function (v) {
             this.x = v.x;
             this.y = v.y;
@@ -2721,7 +2729,7 @@ define('davinci-eight/math/R2',["require", "exports", '../geometries/b2', '../ge
         };
         /**
          * @method copy
-         * @param vector {VectorE2}
+         * @param vector {{x: number; y: number}}
          * @return {R2}
          * @static
          */
@@ -6610,7 +6618,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../math/inv3x3', '../math/mul3x3'], function (require, exports, AbstractMatrix, det3x3, inv3x3, mul3x3) {
+define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../math/inv3x3', '../math/mul3x3', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, det3x3, inv3x3, mul3x3, mustBeNumber) {
     /**
      * @class Matrix3
      * @extends AbstractMatrix
@@ -6769,6 +6777,30 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
          */
         Matrix3.prototype.one = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
+        };
+        /**
+         * Sets this matrix to the transformation for a
+         * reflection in the plane normal to the unit vector <code>n</code>.
+         * <p>
+         * <code>this ⟼ reflection(n)</code>
+         * </p>
+         * @method reflection
+         * @param n {VectorE3}
+         * @return {Matrix3}
+         * @chainable
+         */
+        Matrix3.prototype.reflection = function (n) {
+            var nx = mustBeNumber('n.x', n.x);
+            var ny = mustBeNumber('n.y', n.y);
+            var nz = mustBeNumber('n.z', n.z);
+            var aa = -2 * nx * ny;
+            var cc = -2 * ny * nz;
+            var bb = -2 * nz * nx;
+            var xx = 1 - 2 * nx * nx;
+            var yy = 1 - 2 * ny * ny;
+            var zz = 1 - 2 * nz * nz;
+            this.set(xx, aa, bb, aa, yy, cc, bb, cc, zz);
+            return this;
         };
         /**
          * @method row
@@ -7045,7 +7077,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../checks/mustBeNumber', '../math/mul4x4'], function (require, exports, AbstractMatrix, expectArg, inv4x4, isDefined, mustBeNumber, mul4x4) {
+define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../math/mul4x4', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, expectArg, inv4x4, isDefined, mul4x4, mustBeNumber) {
     /**
      * @class Matrix4
      * @extends AbstractMatrix
@@ -7352,6 +7384,8 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
             return this.mul2(lhs, this);
         };
         /**
+         * Sets this matrix to the transformation for a
+         * reflection in the plane normal to the unit vector <code>n</code>.
          * <p>
          * <code>this ⟼ reflection(n)</code>
          * </p>
@@ -7361,6 +7395,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
          * @chainable
          */
         Matrix4.prototype.reflection = function (n) {
+            // FIXME; Symmetry says this should take a VectorE4
             var nx = mustBeNumber('n.x', n.x);
             var ny = mustBeNumber('n.y', n.y);
             var nz = mustBeNumber('n.z', n.z);
@@ -10359,19 +10394,19 @@ define('davinci-eight/core/Symbolic',["require", "exports"], function (require, 
          */
         Symbolic.UNIFORM_COLOR = 'uColor';
         /**
-         * 'uDirectionalLightColor'
+         * 'uDirectionalLightE3Color'
          * @property UNIFORM_DIRECTIONAL_LIGHT_COLOR
          * @type {string}
          * @static
          */
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightE3Color';
         /**
-         * 'uDirectionalLightDirection'
+         * 'uDirectionalLightE3Direction'
          * @property UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
          * @type {string}
          * @static
          */
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightE3Direction';
         /**
          * 'uPointLightColor'
          * @property UNIFORM_POINT_LIGHT_COLOR
@@ -10796,6 +10831,10 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
             return dx * dx;
         };
         R1.prototype.reflect = function (n) {
+            // FIXME: TODO
+            return this;
+        };
+        R1.prototype.reflection = function (n) {
             // FIXME: TODO
             return this;
         };
@@ -11726,10 +11765,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-17',
+        LAST_MODIFIED: '2015-11-18',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.156.0'
+        VERSION: '2.157.0'
     };
     return core;
 });
@@ -11935,7 +11974,7 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
         };
         /**
          * @method vector2
-         * @param data {number[]}
+         * @param data {Array<number> | Float32Array}
          */
         UniformLocation.prototype.vector2 = function (data) {
             this._context.useProgram(this._program);
@@ -21730,7 +21769,7 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
          * @param name {string}
          * @param transpose {boolean}
          * @param matrix {Matrix2}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         Material.prototype.uniformMatrix2 = function (name, transpose, matrix, canvasId) {
@@ -23505,7 +23544,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatrix', '../math/det2x2'], function (require, exports, AbstractMatrix, det2x2) {
+define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, det2x2, isDefined, mustBeInteger, mustBeNumber) {
     /**
      * @class Matrix2
      * @extends AbstractMatrix
@@ -23676,6 +23715,25 @@ define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatr
             return this.set(1, 0, 0, 1);
         };
         /**
+         * Sets this matrix to the transformation for a
+         * reflection in the line normal to the unit vector <code>n</code>.
+         * <p>
+         * <code>this ⟼ reflection(n)</code>
+         * </p>
+         * @method reflection
+         * @param n {VectorE2}
+         * @return {Matrix2}
+         * @chainable
+         */
+        Matrix2.prototype.reflection = function (n) {
+            var nx = mustBeNumber('n.x', n.x);
+            var ny = mustBeNumber('n.y', n.y);
+            var aa = -2 * nx * ny;
+            var xx = 1 - 2 * nx * nx;
+            var yy = 1 - 2 * ny * ny;
+            return this.set(xx, aa, aa, yy);
+        };
+        /**
          * @method row
          * @param i {number} the zero-based index of the row.
          * @return {Array<number>}
@@ -23739,6 +23797,32 @@ define('davinci-eight/math/Matrix2',["require", "exports", '../math/AbstractMatr
             var m12 = t12 - r12;
             var m22 = t22 - r22;
             return this.set(m11, m12, m21, m22);
+        };
+        /**
+         * @method toExponential
+         * @return {string}
+         */
+        Matrix2.prototype.toExponential = function () {
+            var text = [];
+            for (var i = 0; i < this.dimensions; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toExponential(); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        /**
+         * @method toFixed
+         * @param [digits] {number}
+         * @return {string}
+         */
+        Matrix2.prototype.toFixed = function (digits) {
+            if (isDefined(digits)) {
+                mustBeInteger('digits', digits);
+            }
+            var text = [];
+            for (var i = 0; i < this.dimensions; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));
+            }
+            return text.join('\n');
         };
         /**
          * @method toString
@@ -25950,26 +26034,26 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/Color', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable', '../core/Symbolic', '../math/R3'], function (require, exports, Color, mustBeObject, mustBeString, Shareable, Symbolic, R3) {
-    var LOGGING_NAME = 'DirectionalLight';
+define('davinci-eight/facets/DirectionalLightE3',["require", "exports", '../core/Color', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable', '../core/Symbolic', '../math/R3'], function (require, exports, Color, mustBeObject, mustBeString, Shareable, Symbolic, R3) {
+    var LOGGING_NAME = 'DirectionalLightE3';
     function contextBuilder() {
         return LOGGING_NAME;
     }
     /**
-     * @class DirectionalLight
+     * @class DirectionalLightE3
      * @extends Shareable
      */
-    var DirectionalLight = (function (_super) {
-        __extends(DirectionalLight, _super);
+    var DirectionalLightE3 = (function (_super) {
+        __extends(DirectionalLightE3, _super);
         /**
-         * @class DirectionalLight
+         * @class DirectionalLightE3
          * @constructor
          * @param direction {VectorE3}
          * @param color [ColorRGB = Color.white]
          */
-        function DirectionalLight(direction, color) {
+        function DirectionalLightE3(direction, color) {
             if (color === void 0) { color = Color.white; }
-            _super.call(this, 'DirectionalLight');
+            _super.call(this, 'DirectionalLightE3');
             mustBeObject('direction', direction);
             mustBeObject('color', color);
             this.direction = R3.copy(direction).direction();
@@ -25980,7 +26064,7 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
          * @type {void}
          * @protected
          */
-        DirectionalLight.prototype.destructor = function () {
+        DirectionalLightE3.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
         /**
@@ -25988,13 +26072,13 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
          * @param name {string}
          * @return {number[]}
          */
-        DirectionalLight.prototype.getProperty = function (name) {
+        DirectionalLightE3.prototype.getProperty = function (name) {
             mustBeString('name', name);
             switch (name) {
-                case DirectionalLight.PROP_COLOR: {
+                case DirectionalLightE3.PROP_COLOR: {
                     return this.color.coords;
                 }
-                case DirectionalLight.PROP_DIRECTION: {
+                case DirectionalLightE3.PROP_DIRECTION: {
                     return this.direction.coords;
                 }
                 default: {
@@ -26008,15 +26092,15 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
          * @param value {number[]}
          * @return {void}
          */
-        DirectionalLight.prototype.setProperty = function (name, value) {
+        DirectionalLightE3.prototype.setProperty = function (name, value) {
             mustBeString('name', name);
             mustBeObject('value', value);
             switch (name) {
-                case DirectionalLight.PROP_COLOR: {
+                case DirectionalLightE3.PROP_COLOR: {
                     this.color.coords = value;
                     break;
                 }
-                case DirectionalLight.PROP_DIRECTION: {
+                case DirectionalLightE3.PROP_DIRECTION: {
                     this.direction.coords = value;
                     break;
                 }
@@ -26028,10 +26112,10 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
         /**
          * @method setColor
          * @param color {ColorRGB}
-         * @return {DirectionalLight}
+         * @return {DirectionalLightE3}
          * @chainable
          */
-        DirectionalLight.prototype.setColor = function (color) {
+        DirectionalLightE3.prototype.setColor = function (color) {
             mustBeObject('color', color);
             this.color.copy(color);
             return this;
@@ -26039,10 +26123,10 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
         /**
          * @method setDirection
          * @param direction {VectorE3}
-         * @return {DirectionalLight}
+         * @return {DirectionalLightE3}
          * @chainable
          */
-        DirectionalLight.prototype.setDirection = function (direction) {
+        DirectionalLightE3.prototype.setDirection = function (direction) {
             mustBeObject('direction', direction);
             this.direction.copy(direction).direction();
             return this;
@@ -26053,7 +26137,7 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
          * @param canvasId {number}
          * @return {void}
          */
-        DirectionalLight.prototype.setUniforms = function (visitor, canvasId) {
+        DirectionalLightE3.prototype.setUniforms = function (visitor, canvasId) {
             visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords, canvasId);
             var coords = [this.color.r, this.color.g, this.color.b];
             visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords, canvasId);
@@ -26066,7 +26150,7 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
          * @static
          * @readOnly
          */
-        DirectionalLight.PROP_COLOR = 'color';
+        DirectionalLightE3.PROP_COLOR = 'color';
         /**
          * The name of the property that designates the direction.
          * @property PROP_DIRECTION
@@ -26075,10 +26159,10 @@ define('davinci-eight/facets/DirectionalLight',["require", "exports", '../core/C
          * @static
          * @readOnly
          */
-        DirectionalLight.PROP_DIRECTION = 'direction';
-        return DirectionalLight;
+        DirectionalLightE3.PROP_DIRECTION = 'direction';
+        return DirectionalLightE3;
     })(Shareable);
-    return DirectionalLight;
+    return DirectionalLightE3;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -26474,20 +26558,112 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/facets/ReflectionFacet',["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '../checks/mustBeString', '../math/R3', '../math/Matrix4', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, CartesianE3, mustBeArray, mustBeString, R3, Matrix4, readOnly, Shareable) {
+define('davinci-eight/facets/ReflectionFacetE2',["require", "exports", '../checks/mustBeArray', '../checks/mustBeString', '../math/R2', '../math/Matrix2', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, mustBeArray, mustBeString, R2, Matrix2, readOnly, Shareable) {
     /**
-     * @class ReflectionFacet
+     * @class ReflectionFacetE2
      * @extends Shareable
      */
-    var ReflectionFacet = (function (_super) {
-        __extends(ReflectionFacet, _super);
+    var ReflectionFacetE2 = (function (_super) {
+        __extends(ReflectionFacetE2, _super);
         /**
-         * @class ReflectionFacet
+         * @class ReflectionFacetE2
          * @constructor
          * @param name {string} The name of the uniform variable.
          */
-        function ReflectionFacet(name) {
-            _super.call(this, 'ReflectionFacet');
+        function ReflectionFacetE2(name) {
+            _super.call(this, 'ReflectionFacetE2');
+            /**
+             * @property matrix
+             * @type {Matrix2}
+             * @private
+             */
+            this.matrix = Matrix2.one();
+            this.name = mustBeString('name', name);
+            // The mathematics of the reflection causes a zero vector to be the identity transformation.
+            this._normal = new R2().zero();
+            this._normal.modified = true;
+        }
+        Object.defineProperty(ReflectionFacetE2.prototype, "normal", {
+            /**
+             * @property normal
+             * @type R2
+             * @readOnly
+             */
+            get: function () {
+                return this._normal;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('normal').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        ReflectionFacetE2.prototype.destructor = function () {
+            this._normal = void 0;
+            this.matrix = void 0;
+            _super.prototype.destructor.call(this);
+        };
+        /**
+         * @method getProperty
+         * @param name {string}
+         * @return {Array<number>}
+         */
+        ReflectionFacetE2.prototype.getProperty = function (name) {
+            mustBeString('name', name);
+            return void 0;
+        };
+        /**
+         * @method setProperty
+         * @param name {string}
+         * @param value {Array<number>}
+         * @return {void}
+         */
+        ReflectionFacetE2.prototype.setProperty = function (name, value) {
+            mustBeString('name', name);
+            mustBeArray('value', value);
+        };
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
+         * @return {void}
+         */
+        ReflectionFacetE2.prototype.setUniforms = function (visitor, canvasId) {
+            if (this._normal.modified) {
+                this.matrix.reflection(this._normal);
+                this._normal.modified = false;
+            }
+            visitor.uniformMatrix2(this.name, false, this.matrix, canvasId);
+        };
+        return ReflectionFacetE2;
+    })(Shareable);
+    return ReflectionFacetE2;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/facets/ReflectionFacetE3',["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '../checks/mustBeString', '../math/R3', '../math/Matrix4', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, CartesianE3, mustBeArray, mustBeString, R3, Matrix4, readOnly, Shareable) {
+    /**
+     * @class ReflectionFacetE3
+     * @extends Shareable
+     */
+    var ReflectionFacetE3 = (function (_super) {
+        __extends(ReflectionFacetE3, _super);
+        /**
+         * @class ReflectionFacetE3
+         * @constructor
+         * @param name {string} The name of the uniform variable.
+         */
+        function ReflectionFacetE3(name) {
+            _super.call(this, 'ReflectionFacetE3');
             /**
              * @property matrix
              * @type {Matrix4}
@@ -26499,7 +26675,7 @@ define('davinci-eight/facets/ReflectionFacet',["require", "exports", '../math/Ca
             this._normal = new R3().copy(CartesianE3.zero);
             this._normal.modified = true;
         }
-        Object.defineProperty(ReflectionFacet.prototype, "normal", {
+        Object.defineProperty(ReflectionFacetE3.prototype, "normal", {
             /**
              * @property normal
              * @type R3
@@ -26519,7 +26695,7 @@ define('davinci-eight/facets/ReflectionFacet',["require", "exports", '../math/Ca
          * @return {void}
          * @protected
          */
-        ReflectionFacet.prototype.destructor = function () {
+        ReflectionFacetE3.prototype.destructor = function () {
             this._normal = void 0;
             this.matrix = void 0;
             _super.prototype.destructor.call(this);
@@ -26529,7 +26705,7 @@ define('davinci-eight/facets/ReflectionFacet',["require", "exports", '../math/Ca
          * @param name {string}
          * @return {Array<number>}
          */
-        ReflectionFacet.prototype.getProperty = function (name) {
+        ReflectionFacetE3.prototype.getProperty = function (name) {
             mustBeString('name', name);
             return void 0;
         };
@@ -26539,7 +26715,7 @@ define('davinci-eight/facets/ReflectionFacet',["require", "exports", '../math/Ca
          * @param value {Array<number>}
          * @return {void}
          */
-        ReflectionFacet.prototype.setProperty = function (name, value) {
+        ReflectionFacetE3.prototype.setProperty = function (name, value) {
             mustBeString('name', name);
             mustBeArray('value', value);
         };
@@ -26549,16 +26725,16 @@ define('davinci-eight/facets/ReflectionFacet',["require", "exports", '../math/Ca
          * @param canvasId {number}
          * @return {void}
          */
-        ReflectionFacet.prototype.setUniforms = function (visitor, canvasId) {
+        ReflectionFacetE3.prototype.setUniforms = function (visitor, canvasId) {
             if (this._normal.modified) {
                 this.matrix.reflection(this._normal);
                 this._normal.modified = false;
             }
             visitor.uniformMatrix4(this.name, false, this.matrix, canvasId);
         };
-        return ReflectionFacet;
+        return ReflectionFacetE3;
     })(Shareable);
-    return ReflectionFacet;
+    return ReflectionFacetE3;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -27125,7 +27301,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/ContextGL', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix2', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLight', 'davinci-eight/facets/EulerFacet', 'davinci-eight/facets/ModelFacetE3', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacet', 'davinci-eight/facets/RigidBodyFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/models/ModelE2', 'davinci-eight/models/ModelE3', 'davinci-eight/models/RigidBodyE2', 'davinci-eight/models/RigidBodyE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, ContextGL, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Matrix2, Matrix3, Matrix4, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, AmbientLight, ColorFacet, DirectionalLight, EulerFacet, ModelFacetE3, PointSizeFacet, ReflectionFacet, RigidBodyFacetE3, Vector3Facet, ModelE2, ModelE3, RigidBodyE2, RigidBodyE3, initWebGL, renderer, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/ContextGL', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Matrix2', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLightE3', 'davinci-eight/facets/EulerFacet', 'davinci-eight/facets/ModelFacetE3', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacetE2', 'davinci-eight/facets/ReflectionFacetE3', 'davinci-eight/facets/RigidBodyFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/models/ModelE2', 'davinci-eight/models/ModelE3', 'davinci-eight/models/RigidBodyE2', 'davinci-eight/models/RigidBodyE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, ContextGL, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Matrix2, Matrix3, Matrix4, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, AmbientLight, ColorFacet, DirectionalLightE3, EulerFacet, ModelFacetE3, PointSizeFacet, ReflectionFacetE2, ReflectionFacetE3, RigidBodyFacetE3, Vector3Facet, ModelE2, ModelE3, RigidBodyE2, RigidBodyE3, initWebGL, renderer, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -27279,9 +27455,10 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         // facets
         get AmbientLight() { return AmbientLight; },
         get ColorFacet() { return ColorFacet; },
-        get DirectionalLight() { return DirectionalLight; },
+        get DirectionalLightE3() { return DirectionalLightE3; },
         get PointSizeFacet() { return PointSizeFacet; },
-        get ReflectionFacet() { return ReflectionFacet; },
+        get ReflectionFacetE2() { return ReflectionFacetE2; },
+        get ReflectionFacetE3() { return ReflectionFacetE3; },
         get Vector3Facet() { return Vector3Facet; },
         // utils
         get IUnknownArray() { return IUnknownArray; },

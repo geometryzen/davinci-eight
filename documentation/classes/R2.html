@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.156.0</em>
+            <em>API Docs for: 2.157.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,7 +71,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -152,7 +152,8 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
-                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
+                                <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
+                                <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -351,6 +352,10 @@
                             <li class="index-item method">
                                 <a href="#method_copy">copy</a>
 
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_copy">copy</a>
+
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
@@ -364,11 +369,11 @@
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp">lerp</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_lerp2">lerp2</a>
@@ -444,7 +449,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l73"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:73</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l86"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:86</code></a>
         </p>
 
 
@@ -492,6 +497,70 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
+                        <code>v</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:62</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">v</code>
+                        <span class="type">X: number; y: number</span>
+
+
+                    <div class="param-description">
+                        <p>}</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_copy" class="method item">
+    <h3 class="name"><code>copy</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
                         <code>vector</code>
                 </li>
             </ul><span class="paren">)</span>
@@ -511,7 +580,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l315"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:315</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l328"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:328</code></a>
         </p>
 
 
@@ -528,11 +597,12 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">vector</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+                        <span class="type">X: number; y: number</span>
 
 
                     <div class="param-description">
-                         
+                        <p>}</p>
+
                     </div>
 
                 </li>
@@ -579,7 +649,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:94</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:107</code></a>
         </p>
 
 
@@ -661,7 +731,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:190</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l203"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:203</code></a>
         </p>
 
 
@@ -705,6 +775,83 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
+                        <code>v</code>
+                </li>
+                <li class="arg">
+                        <code>α</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l261"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:261</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>this ⟼ this + (v - this) * α</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">v</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">α</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_lerp" class="method item">
+    <h3 class="name"><code>lerp</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
                         <code>a</code>
                 </li>
                 <li class="arg">
@@ -730,7 +877,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l325"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:325</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l338"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:338</code></a>
         </p>
 
 
@@ -790,83 +937,6 @@
 
 
 </div>
-<div id="method_lerp" class="method item">
-    <h3 class="name"><code>lerp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>v</code>
-                </li>
-                <li class="arg">
-                        <code>α</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l248"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:248</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>this ⟼ this + (v - this) * α</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">v</code>
-                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">α</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/R2.html" class="crosslink">R2</a></span>:
-            </div>
-        </div>
-
-
-</div>
 <div id="method_lerp2" class="method item">
     <h3 class="name"><code>lerp2</code></h3>
 
@@ -898,7 +968,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l261"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:261</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l274"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:274</code></a>
         </p>
 
 
@@ -978,7 +1048,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l202"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:202</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l215"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:215</code></a>
         </p>
 
 
@@ -1020,7 +1090,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l179"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:179</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:192</code></a>
         </p>
 
 
@@ -1074,7 +1144,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l225"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:225</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l238"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:238</code></a>
         </p>
 
 
@@ -1151,7 +1221,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l336"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:336</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l349"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:349</code></a>
         </p>
 
 
@@ -1192,7 +1262,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l303"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:303</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l316"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:316</code></a>
         </p>
 
 
@@ -1231,7 +1301,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:30</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:31</code></a>
         </p>
 
 
@@ -1255,7 +1325,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_R2.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:41</code></a>
+        <a href="../files/src_davinci-eight_math_R2.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;R2.ts:43</code></a>
         </p>
 
 

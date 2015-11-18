@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../checks/mustBeNumber', '../math/mul4x4'], function (require, exports, AbstractMatrix, expectArg, inv4x4, isDefined, mustBeNumber, mul4x4) {
+define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../math/mul4x4', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, expectArg, inv4x4, isDefined, mul4x4, mustBeNumber) {
     /**
      * @class Matrix4
      * @extends AbstractMatrix
@@ -310,6 +310,8 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             return this.mul2(lhs, this);
         };
         /**
+         * Sets this matrix to the transformation for a
+         * reflection in the plane normal to the unit vector <code>n</code>.
          * <p>
          * <code>this ⟼ reflection(n)</code>
          * </p>
@@ -319,6 +321,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @chainable
          */
         Matrix4.prototype.reflection = function (n) {
+            // FIXME; Symmetry says this should take a VectorE4
             var nx = mustBeNumber('n.x', n.x);
             var ny = mustBeNumber('n.y', n.y);
             var nz = mustBeNumber('n.z', n.z);

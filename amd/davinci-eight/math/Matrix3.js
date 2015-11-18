@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../math/inv3x3', '../math/mul3x3'], function (require, exports, AbstractMatrix, det3x3, inv3x3, mul3x3) {
+define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../math/inv3x3', '../math/mul3x3', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, det3x3, inv3x3, mul3x3, mustBeNumber) {
     /**
      * @class Matrix3
      * @extends AbstractMatrix
@@ -162,6 +162,30 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
          */
         Matrix3.prototype.one = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
+        };
+        /**
+         * Sets this matrix to the transformation for a
+         * reflection in the plane normal to the unit vector <code>n</code>.
+         * <p>
+         * <code>this ⟼ reflection(n)</code>
+         * </p>
+         * @method reflection
+         * @param n {VectorE3}
+         * @return {Matrix3}
+         * @chainable
+         */
+        Matrix3.prototype.reflection = function (n) {
+            var nx = mustBeNumber('n.x', n.x);
+            var ny = mustBeNumber('n.y', n.y);
+            var nz = mustBeNumber('n.z', n.z);
+            var aa = -2 * nx * ny;
+            var cc = -2 * ny * nz;
+            var bb = -2 * nz * nx;
+            var xx = 1 - 2 * nx * nx;
+            var yy = 1 - 2 * ny * ny;
+            var zz = 1 - 2 * nz * nz;
+            this.set(xx, aa, bb, aa, yy, cc, bb, cc, zz);
+            return this;
         };
         /**
          * @method row

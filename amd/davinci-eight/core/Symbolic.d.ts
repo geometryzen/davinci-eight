@@ -64,14 +64,14 @@ declare class Symbolic {
      */
     static UNIFORM_COLOR: string;
     /**
-     * 'uDirectionalLightColor'
+     * 'uDirectionalLightE3Color'
      * @property UNIFORM_DIRECTIONAL_LIGHT_COLOR
      * @type {string}
      * @static
      */
     static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string;
     /**
-     * 'uDirectionalLightDirection'
+     * 'uDirectionalLightE3Direction'
      * @property UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
      * @type {string}
      * @static

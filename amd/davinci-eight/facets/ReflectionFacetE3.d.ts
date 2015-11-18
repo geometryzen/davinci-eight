@@ -3,10 +3,10 @@ import IFacetVisitor = require('../core/IFacetVisitor');
 import R3 = require('../math/R3');
 import Shareable = require('../utils/Shareable');
 /**
- * @class ReflectionFacet
+ * @class ReflectionFacetE3
  * @extends Shareable
  */
-declare class ReflectionFacet extends Shareable implements IFacet {
+declare class ReflectionFacetE3 extends Shareable implements IFacet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      * @property _normal
@@ -22,7 +22,7 @@ declare class ReflectionFacet extends Shareable implements IFacet {
     private matrix;
     private name;
     /**
-     * @class ReflectionFacet
+     * @class ReflectionFacetE3
      * @constructor
      * @param name {string} The name of the uniform variable.
      */
@@ -60,4 +60,4 @@ declare class ReflectionFacet extends Shareable implements IFacet {
      */
     setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
-export = ReflectionFacet;
+export = ReflectionFacetE3;

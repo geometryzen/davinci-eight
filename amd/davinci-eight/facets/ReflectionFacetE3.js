@@ -5,18 +5,18 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '../checks/mustBeString', '../math/R3', '../math/Matrix4', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, CartesianE3, mustBeArray, mustBeString, R3, Matrix4, readOnly, Shareable) {
     /**
-     * @class ReflectionFacet
+     * @class ReflectionFacetE3
      * @extends Shareable
      */
-    var ReflectionFacet = (function (_super) {
-        __extends(ReflectionFacet, _super);
+    var ReflectionFacetE3 = (function (_super) {
+        __extends(ReflectionFacetE3, _super);
         /**
-         * @class ReflectionFacet
+         * @class ReflectionFacetE3
          * @constructor
          * @param name {string} The name of the uniform variable.
          */
-        function ReflectionFacet(name) {
-            _super.call(this, 'ReflectionFacet');
+        function ReflectionFacetE3(name) {
+            _super.call(this, 'ReflectionFacetE3');
             /**
              * @property matrix
              * @type {Matrix4}
@@ -28,7 +28,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
             this._normal = new R3().copy(CartesianE3.zero);
             this._normal.modified = true;
         }
-        Object.defineProperty(ReflectionFacet.prototype, "normal", {
+        Object.defineProperty(ReflectionFacetE3.prototype, "normal", {
             /**
              * @property normal
              * @type R3
@@ -48,7 +48,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
          * @return {void}
          * @protected
          */
-        ReflectionFacet.prototype.destructor = function () {
+        ReflectionFacetE3.prototype.destructor = function () {
             this._normal = void 0;
             this.matrix = void 0;
             _super.prototype.destructor.call(this);
@@ -58,7 +58,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
          * @param name {string}
          * @return {Array<number>}
          */
-        ReflectionFacet.prototype.getProperty = function (name) {
+        ReflectionFacetE3.prototype.getProperty = function (name) {
             mustBeString('name', name);
             return void 0;
         };
@@ -68,7 +68,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
          * @param value {Array<number>}
          * @return {void}
          */
-        ReflectionFacet.prototype.setProperty = function (name, value) {
+        ReflectionFacetE3.prototype.setProperty = function (name, value) {
             mustBeString('name', name);
             mustBeArray('value', value);
         };
@@ -78,14 +78,14 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
          * @param canvasId {number}
          * @return {void}
          */
-        ReflectionFacet.prototype.setUniforms = function (visitor, canvasId) {
+        ReflectionFacetE3.prototype.setUniforms = function (visitor, canvasId) {
             if (this._normal.modified) {
                 this.matrix.reflection(this._normal);
                 this._normal.modified = false;
             }
             visitor.uniformMatrix4(this.name, false, this.matrix, canvasId);
         };
-        return ReflectionFacet;
+        return ReflectionFacetE3;
     })(Shareable);
-    return ReflectionFacet;
+    return ReflectionFacetE3;
 });

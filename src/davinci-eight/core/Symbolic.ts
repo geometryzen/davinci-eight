@@ -73,20 +73,20 @@ class Symbolic {
     public static UNIFORM_COLOR: string = 'uColor';
 
     /**
-     * 'uDirectionalLightColor'
+     * 'uDirectionalLightE3Color'
      * @property UNIFORM_DIRECTIONAL_LIGHT_COLOR
      * @type {string}
      * @static
      */
-    public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string = 'uDirectionalLightColor';
+    public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string = 'uDirectionalLightE3Color';
 
     /**
-     * 'uDirectionalLightDirection'
+     * 'uDirectionalLightE3Direction'
      * @property UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
      * @type {string}
      * @static
      */
-    public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightDirection';
+    public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightE3Direction';
 
     /**
      * 'uPointLightColor'

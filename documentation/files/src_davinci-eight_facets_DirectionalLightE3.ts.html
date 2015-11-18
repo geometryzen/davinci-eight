@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ReflectionFacet - davinci-eight</title>
+    <title>src/davinci-eight/facets/DirectionalLightE3.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.156.0</em>
+            <em>API Docs for: 2.157.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,7 +71,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -152,7 +152,8 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
-                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
+                                <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
+                                <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -240,611 +241,171 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>ReflectionFacet Class</h1>
-<div class="box meta">
-
-        <div class="extends">
-            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
-        </div>
-
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_facets_ReflectionFacet.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacet.ts:32</code></a>
-        </div>
-
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
-
-</div>
-
-
-<div class="box intro">
-    
-</div>
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_ReflectionFacet" class="method item">
-    <h3 class="name"><code>ReflectionFacet</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacet.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacet.ts:32</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        <p>The name of the uniform variable.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method protected inherited">
-                                <a href="#method_destructor">destructor</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_getProperty">getProperty</a>
-
-                            </li>
-                            <li class="index-item method inherited inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_setProperty">setProperty</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_setUniforms">setUniforms</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property private">
-                                <a href="#property__normal">_normal</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property_matrix">matrix</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_normal">normal</a>
-
-                            </li>
-                            <li class="index-item property inherited">
-                                <a href="#property_uuid">uuid</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_addRef">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:24</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    The new value of the reference count.
-            </div>
-        </div>
-
-
-</div>
-<div id="method_destructor" class="method item protected">
-    <h3 class="name"><code>destructor</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/Shareable.html#method_destructor">
-                Shareable
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacet.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacet.ts:57</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getProperty" class="method item">
-    <h3 class="name"><code>getProperty</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Array<number></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacet.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacet.ts:68</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Array<number></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-            <p>Inherited from
-            <a href="../classes/IUnknown.html#method_release">
-                IUnknown
-            </a>
-            but overwritten in
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:37</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Notifies this instance that something is dereferencing it.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    The new value of the reference count.
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setProperty" class="method item">
-    <h3 class="name"><code>setProperty</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>value</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacet.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacet.ts:78</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">value</code>
-                        <span class="type">Array<number></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_setUniforms" class="method item">
-    <h3 class="name"><code>setUniforms</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>visitor</code>
-                </li>
-                <li class="arg">
-                        <code>canvasId</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacet.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacet.ts:89</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">visitor</code>
-                        <span class="type"><a href="../classes/IFacetVisitor.html" class="crosslink">IFacetVisitor</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">canvasId</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-            </div>
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property__normal" class="property item private">
-    <h3 class="name"><code>_normal</code></h3>
-    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacet.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacet.ts:17</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The vector perpendicular to the (hyper-)plane of reflection.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_matrix" class="property item private">
-    <h3 class="name"><code>matrix</code></h3>
-    <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacet.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacet.ts:24</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_normal" class="property item">
-    <h3 class="name"><code>normal</code></h3>
-    <span class="type"><a href="../classes/R3.html" class="crosslink">R3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_facets_ReflectionFacet.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;facets&#x2F;ReflectionFacet.ts:45</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_uuid" class="property item inherited">
-    <h3 class="name"><code>uuid</code></h3>
-    <span class="type">String</span>
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:77</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: src/davinci-eight/facets/DirectionalLightE3.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import CartesianE3 = require(&#x27;../math/CartesianE3&#x27;)
+import Color = require(&#x27;../core/Color&#x27;)
+import ColorRGB = require(&#x27;../core/ColorRGB&#x27;)
+import IFacet = require(&#x27;../core/IFacet&#x27;)
+import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
+import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import Symbolic = require(&#x27;../core/Symbolic&#x27;)
+import R3 = require(&#x27;../math/R3&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
+
+var LOGGING_NAME = &#x27;DirectionalLightE3&#x27;
+
+function contextBuilder() {
+    return LOGGING_NAME
+}
+
+/**
+ * @class DirectionalLightE3
+ * @extends Shareable
+ */
+class DirectionalLightE3 extends Shareable implements IFacet {
+    /**
+     * The name of the property that designates the color.
+     * @property PROP_COLOR
+     * @type {string}
+     * @default &#x27;color&#x27;
+     * @static
+     * @readOnly
+     */
+    public static PROP_COLOR = &#x27;color&#x27;;
+
+    /**
+     * The name of the property that designates the direction.
+     * @property PROP_DIRECTION
+     * @type {string}
+     * @default &#x27;direction&#x27;
+     * @static
+     * @readOnly
+     */
+    public static PROP_DIRECTION = &#x27;direction&#x27;;
+
+    /**
+     * @property direction
+     * @type {R3}
+     */
+    public direction: R3;
+
+    /**
+     * @property color
+     * @type {Color}
+     */
+    public color: Color;
+
+    /**
+     * @class DirectionalLightE3
+     * @constructor
+     * @param direction {VectorE3}
+     * @param color [ColorRGB = Color.white]
+     */
+    constructor(direction: VectorE3, color: ColorRGB = Color.white) {
+        super(&#x27;DirectionalLightE3&#x27;)
+        mustBeObject(&#x27;direction&#x27;, direction)
+        mustBeObject(&#x27;color&#x27;, color)
+        this.direction = R3.copy(direction).direction()
+        this.color = Color.fromColor(color)
+    }
+
+    /**
+     * @method destructor
+     * @type {void}
+     * @protected
+     */
+    protected destructor(): void {
+        super.destructor()
+    }
+
+    /**
+     * @method getProperty
+     * @param name {string}
+     * @return {number[]}
+     */
+    getProperty(name: string): number[] {
+        mustBeString(&#x27;name&#x27;, name)
+        switch (name) {
+            case DirectionalLightE3.PROP_COLOR: {
+                return this.color.coords
+            }
+            case DirectionalLightE3.PROP_DIRECTION: {
+                return this.direction.coords
+            }
+            default: {
+                console.warn(&quot;unknown property: &quot; + name)
+            }
+        }
+    }
+  
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param value {number[]}
+     * @return {void}
+     */
+    setProperty(name: string, value: number[]): void {
+        mustBeString(&#x27;name&#x27;, name)
+        mustBeObject(&#x27;value&#x27;, value)
+        switch (name) {
+            case DirectionalLightE3.PROP_COLOR: {
+                this.color.coords = value
+                break;
+            }
+            case DirectionalLightE3.PROP_DIRECTION: {
+                this.direction.coords = value
+                break;
+            }
+            default: {
+                console.warn(&quot;unknown property: &quot; + name)
+            }
+        }
+    }
+
+    /**
+     * @method setColor
+     * @param color {ColorRGB}
+     * @return {DirectionalLightE3}
+     * @chainable
+     */
+    setColor(color: ColorRGB): DirectionalLightE3 {
+        mustBeObject(&#x27;color&#x27;, color)
+        this.color.copy(color)
+        return this
+    }
+
+    /**
+     * @method setDirection
+     * @param direction {VectorE3}
+     * @return {DirectionalLightE3}
+     * @chainable
+     */
+    setDirection(direction: VectorE3): DirectionalLightE3 {
+        mustBeObject(&#x27;direction&#x27;, direction)
+        this.direction.copy(direction).direction()
+        return this
+    }
+
+    /**
+     * @method setUniforms
+     * @param visitor {IFacetVisitor}
+     * @param canvasId {number}
+     * @return {void}
+     */
+    setUniforms(visitor: IFacetVisitor, canvasId: number): void {
+        visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords, canvasId)
+        var coords = [this.color.r, this.color.g, this.color.b]
+        visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords, canvasId)
+    }
+}
+
+export = DirectionalLightE3
+    </pre>
 </div>
                     </div>
                 </div>

@@ -160,11 +160,12 @@ import HH = require('davinci-eight/math/HH')
 // facets and animation targets
 import AmbientLight = require('davinci-eight/facets/AmbientLight')
 import ColorFacet = require('davinci-eight/facets/ColorFacet')
-import DirectionalLight = require('davinci-eight/facets/DirectionalLight')
+import DirectionalLightE3 = require('davinci-eight/facets/DirectionalLightE3')
 import EulerFacet = require('davinci-eight/facets/EulerFacet')
 import ModelFacetE3 = require('davinci-eight/facets/ModelFacetE3')
 import PointSizeFacet = require('davinci-eight/facets/PointSizeFacet')
-import ReflectionFacet = require('davinci-eight/facets/ReflectionFacet')
+import ReflectionFacetE2 = require('davinci-eight/facets/ReflectionFacetE2')
+import ReflectionFacetE3 = require('davinci-eight/facets/ReflectionFacetE3')
 import RigidBodyFacetE3 = require('davinci-eight/facets/RigidBodyFacetE3')
 import Vector3Facet = require('davinci-eight/facets/Vector3Facet')
 
@@ -360,9 +361,10 @@ var eight = {
     // facets
     get AmbientLight() { return AmbientLight },
     get ColorFacet() { return ColorFacet },
-    get DirectionalLight() { return DirectionalLight },
+    get DirectionalLightE3() { return DirectionalLightE3 },
     get PointSizeFacet() { return PointSizeFacet },
-    get ReflectionFacet() { return ReflectionFacet },
+    get ReflectionFacetE2() { return ReflectionFacetE2 },
+    get ReflectionFacetE3() { return ReflectionFacetE3 },
     get Vector3Facet() { return Vector3Facet },
     // utils
     get IUnknownArray() { return IUnknownArray },

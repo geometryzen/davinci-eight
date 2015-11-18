@@ -324,7 +324,7 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         }
     }
 
-    static add(a: number[], b: number[]): number[] {
+    private static add(a: number[], b: number[]): number[] {
         var a00 = a[0];
         var a01 = a[1];
         var a10 = a[2];
@@ -410,7 +410,7 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         throw new Error("TODO: Euclidean2.equals")
     }
 
-    static sub(a: number[], b: number[]): number[] {
+    private static sub(a: number[], b: number[]): number[] {
         var a0 = a[0];
         var a1 = a[1];
         var a2 = a[2];
@@ -521,7 +521,7 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         }
     }
 
-    static scp(a: number[], b: number[]): number[] {
+    private static scp(a: number[], b: number[]): number[] {
         var a0 = a[0];
         var a1 = a[1];
         var a2 = a[2];
@@ -551,7 +551,7 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         return new Euclidean2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
     }
 
-    static ext(a: number[], b: number[]): number[] {
+    private static ext(a: number[], b: number[]): number[] {
         var a0: number = a[0];
         var a1: number = a[1];
         var a2: number = a[2];
@@ -595,7 +595,7 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         }
     }
 
-    static lshift(a: number[], b: number[]): number[] {
+    private static lshift(a: number[], b: number[]): number[] {
         var a0 = a[0];
         var a1 = a[1];
         var a2 = a[2];
@@ -644,7 +644,7 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         }
     }
 
-    static rshift(a: number[], b: number[]): number[] {
+    private static rshift(a: number[], b: number[]): number[] {
         var a0 = a[0];
         var a1 = a[1];
         var a2 = a[2];

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.156.0</em>
+            <em>API Docs for: 2.157.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,7 +71,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
+                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -152,7 +152,8 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
-                                <li><a href="../classes/ReflectionFacet.html">ReflectionFacet</a></li>
+                                <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
+                                <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
                                 <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
                                 <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
@@ -250,11 +251,12 @@ import GeometricElement = require(&#x27;../math/GeometricElement&#x27;);
 import inv4x4 = require(&#x27;../math/inv4x4&#x27;)
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import Matrix = require(&#x27;../math/Matrix&#x27;);
-import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import mul4x4 = require(&#x27;../math/mul4x4&#x27;);
+import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import Ring = require(&#x27;../math/MutableRingElement&#x27;);
 import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;);
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
+import VectorE4 = require(&#x27;../math/VectorE4&#x27;);
 
 // TODO: Anything after this line hints of excessive coupling.
 // TODO: Probably better not to couple this way.
@@ -264,7 +266,7 @@ import frustumMatrix = require(&#x27;../cameras/frustumMatrix&#x27;);
  * @class Matrix4
  * @extends AbstractMatrix
  */
-class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4&gt;, Ring&lt;Matrix4&gt; {
+class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4, VectorE4&gt;, Ring&lt;Matrix4&gt; {
 
     // The correspondence between the elements property index and the matrix entries is...
     //
@@ -568,6 +570,8 @@ class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4
     }
 
     /**
+     * Sets this matrix to the transformation for a
+     * reflection in the plane normal to the unit vector &lt;code&gt;n&lt;/code&gt;.
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ reflection(n)&lt;/code&gt;
      * &lt;/p&gt;
@@ -577,18 +581,18 @@ class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4
      * @chainable
      */
     reflection(n: VectorE3): Matrix4 {
+        // FIXME; Symmetry says this should take a VectorE4
+        let nx = mustBeNumber(&#x27;n.x&#x27;, n.x);
+        let ny = mustBeNumber(&#x27;n.y&#x27;, n.y);
+        let nz = mustBeNumber(&#x27;n.z&#x27;, n.z);
 
-        let nx = mustBeNumber(&#x27;n.x&#x27;, n.x)
-        let ny = mustBeNumber(&#x27;n.y&#x27;, n.y)
-        let nz = mustBeNumber(&#x27;n.z&#x27;, n.z)
+        let aa = -2 * nx * ny;
+        let cc = -2 * ny * nz;
+        let bb = -2 * nz * nx;
 
-        let aa = -2 * nx * ny
-        let cc = -2 * ny * nz
-        let bb = -2 * nz * nx
-
-        let xx = 1 - 2 * nx * nx
-        let yy = 1 - 2 * ny * ny
-        let zz = 1 - 2 * nz * nz
+        let xx = 1 - 2 * nx * nx;
+        let yy = 1 - 2 * ny * ny;
+        let zz = 1 - 2 * nz * nz;
 
         this.set(
             xx, aa, bb, 0,

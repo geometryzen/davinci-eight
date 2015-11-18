@@ -4,11 +4,12 @@ import GeometricElement = require('../math/GeometricElement');
 import inv4x4 = require('../math/inv4x4')
 import isDefined = require('../checks/isDefined');
 import Matrix = require('../math/Matrix');
-import mustBeNumber = require('../checks/mustBeNumber')
 import mul4x4 = require('../math/mul4x4');
+import mustBeNumber = require('../checks/mustBeNumber')
 import Ring = require('../math/MutableRingElement');
 import SpinorE3 = require('../math/SpinorE3');
 import VectorE3 = require('../math/VectorE3');
+import VectorE4 = require('../math/VectorE4');
 
 // TODO: Anything after this line hints of excessive coupling.
 // TODO: Probably better not to couple this way.
@@ -18,7 +19,7 @@ import frustumMatrix = require('../cameras/frustumMatrix');
  * @class Matrix4
  * @extends AbstractMatrix
  */
-class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4>, Ring<Matrix4> {
+class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE4>, Ring<Matrix4> {
 
     // The correspondence between the elements property index and the matrix entries is...
     //
@@ -322,6 +323,8 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4>, Ring<M
     }
 
     /**
+     * Sets this matrix to the transformation for a
+     * reflection in the plane normal to the unit vector <code>n</code>.
      * <p>
      * <code>this ⟼ reflection(n)</code>
      * </p>
@@ -331,18 +334,18 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4>, Ring<M
      * @chainable
      */
     reflection(n: VectorE3): Matrix4 {
+        // FIXME; Symmetry says this should take a VectorE4
+        let nx = mustBeNumber('n.x', n.x);
+        let ny = mustBeNumber('n.y', n.y);
+        let nz = mustBeNumber('n.z', n.z);
 
-        let nx = mustBeNumber('n.x', n.x)
-        let ny = mustBeNumber('n.y', n.y)
-        let nz = mustBeNumber('n.z', n.z)
+        let aa = -2 * nx * ny;
+        let cc = -2 * ny * nz;
+        let bb = -2 * nz * nx;
 
-        let aa = -2 * nx * ny
-        let cc = -2 * ny * nz
-        let bb = -2 * nz * nx
-
-        let xx = 1 - 2 * nx * nx
-        let yy = 1 - 2 * ny * ny
-        let zz = 1 - 2 * nz * nz
+        let xx = 1 - 2 * nx * nx;
+        let yy = 1 - 2 * ny * ny;
+        let zz = 1 - 2 * nz * nz;
 
         this.set(
             xx, aa, bb, 0,

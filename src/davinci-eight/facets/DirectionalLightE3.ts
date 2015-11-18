@@ -10,17 +10,17 @@ import Symbolic = require('../core/Symbolic')
 import R3 = require('../math/R3')
 import VectorE3 = require('../math/VectorE3')
 
-var LOGGING_NAME = 'DirectionalLight'
+var LOGGING_NAME = 'DirectionalLightE3'
 
 function contextBuilder() {
     return LOGGING_NAME
 }
 
 /**
- * @class DirectionalLight
+ * @class DirectionalLightE3
  * @extends Shareable
  */
-class DirectionalLight extends Shareable implements IFacet {
+class DirectionalLightE3 extends Shareable implements IFacet {
     /**
      * The name of the property that designates the color.
      * @property PROP_COLOR
@@ -54,13 +54,13 @@ class DirectionalLight extends Shareable implements IFacet {
     public color: Color;
 
     /**
-     * @class DirectionalLight
+     * @class DirectionalLightE3
      * @constructor
      * @param direction {VectorE3}
      * @param color [ColorRGB = Color.white]
      */
     constructor(direction: VectorE3, color: ColorRGB = Color.white) {
-        super('DirectionalLight')
+        super('DirectionalLightE3')
         mustBeObject('direction', direction)
         mustBeObject('color', color)
         this.direction = R3.copy(direction).direction()
@@ -84,10 +84,10 @@ class DirectionalLight extends Shareable implements IFacet {
     getProperty(name: string): number[] {
         mustBeString('name', name)
         switch (name) {
-            case DirectionalLight.PROP_COLOR: {
+            case DirectionalLightE3.PROP_COLOR: {
                 return this.color.coords
             }
-            case DirectionalLight.PROP_DIRECTION: {
+            case DirectionalLightE3.PROP_DIRECTION: {
                 return this.direction.coords
             }
             default: {
@@ -106,11 +106,11 @@ class DirectionalLight extends Shareable implements IFacet {
         mustBeString('name', name)
         mustBeObject('value', value)
         switch (name) {
-            case DirectionalLight.PROP_COLOR: {
+            case DirectionalLightE3.PROP_COLOR: {
                 this.color.coords = value
                 break;
             }
-            case DirectionalLight.PROP_DIRECTION: {
+            case DirectionalLightE3.PROP_DIRECTION: {
                 this.direction.coords = value
                 break;
             }
@@ -123,10 +123,10 @@ class DirectionalLight extends Shareable implements IFacet {
     /**
      * @method setColor
      * @param color {ColorRGB}
-     * @return {DirectionalLight}
+     * @return {DirectionalLightE3}
      * @chainable
      */
-    setColor(color: ColorRGB): DirectionalLight {
+    setColor(color: ColorRGB): DirectionalLightE3 {
         mustBeObject('color', color)
         this.color.copy(color)
         return this
@@ -135,10 +135,10 @@ class DirectionalLight extends Shareable implements IFacet {
     /**
      * @method setDirection
      * @param direction {VectorE3}
-     * @return {DirectionalLight}
+     * @return {DirectionalLightE3}
      * @chainable
      */
-    setDirection(direction: VectorE3): DirectionalLight {
+    setDirection(direction: VectorE3): DirectionalLightE3 {
         mustBeObject('direction', direction)
         this.direction.copy(direction).direction()
         return this
@@ -157,4 +157,4 @@ class DirectionalLight extends Shareable implements IFacet {
     }
 }
 
-export = DirectionalLight
+export = DirectionalLightE3
