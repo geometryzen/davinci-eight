@@ -45,6 +45,7 @@ define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArr
             this.uniforms = void 0;
         };
         Drawable.prototype.draw = function (canvasId) {
+            if (canvasId === void 0) { canvasId = 0; }
             // We know we are going to need a "good" canvasId to perform the buffers lookup.
             // So we may as well test that condition now.
             if (isDefined(canvasId)) {
@@ -104,10 +105,9 @@ define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArr
         };
         Object.defineProperty(Drawable.prototype, "material", {
             /**
+             * Provides a reference counted reference to the material.
              * @property material
              * @type {M}
-             *
-             * Provides a reference counted reference to the material.
              */
             get: function () {
                 this._material.addRef();

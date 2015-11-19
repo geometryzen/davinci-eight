@@ -3,7 +3,7 @@ import isUndefined = require('../checks/isUndefined');
 import CylinderOptions = require('../mesh/CylinderOptions');
 import VectorE3 = require('../math/VectorE3');
 import R3 = require('../math/R3');
-import Symbolic = require('../core/Symbolic');
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 
 /**
  * @class CylinderArgs

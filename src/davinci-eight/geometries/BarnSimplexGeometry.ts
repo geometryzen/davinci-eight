@@ -4,7 +4,7 @@ import SimplexGeometry = require('../geometries/SimplexGeometry')
 import mustBeInteger = require('../checks/mustBeInteger');
 import quad = require('../geometries/quadrilateral')
 import Simplex = require('../geometries/Simplex')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import triangle = require('../geometries/triangle')
 import R1 = require('../math/R1')
 import G3 = require('../math/G3')
@@ -67,7 +67,7 @@ class BarnSimplexGeometry extends SimplexGeometry {
             let simplex = new Simplex(indices.length - 1)
             for (var i = 0; i < indices.length; i++) {
                 // Why does this work? It's because of dataFromVectorN
-                simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = points[indices[i]]
+                simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[indices[i]]
             }
             return simplex
         }
@@ -77,7 +77,7 @@ class BarnSimplexGeometry extends SimplexGeometry {
                 {
                     var simplices = points.map(function(point) {
                         let simplex = new Simplex(0)
-                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = point
+                        simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = point
                         return simplex;
                     })
                     this.data = simplices;

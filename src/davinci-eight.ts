@@ -38,7 +38,7 @@ import IContextConsumer = require('davinci-eight/core/IContextConsumer')
 import IContextProgramConsumer = require('davinci-eight/core/IContextProgramConsumer')
 import IContextProvider = require('davinci-eight/core/IContextProvider')
 import IContextMonitor = require('davinci-eight/core/IContextMonitor')
-import Symbolic = require('davinci-eight/core/Symbolic')
+import GraphicsProgramSymbols = require('davinci-eight/core/GraphicsProgramSymbols')
 import IFacet = require('davinci-eight/core/IFacet')
 import IFacetVisitor = require('davinci-eight/core/IFacetVisitor')
 import UniformLocation = require('davinci-eight/core/UniformLocation')
@@ -73,7 +73,7 @@ import IDrawList = require('davinci-eight/scene/IDrawList')
 import Drawable = require('davinci-eight/scene/Drawable')
 import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera')
 import Scene = require('davinci-eight/scene/Scene')
-import ContextGL = require('davinci-eight/scene/ContextGL')
+import GraphicsContext = require('davinci-eight/scene/GraphicsContext')
 // geometries
 import AxialSimplexGeometry = require('davinci-eight/geometries/AxialSimplexGeometry')
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
@@ -104,18 +104,18 @@ import TextSimplexGeometry = require('davinci-eight/geometries/TextSimplexGeomet
 import VortexSimplexGeometry = require('davinci-eight/geometries/VortexSimplexGeometry')
 import arc3 = require('davinci-eight/geometries/arc3')
 // programs
-import createMaterial = require('davinci-eight/programs/createMaterial')
+import createGraphicsProgram = require('davinci-eight/programs/createGraphicsProgram')
 import smartProgram = require('davinci-eight/programs/smartProgram')
 import programFromScripts = require('davinci-eight/programs/programFromScripts')
 
 // materials
-import Material = require('davinci-eight/materials/Material')
-import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial')
+import GraphicsProgram = require('davinci-eight/materials/GraphicsProgram')
+import HTMLScriptsGraphicsProgram = require('davinci-eight/materials/HTMLScriptsGraphicsProgram')
 import LineMaterial = require('davinci-eight/materials/LineMaterial')
 import MeshMaterial = require('davinci-eight/materials/MeshMaterial')
 import MeshLambertMaterial = require('davinci-eight/materials/MeshLambertMaterial')
 import PointMaterial = require('davinci-eight/materials/PointMaterial')
-import SmartMaterialBuilder = require('davinci-eight/materials/SmartMaterialBuilder')
+import GraphicsProgramBuilder = require('davinci-eight/materials/GraphicsProgramBuilder')
 // mappers
 import RoundUniform = require('davinci-eight/mappers/RoundUniform')
 // math
@@ -176,7 +176,7 @@ import RigidBodyE2 = require('davinci-eight/models/RigidBodyE2')
 import RigidBodyE3 = require('davinci-eight/models/RigidBodyE3')
 
 // programs
-import IMaterial = require('davinci-eight/core/IMaterial')
+import IGraphicsProgram = require('davinci-eight/core/IGraphicsProgram')
 
 // renderers
 import IContextRenderer = require('davinci-eight/renderers/IContextRenderer')
@@ -240,13 +240,13 @@ var eight = {
 
     // TODO: Arrange in alphabetical order in order to assess width of API.
     // materials
-    get HTMLScriptsMaterial() { return HTMLScriptsMaterial },
-    get Material() { return Material },
+    get HTMLScriptsGraphicsProgram() { return HTMLScriptsGraphicsProgram },
+    get GraphicsProgram() { return GraphicsProgram },
     get LineMaterial() { return LineMaterial },
     get MeshMaterial() { return MeshMaterial },
     get MeshLambertMaterial() { return MeshLambertMaterial },
     get PointMaterial() { return PointMaterial },
-    get SmartMaterialBuilder() { return SmartMaterialBuilder },
+    get GraphicsProgramBuilder() { return GraphicsProgramBuilder },
     //commands
     get BlendFactor() { return BlendFactor },
     get Capability() { return Capability },
@@ -276,7 +276,7 @@ var eight = {
     get Scene() { return Scene },
     get Drawable() { return Drawable },
     get PerspectiveCamera() { return PerspectiveCamera },
-    get ContextGL() { return ContextGL },
+    get GraphicsContext() { return GraphicsContext },
     get createDrawList() { return createDrawList },
     get renderer() { return renderer },
     get webgl() { return contextProxy },
@@ -285,8 +285,8 @@ var eight = {
     get DrawMode() { return DrawMode },
     get AttribLocation() { return AttribLocation },
     get UniformLocation() { return UniformLocation },
-    get createMaterial() {
-        return createMaterial
+    get createGraphicsProgram() {
+        return createGraphicsProgram
     },
     get smartProgram() {
         return smartProgram
@@ -353,7 +353,7 @@ var eight = {
     get triangle() { return triangle },
     get simplicesToDrawPrimitive() { return simplicesToDrawPrimitive },
 
-    get Symbolic() { return Symbolic },
+    get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
     // programs
     get programFromScripts() { return programFromScripts },
     get DrawAttribute() { return DrawAttribute },

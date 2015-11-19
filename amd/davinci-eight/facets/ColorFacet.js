@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable', '../core/Symbolic'], function (require, exports, mustBeNumber, Shareable, Symbolic) {
+define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, mustBeNumber, Shareable, GraphicsProgramSymbols) {
     var COORD_R = 0;
     var COORD_G = 1;
     var COORD_B = 2;
@@ -30,8 +30,8 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable', '.
              * @private
              */
             this.a = 1;
-            this.uColorName = Symbolic.UNIFORM_COLOR;
-            this.uAlphaName = Symbolic.UNIFORM_ALPHA;
+            this.uColorName = GraphicsProgramSymbols.UNIFORM_COLOR;
+            this.uAlphaName = GraphicsProgramSymbols.UNIFORM_ALPHA;
         }
         /**
          * @method destructor
@@ -240,7 +240,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable', '.
         /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         ColorFacet.prototype.setUniforms = function (visitor, canvasId) {

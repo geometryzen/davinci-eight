@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/Simplex', '../geometries/SimplexGeometry', '../core/Symbolic', '../math/R2', '../math/R3', '../checks/mustBeFunction', '../checks/mustBeInteger'], function (require, exports, Simplex, SimplexGeometry, Symbolic, R2, R3, mustBeFunction, mustBeInteger) {
+define(["require", "exports", '../geometries/Simplex', '../geometries/SimplexGeometry', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3', '../checks/mustBeFunction', '../checks/mustBeInteger'], function (require, exports, Simplex, SimplexGeometry, GraphicsProgramSymbols, R2, R3, mustBeFunction, mustBeInteger) {
     /**
      * @class GridSimplexGeometry
      */
@@ -56,20 +56,20 @@ define(["require", "exports", '../geometries/Simplex', '../geometries/SimplexGeo
                     uvc = new R2([(j + 1) / uSegments, (i + 1) / vSegments]);
                     uvd = new R2([j / uSegments, (i + 1) / vSegments]);
                     var simplex = new Simplex(Simplex.TRIANGLE);
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a];
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva;
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
+                    simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[a];
+                    simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uva;
+                    simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b];
+                    simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvb;
+                    simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d];
+                    simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvd;
                     this.data.push(simplex);
                     var simplex = new Simplex(Simplex.TRIANGLE);
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
-                    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c];
-                    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvc;
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
-                    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
+                    simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b];
+                    simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvb;
+                    simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[c];
+                    simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvc;
+                    simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d];
+                    simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvd;
                     this.data.push(simplex);
                 }
             }

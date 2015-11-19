@@ -1,49 +1,60 @@
-import IContextProvider = require('../core/IContextProvider');
-import IContextMonitor = require('../core/IContextMonitor');
-import IMaterial = require('../core/IMaterial');
-import LineMaterialParameters = require('../materials/LineMaterialParameters');
-import Material = require('../materials/Material');
-import MonitorList = require('../scene/MonitorList');
-import createMaterial = require('../programs/createMaterial');
-import SmartMaterialBuilder = require('../materials/SmartMaterialBuilder')
-import Symbolic = require('../core/Symbolic')
-/**
- * Name used for reference count monitoring and logging.
- */
-let LOGGING_NAME = 'LineMaterial';
-
-function nameBuilder(): string {
-  return LOGGING_NAME;
-}
+import createGraphicsProgram = require('../programs/createGraphicsProgram')
+import IContextProvider = require('../core/IContextProvider')
+import IContextMonitor = require('../core/IContextMonitor')
+import IGraphicsProgram = require('../core/IGraphicsProgram')
+import isDefined = require('../checks/isDefined')
+import LineMaterialParameters = require('../materials/LineMaterialParameters')
+import GraphicsProgram = require('../materials/GraphicsProgram')
+import MonitorList = require('../scene/MonitorList')
+import mustBeInteger = require('../checks/mustBeInteger')
+import GraphicsProgramBuilder = require('../materials/GraphicsProgramBuilder')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 
 /**
  * @class LineMaterial
- * @extends Material
+ * @extends GraphicsProgram
  */
-class LineMaterial extends Material {
-  // A super call must be the first statement in the constructor when a class
-  // contains initialized propertied or has parameter properties (TS2376).
-  /**
-   * @class LineMaterial
-   * @constructor
-   * @param monitors [IContextMonitor[]=[]]
-   * @parameters [MeshNormalParameters]
-   */
-  constructor(monitors: IContextMonitor[] = [], parameters?: LineMaterialParameters) {
-    super(monitors, LOGGING_NAME);
-  }
-  protected createMaterial(): IMaterial {
-    let smb = new SmartMaterialBuilder();
+class LineMaterial extends GraphicsProgram {
+    /**
+     * @property chunkSize
+     * @type {number}
+     */
+    public chunkSize: number;
 
-    smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
+    /**
+     * @class LineMaterial
+     * @constructor
+     * @param [monitors = []] {IContextMonitor[]}
+     * @param [parameters = {}] {LineMaterialParameters}
+     */
+    constructor(monitors: IContextMonitor[] = [], parameters: LineMaterialParameters = {}) {
+        super(monitors, 'LineMaterial')
+        if (isDefined(parameters.chunkSize)) {
+            this.chunkSize = mustBeInteger('parameters.chunkSize', parameters.chunkSize)
+        }
+        else {
+            this.chunkSize = 3;
+        }
+    }
 
-    smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
-    smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
-    smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
-    smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+    /**
+     * @method createGraphicsProgram
+     * @return {IGraphicsProgram}
+     * @protected
+     */
+    protected createGraphicsProgram(): IGraphicsProgram {
+        let smb = new GraphicsProgramBuilder();
 
-    return smb.build(this.monitors);
-  }
+        smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.chunkSize);
+
+        smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
+
+        smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
+        smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
+        smb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
+
+        return smb.build(this.monitors);
+    }
 }
 
 export = LineMaterial;

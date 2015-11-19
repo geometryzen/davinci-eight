@@ -6,7 +6,7 @@ import R2 = require('../math/R2')
 import Matrix2 = require('../math/Matrix2')
 import readOnly = require('../i18n/readOnly');
 import Shareable = require('../utils/Shareable')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 
 /**
  * @class ReflectionFacetE2

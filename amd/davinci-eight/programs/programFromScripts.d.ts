@@ -1,11 +1,13 @@
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import IContextMonitor = require('../core/IContextMonitor');
 /**
- * @method programFromScripts
- * @param monitors {IContextMonitor[]}
- * @param vsId {string} The vertex shader script element identifier.
- * @param fsId {string} The fragment shader script element identifier.
- * @param $document {Document} The document containing the script elements.
+ * Helper function for creating a <code>IGraphicsProgram</code> from HTML script element content.
+ * Parameters:
+ * monitors
+ * vsId The vertex shader script element identifier.
+ * fsId The fragment shader script element identifier.
+ * domDocument The DOM document containing the script elements.
+ * [attribs = []] The attribute indices (implied by order of the name in the array).
  */
-declare function programFromScripts(monitors: IContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]): IMaterial;
+declare function programFromScripts(monitors: IContextMonitor[], vsId: string, fsId: string, domDocument: Document, attribs?: string[]): IGraphicsProgram;
 export = programFromScripts;

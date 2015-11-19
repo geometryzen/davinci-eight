@@ -7,9 +7,9 @@ import GeometryMeta = require('../geometries/GeometryMeta')
 import IDrawable = require('../core/IDrawable')
 import IBufferGeometry = require('../geometries/IBufferGeometry')
 import isDefined = require('../checks/isDefined')
-import IMaterial = require('../core/IMaterial')
+import IGraphicsProgram = require('../core/IGraphicsProgram')
 import IUnknownArray = require('../collections/IUnknownArray')
-import Material = require('../materials/Material')
+import GraphicsProgram = require('../materials/GraphicsProgram')
 import mustBeDefined = require('../checks/mustBeDefined')
 import NumberIUnknownMap = require('../collections/NumberIUnknownMap')
 import refChange = require('../utils/refChange')
@@ -34,7 +34,7 @@ function contextBuilder() {
  * @extends Shareable
  * @extends IDrawable
  */
-class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
+class Drawable<M extends IGraphicsProgram> extends Shareable implements IDrawable {
   /**
    * @property primitives
    * @type {DrawPrimitive[]}
@@ -99,7 +99,7 @@ class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
     this.uniforms.release()
     this.uniforms = void 0
   }
-  draw(canvasId: number): void {
+  draw(canvasId: number = 0): void {
     // We know we are going to need a "good" canvasId to perform the buffers lookup.
     // So we may as well test that condition now.
     if (isDefined(canvasId)) {
@@ -124,7 +124,7 @@ class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
       }
     }
   }
-  contextFree(canvasId: number): void {
+  contextFree(canvasId?: number): void {
     this._material.contextFree(canvasId)
   }
   contextGain(manager: IContextProvider): void {
@@ -145,7 +145,7 @@ class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
     // 2. Delegate the context to the material.
     this._material.contextGain(manager)
   }
-  contextLost(canvasId: number): void {
+  contextLost(canvasId?: number): void {
     this._material.contextLost(canvasId)
   }
   /**
@@ -160,11 +160,11 @@ class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
     this.uniforms.put(name, value)
     return value
   }
+
   /**
+   * Provides a reference counted reference to the material.
    * @property material
    * @type {M}
-   *
-   * Provides a reference counted reference to the material.
    */
   get material(): M {
     this._material.addRef()

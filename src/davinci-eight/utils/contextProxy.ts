@@ -14,7 +14,7 @@ import isNumber = require('../checks/isNumber')
 import isUndefined = require('../checks/isUndefined')
 import ITexture = require('../core/ITexture')
 import IUnknown = require('../core/IUnknown')
-import IMaterial = require('../core/IMaterial')
+import IGraphicsProgram = require('../core/IGraphicsProgram')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeString = require('../checks/mustBeString')
@@ -24,7 +24,7 @@ import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import Simplex = require('../geometries/Simplex')
 import StringIUnknownMap = require('../collections/StringIUnknownMap')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import TextureResource = require('../resources/TextureResource')
 import uuid4 = require('../utils/uuid4')
 import VectorN = require('../math/VectorN')
@@ -122,7 +122,7 @@ class GeometryDataCommand {
             }
         }
         else {
-            console.warn("HFW: Er, like hey dude! You're asking me to draw something without a context. That's not cool, but I won't complain.")
+            console.warn("Er, like hey dude? You're asking me to draw something without a context. That's not cool.")
         }
     }
 }
@@ -132,7 +132,7 @@ class GeometryDataCommand {
  */
 class ElementsBlock extends Shareable {
     // FIXME: Need to convert this into a IUnknownArray
-    // Can we know our IMaterial(s)?
+    // Can we know our IGraphicsProgram(s)?
     /**
      * Mapping from attribute name to a data structure describing and containing a buffer.
      * property _attributes
@@ -241,9 +241,9 @@ function attribKey(aName: string, aNameToKeyName?: { [aName: string]: string }):
 /**
  *
  */
-function bindProgramAttribLocations(program: IMaterial, canvasId: number, block: ElementsBlock, aNameToKeyName?: { [name: string]: string }) {
+function bindProgramAttribLocations(program: IGraphicsProgram, canvasId: number, block: ElementsBlock, aNameToKeyName?: { [name: string]: string }) {
     // FIXME: Expecting canvasId here.
-    // FIXME: This is where we get the IMaterial attributes property.
+    // FIXME: This is where we get the IGraphicsProgram attributes property.
     // FIXME: Can we invert this?
     // What are we offering to the program:
     // block.attributes (reference counted)
@@ -287,7 +287,7 @@ function bindProgramAttribLocations(program: IMaterial, canvasId: number, block:
     }
 }
 
-function unbindProgramAttribLocations(program: IMaterial, canvasId: number) {
+function unbindProgramAttribLocations(program: IGraphicsProgram, canvasId: number) {
     // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
     let attribLocations = program.attributes(canvasId);
     if (attribLocations) {
@@ -305,7 +305,7 @@ function unbindProgramAttribLocations(program: IMaterial, canvasId: number) {
  */
 class BufferGeometry extends Shareable implements IBufferGeometry {
     private canvasId: number;
-    private _program: IMaterial;
+    private _program: IGraphicsProgram;
     private _blocks: StringIUnknownMap<ElementsBlock>;
     private gl: WebGLRenderingContext;
     constructor(canvasId: number, gl: WebGLRenderingContext, blocks: StringIUnknownMap<ElementsBlock>) {
@@ -316,11 +316,11 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
         this.gl = gl
     }
     protected destructor(): void {
-        // FIXME: Check status of Material?
+        // FIXME: Check status of GraphicsProgram?
         this._blocks.release()
         super.destructor()
     }
-    bind(program: IMaterial, aNameToKeyName?: { [name: string]: string }): void {
+    bind(program: IGraphicsProgram, aNameToKeyName?: { [name: string]: string }): void {
         if (this._program !== program) {
             if (this._program) {
                 this.unbind()
@@ -365,7 +365,7 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
                 let indexBuffer = block.indexBuffer
                 indexBuffer.unbind()
                 indexBuffer.release()
-                // FIXME: Looks like an IMaterial method!
+                // FIXME: Looks like an IGraphicsProgram method!
                 unbindProgramAttribLocations(this._program, this.canvasId)
                 block.release()
             }
@@ -440,7 +440,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     function createBufferGeometryDeprecatedMaybe(uuid: string, canvasId: number): IBufferGeometry {
 
         let refCount = 0
-        let _program: IMaterial = void 0
+        let _program: IGraphicsProgram = void 0
         let mesh: IBufferGeometry = {
             addRef(): number {
                 refCount++
@@ -465,7 +465,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
             get uuid() {
                 return uuid;
             },
-            bind(program: IMaterial, aNameToKeyName?: { [name: string]: string }): void {
+            bind(program: IGraphicsProgram, aNameToKeyName?: { [name: string]: string }): void {
                 if (_program !== program) {
                     if (_program) {
                         mesh.unbind()
@@ -510,7 +510,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
                         let indexBuffer = block.indexBuffer
                         indexBuffer.unbind()
                         indexBuffer.release()
-                        // FIXME: Looks like an IMaterial method!
+                        // FIXME: Looks like an IGraphicsProgram method!
                         unbindProgramAttribLocations(_program, _canvasId)
                         block.release()
                     }

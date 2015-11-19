@@ -6,7 +6,7 @@ import Simplex = require('../geometries/Simplex')
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry')
 import SpinG3 = require('../math/SpinG3')
 import SpinorE3 = require('../math/SpinorE3')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
 import VectorE3 = require('../math/VectorE3')
@@ -87,26 +87,26 @@ function makeLineSegments(vertices: R3[], radialSegments: number, thetaSegments:
     for (let i = 0; i < radialSegments; i++) {
         for (let j = 0; j < thetaSegments; j++) {
             var simplex = new Simplex(Simplex.LINE)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)]
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)]
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)]
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)]
             data.push(simplex)
 
             var simplex = new Simplex(Simplex.LINE)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)]
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)]
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)]
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)]
             data.push(simplex)
         }
         // TODO: We probably don't need these lines when the thing is closed 
         var simplex = new Simplex(Simplex.LINE)
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)]
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)]
+        simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)]
+        simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)]
         data.push(simplex)
     }
     // Lines for the outermost circle.
     for (let j = 0; j < thetaSegments; j++) {
         var simplex = new Simplex(Simplex.LINE)
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j, thetaSegments)]
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j + 1, thetaSegments)]
+        simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j, thetaSegments)]
+        simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j + 1, thetaSegments)]
         data.push(simplex)
     }
 }
@@ -115,7 +115,7 @@ function makePoints(vertices: R3[], radialSegments: number, thetaSegments: numbe
     for (let i = 0; i <= radialSegments; i++) {
         for (let j = 0; j <= thetaSegments; j++) {
             var simplex = new Simplex(Simplex.POINT)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)]
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)]
             data.push(simplex)
         }
     }

@@ -1,6 +1,6 @@
 import VectorE3 = require('../math/VectorE3');
 import IContextProvider = require('../core/IContextProvider');
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import Perspective = require('../cameras/Perspective');
 import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
@@ -22,9 +22,9 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
     static PROP_EYE: string;
     /**
      * @property material
-     * @type {IMaterial}
+     * @type {IGraphicsProgram}
      */
-    material: IMaterial;
+    material: IGraphicsProgram;
     /**
      * @property name
      * @type {string}
@@ -55,14 +55,14 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
     contextFree(): void;
     contextGain(manager: IContextProvider): void;
     contextLost(): void;
-    draw(canvasId: number): void;
+    draw(canvasId?: number): void;
     getProperty(name: string): number[];
     setProperty(name: string, value: number[]): void;
     /**

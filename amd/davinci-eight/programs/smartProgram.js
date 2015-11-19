@@ -1,4 +1,4 @@
-define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', '../utils/mergeStringMapList', '../checks/mustBeDefined', './createMaterial', '../programs/vColorRequired', '../programs/vertexShader', '../programs/vLightRequired'], function (require, exports, MonitorList, fragmentShader, mergeStringMapList, mustBeDefined, createMaterial, vColorRequired, vertexShader, vLightRequired) {
+define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', '../utils/mergeStringMapList', '../checks/mustBeDefined', './createGraphicsProgram', '../programs/vColorRequired', '../programs/vertexShader', '../programs/vLightRequired'], function (require, exports, MonitorList, fragmentShader, mergeStringMapList, mustBeDefined, createGraphicsProgram, vColorRequired, vertexShader, vLightRequired) {
     /**
      *
      */
@@ -9,7 +9,7 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
         var uniforms = mergeStringMapList(uniformsList);
         var vColor = vColorRequired(attributes, uniforms);
         var vLight = vLightRequired(attributes, uniforms);
-        var innerProgram = createMaterial(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
+        var innerProgram = createGraphicsProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
         var self = {
             get uuid() {
                 return innerProgram.uuid;

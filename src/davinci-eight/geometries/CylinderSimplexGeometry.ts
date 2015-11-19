@@ -5,7 +5,7 @@ import Simplex = require('../geometries/Simplex')
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
 import SpinG3 = require('../math/SpinG3')
 import SpinorE3 = require('../math/SpinorE3')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
 

@@ -4,7 +4,7 @@ import Matrix4 = require('../math/Matrix4')
 import mustBeNumber = require('../checks/mustBeNumber')
 import Shareable = require('../utils/Shareable')
 import SpinG3 = require('../math/SpinG3')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import IFacet = require('../core/IFacet')
 import ColorRGB = require('../core/ColorRGB')
 import ColorRGBA = require('../core/ColorRGBA')
@@ -96,8 +96,8 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
      */
     constructor() {
         super('ColorFacet')
-        this.uColorName = Symbolic.UNIFORM_COLOR
-        this.uAlphaName = Symbolic.UNIFORM_ALPHA
+        this.uColorName = GraphicsProgramSymbols.UNIFORM_COLOR
+        this.uAlphaName = GraphicsProgramSymbols.UNIFORM_ALPHA
     }
 
     /**
@@ -308,10 +308,10 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void {
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
         if (this.uColorName) {
             visitor.vector3(this.uColorName, this.xyz, canvasId)
         }

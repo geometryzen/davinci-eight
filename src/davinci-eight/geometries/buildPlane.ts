@@ -1,5 +1,5 @@
 import Simplex = require('../geometries/Simplex');
-import Symbolic = require('../core/Symbolic');
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 import R1 = require('../math/R1');
 import R2 = require('../math/R2');
 import R3 = require('../math/R3');
@@ -89,39 +89,39 @@ function buildPlane(
 
       var face = new Simplex(Simplex.TRIANGLE);
       
-      face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a + offset];
-      face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva;
-      face.vertices[0].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[a + offset];
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uva;
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
-      face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
-      face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
-      face.vertices[1].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b + offset];
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvb;
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
-      face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d + offset];
-      face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
-      face.vertices[2].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d + offset];
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvd;
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
       faces.push( face );
 
       face = new Simplex(Simplex.TRIANGLE);
 
-      face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
-      face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
-      face.vertices[0].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b + offset];
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvb;
+      face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
-      face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c + offset];
-      face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvc;
-      face.vertices[1].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[c + offset];
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvc;
+      face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
-      face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d + offset];
-      face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-      face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
-      face.vertices[2].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d + offset];
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvd;
+      face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
 
       faces.push( face );
     }

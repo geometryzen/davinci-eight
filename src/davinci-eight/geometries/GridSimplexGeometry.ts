@@ -2,7 +2,7 @@ import VectorE2 = require('../math/VectorE2')
 import VectorE3 = require('../math/VectorE3')
 import Simplex = require('../geometries/Simplex')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
 import expectArg = require('../checks/expectArg')
@@ -72,21 +72,21 @@ class GridSimplexGeometry extends SimplexGeometry {
         uvd = new R2([j / uSegments, (i + 1) / vSegments]);
 
         var simplex = new Simplex(Simplex.TRIANGLE)
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a]
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b]
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d]
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd
+        simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[a]
+        simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uva
+        simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b]
+        simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvb
+        simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d]
+        simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvd
         this.data.push(simplex)
 
         var simplex = new Simplex(Simplex.TRIANGLE)
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b]
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c]
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvc
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d]
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd
+        simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[b]
+        simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvb
+        simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[c]
+        simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvc
+        simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[d]
+        simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvd
         this.data.push(simplex)
       }
     }

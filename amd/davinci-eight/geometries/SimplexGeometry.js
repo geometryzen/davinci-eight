@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '../checks/mustBeInteger', '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3, mustBeBoolean, mustBeInteger, Geometry, Simplex, Symbolic, simplicesToDrawPrimitive, simplicesToGeometryMeta, R1, R3) {
+define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '../checks/mustBeInteger', '../geometries/Geometry', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../geometries/simplicesToDrawPrimitive', '../geometries/simplicesToGeometryMeta', '../math/R1', '../math/R3'], function (require, exports, Euclidean3, mustBeBoolean, mustBeInteger, Geometry, Simplex, GraphicsProgramSymbols, simplicesToDrawPrimitive, simplicesToGeometryMeta, R1, R3) {
     /**
      * @class SimplexGeometry
      * @extends Geometry
@@ -210,19 +210,19 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '
          */
         SimplexGeometry.prototype.triangle = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.TRIANGLE);
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1];
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[2];
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1];
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[2];
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[2];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[0];
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[1];
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[2];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normals[0];
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normals[1];
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normals[2];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[2];
             if (this.orientationColors) {
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e1);
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e2);
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e3);
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e1);
+                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e2);
+                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e3);
             }
             return this.data.push(simplex);
         };
@@ -236,15 +236,15 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '
          */
         SimplexGeometry.prototype.lineSegment = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.LINE);
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[1];
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[1];
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[0];
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[1];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normals[0];
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normals[1];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[1];
             if (this.orientationColors) {
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e1);
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e2);
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e1);
+                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e2);
             }
             return this.data.push(simplex);
         };
@@ -258,11 +258,11 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '
          */
         SimplexGeometry.prototype.point = function (positions, normals, uvs) {
             var simplex = new Simplex(Simplex.POINT);
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = positions[0];
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[0];
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = positions[0];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normals[0];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uvs[0];
             if (this.orientationColors) {
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e1);
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] = R3.copy(Euclidean3.e1);
             }
             return this.data.push(simplex);
         };

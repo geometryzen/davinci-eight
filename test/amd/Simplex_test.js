@@ -3,10 +3,9 @@ define(
   'davinci-eight/geometries/Simplex',
   'davinci-eight/geometries/Vertex',
   'davinci-eight/math/R3',
-  'davinci-eight/core/Symbolic',
   'davinci-eight/geometries/triangle'
 ],
-function(Simplex, Vertex, R3, Symbolic, triangle)
+function(Simplex, Vertex, R3, triangle)
 {
   describe("Simplex", function() {
     describe("constructor", function() {

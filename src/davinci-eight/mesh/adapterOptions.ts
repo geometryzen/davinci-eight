@@ -1,5 +1,5 @@
 import DrawMode = require('../core/DrawMode');
-import Symbolic = require('../core/Symbolic');
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 
 function adapterOptions(options: {
     wireFrame?: boolean,
@@ -11,8 +11,8 @@ function adapterOptions(options: {
   }) {
   let drawMode: DrawMode = options.wireFrame ? DrawMode.LINES : DrawMode.TRIANGLES;
   let elementUsage: number = options.elementUsage;
-  let positionVarName: string = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
-  let normalVarName: string = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
+  let positionVarName: string = options.positionVarName || GraphicsProgramSymbols.ATTRIBUTE_POSITION;
+  let normalVarName: string = options.normalVarName || GraphicsProgramSymbols.ATTRIBUTE_NORMAL;
   return {
       drawMode: drawMode,
       elementUsage: elementUsage,

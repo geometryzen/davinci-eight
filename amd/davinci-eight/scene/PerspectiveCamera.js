@@ -45,7 +45,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
         /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {

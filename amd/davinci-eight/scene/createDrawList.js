@@ -9,7 +9,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
     var CLASS_NAME_ALL = "DrawableGroups";
     // FIXME; Probably good to have another collection of DrawableGroup
     /**
-     * A grouping of IDrawable, by IMaterial.
+     * A grouping of IDrawable, by IGraphicsProgram.
      */
     // FIXME: extends Shareable
     var DrawableGroup = (function () {
@@ -51,7 +51,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             configurable: true
         });
         /**
-         * accept provides a way to push out the IMaterial without bumping the reference count.
+         * accept provides a way to push out the IGraphicsProgram without bumping the reference count.
          */
         DrawableGroup.prototype.acceptProgram = function (visitor) {
             visitor(this._program);
@@ -108,7 +108,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
         function DrawableGroups() {
             _super.call(this, CLASS_NAME_ALL);
             /**
-             * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
+             * Mapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])
              */
             this._groups = new StringIUnknownMap();
         }
@@ -305,6 +305,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
                 drawableGroups.remove(drawable);
             },
             // FIXME: canvasId not being used?
+            // FIXME: canvasId must be last parameter to be optional.
             traverse: function (callback, canvasId, prolog) {
                 drawableGroups.traverseDrawables(callback, prolog);
             }

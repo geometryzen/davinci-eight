@@ -1,12 +1,12 @@
 import IContextMonitor = require('../core/IContextMonitor');
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import LineMaterialParameters = require('../materials/LineMaterialParameters');
-import Material = require('../materials/Material');
+import GraphicsProgram = require('../materials/GraphicsProgram');
 /**
  * @class PointMaterial
- * @extends Material
+ * @extends GraphicsProgram
  */
-declare class PointMaterial extends Material {
+declare class PointMaterial extends GraphicsProgram {
     /**
      * @class PointMaterial
      * @constructor
@@ -14,6 +14,6 @@ declare class PointMaterial extends Material {
      * @parameters [MeshNormalParameters]
      */
     constructor(monitors?: IContextMonitor[], parameters?: LineMaterialParameters);
-    protected createMaterial(): IMaterial;
+    protected createGraphicsProgram(): IGraphicsProgram;
 }
 export = PointMaterial;

@@ -5,7 +5,7 @@ import IAxialGeometry = require('../geometries/IAxialGeometry')
 import AxialGeometry = require('../geometries/AxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import R1 = require('../math/R1')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import G3 = require('../math/G3')
 
@@ -78,10 +78,10 @@ class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry>
                 let v = vIndex / vSegments
                 let position = start.clone().rotate(rotor).scale(b + (a - b) * v)
                 let vertex = topo.vertex(uIndex, vIndex)
-                vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.addVector(this.position)
-                vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = axis
+                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.addVector(this.position)
+                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = axis
                 if (this.useTextureCoords) {
-                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
+                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
                 }
             }
         }

@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/Euclidean2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2, b3, dotVector, Euclidean2, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, quadVector, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
-    // Symbolic constants for the coordinate indices into the data array.
+    // GraphicsProgramSymbols constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
     var COORD_Y = 2;

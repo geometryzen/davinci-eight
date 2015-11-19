@@ -18,10 +18,10 @@ declare class EulerFacet extends Shareable implements IFacet {
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
     /**
      * @property rotation
      * @type {R3}

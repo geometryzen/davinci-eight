@@ -1,19 +1,29 @@
 import IContextMonitor = require('../core/IContextMonitor');
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import LineMaterialParameters = require('../materials/LineMaterialParameters');
-import Material = require('../materials/Material');
+import GraphicsProgram = require('../materials/GraphicsProgram');
 /**
  * @class LineMaterial
- * @extends Material
+ * @extends GraphicsProgram
  */
-declare class LineMaterial extends Material {
+declare class LineMaterial extends GraphicsProgram {
+    /**
+     * @property chunkSize
+     * @type {number}
+     */
+    chunkSize: number;
     /**
      * @class LineMaterial
      * @constructor
-     * @param monitors [IContextMonitor[]=[]]
-     * @parameters [MeshNormalParameters]
+     * @param [monitors = []] {IContextMonitor[]}
+     * @param [parameters = {}] {LineMaterialParameters}
      */
     constructor(monitors?: IContextMonitor[], parameters?: LineMaterialParameters);
-    protected createMaterial(): IMaterial;
+    /**
+     * @method createGraphicsProgram
+     * @return {IGraphicsProgram}
+     * @protected
+     */
+    protected createGraphicsProgram(): IGraphicsProgram;
 }
 export = LineMaterial;

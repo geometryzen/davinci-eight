@@ -6,7 +6,7 @@ import IGeometry = require('../geometries/IGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustBeNumber = require('../checks/mustBeNumber')
 import R3 = require('../math/R3')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import VectorE3 = require('../math/VectorE3')
 
@@ -25,9 +25,9 @@ function side(basis: R3[], uSegments: number, vSegments: number): GridTopology {
             var a = R3.copy(aNeg).lerp(aPos, u)
             var b = R3.copy(bNeg).lerp(bPos, v)
             var vertex = side.vertex(uIndex, vIndex)
-            vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(a).add(b).add(cPos)
-            vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal
-            vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3.copy(a).add(b).add(cPos)
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
         }
     }
     return side

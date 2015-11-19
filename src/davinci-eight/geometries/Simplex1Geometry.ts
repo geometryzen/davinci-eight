@@ -1,6 +1,6 @@
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Simplex = require('../geometries/Simplex')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R3 = require('../math/R3')
 //import VectorN = require('../math/VectorN')
 
@@ -26,7 +26,7 @@ class Simplex1Geometry extends SimplexGeometry {
     function simplex(indices: number[]): Simplex {
       let simplex = new Simplex(indices.length - 1)
       for (var i = 0; i < indices.length; i++) {
-        simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]]
+        simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = pos[indices[i]]
       }
       return simplex
     }

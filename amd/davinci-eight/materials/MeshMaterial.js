@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
+define(["require", "exports", '../materials/GraphicsProgram', '../materials/GraphicsProgramBuilder', '../core/GraphicsProgramSymbols'], function (require, exports, GraphicsProgram, GraphicsProgramBuilder, GraphicsProgramSymbols) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -13,7 +13,7 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
     }
     /**
      * @class MeshMaterial
-     * @extends Material
+     * @extends GraphicsProgram
      */
     var MeshMaterial = (function (_super) {
         __extends(MeshMaterial, _super);
@@ -36,26 +36,26 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
             _super.prototype.destructor.call(this);
         };
         /**
-         * @method createMaterial
-         * @return {IMaterial}
+         * @method createGraphicsProgram
+         * @return {IGraphicsProgram}
          * @protected
          */
-        MeshMaterial.prototype.createMaterial = function () {
-            var smb = new SmartMaterialBuilder();
-            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3);
-            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
-            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
-            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_NORMAL_MATRIX, 'mat3');
-            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_AMBIENT_LIGHT, 'vec3');
-            smb.uniform(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, 'vec3');
-            smb.uniform(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, 'vec3');
+        MeshMaterial.prototype.createGraphicsProgram = function () {
+            var smb = new GraphicsProgramBuilder();
+            smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3);
+            smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_NORMAL, 3);
+            // smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_COLOR, 3);
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, 'mat3');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, 'vec3');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, 'vec3');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, 'vec3');
             return smb.build(this.monitors);
         };
         return MeshMaterial;
-    })(Material);
+    })(GraphicsProgram);
     return MeshMaterial;
 });

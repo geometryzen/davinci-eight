@@ -1,12 +1,12 @@
 import IContextProvider = require('../core/IContextProvider')
 import IContextMonitor = require('../core/IContextMonitor')
-import IMaterial = require('../core/IMaterial')
+import IGraphicsProgram = require('../core/IGraphicsProgram')
 import MeshMaterialParameters = require('../materials/MeshMaterialParameters')
-import Material = require('../materials/Material')
+import GraphicsProgram = require('../materials/GraphicsProgram')
 import MonitorList = require('../scene/MonitorList')
-import createMaterial = require('../programs/createMaterial')
-import SmartMaterialBuilder = require('../materials/SmartMaterialBuilder')
-import Symbolic = require('../core/Symbolic')
+import createGraphicsProgram = require('../programs/createGraphicsProgram')
+import GraphicsProgramBuilder = require('../materials/GraphicsProgramBuilder')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 
 /**
  * Name used for reference count monitoring and logging.
@@ -19,9 +19,9 @@ function nameBuilder(): string {
 
 /**
  * @class MeshLambertMaterial
- * @extends Material
+ * @extends GraphicsProgram
  */
-class MeshLambertMaterial extends Material {
+class MeshLambertMaterial extends GraphicsProgram {
   /**
    * 
    * @class MeshLambertMaterial
@@ -34,20 +34,20 @@ class MeshLambertMaterial extends Material {
   protected destructor(): void {
     super.destructor()
   }
-  protected createMaterial(): IMaterial {
-    let smb = new SmartMaterialBuilder()
+  protected createGraphicsProgram(): IGraphicsProgram {
+    let smb = new GraphicsProgramBuilder()
 
-    smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3)
-    smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3)
+    smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3)
+    smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_NORMAL, 3)
 
-    smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3')
-    smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4')
-    smb.uniform(Symbolic.UNIFORM_NORMAL_MATRIX, 'mat3')
-    smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4')
-    smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4')
+    smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3')
+    smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4')
+    smb.uniform(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, 'mat3')
+    smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4')
+    smb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4')
 
-    smb.uniform(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, 'vec3')
-    smb.uniform(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, 'vec3')
+    smb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, 'vec3')
+    smb.uniform(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, 'vec3')
 
     return smb.build(this.monitors);
   }

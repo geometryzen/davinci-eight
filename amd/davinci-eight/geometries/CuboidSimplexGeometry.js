@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/CartesianE3', '../geometries/computeFaceNormals', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/R1', '../math/R3'], function (require, exports, CartesianE3, computeFaceNormals, SimplexGeometry, quad, Simplex, Symbolic, R1, R3) {
+define(["require", "exports", '../math/CartesianE3', '../geometries/computeFaceNormals', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R1', '../math/R3'], function (require, exports, CartesianE3, computeFaceNormals, SimplexGeometry, quad, Simplex, GraphicsProgramSymbols, R1, R3) {
     /**
      * @class CuboidSimplexGeometry
      * @extends SimplexGeometry
@@ -152,8 +152,8 @@ define(["require", "exports", '../math/CartesianE3', '../geometries/computeFaceN
             function simplex(indices) {
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {
-                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]];
-                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = new R1([i]);
+                    simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = pos[indices[i]];
+                    simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_GEOMETRY_INDEX] = new R1([i]);
                 }
                 return simplex;
             }

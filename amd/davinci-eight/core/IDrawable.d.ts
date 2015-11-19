@@ -1,4 +1,4 @@
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import IResource = require('../core/IResource');
 import IFacet = require('../core/IFacet');
 /**
@@ -15,10 +15,10 @@ import IFacet = require('../core/IFacet');
 interface IDrawable extends IResource {
     /**
      * @property material
-     * @type {IMaterial}
+     * @type {IGraphicsProgram}
      * Contains a WebGLProgram for each canvas that this IDrawable can draw to.
      */
-    material: IMaterial;
+    material: IGraphicsProgram;
     /**
      * User assigned name of the drawable object. Allows an object to be found in a scene.
      * @property name
@@ -28,10 +28,10 @@ interface IDrawable extends IResource {
     name: string;
     /**
      * @method draw
-     * @param canvasId {number} Determines which canvas the IDrawable should draw to.
+     * @param [canvasId] {number} Determines which canvas the IDrawable should draw to.
      * @return {void}
      */
-    draw(canvasId: number): void;
+    draw(canvasId?: number): void;
     /**
      * @method getFacet
      * @param name {string}

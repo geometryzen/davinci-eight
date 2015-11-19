@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../core/Symbolic', '../math/R2', '../math/G3'], function (require, exports, GridTopology, AxialGeometry, Symbolic, R2, G3) {
+define(["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../math/R2', '../math/G3'], function (require, exports, GridTopology, AxialGeometry, GraphicsProgramSymbols, R2, G3) {
     /**
      * @class RingGeometry
      */
@@ -73,10 +73,10 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Axial
                     var v = vIndex / vSegments;
                     var position = start.clone().rotate(rotor).scale(b + (a - b) * v);
                     var vertex = topo.vertex(uIndex, vIndex);
-                    vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.addVector(this.position);
-                    vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = axis;
+                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.addVector(this.position);
+                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = axis;
                     if (this.useTextureCoords) {
-                        vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v]);
+                        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v]);
                     }
                 }
             }

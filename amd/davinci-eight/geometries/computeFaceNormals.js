@@ -1,7 +1,7 @@
-define(["require", "exports", '../core/Symbolic', '../math/R3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, Symbolic, R3, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../core/GraphicsProgramSymbols', '../math/R3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, GraphicsProgramSymbols, R3, wedgeXY, wedgeYZ, wedgeZX) {
     function computeFaceNormals(simplex, positionName, normalName) {
-        if (positionName === void 0) { positionName = Symbolic.ATTRIBUTE_POSITION; }
-        if (normalName === void 0) { normalName = Symbolic.ATTRIBUTE_NORMAL; }
+        if (positionName === void 0) { positionName = GraphicsProgramSymbols.ATTRIBUTE_POSITION; }
+        if (normalName === void 0) { normalName = GraphicsProgramSymbols.ATTRIBUTE_NORMAL; }
         var vertex0 = simplex.vertices[0].attributes;
         var vertex1 = simplex.vertices[1].attributes;
         var vertex2 = simplex.vertices[2].attributes;

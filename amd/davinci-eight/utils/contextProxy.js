@@ -89,7 +89,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                 }
             }
             else {
-                console.warn("HFW: Er, like hey dude! You're asking me to draw something without a context. That's not cool, but I won't complain.");
+                console.warn("Er, like hey dude? You're asking me to draw something without a context. That's not cool.");
             }
         };
         return GeometryDataCommand;
@@ -195,7 +195,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
      */
     function bindProgramAttribLocations(program, canvasId, block, aNameToKeyName) {
         // FIXME: Expecting canvasId here.
-        // FIXME: This is where we get the IMaterial attributes property.
+        // FIXME: This is where we get the IGraphicsProgram attributes property.
         // FIXME: Can we invert this?
         // What are we offering to the program:
         // block.attributes (reference counted)
@@ -262,7 +262,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             this.gl = gl;
         }
         BufferGeometry.prototype.destructor = function () {
-            // FIXME: Check status of Material?
+            // FIXME: Check status of GraphicsProgram?
             this._blocks.release();
             _super.prototype.destructor.call(this);
         };
@@ -311,7 +311,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                     var indexBuffer = block.indexBuffer;
                     indexBuffer.unbind();
                     indexBuffer.release();
-                    // FIXME: Looks like an IMaterial method!
+                    // FIXME: Looks like an IGraphicsProgram method!
                     unbindProgramAttribLocations(this._program, this.canvasId);
                     block.release();
                 }
@@ -444,7 +444,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                             var indexBuffer = block.indexBuffer;
                             indexBuffer.unbind();
                             indexBuffer.release();
-                            // FIXME: Looks like an IMaterial method!
+                            // FIXME: Looks like an IGraphicsProgram method!
                             unbindProgramAttribLocations(_program, _canvasId);
                             block.release();
                         }

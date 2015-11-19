@@ -27,7 +27,7 @@ import wedgeXY = require('../math/wedgeXY')
 import wedgeYZ = require('../math/wedgeYZ')
 import wedgeZX = require('../math/wedgeZX')
 
-// Symbolic constants for the coordinate indices into the data array.
+// GraphicsProgramSymbols constants for the coordinate indices into the data array.
 let COORD_W = 0
 let COORD_X = 1
 let COORD_Y = 2

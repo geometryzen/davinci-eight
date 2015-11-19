@@ -4,7 +4,7 @@ import mustBeObject = require('../checks/mustBeObject')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeString = require('../checks/mustBeString')
 import Shareable = require('../utils/Shareable')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R3 = require('../math/R3')
 
 var LOGGING_NAME = 'PointSizeFacet'
@@ -41,7 +41,7 @@ class PointSizeFacet extends Shareable implements IFacet {
     setProperty(name: string, value: number[]): void {
     }
     setUniforms(visitor: IFacetVisitor, canvasId: number): void {
-        visitor.uniform1f(Symbolic.UNIFORM_POINT_SIZE, this.pointSize, canvasId)
+        visitor.uniform1f(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, this.pointSize, canvasId)
     }
 }
 

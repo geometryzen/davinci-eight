@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../math/SpinG3', '../core/Symbolic', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GridTopology, SpinG3, Symbolic, R2, R3) {
+define(["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../math/SpinG3', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GridTopology, SpinG3, GraphicsProgramSymbols, R2, R3) {
     /**
      * @class CylinderGeometry
      */
@@ -58,10 +58,10 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
                     var normal = R3.copy(this.sliceStart).rotate(rotor);
                     var position = normal.clone().scale(this.radius).add(this.axis, v * this.height);
                     var vertex = topo.vertex(uIndex, vIndex);
-                    vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position);
-                    vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.add(this.position);
+                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
                     if (this.useTextureCoords) {
-                        vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v]);
+                        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v]);
                     }
                 }
             }

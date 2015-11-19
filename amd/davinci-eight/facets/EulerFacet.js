@@ -28,7 +28,7 @@ define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math
         /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         EulerFacet.prototype.setUniforms = function (visitor, canvasId) {

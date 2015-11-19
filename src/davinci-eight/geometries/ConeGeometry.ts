@@ -4,7 +4,7 @@ import DrawPrimitive = require('../geometries/DrawPrimitive')
 import GridTopology = require('../topologies/GridTopology')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
 
@@ -81,10 +81,10 @@ class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry>
                 var peak = R3.copy(h).sub(position)
                 var normal = new R3().cross2(peak, position).cross(peak).direction()
                 var vertex = topo.vertex(uIndex, vIndex)
-                vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position)
-                vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal
+                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.add(this.position)
+                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
                 if (this.useTextureCoords) {
-                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
+                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
                 }
             }
         }

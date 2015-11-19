@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVarName', '../checks/mustBeBoolean', '../checks/mustBeDefined', '../core/Symbolic'], function (require, exports, getAttribVarName, getUniformVarName, mustBeBoolean, mustBeDefined, Symbolic) {
+define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVarName', '../checks/mustBeBoolean', '../checks/mustBeDefined', '../core/GraphicsProgramSymbols'], function (require, exports, getAttribVarName, getUniformVarName, mustBeBoolean, mustBeDefined, GraphicsProgramSymbols) {
     function getUniformCodeName(uniforms, name) {
         return getUniformVarName(uniforms[name], name);
     }
@@ -40,49 +40,91 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         lines.push("void main(void) {");
         var glPosition = [];
         glPosition.unshift(SEMICOLON);
-        if (attributes[Symbolic.ATTRIBUTE_POSITION]) {
-            glPosition.unshift(RPAREN);
-            glPosition.unshift("1.0");
-            glPosition.unshift(COMMA);
-            glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
-            glPosition.unshift(LPAREN);
-            glPosition.unshift("vec4");
+        if (attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION]) {
+            switch (attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].glslType) {
+                case 'float': {
+                    // This case would be unusual; just providing an x-coordinate.
+                    // We must provide defaults for the y-, z-, and w-coordinates.
+                    glPosition.unshift(RPAREN);
+                    glPosition.unshift('1.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift('0.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift('0.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
+                    glPosition.unshift(LPAREN);
+                    glPosition.unshift('vec4');
+                    break;
+                }
+                case 'vec2': {
+                    // This case happens when the user wants to work in 2D.
+                    // We must provide a value for the homogeneous w-coordinate,
+                    // as well as the z-coordinate.
+                    glPosition.unshift(RPAREN);
+                    glPosition.unshift('1.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift('0.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
+                    glPosition.unshift(LPAREN);
+                    glPosition.unshift('vec4');
+                    break;
+                }
+                case 'vec3': {
+                    // This is probably the most common case, 3D but only x-, y-, z-coordinates.
+                    // We must provide a value for the homogeneous w-coordinate.
+                    glPosition.unshift(RPAREN);
+                    glPosition.unshift('1.0');
+                    glPosition.unshift(COMMA);
+                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
+                    glPosition.unshift(LPAREN);
+                    glPosition.unshift('vec4');
+                    break;
+                }
+                case 'vec4': {
+                    // This happens when the use is working in homodeneous coordinates.
+                    // We don't need to use the constructor function at all.
+                    glPosition.unshift(getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], GraphicsProgramSymbols.ATTRIBUTE_POSITION));
+                    break;
+                }
+            }
         }
         else {
             glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
         }
         // Reflections are applied first.
-        if (uniforms[Symbolic.UNIFORM_REFLECTION_ONE_MATRIX]) {
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_REFLECTION_ONE_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_ONE_MATRIX));
         }
-        if (uniforms[Symbolic.UNIFORM_REFLECTION_TWO_MATRIX]) {
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_REFLECTION_TWO_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_REFLECTION_TWO_MATRIX));
         }
-        if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX));
         }
-        if (uniforms[Symbolic.UNIFORM_VIEW_MATRIX]) {
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_VIEW_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX));
         }
-        if (uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]) {
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX]) {
             glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_PROJECTION_MATRIX));
+            glPosition.unshift(getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX));
         }
         glPosition.unshift(ASSIGN);
         glPosition.unshift("gl_Position");
         glPosition.unshift('  ');
         lines.push(glPosition.join(''));
-        if (uniforms[Symbolic.UNIFORM_POINT_SIZE]) {
-            lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_POINT_SIZE) + ";");
+        if (uniforms[GraphicsProgramSymbols.UNIFORM_POINT_SIZE]) {
+            lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_POINT_SIZE) + ";");
         }
         if (vColor) {
-            if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-                var colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
-                switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
+            if (attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR]) {
+                var colorAttribVarName = getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR], GraphicsProgramSymbols.ATTRIBUTE_COLOR);
+                switch (attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR].glslType) {
                     case 'vec4':
                         {
                             lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
@@ -94,13 +136,13 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
                         }
                         break;
                     default: {
-                        throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
+                        throw new Error("Unexpected type for color attribute: " + attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR].glslType);
                     }
                 }
             }
-            else if (uniforms[Symbolic.UNIFORM_COLOR]) {
-                var colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
-                switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
+            else if (uniforms[GraphicsProgramSymbols.UNIFORM_COLOR]) {
+                var colorUniformVarName = getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_COLOR);
+                switch (uniforms[GraphicsProgramSymbols.UNIFORM_COLOR].glslType) {
                     case 'vec4':
                         {
                             lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
@@ -112,7 +154,7 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
                         }
                         break;
                     default: {
-                        throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
+                        throw new Error("Unexpected type for color uniform: " + uniforms[GraphicsProgramSymbols.UNIFORM_COLOR].glslType);
                     }
                 }
             }
@@ -121,21 +163,21 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
             }
         }
         if (vLight) {
-            if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
-                lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
-                lines.push("  vec3 N = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[Symbolic.ATTRIBUTE_NORMAL], Symbolic.ATTRIBUTE_NORMAL) + ");");
+            if (uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX] && attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL]) {
+                lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
+                lines.push("  vec3 N = normalize(" + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL], GraphicsProgramSymbols.ATTRIBUTE_NORMAL) + ");");
                 lines.push("  // The minus sign arises because L is the light direction, so we need dot(N, -L) = -dot(N, L)");
                 lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(-dot(N, L), 0.0);");
-                if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  vLight = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                if (uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT]) {
+                    lines.push("  vLight = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
                 }
                 else {
-                    lines.push("  vLight = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                    lines.push("  vLight = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
                 }
             }
             else {
-                if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  vLight = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + ";");
+                if (uniforms[GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT]) {
+                    lines.push("  vLight = " + getUniformCodeName(uniforms, GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT) + ";");
                 }
                 else {
                     lines.push("  vLight = vec3(1.0, 1.0, 1.0);");

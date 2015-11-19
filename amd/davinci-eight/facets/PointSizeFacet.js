@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeInteger', '../utils/Shareable', '../core/Symbolic'], function (require, exports, mustBeInteger, Shareable, Symbolic) {
+define(["require", "exports", '../checks/mustBeInteger', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, mustBeInteger, Shareable, GraphicsProgramSymbols) {
     var LOGGING_NAME = 'PointSizeFacet';
     function contextBuilder() {
         return LOGGING_NAME;
@@ -32,7 +32,7 @@ define(["require", "exports", '../checks/mustBeInteger', '../utils/Shareable', '
         PointSizeFacet.prototype.setProperty = function (name, value) {
         };
         PointSizeFacet.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.uniform1f(Symbolic.UNIFORM_POINT_SIZE, this.pointSize, canvasId);
+            visitor.uniform1f(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, this.pointSize, canvasId);
         };
         return PointSizeFacet;
     })(Shareable);

@@ -18,6 +18,6 @@ declare class Vector3Facet extends Shareable implements IFacet {
     protected destructor(): void;
     getProperty(name: string): number[];
     setProperty(name: string, value: number[]): void;
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
 }
 export = Vector3Facet;

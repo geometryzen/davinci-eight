@@ -1,6 +1,6 @@
 import IContextConsumer = require('../core/IContextConsumer');
 import IDrawable = require('../core/IDrawable');
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import IUnknownArray = require('../collections/IUnknownArray');
 import IFacet = require('../core/IFacet');
 /**
@@ -23,10 +23,10 @@ interface IDrawList extends IContextConsumer {
     /**
      * @method draw
      * @param ambients {IFacet[]}
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    draw(ambients: IFacet[], canvasId: number): void;
+    draw(ambients: IFacet[], canvasId?: number): void;
     /**
      * Gets a collection of drawable elements by name.
      * @method getDrawablesByName
@@ -43,9 +43,9 @@ interface IDrawList extends IContextConsumer {
      * @method traverse
      * @param callback {(drawable: IDrawable) => void}
      * @param canvasId {number}
-     * @param prolog {(material: IMaterial => void)}
+     * @param prolog {(material: IGraphicsProgram => void)}
      * @return {void}
      */
-    traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (material: IMaterial) => void): void;
+    traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (material: IGraphicsProgram) => void): void;
 }
 export = IDrawList;

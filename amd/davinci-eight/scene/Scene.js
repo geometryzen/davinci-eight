@@ -11,7 +11,6 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
     /**
      * @class Scene
      * @extends Shareable
-     * @extends IDrawList
      */
     var Scene = (function (_super) {
         __extends(Scene, _super);
@@ -24,7 +23,7 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
          * </p>
          * @class Scene
          * @constructor
-         * @param monitors [IContextMonitor[]=[]]
+         * @param [monitors = []] {Array&lt;IContextMonitor&gt;}
          */
         function Scene(monitors) {
             if (monitors === void 0) { monitors = []; }
@@ -70,7 +69,7 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
          * </p>
          * @method draw
          * @param ambients {IFacet[]}
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          * @beta
          */
@@ -106,7 +105,7 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
          * @method traverse
          * @param callback {(drawable: IDrawable) => void} Callback function for each drawable.
          * @param canvasId {number} Identifies the canvas.
-         * @param prolog {(material: IMaterial) => void} Callback function for each material.
+         * @param prolog {(material: IGraphicsProgram) => void} Callback function for each material.
          * @return {void}
          */
         Scene.prototype.traverse = function (callback, canvasId, prolog) {

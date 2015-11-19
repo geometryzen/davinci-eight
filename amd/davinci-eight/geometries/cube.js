@@ -1,4 +1,4 @@
-define(["require", "exports", '../geometries/quadrilateral', '../core/Symbolic', '../math/R2', '../math/R3'], function (require, exports, quadrilateral, Symbolic, R2, R3) {
+define(["require", "exports", '../geometries/quadrilateral', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, quadrilateral, GraphicsProgramSymbols, R2, R3) {
     function vector3(data) {
         return new R3([]);
     }
@@ -29,7 +29,7 @@ define(["require", "exports", '../geometries/quadrilateral', '../core/Symbolic',
         var c10 = new R2([1, 0]);
         var c11 = new R2([1, 1]);
         var attributes = {};
-        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
+        attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
         // We currently call quadrilateral rather than square because of the arguments.
         var front = quadrilateral(vec0, vec1, vec2, vec3, attributes);
         var right = quadrilateral(vec0, vec3, vec4, vec5, attributes);

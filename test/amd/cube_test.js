@@ -6,9 +6,9 @@ define(
   'davinci-eight/geometries/simplicesToDrawPrimitive',
   'davinci-eight/geometries/simplicesToGeometryMeta',
   'davinci-eight/geometries/cube',
-  'davinci-eight/core/Symbolic'
+  'davinci-eight/core/GraphicsProgramSymbols'
 ],
-function(Simplex, Vertex, R3, simplicesToDrawPrimitive, simplicesToGeometryMeta, cube, Symbolic)
+function(Simplex, Vertex, R3, simplicesToDrawPrimitive, simplicesToGeometryMeta, cube, GraphicsProgramSymbols)
 {
   var SQUARES_PER_CUBE = 6;
   var TRIANGLES_PER_SQUARE = 2;
@@ -24,9 +24,9 @@ function(Simplex, Vertex, R3, simplicesToDrawPrimitive, simplicesToGeometryMeta,
       var geometryMeta = simplicesToGeometryMeta(simplices);
       var geometryData = simplicesToDrawPrimitive(simplices, geometryMeta);
       var indices = geometryData.indices;
-      var positions = geometryData.attributes[Symbolic.ATTRIBUTE_POSITION].values;
-      var normals = geometryData.attributes[Symbolic.ATTRIBUTE_NORMAL].values;
-      var coords = geometryData.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS].values;
+      var positions = geometryData.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].values;
+      var normals = geometryData.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL].values;
+      var coords = geometryData.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS].values;
       it("indices.length", function() {
         expect(indices.length).toBe(SQUARES_PER_CUBE * TRIANGLES_PER_SQUARE * VERTICES_PER_TRIANGLE);
         expect(indices.length).toBe(simplices.length * VERTICES_PER_TRIANGLE);

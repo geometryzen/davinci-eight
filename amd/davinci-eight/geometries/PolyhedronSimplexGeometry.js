@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/Symbolic', '../math/R2', '../math/R3'], function (require, exports, Euclidean3, SimplexGeometry, Simplex, Symbolic, R2, R3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, Euclidean3, SimplexGeometry, Simplex, GraphicsProgramSymbols, R2, R3) {
     // Angle around the Y axis, counter-clockwise when looking from above.
     function azimuth(vector) {
         return Math.atan2(vector.z, -vector.x);
@@ -65,12 +65,12 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
                 // FIXME: Using some modifications of the data structures given.
                 // TODO: Optimize vector copies.
                 var simplex = new Simplex(Simplex.TRIANGLE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = v1;
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v1);
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = v2;
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v2);
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = v3;
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v3);
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v1;
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v1);
+                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v2;
+                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v2);
+                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v3;
+                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v3);
                 faces[j] = simplex;
             }
             for (var i = 0, facesLength = faces.length; i < facesLength; i++) {
@@ -125,23 +125,23 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
                 var uv2 = correctUV(something2['uv'], v2, azi);
                 var uv3 = correctUV(something3['uv'], v3, azi);
                 var simplex = new Simplex(Simplex.TRIANGLE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v1);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v1);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v2);
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v2);
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2;
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v3);
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v3);
-                simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3.copy(v1);
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v1);
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uv1;
+                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3.copy(v2);
+                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v2);
+                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uv2;
+                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3.copy(v3);
+                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v3);
+                simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uv3;
                 that.data.push(simplex);
             }
             // Analytically subdivide a face to the required detail level.
             function subdivide(face, detail, points) {
                 var cols = Math.pow(2, detail);
-                var a = prepare(face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION], points);
-                var b = prepare(face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION], points);
-                var c = prepare(face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION], points);
+                var a = prepare(face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
+                var b = prepare(face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
+                var c = prepare(face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
                 var v = [];
                 // Construct all of the vertices for this subdivision.
                 for (var i = 0; i <= cols; i++) {

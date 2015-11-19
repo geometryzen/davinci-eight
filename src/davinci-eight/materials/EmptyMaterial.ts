@@ -1,12 +1,12 @@
 import IContextProvider = require('../core/IContextProvider');
 import IContextMonitor = require('../core/IContextMonitor');
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import LineMaterialParameters = require('../materials/LineMaterialParameters');
-import Material = require('../materials/Material');
+import GraphicsProgram = require('../materials/GraphicsProgram');
 import MonitorList = require('../scene/MonitorList');
-import createMaterial = require('../programs/createMaterial');
-import SmartMaterialBuilder = require('../materials/SmartMaterialBuilder')
-import Symbolic = require('../core/Symbolic')
+import createGraphicsProgram = require('../programs/createGraphicsProgram');
+import GraphicsProgramBuilder = require('../materials/GraphicsProgramBuilder')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 /**
  * Name used for reference count monitoring and logging.
  */
@@ -18,9 +18,9 @@ function nameBuilder(): string {
 
 /**
  * @class EmptyMaterial
- * @extends Material
+ * @extends GraphicsProgram
  */
-class EmptyMaterial extends Material {
+class EmptyMaterial extends GraphicsProgram {
     /**
      * This will be used when rendering empty simplices!
      * @class EmptyMaterial
@@ -31,16 +31,16 @@ class EmptyMaterial extends Material {
     constructor(monitors: IContextMonitor[] = [], parameters?: LineMaterialParameters) {
         super(monitors, LOGGING_NAME);
     }
-    protected createMaterial(): IMaterial {
-        let smb = new SmartMaterialBuilder();
+    protected createGraphicsProgram(): IGraphicsProgram {
+        let smb = new GraphicsProgramBuilder();
 
-        smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
+        smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3);
 
-        smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
-        smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
-        smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
-        smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
-        smb.uniform(Symbolic.UNIFORM_POINT_SIZE, 'float');
+        smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
+        smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
+        smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
+        smb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
+        smb.uniform(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, 'float');
 
         return smb.build(this.monitors);
     }

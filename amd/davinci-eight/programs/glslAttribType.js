@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/Symbolic', '../checks/mustBeInteger', '../checks/mustBeString'], function (require, exports, Symbolic, mustBeInteger, mustBeString) {
+define(["require", "exports", '../core/GraphicsProgramSymbols', '../checks/mustBeInteger', '../checks/mustBeString'], function (require, exports, GraphicsProgramSymbols, mustBeInteger, mustBeString) {
     function sizeType(size) {
         mustBeInteger('size', size);
         switch (size) {
@@ -11,6 +11,9 @@ define(["require", "exports", '../core/Symbolic', '../checks/mustBeInteger', '..
             case 3: {
                 return 'vec3';
             }
+            case 4: {
+                return 'vec4';
+            }
             default: {
                 throw new Error("Can't compute the GLSL attribute type from size " + size);
             }
@@ -20,7 +23,7 @@ define(["require", "exports", '../core/Symbolic', '../checks/mustBeInteger', '..
         mustBeString('key', key);
         mustBeInteger('size', size);
         switch (key) {
-            case Symbolic.ATTRIBUTE_COLOR: {
+            case GraphicsProgramSymbols.ATTRIBUTE_COLOR: {
                 return 'vec3';
             }
             default: {

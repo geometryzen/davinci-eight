@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/Symbolic', '../math/R3'], function (require, exports, SimplexGeometry, Simplex, Symbolic, R3) {
+define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R3'], function (require, exports, SimplexGeometry, Simplex, GraphicsProgramSymbols, R3) {
     //import VectorN = require('../math/VectorN')
     /**
      * @class Simplex1Geometry
@@ -27,7 +27,7 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
             function simplex(indices) {
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {
-                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]];
+                    simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = pos[indices[i]];
                 }
                 return simplex;
             }

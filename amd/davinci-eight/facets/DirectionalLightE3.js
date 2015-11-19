@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable', '../core/Symbolic', '../math/R3'], function (require, exports, Color, mustBeObject, mustBeString, Shareable, Symbolic, R3) {
+define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable', '../core/GraphicsProgramSymbols', '../math/R3'], function (require, exports, Color, mustBeObject, mustBeString, Shareable, GraphicsProgramSymbols, R3) {
     var LOGGING_NAME = 'DirectionalLightE3';
     function contextBuilder() {
         return LOGGING_NAME;
@@ -103,13 +103,13 @@ define(["require", "exports", '../core/Color', '../checks/mustBeObject', '../che
         /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         DirectionalLightE3.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords, canvasId);
+            visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords, canvasId);
             var coords = [this.color.r, this.color.g, this.color.b];
-            visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords, canvasId);
+            visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords, canvasId);
         };
         /**
          * The name of the property that designates the color.

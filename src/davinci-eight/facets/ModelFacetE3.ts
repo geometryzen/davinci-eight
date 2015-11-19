@@ -13,7 +13,7 @@ import G3 = require('../math/G3')
 import R3 = require('../math/R3')
 import readOnly = require('../i18n/readOnly');
 import Shareable = require('../utils/Shareable')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 
 /**
  * @class ModelFacetE3
@@ -100,8 +100,8 @@ class ModelFacetE3 extends ModelE3 implements IFacet, IAnimationTarget, IUnknown
 
         this.matN.normalFromMatrix4(this.matM)
 
-        visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId)
-        visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId)
+        visitor.uniformMatrix4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId)
+        visitor.uniformMatrix3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId)
     }
     /**
      * @method incRef

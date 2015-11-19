@@ -1,6 +1,6 @@
 import Simplex = require('../geometries/Simplex');
 import quadrilateral = require('../geometries/quadrilateral');
-import Symbolic = require('../core/Symbolic');
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 import R2 = require('../math/R2');
 import R3 = require('../math/R3');
 import VectorN = require('../math/VectorN');
@@ -31,7 +31,7 @@ function square(size: number = 1): Simplex[] {
 
   let attributes: { [name: string]: VectorN<number>[] } = {};
 
-  attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = coords;
+  attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = coords;
 
   return quadrilateral(vec0, vec1, vec2, vec3, attributes);
 }

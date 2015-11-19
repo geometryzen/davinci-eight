@@ -1,7 +1,7 @@
 import IContextProvider = require('../core/IContextProvider');
 import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IDrawable = require('../core/IDrawable');
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 /**
@@ -9,7 +9,7 @@ import IFacet = require('../core/IFacet');
  * @extends Shareable
  * @extends IDrawable
  */
-declare class Drawable<M extends IMaterial> extends Shareable implements IDrawable {
+declare class Drawable<M extends IGraphicsProgram> extends Shareable implements IDrawable {
     /**
      * @property primitives
      * @type {DrawPrimitive[]}
@@ -54,10 +54,10 @@ declare class Drawable<M extends IMaterial> extends Shareable implements IDrawab
      */
     constructor(primitives: DrawPrimitive[], material: M);
     protected destructor(): void;
-    draw(canvasId: number): void;
-    contextFree(canvasId: number): void;
+    draw(canvasId?: number): void;
+    contextFree(canvasId?: number): void;
     contextGain(manager: IContextProvider): void;
-    contextLost(canvasId: number): void;
+    contextLost(canvasId?: number): void;
     /**
      * @method getFacet
      * @param name {string}
@@ -66,10 +66,9 @@ declare class Drawable<M extends IMaterial> extends Shareable implements IDrawab
     getFacet(name: string): IFacet;
     setFacet<T extends IFacet>(name: string, value: T): T;
     /**
+     * Provides a reference counted reference to the material.
      * @property material
      * @type {M}
-     *
-     * Provides a reference counted reference to the material.
      */
     material: M;
 }

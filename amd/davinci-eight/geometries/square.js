@@ -1,4 +1,4 @@
-define(["require", "exports", '../geometries/quadrilateral', '../core/Symbolic', '../math/R2', '../math/R3'], function (require, exports, quadrilateral, Symbolic, R2, R3) {
+define(["require", "exports", '../geometries/quadrilateral', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, quadrilateral, GraphicsProgramSymbols, R2, R3) {
     // square
     //
     //  b-------a
@@ -20,7 +20,7 @@ define(["require", "exports", '../geometries/quadrilateral', '../core/Symbolic',
         var c11 = new R2([1, 1]);
         var coords = [c11, c01, c00, c10];
         var attributes = {};
-        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = coords;
+        attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = coords;
         return quadrilateral(vec0, vec1, vec2, vec3, attributes);
     }
     return square;

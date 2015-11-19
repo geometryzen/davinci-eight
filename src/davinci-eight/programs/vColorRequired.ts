@@ -1,8 +1,8 @@
 import mustBeDefined = require('../checks/mustBeDefined');
-import Symbolic = require('../core/Symbolic');
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 
 function vColorRequired(attributes: { [name: string]: {} }, uniforms: { [name: string]: {} }): boolean {
-  return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
+  return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols.UNIFORM_COLOR];
 }
 
 export = vColorRequired;

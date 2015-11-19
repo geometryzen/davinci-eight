@@ -6,7 +6,7 @@ import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import mustBeString = require('../checks/mustBeString')
 import Shareable = require('../utils/Shareable')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 
 var LOGGING_NAME = 'AmbientLight'
 
@@ -54,12 +54,12 @@ class AmbientLight extends Shareable implements IFacet {
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void {
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
         var coords = [this.color.r, this.color.g, this.color.b]
-        visitor.vector3(Symbolic.UNIFORM_AMBIENT_LIGHT, coords, canvasId)
+        visitor.vector3(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, coords, canvasId)
     }
 }
 

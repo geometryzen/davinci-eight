@@ -1,4 +1,6 @@
-interface LineMaterialParameters {
+import MaterialParameters = require('../materials/MaterialParameters')
+
+interface LineMaterialParameters extends MaterialParameters {
 
 }
 

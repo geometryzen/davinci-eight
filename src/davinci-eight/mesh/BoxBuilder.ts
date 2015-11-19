@@ -3,7 +3,7 @@ import IContextMonitor = require('../core/IContextMonitor');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import BoxOptions = require('../mesh/BoxOptions');
-import Symbolic = require('../core/Symbolic');
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 
 /**
  * @class BoxBuilder
@@ -27,8 +27,8 @@ class BoxBuilder {
     this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
     this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
     this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
-    this.setPositionVarName(isUndefined(options.positionVarName) ? Symbolic.ATTRIBUTE_POSITION : options.positionVarName);
-    this.setNormalVarName(isUndefined(options.normalVarName) ? Symbolic.ATTRIBUTE_NORMAL : options.normalVarName);
+    this.setPositionVarName(isUndefined(options.positionVarName) ? GraphicsProgramSymbols.ATTRIBUTE_POSITION : options.positionVarName);
+    this.setNormalVarName(isUndefined(options.normalVarName) ? GraphicsProgramSymbols.ATTRIBUTE_NORMAL : options.normalVarName);
   }
   get width(): number {
     return this.$width;

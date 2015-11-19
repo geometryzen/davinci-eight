@@ -1,6 +1,6 @@
 import Simplex = require('../geometries/Simplex');
 import quadrilateral = require('../geometries/quadrilateral');
-import Symbolic = require('../core/Symbolic');
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 import R2 = require('../math/R2');
 import R3 = require('../math/R3');
 import VectorN = require('../math/VectorN');
@@ -40,7 +40,7 @@ function cube(size: number = 1): Simplex[] {
 
   let attributes: { [name: string]: VectorN<number>[] } = {};
 
-  attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
+  attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
 
   // We currently call quadrilateral rather than square because of the arguments.
   let front  = quadrilateral(vec0, vec1, vec2, vec3, attributes);

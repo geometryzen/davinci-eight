@@ -7,7 +7,7 @@ import View               = require('../cameras/View');
 import createView         = require('../cameras/createView');
 import Matrix4            = require('../math/Matrix4');
 import SpinG3            = require('../math/SpinG3');
-import Symbolic           = require('../core/Symbolic');
+import GraphicsProgramSymbols           = require('../core/GraphicsProgramSymbols');
 import VectorE3         = require('../math/VectorE3');
 import R1            = require('../math/R1');
 import R3            = require('../math/R3');
@@ -32,7 +32,7 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
   let aspect: R1 = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
   let near: R1 = new R1([isUndefined(options.near) ? 0.1 : options.near]);
   let far: R1 = new R1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
-  let projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
+  let projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
   var refCount = 1
   let base: View = createView(options)
@@ -135,7 +135,7 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
       far.x = value;
       return self;
     },
-    setUniforms(visitor: IFacetVisitor, canvasId: number) {
+    setUniforms(visitor: IFacetVisitor, canvasId?: number) {
       if (matrixNeedsUpdate) {
         computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
         matrixNeedsUpdate = false;

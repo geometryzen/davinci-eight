@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.157.0</em>
+            <em>API Docs for: 2.158.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -61,7 +61,6 @@
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -97,9 +96,13 @@
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/Glyph.html">Glyph</a></li>
+                                <li><a href="../classes/GraphicsContext.html">GraphicsContext</a></li>
+                                <li><a href="../classes/GraphicsProgram.html">GraphicsProgram</a></li>
+                                <li><a href="../classes/GraphicsProgramBuilder.html">GraphicsProgramBuilder</a></li>
+                                <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/GridSimplexGeometry.html">GridSimplexGeometry</a></li>
                                 <li><a href="../classes/GridTopology.html">GridTopology</a></li>
-                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/HTMLScriptsGraphicsProgram.html">HTMLScriptsGraphicsProgram</a></li>
                                 <li><a href="../classes/IAnimation.html">IAnimation</a></li>
                                 <li><a href="../classes/IAnimationTarget.html">IAnimationTarget</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -112,7 +115,7 @@
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
@@ -121,7 +124,7 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
-                                <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -170,8 +173,7 @@
                                 <li><a href="../classes/SimplexGeometry.html">SimplexGeometry</a></li>
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
-                                <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
-                                <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
+                                <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
@@ -181,7 +183,6 @@
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/SplineCurve.html">SplineCurve</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
-                                <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Topology.html">Topology</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -258,9 +259,9 @@ import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import mergeStringMapList = require(&#x27;../utils/mergeStringMapList&#x27;);
 import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;);
-import createMaterial = require(&#x27;./createMaterial&#x27;);
-import IMaterial = require(&#x27;../core/IMaterial&#x27;);
-import Symbolic = require(&#x27;../core/Symbolic&#x27;);
+import createGraphicsProgram = require(&#x27;./createGraphicsProgram&#x27;);
+import IGraphicsProgram = require(&#x27;../core/IGraphicsProgram&#x27;);
+import GraphicsProgramSymbols = require(&#x27;../core/GraphicsProgramSymbols&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import vColorRequired = require(&#x27;../programs/vColorRequired&#x27;);
 import R2 = require(&#x27;../math/R2&#x27;);
@@ -272,7 +273,7 @@ import vLightRequired = require(&#x27;../programs/vLightRequired&#x27;);
 /**
  *
  */
-var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IMaterial {
+var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IGraphicsProgram {
     MonitorList.verify(&#x27;monitors&#x27;, monitors, () =&gt; { return &quot;smartProgram&quot;; });
     mustBeDefined(&#x27;attributes&#x27;, attributes);
     mustBeDefined(&#x27;uniformsList&#x27;, uniformsList);
@@ -282,16 +283,16 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
     let vColor: boolean = vColorRequired(attributes, uniforms);
     let vLight: boolean = vLightRequired(attributes, uniforms);
 
-    let innerProgram: IMaterial = createMaterial(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
+    let innerProgram: IGraphicsProgram = createGraphicsProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
 
-    let self: IMaterial = {
+    let self: IGraphicsProgram = {
         get uuid() {
             return innerProgram.uuid;
         },
-        attributes(canvasId: number) {
+        attributes(canvasId?: number) {
             return innerProgram.attributes(canvasId);
         },
-        uniforms(canvasId: number) {
+        uniforms(canvasId?: number) {
             return innerProgram.uniforms(canvasId);
         },
         get vertexShader() {
@@ -306,34 +307,34 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
         release() {
             return innerProgram.release();
         },
-        contextFree(canvasId: number) {
+        contextFree(canvasId?: number) {
             return innerProgram.contextFree(canvasId);
         },
         contextGain(manager: IContextProvider) {
             return innerProgram.contextGain(manager);
         },
-        contextLost(canvasId: number) {
+        contextLost(canvasId?: number) {
             return innerProgram.contextLost(canvasId);
         },
-        use(canvasId: number) {
+        use(canvasId?: number) {
             return innerProgram.use(canvasId);
         },
-        enableAttrib(name: string, canvasId: number) {
+        enableAttrib(name: string, canvasId?: number) {
             return innerProgram.enableAttrib(name, canvasId);
         },
-        disableAttrib(name: string, canvasId: number) {
+        disableAttrib(name: string, canvasId?: number) {
             return innerProgram.disableAttrib(name, canvasId);
         },
-        uniform1f(name: string, x: number, canvasId: number) {
+        uniform1f(name: string, x: number, canvasId?: number) {
             return innerProgram.uniform1f(name, x, canvasId);
         },
-        uniform2f(name: string, x: number, y: number, canvasId: number) {
+        uniform2f(name: string, x: number, y: number, canvasId?: number) {
             return innerProgram.uniform2f(name, x, y, canvasId);
         },
-        uniform3f(name: string, x: number, y: number, z: number, canvasId: number) {
+        uniform3f(name: string, x: number, y: number, z: number, canvasId?: number) {
             return innerProgram.uniform3f(name, x, y, z, canvasId);
         },
-        uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
+        uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId?: number) {
             return innerProgram.uniform4f(name, x, y, z, w, canvasId);
         },
         uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number) {
@@ -345,22 +346,22 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
         uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number) {
             return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
         },
-        uniformVectorE2(name: string, vector: R2, canvasId: number) {
+        uniformVectorE2(name: string, vector: R2, canvasId?: number) {
             return innerProgram.uniformVectorE2(name, vector, canvasId);
         },
-        uniformVectorE3(name: string, vector: R3, canvasId: number) {
+        uniformVectorE3(name: string, vector: R3, canvasId?: number) {
             return innerProgram.uniformVectorE3(name, vector, canvasId);
         },
-        uniformVectorE4(name: string, vector: R4, canvasId: number) {
+        uniformVectorE4(name: string, vector: R4, canvasId?: number) {
             return innerProgram.uniformVectorE4(name, vector, canvasId);
         },
-        vector2(name: string, data: number[], canvasId: number): void {
+        vector2(name: string, data: number[], canvasId?: number): void {
             return innerProgram.vector2(name, data, canvasId);
         },
-        vector3(name: string, data: number[], canvasId: number): void {
+        vector3(name: string, data: number[], canvasId?: number): void {
             return innerProgram.vector3(name, data, canvasId);
         },
-        vector4(name: string, data: number[], canvasId: number): void {
+        vector4(name: string, data: number[], canvasId?: number): void {
             return innerProgram.vector4(name, data, canvasId);
         }
     }

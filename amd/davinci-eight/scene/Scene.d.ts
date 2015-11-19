@@ -3,16 +3,25 @@ import IContextMonitor = require('../core/IContextMonitor');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
 import IUnknownArray = require('../collections/IUnknownArray');
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 /**
  * @class Scene
  * @extends Shareable
- * @extends IDrawList
  */
 declare class Scene extends Shareable implements IDrawList {
+    /**
+     * @property drawList
+     * @type {IDrawList}
+     * @private
+     */
     private drawList;
+    /**
+     * @property monitors
+     * @type {MonitorList}
+     * @private
+     */
     private monitors;
     /**
      * <p>
@@ -22,7 +31,7 @@ declare class Scene extends Shareable implements IDrawList {
      * </p>
      * @class Scene
      * @constructor
-     * @param monitors [IContextMonitor[]=[]]
+     * @param [monitors = []] {Array&lt;IContextMonitor&gt;}
      */
     constructor(monitors?: IContextMonitor[]);
     /**
@@ -50,11 +59,11 @@ declare class Scene extends Shareable implements IDrawList {
      * </p>
      * @method draw
      * @param ambients {IFacet[]}
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      * @beta
      */
-    draw(ambients: IFacet[], canvasId: number): void;
+    draw(ambients: IFacet[], canvasId?: number): void;
     /**
      * Gets a collection of drawable elements by name.
      * @method getDrawablesByName
@@ -80,10 +89,10 @@ declare class Scene extends Shareable implements IDrawList {
      * @method traverse
      * @param callback {(drawable: IDrawable) => void} Callback function for each drawable.
      * @param canvasId {number} Identifies the canvas.
-     * @param prolog {(material: IMaterial) => void} Callback function for each material.
+     * @param prolog {(material: IGraphicsProgram) => void} Callback function for each material.
      * @return {void}
      */
-    traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (material: IMaterial) => void): void;
+    traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (material: IGraphicsProgram) => void): void;
     contextFree(canvasId: number): void;
     contextGain(manager: IContextProvider): void;
     contextLost(canvasId: number): void;

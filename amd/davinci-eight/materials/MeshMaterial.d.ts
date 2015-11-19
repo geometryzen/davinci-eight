@@ -1,12 +1,12 @@
 import IContextMonitor = require('../core/IContextMonitor');
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import MeshMaterialParameters = require('../materials/MeshMaterialParameters');
-import Material = require('../materials/Material');
+import GraphicsProgram = require('../materials/GraphicsProgram');
 /**
  * @class MeshMaterial
- * @extends Material
+ * @extends GraphicsProgram
  */
-declare class MeshMaterial extends Material {
+declare class MeshMaterial extends GraphicsProgram {
     /**
      * @class MeshMaterial
      * @constructor
@@ -21,10 +21,10 @@ declare class MeshMaterial extends Material {
      */
     protected destructor(): void;
     /**
-     * @method createMaterial
-     * @return {IMaterial}
+     * @method createGraphicsProgram
+     * @return {IGraphicsProgram}
      * @protected
      */
-    protected createMaterial(): IMaterial;
+    protected createGraphicsProgram(): IGraphicsProgram;
 }
 export = MeshMaterial;

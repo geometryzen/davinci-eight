@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.157.0</em>
+            <em>API Docs for: 2.158.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -61,7 +61,6 @@
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -97,9 +96,13 @@
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/Glyph.html">Glyph</a></li>
+                                <li><a href="../classes/GraphicsContext.html">GraphicsContext</a></li>
+                                <li><a href="../classes/GraphicsProgram.html">GraphicsProgram</a></li>
+                                <li><a href="../classes/GraphicsProgramBuilder.html">GraphicsProgramBuilder</a></li>
+                                <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/GridSimplexGeometry.html">GridSimplexGeometry</a></li>
                                 <li><a href="../classes/GridTopology.html">GridTopology</a></li>
-                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/HTMLScriptsGraphicsProgram.html">HTMLScriptsGraphicsProgram</a></li>
                                 <li><a href="../classes/IAnimation.html">IAnimation</a></li>
                                 <li><a href="../classes/IAnimationTarget.html">IAnimationTarget</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -112,7 +115,7 @@
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
@@ -121,7 +124,7 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
-                                <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -170,8 +173,7 @@
                                 <li><a href="../classes/SimplexGeometry.html">SimplexGeometry</a></li>
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
-                                <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
-                                <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
+                                <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
@@ -181,7 +183,6 @@
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/SplineCurve.html">SplineCurve</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
-                                <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Topology.html">Topology</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -253,7 +254,7 @@ import IGeometry = require(&#x27;../geometries/IGeometry&#x27;)
 import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import R3 = require(&#x27;../math/R3&#x27;)
-import Symbolic = require(&#x27;../core/Symbolic&#x27;)
+import GraphicsProgramSymbols = require(&#x27;../core/GraphicsProgramSymbols&#x27;)
 import R2 = require(&#x27;../math/R2&#x27;)
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 
@@ -272,9 +273,9 @@ function side(basis: R3[], uSegments: number, vSegments: number): GridTopology {
             var a = R3.copy(aNeg).lerp(aPos, u)
             var b = R3.copy(bNeg).lerp(bPos, v)
             var vertex = side.vertex(uIndex, vIndex)
-            vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(a).add(b).add(cPos)
-            vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal
-            vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3.copy(a).add(b).add(cPos)
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
+            vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
         }
     }
     return side

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeNumber', '../math/R3', '../core/Symbolic', '../math/R2'], function (require, exports, Euclidean3, GridTopology, Geometry, mustBeNumber, R3, Symbolic, R2) {
+define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeNumber', '../math/R3', '../core/GraphicsProgramSymbols', '../math/R2'], function (require, exports, Euclidean3, GridTopology, Geometry, mustBeNumber, R3, GraphicsProgramSymbols, R2) {
     function side(basis, uSegments, vSegments) {
         var normal = R3.copy(basis[0]).cross(basis[1]).direction();
         var aNeg = R3.copy(basis[0]).scale(-0.5);
@@ -19,9 +19,9 @@ define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology'
                 var a = R3.copy(aNeg).lerp(aPos, u);
                 var b = R3.copy(bNeg).lerp(bPos, v);
                 var vertex = side.vertex(uIndex, vIndex);
-                vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(a).add(b).add(cPos);
-                vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-                vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v]);
+                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3.copy(a).add(b).add(cPos);
+                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
+                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v]);
             }
         }
         return side;

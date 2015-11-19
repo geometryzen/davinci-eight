@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/computeFaceNormals', '../math/Euclidean3', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/G3'], function (require, exports, computeFaceNormals, Euclidean3, SimplexGeometry, quad, Simplex, Symbolic, triangle, G3) {
+define(["require", "exports", '../geometries/computeFaceNormals', '../math/Euclidean3', '../geometries/SimplexGeometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../geometries/triangle', '../math/G3'], function (require, exports, computeFaceNormals, Euclidean3, SimplexGeometry, quad, Simplex, GraphicsProgramSymbols, triangle, G3) {
     /**
      * @module EIGHT
      * @submodule geometries
@@ -56,7 +56,7 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../math/Eucli
                 var simplex = new Simplex(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {
                     // Why does this work? It's because of dataFromVectorN
-                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = points[indices[i]];
+                    simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = points[indices[i]];
                 }
                 return simplex;
             }
@@ -65,7 +65,7 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../math/Eucli
                     {
                         var simplices = points.map(function (point) {
                             var simplex = new Simplex(0);
-                            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = point;
+                            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = point;
                             return simplex;
                         });
                         this.data = simplices;

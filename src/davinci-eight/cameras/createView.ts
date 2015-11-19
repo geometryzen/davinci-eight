@@ -7,7 +7,7 @@ import Matrix4 = require('../math/Matrix4')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import View = require('../cameras/View')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import isUndefined = require('../checks/isUndefined')
 import isVariableName = require('../checks/isVariableName')
 import computeViewMatrix = require('../cameras/viewMatrix')
@@ -23,7 +23,7 @@ let createView = function(options?: { viewMatrixName?: string }): View {
     let look: R3 = new R3()
     let up: R3 = R3.copy(Euclidean3.e2)
     let viewMatrix: Matrix4 = Matrix4.one()
-    let viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName
+    let viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
 
     // Force an update of the view matrix.
     eye.modified = true
@@ -92,7 +92,7 @@ let createView = function(options?: { viewMatrixName?: string }): View {
             up.direction()
             return self
         },
-        setUniforms(visitor: IFacetVisitor, canvasId: number) {
+        setUniforms(visitor: IFacetVisitor, canvasId?: number) {
             if (eye.modified || look.modified || up.modified) {
                 // TODO: view matrix would be better.
                 computeViewMatrix(eye, look, up, viewMatrix)

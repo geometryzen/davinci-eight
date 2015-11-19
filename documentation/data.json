@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.157.0",
+        "version": "2.158.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -277,6 +277,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/core/GraphicsProgramSymbols.ts": {
+            "name": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "modules": {},
+            "classes": {
+                "GraphicsProgramSymbols": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/core/IBuffer.ts": {
             "name": "src/davinci-eight/core/IBuffer.ts",
             "modules": {},
@@ -338,11 +347,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/core/IMaterial.ts": {
-            "name": "src/davinci-eight/core/IMaterial.ts",
+        "src/davinci-eight/core/IGraphicsProgram.ts": {
+            "name": "src/davinci-eight/core/IGraphicsProgram.ts",
             "modules": {},
             "classes": {
-                "IMaterial": 1
+                "IGraphicsProgram": 1
             },
             "fors": {},
             "namespaces": {}
@@ -393,15 +402,6 @@
             "modules": {},
             "classes": {
                 "ShaderVariableDecl": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/Symbolic.ts": {
-            "name": "src/davinci-eight/core/Symbolic.ts",
-            "modules": {},
-            "classes": {
-                "Symbolic": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1074,11 +1074,29 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/materials/HTMLScriptsMaterial.ts": {
-            "name": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
+        "src/davinci-eight/materials/GraphicsProgram.ts": {
+            "name": "src/davinci-eight/materials/GraphicsProgram.ts",
             "modules": {},
             "classes": {
-                "HTMLScriptsMaterial": 1
+                "GraphicsProgram": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/materials/GraphicsProgramBuilder.ts": {
+            "name": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
+            "modules": {},
+            "classes": {
+                "GraphicsProgramBuilder": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/materials/HTMLScriptsGraphicsProgram.ts": {
+            "name": "src/davinci-eight/materials/HTMLScriptsGraphicsProgram.ts",
+            "modules": {},
+            "classes": {
+                "HTMLScriptsGraphicsProgram": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1092,11 +1110,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/materials/Material.ts": {
-            "name": "src/davinci-eight/materials/Material.ts",
+        "src/davinci-eight/materials/MaterialParameters.ts": {
+            "name": "src/davinci-eight/materials/MaterialParameters.ts",
             "modules": {},
             "classes": {
-                "Material": 1
+                "MaterialParameters": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1128,20 +1146,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/materials/SmartMaterial.ts": {
-            "name": "src/davinci-eight/materials/SmartMaterial.ts",
+        "src/davinci-eight/materials/SmartGraphicsProgram.ts": {
+            "name": "src/davinci-eight/materials/SmartGraphicsProgram.ts",
             "modules": {},
             "classes": {
-                "SmartMaterial": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/materials/SmartMaterialBuilder.ts": {
-            "name": "src/davinci-eight/materials/SmartMaterialBuilder.ts",
-            "modules": {},
-            "classes": {
-                "SmartMaterialBuilder": 1
+                "SmartGraphicsProgram": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1752,8 +1761,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/programs/createMaterial.ts": {
-            "name": "src/davinci-eight/programs/createMaterial.ts",
+        "src/davinci-eight/programs/createGraphicsProgram.ts": {
+            "name": "src/davinci-eight/programs/createGraphicsProgram.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1831,20 +1840,20 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/scene/ContextGL.ts": {
-            "name": "src/davinci-eight/scene/ContextGL.ts",
-            "modules": {},
-            "classes": {
-                "ContextGL": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/scene/Drawable.ts": {
             "name": "src/davinci-eight/scene/Drawable.ts",
             "modules": {},
             "classes": {
                 "Drawable": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/scene/GraphicsContext.ts": {
+            "name": "src/davinci-eight/scene/GraphicsContext.ts",
+            "modules": {},
+            "classes": {
+                "GraphicsContext": 1
             },
             "fors": {},
             "namespaces": {}
@@ -2073,18 +2082,18 @@
                 "ElementBuffer": 1,
                 "ElementArray": 1,
                 "Face3": 1,
+                "GraphicsProgramSymbols": 1,
                 "IContextConsumer": 1,
                 "IContextMonitor": 1,
                 "IContextProvider": 1,
                 "IDrawable": 1,
                 "IFacet": 1,
                 "IFacetVisitor": 1,
-                "IMaterial": 1,
+                "IGraphicsProgram": 1,
                 "IUnknown": 1,
                 "Line3": 1,
                 "Point3": 1,
                 "ShaderVariableDecl": 1,
-                "Symbolic": 1,
                 "UniformLocation": 1,
                 "UniformMetaInfo": 1,
                 "CurvePath": 1,
@@ -2142,14 +2151,15 @@
                 "VortexSimplexGeometry": 1,
                 "LocalizableMessage": 1,
                 "EmptyMaterial": 1,
-                "HTMLScriptsMaterial": 1,
+                "GraphicsProgram": 1,
+                "GraphicsProgramBuilder": 1,
+                "HTMLScriptsGraphicsProgram": 1,
                 "LineMaterial": 1,
-                "Material": 1,
+                "MaterialParameters": 1,
                 "MeshLambertMaterial": 1,
                 "MeshMaterial": 1,
                 "PointMaterial": 1,
-                "SmartMaterial": 1,
-                "SmartMaterialBuilder": 1,
+                "SmartGraphicsProgram": 1,
                 "AbstractMatrix": 1,
                 "CC": 1,
                 "CartesianE3": 1,
@@ -2195,8 +2205,8 @@
                 "RigidBodyE2": 1,
                 "RigidBodyE3": 1,
                 "IContextRenderer": 1,
-                "ContextGL": 1,
                 "Drawable": 1,
+                "GraphicsContext": 1,
                 "IDrawList": 1,
                 "PerspectiveCamera": 1,
                 "Scene": 1,
@@ -2500,9 +2510,8 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 21,
-            "description": "Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.\nIn particular, this class manages buffer allocation, location caching, and data binding.",
-            "implements": "IContextProgramConsumer",
+            "line": 40,
+            "description": "Utility class for managing a shader attribute variable.\nConvenience class that assists in the lifecycle management of an atrribute used in a vertex shader.\nIn particular, this class manages buffer allocation, location caching, and data binding.\nWhile this class may be created directly by the user, it is preferable\nto use the AttribLocation instances managed by the Program because\nthere will be improved integrity and context loss management.",
             "is_constructor": 1,
             "params": [
                 {
@@ -2694,6 +2703,19 @@
                 }
             ]
         },
+        "GraphicsProgramSymbols": {
+            "name": "GraphicsProgramSymbols",
+            "shortname": "GraphicsProgramSymbols",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 1,
+            "description": "<p>\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.\n</p>"
+        },
         "IContextConsumer": {
             "name": "IContextConsumer",
             "shortname": "IContextConsumer",
@@ -2774,18 +2796,18 @@
             "line": 10,
             "beta": 1
         },
-        "IMaterial": {
-            "name": "IMaterial",
-            "shortname": "IMaterial",
+        "IGraphicsProgram": {
+            "name": "IGraphicsProgram",
+            "shortname": "IGraphicsProgram",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
-            "file": "src/davinci-eight/core/IMaterial.ts",
+            "file": "src/davinci-eight/core/IGraphicsProgram.ts",
             "line": 8,
-            "description": "<p>\nThe role of a IMaterial is to manage WebGLProgram(s) consisting of a vertex shader and fragment shader.\nThe Program must be able to provide introspection information that describes the program.\n</p>",
+            "description": "<p>\nThe role of a IGraphicsProgram is to manage WebGLProgram(s) consisting of a vertex shader and fragment shader.\nThe Program must be able to provide introspection information that describes the program.\n</p>",
             "extends": "IFacetVisitor",
             "beta": 1
         },
@@ -2859,19 +2881,6 @@
             "module": "EIGHT",
             "file": "src/davinci-eight/core/ShaderVariableDecl.ts",
             "line": 1
-        },
-        "Symbolic": {
-            "name": "Symbolic",
-            "shortname": "Symbolic",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 1,
-            "description": "<p>\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.\n</p>"
         },
         "UniformLocation": {
             "name": "UniformLocation",
@@ -4186,7 +4195,7 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/EmptyMaterial.ts",
             "line": 24,
-            "extends": "Material",
+            "extends": "GraphicsProgram",
             "description": "This will be used when rendering empty simplices!",
             "is_constructor": 1,
             "params": [
@@ -4197,9 +4206,9 @@
             ],
             "parameters": "[MeshNormalParameters]"
         },
-        "HTMLScriptsMaterial": {
-            "name": "HTMLScriptsMaterial",
-            "shortname": "HTMLScriptsMaterial",
+        "GraphicsProgram": {
+            "name": "GraphicsProgram",
+            "shortname": "GraphicsProgram",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4207,9 +4216,57 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
-            "line": 26,
-            "extends": "Material",
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 49,
+            "extends": "Shareable",
+            "description": "A GraphicsProgram instance contains one WebGLProgram for each context/canvas that it is associated with.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "contexts",
+                    "description": "An array of context monitors, one for each HTML canvas you are using.\nThe GraphicsProgram will lazily register itself (call addContextListener) with each context in order to be notified of context loss events.\nThe GraphicsProgram will automatically unregister itself (call removeContextListener) prior to destruction.",
+                    "type": "IContextMonitor[]"
+                },
+                {
+                    "name": "type",
+                    "description": "The class name, used for logging.",
+                    "type": "String"
+                }
+            ]
+        },
+        "GraphicsProgramBuilder": {
+            "name": "GraphicsProgramBuilder",
+            "shortname": "GraphicsProgramBuilder",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
+            "line": 58,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "primitive",
+                    "description": "[DrawPrimitive]"
+                }
+            ]
+        },
+        "HTMLScriptsGraphicsProgram": {
+            "name": "HTMLScriptsGraphicsProgram",
+            "shortname": "HTMLScriptsGraphicsProgram",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/materials/HTMLScriptsGraphicsProgram.ts",
+            "line": 35,
+            "extends": "GraphicsProgram",
             "is_constructor": 1,
             "params": [
                 {
@@ -4240,20 +4297,27 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/materials/LineMaterial.ts",
-            "line": 26,
-            "extends": "Material",
+            "line": 24,
+            "extends": "GraphicsProgram",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "monitors",
-                    "description": "[IContextMonitor[]=[]]"
+                    "name": "monitors ",
+                    "description": "",
+                    "type": "IContextMonitor[]",
+                    "optional": true,
+                    "optdefault": " []"
+                },
+                {
+                    "name": "parameters ",
+                    "description": "{LineMaterialParameters}",
+                    "optional": true
                 }
-            ],
-            "parameters": "[MeshNormalParameters]"
+            ]
         },
-        "Material": {
-            "name": "Material",
-            "shortname": "Material",
+        "MaterialParameters": {
+            "name": "MaterialParameters",
+            "shortname": "MaterialParameters",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4261,22 +4325,8 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 45,
-            "extends": "Shareable",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "contexts",
-                    "description": "",
-                    "type": "IContextMonitor[]"
-                },
-                {
-                    "name": "type",
-                    "description": "The class name, used for logging.",
-                    "type": "String"
-                }
-            ]
+            "file": "src/davinci-eight/materials/MaterialParameters.ts",
+            "line": 1
         },
         "MeshLambertMaterial": {
             "name": "MeshLambertMaterial",
@@ -4290,7 +4340,7 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/MeshLambertMaterial.ts",
             "line": 25,
-            "extends": "Material",
+            "extends": "GraphicsProgram",
             "is_constructor": 1,
             "params": [
                 {
@@ -4311,7 +4361,7 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/MeshMaterial.ts",
             "line": 24,
-            "extends": "Material",
+            "extends": "GraphicsProgram",
             "is_constructor": 1,
             "params": [
                 {
@@ -4333,7 +4383,7 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/PointMaterial.ts",
             "line": 26,
-            "extends": "Material",
+            "extends": "GraphicsProgram",
             "is_constructor": 1,
             "params": [
                 {
@@ -4343,9 +4393,9 @@
             ],
             "parameters": "[MeshNormalParameters]"
         },
-        "SmartMaterial": {
-            "name": "SmartMaterial",
-            "shortname": "SmartMaterial",
+        "SmartGraphicsProgram": {
+            "name": "SmartGraphicsProgram",
+            "shortname": "SmartGraphicsProgram",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -4353,10 +4403,10 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/materials/SmartMaterial.ts",
-            "line": 44,
-            "description": "<p>\nSmartMaterial constructs a vertex shader and a fragment shader.\nThe shader codes are configured by specifying attributes, uniforms and varyings.\nThe default configuration is produces minimal shaders.\n<p>",
-            "extends": "Material",
+            "file": "src/davinci-eight/materials/SmartGraphicsProgram.ts",
+            "line": 37,
+            "description": "<p>\nSmartGraphicsProgram constructs a vertex shader and a fragment shader.\nThe shader codes are configured by specifying attributes, uniforms and varyings.\nThe default configuration is produces minimal shaders.\n<p>",
+            "extends": "GraphicsProgram",
             "is_constructor": 1,
             "params": [
                 {
@@ -4365,29 +4415,22 @@
                     "type": "IContextMonitor[]"
                 },
                 {
-                    "name": "geometry",
-                    "description": "This parameter determines the attributes used in the shaders.",
-                    "type": "GeometryMeta"
-                }
-            ]
-        },
-        "SmartMaterialBuilder": {
-            "name": "SmartMaterialBuilder",
-            "shortname": "SmartMaterialBuilder",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/materials/SmartMaterialBuilder.ts",
-            "line": 47,
-            "is_constructor": 1,
-            "params": [
+                    "name": "aParams",
+                    "description": ""
+                },
                 {
-                    "name": "primitive",
-                    "description": "[DrawPrimitive]"
+                    "name": "uParams",
+                    "description": ""
+                },
+                {
+                    "name": "vColor",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "vLight",
+                    "description": "",
+                    "type": "Boolean"
                 }
             ]
         },
@@ -5310,29 +5353,6 @@
             "description": "This interface is to be implemented by classes associated with a single context.\nThis means that the commands are not shared.",
             "extends": "IUnknown"
         },
-        "ContextGL": {
-            "name": "ContextGL",
-            "shortname": "ContextGL",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 53,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "attributes",
-                    "description": "Allow the context to be configured.",
-                    "type": "WebGLContextAttributes",
-                    "optional": true
-                }
-            ],
-            "beta": 1
-        },
         "Drawable": {
             "name": "Drawable",
             "shortname": "Drawable",
@@ -5364,6 +5384,29 @@
                     "type": "U"
                 }
             ]
+        },
+        "GraphicsContext": {
+            "name": "GraphicsContext",
+            "shortname": "GraphicsContext",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 53,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "attributes",
+                    "description": "Allow the context to be configured.",
+                    "type": "WebGLContextAttributes",
+                    "optional": true
+                }
+            ],
+            "beta": 1
         },
         "IDrawList": {
             "name": "IDrawList",
@@ -5438,14 +5481,17 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 38,
-            "extends": "IDrawList",
+            "line": 50,
+            "extends": "Shareable",
             "description": "<p>\nA <code>Scene</code> is a collection of drawable instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "monitors",
-                    "description": "[IContextMonitor[]=[]]"
+                    "name": "monitors ",
+                    "description": "",
+                    "type": "Array&lt;IContextMonitor&gt;",
+                    "optional": true,
+                    "optdefault": " []"
                 }
             ]
         },
@@ -6878,52 +6924,169 @@
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 48,
+            "line": 12,
+            "description": "The name of the attribute in the GLSL program.",
+            "itemtype": "property",
+            "name": "_name",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "AttribLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/AttribLocation.ts",
+            "line": 20,
+            "description": "The index of the attribute in the GLSL program.\nThis is obtained by calling the <code>getAttribLocation</code> method on\nthe <code>WebGLRenderingContext</code> when it becomes available through\na <code>contextGain</code> notification.",
+            "itemtype": "property",
+            "name": "_index",
+            "type": "{number}",
+            "access": "private",
+            "tagname": "",
+            "class": "AttribLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/AttribLocation.ts",
+            "line": 31,
+            "description": "The cached <code>WebGLRenderingContext</code> obtained through\na <code>contextGain</code> notification.",
+            "itemtype": "property",
+            "name": "_context",
+            "type": "{WebGLRenderingContext}",
+            "access": "private",
+            "tagname": "",
+            "class": "AttribLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/AttribLocation.ts",
+            "line": 57,
+            "description": "Returns the cached index obtained by calling <code>getAttribLocation</code> on the\n<code>WebGLRenderingContext</code>.",
+            "itemtype": "property",
+            "name": "index",
+            "type": "{number}",
+            "readonly": "",
+            "class": "AttribLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/AttribLocation.ts",
+            "line": 71,
+            "description": "Notifies this <code>AttribLocation</code> of a browser free WebGL context event.\nThis <code>AttribLocation</code> responds by setting its cached index and context to undefined.",
+            "itemtype": "method",
+            "name": "contextFree",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "AttribLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/AttribLocation.ts",
+            "line": 84,
+            "description": "Notifies this <code>AttribLocation</code> of a browser gain WebGL context event.\nThis <code>AttribLocation</code> responds by obtaining and caching attribute index.",
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "WebGLRenderingContext"
+                },
+                {
+                    "name": "program",
+                    "description": "",
+                    "type": "WebGLProgram"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "AttribLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/AttribLocation.ts",
+            "line": 97,
+            "description": "Notifies this <code>AttribLocation</code> of a browser lost WebGL context event.\nThis <code>AttribLocation</code> responds by setting its cached index and context to undefined.",
+            "itemtype": "method",
+            "name": "contextLost",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "AttribLocation"
+        },
+        {
+            "file": "src/davinci-eight/core/AttribLocation.ts",
+            "line": 108,
+            "description": "Calls the <code>vertexAttribPointer</code> method\non the underlying <code>WebGLRenderingContext</code>\nusing the cached attribute index and the supplied parameters.\nNote that the <code>type</code> parameter is hard-code to <code>FLOAT</code>.",
             "itemtype": "method",
             "name": "vertexPointer",
             "params": [
                 {
                     "name": "size",
-                    "description": "The number of components per attribute. Must be 1,2,3, or 4.",
+                    "description": "The number of components per attribute. Must be 1, 2, 3, or 4.",
                     "type": "Number"
                 },
                 {
-                    "name": "normalized",
+                    "name": "normalized ",
                     "description": "Used for WebGL rendering context vertexAttribPointer method.",
-                    "type": "Boolean"
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": " false"
                 },
                 {
-                    "name": "stride",
+                    "name": "stride ",
                     "description": "Used for WebGL rendering context vertexAttribPointer method.",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
                 },
                 {
-                    "name": "offset",
+                    "name": "offset ",
                     "description": "Used for WebGL rendering context vertexAttribPointer method.",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "AttribLocation"
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 58,
+            "line": 124,
+            "description": "Calls the <code>enableVertexAttribArray</code> method\non the underlying <code>WebGLRenderingContext</code>\nusing the cached attribute index.",
             "itemtype": "method",
             "name": "enable",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "AttribLocation"
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 64,
+            "line": 135,
+            "description": "Calls the <code>disableVertexAttribArray</code> method\non the underlying <code>WebGLRenderingContext</code>\nusing the cached attribute index.",
             "itemtype": "method",
             "name": "disable",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "AttribLocation"
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 70,
+            "line": 146,
+            "description": "Returns a non-normative string representation of the GLSL attribute.",
             "itemtype": "method",
             "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
             "class": "AttribLocation"
         },
         {
@@ -7573,6 +7736,216 @@
             "class": "Face3"
         },
         {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 11,
+            "description": "'aColor'",
+            "itemtype": "property",
+            "name": "ATTRIBUTE_COLOR",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 19,
+            "description": "'aGeometryIndex'",
+            "itemtype": "property",
+            "name": "ATTRIBUTE_GEOMETRY_INDEX",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 27,
+            "description": "'aNormal'",
+            "itemtype": "property",
+            "name": "ATTRIBUTE_NORMAL",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 35,
+            "description": "'aPosition'",
+            "itemtype": "property",
+            "name": "ATTRIBUTE_POSITION",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 43,
+            "description": "'aTextureCoords'",
+            "itemtype": "property",
+            "name": "ATTRIBUTE_TEXTURE_COORDS",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 51,
+            "description": "'uAlpha'",
+            "itemtype": "property",
+            "name": "UNIFORM_ALPHA",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 59,
+            "description": "'uAmbientLight'",
+            "itemtype": "property",
+            "name": "UNIFORM_AMBIENT_LIGHT",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 67,
+            "description": "'uColor'",
+            "itemtype": "property",
+            "name": "UNIFORM_COLOR",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 75,
+            "description": "'uDirectionalLightE3Color'",
+            "itemtype": "property",
+            "name": "UNIFORM_DIRECTIONAL_LIGHT_COLOR",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 83,
+            "description": "'uDirectionalLightE3Direction'",
+            "itemtype": "property",
+            "name": "UNIFORM_DIRECTIONAL_LIGHT_DIRECTION",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 91,
+            "description": "'uPointLightColor'",
+            "itemtype": "property",
+            "name": "UNIFORM_POINT_LIGHT_COLOR",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 99,
+            "description": "'uPointLightPosition'",
+            "itemtype": "property",
+            "name": "UNIFORM_POINT_LIGHT_POSITION",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 107,
+            "description": "'uPointSize'",
+            "itemtype": "property",
+            "name": "UNIFORM_POINT_SIZE",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 115,
+            "description": "'uProjection'",
+            "itemtype": "property",
+            "name": "UNIFORM_PROJECTION_MATRIX",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 123,
+            "description": "'uReflectionOne'",
+            "itemtype": "property",
+            "name": "UNIFORM_REFLECTION_ONE_MATRIX",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 131,
+            "description": "'uReflectionTwo'",
+            "itemtype": "property",
+            "name": "UNIFORM_REFLECTION_TWO_MATRIX",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 139,
+            "description": "'uModel'",
+            "itemtype": "property",
+            "name": "UNIFORM_MODEL_MATRIX",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 147,
+            "description": "'uNormal'",
+            "itemtype": "property",
+            "name": "UNIFORM_NORMAL_MATRIX",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 155,
+            "description": "'uView'",
+            "itemtype": "property",
+            "name": "UNIFORM_VIEW_MATRIX",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 163,
+            "description": "'vColor'",
+            "itemtype": "property",
+            "name": "VARYING_COLOR",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
+            "file": "src/davinci-eight/core/GraphicsProgramSymbols.ts",
+            "line": 171,
+            "description": "'vLight'",
+            "itemtype": "property",
+            "name": "VARYING_LIGHT",
+            "type": "{string}",
+            "static": 1,
+            "class": "GraphicsProgramSymbols"
+        },
+        {
             "file": "src/davinci-eight/core/IBuffer.ts",
             "line": 3,
             "interface": "IBuffer",
@@ -7783,7 +8156,7 @@
             "line": 19,
             "itemtype": "property",
             "name": "material",
-            "type": "{IMaterial}\nContains a WebGLProgram for each canvas that this IDrawable can draw to.",
+            "type": "{IGraphicsProgram}\nContains a WebGLProgram for each canvas that this IDrawable can draw to.",
             "class": "IDrawable"
         },
         {
@@ -7805,7 +8178,8 @@
                 {
                     "name": "canvasId",
                     "description": "Determines which canvas the IDrawable should draw to.",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -8301,31 +8675,31 @@
             "class": "IFacetVisitor"
         },
         {
-            "file": "src/davinci-eight/core/IMaterial.ts",
+            "file": "src/davinci-eight/core/IGraphicsProgram.ts",
             "line": 20,
             "itemtype": "property",
             "name": "uuid",
             "type": "string",
-            "class": "IMaterial"
+            "class": "IGraphicsProgram"
         },
         {
-            "file": "src/davinci-eight/core/IMaterial.ts",
+            "file": "src/davinci-eight/core/IGraphicsProgram.ts",
             "line": 26,
             "itemtype": "property",
             "name": "vertexShader",
             "type": "string",
-            "class": "IMaterial"
+            "class": "IGraphicsProgram"
         },
         {
-            "file": "src/davinci-eight/core/IMaterial.ts",
+            "file": "src/davinci-eight/core/IGraphicsProgram.ts",
             "line": 32,
             "itemtype": "property",
             "name": "fragmentShader",
             "type": "string",
-            "class": "IMaterial"
+            "class": "IGraphicsProgram"
         },
         {
-            "file": "src/davinci-eight/core/IMaterial.ts",
+            "file": "src/davinci-eight/core/IGraphicsProgram.ts",
             "line": 38,
             "description": "Makes the Program the current program for WebGL.",
             "itemtype": "method",
@@ -8342,10 +8716,10 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "IMaterial"
+            "class": "IGraphicsProgram"
         },
         {
-            "file": "src/davinci-eight/core/IMaterial.ts",
+            "file": "src/davinci-eight/core/IGraphicsProgram.ts",
             "line": 46,
             "itemtype": "method",
             "name": "attributes",
@@ -8361,10 +8735,10 @@
                 "description": "}",
                 "type": " [name: string]: AttribLocation"
             },
-            "class": "IMaterial"
+            "class": "IGraphicsProgram"
         },
         {
-            "file": "src/davinci-eight/core/IMaterial.ts",
+            "file": "src/davinci-eight/core/IGraphicsProgram.ts",
             "line": 53,
             "itemtype": "method",
             "name": "uniforms",
@@ -8380,10 +8754,10 @@
                 "description": "}",
                 "type": " [name: string]: UniformLocation"
             },
-            "class": "IMaterial"
+            "class": "IGraphicsProgram"
         },
         {
-            "file": "src/davinci-eight/core/IMaterial.ts",
+            "file": "src/davinci-eight/core/IGraphicsProgram.ts",
             "line": 60,
             "description": "<p>\nEnables an attribute location of a WebGLProgram.\n</p>",
             "itemtype": "method",
@@ -8406,10 +8780,10 @@
                 "type": "Void"
             },
             "beta": 1,
-            "class": "IMaterial"
+            "class": "IGraphicsProgram"
         },
         {
-            "file": "src/davinci-eight/core/IMaterial.ts",
+            "file": "src/davinci-eight/core/IGraphicsProgram.ts",
             "line": 73,
             "description": "<p>\nDisables an attribute location of a WebGLProgram.\n</p>",
             "itemtype": "method",
@@ -8432,7 +8806,7 @@
                 "type": "Void"
             },
             "beta": 1,
-            "class": "IMaterial"
+            "class": "IGraphicsProgram"
         },
         {
             "file": "src/davinci-eight/core/ITexture.ts",
@@ -8490,216 +8864,6 @@
             "itemtype": "property",
             "name": "name",
             "class": "ShaderVariableDecl"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 11,
-            "description": "'aColor'",
-            "itemtype": "property",
-            "name": "ATTRIBUTE_COLOR",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 19,
-            "description": "'aGeometryIndex'",
-            "itemtype": "property",
-            "name": "ATTRIBUTE_GEOMETRY_INDEX",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 27,
-            "description": "'aNormal'",
-            "itemtype": "property",
-            "name": "ATTRIBUTE_NORMAL",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 35,
-            "description": "'aPosition'",
-            "itemtype": "property",
-            "name": "ATTRIBUTE_POSITION",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 43,
-            "description": "'aTextureCoords'",
-            "itemtype": "property",
-            "name": "ATTRIBUTE_TEXTURE_COORDS",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 51,
-            "description": "'uAlpha'",
-            "itemtype": "property",
-            "name": "UNIFORM_ALPHA",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 59,
-            "description": "'uAmbientLight'",
-            "itemtype": "property",
-            "name": "UNIFORM_AMBIENT_LIGHT",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 67,
-            "description": "'uColor'",
-            "itemtype": "property",
-            "name": "UNIFORM_COLOR",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 75,
-            "description": "'uDirectionalLightE3Color'",
-            "itemtype": "property",
-            "name": "UNIFORM_DIRECTIONAL_LIGHT_COLOR",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 83,
-            "description": "'uDirectionalLightE3Direction'",
-            "itemtype": "property",
-            "name": "UNIFORM_DIRECTIONAL_LIGHT_DIRECTION",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 91,
-            "description": "'uPointLightColor'",
-            "itemtype": "property",
-            "name": "UNIFORM_POINT_LIGHT_COLOR",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 99,
-            "description": "'uPointLightPosition'",
-            "itemtype": "property",
-            "name": "UNIFORM_POINT_LIGHT_POSITION",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 107,
-            "description": "'uPointSize'",
-            "itemtype": "property",
-            "name": "UNIFORM_POINT_SIZE",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 115,
-            "description": "'uProjection'",
-            "itemtype": "property",
-            "name": "UNIFORM_PROJECTION_MATRIX",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 123,
-            "description": "'uReflectionOne'",
-            "itemtype": "property",
-            "name": "UNIFORM_REFLECTION_ONE_MATRIX",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 131,
-            "description": "'uReflectionTwo'",
-            "itemtype": "property",
-            "name": "UNIFORM_REFLECTION_TWO_MATRIX",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 139,
-            "description": "'uModel'",
-            "itemtype": "property",
-            "name": "UNIFORM_MODEL_MATRIX",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 147,
-            "description": "'uNormal'",
-            "itemtype": "property",
-            "name": "UNIFORM_NORMAL_MATRIX",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 155,
-            "description": "'uView'",
-            "itemtype": "property",
-            "name": "UNIFORM_VIEW_MATRIX",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 163,
-            "description": "'vColor'",
-            "itemtype": "property",
-            "name": "VARYING_COLOR",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/Symbolic.ts",
-            "line": 171,
-            "description": "'vLight'",
-            "itemtype": "property",
-            "name": "VARYING_LIGHT",
-            "type": "{string}",
-            "static": 1,
-            "class": "Symbolic"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
@@ -9184,7 +9348,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -9523,7 +9688,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -9675,7 +9841,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -9698,7 +9865,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -10905,7 +11073,7 @@
                 {
                     "name": "program",
                     "description": "",
-                    "type": "IMaterial"
+                    "type": "IGraphicsProgram"
                 },
                 {
                     "name": "aNameToKeyName",
@@ -12420,45 +12588,31 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
-            "line": 9,
-            "description": "Name used for reference count monitoring and logging.",
-            "class": "HTMLScriptsMaterial",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
-            "line": 40,
-            "itemtype": "method",
-            "name": "createMaterial",
-            "return": {
-                "description": "",
-                "type": "IMaterial"
-            },
-            "class": "HTMLScriptsMaterial",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/materials/LineMaterial.ts",
-            "line": 10,
-            "description": "Name used for reference count monitoring and logging.",
-            "class": "LineMaterial",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/materials/Material.ts",
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
             "line": 33,
             "itemtype": "property",
             "name": "inner",
-            "type": "{IMaterial}",
+            "type": "{IGraphicsProgram}",
             "access": "private",
             "tagname": "",
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 59,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 41,
+            "description": "The name used for logging and assigned in the constructor.",
+            "itemtype": "property",
+            "name": "type",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "GraphicsProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 66,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -12467,68 +12621,72 @@
             },
             "access": "protected",
             "tagname": "",
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 74,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 81,
+            "description": "Registers this GraphicsProgram with the context monitors and synchronizes the WebGL contexts.\nThis causes this GraphicsProgram instance to receive a contextGain call allowing WebGLProgram initialization.",
             "itemtype": "method",
             "name": "makeReady",
             "params": [
                 {
                     "name": "async",
-                    "description": "",
+                    "description": "Reserved for future use.",
                     "type": "Boolean"
                 }
             ],
             "access": "protected",
             "tagname": "",
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 87,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 96,
+            "description": "Returns the context monitors this GraphicsProgram is associated with.",
             "itemtype": "property",
             "name": "monitors",
             "type": "{IContextMonitor[]}",
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 95,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 105,
+            "description": "Returns the generated fragment shader code as a string.",
             "itemtype": "property",
             "name": "fragmentShader",
             "type": "{string}",
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 103,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 126,
+            "description": "Makes the WebGLProgram associated with the specified canvas the current program for WebGL.",
             "itemtype": "method",
             "name": "use",
             "params": [
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 129,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 150,
+            "description": "Returns a map of GLSL attribute name to <code>AttribLocation</code>.",
             "itemtype": "method",
             "name": "attributes",
             "params": [
@@ -12544,12 +12702,12 @@
                 "description": "}",
                 "type": "[name: string]: AttribLocation"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 153,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 175,
             "itemtype": "method",
             "name": "uniforms",
             "params": [
@@ -12565,12 +12723,12 @@
                 "description": "}",
                 "type": "[name: string]: UniformLocation"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 174,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 196,
             "itemtype": "method",
             "name": "enableAttrib",
             "params": [
@@ -12591,12 +12749,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 196,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 218,
             "itemtype": "method",
             "name": "disableAttrib",
             "params": [
@@ -12617,12 +12775,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 218,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 240,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -12636,12 +12794,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 229,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 251,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -12655,12 +12813,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 243,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 265,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
@@ -12674,26 +12832,26 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 254,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 276,
             "itemtype": "method",
-            "name": "createMaterial",
+            "name": "createGraphicsProgram",
             "return": {
                 "description": "",
-                "type": "IMaterial"
+                "type": "IGraphicsProgram"
             },
             "access": "protected",
             "tagname": "",
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 264,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 286,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -12719,12 +12877,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 290,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 312,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -12755,12 +12913,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 317,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 339,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -12796,12 +12954,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 345,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 367,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -12842,12 +13000,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 374,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 396,
             "itemtype": "method",
             "name": "uniformMatrix2",
             "params": [
@@ -12877,12 +13035,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 401,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 423,
             "itemtype": "method",
             "name": "uniformMatrix3",
             "params": [
@@ -12913,12 +13071,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 428,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 450,
             "itemtype": "method",
             "name": "uniformMatrix4",
             "params": [
@@ -12949,12 +13107,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 457,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 479,
             "itemtype": "method",
             "name": "uniformVectorE2",
             "params": [
@@ -12980,12 +13138,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 483,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 505,
             "itemtype": "method",
             "name": "uniformVectorE3",
             "params": [
@@ -13011,12 +13169,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 509,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 531,
             "itemtype": "method",
             "name": "uniformVectorE4",
             "params": [
@@ -13042,12 +13200,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 535,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 557,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -13073,12 +13231,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 561,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 583,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -13104,12 +13262,12 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 587,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 609,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -13135,16 +13293,185 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "Material",
+            "class": "GraphicsProgram",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/Material.ts",
-            "line": 613,
+            "file": "src/davinci-eight/materials/GraphicsProgram.ts",
+            "line": 635,
+            "description": "Returns the generated shader vertex code as a string.",
             "itemtype": "property",
             "name": "vertexShader",
             "type": "{string}",
-            "class": "Material",
+            "class": "GraphicsProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
+            "line": 46,
+            "itemtype": "property",
+            "name": "aMeta",
+            "access": "private",
+            "tagname": "",
+            "class": "GraphicsProgramBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
+            "line": 52,
+            "itemtype": "property",
+            "name": "uParams",
+            "access": "private",
+            "tagname": "",
+            "class": "GraphicsProgramBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
+            "line": 75,
+            "description": "Declares that the material should have an `attribute` with the specified name and chunkSize.",
+            "itemtype": "method",
+            "name": "attribute",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "chunkSize",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "GraphicsProgramBuilder"
+            },
+            "chainable": 1,
+            "class": "GraphicsProgramBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
+            "line": 91,
+            "description": "Declares that the material should have a `uniform` with the specified name and type.",
+            "itemtype": "method",
+            "name": "uniform",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "The GLSL type. e.g. 'float', 'vec3', 'mat2'",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "GraphicsProgramBuilder"
+            },
+            "chainable": 1,
+            "class": "GraphicsProgramBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
+            "line": 107,
+            "itemtype": "method",
+            "name": "build",
+            "params": [
+                {
+                    "name": "contexts",
+                    "description": "",
+                    "type": "IContextMonitor[]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "GraphicsProgram"
+            },
+            "class": "GraphicsProgramBuilder",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/HTMLScriptsGraphicsProgram.ts",
+            "line": 15,
+            "description": "The identifiers of the HTML &lt;script&gt; tags containing the shader code.",
+            "itemtype": "property",
+            "name": "scriptIds",
+            "type": "{Array&lt;string&gt;}",
+            "class": "HTMLScriptsGraphicsProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/HTMLScriptsGraphicsProgram.ts",
+            "line": 22,
+            "itemtype": "property",
+            "name": "dom",
+            "type": "{Document}",
+            "class": "HTMLScriptsGraphicsProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/HTMLScriptsGraphicsProgram.ts",
+            "line": 28,
+            "description": "An ordered list of names of program attributes implicitly specifying the index bindings.",
+            "itemtype": "property",
+            "name": "attributeBindings",
+            "type": "{Array&lt;string&gt;}",
+            "class": "HTMLScriptsGraphicsProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/HTMLScriptsGraphicsProgram.ts",
+            "line": 50,
+            "itemtype": "method",
+            "name": "createGraphicsProgram",
+            "return": {
+                "description": "",
+                "type": "IGraphicsProgram"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "HTMLScriptsGraphicsProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/LineMaterial.ts",
+            "line": 18,
+            "itemtype": "property",
+            "name": "chunkSize",
+            "type": "{number}",
+            "class": "LineMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/LineMaterial.ts",
+            "line": 40,
+            "itemtype": "method",
+            "name": "createGraphicsProgram",
+            "return": {
+                "description": "",
+                "type": "IGraphicsProgram"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "LineMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/MaterialParameters.ts",
+            "line": 5,
+            "itemtype": "property",
+            "name": "chunkSize",
+            "type": "{number}",
+            "optional": 1,
+            "default": "3",
+            "class": "MaterialParameters",
             "module": "EIGHT"
         },
         {
@@ -13179,10 +13506,10 @@
             "file": "src/davinci-eight/materials/MeshMaterial.ts",
             "line": 41,
             "itemtype": "method",
-            "name": "createMaterial",
+            "name": "createGraphicsProgram",
             "return": {
                 "description": "",
-                "type": "IMaterial"
+                "type": "IGraphicsProgram"
             },
             "access": "protected",
             "tagname": "",
@@ -13197,71 +13524,35 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/materials/SmartMaterial.ts",
-            "line": 21,
-            "description": "Name used for reference count monitoring and logging.",
-            "class": "SmartMaterial",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/materials/SmartMaterialBuilder.ts",
-            "line": 64,
-            "description": "Declares that the material should have an `attribute` with the specified name and chunkSize.",
+            "file": "src/davinci-eight/materials/SmartGraphicsProgram.ts",
+            "line": 61,
             "itemtype": "method",
-            "name": "attribute",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "chunkSize",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "SmartMaterialBuilder",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/materials/SmartMaterialBuilder.ts",
-            "line": 77,
-            "description": "Declares that the material should have a `uniform` with the specified name and type.",
-            "itemtype": "method",
-            "name": "uniform",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "type",
-                    "description": "The GLSL type. e.g. 'float', 'vec3', 'mat2'",
-                    "type": "String"
-                }
-            ],
-            "class": "SmartMaterialBuilder",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/materials/SmartMaterialBuilder.ts",
-            "line": 90,
-            "itemtype": "method",
-            "name": "build",
-            "params": [
-                {
-                    "name": "contexts",
-                    "description": "",
-                    "type": "IContextMonitor[]"
-                }
-            ],
+            "name": "createGraphicsProgram",
             "return": {
                 "description": "",
-                "type": "Material"
+                "type": "IGraphicsProgram"
             },
-            "class": "SmartMaterialBuilder",
+            "class": "SmartGraphicsProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/SmartGraphicsProgram.ts",
+            "line": 73,
+            "itemtype": "property",
+            "name": "vertexShader",
+            "type": "{string}",
+            "readonly": "",
+            "class": "SmartGraphicsProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/SmartGraphicsProgram.ts",
+            "line": 85,
+            "itemtype": "property",
+            "name": "fragmentShader",
+            "type": "{string}",
+            "readonly": "",
+            "class": "SmartGraphicsProgram",
             "module": "EIGHT"
         },
         {
@@ -26907,22 +27198,22 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 31,
+            "file": "src/davinci-eight/programs/createGraphicsProgram.ts",
+            "line": 34,
             "description": "Name used for reference count monitoring and logging.",
             "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 36,
+            "file": "src/davinci-eight/programs/createGraphicsProgram.ts",
+            "line": 39,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 54,
+            "file": "src/davinci-eight/programs/createGraphicsProgram.ts",
+            "line": 57,
             "description": "Because we are multi-canvas aware, programs are tracked by the canvas id.",
             "class": "IContextRenderer",
             "module": "EIGHT"
@@ -26942,31 +27233,8 @@
         },
         {
             "file": "src/davinci-eight/programs/programFromScripts.ts",
-            "line": 11,
-            "itemtype": "method",
-            "name": "programFromScripts",
-            "params": [
-                {
-                    "name": "monitors",
-                    "description": "",
-                    "type": "IContextMonitor[]"
-                },
-                {
-                    "name": "vsId",
-                    "description": "The vertex shader script element identifier.",
-                    "type": "String"
-                },
-                {
-                    "name": "fsId",
-                    "description": "The fragment shader script element identifier.",
-                    "type": "String"
-                },
-                {
-                    "name": "$document",
-                    "description": "The document containing the script elements.",
-                    "type": "Document"
-                }
-            ],
+            "line": 10,
+            "description": "Helper function for creating a <code>IGraphicsProgram</code> from HTML script element content.\nParameters:\nmonitors\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndomDocument The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
             "class": "IContextRenderer",
             "module": "EIGHT"
         },
@@ -27135,21 +27403,21 @@
             "file": "src/davinci-eight/renderers/initWebGL.ts",
             "line": 3,
             "description": "Returns the WebGLRenderingContext given a canvas.\ncanvas\nattributes\nIf the canvas is undefined then an undefined value is returned for the context.",
-            "class": "ContextGL",
+            "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/renderers/renderer.ts",
             "line": 26,
             "description": "We need to know the canvasId so that we can tell drawables where to draw.\nHowever, we don't need an don't want a canvas because we can only get that once the\ncanvas has loaded. I suppose a promise would be OK, but that's for another day.\n\nPart of the role of this class is to manage the commands that are executed at startup/prolog.",
-            "class": "ContextGL",
+            "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/resources/TextureResource.ts",
             "line": 9,
             "description": "Name used for reference count monitoring and logging.",
-            "class": "ContextGL",
+            "class": "Drawable",
             "module": "EIGHT"
         },
         {
@@ -27157,7 +27425,7 @@
             "line": 73,
             "itemtype": "method",
             "name": "bind",
-            "class": "ContextGL",
+            "class": "Drawable",
             "module": "EIGHT"
         },
         {
@@ -27165,414 +27433,7 @@
             "line": 84,
             "itemtype": "method",
             "name": "unbind",
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 39,
-            "itemtype": "property",
-            "name": "_kahuna",
-            "type": "{ContextKahuna}",
-            "access": "private",
-            "tagname": "",
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 46,
-            "itemtype": "property",
-            "name": "_renderer",
-            "type": "{IContextRenderer}",
-            "access": "private",
-            "tagname": "",
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 68,
-            "itemtype": "method",
-            "name": "destructor!~YUIDOC_LINE~!return",
-            "type": "Void",
-            "access": "protected",
-            "tagname": "",
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 82,
-            "itemtype": "method",
-            "name": "addContextListener",
-            "params": [
-                {
-                    "name": "user",
-                    "description": "",
-                    "type": "IContextConsumer"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 91,
-            "itemtype": "property",
-            "name": "canvas",
-            "type": "{HTMLCanvasElement}",
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 102,
-            "itemtype": "property",
-            "name": "canvasId",
-            "type": "{number}",
-            "readonly": "",
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 115,
-            "itemtype": "property",
-            "name": "commands",
-            "type": "{IUnknownArray}",
-            "beta": 1,
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 124,
-            "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
-            "itemtype": "method",
-            "name": "clearColor",
-            "params": [
-                {
-                    "name": "red",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "green",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "blue",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "alpha",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 139,
-            "itemtype": "method",
-            "name": "contextFree",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 148,
-            "itemtype": "method",
-            "name": "contextGain",
-            "params": [
-                {
-                    "name": "manager",
-                    "description": "",
-                    "type": "IContextProvider"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 157,
-            "itemtype": "method",
-            "name": "contextLost",
-            "params": [
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 166,
-            "itemtype": "method",
-            "name": "createArrayBuffer",
-            "return": {
-                "description": "",
-                "type": "IBuffer"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 174,
-            "itemtype": "method",
-            "name": "createBufferGeometry",
-            "params": [
-                {
-                    "name": "primitive",
-                    "description": "",
-                    "type": "DrawPrimitive"
-                },
-                {
-                    "name": "usage",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "IBufferGeometry"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 184,
-            "itemtype": "method",
-            "name": "createElementArrayBuffer",
-            "return": {
-                "description": "",
-                "type": "IBuffer"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 192,
-            "itemtype": "method",
-            "name": "createTextureCubeMap",
-            "return": {
-                "description": "",
-                "type": "ITextureCubeMap"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 200,
-            "itemtype": "method",
-            "name": "createTexture2D",
-            "return": {
-                "description": "",
-                "type": "ITexture2D"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 208,
-            "description": "Turns off specific WebGL capabilities for this context.",
-            "itemtype": "method",
-            "name": "disable",
-            "params": [
-                {
-                    "name": "capability",
-                    "description": "",
-                    "type": "Capability"
-                }
-            ],
-            "return": {
-                "description": "This method does not return a value.",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 218,
-            "description": "Turns on specific WebGL capabilities for this context.",
-            "itemtype": "method",
-            "name": "enable",
-            "params": [
-                {
-                    "name": "capability",
-                    "description": "",
-                    "type": "Capability"
-                }
-            ],
-            "return": {
-                "description": "This method does not return a value.",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 228,
-            "itemtype": "property",
-            "name": "gl",
-            "type": "{WebGLRenderingContext}",
-            "readonly": "",
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 237,
-            "itemtype": "method",
-            "name": "removeContextListener",
-            "params": [
-                {
-                    "name": "user",
-                    "description": "",
-                    "type": "IContextConsumer"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 246,
-            "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
-            "itemtype": "method",
-            "name": "viewport",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "width",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "height",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "This method does not return a value.",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 259,
-            "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
-            "itemtype": "method",
-            "name": "start",
-            "params": [
-                {
-                    "name": "canvas",
-                    "description": "The HTML canvas element.",
-                    "type": "HTMLCanvasElement"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "An optional user-defined alias for the canvas when using multi-canvas.",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 278,
-            "itemtype": "method",
-            "name": "stop",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextGL",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/ContextGL.ts",
-            "line": 286,
-            "itemtype": "method",
-            "name": "synchronize",
-            "params": [
-                {
-                    "name": "user",
-                    "description": "",
-                    "type": "IContextConsumer"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "ContextGL",
+            "class": "Drawable",
             "module": "EIGHT"
         },
         {
@@ -27662,11 +27523,419 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 163,
+            "line": 164,
+            "description": "Provides a reference counted reference to the material.",
             "itemtype": "property",
             "name": "material",
-            "type": "{M}\n\nProvides a reference counted reference to the material.",
+            "type": "{M}",
             "class": "Drawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 39,
+            "itemtype": "property",
+            "name": "_kahuna",
+            "type": "{ContextKahuna}",
+            "access": "private",
+            "tagname": "",
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 46,
+            "itemtype": "property",
+            "name": "_renderer",
+            "type": "{IContextRenderer}",
+            "access": "private",
+            "tagname": "",
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 68,
+            "itemtype": "method",
+            "name": "destructor!~YUIDOC_LINE~!return",
+            "type": "Void",
+            "access": "protected",
+            "tagname": "",
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 82,
+            "itemtype": "method",
+            "name": "addContextListener",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "",
+                    "type": "IContextConsumer"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 91,
+            "itemtype": "property",
+            "name": "canvas",
+            "type": "{HTMLCanvasElement}",
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 102,
+            "itemtype": "property",
+            "name": "canvasId",
+            "type": "{number}",
+            "readonly": "",
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 115,
+            "itemtype": "property",
+            "name": "commands",
+            "type": "{IUnknownArray}",
+            "beta": 1,
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 124,
+            "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
+            "itemtype": "method",
+            "name": "clearColor",
+            "params": [
+                {
+                    "name": "red",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "green",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "blue",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "alpha",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 139,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 148,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 157,
+            "itemtype": "method",
+            "name": "contextLost",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 166,
+            "itemtype": "method",
+            "name": "createArrayBuffer",
+            "return": {
+                "description": "",
+                "type": "IBuffer"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 174,
+            "itemtype": "method",
+            "name": "createBufferGeometry",
+            "params": [
+                {
+                    "name": "primitive",
+                    "description": "",
+                    "type": "DrawPrimitive"
+                },
+                {
+                    "name": "usage",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IBufferGeometry"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 184,
+            "itemtype": "method",
+            "name": "createElementArrayBuffer",
+            "return": {
+                "description": "",
+                "type": "IBuffer"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 192,
+            "itemtype": "method",
+            "name": "createTextureCubeMap",
+            "return": {
+                "description": "",
+                "type": "ITextureCubeMap"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 200,
+            "itemtype": "method",
+            "name": "createTexture2D",
+            "return": {
+                "description": "",
+                "type": "ITexture2D"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 208,
+            "description": "Turns off specific WebGL capabilities for this context.",
+            "itemtype": "method",
+            "name": "disable",
+            "params": [
+                {
+                    "name": "capability",
+                    "description": "",
+                    "type": "Capability"
+                }
+            ],
+            "return": {
+                "description": "This method does not return a value.",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 218,
+            "description": "Turns on specific WebGL capabilities for this context.",
+            "itemtype": "method",
+            "name": "enable",
+            "params": [
+                {
+                    "name": "capability",
+                    "description": "",
+                    "type": "Capability"
+                }
+            ],
+            "return": {
+                "description": "This method does not return a value.",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 228,
+            "itemtype": "property",
+            "name": "gl",
+            "type": "{WebGLRenderingContext}",
+            "readonly": "",
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 237,
+            "itemtype": "method",
+            "name": "removeContextListener",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "",
+                    "type": "IContextConsumer"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 246,
+            "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
+            "itemtype": "method",
+            "name": "viewport",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This method does not return a value.",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 259,
+            "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
+            "itemtype": "method",
+            "name": "start",
+            "params": [
+                {
+                    "name": "canvas",
+                    "description": "The HTML canvas element.",
+                    "type": "HTMLCanvasElement"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "An optional user-defined alias for the canvas when using multi-canvas.",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 278,
+            "itemtype": "method",
+            "name": "stop",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/GraphicsContext.ts",
+            "line": 286,
+            "itemtype": "method",
+            "name": "synchronize",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "",
+                    "type": "IContextConsumer"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "GraphicsContext",
             "module": "EIGHT"
         },
         {
@@ -27721,7 +27990,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -27785,7 +28055,7 @@
                 {
                     "name": "prolog",
                     "description": "",
-                    "type": "(material: IMaterial => void)"
+                    "type": "(material: IGraphicsProgram => void)"
                 }
             ],
             "return": {
@@ -27834,7 +28104,7 @@
             "line": 41,
             "itemtype": "property",
             "name": "material",
-            "type": "{IMaterial}",
+            "type": "{IGraphicsProgram}",
             "class": "PerspectiveCamera",
             "module": "EIGHT"
         },
@@ -27868,7 +28138,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -28004,7 +28275,29 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 57,
+            "line": 35,
+            "itemtype": "property",
+            "name": "drawList",
+            "type": "{IDrawList}",
+            "access": "private",
+            "tagname": "",
+            "class": "Scene",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 42,
+            "itemtype": "property",
+            "name": "monitors",
+            "type": "{MonitorList}",
+            "access": "private",
+            "tagname": "",
+            "class": "Scene",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 70,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -28018,7 +28311,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 70,
+            "line": 84,
             "description": "<p>\nAdds the <code>drawable</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -28038,7 +28331,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 87,
+            "line": 103,
             "description": "<p>\nTraverses the collection of drawables, drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -28051,7 +28344,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -28064,7 +28358,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 100,
+            "line": 117,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -28080,7 +28374,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 108,
+            "line": 125,
             "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -28100,7 +28394,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 122,
+            "line": 139,
             "description": "<p>\nTraverses the collection of drawables, calling the specified callback arguments.\n</p>",
             "itemtype": "method",
             "name": "traverse",
@@ -28118,7 +28412,7 @@
                 {
                     "name": "prolog",
                     "description": "Callback function for each material.",
-                    "type": "(material: IMaterial) => void"
+                    "type": "(material: IGraphicsProgram) => void"
                 }
             ],
             "return": {
@@ -28131,7 +28425,7 @@
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 29,
-            "description": "A grouping of IDrawable, by IMaterial.",
+            "description": "A grouping of IDrawable, by IGraphicsProgram.",
             "class": "Director",
             "module": "EIGHT"
         },
@@ -28145,7 +28439,7 @@
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 71,
-            "description": "accept provides a way to push out the IMaterial without bumping the reference count.",
+            "description": "accept provides a way to push out the IGraphicsProgram without bumping the reference count.",
             "class": "Director",
             "module": "EIGHT"
         },
@@ -28159,7 +28453,7 @@
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 125,
-            "description": "Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
+            "description": "Mapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])",
             "class": "Director",
             "module": "EIGHT"
         },
@@ -28762,10 +29056,6 @@
         },
         {
             "message": "unknown tag: parameters",
-            "line": " src/davinci-eight/materials/LineMaterial.ts:26"
-        },
-        {
-            "message": "unknown tag: parameters",
             "line": " src/davinci-eight/materials/MeshMaterial.ts:24"
         },
         {
@@ -29142,14 +29432,6 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/materials/HTMLScriptsMaterial.ts:9"
-        },
-        {
-            "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/materials/LineMaterial.ts:10"
-        },
-        {
-            "message": "Missing item type\nName used for reference count monitoring and logging.",
             "line": " src/davinci-eight/materials/MeshLambertMaterial.ts:11"
         },
         {
@@ -29159,10 +29441,6 @@
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
             "line": " src/davinci-eight/materials/PointMaterial.ts:10"
-        },
-        {
-            "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/materials/SmartMaterial.ts:21"
         },
         {
             "message": "Missing item type\nSpecial methods for operators on elements of abelian groups (additive).\nThis is provided for interface consistency.\nIt may not adhere to strict mathematical definitions.",
@@ -29642,15 +29920,15 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:31"
+            "line": " src/davinci-eight/programs/createGraphicsProgram.ts:34"
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:36"
+            "line": " src/davinci-eight/programs/createGraphicsProgram.ts:39"
         },
         {
             "message": "Missing item type\nBecause we are multi-canvas aware, programs are tracked by the canvas id.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:54"
+            "line": " src/davinci-eight/programs/createGraphicsProgram.ts:57"
         },
         {
             "message": "Missing item type\nGenerates a fragment shader",
@@ -29659,6 +29937,10 @@
         {
             "message": "Missing item type",
             "line": " src/davinci-eight/programs/makeWebGLShader.ts:1"
+        },
+        {
+            "message": "Missing item type\nHelper function for creating a <code>IGraphicsProgram</code> from HTML script element content.\nParameters:\nmonitors\nvsId The vertex shader script element identifier.\nfsId The fragment shader script element identifier.\ndomDocument The DOM document containing the script elements.\n[attribs = []] The attribute indices (implied by order of the name in the array).",
+            "line": " src/davinci-eight/programs/programFromScripts.ts:10"
         },
         {
             "message": "Missing item type",
@@ -29709,7 +29991,7 @@
             "line": " src/davinci-eight/scene/PerspectiveCamera.ts:54"
         },
         {
-            "message": "Missing item type\nA grouping of IDrawable, by IMaterial.",
+            "message": "Missing item type\nA grouping of IDrawable, by IGraphicsProgram.",
             "line": " src/davinci-eight/scene/createDrawList.ts:29"
         },
         {
@@ -29717,7 +29999,7 @@
             "line": " src/davinci-eight/scene/createDrawList.ts:34"
         },
         {
-            "message": "Missing item type\naccept provides a way to push out the IMaterial without bumping the reference count.",
+            "message": "Missing item type\naccept provides a way to push out the IGraphicsProgram without bumping the reference count.",
             "line": " src/davinci-eight/scene/createDrawList.ts:71"
         },
         {
@@ -29725,7 +30007,7 @@
             "line": " src/davinci-eight/scene/createDrawList.ts:121"
         },
         {
-            "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
+            "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])",
             "line": " src/davinci-eight/scene/createDrawList.ts:125"
         },
         {

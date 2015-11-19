@@ -6,7 +6,7 @@ import IFacetVisitor = require('../core/IFacetVisitor')
 import mustBeObject = require('../checks/mustBeObject')
 import mustBeString = require('../checks/mustBeString')
 import Shareable = require('../utils/Shareable')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R3 = require('../math/R3')
 import VectorE3 = require('../math/VectorE3')
 
@@ -147,13 +147,13 @@ class DirectionalLightE3 extends Shareable implements IFacet {
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void {
-        visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords, canvasId)
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
+        visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords, canvasId)
         var coords = [this.color.r, this.color.g, this.color.b]
-        visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords, canvasId)
+        visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords, canvasId)
     }
 }
 

@@ -4,7 +4,7 @@ import isUndefined = require('../checks/isUndefined');
 import ArrowOptions = require('../mesh/ArrowOptions');
 import VectorE3 = require('../math/VectorE3');
 import R3 = require('../math/R3');
-import Symbolic = require('../core/Symbolic');
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 
 class ArrowBuilder {
   private $axis: R3 = R3.e3.clone();

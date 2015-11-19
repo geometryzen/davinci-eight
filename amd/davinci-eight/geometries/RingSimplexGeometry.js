@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/SpinG3', '../core/Symbolic', '../math/R2', '../math/R3'], function (require, exports, arc3, Simplex, SliceSimplexGeometry, SpinG3, Symbolic, R2, R3) {
+define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '../geometries/SliceSimplexGeometry', '../math/SpinG3', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, arc3, Simplex, SliceSimplexGeometry, SpinG3, GraphicsProgramSymbols, R2, R3) {
     // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
     // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
     // TODO: May be more efficient to calculate points for the outer circle then scale them inwards.
@@ -70,25 +70,25 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
         for (var i = 0; i < radialSegments; i++) {
             for (var j = 0; j < thetaSegments; j++) {
                 var simplex = new Simplex(Simplex.LINE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)];
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
+                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j + 1, thetaSegments)];
                 data.push(simplex);
                 var simplex = new Simplex(Simplex.LINE);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
-                simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)];
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
+                simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, j, thetaSegments)];
                 data.push(simplex);
             }
             // TODO: We probably don't need these lines when the thing is closed 
             var simplex = new Simplex(Simplex.LINE);
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, thetaSegments, thetaSegments)];
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i + 1, thetaSegments, thetaSegments)];
             data.push(simplex);
         }
         // Lines for the outermost circle.
         for (var j = 0; j < thetaSegments; j++) {
             var simplex = new Simplex(Simplex.LINE);
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j, thetaSegments)];
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j + 1, thetaSegments)];
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j, thetaSegments)];
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(radialSegments, j + 1, thetaSegments)];
             data.push(simplex);
         }
     }
@@ -96,7 +96,7 @@ define(["require", "exports", '../geometries/arc3', '../geometries/Simplex', '..
         for (var i = 0; i <= radialSegments; i++) {
             for (var j = 0; j <= thetaSegments; j++) {
                 var simplex = new Simplex(Simplex.POINT);
-                simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
+                simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = vertices[vertexIndex(i, j, thetaSegments)];
                 data.push(simplex);
             }
         }

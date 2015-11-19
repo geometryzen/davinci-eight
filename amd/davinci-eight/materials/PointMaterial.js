@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
+define(["require", "exports", '../materials/GraphicsProgram', '../materials/GraphicsProgramBuilder', '../core/GraphicsProgramSymbols'], function (require, exports, GraphicsProgram, GraphicsProgramBuilder, GraphicsProgramSymbols) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -13,7 +13,7 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
     }
     /**
      * @class PointMaterial
-     * @extends Material
+     * @extends GraphicsProgram
      */
     var PointMaterial = (function (_super) {
         __extends(PointMaterial, _super);
@@ -29,17 +29,17 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
             if (monitors === void 0) { monitors = []; }
             _super.call(this, monitors, LOGGING_NAME);
         }
-        PointMaterial.prototype.createMaterial = function () {
-            var smb = new SmartMaterialBuilder();
-            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
-            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_POINT_SIZE, 'float');
+        PointMaterial.prototype.createGraphicsProgram = function () {
+            var smb = new GraphicsProgramBuilder();
+            smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3);
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, 'float');
             return smb.build(this.monitors);
         };
         return PointMaterial;
-    })(Material);
+    })(GraphicsProgram);
     return PointMaterial;
 });

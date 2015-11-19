@@ -1,6 +1,6 @@
 import VectorE3 = require('../math/VectorE3')
 import IContextProvider = require('../core/IContextProvider')
-import IMaterial = require('../core/IMaterial')
+import IGraphicsProgram = require('../core/IGraphicsProgram')
 import createPerspective = require('../cameras/createPerspective')
 import isDefined = require('../checks/isDefined')
 import isInteger = require('../checks/isInteger')
@@ -40,9 +40,9 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
 
     /**
      * @property material
-     * @type {IMaterial}
+     * @type {IGraphicsProgram}
      */
-    public material: IMaterial;
+    public material: IGraphicsProgram;
 
     /**
      * @property name
@@ -84,10 +84,10 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void {
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
         this.inner.setNear(this.near)
         this.inner.setFar(this.far)
         this.inner.setUniforms(visitor, canvasId)
@@ -98,7 +98,7 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
     }
     contextLost(): void {
     }
-    draw(canvasId: number): void {
+    draw(canvasId?: number): void {
         console.warn(CLASS_NAME + ".draw(" + canvasId + ")")
         // Do nothing.
     }

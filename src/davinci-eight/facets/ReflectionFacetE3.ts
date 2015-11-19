@@ -7,7 +7,7 @@ import R3 = require('../math/R3')
 import Matrix4 = require('../math/Matrix4')
 import readOnly = require('../i18n/readOnly');
 import Shareable = require('../utils/Shareable')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 
 /**
  * @class ReflectionFacetE3

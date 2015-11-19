@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/Color', '../checks/mustBeNumber', '../checks/mustBeObject', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Color, mustBeNumber, mustBeObject, Shareable, Symbolic) {
+define(["require", "exports", '../core/Color', '../checks/mustBeNumber', '../checks/mustBeObject', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, Color, mustBeNumber, mustBeObject, Shareable, GraphicsProgramSymbols) {
     var LOGGING_NAME = 'AmbientLight';
     function contextBuilder() {
         return LOGGING_NAME;
@@ -44,12 +44,12 @@ define(["require", "exports", '../core/Color', '../checks/mustBeNumber', '../che
         /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         AmbientLight.prototype.setUniforms = function (visitor, canvasId) {
             var coords = [this.color.r, this.color.g, this.color.b];
-            visitor.vector3(Symbolic.UNIFORM_AMBIENT_LIGHT, coords, canvasId);
+            visitor.vector3(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, coords, canvasId);
         };
         return AmbientLight;
     })(Shareable);

@@ -5,11 +5,11 @@ define(
   'davinci-eight/math/R3',
   'davinci-eight/geometries/triangle',
   'davinci-eight/geometries/simplicesToDrawPrimitive',
-  'davinci-eight/core/Symbolic',
+  'davinci-eight/core/GraphicsProgramSymbols',
   'davinci-eight/geometries/simplicesToGeometryMeta',
   'davinci-eight/geometries/computeFaceNormals'
 ],
-function(Simplex, Vertex, R3, triangle, simplicesToDrawPrimitive, Symbolic, simplicesToGeometryMeta, computeFaceNormals)
+function(Simplex, Vertex, R3, triangle, simplicesToDrawPrimitive, GraphicsProgramSymbols, simplicesToGeometryMeta, computeFaceNormals)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
@@ -35,7 +35,7 @@ function(Simplex, Vertex, R3, triangle, simplicesToDrawPrimitive, Symbolic, simp
       var geoInfo = simplicesToGeometryMeta(geometry);
       var elements = simplicesToDrawPrimitive(geometry, geoInfo);
       var indices = elements.indices;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values;
+      var positions = elements.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].values;
       it("indices.length", function() {
         expect(indices.length).toBe(geometry.length * 3);
       });
@@ -52,31 +52,31 @@ function(Simplex, Vertex, R3, triangle, simplicesToDrawPrimitive, Symbolic, simp
         expect(positions.length).toBe(9);
       });
       it("position[0]", function() {
-        expect(positions[0]).toBe(a.attributes[Symbolic.ATTRIBUTE_POSITION].x);
+        expect(positions[0]).toBe(a.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].x);
       });
       it("position[1]", function() {
-        expect(positions[1]).toBe(a.attributes[Symbolic.ATTRIBUTE_POSITION].y);
+        expect(positions[1]).toBe(a.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].y);
       });
       it("position[2]", function() {
-        expect(positions[2]).toBe(a.attributes[Symbolic.ATTRIBUTE_POSITION].z);
+        expect(positions[2]).toBe(a.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].z);
       });
       it("position[3]", function() {
-        expect(positions[3]).toBe(b.attributes[Symbolic.ATTRIBUTE_POSITION].x);
+        expect(positions[3]).toBe(b.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].x);
       });
       it("position[4]", function() {
-        expect(positions[4]).toBe(b.attributes[Symbolic.ATTRIBUTE_POSITION].y);
+        expect(positions[4]).toBe(b.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].y);
       });
       it("position[5]", function() {
-        expect(positions[5]).toBe(b.attributes[Symbolic.ATTRIBUTE_POSITION].z);
+        expect(positions[5]).toBe(b.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].z);
       });
       it("position[6]", function() {
-        expect(positions[6]).toBe(c.attributes[Symbolic.ATTRIBUTE_POSITION].x);
+        expect(positions[6]).toBe(c.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].x);
       });
       it("position[7]", function() {
-        expect(positions[7]).toBe(c.attributes[Symbolic.ATTRIBUTE_POSITION].y);
+        expect(positions[7]).toBe(c.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].y);
       });
       it("position[8]", function() {
-        expect(positions[8]).toBe(c.attributes[Symbolic.ATTRIBUTE_POSITION].z);
+        expect(positions[8]).toBe(c.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].z);
       });
     });
     describe("two triangles with one common edge", function() {
@@ -92,7 +92,7 @@ function(Simplex, Vertex, R3, triangle, simplicesToDrawPrimitive, Symbolic, simp
       var geoInfo = simplicesToGeometryMeta(geometry);
       var elements = simplicesToDrawPrimitive(geometry, geoInfo);
       var indices = elements.indices;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values;
+      var positions = elements.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].values;
       it("indices.length", function() {
         expect(indices.length).toBe(geometry.length * 3);
       });
@@ -172,7 +172,7 @@ function(Simplex, Vertex, R3, triangle, simplicesToDrawPrimitive, Symbolic, simp
       var geoInfo = simplicesToGeometryMeta(geometry);
       var elements = simplicesToDrawPrimitive(geometry, geoInfo);
       var indices = elements.indices;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values;
+      var positions = elements.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION].values;
       it("indices.length", function() {
         expect(indices.length).toBe(geometry.length * 3);
       });

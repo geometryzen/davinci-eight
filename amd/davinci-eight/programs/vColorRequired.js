@@ -1,6 +1,6 @@
-define(["require", "exports", '../core/Symbolic'], function (require, exports, Symbolic) {
+define(["require", "exports", '../core/GraphicsProgramSymbols'], function (require, exports, GraphicsProgramSymbols) {
     function vColorRequired(attributes, uniforms) {
-        return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
+        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols.UNIFORM_COLOR];
     }
     return vColorRequired;
 });

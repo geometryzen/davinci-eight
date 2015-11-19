@@ -1,4 +1,4 @@
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import IUnknown = require('../core/IUnknown');
 /**
  * A buffer geometry is implicitly bound to a single context.
@@ -13,11 +13,11 @@ interface IBufferGeometry extends IUnknown {
     uuid: string;
     /**
      * @method bind
-     * @param program {IMaterial}
+     * @param program {IGraphicsProgram}
      * @param aNameToKeyName
      * @return {void}
      */
-    bind(program: IMaterial, aNameToKeyName?: {
+    bind(program: IGraphicsProgram, aNameToKeyName?: {
         [name: string]: string;
     }): void;
     /**

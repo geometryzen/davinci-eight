@@ -7,7 +7,7 @@ import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustBeNumber = require('../checks/mustBeNumber')
 import R1 = require('../math/R1')
 import SpinG3 = require('../math/SpinG3')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
 
@@ -65,10 +65,10 @@ class CylinderGeometry extends AxialGeometry implements IAxialGeometry<CylinderG
                 let normal = R3.copy(this.sliceStart).rotate(rotor)
                 let position = normal.clone().scale(this.radius).add(this.axis, v * this.height)
                 let vertex = topo.vertex(uIndex, vIndex)
-                vertex.attributes[Symbolic.ATTRIBUTE_POSITION] = position.add(this.position)
-                vertex.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal
+                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.add(this.position)
+                vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal
                 if (this.useTextureCoords) {
-                    vertex.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
+                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v])
                 }
             }
         }

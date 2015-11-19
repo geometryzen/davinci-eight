@@ -1,12 +1,12 @@
 import Simplex = require('../geometries/Simplex');
-import Symbolic = require('../core/Symbolic');
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 import R3 = require('../math/R3');
 import VectorN = require('../math/VectorN');
 import wedgeXY = require('../math/wedgeXY');
 import wedgeYZ = require('../math/wedgeYZ');
 import wedgeZX = require('../math/wedgeZX');
 
-function computeFaceNormals(simplex: Simplex, positionName = Symbolic.ATTRIBUTE_POSITION, normalName = Symbolic.ATTRIBUTE_NORMAL): void {
+function computeFaceNormals(simplex: Simplex, positionName = GraphicsProgramSymbols.ATTRIBUTE_POSITION, normalName = GraphicsProgramSymbols.ATTRIBUTE_NORMAL): void {
   let vertex0 = simplex.vertices[0].attributes;
   let vertex1 = simplex.vertices[1].attributes;
   let vertex2 = simplex.vertices[2].attributes;

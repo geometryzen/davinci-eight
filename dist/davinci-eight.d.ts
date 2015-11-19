@@ -146,7 +146,7 @@ declare module EIGHT {
    */
   interface IBufferGeometry extends IUnknown {
     uuid: string;
-    bind(program: IMaterial, aNameToKeyName?: { [name: string]: string }): void;
+    bind(program: IGraphicsProgram, aNameToKeyName?: { [name: string]: string }): void;
     draw(): void;
     unbind(): void;
   }
@@ -2596,7 +2596,7 @@ declare module EIGHT {
   /**
    * A collection of WebGLProgram(s), one for each canvas in which the program is used.
    */
-  interface IMaterial extends IResource, IFacetVisitor {
+  interface IGraphicsProgram extends IResource, IFacetVisitor {
     programId: string;
     vertexShader: string;
     fragmentShader: string;
@@ -2653,7 +2653,7 @@ declare module EIGHT {
   /**
    * Constructs a program from the specified vertex and fragment shader codes.
    */
-  function createMaterial(contexts: IContextMonitor[], vertexShader: string, fragmentShader: string, bindings?: string[]): IMaterial;
+  function createGraphicsProgram(contexts: IContextMonitor[], vertexShader: string, fragmentShader: string, bindings?: string[]): IGraphicsProgram;
 
   /**
    *
@@ -2686,7 +2686,7 @@ declare module EIGHT {
    * uniformsList
    * bindings Used for setting indices.
    */
-  function smartProgram(monitors: IContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, bindings?: string[]): IMaterial;
+  function smartProgram(monitors: IContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, bindings?: string[]): IGraphicsProgram;
 
   /**
    *
@@ -2812,7 +2812,7 @@ declare module EIGHT {
     decRef(): ModelFacetE3;
     getProperty(name: string): number[];
     setProperty(name: string, value: number[]): void;
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
   }
 
   /**
@@ -2886,7 +2886,7 @@ declare module EIGHT {
    * Canonical variable names, which also act as semantic identifiers for name overrides.
    * These names must be stable to avoid breaking custom vertex and fragment shaders.
    */
-  class Symbolic {
+  class GraphicsProgramSymbols {
     /**
      * 'aColor'
      */
@@ -2963,7 +2963,7 @@ declare module EIGHT {
     /**
      *
      */
-    material: IMaterial;
+    material: IGraphicsProgram;
     /**
      * User assigned name of the drawable object. Allows an object to be found in a scene.
      */
@@ -3044,7 +3044,7 @@ declare module EIGHT {
     /**
      * Optional material used for rendering this instance.
      */
-    material: IMaterial;
+    material: IGraphicsProgram;
     /**
      * Optional name used for finding this instance.
      */
@@ -3121,7 +3121,7 @@ declare module EIGHT {
   /**
    *
    */
-  class ContextGL implements ContextController, IContextMonitor, IContextRenderer {
+  class GraphicsContext implements ContextController, IContextMonitor, IContextRenderer {
     /**
      *
      */
@@ -3133,7 +3133,7 @@ declare module EIGHT {
     /**
      * If the canvas property has not been initialized by calling `start()`,
      * then any attempt to access this property will trigger the construction of
-     * a new HTML canvas element which will remain in effect for this ContextGL
+     * a new HTML canvas element which will remain in effect for this GraphicsContext
      * until `stop()` is called.
      */
     canvas: HTMLCanvasElement;
@@ -3459,7 +3459,7 @@ declare module EIGHT {
   /**
    *
    */
-  class Material implements IMaterial {
+  class GraphicsProgram implements IGraphicsProgram {
     program: WebGLProgram;
     programId: string;
     vertexShader: string;
@@ -3493,17 +3493,17 @@ declare module EIGHT {
   /**
    *
    */
-  class Drawable<M extends IMaterial> implements IDrawable {
+  class Drawable<M extends IGraphicsProgram> implements IDrawable {
     primitives: DrawPrimitive[];
     material: M;
     name: string;
     constructor(primitives: DrawPrimitive[], material: M);
     addRef(): number;
     release(): number;
-    draw(canvasId: number): void;
-    contextFree(): void;
+    draw(canvasId?: number): void;
+    contextFree(canvasId?: number): void;
     contextGain(manager: IContextProvider): void;
-    contextLost(): void;
+    contextLost(canvasId?: number): void;
     getFacet(name: string): IFacet
     setFacet<T extends IFacet>(name: string, value: T): T
   }
@@ -3511,7 +3511,7 @@ declare module EIGHT {
   /**
    *
    */
-  class HTMLScriptsMaterial extends Material {
+  class HTMLScriptsGraphicsProgram extends GraphicsProgram {
     /**
      * contexts:  The contexts that this material must support.
      * scriptIds: The id properties of the script elements. Defaults to [].
@@ -3530,7 +3530,7 @@ declare module EIGHT {
   /**
    *
    */
-  class PointMaterial extends Material {
+  class PointMaterial extends GraphicsProgram {
     constructor(contexts?: IContextMonitor[], parameters?: PointMaterialParameters);
   }
 
@@ -3544,7 +3544,7 @@ declare module EIGHT {
   /**
    *
    */
-  class LineMaterial extends Material {
+  class LineMaterial extends GraphicsProgram {
     constructor(contexts?: IContextMonitor[], parameters?: LineMaterialParameters);
   }
 
@@ -3558,22 +3558,22 @@ declare module EIGHT {
   /**
    *
    */
-  class MeshMaterial extends Material {
+  class MeshMaterial extends GraphicsProgram {
     constructor(contexts?: IContextMonitor[], parameters?: MeshMaterialParameters);
   }
 
   /**
    *
    */
-  class MeshLambertMaterial extends Material {
+  class MeshLambertMaterial extends GraphicsProgram {
     constructor(contexts?: IContextMonitor[]);
   }
 
-  class SmartMaterialBuilder {
+  class GraphicsProgramBuilder {
     constructor(elements?: DrawPrimitive);
-    attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
-    uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
-    build(contexts: IContextMonitor[]): Material;
+    attribute(key: string, size: number, name?: string): GraphicsProgramBuilder;
+    uniform(key: string, type: string, name?: string): GraphicsProgramBuilder;
+    build(contexts: IContextMonitor[]): GraphicsProgram;
   }
 
   class AbstractFacet extends Shareable implements IFacet {
@@ -3609,8 +3609,8 @@ declare module EIGHT {
 
   /**
    * <code>DirectionalLightE3</code> provides two uniform values.
-   * Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
-   * Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR
+   * GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
+   * GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR
    */
   class DirectionalLightE3 extends AbstractFacet {
     /**
@@ -3682,7 +3682,7 @@ declare module EIGHT {
      * @param visitor
      * @param canvasId
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
   }
 
   /**
@@ -3715,7 +3715,7 @@ declare module EIGHT {
      * @param visitor
      * @param canvasId
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
   }
 
   // commands

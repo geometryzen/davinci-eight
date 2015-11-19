@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.157.0</em>
+            <em>API Docs for: 2.158.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -61,7 +61,6 @@
                                 <li><a href="../classes/ConeSimplexGeometry.html">ConeSimplexGeometry</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextGL.html">ContextGL</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
@@ -97,9 +96,13 @@
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/Glyph.html">Glyph</a></li>
+                                <li><a href="../classes/GraphicsContext.html">GraphicsContext</a></li>
+                                <li><a href="../classes/GraphicsProgram.html">GraphicsProgram</a></li>
+                                <li><a href="../classes/GraphicsProgramBuilder.html">GraphicsProgramBuilder</a></li>
+                                <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
                                 <li><a href="../classes/GridSimplexGeometry.html">GridSimplexGeometry</a></li>
                                 <li><a href="../classes/GridTopology.html">GridTopology</a></li>
-                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/HTMLScriptsGraphicsProgram.html">HTMLScriptsGraphicsProgram</a></li>
                                 <li><a href="../classes/IAnimation.html">IAnimation</a></li>
                                 <li><a href="../classes/IAnimationTarget.html">IAnimationTarget</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
@@ -112,7 +115,7 @@
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IFacet.html">IFacet</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
-                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleSimplexGeometry.html">KleinBottleSimplexGeometry</a></li>
@@ -121,7 +124,7 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
-                                <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
                                 <li><a href="../classes/Matrix2.html">Matrix2</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
@@ -170,8 +173,7 @@
                                 <li><a href="../classes/SimplexGeometry.html">SimplexGeometry</a></li>
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
-                                <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
-                                <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
+                                <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
                                 <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
@@ -181,7 +183,6 @@
                                 <li><a href="../classes/SpinorE4.html">SpinorE4</a></li>
                                 <li><a href="../classes/SplineCurve.html">SplineCurve</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
-                                <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TetrahedronSimplexGeometry.html">TetrahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Topology.html">Topology</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -245,7 +246,7 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/Material.html" class="crosslink">Material</a>
+            Extends <a href="../classes/GraphicsProgram.html" class="crosslink">GraphicsProgram</a>
         </div>
 
         <div class="foundat">
@@ -355,7 +356,7 @@
 
                             </li>
                             <li class="index-item method protected inherited">
-                                <a href="#method_createMaterial">createMaterial</a>
+                                <a href="#method_createGraphicsProgram">createGraphicsProgram</a>
 
                             </li>
                             <li class="index-item method protected inherited inherited">
@@ -457,6 +458,10 @@
                                 <a href="#property_monitors">monitors</a>
 
                             </li>
+                            <li class="index-item property private inherited">
+                                <a href="#property_type">type</a>
+
+                            </li>
                             <li class="index-item property inherited">
                                 <a href="#property_uuid">uuid</a>
 
@@ -543,8 +548,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_attributes">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:129</code></a>
+                <a href="../classes/GraphicsProgram.html#method_attributes">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l150"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:150</code></a>
         </p>
 
 
@@ -552,7 +557,8 @@ Notifies this instance that something is dereferencing it.
     </div>
 
     <div class="description">
-        
+        <p>Returns a map of GLSL attribute name to <code>AttribLocation</code>.</p>
+
     </div>
 
         <div class="params">
@@ -609,8 +615,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_contextFree">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:218</code></a>
+                <a href="../classes/GraphicsProgram.html#method_contextFree">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l240"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:240</code></a>
         </p>
 
 
@@ -672,8 +678,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_contextGain">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l229"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:229</code></a>
+                <a href="../classes/GraphicsProgram.html#method_contextGain">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l251"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:251</code></a>
         </p>
 
 
@@ -734,8 +740,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_contextLost">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l243"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:243</code></a>
+                <a href="../classes/GraphicsProgram.html#method_contextLost">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l265"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:265</code></a>
         </p>
 
 
@@ -774,13 +780,13 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="method_createMaterial" class="method item protected inherited">
-    <h3 class="name"><code>createMaterial</code></h3>
+<div id="method_createGraphicsProgram" class="method item protected inherited">
+    <h3 class="name"><code>createGraphicsProgram</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/IMaterial.html" class="crosslink">IMaterial</a></span>
+            <span class="type"><a href="../classes/IGraphicsProgram.html" class="crosslink">IGraphicsProgram</a></span>
         </span>
 
 
@@ -792,8 +798,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_createMaterial">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l254"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:254</code></a>
+                <a href="../classes/GraphicsProgram.html#method_createGraphicsProgram">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l276"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:276</code></a>
         </p>
 
 
@@ -809,7 +815,7 @@ Notifies this instance that something is dereferencing it.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/IMaterial.html" class="crosslink">IMaterial</a></span>:
+                        <span class="type"><a href="../classes/IGraphicsProgram.html" class="crosslink">IGraphicsProgram</a></span>:
             </div>
         </div>
 
@@ -837,7 +843,7 @@ Notifies this instance that something is dereferencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:59</code></a>
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:66</code></a>
         </p>
 
 
@@ -885,8 +891,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_disableAttrib">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l196"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:196</code></a>
+                <a href="../classes/GraphicsProgram.html#method_disableAttrib">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:218</code></a>
         </p>
 
 
@@ -962,8 +968,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_enableAttrib">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:174</code></a>
+                <a href="../classes/GraphicsProgram.html#method_enableAttrib">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l196"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:196</code></a>
         </p>
 
 
@@ -1034,8 +1040,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_makeReady">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:74</code></a>
+                <a href="../classes/GraphicsProgram.html#method_makeReady">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:81</code></a>
         </p>
 
 
@@ -1043,7 +1049,9 @@ Notifies this instance that something is dereferencing it.
     </div>
 
     <div class="description">
-        
+        <p>Registers this GraphicsProgram with the context monitors and synchronizes the WebGL contexts.
+This causes this GraphicsProgram instance to receive a contextGain call allowing WebGLProgram initialization.</p>
+
     </div>
 
         <div class="params">
@@ -1056,7 +1064,8 @@ Notifies this instance that something is dereferencing it.
 
 
                     <div class="param-description">
-                         
+                        <p>Reserved for future use.</p>
+
                     </div>
 
                 </li>
@@ -1141,8 +1150,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniform1f">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l264"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:264</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniform1f">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:286</code></a>
         </p>
 
 
@@ -1234,8 +1243,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniform2f">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l290"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:290</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniform2f">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l312"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:312</code></a>
         </p>
 
 
@@ -1340,8 +1349,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniform3f">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l317"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:317</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniform3f">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l339"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:339</code></a>
         </p>
 
 
@@ -1459,8 +1468,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniform4f">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l345"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:345</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniform4f">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l367"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:367</code></a>
         </p>
 
 
@@ -1582,8 +1591,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniformMatrix2">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l374"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:374</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniformMatrix2">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l396"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:396</code></a>
         </p>
 
 
@@ -1685,8 +1694,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniformMatrix3">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l401"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:401</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniformMatrix3">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l423"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:423</code></a>
         </p>
 
 
@@ -1788,8 +1797,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniformMatrix4">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l428"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:428</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniformMatrix4">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l450"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:450</code></a>
         </p>
 
 
@@ -1882,8 +1891,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniforms">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:153</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniforms">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:175</code></a>
         </p>
 
 
@@ -1954,8 +1963,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniformVectorE2">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l457"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:457</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniformVectorE2">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l479"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:479</code></a>
         </p>
 
 
@@ -2044,8 +2053,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniformVectorE3">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l483"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:483</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniformVectorE3">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l505"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:505</code></a>
         </p>
 
 
@@ -2134,8 +2143,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_uniformVectorE4">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l509"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:509</code></a>
+                <a href="../classes/GraphicsProgram.html#method_uniformVectorE4">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l531"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:531</code></a>
         </p>
 
 
@@ -2201,7 +2210,7 @@ Notifies this instance that something is dereferencing it.
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[canvasId = 0]</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -2218,8 +2227,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_use">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:103</code></a>
+                <a href="../classes/GraphicsProgram.html#method_use">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:126</code></a>
         </p>
 
 
@@ -2227,7 +2236,8 @@ Notifies this instance that something is dereferencing it.
     </div>
 
     <div class="description">
-        
+        <p>Makes the WebGLProgram associated with the specified canvas the current program for WebGL.</p>
+
     </div>
 
         <div class="params">
@@ -2235,7 +2245,7 @@ Notifies this instance that something is dereferencing it.
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[canvasId = 0]</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
@@ -2288,8 +2298,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_vector2">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l535"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:535</code></a>
+                <a href="../classes/GraphicsProgram.html#method_vector2">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l557"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:557</code></a>
         </p>
 
 
@@ -2378,8 +2388,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_vector3">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l561"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:561</code></a>
+                <a href="../classes/GraphicsProgram.html#method_vector3">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l583"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:583</code></a>
         </p>
 
 
@@ -2468,8 +2478,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#method_vector4">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l587"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:587</code></a>
+                <a href="../classes/GraphicsProgram.html#method_vector4">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l609"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:609</code></a>
         </p>
 
 
@@ -2544,15 +2554,16 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#property_fragmentShader">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:95</code></a>
+                <a href="../classes/GraphicsProgram.html#property_fragmentShader">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l105"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:105</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>Returns the generated fragment shader code as a string.</p>
+
     </div>
 
 
@@ -2560,7 +2571,7 @@ Notifies this instance that something is dereferencing it.
 </div>
 <div id="property_inner" class="property item private inherited">
     <h3 class="name"><code>inner</code></h3>
-    <span class="type"><a href="../classes/IMaterial.html" class="crosslink">IMaterial</a></span>
+    <span class="type"><a href="../classes/IGraphicsProgram.html" class="crosslink">IGraphicsProgram</a></span>
 
 
         <span class="flag private">private</span>
@@ -2569,8 +2580,8 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#property_inner">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:33</code></a>
+                <a href="../classes/GraphicsProgram.html#property_inner">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:33</code></a>
         </p>
 
 
@@ -2593,15 +2604,42 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#property_monitors">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:87</code></a>
+                <a href="../classes/GraphicsProgram.html#property_monitors">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l96"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:96</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>Returns the context monitors this GraphicsProgram is associated with.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_type" class="property item private inherited">
+    <h3 class="name"><code>type</code></h3>
+    <span class="type">String</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/GraphicsProgram.html#property_type">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:41</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The name used for logging and assigned in the constructor.</p>
+
     </div>
 
 
@@ -2641,15 +2679,16 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/Material.html#property_vertexShader">Material</a>:
-        <a href="../files/src_davinci-eight_materials_Material.ts.html#l613"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;Material.ts:613</code></a>
+                <a href="../classes/GraphicsProgram.html#property_vertexShader">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l635"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:635</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        
+        <p>Returns the generated shader vertex code as a string.</p>
+
     </div>
 
 

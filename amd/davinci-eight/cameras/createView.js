@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/Euclidean3', '../math/R3', '../math/Matrix4', '../checks/mustBeNumber', '../checks/mustBeObject', '../core/Symbolic', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Euclidean3, R3, Matrix4, mustBeNumber, mustBeObject, Symbolic, isUndefined, computeViewMatrix) {
+define(["require", "exports", '../math/Euclidean3', '../math/R3', '../math/Matrix4', '../checks/mustBeNumber', '../checks/mustBeObject', '../core/GraphicsProgramSymbols', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Euclidean3, R3, Matrix4, mustBeNumber, mustBeObject, GraphicsProgramSymbols, isUndefined, computeViewMatrix) {
     /**
      * @class createView
      * @constructor
@@ -9,7 +9,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/R3', '../math/Matri
         var look = new R3();
         var up = R3.copy(Euclidean3.e2);
         var viewMatrix = Matrix4.one();
-        var viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
+        var viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
         // Force an update of the view matrix.
         eye.modified = true;
         look.modified = true;

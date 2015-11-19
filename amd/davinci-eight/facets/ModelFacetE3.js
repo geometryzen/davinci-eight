@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../models/ModelE3', '../checks/mustBeString', '../math/R3', '../i18n/readOnly', '../core/Symbolic'], function (require, exports, Matrix3, Matrix4, ModelE3, mustBeString, R3, readOnly, Symbolic) {
+define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../models/ModelE3', '../checks/mustBeString', '../math/R3', '../i18n/readOnly', '../core/GraphicsProgramSymbols'], function (require, exports, Matrix3, Matrix4, ModelE3, mustBeString, R3, readOnly, GraphicsProgramSymbols) {
     /**
      * @class ModelFacetE3
      */
@@ -88,8 +88,8 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../models/M
             }
             this.matM.copy(this.matT).mul(this.matR).mul(this.matS);
             this.matN.normalFromMatrix4(this.matM);
-            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId);
-            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId);
+            visitor.uniformMatrix4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId);
+            visitor.uniformMatrix3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId);
         };
         /**
          * @method incRef

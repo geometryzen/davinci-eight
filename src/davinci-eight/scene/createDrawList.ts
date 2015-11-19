@@ -7,7 +7,7 @@ import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
-import IMaterial = require('../core/IMaterial');
+import IGraphicsProgram = require('../core/IGraphicsProgram');
 import IUnknown = require('../core/IUnknown');
 import IUnknownArray = require('../collections/IUnknownArray');
 import NumberIUnknownMap = require('../collections/NumberIUnknownMap');
@@ -27,18 +27,18 @@ let CLASS_NAME_ALL = "DrawableGroups";
 // FIXME; Probably good to have another collection of DrawableGroup
 
 /**
- * A grouping of IDrawable, by IMaterial.
+ * A grouping of IDrawable, by IGraphicsProgram.
  */
 // FIXME: extends Shareable
 class DrawableGroup implements IUnknown {
     /**
      * I can't see this being used; it's all about the drawables!
      */
-    private _program: IMaterial;
+    private _program: IGraphicsProgram;
     private _drawables = new IUnknownArray<IDrawable>();
     private _refCount = 1;
     private _uuid = uuid4().generate();
-    constructor(program: IMaterial) {
+    constructor(program: IGraphicsProgram) {
         this._program = program;
         this._program.addRef();
         refChange(this._uuid, CLASS_NAME_GROUP, +1);
@@ -64,14 +64,14 @@ class DrawableGroup implements IUnknown {
             return this._refCount;
         }
     }
-    get material(): IMaterial {
+    get material(): IGraphicsProgram {
         this._program.addRef();
         return this._program;
     }
     /**
-     * accept provides a way to push out the IMaterial without bumping the reference count.
+     * accept provides a way to push out the IGraphicsProgram without bumping the reference count.
      */
-    acceptProgram(visitor: (program: IMaterial) => void) {
+    acceptProgram(visitor: (program: IGraphicsProgram) => void) {
         visitor(this._program);
     }
     get length() {
@@ -91,7 +91,7 @@ class DrawableGroup implements IUnknown {
             drawables.splice(index, 1).release()
         }
     }
-    draw(ambients: IFacet[], canvasId: number): void {
+    draw(ambients: IFacet[], canvasId?: number): void {
 
         var i: number
         var length: number
@@ -123,7 +123,7 @@ class DrawableGroup implements IUnknown {
  */
 class DrawableGroups extends Shareable/*IDrawList*/ {
     /**
-     * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
+     * Mapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])
      */
     private _groups = new StringIUnknownMap<DrawableGroup>();
     constructor() {
@@ -136,7 +136,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
     }
     add(drawable: IDrawable) {
         // Now let's see if we can get a program...
-        let program: IMaterial = drawable.material;
+        let program: IGraphicsProgram = drawable.material;
         if (program) {
             try {
                 let programId: string = program.uuid
@@ -181,7 +181,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         }
     }
     remove(drawable: IDrawable) {
-        let material: IMaterial = drawable.material
+        let material: IGraphicsProgram = drawable.material
         if (material) {
             try {
                 let programId: string = material.uuid
@@ -206,7 +206,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
             }
         }
     }
-    draw(ambients: IFacet[], canvasId: number) {
+    draw(ambients: IFacet[], canvasId?: number) {
         // Manually hoisted variable declarations.
         var drawGroups: StringIUnknownMap<DrawableGroup>
         var materialKey: string;
@@ -226,13 +226,13 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         }
     }
     // FIXME: Rename to traverse
-    traverseDrawables(callback: (drawable: IDrawable) => void, callback2: (program: IMaterial) => void) {
+    traverseDrawables(callback: (drawable: IDrawable) => void, callback2: (program: IGraphicsProgram) => void) {
         this._groups.forEach(function(groupId, group) {
             group.acceptProgram(callback2);
             group.traverseDrawables(callback);
         });
     }
-    traversePrograms(callback: (program: IMaterial) => void) {
+    traversePrograms(callback: (program: IGraphicsProgram) => void) {
         this._groups.forEach(function(groupId, group) {
             group.acceptProgram(callback);
         });
@@ -267,7 +267,7 @@ let createDrawList = function(): IDrawList {
                 return refCount;
             }
         },
-        contextFree(canvasId: number) {
+        contextFree(canvasId?: number) {
             drawableGroups.traverseDrawables(
                 function(drawable) {
                     drawable.contextFree(canvasId)
@@ -296,7 +296,7 @@ let createDrawList = function(): IDrawList {
                 )
             }
         },
-        contextLost(canvasId: number) {
+        contextLost(canvasId?: number) {
             if (canvasIdToManager.exists(canvasId)) {
                 drawableGroups.traverseDrawables(
                     function(drawable) {
@@ -320,7 +320,7 @@ let createDrawList = function(): IDrawList {
         containsDrawable(drawable: IDrawable): boolean {
             return drawableGroups.containsDrawable(drawable)
         },
-        draw(ambients: IFacet[], canvasId: number): void {
+        draw(ambients: IFacet[], canvasId?: number): void {
             drawableGroups.draw(ambients, canvasId)
         },
         getDrawablesByName(name: string): IUnknownArray<IDrawable> {
@@ -331,7 +331,7 @@ let createDrawList = function(): IDrawList {
                         result.push(candidate)
                     }
                 },
-                function(program: IMaterial) {
+                function(program: IGraphicsProgram) {
                 }
             )
             return result;
@@ -340,7 +340,8 @@ let createDrawList = function(): IDrawList {
             drawableGroups.remove(drawable);
         },
         // FIXME: canvasId not being used?
-        traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (program: IMaterial) => void) {
+        // FIXME: canvasId must be last parameter to be optional.
+        traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (program: IGraphicsProgram) => void) {
             drawableGroups.traverseDrawables(callback, prolog);
         }
     }

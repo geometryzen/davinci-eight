@@ -4,7 +4,7 @@ import VectorE3 = require('../math/VectorE3')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Simplex = require('../geometries/Simplex')
 import Sphere = require('../math/Sphere')
-import Symbolic = require('../core/Symbolic')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
 
@@ -75,12 +75,12 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
             // FIXME: Using some modifications of the data structures given.
             // TODO: Optimize vector copies.
             var simplex = new Simplex(Simplex.TRIANGLE)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = v1
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v1)
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = v2
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v2)
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = v3
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v3)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v1
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v1)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v2
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v2)
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = v3
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v3)
             faces[j] = simplex
         }
 
@@ -154,15 +154,15 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
             var uv3 = correctUV(something3['uv'], v3, azi);
 
             var simplex = new Simplex(Simplex.TRIANGLE)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v1)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v1)
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v2)
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v2)
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = R3.copy(v3)
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = R3.copy(v3)
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3.copy(v1)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v1)
+            simplex.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uv1
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3.copy(v2)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v2)
+            simplex.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uv2
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = R3.copy(v3)
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = R3.copy(v3)
+            simplex.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = uv3
             that.data.push(simplex)
         }
 
@@ -171,9 +171,9 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
         function subdivide(face: Simplex, detail: number, points: R3[]) {
 
             var cols = Math.pow(2, detail);
-            var a: VectorE3 = prepare(<R3>face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION], points);
-            var b: VectorE3 = prepare(<R3>face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION], points);
-            var c: VectorE3 = prepare(<R3>face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION], points);
+            var a: VectorE3 = prepare(<R3>face.vertices[0].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
+            var b: VectorE3 = prepare(<R3>face.vertices[1].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
+            var c: VectorE3 = prepare(<R3>face.vertices[2].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION], points);
             var v: VectorE3[][] = [];
 
             // Construct all of the vertices for this subdivision.

@@ -3,42 +3,45 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
-    /**
-     * Name used for reference count monitoring and logging.
-     */
-    var LOGGING_NAME = 'LineMaterial';
-    function nameBuilder() {
-        return LOGGING_NAME;
-    }
+define(["require", "exports", '../checks/isDefined', '../materials/GraphicsProgram', '../checks/mustBeInteger', '../materials/GraphicsProgramBuilder', '../core/GraphicsProgramSymbols'], function (require, exports, isDefined, GraphicsProgram, mustBeInteger, GraphicsProgramBuilder, GraphicsProgramSymbols) {
     /**
      * @class LineMaterial
-     * @extends Material
+     * @extends GraphicsProgram
      */
     var LineMaterial = (function (_super) {
         __extends(LineMaterial, _super);
-        // A super call must be the first statement in the constructor when a class
-        // contains initialized propertied or has parameter properties (TS2376).
         /**
          * @class LineMaterial
          * @constructor
-         * @param monitors [IContextMonitor[]=[]]
-         * @parameters [MeshNormalParameters]
+         * @param [monitors = []] {IContextMonitor[]}
+         * @param [parameters = {}] {LineMaterialParameters}
          */
         function LineMaterial(monitors, parameters) {
             if (monitors === void 0) { monitors = []; }
-            _super.call(this, monitors, LOGGING_NAME);
+            if (parameters === void 0) { parameters = {}; }
+            _super.call(this, monitors, 'LineMaterial');
+            if (isDefined(parameters.chunkSize)) {
+                this.chunkSize = mustBeInteger('parameters.chunkSize', parameters.chunkSize);
+            }
+            else {
+                this.chunkSize = 3;
+            }
         }
-        LineMaterial.prototype.createMaterial = function () {
-            var smb = new SmartMaterialBuilder();
-            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
-            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+        /**
+         * @method createGraphicsProgram
+         * @return {IGraphicsProgram}
+         * @protected
+         */
+        LineMaterial.prototype.createGraphicsProgram = function () {
+            var smb = new GraphicsProgramBuilder();
+            smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.chunkSize);
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
+            smb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
             return smb.build(this.monitors);
         };
         return LineMaterial;
-    })(Material);
+    })(GraphicsProgram);
     return LineMaterial;
 });

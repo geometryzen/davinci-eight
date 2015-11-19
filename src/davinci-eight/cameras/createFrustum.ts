@@ -4,7 +4,7 @@ import View = require('davinci-eight/cameras/View');
 import createView  = require('davinci-eight/cameras/createView');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import SpinG3 = require('davinci-eight/math/SpinG3');
-import Symbolic = require('davinci-eight/core/Symbolic');
+import GraphicsProgramSymbols = require('davinci-eight/core/GraphicsProgramSymbols');
 import VectorE3 = require('davinci-eight/math/VectorE3');
 import R1 = require('../math/R1');
 import R3 = require('../math/R3');
@@ -123,7 +123,7 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
       far.x = value;
       updateProjectionMatrix();
     },
-    setUniforms(visitor: IFacetVisitor, canvasId: number) {
+    setUniforms(visitor: IFacetVisitor, canvasId?: number) {
       visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
       base.setUniforms(visitor, canvasId);
     }
