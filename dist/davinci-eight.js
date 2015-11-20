@@ -11808,10 +11808,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-19',
+        LAST_MODIFIED: '2015-11-20',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.158.0'
+        VERSION: '2.159.0'
     };
     return core;
 });
@@ -20674,34 +20674,58 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../core/AttribLocation', '../programs/makeWebGLProgram', '../core/UniformLocation', '../utils/Shareable'], function (require, exports, AttribLocation, makeWebGLProgram, UniformLocation, Shareable) {
+define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../core/AttribLocation', '../programs/makeWebGLProgram', '../checks/mustBeArray', '../checks/mustBeObject', '../checks/mustBeString', '../core/UniformLocation', '../utils/Shareable'], function (require, exports, AttribLocation, makeWebGLProgram, mustBeArray, mustBeObject, mustBeString, UniformLocation, Shareable) {
     /**
-     * This class is "simple because" it assumes exactly one vertex shader and on fragment shader.
-     * This class assumes that it will only be supporting a single WebGL rendering context.
-     * The existence of the manager in the constructor enables it to enforce this invariant.
+     * @class SimpleWebGLProgram
+     * @extends Shareable
      */
     var SimpleWebGLProgram = (function (_super) {
         __extends(SimpleWebGLProgram, _super);
-        function SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs) {
+        /**
+         * This class is <em>simple</em> because it assumes exactly
+         * one vertex shader and one fragment shader.
+         * This class assumes that it will only be supporting a single WebGL rendering context.
+         * The existence of the context in the constructor enables it to enforce this invariant.
+         * @class SimpleWebGLProgram
+         * @constructor
+         * @param context {IContextProvider} The context that this program will work with.
+         * @param vertexShader {string} The vertex shader source code.
+         * @param fragmentShader {string} The fragment shader source code.
+         * @param [attribs] {Array&lt;string&gt;} The attribute ordering.
+         */
+        function SimpleWebGLProgram(context, vertexShader, fragmentShader, attribs) {
+            if (attribs === void 0) { attribs = []; }
             _super.call(this, 'SimpleWebGLProgram');
+            /**
+             * @property attributes
+             * @type {{[name: string]: AttribLocation}}
+             */
             this.attributes = {};
+            /**
+             * @property uniforms
+             * @type {{[name: string]: UniformLocation}}
+             */
             this.uniforms = {};
-            this.manager = manager;
-            // Interesting. CM can't be addRefd!
-            // manager.addRef()
-            this.vertexShader = vertexShader;
-            this.fragmentShader = fragmentShader;
-            this.attribs = attribs;
-            this.manager.addContextListener(this);
-            this.manager.synchronize(this);
+            this.context = mustBeObject('context', context);
+            context.addRef();
+            this.vertexShader = mustBeString('vertexShader', vertexShader);
+            this.fragmentShader = mustBeString('fragmentShader', fragmentShader);
+            this.attribs = mustBeArray('attribs', attribs);
+            context.addContextListener(this);
+            context.synchronize(this);
         }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
         SimpleWebGLProgram.prototype.destructor = function () {
-            var manager = this.manager;
-            var canvasId = manager.canvasId;
+            var context = this.context;
+            var canvasId = context.canvasId;
             // If the program has been allocated, find out what to do with it.
             // (we may have been disconnected from listening)
             if (this.program) {
-                var gl = manager.gl;
+                var gl = context.gl;
                 if (gl) {
                     if (gl.isContextLost()) {
                         this.contextLost(canvasId);
@@ -20714,42 +20738,53 @@ define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../co
                     console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
                 }
             }
-            manager.removeContextListener(this);
-            // this.manager.release()
-            this.manager = void 0;
+            context.removeContextListener(this);
+            this.context.release();
+            this.context = void 0;
         };
-        SimpleWebGLProgram.prototype.contextGain = function (manager) {
+        /**
+         * @method contextGain
+         * @param context {IContextProvider}
+         * @return {void}
+         */
+        SimpleWebGLProgram.prototype.contextGain = function (unused) {
+            var context = this.context;
+            var gl = context.gl;
             if (!this.program) {
-                this.program = makeWebGLProgram(manager.gl, this.vertexShader, this.fragmentShader, this.attribs);
-                var context = manager.gl;
+                this.program = makeWebGLProgram(context.gl, this.vertexShader, this.fragmentShader, this.attribs);
                 var program = this.program;
                 var attributes = this.attributes;
                 var uniforms = this.uniforms;
-                var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
+                var activeAttributes = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES);
                 for (var a = 0; a < activeAttributes; a++) {
-                    var activeAttribInfo = context.getActiveAttrib(program, a);
+                    var activeAttribInfo = gl.getActiveAttrib(program, a);
                     var name_1 = activeAttribInfo.name;
                     if (!attributes[name_1]) {
-                        attributes[name_1] = new AttribLocation(manager, name_1);
+                        attributes[name_1] = new AttribLocation(context, name_1);
                     }
                 }
-                var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
+                var activeUniforms = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
                 for (var u = 0; u < activeUniforms; u++) {
-                    var activeUniformInfo = context.getActiveUniform(program, u);
+                    var activeUniformInfo = gl.getActiveUniform(program, u);
                     var name_2 = activeUniformInfo.name;
                     if (!uniforms[name_2]) {
-                        uniforms[name_2] = new UniformLocation(manager, name_2);
+                        uniforms[name_2] = new UniformLocation(context, name_2);
                     }
                 }
                 for (var aName in attributes) {
-                    attributes[aName].contextGain(context, program);
+                    attributes[aName].contextGain(gl, program);
                 }
                 for (var uName in uniforms) {
-                    uniforms[uName].contextGain(context, program);
+                    uniforms[uName].contextGain(gl, program);
                 }
             }
         };
-        SimpleWebGLProgram.prototype.contextLost = function (canvasId) {
+        /**
+         * @method contextLost
+         * @param [canvasId] {number}
+         * @return {void}
+         */
+        SimpleWebGLProgram.prototype.contextLost = function (unused) {
             this.program = void 0;
             for (var aName in this.attributes) {
                 this.attributes[aName].contextLost();
@@ -20758,9 +20793,14 @@ define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../co
                 this.uniforms[uName].contextLost();
             }
         };
-        SimpleWebGLProgram.prototype.contextFree = function (canvasId) {
+        /**
+         * @method contextFree
+         * @param [canvasId] number
+         * @return {void}
+         */
+        SimpleWebGLProgram.prototype.contextFree = function (unused) {
             if (this.program) {
-                var gl = this.manager.gl;
+                var gl = this.context.gl;
                 if (gl) {
                     if (!gl.isContextLost()) {
                         gl.deleteProgram(this.program);
@@ -20780,8 +20820,12 @@ define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../co
                 this.uniforms[uName].contextFree();
             }
         };
+        /**
+         * @method use
+         * @return {void}
+         */
         SimpleWebGLProgram.prototype.use = function () {
-            this.manager.gl.useProgram(this.program);
+            this.context.gl.useProgram(this.program);
         };
         return SimpleWebGLProgram;
     })(Shareable);
@@ -21108,6 +21152,15 @@ define('davinci-eight/programs/fragmentShader',["require", "exports", '../checks
         mustBeBoolean('vLight', vLight);
         var lines = [];
         lines.push("// generated fragment shader");
+        // Only the fragment shader requires an explicit precision for floats.
+        // For fragment shaders, highp might not be available, which can be tested using the GL_FRAGMENT_PRECISION_HIGH macro.
+        lines.push("#ifdef GL_ES");
+        lines.push("#  ifdef GL_FRAGMENT_PRECISION_HIGH");
+        lines.push("precision highp float;");
+        lines.push("#  else");
+        lines.push("precision mediump float;");
+        lines.push("#  endif");
+        lines.push("#endif");
         if (vColor) {
             lines.push("varying highp vec4 vColor;");
         }
@@ -21214,6 +21267,7 @@ define('davinci-eight/programs/vertexShader',["require", "exports", '../core/get
         mustBeBoolean('vLight', vLight);
         var lines = [];
         lines.push("// generated vertex shader");
+        // The precision is implicitely highp for vertex shaders.
         for (var aName in attributes) {
             lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON);
         }
@@ -21644,11 +21698,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
         /**
          * Returns a map of GLSL attribute name to <code>AttribLocation</code>.
          * @method attributes
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {{[name: string]: AttribLocation}}
          */
         GraphicsProgram.prototype.attributes = function (canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             // FIXME: Why is this called?
             // FIXME: The map should be protected but that is slow
             // FIXME Clear need for performant solution.
@@ -21668,11 +21721,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
         };
         /**
          * @method uniforms
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {{[name: string]: UniformLocation}}
          */
         GraphicsProgram.prototype.uniforms = function (canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 return this.inner.uniforms(canvasId);
             }
@@ -21690,11 +21742,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
         /**
          * @method enableAttrib
          * @param name {string}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.enableAttrib = function (name, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 return this.inner.enableAttrib(name, canvasId);
             }
@@ -21712,11 +21763,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
         /**
          * @method disableAttrib
          * @param name {string}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.disableAttrib = function (name, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 return this.inner.disableAttrib(name, canvasId);
             }
@@ -21733,7 +21783,7 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
         };
         /**
          * @method contextFree
-         * @param canvasId {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.contextFree = function (canvasId) {
@@ -21756,7 +21806,7 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
         };
         /**
          * @method contextLost
-         * @param canvasId {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.contextLost = function (canvasId) {
@@ -21777,11 +21827,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @method uniform1f
          * @param name {string}
          * @param x {number}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.uniform1f = function (name, x, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniform1f(name, x, canvasId);
             }
@@ -21804,11 +21853,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @param name {string}
          * @param x {number}
          * @param y {number}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.uniform2f = function (name, x, y, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniform2f(name, x, y, canvasId);
             }
@@ -21832,11 +21880,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @param x {number}
          * @param y {number}
          * @param z {number}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.uniform3f = function (name, x, y, z, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniform3f(name, x, y, z, canvasId);
             }
@@ -21861,11 +21908,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @param y {number}
          * @param z {number}
          * @param w {number}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.uniform4f = function (name, x, y, z, w, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniform4f(name, x, y, z, w, canvasId);
             }
@@ -21892,7 +21938,6 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @return {void}
          */
         GraphicsProgram.prototype.uniformMatrix2 = function (name, transpose, matrix, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniformMatrix2(name, transpose, matrix, canvasId);
             }
@@ -21915,11 +21960,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @param name {string}
          * @param transpose {boolean}
          * @param matrix {Matrix3}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.uniformMatrix3 = function (name, transpose, matrix, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniformMatrix3(name, transpose, matrix, canvasId);
             }
@@ -21942,11 +21986,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @param name {string}
          * @param transpose {boolean}
          * @param matrix {Matrix4}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.uniformMatrix4 = function (name, transpose, matrix, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniformMatrix4(name, transpose, matrix, canvasId);
             }
@@ -21970,11 +22013,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @method uniformVectorE2
          * @param name {string}
          * @param vector {VectorE2}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.uniformVectorE2 = function (name, vector, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniformVectorE2(name, vector, canvasId);
             }
@@ -21996,11 +22038,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @method uniformVectorE3
          * @param name {string}
          * @param vector {VectorE3}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.uniformVectorE3 = function (name, vector, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniformVectorE3(name, vector, canvasId);
             }
@@ -22022,11 +22063,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @method uniformVectorE4
          * @param name {string}
          * @param vector {VectorE4}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.uniformVectorE4 = function (name, vector, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.uniformVectorE4(name, vector, canvasId);
             }
@@ -22048,11 +22088,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @method vector2
          * @param name {string}
          * @param data {number[]}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.vector2 = function (name, data, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.vector2(name, data, canvasId);
             }
@@ -22074,11 +22113,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @method vector3
          * @param name {string}
          * @param data {number[]}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.vector3 = function (name, data, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.vector3(name, data, canvasId);
             }
@@ -22100,11 +22138,10 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
          * @method vector4
          * @param name {string}
          * @param data {number[]}
-         * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+         * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
         GraphicsProgram.prototype.vector4 = function (name, data, canvasId) {
-            if (canvasId === void 0) { canvasId = 0; }
             if (this.inner) {
                 this.inner.vector4(name, data, canvasId);
             }
@@ -22352,9 +22389,17 @@ define('davinci-eight/materials/GraphicsProgramBuilder',["require", "exports", '
      */
     var GraphicsProgramBuilder = (function () {
         /**
+         * Constructs the <code>GraphicsProgramBuilder</code>.
+         * The lifecycle for using this generator is
+         * <ol>
+         * <li>Create an instance of the <code>GraphicsProgramBuilder.</code></li>
+         * <li>Make calls to the <code>attribute</code> and/or <code>uniform</code> methods in any order.</li>
+         * <li>Call the <code>build</code> method to create the <code>GraphicsProgram</code>.</li>
+         * </ol>
+         * The same builder instance may be reused to create other programs.
          * @class GraphicsProgramBuilder
          * @constructor
-         * @param primitive [DrawPrimitive]
+         * @param [primitive] {DrawPrimitive}
          */
         function GraphicsProgramBuilder(primitive) {
             /**
@@ -22401,11 +22446,14 @@ define('davinci-eight/materials/GraphicsProgramBuilder',["require", "exports", '
          */
         GraphicsProgramBuilder.prototype.uniform = function (name, type) {
             mustBeString('name', name);
-            mustBeString('type', type); // Must also be a valid GLSL type.
+            mustBeString('type', type); // TODO: Must also be a valid GLSL uniform type.
             this.uParams[name] = { glslType: type };
             return this;
         };
         /**
+         * Creates a GraphicsProgram. This may contain multiple <code>WebGLProgram</code>(s),
+         * one for each context supplied. The generated program is compiled and linked
+         * for each context in response to context gain and loss events.
          * @method build
          * @param contexts {IContextMonitor[]}
          * @return {GraphicsProgram}

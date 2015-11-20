@@ -29,9 +29,17 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
      */
     var GraphicsProgramBuilder = (function () {
         /**
+         * Constructs the <code>GraphicsProgramBuilder</code>.
+         * The lifecycle for using this generator is
+         * <ol>
+         * <li>Create an instance of the <code>GraphicsProgramBuilder.</code></li>
+         * <li>Make calls to the <code>attribute</code> and/or <code>uniform</code> methods in any order.</li>
+         * <li>Call the <code>build</code> method to create the <code>GraphicsProgram</code>.</li>
+         * </ol>
+         * The same builder instance may be reused to create other programs.
          * @class GraphicsProgramBuilder
          * @constructor
-         * @param primitive [DrawPrimitive]
+         * @param [primitive] {DrawPrimitive}
          */
         function GraphicsProgramBuilder(primitive) {
             /**
@@ -78,11 +86,14 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
          */
         GraphicsProgramBuilder.prototype.uniform = function (name, type) {
             mustBeString('name', name);
-            mustBeString('type', type); // Must also be a valid GLSL type.
+            mustBeString('type', type); // TODO: Must also be a valid GLSL uniform type.
             this.uParams[name] = { glslType: type };
             return this;
         };
         /**
+         * Creates a GraphicsProgram. This may contain multiple <code>WebGLProgram</code>(s),
+         * one for each context supplied. The generated program is compiled and linked
+         * for each context in response to context gain and loss events.
          * @method build
          * @param contexts {IContextMonitor[]}
          * @return {GraphicsProgram}

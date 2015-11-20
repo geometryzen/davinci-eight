@@ -37,6 +37,7 @@ function vertexShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: 
 
     var lines: string[] = []
     lines.push("// generated vertex shader")
+    // The precision is implicitely highp for vertex shaders.
     for (var aName in attributes) {
         lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON)
     }

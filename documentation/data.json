@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.158.0",
+        "version": "2.159.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -1757,7 +1757,9 @@
         "src/davinci-eight/programs/SimpleWebGLProgram.ts": {
             "name": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "SimpleWebGLProgram": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1901,6 +1903,13 @@
         },
         "src/davinci-eight/scene/createDrawList.ts": {
             "name": "src/davinci-eight/scene/createDrawList.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/shaders/IShader.ts": {
+            "name": "src/davinci-eight/shaders/IShader.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -2204,6 +2213,7 @@
                 "ModelE3": 1,
                 "RigidBodyE2": 1,
                 "RigidBodyE3": 1,
+                "SimpleWebGLProgram": 1,
                 "IContextRenderer": 1,
                 "Drawable": 1,
                 "GraphicsContext": 1,
@@ -2753,7 +2763,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 14,
+            "line": 11,
             "extends": "IContextMonitor"
         },
         "IDrawable": {
@@ -4246,11 +4256,14 @@
             "namespace": "",
             "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
             "line": 58,
+            "description": "Constructs the <code>GraphicsProgramBuilder</code>.\nThe lifecycle for using this generator is\n<ol>\n<li>Create an instance of the <code>GraphicsProgramBuilder.</code></li>\n<li>Make calls to the <code>attribute</code> and/or <code>uniform</code> methods in any order.</li>\n<li>Call the <code>build</code> method to create the <code>GraphicsProgram</code>.</li>\n</ol>\nThe same builder instance may be reused to create other programs.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "primitive",
-                    "description": "[DrawPrimitive]"
+                    "description": "",
+                    "type": "DrawPrimitive",
+                    "optional": true
                 }
             ]
         },
@@ -5335,6 +5348,45 @@
                     "type": "String",
                     "optional": true,
                     "optdefault": " 'RigidBodyE3'"
+                }
+            ]
+        },
+        "SimpleWebGLProgram": {
+            "name": "SimpleWebGLProgram",
+            "shortname": "SimpleWebGLProgram",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 64,
+            "extends": "Shareable",
+            "description": "This class is <em>simple</em> because it assumes exactly\none vertex shader and one fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the context in the constructor enables it to enforce this invariant.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "context",
+                    "description": "The context that this program will work with.",
+                    "type": "IContextProvider"
+                },
+                {
+                    "name": "vertexShader",
+                    "description": "The vertex shader source code.",
+                    "type": "String"
+                },
+                {
+                    "name": "fragmentShader",
+                    "description": "The fragment shader source code.",
+                    "type": "String"
+                },
+                {
+                    "name": "attribs",
+                    "description": "The attribute ordering.",
+                    "type": "Array&lt;string&gt;",
+                    "optional": true
                 }
             ]
         },
@@ -7953,7 +8005,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 13,
+            "line": 14,
             "description": "Called to request the dependent to free any WebGL resources acquired and owned.\nThe dependent may assume that its cached context is still valid in order\nto properly dispose of any cached resources. In the case of shared objects, this\nmethod may be called multiple times for what is logically the same context. In such\ncases the dependent must be idempotent and respond only to the first request.",
             "itemtype": "method",
             "name": "contextFree",
@@ -7968,7 +8020,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 24,
+            "line": 26,
             "description": "Called to inform the dependent of a new WebGL rendering context.\nThe implementation should ignore the notification if it has already\nreceived the same context.",
             "itemtype": "method",
             "name": "contextGain",
@@ -7983,7 +8035,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextConsumer.ts",
-            "line": 32,
+            "line": 35,
             "description": "Called to inform the dependent of a loss of WebGL rendering context.\nThe dependent must assume that any cached context is invalid.\nThe dependent must not try to use and cached context to free resources.\nThe dependent should reset its state to that for which there is no context.",
             "itemtype": "method",
             "name": "contextLost",
@@ -8003,17 +8055,43 @@
         },
         {
             "file": "src/davinci-eight/core/IContextMonitor.ts",
-            "line": 16,
+            "line": 17,
+            "itemtype": "method",
+            "name": "removeContextListener",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "",
+                    "type": "IContextConsumer"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IContextMonitor"
         },
         {
             "file": "src/davinci-eight/core/IContextMonitor.ts",
-            "line": 20,
+            "line": 24,
+            "itemtype": "method",
+            "name": "synchronize",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "",
+                    "type": "IContextConsumer"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "class": "IContextMonitor"
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 19,
+            "line": 17,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -8022,7 +8100,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 25,
+            "line": 24,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -8049,7 +8127,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 37,
+            "line": 38,
             "itemtype": "method",
             "name": "createArrayBuffer",
             "return": {
@@ -8060,7 +8138,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 42,
+            "line": 44,
             "itemtype": "method",
             "name": "createBufferGeometry",
             "params": [
@@ -8084,7 +8162,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 49,
+            "line": 52,
             "itemtype": "method",
             "name": "createElementArrayBuffer",
             "return": {
@@ -8095,7 +8173,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 54,
+            "line": 58,
             "itemtype": "method",
             "name": "createTexture2D",
             "return": {
@@ -8106,7 +8184,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 59,
+            "line": 64,
             "itemtype": "method",
             "name": "createTextureCubeMap",
             "return": {
@@ -8117,7 +8195,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 64,
+            "line": 70,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -8135,7 +8213,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 70,
+            "line": 77,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -12691,11 +12769,10 @@
             "name": "attributes",
             "params": [
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -12712,11 +12789,10 @@
             "name": "uniforms",
             "params": [
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -12738,11 +12814,10 @@
                     "type": "String"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -12764,11 +12839,10 @@
                     "type": "String"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -12787,7 +12861,8 @@
                 {
                     "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -12825,7 +12900,8 @@
                 {
                     "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -12866,11 +12942,10 @@
                     "type": "Number"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -12902,11 +12977,10 @@
                     "type": "Number"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -12943,11 +13017,10 @@
                     "type": "Number"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -12989,11 +13062,10 @@
                     "type": "Number"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -13060,11 +13132,10 @@
                     "type": "Matrix3"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -13096,11 +13167,10 @@
                     "type": "Matrix4"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -13127,11 +13197,10 @@
                     "type": "VectorE2"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -13158,11 +13227,10 @@
                     "type": "VectorE3"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -13189,11 +13257,10 @@
                     "type": "VectorE4"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -13220,11 +13287,10 @@
                     "type": "Number[]"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -13251,11 +13317,10 @@
                     "type": "Number[]"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -13282,11 +13347,10 @@
                     "type": "Number[]"
                 },
                 {
-                    "name": "canvasId ",
+                    "name": "canvasId",
                     "description": "Determines which WebGLProgram to use.",
                     "type": "Number",
-                    "optional": true,
-                    "optdefault": " 0"
+                    "optional": true
                 }
             ],
             "return": {
@@ -13328,7 +13392,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
-            "line": 75,
+            "line": 83,
             "description": "Declares that the material should have an `attribute` with the specified name and chunkSize.",
             "itemtype": "method",
             "name": "attribute",
@@ -13354,7 +13418,7 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
-            "line": 91,
+            "line": 98,
             "description": "Declares that the material should have a `uniform` with the specified name and type.",
             "itemtype": "method",
             "name": "uniform",
@@ -13380,7 +13444,8 @@
         },
         {
             "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
-            "line": 107,
+            "line": 113,
+            "description": "Creates a GraphicsProgram. This may contain multiple <code>WebGLProgram</code>(s),\none for each context supplied. The generated program is compiled and linked\nfor each context in response to context gain and loss events.",
             "itemtype": "method",
             "name": "build",
             "params": [
@@ -27192,9 +27257,159 @@
         },
         {
             "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
-            "line": 8,
-            "description": "This class is \"simple because\" it assumes exactly one vertex shader and on fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the manager in the constructor enables it to enforce this invariant.",
-            "class": "IContextRenderer",
+            "line": 17,
+            "itemtype": "property",
+            "name": "context",
+            "type": "{IContextProvider}",
+            "access": "private",
+            "tagname": "",
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 24,
+            "itemtype": "property",
+            "name": "vertexShader",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 31,
+            "itemtype": "property",
+            "name": "fragmentShader",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 38,
+            "itemtype": "property",
+            "name": "attribs",
+            "type": "{Array&lt;string&gt;}",
+            "access": "private",
+            "tagname": "",
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 45,
+            "itemtype": "property",
+            "name": "program",
+            "type": "{WebGLProgram}",
+            "access": "private",
+            "tagname": "",
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 52,
+            "itemtype": "property",
+            "name": "attributes",
+            "type": "{{[name: string]: AttribLocation}}",
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 58,
+            "itemtype": "property",
+            "name": "uniforms",
+            "type": "{{[name: string]: UniformLocation}}",
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 87,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 116,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 154,
+            "itemtype": "method",
+            "name": "contextLost",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 169,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "SimpleWebGLProgram",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+            "line": 198,
+            "itemtype": "method",
+            "name": "use",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "SimpleWebGLProgram",
             "module": "EIGHT"
         },
         {
@@ -28465,8 +28680,22 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/shaders/IShader.ts",
+            "line": 3,
+            "description": "Under Construction\nIntentionally Undocumented",
+            "class": "Director",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/shaders/ShareableWebGLShader.ts",
-            "line": 8,
+            "line": 6,
+            "description": "Under Construction\nIntentionally Undocumented",
+            "class": "Director",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/shaders/ShareableWebGLShader.ts",
+            "line": 12,
             "description": "Construction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",
             "class": "Director",
             "module": "EIGHT"
@@ -29129,14 +29358,6 @@
         {
             "message": "Missing item type",
             "line": " src/davinci-eight/core/IContextMonitor.ts:12"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/IContextMonitor.ts:16"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/IContextMonitor.ts:20"
         },
         {
             "message": "Missing item type",
@@ -29915,10 +30136,6 @@
             "line": " src/davinci-eight/math/wedgeZX.ts:1"
         },
         {
-            "message": "Missing item type\nThis class is \"simple because\" it assumes exactly one vertex shader and on fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the manager in the constructor enables it to enforce this invariant.",
-            "line": " src/davinci-eight/programs/SimpleWebGLProgram.ts:8"
-        },
-        {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
             "line": " src/davinci-eight/programs/createGraphicsProgram.ts:34"
         },
@@ -30015,8 +30232,16 @@
             "line": " src/davinci-eight/scene/createDrawList.ts:281"
         },
         {
+            "message": "Missing item type\nUnder Construction\nIntentionally Undocumented",
+            "line": " src/davinci-eight/shaders/IShader.ts:3"
+        },
+        {
+            "message": "Missing item type\nUnder Construction\nIntentionally Undocumented",
+            "line": " src/davinci-eight/shaders/ShareableWebGLShader.ts:6"
+        },
+        {
             "message": "Missing item type\nConstruction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",
-            "line": " src/davinci-eight/shaders/ShareableWebGLShader.ts:8"
+            "line": " src/davinci-eight/shaders/ShareableWebGLShader.ts:12"
         },
         {
             "message": "Missing item type\n(name: string) => IAnimationTarget",

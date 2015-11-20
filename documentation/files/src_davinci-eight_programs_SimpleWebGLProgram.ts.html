@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.158.0</em>
+            <em>API Docs for: 2.159.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -168,6 +168,7 @@
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shape.html">Shape</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/SimpleWebGLProgram.html">SimpleWebGLProgram</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
                                 <li><a href="../classes/SimplexGeometry.html">SimplexGeometry</a></li>
@@ -250,123 +251,206 @@ import AttribLocation = require(&#x27;../core/AttribLocation&#x27;)
 import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;)
 import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
 import makeWebGLProgram = require(&#x27;../programs/makeWebGLProgram&#x27;)
+import mustBeArray = require(&#x27;../checks/mustBeArray&#x27;)
+import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import UniformLocation = require(&#x27;../core/UniformLocation&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
 
 /**
- * This class is &quot;simple because&quot; it assumes exactly one vertex shader and on fragment shader.
- * This class assumes that it will only be supporting a single WebGL rendering context.
- * The existence of the manager in the constructor enables it to enforce this invariant.
+ * @class SimpleWebGLProgram
+ * @extends Shareable
  */
 class SimpleWebGLProgram extends Shareable implements IContextConsumer {
-  // Keep private to avoid worrying about reference counting.  
-  private manager: IContextProvider;
-  private vertexShader: string;
-  private fragmentShader: string;
-  private attribs: string[];
-  private program: WebGLProgram;
-  public attributes: { [name: string]: AttribLocation } = {};
-  public uniforms: { [name: string]: UniformLocation } = {};
-  constructor(manager: IContextProvider, vertexShader: string, fragmentShader: string, attribs: string[]) {
-    super(&#x27;SimpleWebGLProgram&#x27;)
-    this.manager = manager
-    // Interesting. CM can&#x27;t be addRefd!
-    // manager.addRef()
-    this.vertexShader = vertexShader
-    this.fragmentShader = fragmentShader
-    this.attribs = attribs
-    this.manager.addContextListener(this)
-    this.manager.synchronize(this)
-  }
-  protected destructor(): void {
-    let manager = this.manager
-    let canvasId = manager.canvasId
-    // If the program has been allocated, find out what to do with it.
-    // (we may have been disconnected from listening)
-    if (this.program) {
-      let gl = manager.gl
-      if (gl) {
-       if (gl.isContextLost()) {
-          this.contextLost(canvasId)
+
+    /**
+     * @property context
+     * @type {IContextProvider}
+     * @private
+     */
+    private context: IContextProvider;
+
+    /**
+     * @property vertexShader
+     * @type {string}
+     * @private
+     */
+    private vertexShader: string;
+
+    /**
+     * @property fragmentShader
+     * @type {string}
+     * @private
+     */
+    private fragmentShader: string;
+
+    /**
+     * @property attribs
+     * @type {Array&amp;lt;string&amp;gt;}
+     * @private
+     */
+    private attribs: string[];
+
+    /**
+     * @property program
+     * @type {WebGLProgram}
+     * @private
+     */
+    private program: WebGLProgram;
+
+    /**
+     * @property attributes
+     * @type {{[name: string]: AttribLocation}}
+     */
+    public attributes: { [name: string]: AttribLocation } = {};
+
+    /**
+     * @property uniforms
+     * @type {{[name: string]: UniformLocation}}
+     */
+    public uniforms: { [name: string]: UniformLocation } = {};
+
+    /**
+     * This class is &lt;em&gt;simple&lt;/em&gt; because it assumes exactly
+     * one vertex shader and one fragment shader.
+     * This class assumes that it will only be supporting a single WebGL rendering context.
+     * The existence of the context in the constructor enables it to enforce this invariant.
+     * @class SimpleWebGLProgram
+     * @constructor
+     * @param context {IContextProvider} The context that this program will work with.
+     * @param vertexShader {string} The vertex shader source code.
+     * @param fragmentShader {string} The fragment shader source code.
+     * @param [attribs] {Array&amp;lt;string&amp;gt;} The attribute ordering.
+     */
+    constructor(context: IContextProvider, vertexShader: string, fragmentShader: string, attribs: string[] = []) {
+        super(&#x27;SimpleWebGLProgram&#x27;)
+        this.context = mustBeObject(&#x27;context&#x27;, context)
+        context.addRef()
+        this.vertexShader = mustBeString(&#x27;vertexShader&#x27;, vertexShader)
+        this.fragmentShader = mustBeString(&#x27;fragmentShader&#x27;, fragmentShader)
+        this.attribs = mustBeArray(&#x27;attribs&#x27;, attribs)
+        context.addContextListener(this)
+        context.synchronize(this)
+    }
+
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        let context = this.context
+        let canvasId = context.canvasId
+        // If the program has been allocated, find out what to do with it.
+        // (we may have been disconnected from listening)
+        if (this.program) {
+            let gl = context.gl
+            if (gl) {
+                if (gl.isContextLost()) {
+                    this.contextLost(canvasId)
+                }
+                else {
+                    this.contextFree(canvasId)
+                }
+            }
+            else {
+                console.warn(&quot;memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.&quot;)
+            }
         }
-        else {
-          this.contextFree(canvasId)
+        context.removeContextListener(this)
+        this.context.release()
+        this.context = void 0
+    }
+
+    /**
+     * @method contextGain
+     * @param context {IContextProvider}
+     * @return {void}
+     */
+    contextGain(unused: IContextProvider): void {
+        let context = this.context
+        let gl = context.gl
+        if (!this.program) {
+            this.program = makeWebGLProgram(context.gl, this.vertexShader, this.fragmentShader, this.attribs)
+            let program = this.program
+            let attributes = this.attributes
+            let uniforms = this.uniforms
+            let activeAttributes: number = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES)
+            for (var a = 0; a &lt; activeAttributes; a++) {
+                let activeAttribInfo: WebGLActiveInfo = gl.getActiveAttrib(program, a)
+                let name: string = activeAttribInfo.name
+                if (!attributes[name]) {
+                    attributes[name] = new AttribLocation(context, name)
+                }
+            }
+            let activeUniforms: number = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS)
+            for (var u = 0; u &lt; activeUniforms; u++) {
+                let activeUniformInfo: WebGLActiveInfo = gl.getActiveUniform(program, u)
+                let name: string = activeUniformInfo.name
+                if (!uniforms[name]) {
+                    uniforms[name] = new UniformLocation(context, name)
+                }
+            }
+            for (var aName in attributes) {
+                attributes[aName].contextGain(gl, program)
+            }
+            for (var uName in uniforms) {
+                uniforms[uName].contextGain(gl, program)
+            }
         }
-      }
-      else {
-        console.warn(&quot;memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.&quot;)
-      }
     }
-    manager.removeContextListener(this)
-    // this.manager.release()
-    this.manager = void 0
-  }
-  contextGain(manager: IContextProvider): void {
-    if (!this.program) {
-      this.program = makeWebGLProgram(manager.gl, this.vertexShader, this.fragmentShader, this.attribs)
-      let context = manager.gl
-      let program = this.program
-      let attributes = this.attributes
-      let uniforms = this.uniforms
-      let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES)
-      for (var a = 0; a &lt; activeAttributes; a++) {
-        let activeAttribInfo: WebGLActiveInfo = context.getActiveAttrib(program, a)
-        let name: string = activeAttribInfo.name
-        if (!attributes[name]) {
-          attributes[name] = new AttribLocation(manager, name)
+
+    /**
+     * @method contextLost
+     * @param [canvasId] {number}
+     * @return {void}
+     */
+    contextLost(unused?: number): void {
+        this.program = void 0
+        for (var aName in this.attributes) {
+            this.attributes[aName].contextLost()
         }
-      }
-      let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS)
-      for (var u = 0; u &lt; activeUniforms; u++) {
-        let activeUniformInfo: WebGLActiveInfo = context.getActiveUniform(program, u)
-        let name: string = activeUniformInfo.name
-        if (!uniforms[name]) {
-          uniforms[name] = new UniformLocation(manager, name)
+        for (var uName in this.uniforms) {
+            this.uniforms[uName].contextLost()
         }
-      }
-      for(var aName in attributes) {
-        attributes[aName].contextGain(context, program)
-      }
-      for(var uName in uniforms) {
-        uniforms[uName].contextGain(context, program)
-      }
     }
-  }
-  contextLost(canvasId: number): void {
-    this.program = void 0
-    for (var aName in this.attributes) {
-      this.attributes[aName].contextLost()
-    }
-    for (var uName in this.uniforms) {
-      this.uniforms[uName].contextLost()
-    }
-  }
-  contextFree(canvasId: number): void {
-    if (this.program) {
-      let gl = this.manager.gl
-      if (gl) {
-        if (!gl.isContextLost()) {
-          gl.deleteProgram(this.program)
+
+    /**
+     * @method contextFree
+     * @param [canvasId] number
+     * @return {void} 
+     */
+    contextFree(unused?: number): void {
+        if (this.program) {
+            let gl = this.context.gl
+            if (gl) {
+                if (!gl.isContextLost()) {
+                    gl.deleteProgram(this.program)
+                }
+                else {
+                    // WebGL has lost the context, effectively cleaning up everything.
+                }
+            }
+            else {
+                console.warn(&quot;memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.&quot;)
+            }
+            this.program = void 0
         }
-        else {
-          // WebGL has lost the context, effectively cleaning up everything.
+        for (var aName in this.attributes) {
+            this.attributes[aName].contextFree()
         }
-      }
-      else {
-        console.warn(&quot;memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.&quot;)
-      }
-      this.program = void 0
+        for (var uName in this.uniforms) {
+            this.uniforms[uName].contextFree()
+        }
     }
-    for(var aName in this.attributes) {
-      this.attributes[aName].contextFree()
+
+    /**
+     * @method use
+     * @return {void}
+     */
+    use(): void {
+        this.context.gl.useProgram(this.program)
     }
-    for(var uName in this.uniforms) {
-      this.uniforms[uName].contextFree()
-    }
-  }
-  use(): void {
-    this.manager.gl.useProgram(this.program)
-  }
 }
 
 export = SimpleWebGLProgram

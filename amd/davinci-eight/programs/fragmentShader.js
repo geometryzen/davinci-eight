@@ -9,6 +9,15 @@ define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeDefine
         mustBeBoolean('vLight', vLight);
         var lines = [];
         lines.push("// generated fragment shader");
+        // Only the fragment shader requires an explicit precision for floats.
+        // For fragment shaders, highp might not be available, which can be tested using the GL_FRAGMENT_PRECISION_HIGH macro.
+        lines.push("#ifdef GL_ES");
+        lines.push("#  ifdef GL_FRAGMENT_PRECISION_HIGH");
+        lines.push("precision highp float;");
+        lines.push("#  else");
+        lines.push("precision mediump float;");
+        lines.push("#  endif");
+        lines.push("#endif");
         if (vColor) {
             lines.push("varying highp vec4 vColor;");
         }

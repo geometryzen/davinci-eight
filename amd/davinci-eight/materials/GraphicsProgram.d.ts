@@ -76,7 +76,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
     /**
      * Returns a map of GLSL attribute name to <code>AttribLocation</code>.
      * @method attributes
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{[name: string]: AttribLocation}}
      */
     attributes(canvasId?: number): {
@@ -84,7 +84,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
     };
     /**
      * @method uniforms
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{[name: string]: UniformLocation}}
      */
     uniforms(canvasId?: number): {
@@ -93,23 +93,23 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
     /**
      * @method enableAttrib
      * @param name {string}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     enableAttrib(name: string, canvasId?: number): void;
     /**
      * @method disableAttrib
      * @param name {string}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     disableAttrib(name: string, canvasId?: number): void;
     /**
      * @method contextFree
-     * @param canvasId {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    contextFree(canvasId: number): void;
+    contextFree(canvasId?: number): void;
     /**
      * @method contextGain
      * @param manager {IContextProvider}
@@ -118,10 +118,10 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
     contextGain(manager: IContextProvider): void;
     /**
      * @method contextLost
-     * @param canvasId {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    contextLost(canvasId: number): void;
+    contextLost(canvasId?: number): void;
     /**
      * @method createGraphicsProgram
      * @return {IGraphicsProgram}
@@ -132,7 +132,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method uniform1f
      * @param name {string}
      * @param x {number}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniform1f(name: string, x: number, canvasId?: number): void;
@@ -141,7 +141,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param name {string}
      * @param x {number}
      * @param y {number}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniform2f(name: string, x: number, y: number, canvasId?: number): void;
@@ -151,7 +151,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param x {number}
      * @param y {number}
      * @param z {number}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniform3f(name: string, x: number, y: number, z: number, canvasId?: number): void;
@@ -162,7 +162,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param y {number}
      * @param z {number}
      * @param w {number}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId?: number): void;
@@ -180,7 +180,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param name {string}
      * @param transpose {boolean}
      * @param matrix {Matrix3}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId?: number): void;
@@ -189,7 +189,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param name {string}
      * @param transpose {boolean}
      * @param matrix {Matrix4}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number): void;
@@ -197,7 +197,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method uniformVectorE2
      * @param name {string}
      * @param vector {VectorE2}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniformVectorE2(name: string, vector: VectorE2, canvasId?: number): void;
@@ -205,7 +205,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method uniformVectorE3
      * @param name {string}
      * @param vector {VectorE3}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniformVectorE3(name: string, vector: VectorE3, canvasId?: number): void;
@@ -213,7 +213,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method uniformVectorE4
      * @param name {string}
      * @param vector {VectorE4}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     uniformVectorE4(name: string, vector: VectorE4, canvasId?: number): void;
@@ -221,7 +221,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method vector2
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     vector2(name: string, data: number[], canvasId?: number): void;
@@ -229,7 +229,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method vector3
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     vector3(name: string, data: number[], canvasId?: number): void;
@@ -237,7 +237,7 @@ declare class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method vector4
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
     vector4(name: string, data: number[], canvasId?: number): void;

@@ -130,6 +130,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ShaderVariableDecl",
         "Shape",
         "Shareable",
+        "SimpleWebGLProgram",
         "Simplex",
         "Simplex1Geometry",
         "SimplexGeometry",

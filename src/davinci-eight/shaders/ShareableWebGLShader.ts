@@ -3,6 +3,10 @@ import IContextMonitor = require('../core/IContextMonitor');
 import IShader = require('../shaders/IShader');
 import Shareable = require('../utils/Shareable')
 
+/**
+ * Under Construction
+ * Intentionally Undocumented
+ */
 class ShareableWebGLShader extends Shareable implements IShader {
   private shader: WebGLShader;
   /**

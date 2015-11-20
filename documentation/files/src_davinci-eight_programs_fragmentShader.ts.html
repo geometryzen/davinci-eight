@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.158.0</em>
+            <em>API Docs for: 2.159.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -168,6 +168,7 @@
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shape.html">Shape</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/SimpleWebGLProgram.html">SimpleWebGLProgram</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
                                 <li><a href="../classes/SimplexGeometry.html">SimplexGeometry</a></li>
@@ -256,40 +257,49 @@ import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
  */
 function fragmentShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vLight: boolean) {
 
-  mustBeDefined(&#x27;attributes&#x27;, attributes);
-  mustBeDefined(&#x27;uniforms&#x27;, uniforms);
-  mustBeBoolean(&#x27;vColor&#x27;, vColor);
-  mustBeBoolean(&#x27;vLight&#x27;, vLight);
+    mustBeDefined(&#x27;attributes&#x27;, attributes);
+    mustBeDefined(&#x27;uniforms&#x27;, uniforms);
+    mustBeBoolean(&#x27;vColor&#x27;, vColor);
+    mustBeBoolean(&#x27;vLight&#x27;, vLight);
 
-  var lines: string[] = [];
-  lines.push(&quot;// generated fragment shader&quot;)
-  if (vColor) {
-    lines.push(&quot;varying highp vec4 vColor;&quot;);
-  }
-  if (vLight) {
-    lines.push(&quot;varying highp vec3 vLight;&quot;);
-  }
-  lines.push(&quot;void main(void) {&quot;);
-  let glFragColor: string[] = [];
-  if (vLight) {
+    var lines: string[] = [];
+    lines.push(&quot;// generated fragment shader&quot;)
+    // Only the fragment shader requires an explicit precision for floats.
+    // For fragment shaders, highp might not be available, which can be tested using the GL_FRAGMENT_PRECISION_HIGH macro.
+    lines.push(&quot;#ifdef GL_ES&quot;)
+    lines.push(&quot;#  ifdef GL_FRAGMENT_PRECISION_HIGH&quot;)
+    lines.push(&quot;precision highp float;&quot;)
+    lines.push(&quot;#  else&quot;)
+    lines.push(&quot;precision mediump float;&quot;)
+    lines.push(&quot;#  endif&quot;)
+    lines.push(&quot;#endif&quot;)
     if (vColor) {
-      lines.push(&quot;  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);&quot;);
+        lines.push(&quot;varying highp vec4 vColor;&quot;);
+    }
+    if (vLight) {
+        lines.push(&quot;varying highp vec3 vLight;&quot;);
+    }
+    lines.push(&quot;void main(void) {&quot;);
+    let glFragColor: string[] = [];
+    if (vLight) {
+        if (vColor) {
+            lines.push(&quot;  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);&quot;);
+        }
+        else {
+            lines.push(&quot;  gl_FragColor = vec4(vLight, 1.0);&quot;);
+        }
     }
     else {
-      lines.push(&quot;  gl_FragColor = vec4(vLight, 1.0);&quot;);
+        if (vColor) {
+            lines.push(&quot;  gl_FragColor = vColor;&quot;);
+        }
+        else {
+            lines.push(&quot;  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);&quot;);
+        }
     }
-  }
-  else {
-    if (vColor) {
-      lines.push(&quot;  gl_FragColor = vColor;&quot;);
-    }
-    else {
-      lines.push(&quot;  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);&quot;);
-    }
-  }
-  lines.push(&quot;}&quot;);
-  var code = lines.join(&quot;\n&quot;);
-  return code;
+    lines.push(&quot;}&quot;);
+    var code = lines.join(&quot;\n&quot;);
+    return code;
 }
 
 export = fragmentShader;

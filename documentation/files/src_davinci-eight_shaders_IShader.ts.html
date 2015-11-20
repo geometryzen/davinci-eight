@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/ContextController.ts - davinci-eight</title>
+    <title>src/davinci-eight/shaders/IShader.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -243,31 +243,21 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/ContextController.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/shaders/IShader.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import IResource = require(&#x27;../core/IResource&#x27;);
+
 /**
- * @class ContextController
+ * Under Construction
+ * Intentionally Undocumented
  */
-interface ContextController {
-  /**
-   * @method start
-   * @param canvas {HTMLCanvasElement}
-   * @param canvasId {number}
-   * @return {void}
-   */
-  start(canvas: HTMLCanvasElement, canvasId: number): void
-  /**
-   * @method stop
-   * @return {void}
-   */
-  stop(): void
-  // FIXME: kill: You won&#x27;t be seeing me again.
-  // kill(): void;
+interface IShader extends IResource {
+
 }
 
-export = ContextController
+export = IShader
     </pre>
 </div>
                     </div>

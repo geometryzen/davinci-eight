@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.158.0</em>
+            <em>API Docs for: 2.159.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -168,6 +168,7 @@
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shape.html">Shape</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/SimpleWebGLProgram.html">SimpleWebGLProgram</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
                                 <li><a href="../classes/SimplexGeometry.html">SimplexGeometry</a></li>
@@ -398,10 +399,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     /**
      * Returns a map of GLSL attribute name to &lt;code&gt;AttribLocation&lt;/code&gt;.
      * @method attributes
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{[name: string]: AttribLocation}}
      */
-    attributes(canvasId: number = 0): { [name: string]: AttribLocation } {
+    attributes(canvasId?: number): { [name: string]: AttribLocation } {
         // FIXME: Why is this called?
         // FIXME: The map should be protected but that is slow
         // FIXME Clear need for performant solution.
@@ -422,10 +423,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
 
     /**
      * @method uniforms
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{[name: string]: UniformLocation}}
      */
-    uniforms(canvasId: number = 0): { [name: string]: UniformLocation } {
+    uniforms(canvasId?: number): { [name: string]: UniformLocation } {
         if (this.inner) {
             return this.inner.uniforms(canvasId)
         }
@@ -444,10 +445,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     /**
      * @method enableAttrib
      * @param name {string}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    enableAttrib(name: string, canvasId: number = 0): void {
+    enableAttrib(name: string, canvasId?: number): void {
         if (this.inner) {
             return this.inner.enableAttrib(name, canvasId)
         }
@@ -466,10 +467,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     /**
      * @method disableAttrib
      * @param name {string}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    disableAttrib(name: string, canvasId: number = 0) {
+    disableAttrib(name: string, canvasId?: number) {
         if (this.inner) {
             return this.inner.disableAttrib(name, canvasId)
         }
@@ -487,10 +488,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
 
     /**
      * @method contextFree
-     * @param canvasId {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    contextFree(canvasId: number): void {
+    contextFree(canvasId?: number): void {
         if (this.inner) {
             this.inner.contextFree(canvasId)
         }
@@ -512,10 +513,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
 
     /**
      * @method contextLost
-     * @param canvasId {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    contextLost(canvasId: number) {
+    contextLost(canvasId?: number) {
         if (this.inner) {
             this.inner.contextLost(canvasId)
         }
@@ -535,10 +536,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method uniform1f
      * @param name {string}
      * @param x {number}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform1f(name: string, x: number, canvasId: number = 0): void {
+    uniform1f(name: string, x: number, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniform1f(name, x, canvasId)
         }
@@ -562,10 +563,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param name {string}
      * @param x {number}
      * @param y {number}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform2f(name: string, x: number, y: number, canvasId: number = 0): void {
+    uniform2f(name: string, x: number, y: number, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniform2f(name, x, y, canvasId)
         }
@@ -590,10 +591,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param x {number}
      * @param y {number}
      * @param z {number}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform3f(name: string, x: number, y: number, z: number, canvasId: number = 0): void {
+    uniform3f(name: string, x: number, y: number, z: number, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniform3f(name, x, y, z, canvasId)
         }
@@ -619,10 +620,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param y {number}
      * @param z {number}
      * @param w {number}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number = 0): void {
+    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniform4f(name, x, y, z, w, canvasId)
         }
@@ -649,7 +650,7 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number = 0): void {
+    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniformMatrix2(name, transpose, matrix, canvasId)
         }
@@ -673,10 +674,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param name {string}
      * @param transpose {boolean}
      * @param matrix {Matrix3}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number = 0): void {
+    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniformMatrix3(name, transpose, matrix, canvasId)
         }
@@ -700,10 +701,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @param name {string}
      * @param transpose {boolean}
      * @param matrix {Matrix4}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number = 0): void {
+    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniformMatrix4(name, transpose, matrix, canvasId)
         }
@@ -728,10 +729,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method uniformVectorE2
      * @param name {string}
      * @param vector {VectorE2}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE2(name: string, vector: VectorE2, canvasId: number = 0): void {
+    uniformVectorE2(name: string, vector: VectorE2, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniformVectorE2(name, vector, canvasId)
         }
@@ -754,10 +755,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method uniformVectorE3
      * @param name {string}
      * @param vector {VectorE3}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE3(name: string, vector: VectorE3, canvasId: number = 0): void {
+    uniformVectorE3(name: string, vector: VectorE3, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniformVectorE3(name, vector, canvasId)
         }
@@ -780,10 +781,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method uniformVectorE4
      * @param name {string}
      * @param vector {VectorE4}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE4(name: string, vector: VectorE4, canvasId: number = 0): void {
+    uniformVectorE4(name: string, vector: VectorE4, canvasId?: number): void {
         if (this.inner) {
             this.inner.uniformVectorE4(name, vector, canvasId)
         }
@@ -806,10 +807,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method vector2
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector2(name: string, data: number[], canvasId: number = 0): void {
+    vector2(name: string, data: number[], canvasId?: number): void {
         if (this.inner) {
             this.inner.vector2(name, data, canvasId)
         }
@@ -832,10 +833,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method vector3
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector3(name: string, data: number[], canvasId: number = 0): void {
+    vector3(name: string, data: number[], canvasId?: number): void {
         if (this.inner) {
             this.inner.vector3(name, data, canvasId)
         }
@@ -858,10 +859,10 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * @method vector4
      * @param name {string}
      * @param data {number[]}
-     * @param [canvasId = 0] {number} Determines which WebGLProgram to use.
+     * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector4(name: string, data: number[], canvasId: number = 0): void {
+    vector4(name: string, data: number[], canvasId?: number): void {
         if (this.inner) {
             this.inner.vector4(name, data, canvasId)
         }

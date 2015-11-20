@@ -10,6 +10,7 @@ import IUnknown = require('../core/IUnknown')
  * @extends IUnknown
  */
 interface IContextConsumer extends IUnknown {
+
   /**
    * Called to request the dependent to free any WebGL resources acquired and owned.
    * The dependent may assume that its cached context is still valid in order
@@ -21,6 +22,7 @@ interface IContextConsumer extends IUnknown {
    */
   // FIXME: Passing in the manager would allow some implementations to not cache the WebGL rendering context.  
   contextFree(canvasId: number): void;
+
   /**
    * Called to inform the dependent of a new WebGL rendering context.
    * The implementation should ignore the notification if it has already
@@ -29,6 +31,7 @@ interface IContextConsumer extends IUnknown {
    * @param manager {IContextProvider} If there's something strange in your neighborhood.
    */
   contextGain(manager: IContextProvider): void;
+
   /**
    * Called to inform the dependent of a loss of WebGL rendering context.
    * The dependent must assume that any cached context is invalid.

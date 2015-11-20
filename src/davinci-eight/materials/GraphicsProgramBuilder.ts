@@ -1,41 +1,41 @@
-import IContextMonitor = require('../core/IContextMonitor');
-import getAttribVarName = require('../core/getAttribVarName');
-import DrawPrimitive = require('../geometries/DrawPrimitive');
-import getUniformVarName = require('../core/getUniformVarName');
-import glslAttribType = require('../programs/glslAttribType');
-import GraphicsProgram = require('../materials/GraphicsProgram');
-import mustBeInteger = require('../checks/mustBeInteger');
-import mustBeString = require('../checks/mustBeString');
-import SmartGraphicsProgram = require('../materials/SmartGraphicsProgram');
-import UniformMetaInfo = require('../core/UniformMetaInfo');
-import vColorRequired = require('../programs/vColorRequired');
-import vLightRequired = require('../programs/vLightRequired');
+import DrawPrimitive = require('../geometries/DrawPrimitive')
+import getAttribVarName = require('../core/getAttribVarName')
+import getUniformVarName = require('../core/getUniformVarName')
+import glslAttribType = require('../programs/glslAttribType')
+import GraphicsProgram = require('../materials/GraphicsProgram')
+import IContextMonitor = require('../core/IContextMonitor')
+import mustBeInteger = require('../checks/mustBeInteger')
+import mustBeString = require('../checks/mustBeString')
+import SmartGraphicsProgram = require('../materials/SmartGraphicsProgram')
+import UniformMetaInfo = require('../core/UniformMetaInfo')
+import vColorRequired = require('../programs/vColorRequired')
+import vLightRequired = require('../programs/vLightRequired')
 
 function computeAttribParams(values: { [key: string]: { chunkSize: number, name?: string } }) {
     var result: { [key: string]: { glslType: string, name?: string } } = {}
-    let keys = Object.keys(values);
-    let keysLength = keys.length;
+    let keys = Object.keys(values)
+    let keysLength = keys.length
     for (var i = 0; i < keysLength; i++) {
-        let key = keys[i];
-        let attribute = values[key];
-        let chunkSize = mustBeInteger('chunkSize', attribute.chunkSize);
-        let varName = getAttribVarName(attribute, key);
-        result[varName] = { glslType: glslAttribType(key, chunkSize) };
+        let key = keys[i]
+        let attribute = values[key]
+        let chunkSize = mustBeInteger('chunkSize', attribute.chunkSize)
+        let varName = getAttribVarName(attribute, key)
+        result[varName] = { glslType: glslAttribType(key, chunkSize) }
     }
-    return result;
+    return result
 }
 
 function updateUniformMeta(uniforms: { [key: string]: UniformMetaInfo }[]) {
     uniforms.forEach(function(values) {
-        let keys = Object.keys(values);
-        let keysLength = keys.length;
+        let keys = Object.keys(values)
+        let keysLength = keys.length
         for (var i = 0; i < keysLength; i++) {
-            let key = keys[i];
-            let uniform = values[key];
-            let varName = getUniformVarName(uniform, key);
-            this.uParams[varName] = { glslType: uniform.glslType };
+            let key = keys[i]
+            let uniform = values[key]
+            let varName = getUniformVarName(uniform, key)
+            this.uParams[varName] = { glslType: uniform.glslType }
         }
-    });
+    })
 }
 
 /**
@@ -56,9 +56,17 @@ class GraphicsProgramBuilder {
     private uParams: { [key: string]: { glslType: string; name?: string } } = {};
 
     /**
+     * Constructs the <code>GraphicsProgramBuilder</code>.
+     * The lifecycle for using this generator is
+     * <ol>
+     * <li>Create an instance of the <code>GraphicsProgramBuilder.</code></li>
+     * <li>Make calls to the <code>attribute</code> and/or <code>uniform</code> methods in any order.</li>
+     * <li>Call the <code>build</code> method to create the <code>GraphicsProgram</code>.</li>
+     * </ol>
+     * The same builder instance may be reused to create other programs.
      * @class GraphicsProgramBuilder
      * @constructor
-     * @param primitive [DrawPrimitive]
+     * @param [primitive] {DrawPrimitive}
      */
     constructor(primitive?: DrawPrimitive) {
         if (primitive) {
@@ -83,7 +91,6 @@ class GraphicsProgramBuilder {
     public attribute(name: string, chunkSize: number): GraphicsProgramBuilder {
         mustBeString('name', name)
         mustBeInteger('chunkSize', chunkSize)
-
         this.aMeta[name] = { chunkSize: chunkSize }
         return this
     }
@@ -98,13 +105,15 @@ class GraphicsProgramBuilder {
      */
     public uniform(name: string, type: string): GraphicsProgramBuilder {
         mustBeString('name', name)
-        mustBeString('type', type)  // Must also be a valid GLSL type.
-
+        mustBeString('type', type)  // TODO: Must also be a valid GLSL uniform type.
         this.uParams[name] = { glslType: type }
         return this
     }
 
     /**
+     * Creates a GraphicsProgram. This may contain multiple <code>WebGLProgram</code>(s),
+     * one for each context supplied. The generated program is compiled and linked
+     * for each context in response to context gain and loss events.
      * @method build
      * @param contexts {IContextMonitor[]}
      * @return {GraphicsProgram}

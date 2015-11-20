@@ -259,6 +259,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.156.0: 2015-11-17 Matrix3
 * 2.157.0: 2015-11-18 canvasId
 * 2.158.0: 2015-11-19 GraphicsProgram
+* 2.159.0: 2015-11-20 SimpleWebGLProgram
 
 ## Unit
 Copyright (c) 2014-2015 David Holmes

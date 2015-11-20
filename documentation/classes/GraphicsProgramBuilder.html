@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.158.0</em>
+            <em>API Docs for: 2.159.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -168,6 +168,7 @@
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shape.html">Shape</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
+                                <li><a href="../classes/SimpleWebGLProgram.html">SimpleWebGLProgram</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Simplex1Geometry.html">Simplex1Geometry</a></li>
                                 <li><a href="../classes/SimplexGeometry.html">SimplexGeometry</a></li>
@@ -256,7 +257,14 @@
 
 
 <div class="box intro">
-    
+    <p>Constructs the <code>GraphicsProgramBuilder</code>.
+The lifecycle for using this generator is</p>
+<ol>
+<li>Create an instance of the <code>GraphicsProgramBuilder.</code></li>
+<li>Make calls to the <code>attribute</code> and/or <code>uniform</code> methods in any order.</li>
+<li>Call the <code>build</code> method to create the <code>GraphicsProgram</code>.</li>
+</ol>
+The same builder instance may be reused to create other programs.
 </div>
 
     <div class="constructor">
@@ -267,7 +275,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>primitive</code>
+                        <code class="optional">[primitive]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -298,13 +306,13 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">primitive</code>
-                        <span class="type">Object</span>
+                        <code class="param-name optional">[primitive]</code>
+                        <span class="type"><a href="../classes/DrawPrimitive.html" class="crosslink">DrawPrimitive</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>[DrawPrimitive]</p>
-
+                         
                     </div>
 
                 </li>
@@ -396,7 +404,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_materials_GraphicsProgramBuilder.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgramBuilder.ts:75</code></a>
+        <a href="../files/src_davinci-eight_materials_GraphicsProgramBuilder.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgramBuilder.ts:83</code></a>
         </p>
 
 
@@ -469,7 +477,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_materials_GraphicsProgramBuilder.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgramBuilder.ts:107</code></a>
+        <a href="../files/src_davinci-eight_materials_GraphicsProgramBuilder.ts.html#l113"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgramBuilder.ts:113</code></a>
         </p>
 
 
@@ -477,7 +485,10 @@
     </div>
 
     <div class="description">
-        
+        <p>Creates a GraphicsProgram. This may contain multiple <code>WebGLProgram</code>(s),
+one for each context supplied. The generated program is compiled and linked
+for each context in response to context gain and loss events.</p>
+
     </div>
 
         <div class="params">
@@ -535,7 +546,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_materials_GraphicsProgramBuilder.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgramBuilder.ts:91</code></a>
+        <a href="../files/src_davinci-eight_materials_GraphicsProgramBuilder.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgramBuilder.ts:98</code></a>
         </p>
 
 
