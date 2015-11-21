@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.159.0</em>
+            <em>API Docs for: 2.160.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -259,9 +259,8 @@ import IFacet = require(&#x27;../core/IFacet&#x27;)
  * This means that the commands are not shared.
  * @class IContextRenderer
  * @extends IContextConsumer
- * @extends IUnknown
  */
-interface IContextRenderer extends IContextConsumer, IUnknown {
+interface IContextRenderer extends IContextConsumer {
     /**
      * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
      * @property gl

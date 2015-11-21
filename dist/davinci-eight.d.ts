@@ -3149,7 +3149,6 @@ declare module EIGHT {
 
         addContextListener(user: IContextConsumer): void;
 
-        addRef(): number;
 
         /**
          * <p>
@@ -3200,9 +3199,9 @@ declare module EIGHT {
          * @param canvas The HTML canvas element.
          * @param canvasId An optional user-defined alias for the canvas when using multi-canvas.
          */
-        start(canvas: HTMLCanvasElement, canvasId?: number): void;
+        start(canvas: HTMLCanvasElement, canvasId?: number): GraphicsContext;
 
-        stop(): void;
+        stop(): GraphicsContext;
     }
 
     class Geometry {

@@ -22,10 +22,10 @@ declare class WebGLDisable extends Shareable implements IContextCommand, IContex
     constructor(capability: Capability);
     /**
      * @method contextFree
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId: number): void;
+    contextFree(canvasId?: number): void;
     /**
      * @method contextGain
      * @param manager {IContextProvider}
@@ -34,10 +34,10 @@ declare class WebGLDisable extends Shareable implements IContextCommand, IContex
     contextGain(manager: IContextProvider): void;
     /**
      * @method contextLost
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId: number): void;
+    contextLost(canvasId?: number): void;
     /**
      * @method destructor
      * @return {void}

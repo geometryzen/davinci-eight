@@ -30,10 +30,10 @@ class WebGLDisable extends Shareable implements IContextCommand, IContextConsume
 
     /**
      * @method contextFree
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId: number): void {
+    contextFree(canvasId?: number): void {
         // do nothing
     }
 
@@ -48,10 +48,10 @@ class WebGLDisable extends Shareable implements IContextCommand, IContextConsume
 
     /**
      * @method contextLost
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId: number): void {
+    contextLost(canvasId?: number): void {
         // do nothing
     }
 

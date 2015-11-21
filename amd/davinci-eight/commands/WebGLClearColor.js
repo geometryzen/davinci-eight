@@ -32,7 +32,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
         }
         /**
          * @method contextFree
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLClearColor.prototype.contextFree = function (canvasId) {
@@ -52,7 +52,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
         };
         /**
          * @method contextLost
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLClearColor.prototype.contextLost = function (canvasId) {

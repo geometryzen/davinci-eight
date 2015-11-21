@@ -16,9 +16,9 @@ interface IContextConsumer extends IUnknown {
      * method may be called multiple times for what is logically the same context. In such
      * cases the dependent must be idempotent and respond only to the first request.
      * @method contextFree
-     * @param canvasId {number} Determines the context for which resources are being freed.
+     * @param [canvasId] {number} Determines the context for which resources are being freed.
      */
-    contextFree(canvasId: number): void;
+    contextFree(canvasId?: number): void;
     /**
      * Called to inform the dependent of a new WebGL rendering context.
      * The implementation should ignore the notification if it has already
@@ -33,11 +33,11 @@ interface IContextConsumer extends IUnknown {
      * The dependent must not try to use and cached context to free resources.
      * The dependent should reset its state to that for which there is no context.
      * @method contextLost
-     * @param canvasId {number} Determines the context for which resources are being lost.
+     * @param [canvasId] {number} Determines the context for which resources are being lost.
      *
      * The canvasId is provided, rather than the manager, to remind implementors
      * that resources have been lost and cannot be freed by the application.
      */
-    contextLost(canvasId: number): void;
+    contextLost(canvasId?: number): void;
 }
 export = IContextConsumer;

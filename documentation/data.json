@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.159.0",
+        "version": "2.160.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -3567,12 +3567,13 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "line": 25,
+            "line": 33,
+            "description": "A tuple representing the information required to describe a single WebGL primitive.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "mode",
-                    "description": "<p>The geometric primitive type.</p>",
+                    "description": "<p>The primitive type.</p>",
                     "type": "DrawMode"
                 },
                 {
@@ -5403,7 +5404,7 @@
             "file": "src/davinci-eight/renderers/IContextRenderer.ts",
             "line": 8,
             "description": "This interface is to be implemented by classes associated with a single context.\nThis means that the commands are not shared.",
-            "extends": "IUnknown"
+            "extends": "IContextConsumer"
         },
         "Drawable": {
             "name": "Drawable",
@@ -5448,7 +5449,8 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 53,
+            "line": 54,
+            "extends": "Shareable",
             "is_constructor": 1,
             "params": [
                 {
@@ -6719,7 +6721,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -6755,7 +6758,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -6784,7 +6788,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -6813,14 +6818,15 @@
         },
         {
             "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 52,
+            "line": 53,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -6831,7 +6837,7 @@
         },
         {
             "file": "src/davinci-eight/commands/WebGLClearColor.ts",
-            "line": 60,
+            "line": 62,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -6849,7 +6855,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -6885,7 +6892,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -6916,7 +6924,8 @@
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -6945,14 +6954,15 @@
         },
         {
             "file": "src/davinci-eight/commands/WebGLEnable.ts",
-            "line": 46,
+            "line": 47,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -6963,7 +6973,7 @@
         },
         {
             "file": "src/davinci-eight/commands/WebGLEnable.ts",
-            "line": 54,
+            "line": 56,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -8013,7 +8023,8 @@
                 {
                     "name": "canvasId",
                     "description": "Determines the context for which resources are being freed.",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "class": "IContextConsumer"
@@ -8043,7 +8054,8 @@
                 {
                     "name": "canvasId",
                     "description": "Determines the context for which resources are being lost.\n\nThe canvasId is provided, rather than the manager, to remind implementors\nthat resources have been lost and cannot be freed by the application.",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "class": "IContextConsumer"
@@ -10932,7 +10944,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "line": 9,
+            "line": 12,
             "itemtype": "property",
             "name": "mode",
             "type": "{DrawMode}",
@@ -10941,7 +10953,8 @@
         },
         {
             "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "line": 14,
+            "line": 18,
+            "description": "An array of index into the <code>DrawAttribute</code>.",
             "itemtype": "property",
             "name": "indices",
             "type": "{number[]}",
@@ -10950,7 +10963,8 @@
         },
         {
             "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "line": 20,
+            "line": 26,
+            "description": "A map from attribute name to <code>DrawAttribute</code>.",
             "itemtype": "property",
             "name": "attributes",
             "type": "{{[name:string]: DrawAttribute}}",
@@ -27475,7 +27489,7 @@
         },
         {
             "file": "src/davinci-eight/renderers/IContextRenderer.ts",
-            "line": 16,
+            "line": 15,
             "description": "The (readonly) cached WebGL rendering context. The context may sometimes be undefined.",
             "itemtype": "property",
             "name": "gl",
@@ -27486,7 +27500,7 @@
         },
         {
             "file": "src/davinci-eight/renderers/IContextRenderer.ts",
-            "line": 24,
+            "line": 23,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -27496,7 +27510,7 @@
         },
         {
             "file": "src/davinci-eight/renderers/IContextRenderer.ts",
-            "line": 31,
+            "line": 30,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -27531,7 +27545,7 @@
         },
         {
             "file": "src/davinci-eight/renderers/IContextRenderer.ts",
-            "line": 44,
+            "line": 43,
             "itemtype": "property",
             "name": "commands",
             "type": "{IUnknownArray}",
@@ -27541,7 +27555,7 @@
         },
         {
             "file": "src/davinci-eight/renderers/IContextRenderer.ts",
-            "line": 51,
+            "line": 50,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -27561,7 +27575,7 @@
         },
         {
             "file": "src/davinci-eight/renderers/IContextRenderer.ts",
-            "line": 59,
+            "line": 58,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -27581,7 +27595,7 @@
         },
         {
             "file": "src/davinci-eight/renderers/IContextRenderer.ts",
-            "line": 67,
+            "line": 66,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -27748,7 +27762,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 39,
+            "line": 40,
             "itemtype": "property",
             "name": "_kahuna",
             "type": "{ContextKahuna}",
@@ -27759,7 +27773,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 46,
+            "line": 47,
             "itemtype": "property",
             "name": "_renderer",
             "type": "{IContextRenderer}",
@@ -27770,7 +27784,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 68,
+            "line": 69,
             "itemtype": "method",
             "name": "destructor!~YUIDOC_LINE~!return",
             "type": "Void",
@@ -27781,7 +27795,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 82,
+            "line": 83,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -27800,7 +27814,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 91,
+            "line": 92,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -27809,7 +27823,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 102,
+            "line": 103,
             "itemtype": "property",
             "name": "canvasId",
             "type": "{number}",
@@ -27819,7 +27833,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 115,
+            "line": 116,
             "itemtype": "property",
             "name": "commands",
             "type": "{IUnknownArray}",
@@ -27829,7 +27843,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 124,
+            "line": 125,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -27864,14 +27878,15 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 139,
+            "line": 140,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -27883,7 +27898,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 148,
+            "line": 149,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -27902,14 +27917,15 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 157,
+            "line": 158,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
                 {
                     "name": "canvasId",
                     "description": "",
-                    "type": "Number"
+                    "type": "Number",
+                    "optional": true
                 }
             ],
             "return": {
@@ -27921,7 +27937,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 166,
+            "line": 167,
             "itemtype": "method",
             "name": "createArrayBuffer",
             "return": {
@@ -27933,7 +27949,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 174,
+            "line": 175,
             "itemtype": "method",
             "name": "createBufferGeometry",
             "params": [
@@ -27958,7 +27974,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 184,
+            "line": 185,
             "itemtype": "method",
             "name": "createElementArrayBuffer",
             "return": {
@@ -27970,7 +27986,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 192,
+            "line": 193,
             "itemtype": "method",
             "name": "createTextureCubeMap",
             "return": {
@@ -27982,7 +27998,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 200,
+            "line": 201,
             "itemtype": "method",
             "name": "createTexture2D",
             "return": {
@@ -27994,7 +28010,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 208,
+            "line": 209,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -28014,7 +28030,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 218,
+            "line": 219,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -28034,7 +28050,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 228,
+            "line": 229,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -28044,7 +28060,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 237,
+            "line": 238,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -28063,7 +28079,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 246,
+            "line": 247,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -28098,7 +28114,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 259,
+            "line": 260,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -28117,26 +28133,28 @@
             ],
             "return": {
                 "description": "",
-                "type": "Void"
+                "type": "GraphicsContext"
             },
+            "chainable": 1,
             "class": "GraphicsContext",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 278,
+            "line": 281,
             "itemtype": "method",
             "name": "stop",
             "return": {
                 "description": "",
-                "type": "Void"
+                "type": "GraphicsContext"
             },
+            "chainable": 1,
             "class": "GraphicsContext",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 286,
+            "line": 291,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -29144,97 +29162,121 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 54,
-            "description": "This could become an encapsulated call?\nclass GeometryDataCommand\nprivate",
+            "line": 47,
+            "description": "Renders geometric primitives indexed by element array data.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 60,
-            "description": "property mode\ntype {DrawMode}\nprivate",
+            "line": 52,
+            "description": "Specifies the kind of primitives to render.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 69,
-            "description": "class GeometryDataCommand\nconstructor",
+            "line": 57,
+            "description": "The number of elements to render.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 83,
-            "description": "Executes the drawElements command using the instance state.\nmethod execute\nparam gl {WebGLRenderingContext}",
+            "line": 62,
+            "description": "The type of elements in the element array buffer. Usually a gl.UNSIGNED_SHORT.",
+            "class": "",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/contextProxy.ts",
+            "line": 67,
+            "description": "Offset into the element array buffer. Must be a valid multiple of the size of type.",
+            "class": "",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/contextProxy.ts",
+            "line": 72,
+            "class": "",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/contextProxy.ts",
+            "line": 86,
+            "description": "Executes the drawElements command using the instance state.",
+            "class": "",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/contextProxy.ts",
+            "line": 120,
+            "class": "",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/contextProxy.ts",
+            "line": 125,
+            "description": "Mapping from attribute name to a data structure describing and containing a buffer.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
             "line": 130,
-            "description": "class ElementsBlock",
+            "description": "The buffer containing element indices used in the drawElements command.\nWe keep the index buffer private to avoid unnecessary addRef() and release() calls.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
             "line": 136,
-            "description": "Mapping from attribute name to a data structure describing and containing a buffer.\nproperty _attributes\ntype {StringIUnknownMap<ElementBlockAttrib>}\nprivate",
+            "description": "An executable command. May be a call to drawElements or drawArrays.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 143,
-            "description": "The buffer containing element indices used in the drawElements command.\nproperty _indexBuffer\ntype {IBuffer}\nprivate",
+            "line": 141,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 150,
-            "description": "An executable command. May be a call to drawElements or drawArrays.\nproperty drawCommand\ntype {GeometryDataCommand}",
+            "line": 161,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 156,
-            "description": "class ElementsBlock\nconstructor",
+            "line": 236,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 241,
-            "class": "",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 303,
+            "line": 296,
             "description": "Implementation of IBufferGeometry coupled to the 'blocks' implementation.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 405,
+            "line": 391,
             "description": "Implementation of removeContextListener for the kahuna.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 532,
+            "line": 424,
             "description": "We must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 567,
+            "line": 460,
             "class": "",
             "module": "EIGHT"
         },
@@ -30280,60 +30322,76 @@
             "line": " src/davinci-eight/topologies/GridTopology.ts:36"
         },
         {
-            "message": "Missing item type\nThis could become an encapsulated call?\nclass GeometryDataCommand\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:54"
+            "message": "Missing item type\nRenders geometric primitives indexed by element array data.",
+            "line": " src/davinci-eight/utils/contextProxy.ts:47"
         },
         {
-            "message": "Missing item type\nproperty mode\ntype {DrawMode}\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:60"
+            "message": "Missing item type\nSpecifies the kind of primitives to render.",
+            "line": " src/davinci-eight/utils/contextProxy.ts:52"
         },
         {
-            "message": "Missing item type\nclass GeometryDataCommand\nconstructor",
-            "line": " src/davinci-eight/utils/contextProxy.ts:69"
+            "message": "Missing item type\nThe number of elements to render.",
+            "line": " src/davinci-eight/utils/contextProxy.ts:57"
         },
         {
-            "message": "Missing item type\nExecutes the drawElements command using the instance state.\nmethod execute\nparam gl {WebGLRenderingContext}",
-            "line": " src/davinci-eight/utils/contextProxy.ts:83"
+            "message": "Missing item type\nThe type of elements in the element array buffer. Usually a gl.UNSIGNED_SHORT.",
+            "line": " src/davinci-eight/utils/contextProxy.ts:62"
         },
         {
-            "message": "Missing item type\nclass ElementsBlock",
+            "message": "Missing item type\nOffset into the element array buffer. Must be a valid multiple of the size of type.",
+            "line": " src/davinci-eight/utils/contextProxy.ts:67"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/utils/contextProxy.ts:72"
+        },
+        {
+            "message": "Missing item type\nExecutes the drawElements command using the instance state.",
+            "line": " src/davinci-eight/utils/contextProxy.ts:86"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/utils/contextProxy.ts:120"
+        },
+        {
+            "message": "Missing item type\nMapping from attribute name to a data structure describing and containing a buffer.",
+            "line": " src/davinci-eight/utils/contextProxy.ts:125"
+        },
+        {
+            "message": "Missing item type\nThe buffer containing element indices used in the drawElements command.\nWe keep the index buffer private to avoid unnecessary addRef() and release() calls.",
             "line": " src/davinci-eight/utils/contextProxy.ts:130"
         },
         {
-            "message": "Missing item type\nMapping from attribute name to a data structure describing and containing a buffer.\nproperty _attributes\ntype {StringIUnknownMap<ElementBlockAttrib>}\nprivate",
+            "message": "Missing item type\nAn executable command. May be a call to drawElements or drawArrays.",
             "line": " src/davinci-eight/utils/contextProxy.ts:136"
         },
         {
-            "message": "Missing item type\nThe buffer containing element indices used in the drawElements command.\nproperty _indexBuffer\ntype {IBuffer}\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:143"
-        },
-        {
-            "message": "Missing item type\nAn executable command. May be a call to drawElements or drawArrays.\nproperty drawCommand\ntype {GeometryDataCommand}",
-            "line": " src/davinci-eight/utils/contextProxy.ts:150"
-        },
-        {
-            "message": "Missing item type\nclass ElementsBlock\nconstructor",
-            "line": " src/davinci-eight/utils/contextProxy.ts:156"
+            "message": "Missing item type",
+            "line": " src/davinci-eight/utils/contextProxy.ts:141"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:241"
+            "line": " src/davinci-eight/utils/contextProxy.ts:161"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/utils/contextProxy.ts:236"
         },
         {
             "message": "Missing item type\nImplementation of IBufferGeometry coupled to the 'blocks' implementation.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:303"
+            "line": " src/davinci-eight/utils/contextProxy.ts:296"
         },
         {
             "message": "Missing item type\nImplementation of removeContextListener for the kahuna.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:405"
+            "line": " src/davinci-eight/utils/contextProxy.ts:391"
         },
         {
             "message": "Missing item type\nWe must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:532"
+            "line": " src/davinci-eight/utils/contextProxy.ts:424"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:567"
+            "line": " src/davinci-eight/utils/contextProxy.ts:460"
         },
         {
             "message": "Missing item type\nInitially used to give me a canvasId.\nUsing the big-enough space principle to avoid collisions.",

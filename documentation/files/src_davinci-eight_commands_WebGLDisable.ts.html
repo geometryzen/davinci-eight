@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.159.0</em>
+            <em>API Docs for: 2.160.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -279,10 +279,10 @@ class WebGLDisable extends Shareable implements IContextCommand, IContextConsume
 
     /**
      * @method contextFree
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId: number): void {
+    contextFree(canvasId?: number): void {
         // do nothing
     }
 
@@ -297,10 +297,10 @@ class WebGLDisable extends Shareable implements IContextCommand, IContextConsume
 
     /**
      * @method contextLost
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId: number): void {
+    contextLost(canvasId?: number): void {
         // do nothing
     }
 

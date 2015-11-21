@@ -11,9 +11,9 @@ import Shareable = require('../utils/Shareable');
  */
 declare class ContextAttributesLogger extends Shareable implements IContextCommand {
     constructor();
-    contextFree(canvasId: number): void;
+    contextFree(canvasId?: number): void;
     contextGain(manager: IContextProvider): void;
-    contextLost(canvasId: number): void;
+    contextLost(canvasId?: number): void;
     destructor(): void;
     name: string;
 }

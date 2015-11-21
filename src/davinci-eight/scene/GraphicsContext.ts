@@ -34,6 +34,7 @@ let defaultCanvasBuilder = () => { return document.createElement('canvas') }
 
 /**
  * @class GraphicsContext
+ * @extends Shareable
  */
 class GraphicsContext extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
     /**
@@ -138,10 +139,10 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
 
     /**
      * @method contextFree
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId: number): void {
+    contextFree(canvasId?: number): void {
         return this._renderer.contextFree(canvasId)
     }
 
@@ -156,10 +157,10 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
 
     /**
      * @method contextLost
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId: number) {
+    contextLost(canvasId?: number) {
         this._renderer.contextLost(canvasId)
     }
 
@@ -261,26 +262,30 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @method start
      * @param canvas {HTMLCanvasElement} The HTML canvas element.
      * @param [canvasId] {number} An optional user-defined alias for the canvas when using multi-canvas.
-     * @return {void}
+     * @return {GraphicsContext}
+     * @chainable
      */
-    start(canvas: HTMLCanvasElement, canvasId?: number): void {
+    start(canvas: HTMLCanvasElement, canvasId?: number): GraphicsContext {
         // FIXME: DRY delegate to kahuna.
-        if (!(canvas instanceof HTMLElement)) {
+        if (!(canvas instanceof HTMLCanvasElement)) {
             if (core.verbose) {
                 console.warn("canvas must be an HTMLCanvasElement to start the context.")
             }
-            return
+            return this
         }
         mustBeDefined('canvas', canvas)
         this._kahuna.start(canvas, canvasId)
+        return this
     }
 
     /**
      * @method stop
-     * @return {void}
+     * @return {GraphicsContext}
+     * @chainable
      */
-    stop(): void {
-        return this._kahuna.stop()
+    stop(): GraphicsContext {
+        this._kahuna.stop()
+        return this
     }
 
     /**

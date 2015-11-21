@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.159.0</em>
+            <em>API Docs for: 2.160.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -247,7 +247,7 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/IUnknown.html" class="crosslink">IUnknown</a>
+            Extends <a href="../classes/IContextConsumer.html" class="crosslink">IContextConsumer</a>
         </div>
 
         <div class="foundat">
@@ -288,6 +288,18 @@ This means that the commands are not shared.</p>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_clearColor">clearColor</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_contextFree">contextFree</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_contextGain">contextGain</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_contextLost">contextLost</a>
 
                             </li>
                             <li class="index-item method">
@@ -412,7 +424,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:31</code></a>
+        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:30</code></a>
         </p>
 
 
@@ -482,6 +494,181 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
 
 </div>
+<div id="method_contextFree" class="method item inherited">
+    <h3 class="name"><code>contextFree</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/IContextConsumer.html#method_contextFree">IContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_IContextConsumer.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IContextConsumer.ts:14</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to request the dependent to free any WebGL resources acquired and owned.
+The dependent may assume that its cached context is still valid in order
+to properly dispose of any cached resources. In the case of shared objects, this
+method may be called multiple times for what is logically the same context. In such
+cases the dependent must be idempotent and respond only to the first request.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines the context for which resources are being freed.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_contextGain" class="method item inherited">
+    <h3 class="name"><code>contextGain</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>manager</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/IContextConsumer.html#method_contextGain">IContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_IContextConsumer.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IContextConsumer.ts:26</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to inform the dependent of a new WebGL rendering context.
+The implementation should ignore the notification if it has already
+received the same context.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">manager</code>
+                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
+
+
+                    <div class="param-description">
+                        <p>If there's something strange in your neighborhood.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_contextLost" class="method item inherited">
+    <h3 class="name"><code>contextLost</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/IContextConsumer.html#method_contextLost">IContextConsumer</a>:
+        <a href="../files/src_davinci-eight_core_IContextConsumer.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IContextConsumer.ts:35</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to inform the dependent of a loss of WebGL rendering context.
+The dependent must assume that any cached context is invalid.
+The dependent must not try to use and cached context to free resources.
+The dependent should reset its state to that for which there is no context.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines the context for which resources are being lost.</p>
+<p>The canvasId is provided, rather than the manager, to remind implementors
+that resources have been lost and cannot be freed by the application.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_disable" class="method item">
     <h3 class="name"><code>disable</code></h3>
 
@@ -506,7 +693,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:51</code></a>
+        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:50</code></a>
         </p>
 
 
@@ -571,7 +758,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:59</code></a>
+        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:58</code></a>
         </p>
 
 
@@ -690,7 +877,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:67</code></a>
+        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:66</code></a>
         </p>
 
 
@@ -777,7 +964,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:24</code></a>
+        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:23</code></a>
         </p>
 
 
@@ -801,7 +988,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:44</code></a>
+        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:43</code></a>
         </p>
 
 
@@ -825,7 +1012,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:16</code></a>
+        <a href="../files/src_davinci-eight_renderers_IContextRenderer.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;IContextRenderer.ts:15</code></a>
         </p>
 
 

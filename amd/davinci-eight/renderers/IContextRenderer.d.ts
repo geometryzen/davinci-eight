@@ -1,16 +1,14 @@
 import Capability = require('../commands/Capability');
 import IContextConsumer = require('../core/IContextConsumer');
 import IContextCommand = require('../core/IContextCommand');
-import IUnknown = require('../core/IUnknown');
 import IUnknownArray = require('../collections/IUnknownArray');
 /**
  * This interface is to be implemented by classes associated with a single context.
  * This means that the commands are not shared.
  * @class IContextRenderer
  * @extends IContextConsumer
- * @extends IUnknown
  */
-interface IContextRenderer extends IContextConsumer, IUnknown {
+interface IContextRenderer extends IContextConsumer {
     /**
      * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
      * @property gl

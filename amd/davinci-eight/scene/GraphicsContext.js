@@ -10,6 +10,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
     var defaultCanvasBuilder = function () { return document.createElement('canvas'); };
     /**
      * @class GraphicsContext
+     * @extends Shareable
      */
     var GraphicsContext = (function (_super) {
         __extends(GraphicsContext, _super);
@@ -106,7 +107,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         };
         /**
          * @method contextFree
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         GraphicsContext.prototype.contextFree = function (canvasId) {
@@ -122,7 +123,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         };
         /**
          * @method contextLost
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         GraphicsContext.prototype.contextLost = function (canvasId) {
@@ -220,25 +221,29 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
          * @method start
          * @param canvas {HTMLCanvasElement} The HTML canvas element.
          * @param [canvasId] {number} An optional user-defined alias for the canvas when using multi-canvas.
-         * @return {void}
+         * @return {GraphicsContext}
+         * @chainable
          */
         GraphicsContext.prototype.start = function (canvas, canvasId) {
             // FIXME: DRY delegate to kahuna.
-            if (!(canvas instanceof HTMLElement)) {
+            if (!(canvas instanceof HTMLCanvasElement)) {
                 if (core.verbose) {
                     console.warn("canvas must be an HTMLCanvasElement to start the context.");
                 }
-                return;
+                return this;
             }
             mustBeDefined('canvas', canvas);
             this._kahuna.start(canvas, canvasId);
+            return this;
         };
         /**
          * @method stop
-         * @return {void}
+         * @return {GraphicsContext}
+         * @chainable
          */
         GraphicsContext.prototype.stop = function () {
-            return this._kahuna.stop();
+            this._kahuna.stop();
+            return this;
         };
         /**
          * @method synchronize

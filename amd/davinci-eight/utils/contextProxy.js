@@ -3,15 +3,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/DrawPrimitive', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, DrawPrimitive, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
-    var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
+define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/DrawPrimitive', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, DrawPrimitive, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Drawable';
     var LOGGING_NAME_KAHUNA = 'ContextKahuna';
-    function webglFunctionalConstructorContextBuilder() {
-        // The following string represents how this API is exposed.
-        return "webgl functional constructor";
-    }
     function mustBeContext(gl, method) {
         if (gl) {
             return gl;
@@ -21,16 +16,13 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
         }
     }
     /**
-     * This could become an encapsulated call?
-     * class GeometryDataCommand
-     * private
+     * Renders geometric primitives indexed by element array data.
      */
-    var GeometryDataCommand = (function () {
+    var DrawElementsCommand = (function () {
         /**
-         * class GeometryDataCommand
-         * constructor
+         *
          */
-        function GeometryDataCommand(mode, count, type, offset) {
+        function DrawElementsCommand(mode, count, type, offset) {
             mustBeInteger('mode', mode);
             mustBeInteger('count', count);
             mustBeInteger('type', type);
@@ -42,69 +34,48 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
         }
         /**
          * Executes the drawElements command using the instance state.
-         * method execute
-         * param gl {WebGLRenderingContext}
          */
-        GeometryDataCommand.prototype.execute = function (gl) {
+        DrawElementsCommand.prototype.execute = function (gl) {
             if (isDefined(gl)) {
                 switch (this.mode) {
                     case DrawMode.TRIANGLE_STRIP:
-                        {
-                            gl.drawElements(gl.TRIANGLE_STRIP, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.TRIANGLE_STRIP, this.count, this.type, this.offset);
                         break;
                     case DrawMode.TRIANGLE_FAN:
-                        {
-                            gl.drawElements(gl.TRIANGLE_FAN, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.TRIANGLE_FAN, this.count, this.type, this.offset);
                         break;
                     case DrawMode.TRIANGLES:
-                        {
-                            gl.drawElements(gl.TRIANGLES, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.TRIANGLES, this.count, this.type, this.offset);
                         break;
                     case DrawMode.LINE_STRIP:
-                        {
-                            gl.drawElements(gl.LINE_STRIP, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.LINE_STRIP, this.count, this.type, this.offset);
                         break;
                     case DrawMode.LINE_LOOP:
-                        {
-                            gl.drawElements(gl.LINE_LOOP, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.LINE_LOOP, this.count, this.type, this.offset);
                         break;
                     case DrawMode.LINES:
-                        {
-                            gl.drawElements(gl.LINES, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.LINES, this.count, this.type, this.offset);
                         break;
                     case DrawMode.POINTS:
-                        {
-                            gl.drawElements(gl.POINTS, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.POINTS, this.count, this.type, this.offset);
                         break;
-                    default: {
+                    default:
                         throw new Error("mode: " + this.mode);
-                    }
                 }
             }
-            else {
-                console.warn("Er, like hey dude? You're asking me to draw something without a context. That's not cool.");
-            }
         };
-        return GeometryDataCommand;
+        return DrawElementsCommand;
     })();
     /**
-     * class ElementsBlock
+     *
      */
     var ElementsBlock = (function (_super) {
         __extends(ElementsBlock, _super);
         /**
-         * class ElementsBlock
-         * constructor
+         *
          */
         function ElementsBlock(indexBuffer, attributes, drawCommand) {
-            _super.call(this, LOGGING_NAME_ELEMENTS_BLOCK);
+            _super.call(this, 'ElementsBlock');
             this._indexBuffer = indexBuffer;
             this._indexBuffer.addRef();
             this._attributes = attributes;
@@ -118,15 +89,17 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             this._indexBuffer = void 0;
             _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(ElementsBlock.prototype, "indexBuffer", {
-            get: function () {
-                this._indexBuffer.addRef();
-                return this._indexBuffer;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        /**
+         *
+         */
+        ElementsBlock.prototype.bind = function () {
+            this._indexBuffer.bind();
+        };
+        ElementsBlock.prototype.unbind = function () {
+            this._indexBuffer.unbind();
+        };
         Object.defineProperty(ElementsBlock.prototype, "attributes", {
+            // FIXME: Can we hide _attributes and avoid the addRef too?
             get: function () {
                 this._attributes.addRef();
                 return this._attributes;
@@ -156,6 +129,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             this.offset = void 0;
         };
         Object.defineProperty(ElementsBlockAttrib.prototype, "buffer", {
+            // FIXME: can we hide _buffer and avoid the addRef at the same time?
             get: function () {
                 this._buffer.addRef();
                 return this._buffer;
@@ -189,12 +163,10 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             return aName;
         }
     }
-    // FIXME: Use this function pair to replace BEGIN..END
     /**
      *
      */
-    function bindProgramAttribLocations(program, canvasId, block, aNameToKeyName) {
-        // FIXME: Expecting canvasId here.
+    function bindProgramAttribLocations(program, block, aNameToKeyName, canvasId) {
         // FIXME: This is where we get the IGraphicsProgram attributes property.
         // FIXME: Can we invert this?
         // What are we offering to the program:
@@ -205,13 +177,12 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
         var attribLocations = program.attributes(canvasId);
         if (attribLocations) {
             var aNames = Object.keys(attribLocations);
-            var aNamesLength = aNames.length;
-            var i;
-            for (i = 0; i < aNamesLength; i++) {
+            for (var i = 0, iLength = aNames.length; i < iLength; i++) {
                 var aName = aNames[i];
                 var key = attribKey(aName, aNameToKeyName);
+                // FIXME: Can we delegate this to the block to prevent addRef and release?
                 var attributes = block.attributes;
-                var attribute = attributes.get(key);
+                var attribute = attributes.getWeakRef(key);
                 if (attribute) {
                     // Associate the attribute buffer with the attribute location.
                     // FIXME Would be nice to be able to get a weak reference to the buffer.
@@ -222,7 +193,6 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                     buffer.unbind();
                     attributeLocation.enable();
                     buffer.release();
-                    attribute.release();
                 }
                 else {
                     // The attribute available may not be required by the program.
@@ -234,19 +204,20 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             }
         }
         else {
-            console.warn("bindProgramAttribLocations: program.attributes is falsey.");
+            console.warn("program.attributes is falsey.");
         }
     }
     function unbindProgramAttribLocations(program, canvasId) {
         // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
         var attribLocations = program.attributes(canvasId);
         if (attribLocations) {
-            Object.keys(attribLocations).forEach(function (aName) {
-                attribLocations[aName].disable();
-            });
+            var aNames = Object.keys(attribLocations);
+            for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+                attribLocations[aNames[i]].disable();
+            }
         }
         else {
-            console.warn("unbindProgramAttribLocations: program.attributes is falsey.");
+            console.warn("program.attributes is falsey.");
         }
     }
     /**
@@ -264,6 +235,8 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
         BufferGeometry.prototype.destructor = function () {
             // FIXME: Check status of GraphicsProgram?
             this._blocks.release();
+            this._blocks = void 0;
+            this.gl = void 0;
             _super.prototype.destructor.call(this);
         };
         BufferGeometry.prototype.bind = function (program, aNameToKeyName) {
@@ -271,20 +244,18 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                 if (this._program) {
                     this.unbind();
                 }
-                var block = this._blocks.get(this.uuid);
+                var block = this._blocks.getWeakRef(this.uuid);
                 if (block) {
                     if (program) {
                         this._program = program;
                         this._program.addRef();
-                        var indexBuffer = block.indexBuffer;
-                        indexBuffer.bind();
-                        indexBuffer.release();
-                        bindProgramAttribLocations(this._program, this.canvasId, block, aNameToKeyName);
+                        block.bind();
+                        // FIXME: Make this a part of the block bind method?
+                        bindProgramAttribLocations(this._program, block, aNameToKeyName, this.canvasId);
                     }
                     else {
-                        expectArg('program', program).toBeObject();
+                        mustBeObject('program', program);
                     }
-                    block.release();
                 }
                 else {
                     throw new Error(messageUnrecognizedMesh(this.uuid));
@@ -292,12 +263,11 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             }
         };
         BufferGeometry.prototype.draw = function () {
-            var block = this._blocks.get(this.uuid);
+            var block = this._blocks.getWeakRef(this.uuid);
             if (block) {
                 // FIXME: Wondering why we don't just make this a parameter?
                 // On the other hand, buffer geometry is only good for one context.
                 block.drawCommand.execute(this.gl);
-                block.release();
             }
             else {
                 throw new Error(messageUnrecognizedMesh(this.uuid));
@@ -305,15 +275,11 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
         };
         BufferGeometry.prototype.unbind = function () {
             if (this._program) {
-                var block = this._blocks.get(this.uuid);
+                var block = this._blocks.getWeakRef(this.uuid);
                 if (block) {
-                    // FIXME: Ask block to unbind index buffer and avoid addRef/release
-                    var indexBuffer = block.indexBuffer;
-                    indexBuffer.unbind();
-                    indexBuffer.release();
-                    // FIXME: Looks like an IGraphicsProgram method!
+                    block.unbind();
+                    // FIXME: Make this a part of the block unbind method?
                     unbindProgramAttribLocations(this._program, this.canvasId);
-                    block.release();
                 }
                 else {
                     throw new Error(messageUnrecognizedMesh(this.uuid));
@@ -327,8 +293,6 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
         return BufferGeometry;
     })(Shareable);
     function webgl(attributes) {
-        // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-        // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
         var uuid = uuid4().generate();
         var _blocks = new StringIUnknownMap();
         // Remark: We only hold weak references to users so that the lifetime of resource
@@ -337,7 +301,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
         // // FIXME: Really? Not IUnknownArray<IIContextConsumer> ?
         var users = [];
         function addContextListener(user) {
-            expectArg('user', user).toBeObject();
+            mustBeObject('user', user);
             var index = users.indexOf(user);
             if (index < 0) {
                 users.push(user);
@@ -350,7 +314,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
          * Implementation of removeContextListener for the kahuna.
          */
         function removeContextListener(user) {
-            expectArg('user', user).toBeObject();
+            mustBeObject('user', user);
             var index = users.indexOf(user);
             if (index >= 0) {
                 // FIXME: Potential leak here if IContextConsumer extends IUnknown
@@ -370,96 +334,6 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             }
             else {
             }
-        }
-        // TODO: Being a local function, capturing blocks, it was not obvious
-        // that blocks should need reference counting.
-        // Might be good to create a shareable class?
-        function createBufferGeometryDeprecatedMaybe(uuid, canvasId) {
-            var refCount = 0;
-            var _program = void 0;
-            var mesh = {
-                addRef: function () {
-                    refCount++;
-                    refChange(uuid, LOGGING_NAME_MESH, +1);
-                    _blocks.addRef();
-                    return refCount;
-                },
-                release: function () {
-                    refCount--;
-                    refChange(uuid, LOGGING_NAME_MESH, -1);
-                    if (refCount === 0) {
-                        if (_blocks.exists(uuid)) {
-                            _blocks.remove(uuid).release();
-                        }
-                        else {
-                            console.warn("[System Error] " + messageUnrecognizedMesh(uuid));
-                        }
-                        _blocks.release();
-                    }
-                    return refCount;
-                },
-                get uuid() {
-                    return uuid;
-                },
-                bind: function (program, aNameToKeyName) {
-                    if (_program !== program) {
-                        if (_program) {
-                            mesh.unbind();
-                        }
-                        var block = _blocks.get(uuid);
-                        if (block) {
-                            if (program) {
-                                _program = program;
-                                _program.addRef();
-                                var indexBuffer = block.indexBuffer;
-                                indexBuffer.bind();
-                                indexBuffer.release();
-                                bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName);
-                            }
-                            else {
-                                expectArg('program', program).toBeObject();
-                            }
-                            block.release();
-                        }
-                        else {
-                            throw new Error(messageUnrecognizedMesh(uuid));
-                        }
-                    }
-                },
-                draw: function () {
-                    var block = _blocks.get(uuid);
-                    if (block) {
-                        block.drawCommand.execute(gl);
-                        block.release();
-                    }
-                    else {
-                        throw new Error(messageUnrecognizedMesh(uuid));
-                    }
-                },
-                unbind: function () {
-                    if (_program) {
-                        var block = _blocks.get(uuid);
-                        if (block) {
-                            // FIXME: Ask block to unbind index buffer and avoid addRef/release
-                            var indexBuffer = block.indexBuffer;
-                            indexBuffer.unbind();
-                            indexBuffer.release();
-                            // FIXME: Looks like an IGraphicsProgram method!
-                            unbindProgramAttribLocations(_program, _canvasId);
-                            block.release();
-                        }
-                        else {
-                            throw new Error(messageUnrecognizedMesh(uuid));
-                        }
-                        // We bumped up the reference count during bind. Now we are done.
-                        _program.release();
-                        // Important! The existence of _program indicates the binding state.
-                        _program = void 0;
-                    }
-                }
-            };
-            mesh.addRef();
-            return mesh;
         }
         var gl;
         /**
@@ -503,19 +377,17 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
                 }
                 else {
-                    // TODO; Perhaps a simpler way to be Hyper Functional Warrior is to use WebGLRenderingContext.STATIC_DRAW?
                     usage = isDefined(gl) ? gl.STATIC_DRAW : void 0;
                 }
                 // It's going to get pretty hopeless without a WebGL context.
                 // If that's the case, let's just return undefined now before we start allocating useless stuff.
                 if (isUndefined(gl)) {
                     if (core.verbose) {
-                        console.warn("Impossible to create a buffer geometry without a WebGL context. Sorry, no dice!");
+                        console.warn("Impossible to create a buffer geometry without a WebGL context.");
                     }
                     return void 0;
                 }
                 var mesh = new BufferGeometry(_canvasId, gl, _blocks);
-                // let mesh: IBufferGeometry = createBufferGeometryDeprecatedMaybe(uuid4().generate(), _canvasId)
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 if (isDefined(gl)) {
@@ -528,14 +400,14 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                 var attributes = new StringIUnknownMap();
                 var names = Object.keys(primitive.attributes);
                 var namesLength = names.length;
-                var i;
-                for (i = 0; i < namesLength; i++) {
+                for (var i = 0; i < namesLength; i++) {
                     var name_1 = names[i];
                     var buffer = kahuna.createArrayBuffer();
                     buffer.bind();
                     var vertexAttrib = primitive.attributes[name_1];
                     var data = vertexAttrib.values;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
+                    // TODO: stride = 0 and offset = 0
                     var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.chunkSize, false, 0, 0);
                     attributes.put(name_1, attribute);
                     attribute.release();
@@ -544,7 +416,8 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                 }
                 // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
                 // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-                var drawCommand = new GeometryDataCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0);
+                // TODO: Notice that the offset is zero. How do we reuse a buffer.
+                var drawCommand = new DrawElementsCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
                 _blocks.put(mesh.uuid, block);
                 block.release();

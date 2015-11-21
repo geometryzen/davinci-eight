@@ -10,9 +10,8 @@ import IFacet = require('../core/IFacet')
  * This means that the commands are not shared.
  * @class IContextRenderer
  * @extends IContextConsumer
- * @extends IUnknown
  */
-interface IContextRenderer extends IContextConsumer, IUnknown {
+interface IContextRenderer extends IContextConsumer {
     /**
      * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
      * @property gl

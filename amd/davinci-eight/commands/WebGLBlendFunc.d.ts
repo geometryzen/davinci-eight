@@ -20,10 +20,10 @@ declare class WebGLBlendFunc extends Shareable implements IContextCommand {
     constructor(sfactor: BlendFactor, dfactor: BlendFactor);
     /**
      * @method contextFree
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId: number): void;
+    contextFree(canvasId?: number): void;
     /**
      * @method contextGain
      * @param manager {IContextProvider}
@@ -32,10 +32,10 @@ declare class WebGLBlendFunc extends Shareable implements IContextCommand {
     contextGain(manager: IContextProvider): void;
     /**
      * @method contextLost
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId: number): void;
+    contextLost(canvasId?: number): void;
     private execute(gl);
     /**
      * @method destructor

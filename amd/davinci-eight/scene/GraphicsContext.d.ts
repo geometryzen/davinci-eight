@@ -14,6 +14,7 @@ import IUnknownArray = require('../collections/IUnknownArray');
 import Shareable = require('../utils/Shareable');
 /**
  * @class GraphicsContext
+ * @extends Shareable
  */
 declare class GraphicsContext extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
     /**
@@ -78,10 +79,10 @@ declare class GraphicsContext extends Shareable implements ContextController, IC
     clearColor(red: number, green: number, blue: number, alpha: number): void;
     /**
      * @method contextFree
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId: number): void;
+    contextFree(canvasId?: number): void;
     /**
      * @method contextGain
      * @param manager {IContextProvider}
@@ -90,10 +91,10 @@ declare class GraphicsContext extends Shareable implements ContextController, IC
     contextGain(manager: IContextProvider): void;
     /**
      * @method contextLost
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId: number): void;
+    contextLost(canvasId?: number): void;
     /**
      * @method createArrayBuffer
      * @return {IBuffer}
@@ -162,14 +163,16 @@ declare class GraphicsContext extends Shareable implements ContextController, IC
      * @method start
      * @param canvas {HTMLCanvasElement} The HTML canvas element.
      * @param [canvasId] {number} An optional user-defined alias for the canvas when using multi-canvas.
-     * @return {void}
+     * @return {GraphicsContext}
+     * @chainable
      */
-    start(canvas: HTMLCanvasElement, canvasId?: number): void;
+    start(canvas: HTMLCanvasElement, canvasId?: number): GraphicsContext;
     /**
      * @method stop
-     * @return {void}
+     * @return {GraphicsContext}
+     * @chainable
      */
-    stop(): void;
+    stop(): GraphicsContext;
     /**
      * @method synchronize
      * @param user {IContextConsumer}

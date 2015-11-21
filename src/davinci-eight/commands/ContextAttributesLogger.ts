@@ -17,7 +17,7 @@ class ContextAttributesLogger extends Shareable implements IContextCommand {
   constructor() {
     super(QUALIFIED_NAME)
   }
-  contextFree(canvasId: number): void {
+  contextFree(canvasId?: number): void {
   }
   contextGain(manager: IContextProvider): void {
     let gl = manager.gl
@@ -29,7 +29,7 @@ class ContextAttributesLogger extends Shareable implements IContextCommand {
     console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer)
     console.log("stencil               => " + attributes.stencil)
   }
-  contextLost(canvasId: number): void {
+  contextLost(canvasId?: number): void {
   }
   destructor(): void {
     super.destructor()

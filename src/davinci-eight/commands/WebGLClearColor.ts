@@ -31,10 +31,10 @@ class WebGLClearColor extends Shareable implements IContextCommand {
   }
   /**
    * @method contextFree
-   * @param canvasId {number}
+   * @param [canvasId] {number}
    * @return {void}
    */
-  contextFree(canvasId: number): void {
+  contextFree(canvasId?: number): void {
     // do nothing
   }
   /**
@@ -49,14 +49,16 @@ class WebGLClearColor extends Shareable implements IContextCommand {
     mustBeNumber('alpha', this.alpha)
     manager.gl.clearColor(this.red, this.green, this.blue, this.alpha)
   }
+
   /**
    * @method contextLost
-   * @param canvasId {number}
+   * @param [canvasId] {number}
    * @return {void}
    */
-  contextLost(canvasId: number): void {
+  contextLost(canvasId?: number): void {
     // do nothing
   }
+
   /**
    * @method destructor
    * @return {void}

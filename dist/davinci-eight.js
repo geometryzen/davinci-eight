@@ -11370,7 +11370,7 @@ define('davinci-eight/commands/WebGLBlendFunc',["require", "exports", '../comman
         }
         /**
          * @method contextFree
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLBlendFunc.prototype.contextFree = function (canvasId) {
@@ -11386,7 +11386,7 @@ define('davinci-eight/commands/WebGLBlendFunc',["require", "exports", '../comman
         };
         /**
          * @method contextLost
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLBlendFunc.prototype.contextLost = function (canvasId) {
@@ -11442,7 +11442,7 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../check
         }
         /**
          * @method contextFree
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLClearColor.prototype.contextFree = function (canvasId) {
@@ -11462,7 +11462,7 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../check
         };
         /**
          * @method contextLost
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLClearColor.prototype.contextLost = function (canvasId) {
@@ -11577,7 +11577,7 @@ define('davinci-eight/commands/WebGLDisable',["require", "exports", '../commands
         }
         /**
          * @method contextFree
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLDisable.prototype.contextFree = function (canvasId) {
@@ -11593,7 +11593,7 @@ define('davinci-eight/commands/WebGLDisable',["require", "exports", '../commands
         };
         /**
          * @method contextLost
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLDisable.prototype.contextLost = function (canvasId) {
@@ -11641,7 +11641,7 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", '../commands/
         }
         /**
          * @method contextFree
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLEnable.prototype.contextFree = function (canvasId) {
@@ -11657,7 +11657,7 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", '../commands/
         };
         /**
          * @method contextLost
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLEnable.prototype.contextLost = function (canvasId) {
@@ -11808,10 +11808,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-20',
+        LAST_MODIFIED: '2015-11-21',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.159.0'
+        VERSION: '2.160.0'
     };
     return core;
 });
@@ -12318,29 +12318,30 @@ define('davinci-eight/geometries/DrawAttribute',["require", "exports"], function
     return DrawAttribute;
 });
 
-define('davinci-eight/geometries/DrawPrimitive',["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger) {
+define('davinci-eight/geometries/DrawPrimitive',["require", "exports", '../checks/mustBeArray', '../checks/mustBeInteger', '../checks/mustBeObject'], function (require, exports, mustBeArray, mustBeInteger, mustBeObject) {
     /**
      * @class DrawPrimitive
      */
     var DrawPrimitive = (function () {
         /**
+         * A tuple representing the information required to describe a single WebGL primitive.
          * @class DrawPrimitive
          * @constructor
-         * @param mode {DrawMode} <p>The geometric primitive type.</p>
+         * @param mode {DrawMode} <p>The primitive type.</p>
          * @param indices {number[]} <p>A list of index into the attributes</p>
          * @param attributes {{[name:string]: DrawAttribute}}
          */
         function DrawPrimitive(mode, indices, attributes) {
             // TODO: Looks like a DrawAttributeMap here (implementation only)
             /**
+             * A map from attribute name to <code>DrawAttribute</code>.
              * @property attributes
              * @type {{[name:string]: DrawAttribute}}
              */
             this.attributes = {};
-            mustBeInteger('mode', mode);
-            this.mode = mode;
-            this.indices = indices;
-            this.attributes = attributes;
+            this.mode = mustBeInteger('mode', mode);
+            this.indices = mustBeArray('indices', indices);
+            this.attributes = mustBeObject('attributes', attributes);
         }
         return DrawPrimitive;
     })();
@@ -16455,15 +16456,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/DrawPrimitive', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, DrawPrimitive, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
-    var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
+define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/DrawPrimitive', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, DrawPrimitive, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Drawable';
     var LOGGING_NAME_KAHUNA = 'ContextKahuna';
-    function webglFunctionalConstructorContextBuilder() {
-        // The following string represents how this API is exposed.
-        return "webgl functional constructor";
-    }
     function mustBeContext(gl, method) {
         if (gl) {
             return gl;
@@ -16473,16 +16469,13 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         }
     }
     /**
-     * This could become an encapsulated call?
-     * class GeometryDataCommand
-     * private
+     * Renders geometric primitives indexed by element array data.
      */
-    var GeometryDataCommand = (function () {
+    var DrawElementsCommand = (function () {
         /**
-         * class GeometryDataCommand
-         * constructor
+         *
          */
-        function GeometryDataCommand(mode, count, type, offset) {
+        function DrawElementsCommand(mode, count, type, offset) {
             mustBeInteger('mode', mode);
             mustBeInteger('count', count);
             mustBeInteger('type', type);
@@ -16494,69 +16487,48 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         }
         /**
          * Executes the drawElements command using the instance state.
-         * method execute
-         * param gl {WebGLRenderingContext}
          */
-        GeometryDataCommand.prototype.execute = function (gl) {
+        DrawElementsCommand.prototype.execute = function (gl) {
             if (isDefined(gl)) {
                 switch (this.mode) {
                     case DrawMode.TRIANGLE_STRIP:
-                        {
-                            gl.drawElements(gl.TRIANGLE_STRIP, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.TRIANGLE_STRIP, this.count, this.type, this.offset);
                         break;
                     case DrawMode.TRIANGLE_FAN:
-                        {
-                            gl.drawElements(gl.TRIANGLE_FAN, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.TRIANGLE_FAN, this.count, this.type, this.offset);
                         break;
                     case DrawMode.TRIANGLES:
-                        {
-                            gl.drawElements(gl.TRIANGLES, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.TRIANGLES, this.count, this.type, this.offset);
                         break;
                     case DrawMode.LINE_STRIP:
-                        {
-                            gl.drawElements(gl.LINE_STRIP, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.LINE_STRIP, this.count, this.type, this.offset);
                         break;
                     case DrawMode.LINE_LOOP:
-                        {
-                            gl.drawElements(gl.LINE_LOOP, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.LINE_LOOP, this.count, this.type, this.offset);
                         break;
                     case DrawMode.LINES:
-                        {
-                            gl.drawElements(gl.LINES, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.LINES, this.count, this.type, this.offset);
                         break;
                     case DrawMode.POINTS:
-                        {
-                            gl.drawElements(gl.POINTS, this.count, this.type, this.offset);
-                        }
+                        gl.drawElements(gl.POINTS, this.count, this.type, this.offset);
                         break;
-                    default: {
+                    default:
                         throw new Error("mode: " + this.mode);
-                    }
                 }
             }
-            else {
-                console.warn("Er, like hey dude? You're asking me to draw something without a context. That's not cool.");
-            }
         };
-        return GeometryDataCommand;
+        return DrawElementsCommand;
     })();
     /**
-     * class ElementsBlock
+     *
      */
     var ElementsBlock = (function (_super) {
         __extends(ElementsBlock, _super);
         /**
-         * class ElementsBlock
-         * constructor
+         *
          */
         function ElementsBlock(indexBuffer, attributes, drawCommand) {
-            _super.call(this, LOGGING_NAME_ELEMENTS_BLOCK);
+            _super.call(this, 'ElementsBlock');
             this._indexBuffer = indexBuffer;
             this._indexBuffer.addRef();
             this._attributes = attributes;
@@ -16570,15 +16542,17 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             this._indexBuffer = void 0;
             _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(ElementsBlock.prototype, "indexBuffer", {
-            get: function () {
-                this._indexBuffer.addRef();
-                return this._indexBuffer;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        /**
+         *
+         */
+        ElementsBlock.prototype.bind = function () {
+            this._indexBuffer.bind();
+        };
+        ElementsBlock.prototype.unbind = function () {
+            this._indexBuffer.unbind();
+        };
         Object.defineProperty(ElementsBlock.prototype, "attributes", {
+            // FIXME: Can we hide _attributes and avoid the addRef too?
             get: function () {
                 this._attributes.addRef();
                 return this._attributes;
@@ -16608,6 +16582,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             this.offset = void 0;
         };
         Object.defineProperty(ElementsBlockAttrib.prototype, "buffer", {
+            // FIXME: can we hide _buffer and avoid the addRef at the same time?
             get: function () {
                 this._buffer.addRef();
                 return this._buffer;
@@ -16641,12 +16616,10 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             return aName;
         }
     }
-    // FIXME: Use this function pair to replace BEGIN..END
     /**
      *
      */
-    function bindProgramAttribLocations(program, canvasId, block, aNameToKeyName) {
-        // FIXME: Expecting canvasId here.
+    function bindProgramAttribLocations(program, block, aNameToKeyName, canvasId) {
         // FIXME: This is where we get the IGraphicsProgram attributes property.
         // FIXME: Can we invert this?
         // What are we offering to the program:
@@ -16657,13 +16630,12 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         var attribLocations = program.attributes(canvasId);
         if (attribLocations) {
             var aNames = Object.keys(attribLocations);
-            var aNamesLength = aNames.length;
-            var i;
-            for (i = 0; i < aNamesLength; i++) {
+            for (var i = 0, iLength = aNames.length; i < iLength; i++) {
                 var aName = aNames[i];
                 var key = attribKey(aName, aNameToKeyName);
+                // FIXME: Can we delegate this to the block to prevent addRef and release?
                 var attributes = block.attributes;
-                var attribute = attributes.get(key);
+                var attribute = attributes.getWeakRef(key);
                 if (attribute) {
                     // Associate the attribute buffer with the attribute location.
                     // FIXME Would be nice to be able to get a weak reference to the buffer.
@@ -16674,7 +16646,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     buffer.unbind();
                     attributeLocation.enable();
                     buffer.release();
-                    attribute.release();
                 }
                 else {
                     // The attribute available may not be required by the program.
@@ -16686,19 +16657,20 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             }
         }
         else {
-            console.warn("bindProgramAttribLocations: program.attributes is falsey.");
+            console.warn("program.attributes is falsey.");
         }
     }
     function unbindProgramAttribLocations(program, canvasId) {
         // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
         var attribLocations = program.attributes(canvasId);
         if (attribLocations) {
-            Object.keys(attribLocations).forEach(function (aName) {
-                attribLocations[aName].disable();
-            });
+            var aNames = Object.keys(attribLocations);
+            for (var i = 0, iLength = aNames.length; i < iLength; i++) {
+                attribLocations[aNames[i]].disable();
+            }
         }
         else {
-            console.warn("unbindProgramAttribLocations: program.attributes is falsey.");
+            console.warn("program.attributes is falsey.");
         }
     }
     /**
@@ -16716,6 +16688,8 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         BufferGeometry.prototype.destructor = function () {
             // FIXME: Check status of GraphicsProgram?
             this._blocks.release();
+            this._blocks = void 0;
+            this.gl = void 0;
             _super.prototype.destructor.call(this);
         };
         BufferGeometry.prototype.bind = function (program, aNameToKeyName) {
@@ -16723,20 +16697,18 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 if (this._program) {
                     this.unbind();
                 }
-                var block = this._blocks.get(this.uuid);
+                var block = this._blocks.getWeakRef(this.uuid);
                 if (block) {
                     if (program) {
                         this._program = program;
                         this._program.addRef();
-                        var indexBuffer = block.indexBuffer;
-                        indexBuffer.bind();
-                        indexBuffer.release();
-                        bindProgramAttribLocations(this._program, this.canvasId, block, aNameToKeyName);
+                        block.bind();
+                        // FIXME: Make this a part of the block bind method?
+                        bindProgramAttribLocations(this._program, block, aNameToKeyName, this.canvasId);
                     }
                     else {
-                        expectArg('program', program).toBeObject();
+                        mustBeObject('program', program);
                     }
-                    block.release();
                 }
                 else {
                     throw new Error(messageUnrecognizedMesh(this.uuid));
@@ -16744,12 +16716,11 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             }
         };
         BufferGeometry.prototype.draw = function () {
-            var block = this._blocks.get(this.uuid);
+            var block = this._blocks.getWeakRef(this.uuid);
             if (block) {
                 // FIXME: Wondering why we don't just make this a parameter?
                 // On the other hand, buffer geometry is only good for one context.
                 block.drawCommand.execute(this.gl);
-                block.release();
             }
             else {
                 throw new Error(messageUnrecognizedMesh(this.uuid));
@@ -16757,15 +16728,11 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         };
         BufferGeometry.prototype.unbind = function () {
             if (this._program) {
-                var block = this._blocks.get(this.uuid);
+                var block = this._blocks.getWeakRef(this.uuid);
                 if (block) {
-                    // FIXME: Ask block to unbind index buffer and avoid addRef/release
-                    var indexBuffer = block.indexBuffer;
-                    indexBuffer.unbind();
-                    indexBuffer.release();
-                    // FIXME: Looks like an IGraphicsProgram method!
+                    block.unbind();
+                    // FIXME: Make this a part of the block unbind method?
                     unbindProgramAttribLocations(this._program, this.canvasId);
-                    block.release();
                 }
                 else {
                     throw new Error(messageUnrecognizedMesh(this.uuid));
@@ -16779,8 +16746,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         return BufferGeometry;
     })(Shareable);
     function webgl(attributes) {
-        // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-        // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
         var uuid = uuid4().generate();
         var _blocks = new StringIUnknownMap();
         // Remark: We only hold weak references to users so that the lifetime of resource
@@ -16789,7 +16754,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         // // FIXME: Really? Not IUnknownArray<IIContextConsumer> ?
         var users = [];
         function addContextListener(user) {
-            expectArg('user', user).toBeObject();
+            mustBeObject('user', user);
             var index = users.indexOf(user);
             if (index < 0) {
                 users.push(user);
@@ -16802,7 +16767,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
          * Implementation of removeContextListener for the kahuna.
          */
         function removeContextListener(user) {
-            expectArg('user', user).toBeObject();
+            mustBeObject('user', user);
             var index = users.indexOf(user);
             if (index >= 0) {
                 // FIXME: Potential leak here if IContextConsumer extends IUnknown
@@ -16822,96 +16787,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             }
             else {
             }
-        }
-        // TODO: Being a local function, capturing blocks, it was not obvious
-        // that blocks should need reference counting.
-        // Might be good to create a shareable class?
-        function createBufferGeometryDeprecatedMaybe(uuid, canvasId) {
-            var refCount = 0;
-            var _program = void 0;
-            var mesh = {
-                addRef: function () {
-                    refCount++;
-                    refChange(uuid, LOGGING_NAME_MESH, +1);
-                    _blocks.addRef();
-                    return refCount;
-                },
-                release: function () {
-                    refCount--;
-                    refChange(uuid, LOGGING_NAME_MESH, -1);
-                    if (refCount === 0) {
-                        if (_blocks.exists(uuid)) {
-                            _blocks.remove(uuid).release();
-                        }
-                        else {
-                            console.warn("[System Error] " + messageUnrecognizedMesh(uuid));
-                        }
-                        _blocks.release();
-                    }
-                    return refCount;
-                },
-                get uuid() {
-                    return uuid;
-                },
-                bind: function (program, aNameToKeyName) {
-                    if (_program !== program) {
-                        if (_program) {
-                            mesh.unbind();
-                        }
-                        var block = _blocks.get(uuid);
-                        if (block) {
-                            if (program) {
-                                _program = program;
-                                _program.addRef();
-                                var indexBuffer = block.indexBuffer;
-                                indexBuffer.bind();
-                                indexBuffer.release();
-                                bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName);
-                            }
-                            else {
-                                expectArg('program', program).toBeObject();
-                            }
-                            block.release();
-                        }
-                        else {
-                            throw new Error(messageUnrecognizedMesh(uuid));
-                        }
-                    }
-                },
-                draw: function () {
-                    var block = _blocks.get(uuid);
-                    if (block) {
-                        block.drawCommand.execute(gl);
-                        block.release();
-                    }
-                    else {
-                        throw new Error(messageUnrecognizedMesh(uuid));
-                    }
-                },
-                unbind: function () {
-                    if (_program) {
-                        var block = _blocks.get(uuid);
-                        if (block) {
-                            // FIXME: Ask block to unbind index buffer and avoid addRef/release
-                            var indexBuffer = block.indexBuffer;
-                            indexBuffer.unbind();
-                            indexBuffer.release();
-                            // FIXME: Looks like an IGraphicsProgram method!
-                            unbindProgramAttribLocations(_program, _canvasId);
-                            block.release();
-                        }
-                        else {
-                            throw new Error(messageUnrecognizedMesh(uuid));
-                        }
-                        // We bumped up the reference count during bind. Now we are done.
-                        _program.release();
-                        // Important! The existence of _program indicates the binding state.
-                        _program = void 0;
-                    }
-                }
-            };
-            mesh.addRef();
-            return mesh;
         }
         var gl;
         /**
@@ -16955,19 +16830,17 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
                 }
                 else {
-                    // TODO; Perhaps a simpler way to be Hyper Functional Warrior is to use WebGLRenderingContext.STATIC_DRAW?
                     usage = isDefined(gl) ? gl.STATIC_DRAW : void 0;
                 }
                 // It's going to get pretty hopeless without a WebGL context.
                 // If that's the case, let's just return undefined now before we start allocating useless stuff.
                 if (isUndefined(gl)) {
                     if (core.verbose) {
-                        console.warn("Impossible to create a buffer geometry without a WebGL context. Sorry, no dice!");
+                        console.warn("Impossible to create a buffer geometry without a WebGL context.");
                     }
                     return void 0;
                 }
                 var mesh = new BufferGeometry(_canvasId, gl, _blocks);
-                // let mesh: IBufferGeometry = createBufferGeometryDeprecatedMaybe(uuid4().generate(), _canvasId)
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 if (isDefined(gl)) {
@@ -16980,14 +16853,14 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 var attributes = new StringIUnknownMap();
                 var names = Object.keys(primitive.attributes);
                 var namesLength = names.length;
-                var i;
-                for (i = 0; i < namesLength; i++) {
+                for (var i = 0; i < namesLength; i++) {
                     var name_1 = names[i];
                     var buffer = kahuna.createArrayBuffer();
                     buffer.bind();
                     var vertexAttrib = primitive.attributes[name_1];
                     var data = vertexAttrib.values;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
+                    // TODO: stride = 0 and offset = 0
                     var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.chunkSize, false, 0, 0);
                     attributes.put(name_1, attribute);
                     attribute.release();
@@ -16996,7 +16869,8 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 }
                 // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
                 // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-                var drawCommand = new GeometryDataCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0);
+                // TODO: Notice that the offset is zero. How do we reuse a buffer.
+                var drawCommand = new DrawElementsCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
                 _blocks.put(mesh.uuid, block);
                 block.release();
@@ -17133,6 +17007,7 @@ define('davinci-eight/scene/GraphicsContext',["require", "exports", '../renderer
     var defaultCanvasBuilder = function () { return document.createElement('canvas'); };
     /**
      * @class GraphicsContext
+     * @extends Shareable
      */
     var GraphicsContext = (function (_super) {
         __extends(GraphicsContext, _super);
@@ -17229,7 +17104,7 @@ define('davinci-eight/scene/GraphicsContext',["require", "exports", '../renderer
         };
         /**
          * @method contextFree
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         GraphicsContext.prototype.contextFree = function (canvasId) {
@@ -17245,7 +17120,7 @@ define('davinci-eight/scene/GraphicsContext',["require", "exports", '../renderer
         };
         /**
          * @method contextLost
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         GraphicsContext.prototype.contextLost = function (canvasId) {
@@ -17343,25 +17218,29 @@ define('davinci-eight/scene/GraphicsContext',["require", "exports", '../renderer
          * @method start
          * @param canvas {HTMLCanvasElement} The HTML canvas element.
          * @param [canvasId] {number} An optional user-defined alias for the canvas when using multi-canvas.
-         * @return {void}
+         * @return {GraphicsContext}
+         * @chainable
          */
         GraphicsContext.prototype.start = function (canvas, canvasId) {
             // FIXME: DRY delegate to kahuna.
-            if (!(canvas instanceof HTMLElement)) {
+            if (!(canvas instanceof HTMLCanvasElement)) {
                 if (core.verbose) {
                     console.warn("canvas must be an HTMLCanvasElement to start the context.");
                 }
-                return;
+                return this;
             }
             mustBeDefined('canvas', canvas);
             this._kahuna.start(canvas, canvasId);
+            return this;
         };
         /**
          * @method stop
-         * @return {void}
+         * @return {GraphicsContext}
+         * @chainable
          */
         GraphicsContext.prototype.stop = function () {
-            return this._kahuna.stop();
+            this._kahuna.stop();
+            return this;
         };
         /**
          * @method synchronize
@@ -21151,16 +21030,19 @@ define('davinci-eight/programs/fragmentShader',["require", "exports", '../checks
         mustBeBoolean('vColor', vColor);
         mustBeBoolean('vLight', vLight);
         var lines = [];
-        lines.push("// generated fragment shader");
+        lines.push("// fragment shader generated by EIGHT");
         // Only the fragment shader requires an explicit precision for floats.
         // For fragment shaders, highp might not be available, which can be tested using the GL_FRAGMENT_PRECISION_HIGH macro.
-        lines.push("#ifdef GL_ES");
-        lines.push("#  ifdef GL_FRAGMENT_PRECISION_HIGH");
-        lines.push("precision highp float;");
-        lines.push("#  else");
-        lines.push("precision mediump float;");
-        lines.push("#  endif");
-        lines.push("#endif");
+        // TODO: Make this an option.
+        if (false) {
+            lines.push("#ifdef GL_ES");
+            lines.push("#  ifdef GL_FRAGMENT_PRECISION_HIGH");
+            lines.push("precision highp float;");
+            lines.push("#  else");
+            lines.push("precision mediump float;");
+            lines.push("#  endif");
+            lines.push("#endif");
+        }
         if (vColor) {
             lines.push("varying highp vec4 vColor;");
         }
@@ -21266,8 +21148,10 @@ define('davinci-eight/programs/vertexShader',["require", "exports", '../core/get
         mustBeBoolean('vColor', vColor);
         mustBeBoolean('vLight', vLight);
         var lines = [];
-        lines.push("// generated vertex shader");
-        // The precision is implicitely highp for vertex shaders.
+        lines.push("// vertex shader generated by EIGHT");
+        // The precision is implicitly highp for vertex shaders.
+        // So there is no need to add preamble for changing the precision unless
+        // we want to lower the precision.
         for (var aName in attributes) {
             lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON);
         }

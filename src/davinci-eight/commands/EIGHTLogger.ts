@@ -25,7 +25,7 @@ class EIGHTLogger extends Shareable implements IContextCommand {
   constructor() {
     super(QUALIFIED_NAME);
   }
-  contextFree(canvasId: number): void {
+  contextFree(canvasId?: number): void {
   }
   /**
    * Logs the version, GitHub URL, and last modified date to the console. 
@@ -35,7 +35,7 @@ class EIGHTLogger extends Shareable implements IContextCommand {
   contextGain(manager: IContextProvider): void {
     console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_MODIFIED);
   }
-  contextLost(canvasId: number): void {
+  contextLost(canvasId?: number): void {
   }
   /**
    * Does nothing.

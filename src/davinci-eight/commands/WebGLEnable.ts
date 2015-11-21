@@ -29,10 +29,10 @@ class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer
     }
     /**
      * @method contextFree
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId: number): void {
+    contextFree(canvasId?: number): void {
         // do nothing
     }
     /**
@@ -43,14 +43,16 @@ class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer
     contextGain(manager: IContextProvider): void {
         manager.gl.enable(glCapability(this._capability, manager.gl))
     }
+
     /**
      * @method contextLost
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId: number): void {
+    contextLost(canvasId?: number): void {
         // do nothing
     }
+
     /**
      * @method destructor
      * @return {void}

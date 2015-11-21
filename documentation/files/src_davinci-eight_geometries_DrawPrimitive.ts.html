@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.159.0</em>
+            <em>API Docs for: 2.160.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -249,40 +249,48 @@
     <pre class="code prettyprint linenums">
 import DrawMode = require(&#x27;../core/DrawMode&#x27;)
 import DrawAttribute = require(&#x27;../geometries/DrawAttribute&#x27;)
+import mustBeArray = require(&#x27;../checks/mustBeArray&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
 
 /**
  * @class DrawPrimitive
  */
 class DrawPrimitive {
+
     /**
      * @property mode
      * @type {DrawMode}
      */
     public mode: DrawMode;
+
     /**
+     * An array of index into the &lt;code&gt;DrawAttribute&lt;/code&gt;.
      * @property indices
      * @type {number[]}
      */
     public indices: number[];
+
     // TODO: Looks like a DrawAttributeMap here (implementation only)
     /**
+     * A map from attribute name to &lt;code&gt;DrawAttribute&lt;/code&gt;.
      * @property attributes
      * @type {{[name:string]: DrawAttribute}}
      */
     public attributes: { [name: string]: DrawAttribute } = {};
+
     /**
+     * A tuple representing the information required to describe a single WebGL primitive.
      * @class DrawPrimitive
      * @constructor
-     * @param mode {DrawMode} &lt;p&gt;The geometric primitive type.&lt;/p&gt;
+     * @param mode {DrawMode} &lt;p&gt;The primitive type.&lt;/p&gt;
      * @param indices {number[]} &lt;p&gt;A list of index into the attributes&lt;/p&gt;
      * @param attributes {{[name:string]: DrawAttribute}}
      */
     constructor(mode: DrawMode, indices: number[], attributes: { [name: string]: DrawAttribute }) {
-        mustBeInteger(&#x27;mode&#x27;, mode)
-        this.mode = mode
-        this.indices = indices
-        this.attributes = attributes
+        this.mode = mustBeInteger(&#x27;mode&#x27;, mode)
+        this.indices = mustBeArray(&#x27;indices&#x27;, indices)
+        this.attributes = mustBeObject(&#x27;attributes&#x27;, attributes)
     }
 }
 

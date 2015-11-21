@@ -55,7 +55,7 @@ define(["require", "exports", '../commands/BlendFactor', '../utils/Shareable'], 
         }
         /**
          * @method contextFree
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLBlendFunc.prototype.contextFree = function (canvasId) {
@@ -71,7 +71,7 @@ define(["require", "exports", '../commands/BlendFactor', '../utils/Shareable'], 
         };
         /**
          * @method contextLost
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLBlendFunc.prototype.contextLost = function (canvasId) {

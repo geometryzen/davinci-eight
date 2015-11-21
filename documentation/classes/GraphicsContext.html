@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.159.0</em>
+            <em>API Docs for: 2.160.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -246,9 +246,12 @@
 <h1>GraphicsContext Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:53</code></a>
+            Defined in: <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:54</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -283,7 +286,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:53</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:54</code></a>
         </p>
 
 
@@ -333,9 +336,13 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                             <li class="index-item method">
                                 <a href="#method_addContextListener">addContextListener</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
 
                             </li>
                             <li class="index-item method">
@@ -374,6 +381,10 @@
                                 <a href="#method_createTextureCubeMap">createTextureCubeMap</a>
 
                             </li>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_destructor">destructor</a>
+
+                            </li>
                             <li class="index-item method protected">
                                 <a href="#method_destructor!~YUIDOC_LINE~!return">destructor!~YUIDOC_LINE~!return</a>
 
@@ -384,6 +395,10 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_enable">enable</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
 
                             </li>
                             <li class="index-item method">
@@ -412,7 +427,7 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                             <li class="index-item property private">
                                 <a href="#property__kahuna">_kahuna</a>
 
@@ -435,6 +450,10 @@
                             </li>
                             <li class="index-item property">
                                 <a href="#property_gl">gl</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
 
                             </li>
                     </ul>
@@ -470,7 +489,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l82"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:82</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l83"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:83</code></a>
         </p>
 
 
@@ -503,6 +522,52 @@
 
             <div class="returns-description">
                         <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:24</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
             </div>
         </div>
 
@@ -541,7 +606,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l124"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:124</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l125"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:125</code></a>
         </p>
 
 
@@ -617,7 +682,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -635,7 +700,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l139"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:139</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:140</code></a>
         </p>
 
 
@@ -651,8 +716,9 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -697,7 +763,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l148"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:148</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l149"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:149</code></a>
         </p>
 
 
@@ -741,7 +807,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>canvasId</code>
+                        <code class="optional">[canvasId]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -759,7 +825,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l157"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:157</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l158"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:158</code></a>
         </p>
 
 
@@ -775,8 +841,9 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">canvasId</code>
+                        <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
@@ -815,7 +882,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l166"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:166</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l167"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:167</code></a>
         </p>
 
 
@@ -864,7 +931,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:174</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:175</code></a>
         </p>
 
 
@@ -931,7 +998,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l184"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:184</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l185"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:185</code></a>
         </p>
 
 
@@ -971,7 +1038,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l200"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:200</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l201"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:201</code></a>
         </p>
 
 
@@ -1011,7 +1078,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l192"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:192</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:193</code></a>
         </p>
 
 
@@ -1033,6 +1100,55 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
 
 </div>
+<div id="method_destructor" class="method item protected inherited">
+    <h3 class="name"><code>destructor</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#method_destructor">Shareable</a>:
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:58</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Outputs a warning to the console that this method should be implemented by the derived class.
+</p>
+<p>
+<em>This method should be implemented by derived classes.</em>
+</p>
+<p>
+<em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_destructor!~YUIDOC_LINE~!return" class="method item protected">
     <h3 class="name"><code>destructor!~YUIDOC_LINE~!return</code></h3>
 
@@ -1049,7 +1165,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:68</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:69</code></a>
         </p>
 
 
@@ -1088,7 +1204,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l208"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:208</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:209</code></a>
         </p>
 
 
@@ -1153,7 +1269,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:218</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l219"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:219</code></a>
         </p>
 
 
@@ -1194,6 +1310,52 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
 
 
 </div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:37</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
 <div id="method_removeContextListener" class="method item">
     <h3 class="name"><code>removeContextListener</code></h3>
 
@@ -1218,7 +1380,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l237"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:237</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l238"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:238</code></a>
         </p>
 
 
@@ -1271,19 +1433,20 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
         </div>
 
         <span class="returns-inline">
-            <span class="type">Void</span>
+            <span class="type"><a href="../classes/GraphicsContext.html" class="crosslink">GraphicsContext</a></span>
         </span>
 
 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l259"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:259</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l260"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:260</code></a>
         </p>
 
 
@@ -1329,7 +1492,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Void</span>:
+                        <span class="type"><a href="../classes/GraphicsContext.html" class="crosslink">GraphicsContext</a></span>:
             </div>
         </div>
 
@@ -1341,19 +1504,20 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Void</span>
+            <span class="type"><a href="../classes/GraphicsContext.html" class="crosslink">GraphicsContext</a></span>
         </span>
 
 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l278"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:278</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l281"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:281</code></a>
         </p>
 
 
@@ -1369,7 +1533,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Void</span>:
+                        <span class="type"><a href="../classes/GraphicsContext.html" class="crosslink">GraphicsContext</a></span>:
             </div>
         </div>
 
@@ -1399,7 +1563,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:286</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l291"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:291</code></a>
         </p>
 
 
@@ -1470,7 +1634,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l246"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:246</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l247"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:247</code></a>
         </p>
 
 
@@ -1558,7 +1722,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:39</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:40</code></a>
         </p>
 
 
@@ -1583,7 +1747,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:46</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:47</code></a>
         </p>
 
 
@@ -1607,7 +1771,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l91"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:91</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:92</code></a>
         </p>
 
 
@@ -1631,7 +1795,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:102</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:103</code></a>
         </p>
 
 
@@ -1655,7 +1819,7 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:115</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:116</code></a>
         </p>
 
 
@@ -1679,7 +1843,31 @@ Specifies color values to use by the <code>clear</code> method to clear the colo
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l228"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:228</code></a>
+        <a href="../files/src_davinci-eight_scene_GraphicsContext.ts.html#l229"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;GraphicsContext.ts:229</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:77</code></a>
         </p>
 
 

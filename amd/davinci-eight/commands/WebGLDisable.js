@@ -26,7 +26,7 @@ define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumbe
         }
         /**
          * @method contextFree
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLDisable.prototype.contextFree = function (canvasId) {
@@ -42,7 +42,7 @@ define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumbe
         };
         /**
          * @method contextLost
-         * @param canvasId {number}
+         * @param [canvasId] {number}
          * @return {void}
          */
         WebGLDisable.prototype.contextLost = function (canvasId) {

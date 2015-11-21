@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.159.0</em>
+            <em>API Docs for: 2.160.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -274,7 +274,7 @@ class EIGHTLogger extends Shareable implements IContextCommand {
   constructor() {
     super(QUALIFIED_NAME);
   }
-  contextFree(canvasId: number): void {
+  contextFree(canvasId?: number): void {
   }
   /**
    * Logs the version, GitHub URL, and last modified date to the console. 
@@ -284,7 +284,7 @@ class EIGHTLogger extends Shareable implements IContextCommand {
   contextGain(manager: IContextProvider): void {
     console.log(core.NAMESPACE + &quot; &quot; + core.VERSION + &quot; (&quot; + core.GITHUB + &quot;) &quot; + core.LAST_MODIFIED);
   }
-  contextLost(canvasId: number): void {
+  contextLost(canvasId?: number): void {
   }
   /**
    * Does nothing.

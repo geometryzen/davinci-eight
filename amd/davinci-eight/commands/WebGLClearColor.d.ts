@@ -22,10 +22,10 @@ declare class WebGLClearColor extends Shareable implements IContextCommand {
     constructor(red?: number, green?: number, blue?: number, alpha?: number);
     /**
      * @method contextFree
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId: number): void;
+    contextFree(canvasId?: number): void;
     /**
      * @method contextGain
      * @param manager {IContextProvider}
@@ -34,10 +34,10 @@ declare class WebGLClearColor extends Shareable implements IContextCommand {
     contextGain(manager: IContextProvider): void;
     /**
      * @method contextLost
-     * @param canvasId {number}
+     * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId: number): void;
+    contextLost(canvasId?: number): void;
     /**
      * @method destructor
      * @return {void}
