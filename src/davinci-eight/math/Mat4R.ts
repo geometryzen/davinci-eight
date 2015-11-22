@@ -1,15 +1,16 @@
-import AbstractMatrix = require('../math/AbstractMatrix');
-import expectArg = require('../checks/expectArg');
-import GeometricElement = require('../math/GeometricElement');
+import AbstractMatrix = require('../math/AbstractMatrix')
+import add4x4 = require('../math/add4x4')
+import expectArg = require('../checks/expectArg')
+import GeometricElement = require('../math/GeometricElement')
 import inv4x4 = require('../math/inv4x4')
-import isDefined = require('../checks/isDefined');
-import Matrix = require('../math/Matrix');
-import mul4x4 = require('../math/mul4x4');
+import isDefined = require('../checks/isDefined')
+import Matrix = require('../math/Matrix')
+import mul4x4 = require('../math/mul4x4')
 import mustBeNumber = require('../checks/mustBeNumber')
-import Ring = require('../math/MutableRingElement');
-import SpinorE3 = require('../math/SpinorE3');
-import VectorE3 = require('../math/VectorE3');
-import VectorE4 = require('../math/VectorE4');
+import Ring = require('../math/MutableRingElement')
+import SpinorE3 = require('../math/SpinorE3')
+import VectorE3 = require('../math/VectorE3')
+import VectorE4 = require('../math/VectorE4')
 
 // TODO: Anything after this line hints of excessive coupling.
 // TODO: Probably better not to couple this way.
@@ -19,7 +20,7 @@ import frustumMatrix = require('../cameras/frustumMatrix');
  * @class Mat4R
  * @extends AbstractMatrix
  */
-class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4>, Ring<Mat4R> {
+class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4, VectorE3>, Ring<Mat4R> {
 
     // The correspondence between the elements property index and the matrix entries is...
     //
@@ -97,6 +98,28 @@ class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4>, Ri
     }
 
     /**
+     * @method add
+     * @param rhs {Mat4R}
+     * @return {Mat4R}
+     * @chainable
+     */
+    add(rhs: Mat4R): Mat4R {
+        return this.add2(this, rhs);
+    }
+
+    /**
+     * @method add2
+     * @param a {Mat4R}
+     * @param b {Mat4R}
+     * @return {Mat4R}
+     * @chainable
+     */
+    add2(a: Mat4R, b: Mat4R): Mat4R {
+        add4x4(a.elements, b.elements, this.elements)
+        return this
+    }
+
+    /**
      * Returns a copy of this Mat4R instance.
      * @method clone
      * @return {Mat4R}
@@ -128,7 +151,7 @@ class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4>, Ri
      * @method copy
      * @param m {Mat4R}
      * @return {Mat4R}
-     * @chaninable
+     * @chainable
      */
     copy(m: Mat4R): Mat4R {
         this.elements.set(m.elements)
@@ -334,7 +357,6 @@ class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4>, Ri
      * @chainable
      */
     reflection(n: VectorE3): Mat4R {
-        // FIXME; Symmetry says this should take a VectorE4
         let nx = mustBeNumber('n.x', n.x);
         let ny = mustBeNumber('n.y', n.y);
         let nz = mustBeNumber('n.z', n.z);
@@ -507,22 +529,29 @@ class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4>, Ri
      * <code>this ⟼ translation(spinor) * this</code>
      * </p>
      * @method translate
-     * @param displacement {VectorE3}
+     * @param d {VectorE3}
      * @return {Mat4R}
-     * @chaninable
+     * @chainable
      */
-    translate(displacement: VectorE3): Mat4R {
-        return this.rmul(Mat4R.translation(displacement))
+    translate(d: VectorE3): Mat4R {
+        return this.rmul(Mat4R.translation(d))
     }
 
     /**
      * @method translation
-     * @param displacement {VectorE3}
+     * @param d {VectorE3}
      * @return {Mat4R}
-     * @chaninable
+     * @chainable
      */
-    translation(displacement: VectorE3): Mat4R {
-        return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
+    translation(d: VectorE3): Mat4R {
+        let x = d.x
+        let y = d.y
+        let z = d.z
+        return this.set(
+            1, 0, 0, x,
+            0, 1, 0, y,
+            0, 0, 1, z,
+            0, 0, 0, 1)
     }
 
     /**

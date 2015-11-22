@@ -825,7 +825,7 @@ declare module EIGHT {
      * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
      * </p>
      */
-    reflection(n: VectorE2): Mat2R;
+    reflection(n: VectorE1): Mat2R;
 
     /**
      * Computes the row corresponding to the zero-based index, <code>i</code>.
@@ -882,7 +882,7 @@ declare module EIGHT {
      * reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
      * </p>
      */
-    static reflection(n: VectorE2): Mat2R;
+    static reflection(n: VectorE1): Mat2R;
 
     /**
      * Creates a matrix that is the additive identity, <em>0</em>. 
@@ -974,7 +974,7 @@ declare module EIGHT {
      * Generates a new identity matrix.
      */
     static one(): Mat3R;
-    static reflection(n: VectorE3): Mat3R;
+    static reflection(n: VectorE2): Mat3R;
     static zero(): Mat3R;
   }
 

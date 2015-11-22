@@ -18,13 +18,6 @@ interface SpinorE3 extends Scalar {
      * The <em>bivector</em> xy-coordinate as a <code>number</code>.
      */
     xy: number;
-    /**
-     * Computes the <em>square root</em> of the <em>squared norm</em>.
-     * @method magnitude
-     * @return {number}
-     */
-    magnitude(): number;
-    squaredNorm(): number;
 }
 
 export = SpinorE3;

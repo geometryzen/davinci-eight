@@ -6304,12 +6304,6 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
                 set β(β) {
                     M.xyz = β;
                 },
-                magnitude: function () {
-                    throw new Error("magnitude() should not be needed.");
-                },
-                squaredNorm: function () {
-                    throw new Error("squaredNorm() should not be needed.");
-                }
             };
             return that;
         };
@@ -6517,7 +6511,7 @@ define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mus
          * @method copy
          * @param m {T}
          * @return {T}
-         * @chaninable
+         * @chainable
          */
         AbstractMatrix.prototype.copy = function (m) {
             this.elements.set(m.elements);
@@ -6541,6 +6535,28 @@ define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/mus
         return AbstractMatrix;
     })();
     return AbstractMatrix;
+});
+
+define('davinci-eight/math/add3x3',["require", "exports"], function (require, exports) {
+    function add3x3(a, b, c) {
+        var a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
+        var a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];
+        var a31 = a[0x2], a32 = a[0x5], a33 = a[0x8];
+        var b11 = b[0x0], b12 = b[0x3], b13 = b[0x6];
+        var b21 = b[0x1], b22 = b[0x4], b23 = b[0x7];
+        var b31 = b[0x2], b32 = b[0x5], b33 = b[0x8];
+        c[0x0] = a11 + b11;
+        c[0x3] = a12 + b12;
+        c[0x6] = a13 + b13;
+        c[0x1] = a21 + b21;
+        c[0x4] = a22 + b22;
+        c[0x7] = a23 + b23;
+        c[0x2] = a31 + b31;
+        c[0x5] = a32 + b32;
+        c[0x8] = a33 + b33;
+        return c;
+    }
+    return add3x3;
 });
 
 define('davinci-eight/math/det3x3',["require", "exports"], function (require, exports) {
@@ -6618,7 +6634,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Mat3R',["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../math/inv3x3', '../math/mul3x3', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, det3x3, inv3x3, mul3x3, mustBeNumber) {
+define('davinci-eight/math/Mat3R',["require", "exports", '../math/AbstractMatrix', '../math/add3x3', '../math/det3x3', '../math/inv3x3', '../math/mul3x3', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, add3x3, det3x3, inv3x3, mul3x3, mustBeNumber) {
     /**
      * @class Mat3R
      * @extends AbstractMatrix
@@ -6643,38 +6659,21 @@ define('davinci-eight/math/Mat3R',["require", "exports", '../math/AbstractMatrix
          * @method add
          * @param rhs {Mat3R}
          * @return {Mat3R}
+         * @chainable
          */
         Mat3R.prototype.add = function (rhs) {
-            var te = this.elements;
-            var t11 = te[0];
-            var t21 = te[1];
-            var t31 = te[2];
-            var t12 = te[3];
-            var t22 = te[4];
-            var t32 = te[5];
-            var t13 = te[6];
-            var t23 = te[7];
-            var t33 = te[5];
-            var re = rhs.elements;
-            var r11 = re[0];
-            var r21 = re[1];
-            var r31 = re[2];
-            var r12 = re[3];
-            var r22 = re[4];
-            var r32 = re[5];
-            var r13 = re[6];
-            var r23 = re[7];
-            var r33 = re[8];
-            var m11 = t11 + r11;
-            var m21 = t21 + r21;
-            var m31 = t31 + r31;
-            var m12 = t12 + r12;
-            var m22 = t22 + r22;
-            var m32 = t32 + r32;
-            var m13 = t13 + r13;
-            var m23 = t23 + r23;
-            var m33 = t33 + r33;
-            return this.set(m11, m12, m13, m21, m22, m23, m31, m32, m33);
+            return this.add2(this, rhs);
+        };
+        /**
+         * @method add2
+         * @param a {Mat3R}
+         * @param b {Mat3R}
+         * @return {Mat3R}
+         * @chainable
+         */
+        Mat3R.prototype.add2 = function (a, b) {
+            add3x3(a.elements, b.elements, this.elements);
+            return this;
         };
         /**
          * Returns a copy of this Mat3R instance.
@@ -6814,21 +6813,17 @@ define('davinci-eight/math/Mat3R',["require", "exports", '../math/AbstractMatrix
          * <code>this ⟼ reflection(n)</code>
          * </p>
          * @method reflection
-         * @param n {VectorE3}
+         * @param n {VectorE2}
          * @return {Mat3R}
          * @chainable
          */
         Mat3R.prototype.reflection = function (n) {
             var nx = mustBeNumber('n.x', n.x);
             var ny = mustBeNumber('n.y', n.y);
-            var nz = mustBeNumber('n.z', n.z);
             var aa = -2 * nx * ny;
-            var cc = -2 * ny * nz;
-            var bb = -2 * nz * nx;
             var xx = 1 - 2 * nx * nx;
             var yy = 1 - 2 * ny * ny;
-            var zz = 1 - 2 * nz * nz;
-            this.set(xx, aa, bb, aa, yy, cc, bb, cc, zz);
+            this.set(xx, aa, 0, aa, yy, 0, 0, 0, 1);
             return this;
         };
         /**
@@ -6935,6 +6930,17 @@ define('davinci-eight/math/Mat3R',["require", "exports", '../math/AbstractMatrix
             return text.join('\n');
         };
         /**
+         * @method translation
+         * @param d {VectorE2}
+         * @return {Mat3R}
+         * @chainable
+         */
+        Mat3R.prototype.translation = function (d) {
+            var x = d.x;
+            var y = d.y;
+            return this.set(1, 0, x, 0, 1, y, 0, 0, 1);
+        };
+        /**
          * @method transpose
          * @return {Mat3R}
          */
@@ -7034,7 +7040,7 @@ define('davinci-eight/math/Mat3R',["require", "exports", '../math/AbstractMatrix
         };
         /**
          * @method reflection
-         * @param n {VectorE3}
+         * @param n {VectorE2}
          * @return {Mat3R}
          * @static
          * @chainable
@@ -7056,6 +7062,37 @@ define('davinci-eight/math/Mat3R',["require", "exports", '../math/AbstractMatrix
         return Mat3R;
     })(AbstractMatrix);
     return Mat3R;
+});
+
+define('davinci-eight/math/add4x4',["require", "exports"], function (require, exports) {
+    function add4x4(a, b, c) {
+        var a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
+        var a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];
+        var a31 = a[0x2], a32 = a[0x6], a33 = a[0xA], a34 = a[0xE];
+        var a41 = a[0x3], a42 = a[0x7], a43 = a[0xB], a44 = a[0xF];
+        var b11 = b[0x0], b12 = b[0x4], b13 = b[0x8], b14 = b[0xC];
+        var b21 = b[0x1], b22 = b[0x5], b23 = b[0x9], b24 = b[0xD];
+        var b31 = b[0x2], b32 = b[0x6], b33 = b[0xA], b34 = b[0xE];
+        var b41 = b[0x3], b42 = b[0x7], b43 = b[0xB], b44 = b[0xF];
+        c[0x0] = a11 + b11;
+        c[0x4] = a12 + b12;
+        c[0x8] = a13 + b13;
+        c[0xC] = a14 + b14;
+        c[0x1] = a21 + b21;
+        c[0x5] = a22 + b22;
+        c[0x9] = a23 + b23;
+        c[0xD] = a24 + b24;
+        c[0x2] = a31 + b31;
+        c[0x6] = a32 + b32;
+        c[0xA] = a33 + b33;
+        c[0xE] = a34 + b34;
+        c[0x3] = a41 + b41;
+        c[0x7] = a42 + b42;
+        c[0xB] = a43 + b43;
+        c[0xF] = a44 + b44;
+        return c;
+    }
+    return add4x4;
 });
 
 define('davinci-eight/math/inv4x4',["require", "exports"], function (require, exports) {
@@ -7145,7 +7182,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Mat4R',["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../math/mul4x4', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, expectArg, inv4x4, isDefined, mul4x4, mustBeNumber) {
+define('davinci-eight/math/Mat4R',["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../math/mul4x4', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, add4x4, expectArg, inv4x4, isDefined, mul4x4, mustBeNumber) {
     /**
      * @class Mat4R
      * @extends AbstractMatrix
@@ -7222,6 +7259,26 @@ define('davinci-eight/math/Mat4R',["require", "exports", '../math/AbstractMatrix
             return Mat4R.one().rotation(spinor);
         };
         /**
+         * @method add
+         * @param rhs {Mat4R}
+         * @return {Mat4R}
+         * @chainable
+         */
+        Mat4R.prototype.add = function (rhs) {
+            return this.add2(this, rhs);
+        };
+        /**
+         * @method add2
+         * @param a {Mat4R}
+         * @param b {Mat4R}
+         * @return {Mat4R}
+         * @chainable
+         */
+        Mat4R.prototype.add2 = function (a, b) {
+            add4x4(a.elements, b.elements, this.elements);
+            return this;
+        };
+        /**
          * Returns a copy of this Mat4R instance.
          * @method clone
          * @return {Mat4R}
@@ -7251,7 +7308,7 @@ define('davinci-eight/math/Mat4R',["require", "exports", '../math/AbstractMatrix
          * @method copy
          * @param m {Mat4R}
          * @return {Mat4R}
-         * @chaninable
+         * @chainable
          */
         Mat4R.prototype.copy = function (m) {
             this.elements.set(m.elements);
@@ -7463,7 +7520,6 @@ define('davinci-eight/math/Mat4R',["require", "exports", '../math/AbstractMatrix
          * @chainable
          */
         Mat4R.prototype.reflection = function (n) {
-            // FIXME; Symmetry says this should take a VectorE4
             var nx = mustBeNumber('n.x', n.x);
             var ny = mustBeNumber('n.y', n.y);
             var nz = mustBeNumber('n.z', n.z);
@@ -7605,21 +7661,24 @@ define('davinci-eight/math/Mat4R',["require", "exports", '../math/AbstractMatrix
          * <code>this ⟼ translation(spinor) * this</code>
          * </p>
          * @method translate
-         * @param displacement {VectorE3}
+         * @param d {VectorE3}
          * @return {Mat4R}
-         * @chaninable
+         * @chainable
          */
-        Mat4R.prototype.translate = function (displacement) {
-            return this.rmul(Mat4R.translation(displacement));
+        Mat4R.prototype.translate = function (d) {
+            return this.rmul(Mat4R.translation(d));
         };
         /**
          * @method translation
-         * @param displacement {VectorE3}
+         * @param d {VectorE3}
          * @return {Mat4R}
-         * @chaninable
+         * @chainable
          */
-        Mat4R.prototype.translation = function (displacement) {
-            return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
+        Mat4R.prototype.translation = function (d) {
+            var x = d.x;
+            var y = d.y;
+            var z = d.z;
+            return this.set(1, 0, 0, x, 0, 1, 0, y, 0, 0, 1, z, 0, 0, 0, 1);
         };
         /**
          * Sets this matrix to the identity element for addition, <b>0</b>.
@@ -10959,6 +11018,15 @@ define('davinci-eight/math/R1',["require", "exports", '../math/VectorN'], functi
         R1.prototype.toFixed = function (digits) {
             return "TODO: R1.toFixed";
         };
+        /**
+         * @method translation
+         * @param d {VectorE0}
+         * @return {R1}
+         * @chainable
+         */
+        R1.prototype.translation = function (d) {
+            return this.one();
+        };
         R1.prototype.fromAttribute = function (attribute, index, offset) {
             if (offset === void 0) { offset = 0; }
             index = index * attribute.itemSize + offset;
@@ -11879,7 +11947,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-11-22',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.162.0'
+        VERSION: '2.163.0'
     };
     return core;
 });
@@ -12745,7 +12813,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE3', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, Euclidean3, extG3, lcoG3, mulG3, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, rcoG3, readOnly, rotorFromDirections, scpG3, squaredNormG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, Euclidean3, extG3, lcoG3, mulG3, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadVector, rcoG3, readOnly, rotorFromDirections, scpG3, squaredNormG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // GraphicsProgramSymbols constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -12829,14 +12897,14 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
             set β(unused) {
                 throw new Error(readOnly(label + '.β').message);
             },
-            magnitude: function () {
-                // FIXME: should be the full multivector.
-                return sqrt(quadSpinor(that));
-            },
-            squaredNorm: function () {
-                // FIXME: should be the full multivector.
-                return quadSpinor(that);
-            },
+            //        magnitude(): number {
+            // FIXME: should be the full multivector.
+            //            return sqrt(quadSpinor(that))
+            //        },
+            //        squaredNorm(): number {
+            //            // FIXME: should be the full multivector.
+            //            return quadSpinor(that)
+            //        },
             toString: function () {
                 return label;
             }
@@ -14044,7 +14112,6 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
                 return G3.copy(lhs).mul(this);
             }
             else if (typeof lhs === 'number') {
-                // Scalar multiplication commutes.
                 return G3.copy(this).scale(lhs);
             }
             else {
@@ -18366,7 +18433,7 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
          * @method setAxis
          * @param axis {VectorE3}
          * @return {ArrowGeometry}
-         * @chaninable
+         * @chainable
          */
         ArrowGeometry.prototype.setAxis = function (axis) {
             _super.prototype.setAxis.call(this, axis);
@@ -23720,6 +23787,21 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
     return Euclidean2;
 });
 
+define('davinci-eight/math/add2x2',["require", "exports"], function (require, exports) {
+    function add3x3(a, b, c) {
+        var a11 = a[0x0], a12 = a[0x2];
+        var a21 = a[0x1], a22 = a[0x3];
+        var b11 = b[0x0], b12 = b[0x2];
+        var b21 = b[0x1], b22 = b[0x3];
+        c[0x0] = a11 + b11;
+        c[0x2] = a12 + b12;
+        c[0x1] = a21 + b21;
+        c[0x3] = a22 + b22;
+        return c;
+    }
+    return add3x3;
+});
+
 define('davinci-eight/math/det2x2',["require", "exports"], function (require, exports) {
     /**
      * Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
@@ -23737,7 +23819,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Mat2R',["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, det2x2, isDefined, mustBeInteger, mustBeNumber) {
+define('davinci-eight/math/Mat2R',["require", "exports", '../math/AbstractMatrix', '../math/add2x2', '../math/det2x2', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, add2x2, det2x2, isDefined, mustBeInteger, mustBeNumber) {
     /**
      * @class Mat2R
      * @extends AbstractMatrix
@@ -23765,21 +23847,18 @@ define('davinci-eight/math/Mat2R',["require", "exports", '../math/AbstractMatrix
          * @chainable
          */
         Mat2R.prototype.add = function (rhs) {
-            var te = this.elements;
-            var t11 = te[0];
-            var t21 = te[1];
-            var t12 = te[2];
-            var t22 = te[3];
-            var re = rhs.elements;
-            var r11 = re[0];
-            var r21 = re[1];
-            var r12 = re[2];
-            var r22 = re[3];
-            var m11 = t11 + r11;
-            var m21 = t21 + r21;
-            var m12 = t12 + r12;
-            var m22 = t22 + r22;
-            return this.set(m11, m12, m21, m22);
+            return this.add2(this, rhs);
+        };
+        /**
+         * @method add2
+         * @param a {Mat2R}
+         * @param b {Mat2R}
+         * @return {Mat2R}
+         * @chainable
+         */
+        Mat2R.prototype.add2 = function (a, b) {
+            add2x2(a.elements, b.elements, this.elements);
+            return this;
         };
         Mat2R.prototype.clone = function () {
             var te = this.elements;
@@ -23892,17 +23971,14 @@ define('davinci-eight/math/Mat2R',["require", "exports", '../math/AbstractMatrix
          * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
          * </p>
          * @method reflection
-         * @param n {VectorE2}
+         * @param n {VectorE1}
          * @return {Mat2R}
          * @chainable
          */
         Mat2R.prototype.reflection = function (n) {
             var nx = mustBeNumber('n.x', n.x);
-            var ny = mustBeNumber('n.y', n.y);
-            var aa = -2 * nx * ny;
             var xx = 1 - 2 * nx * nx;
-            var yy = 1 - 2 * ny * ny;
-            return this.set(xx, aa, aa, yy);
+            return this.set(xx, 0, 0, 1);
         };
         /**
          * @method row
@@ -24007,6 +24083,16 @@ define('davinci-eight/math/Mat2R',["require", "exports", '../math/AbstractMatrix
             return text.join('\n');
         };
         /**
+         * @method translation
+         * @param d {VectorE1}
+         * @return {Mat2R}
+         * @chainable
+         */
+        Mat2R.prototype.translation = function (d) {
+            var x = d.x;
+            return this.set(1, x, 0, 1);
+        };
+        /**
          * Sets this matrix to the identity element for addition, <b>0</b>.
          * @method zero
          * @return {Mat2R}
@@ -24089,7 +24175,7 @@ define('davinci-eight/math/Mat2R',["require", "exports", '../math/AbstractMatrix
         };
         /**
          * @method reflection
-         * @param n {VectorE2}
+         * @param n {VectorE1}
          * @return {Mat2R}
          * @static
          * @chainable
@@ -25317,7 +25403,6 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
                 return G2.copy(lhs).mul(this);
             }
             else if (typeof lhs === 'number') {
-                // Scalar multiplication commutes.
                 return G2.copy(this).scale(lhs);
             }
             else {

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, det2x2, isDefined, mustBeInteger, mustBeNumber) {
+define(["require", "exports", '../math/AbstractMatrix', '../math/add2x2', '../math/det2x2', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, add2x2, det2x2, isDefined, mustBeInteger, mustBeNumber) {
     /**
      * @class Mat2R
      * @extends AbstractMatrix
@@ -31,21 +31,18 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
          * @chainable
          */
         Mat2R.prototype.add = function (rhs) {
-            var te = this.elements;
-            var t11 = te[0];
-            var t21 = te[1];
-            var t12 = te[2];
-            var t22 = te[3];
-            var re = rhs.elements;
-            var r11 = re[0];
-            var r21 = re[1];
-            var r12 = re[2];
-            var r22 = re[3];
-            var m11 = t11 + r11;
-            var m21 = t21 + r21;
-            var m12 = t12 + r12;
-            var m22 = t22 + r22;
-            return this.set(m11, m12, m21, m22);
+            return this.add2(this, rhs);
+        };
+        /**
+         * @method add2
+         * @param a {Mat2R}
+         * @param b {Mat2R}
+         * @return {Mat2R}
+         * @chainable
+         */
+        Mat2R.prototype.add2 = function (a, b) {
+            add2x2(a.elements, b.elements, this.elements);
+            return this;
         };
         Mat2R.prototype.clone = function () {
             var te = this.elements;
@@ -158,17 +155,14 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
          * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
          * </p>
          * @method reflection
-         * @param n {VectorE2}
+         * @param n {VectorE1}
          * @return {Mat2R}
          * @chainable
          */
         Mat2R.prototype.reflection = function (n) {
             var nx = mustBeNumber('n.x', n.x);
-            var ny = mustBeNumber('n.y', n.y);
-            var aa = -2 * nx * ny;
             var xx = 1 - 2 * nx * nx;
-            var yy = 1 - 2 * ny * ny;
-            return this.set(xx, aa, aa, yy);
+            return this.set(xx, 0, 0, 1);
         };
         /**
          * @method row
@@ -273,6 +267,16 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
             return text.join('\n');
         };
         /**
+         * @method translation
+         * @param d {VectorE1}
+         * @return {Mat2R}
+         * @chainable
+         */
+        Mat2R.prototype.translation = function (d) {
+            var x = d.x;
+            return this.set(1, x, 0, 1);
+        };
+        /**
          * Sets this matrix to the identity element for addition, <b>0</b>.
          * @method zero
          * @return {Mat2R}
@@ -355,7 +359,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
         };
         /**
          * @method reflection
-         * @param n {VectorE2}
+         * @param n {VectorE1}
          * @return {Mat2R}
          * @static
          * @chainable

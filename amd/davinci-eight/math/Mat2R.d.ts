@@ -2,12 +2,13 @@ import AbstractMatrix = require('../math/AbstractMatrix');
 import Matrix = require('../math/Matrix');
 import Ring = require('../math/MutableRingElement');
 import RingOperators = require('../math/RingOperators');
+import VectorE1 = require('../math/VectorE1');
 import VectorE2 = require('../math/VectorE2');
 /**
  * @class Mat2R
  * @extends AbstractMatrix
  */
-declare class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, VectorE2>, Ring<Mat2R>, RingOperators<Mat2R> {
+declare class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, VectorE2, VectorE1>, Ring<Mat2R>, RingOperators<Mat2R> {
     /**
      * 2x2 (square) matrix of numbers.
      * Constructs a Mat2R by wrapping a Float32Array.
@@ -27,6 +28,14 @@ declare class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, Vecto
      * @chainable
      */
     add(rhs: Mat2R): Mat2R;
+    /**
+     * @method add2
+     * @param a {Mat2R}
+     * @param b {Mat2R}
+     * @return {Mat2R}
+     * @chainable
+     */
+    add2(a: Mat2R, b: Mat2R): Mat2R;
     clone(): Mat2R;
     /**
      * Computes the determinant.
@@ -85,11 +94,11 @@ declare class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, Vecto
      * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
      * </p>
      * @method reflection
-     * @param n {VectorE2}
+     * @param n {VectorE1}
      * @return {Mat2R}
      * @chainable
      */
-    reflection(n: VectorE2): Mat2R;
+    reflection(n: VectorE1): Mat2R;
     /**
      * @method row
      * @param i {number} the zero-based index of the row.
@@ -138,6 +147,13 @@ declare class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, Vecto
      */
     toString(): string;
     /**
+     * @method translation
+     * @param d {VectorE1}
+     * @return {Mat2R}
+     * @chainable
+     */
+    translation(d: VectorE1): Mat2R;
+    /**
      * Sets this matrix to the identity element for addition, <b>0</b>.
      * @method zero
      * @return {Mat2R}
@@ -164,12 +180,12 @@ declare class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, Vecto
     static one(): Mat2R;
     /**
      * @method reflection
-     * @param n {VectorE2}
+     * @param n {VectorE1}
      * @return {Mat2R}
      * @static
      * @chainable
      */
-    static reflection(n: VectorE2): Mat2R;
+    static reflection(n: VectorE1): Mat2R;
     /**
      * <p>
      * Creates a new matrix with all elements zero.

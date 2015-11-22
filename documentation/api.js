@@ -153,6 +153,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Unit",
         "Vector",
         "Vector3Facet",
+        "VectorE0",
         "VectorE1",
         "VectorE2",
         "VectorE3",

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.162.0</em>
+            <em>API Docs for: 2.163.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -191,6 +191,7 @@
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -252,6 +253,7 @@ import expectArg = require(&#x27;../checks/expectArg&#x27;)
 import MutableLinearElement = require(&#x27;../math/MutableLinearElement&#x27;)
 import Matrix = require(&#x27;../math/Matrix&#x27;)
 import SpinorE1 = require(&#x27;../math/SpinorE1&#x27;)
+import VectorE0 = require(&#x27;../math/VectorE0&#x27;)
 import VectorE1 = require(&#x27;../math/VectorE1&#x27;)
 import VectorN = require(&#x27;../math/VectorN&#x27;)
 
@@ -264,7 +266,7 @@ let COORD_X = 0
 /**
  * @class R1
  */
-class R1 extends VectorN&lt;number&gt; implements VectorE1, MutableLinearElement&lt;VectorE1, R1, SpinorE1, VectorE1&gt;, Matrix&lt;R1, VectorE1&gt; {
+class R1 extends VectorN&lt;number&gt; implements VectorE1, MutableLinearElement&lt;VectorE1, R1, SpinorE1, VectorE1&gt;, Matrix&lt;R1, VectorE1, VectorE0&gt; {
     /**
      * @class R1
      * @constructor
@@ -455,7 +457,7 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, MutableLinearElement
         // FIXME: TODO
         return this;
     }
-    reflection(n: VectorE1): R1 {
+    reflection(n: VectorE0): R1 {
         // FIXME: TODO
         return this;
     }
@@ -511,6 +513,17 @@ class R1 extends VectorN&lt;number&gt; implements VectorE1, MutableLinearElement
     toFixed(digits?: number): string {
         return &quot;TODO: R1.toFixed&quot;;
     }
+
+    /**
+     * @method translation
+     * @param d {VectorE0}
+     * @return {R1}
+     * @chainable
+     */
+    translation(d: VectorE0): R1 {
+        return this.one()
+    }
+
     fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset: number = 0) {
         index = index * attribute.itemSize + offset;
         this.x = attribute.array[index];

@@ -52,7 +52,7 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
          * @method setAxis
          * @param axis {VectorE3}
          * @return {ArrowGeometry}
-         * @chaninable
+         * @chainable
          */
         ArrowGeometry.prototype.setAxis = function (axis) {
             _super.prototype.setAxis.call(this, axis);

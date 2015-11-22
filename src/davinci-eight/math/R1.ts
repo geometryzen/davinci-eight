@@ -2,6 +2,7 @@ import expectArg = require('../checks/expectArg')
 import MutableLinearElement = require('../math/MutableLinearElement')
 import Matrix = require('../math/Matrix')
 import SpinorE1 = require('../math/SpinorE1')
+import VectorE0 = require('../math/VectorE0')
 import VectorE1 = require('../math/VectorE1')
 import VectorN = require('../math/VectorN')
 
@@ -14,7 +15,7 @@ let COORD_X = 0
 /**
  * @class R1
  */
-class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, R1, SpinorE1, VectorE1>, Matrix<R1, VectorE1> {
+class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, R1, SpinorE1, VectorE1>, Matrix<R1, VectorE1, VectorE0> {
     /**
      * @class R1
      * @constructor
@@ -205,7 +206,7 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         // FIXME: TODO
         return this;
     }
-    reflection(n: VectorE1): R1 {
+    reflection(n: VectorE0): R1 {
         // FIXME: TODO
         return this;
     }
@@ -261,6 +262,17 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
     toFixed(digits?: number): string {
         return "TODO: R1.toFixed";
     }
+
+    /**
+     * @method translation
+     * @param d {VectorE0}
+     * @return {R1}
+     * @chainable
+     */
+    translation(d: VectorE0): R1 {
+        return this.one()
+    }
+
     fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset: number = 0) {
         index = index * attribute.itemSize + offset;
         this.x = attribute.array[index];

@@ -61,7 +61,7 @@ define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeIntege
          * @method copy
          * @param m {T}
          * @return {T}
-         * @chaninable
+         * @chainable
          */
         AbstractMatrix.prototype.copy = function (m) {
             this.elements.set(m.elements);

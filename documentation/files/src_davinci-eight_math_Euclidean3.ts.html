@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.162.0</em>
+            <em>API Docs for: 2.163.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -191,6 +191,7 @@
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -1697,12 +1698,12 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
             set β(β: number) {
                 M.xyz = β
             },
-            magnitude(): number {
-                throw new Error(&quot;magnitude() should not be needed.&quot;);
-            },
-            squaredNorm(): number {
-                throw new Error(&quot;squaredNorm() should not be needed.&quot;);
-            }
+            //            magnitude(): number {
+            //                throw new Error(&quot;magnitude() should not be needed.&quot;);
+            //            },
+            //            squaredNorm(): number {
+            //                throw new Error(&quot;squaredNorm() should not be needed.&quot;);
+            //            }
         }
         return that
     }

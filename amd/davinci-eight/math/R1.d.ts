@@ -1,12 +1,13 @@
 import MutableLinearElement = require('../math/MutableLinearElement');
 import Matrix = require('../math/Matrix');
 import SpinorE1 = require('../math/SpinorE1');
+import VectorE0 = require('../math/VectorE0');
 import VectorE1 = require('../math/VectorE1');
 import VectorN = require('../math/VectorN');
 /**
  * @class R1
  */
-declare class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, R1, SpinorE1, VectorE1>, Matrix<R1, VectorE1> {
+declare class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, R1, SpinorE1, VectorE1>, Matrix<R1, VectorE1, VectorE0> {
     /**
      * @class R1
      * @constructor
@@ -73,7 +74,7 @@ declare class R1 extends VectorN<number> implements VectorE1, MutableLinearEleme
     squaredNorm(): number;
     quadranceTo(position: VectorE1): number;
     reflect(n: VectorE1): R1;
-    reflection(n: VectorE1): R1;
+    reflection(n: VectorE0): R1;
     rotate(rotor: SpinorE1): R1;
     /**
      * this ⟼ this + α * (v - this)</code>
@@ -102,6 +103,13 @@ declare class R1 extends VectorN<number> implements VectorE1, MutableLinearEleme
     toArray(array?: number[], offset?: number): number[];
     toExponential(): string;
     toFixed(digits?: number): string;
+    /**
+     * @method translation
+     * @param d {VectorE0}
+     * @return {R1}
+     * @chainable
+     */
+    translation(d: VectorE0): R1;
     fromAttribute(attribute: {
         itemSize: number;
         array: number[];

@@ -89,7 +89,7 @@ class AbstractMatrix<T extends { elements: Float32Array }> implements MutableMat
      * @method copy
      * @param m {T}
      * @return {T}
-     * @chaninable
+     * @chainable
      */
     copy(m: T): T {
         this.elements.set(m.elements)

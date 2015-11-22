@@ -261,6 +261,15 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         R1.prototype.toFixed = function (digits) {
             return "TODO: R1.toFixed";
         };
+        /**
+         * @method translation
+         * @param d {VectorE0}
+         * @return {R1}
+         * @chainable
+         */
+        R1.prototype.translation = function (d) {
+            return this.one();
+        };
         R1.prototype.fromAttribute = function (attribute, index, offset) {
             if (offset === void 0) { offset = 0; }
             index = index * attribute.itemSize + offset;

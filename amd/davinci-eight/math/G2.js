@@ -1201,7 +1201,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
                 return G2.copy(lhs).mul(this);
             }
             else if (typeof lhs === 'number') {
-                // Scalar multiplication commutes.
                 return G2.copy(this).scale(lhs);
             }
             else {

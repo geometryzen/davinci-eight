@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.162.0</em>
+            <em>API Docs for: 2.163.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -191,6 +191,7 @@
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -249,6 +250,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;)
+import add2x2 = require(&#x27;../math/add2x2&#x27;)
 import det2x2 = require(&#x27;../math/det2x2&#x27;)
 import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
 import isDefined = require(&#x27;../checks/isDefined&#x27;)
@@ -258,13 +260,14 @@ import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import Ring = require(&#x27;../math/MutableRingElement&#x27;)
 import RingOperators = require(&#x27;../math/RingOperators&#x27;)
 import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;)
+import VectorE1 = require(&#x27;../math/VectorE1&#x27;)
 import VectorE2 = require(&#x27;../math/VectorE2&#x27;)
 
 /**
  * @class Mat2R
  * @extends AbstractMatrix
  */
-class Mat2R extends AbstractMatrix&lt;Mat2R&gt; implements Matrix&lt;Mat2R, VectorE2&gt;, Ring&lt;Mat2R&gt;, RingOperators&lt;Mat2R&gt; {
+class Mat2R extends AbstractMatrix&lt;Mat2R&gt; implements Matrix&lt;Mat2R, VectorE2, VectorE1&gt;, Ring&lt;Mat2R&gt;, RingOperators&lt;Mat2R&gt; {
 
     /**
      * 2x2 (square) matrix of numbers.
@@ -288,23 +291,19 @@ class Mat2R extends AbstractMatrix&lt;Mat2R&gt; implements Matrix&lt;Mat2R, Vect
      * @chainable
      */
     add(rhs: Mat2R): Mat2R {
-        let te = this.elements;
-        let t11 = te[0];
-        let t21 = te[1];
-        let t12 = te[2];
-        let t22 = te[3];
+        return this.add2(this, rhs);
+    }
 
-        let re = rhs.elements;
-        let r11 = re[0];
-        let r21 = re[1];
-        let r12 = re[2];
-        let r22 = re[3];
-
-        let m11 = t11 + r11;
-        let m21 = t21 + r21;
-        let m12 = t12 + r12;
-        let m22 = t22 + r22;
-        return this.set(m11, m12, m21, m22)
+    /**
+     * @method add2
+     * @param a {Mat2R}
+     * @param b {Mat2R}
+     * @return {Mat2R}
+     * @chainable
+     */
+    add2(a: Mat2R, b: Mat2R): Mat2R {
+        add2x2(a.elements, b.elements, this.elements)
+        return this
     }
 
     clone(): Mat2R {
@@ -429,21 +428,17 @@ class Mat2R extends AbstractMatrix&lt;Mat2R&gt; implements Matrix&lt;Mat2R, Vect
      * this ⟼ reflection(&lt;b&gt;n&lt;/b&gt;) = I - 2 * &lt;b&gt;n&lt;/b&gt;&lt;sup&gt;T&lt;/sup&gt; * &lt;b&gt;n&lt;/b&gt;
      * &lt;/p&gt;
      * @method reflection
-     * @param n {VectorE2}
+     * @param n {VectorE1}
      * @return {Mat2R}
      * @chainable
      */
-    reflection(n: VectorE2): Mat2R {
+    reflection(n: VectorE1): Mat2R {
 
-        let nx = mustBeNumber(&#x27;n.x&#x27;, n.x);
-        let ny = mustBeNumber(&#x27;n.y&#x27;, n.y);
-
-        let aa = -2 * nx * ny
+        let nx = mustBeNumber(&#x27;n.x&#x27;, n.x)
 
         let xx = 1 - 2 * nx * nx
-        let yy = 1 - 2 * ny * ny
 
-        return this.set(xx, aa, aa, yy)
+        return this.set(xx, 0, 0, 1)
     }
 
     /**
@@ -556,6 +551,19 @@ class Mat2R extends AbstractMatrix&lt;Mat2R&gt; implements Matrix&lt;Mat2R, Vect
     }
 
     /**
+     * @method translation
+     * @param d {VectorE1}
+     * @return {Mat2R}
+     * @chainable
+     */
+    translation(d: VectorE1): Mat2R {
+        let x = d.x
+        return this.set(
+            1, x,
+            0, 1)
+    }
+
+    /**
      * Sets this matrix to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
      * @method zero
      * @return {Mat2R}
@@ -660,12 +668,12 @@ class Mat2R extends AbstractMatrix&lt;Mat2R&gt; implements Matrix&lt;Mat2R, Vect
 
     /**
      * @method reflection
-     * @param n {VectorE2}
+     * @param n {VectorE1}
      * @return {Mat2R}
      * @static
      * @chainable
      */
-    public static reflection(n: VectorE2): Mat2R {
+    public static reflection(n: VectorE1): Mat2R {
         return Mat2R.zero().reflection(n)
     }
 

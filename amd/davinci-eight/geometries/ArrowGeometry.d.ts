@@ -44,7 +44,7 @@ declare class ArrowGeometry extends AxialGeometry implements IAxialGeometry<Arro
      * @method setAxis
      * @param axis {VectorE3}
      * @return {ArrowGeometry}
-     * @chaninable
+     * @chainable
      */
     setAxis(axis: VectorE3): ArrowGeometry;
     /**

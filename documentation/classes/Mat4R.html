@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.162.0</em>
+            <em>API Docs for: 2.163.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -191,6 +191,7 @@
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -252,7 +253,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:30</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:31</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -283,7 +284,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:30</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:31</code></a>
         </p>
 
 
@@ -322,6 +323,14 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
                             </li>
                             <li class="index-item method private">
                                 <a href="#method___rmul__">__rmul__</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_add">add</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_add2">add2</a>
 
                             </li>
                             <li class="index-item method">
@@ -364,11 +373,11 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_reflection">reflection</a>
@@ -410,11 +419,11 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
                             <li class="index-item method">
                                 <a href="#method_scaling">scaling</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_scaling">scaling</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method private">
                                 <a href="#method_set">set</a>
@@ -435,11 +444,11 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
                             <li class="index-item method">
                                 <a href="#method_translation">translation</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_translation">translation</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_transpose">transpose</a>
@@ -524,7 +533,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l538"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:538</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l567"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:567</code></a>
         </p>
 
 
@@ -588,7 +597,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l557"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:557</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l586"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:586</code></a>
         </p>
 
 
@@ -606,6 +615,145 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
                 <li class="param">
                         <code class="param-name">lhs</code>
                         <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a> | Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_add" class="method item">
+    <h3 class="name"><code>add</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>rhs</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:100</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">rhs</code>
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_add2" class="method item">
+    <h3 class="name"><code>add2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>a</code>
+                </li>
+                <li class="arg">
+                        <code>b</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l110"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:110</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">a</code>
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">b</code>
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
 
 
                     <div class="param-description">
@@ -645,7 +793,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:99</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:122</code></a>
         </p>
 
 
@@ -699,7 +847,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l109"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:109</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:132</code></a>
         </p>
 
 
@@ -776,6 +924,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
@@ -784,7 +933,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
                 AbstractMatrix
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l127"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:127</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l150"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:150</code></a>
         </p>
 
 
@@ -840,7 +989,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l138"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:138</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l161"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:161</code></a>
         </p>
 
 
@@ -903,7 +1052,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l238"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:238</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l261"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:261</code></a>
         </p>
 
 
@@ -1009,7 +1158,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l172"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:172</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l195"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:195</code></a>
         </p>
 
 
@@ -1057,7 +1206,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l181"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:181</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l204"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:204</code></a>
         </p>
 
 
@@ -1120,7 +1269,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l293"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:293</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l316"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:316</code></a>
         </p>
 
 
@@ -1186,7 +1335,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l303"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:303</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l326"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:326</code></a>
         </p>
 
 
@@ -1246,7 +1395,6 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
 
 
 
-        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -1254,7 +1402,7 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:40</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l216"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:216</code></a>
         </p>
 
 
@@ -1262,9 +1410,8 @@ Constructs a Mat4R by wrapping a Float32Array.</p>
     </div>
 
     <div class="description">
-        <p>
-Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-</p>
+        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
+
     </div>
 
 
@@ -1290,6 +1437,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
 
 
+        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -1297,7 +1445,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:193</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:41</code></a>
         </p>
 
 
@@ -1305,8 +1453,9 @@ Creates a new matrix with all elements zero except those along the main diagonal
     </div>
 
     <div class="description">
-        <p>Sets this matrix to the identity element for multiplication, <b>1</b>.</p>
-
+        <p>
+Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+</p>
     </div>
 
 
@@ -1345,7 +1494,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l325"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:325</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l348"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:348</code></a>
         </p>
 
 
@@ -1412,7 +1561,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l315"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:315</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l338"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:338</code></a>
         </p>
 
 
@@ -1475,7 +1624,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l359"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:359</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l381"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:381</code></a>
         </p>
 
 
@@ -1541,7 +1690,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:88</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l89"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:89</code></a>
         </p>
 
 
@@ -1604,7 +1753,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l372"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:372</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l394"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:394</code></a>
         </p>
 
 
@@ -1673,7 +1822,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l267"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:267</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l290"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:290</code></a>
         </p>
 
 
@@ -1745,7 +1894,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l404"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:404</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l426"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:426</code></a>
         </p>
 
 
@@ -1809,7 +1958,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l203"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:203</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l226"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:226</code></a>
         </p>
 
 
@@ -1872,7 +2021,70 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l414"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:414</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l436"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:436</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">scale</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_scaling" class="method item">
+    <h3 class="name"><code>scaling</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>scale</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l457"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:457</code></a>
         </p>
 
 
@@ -1936,70 +2148,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:66</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">scale</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_scaling" class="method item">
-    <h3 class="name"><code>scaling</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>scale</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l435"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:435</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:67</code></a>
         </p>
 
 
@@ -2057,7 +2206,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l445"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:445</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l467"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:467</code></a>
         </p>
 
 
@@ -2103,7 +2252,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l479"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:479</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l501"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:501</code></a>
         </p>
 
 
@@ -2160,7 +2309,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l493"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:493</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l515"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:515</code></a>
         </p>
 
 
@@ -2188,7 +2337,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>displacement</code>
+                        <code>d</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -2201,12 +2350,13 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l505"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:505</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l527"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:527</code></a>
         </p>
 
 
@@ -2224,69 +2374,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">displacement</code>
-                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_translation" class="method item">
-    <h3 class="name"><code>translation</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>displacement</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l518"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:518</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">displacement</code>
+                        <code class="param-name">d</code>
                         <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
 
 
@@ -2334,7 +2422,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:77</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:78</code></a>
         </p>
 
 
@@ -2351,6 +2439,69 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">vector</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_translation" class="method item">
+    <h3 class="name"><code>translation</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>d</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l540"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:540</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">d</code>
                         <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
 
 
@@ -2391,7 +2542,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:218</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l241"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:241</code></a>
         </p>
 
 
@@ -2432,7 +2583,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l528"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:528</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l557"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:557</code></a>
         </p>
 
 
@@ -2475,7 +2626,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:53</code></a>
+        <a href="../files/src_davinci-eight_math_Mat4R.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat4R.ts:54</code></a>
         </p>
 
 

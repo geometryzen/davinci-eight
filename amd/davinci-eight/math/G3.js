@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadSpinorE3', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, Euclidean3, extG3, lcoG3, mulG3, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadSpinor, quadVector, rcoG3, readOnly, rotorFromDirections, scpG3, squaredNormG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVector, Euclidean3, extG3, lcoG3, mulG3, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, quadVector, rcoG3, readOnly, rotorFromDirections, scpG3, squaredNormG3, stringFromCoordinates, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     // GraphicsProgramSymbols constants for the coordinate indices into the data array.
     var COORD_W = 0;
     var COORD_X = 1;
@@ -87,14 +87,14 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             set β(unused) {
                 throw new Error(readOnly(label + '.β').message);
             },
-            magnitude: function () {
-                // FIXME: should be the full multivector.
-                return sqrt(quadSpinor(that));
-            },
-            squaredNorm: function () {
-                // FIXME: should be the full multivector.
-                return quadSpinor(that);
-            },
+            //        magnitude(): number {
+            // FIXME: should be the full multivector.
+            //            return sqrt(quadSpinor(that))
+            //        },
+            //        squaredNorm(): number {
+            //            // FIXME: should be the full multivector.
+            //            return quadSpinor(that)
+            //        },
             toString: function () {
                 return label;
             }
@@ -1302,7 +1302,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
                 return G3.copy(lhs).mul(this);
             }
             else if (typeof lhs === 'number') {
-                // Scalar multiplication commutes.
                 return G3.copy(this).scale(lhs);
             }
             else {

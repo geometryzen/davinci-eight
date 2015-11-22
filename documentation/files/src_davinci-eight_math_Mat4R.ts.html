@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.162.0</em>
+            <em>API Docs for: 2.163.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -191,6 +191,7 @@
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector.html">Vector</a></li>
                                 <li><a href="../classes/Vector3Facet.html">Vector3Facet</a></li>
+                                <li><a href="../classes/VectorE0.html">VectorE0</a></li>
                                 <li><a href="../classes/VectorE1.html">VectorE1</a></li>
                                 <li><a href="../classes/VectorE2.html">VectorE2</a></li>
                                 <li><a href="../classes/VectorE3.html">VectorE3</a></li>
@@ -248,18 +249,19 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;);
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import GeometricElement = require(&#x27;../math/GeometricElement&#x27;);
+import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;)
+import add4x4 = require(&#x27;../math/add4x4&#x27;)
+import expectArg = require(&#x27;../checks/expectArg&#x27;)
+import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
 import inv4x4 = require(&#x27;../math/inv4x4&#x27;)
-import isDefined = require(&#x27;../checks/isDefined&#x27;);
-import Matrix = require(&#x27;../math/Matrix&#x27;);
-import mul4x4 = require(&#x27;../math/mul4x4&#x27;);
+import isDefined = require(&#x27;../checks/isDefined&#x27;)
+import Matrix = require(&#x27;../math/Matrix&#x27;)
+import mul4x4 = require(&#x27;../math/mul4x4&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
-import Ring = require(&#x27;../math/MutableRingElement&#x27;);
-import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;);
-import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
-import VectorE4 = require(&#x27;../math/VectorE4&#x27;);
+import Ring = require(&#x27;../math/MutableRingElement&#x27;)
+import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
+import VectorE4 = require(&#x27;../math/VectorE4&#x27;)
 
 // TODO: Anything after this line hints of excessive coupling.
 // TODO: Probably better not to couple this way.
@@ -269,7 +271,7 @@ import frustumMatrix = require(&#x27;../cameras/frustumMatrix&#x27;);
  * @class Mat4R
  * @extends AbstractMatrix
  */
-class Mat4R extends AbstractMatrix&lt;Mat4R&gt; implements Matrix&lt;Mat4R, VectorE4&gt;, Ring&lt;Mat4R&gt; {
+class Mat4R extends AbstractMatrix&lt;Mat4R&gt; implements Matrix&lt;Mat4R, VectorE4, VectorE3&gt;, Ring&lt;Mat4R&gt; {
 
     // The correspondence between the elements property index and the matrix entries is...
     //
@@ -347,6 +349,28 @@ class Mat4R extends AbstractMatrix&lt;Mat4R&gt; implements Matrix&lt;Mat4R, Vect
     }
 
     /**
+     * @method add
+     * @param rhs {Mat4R}
+     * @return {Mat4R}
+     * @chainable
+     */
+    add(rhs: Mat4R): Mat4R {
+        return this.add2(this, rhs);
+    }
+
+    /**
+     * @method add2
+     * @param a {Mat4R}
+     * @param b {Mat4R}
+     * @return {Mat4R}
+     * @chainable
+     */
+    add2(a: Mat4R, b: Mat4R): Mat4R {
+        add4x4(a.elements, b.elements, this.elements)
+        return this
+    }
+
+    /**
      * Returns a copy of this Mat4R instance.
      * @method clone
      * @return {Mat4R}
@@ -378,7 +402,7 @@ class Mat4R extends AbstractMatrix&lt;Mat4R&gt; implements Matrix&lt;Mat4R, Vect
      * @method copy
      * @param m {Mat4R}
      * @return {Mat4R}
-     * @chaninable
+     * @chainable
      */
     copy(m: Mat4R): Mat4R {
         this.elements.set(m.elements)
@@ -584,7 +608,6 @@ class Mat4R extends AbstractMatrix&lt;Mat4R&gt; implements Matrix&lt;Mat4R, Vect
      * @chainable
      */
     reflection(n: VectorE3): Mat4R {
-        // FIXME; Symmetry says this should take a VectorE4
         let nx = mustBeNumber(&#x27;n.x&#x27;, n.x);
         let ny = mustBeNumber(&#x27;n.y&#x27;, n.y);
         let nz = mustBeNumber(&#x27;n.z&#x27;, n.z);
@@ -757,22 +780,29 @@ class Mat4R extends AbstractMatrix&lt;Mat4R&gt; implements Matrix&lt;Mat4R, Vect
      * &lt;code&gt;this ⟼ translation(spinor) * this&lt;/code&gt;
      * &lt;/p&gt;
      * @method translate
-     * @param displacement {VectorE3}
+     * @param d {VectorE3}
      * @return {Mat4R}
-     * @chaninable
+     * @chainable
      */
-    translate(displacement: VectorE3): Mat4R {
-        return this.rmul(Mat4R.translation(displacement))
+    translate(d: VectorE3): Mat4R {
+        return this.rmul(Mat4R.translation(d))
     }
 
     /**
      * @method translation
-     * @param displacement {VectorE3}
+     * @param d {VectorE3}
      * @return {Mat4R}
-     * @chaninable
+     * @chainable
      */
-    translation(displacement: VectorE3): Mat4R {
-        return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
+    translation(d: VectorE3): Mat4R {
+        let x = d.x
+        let y = d.y
+        let z = d.z
+        return this.set(
+            1, 0, 0, x,
+            0, 1, 0, y,
+            0, 0, 1, z,
+            0, 0, 0, 1)
     }
 
     /**

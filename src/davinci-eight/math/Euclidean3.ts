@@ -1447,12 +1447,12 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
             set β(β: number) {
                 M.xyz = β
             },
-            magnitude(): number {
-                throw new Error("magnitude() should not be needed.");
-            },
-            squaredNorm(): number {
-                throw new Error("squaredNorm() should not be needed.");
-            }
+            //            magnitude(): number {
+            //                throw new Error("magnitude() should not be needed.");
+            //            },
+            //            squaredNorm(): number {
+            //                throw new Error("squaredNorm() should not be needed.");
+            //            }
         }
         return that
     }

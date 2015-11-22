@@ -50,7 +50,7 @@ declare class AbstractMatrix<T extends {
      * @method copy
      * @param m {T}
      * @return {T}
-     * @chaninable
+     * @chainable
      */
     copy(m: T): T;
     /**

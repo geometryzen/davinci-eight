@@ -8,7 +8,7 @@ import VectorE4 = require('../math/VectorE4');
  * @class Mat4R
  * @extends AbstractMatrix
  */
-declare class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4>, Ring<Mat4R> {
+declare class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4, VectorE3>, Ring<Mat4R> {
     /**
      * 4x4 (square) matrix of numbers.
      * Constructs a Mat4R by wrapping a Float32Array.
@@ -61,6 +61,21 @@ declare class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, Vecto
      */
     static rotation(spinor: SpinorE3): Mat4R;
     /**
+     * @method add
+     * @param rhs {Mat4R}
+     * @return {Mat4R}
+     * @chainable
+     */
+    add(rhs: Mat4R): Mat4R;
+    /**
+     * @method add2
+     * @param a {Mat4R}
+     * @param b {Mat4R}
+     * @return {Mat4R}
+     * @chainable
+     */
+    add2(a: Mat4R, b: Mat4R): Mat4R;
+    /**
      * Returns a copy of this Mat4R instance.
      * @method clone
      * @return {Mat4R}
@@ -80,7 +95,7 @@ declare class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, Vecto
      * @method copy
      * @param m {Mat4R}
      * @return {Mat4R}
-     * @chaninable
+     * @chainable
      */
     copy(m: Mat4R): Mat4R;
     /**
@@ -240,18 +255,18 @@ declare class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, Vecto
      * <code>this ⟼ translation(spinor) * this</code>
      * </p>
      * @method translate
-     * @param displacement {VectorE3}
+     * @param d {VectorE3}
      * @return {Mat4R}
-     * @chaninable
+     * @chainable
      */
-    translate(displacement: VectorE3): Mat4R;
+    translate(d: VectorE3): Mat4R;
     /**
      * @method translation
-     * @param displacement {VectorE3}
+     * @param d {VectorE3}
      * @return {Mat4R}
-     * @chaninable
+     * @chainable
      */
-    translation(displacement: VectorE3): Mat4R;
+    translation(d: VectorE3): Mat4R;
     /**
      * Sets this matrix to the identity element for addition, <b>0</b>.
      * @method zero

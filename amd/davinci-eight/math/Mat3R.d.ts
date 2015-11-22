@@ -3,12 +3,13 @@ import Matrix = require('../math/Matrix');
 import Mat4R = require('./Mat4R');
 import Ring = require('../math/MutableRingElement');
 import RingOperators = require('../math/RingOperators');
+import VectorE2 = require('../math/VectorE2');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class Mat3R
  * @extends AbstractMatrix
  */
-declare class Mat3R extends AbstractMatrix<Mat3R> implements Matrix<Mat3R, VectorE3>, Ring<Mat3R>, RingOperators<Mat3R> {
+declare class Mat3R extends AbstractMatrix<Mat3R> implements Matrix<Mat3R, VectorE3, VectorE2>, Ring<Mat3R>, RingOperators<Mat3R> {
     /**
      * 3x3 (square) matrix of numbers.
      * Constructs a Mat3R by wrapping a Float32Array.
@@ -25,8 +26,17 @@ declare class Mat3R extends AbstractMatrix<Mat3R> implements Matrix<Mat3R, Vecto
      * @method add
      * @param rhs {Mat3R}
      * @return {Mat3R}
+     * @chainable
      */
     add(rhs: Mat3R): Mat3R;
+    /**
+     * @method add2
+     * @param a {Mat3R}
+     * @param b {Mat3R}
+     * @return {Mat3R}
+     * @chainable
+     */
+    add2(a: Mat3R, b: Mat3R): Mat3R;
     /**
      * Returns a copy of this Mat3R instance.
      * @method clone
@@ -106,11 +116,11 @@ declare class Mat3R extends AbstractMatrix<Mat3R> implements Matrix<Mat3R, Vecto
      * <code>this ⟼ reflection(n)</code>
      * </p>
      * @method reflection
-     * @param n {VectorE3}
+     * @param n {VectorE2}
      * @return {Mat3R}
      * @chainable
      */
-    reflection(n: VectorE3): Mat3R;
+    reflection(n: VectorE2): Mat3R;
     /**
      * @method row
      * @param i {number} the zero-based index of the row.
@@ -151,6 +161,13 @@ declare class Mat3R extends AbstractMatrix<Mat3R> implements Matrix<Mat3R, Vecto
      */
     toString(): string;
     /**
+     * @method translation
+     * @param d {VectorE2}
+     * @return {Mat3R}
+     * @chainable
+     */
+    translation(d: VectorE2): Mat3R;
+    /**
      * @method transpose
      * @return {Mat3R}
      */
@@ -181,12 +198,12 @@ declare class Mat3R extends AbstractMatrix<Mat3R> implements Matrix<Mat3R, Vecto
     static one(): Mat3R;
     /**
      * @method reflection
-     * @param n {VectorE3}
+     * @param n {VectorE2}
      * @return {Mat3R}
      * @static
      * @chainable
      */
-    static reflection(n: VectorE3): Mat3R;
+    static reflection(n: VectorE2): Mat3R;
     /**
      * <p>
      * Creates a new matrix with all elements zero.

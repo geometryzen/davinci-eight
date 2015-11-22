@@ -26,15 +26,5 @@ interface VectorE4 {
      * @type number
      */
     w: number;
-    /**
-     * Computes the <em>square root</em> of the <em>squared norm</em>.
-     * @method magnitude
-     * @return {number}
-     */
-    magnitude(): number;
-    /**
-     * The squared norm, as a <code>number</code>.
-     */
-    squaredNorm(): number;
 }
 export = VectorE4;

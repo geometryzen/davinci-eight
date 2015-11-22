@@ -55,7 +55,7 @@ class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometr
      * @method setAxis
      * @param axis {VectorE3}
      * @return {ArrowGeometry}
-     * @chaninable
+     * @chainable
      */
     setAxis(axis: VectorE3): ArrowGeometry {
         super.setAxis(axis)

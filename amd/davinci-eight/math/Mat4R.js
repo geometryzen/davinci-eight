@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../math/mul4x4', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, expectArg, inv4x4, isDefined, mul4x4, mustBeNumber) {
+define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../math/mul4x4', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, add4x4, expectArg, inv4x4, isDefined, mul4x4, mustBeNumber) {
     /**
      * @class Mat4R
      * @extends AbstractMatrix
@@ -80,6 +80,26 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             return Mat4R.one().rotation(spinor);
         };
         /**
+         * @method add
+         * @param rhs {Mat4R}
+         * @return {Mat4R}
+         * @chainable
+         */
+        Mat4R.prototype.add = function (rhs) {
+            return this.add2(this, rhs);
+        };
+        /**
+         * @method add2
+         * @param a {Mat4R}
+         * @param b {Mat4R}
+         * @return {Mat4R}
+         * @chainable
+         */
+        Mat4R.prototype.add2 = function (a, b) {
+            add4x4(a.elements, b.elements, this.elements);
+            return this;
+        };
+        /**
          * Returns a copy of this Mat4R instance.
          * @method clone
          * @return {Mat4R}
@@ -109,7 +129,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @method copy
          * @param m {Mat4R}
          * @return {Mat4R}
-         * @chaninable
+         * @chainable
          */
         Mat4R.prototype.copy = function (m) {
             this.elements.set(m.elements);
@@ -321,7 +341,6 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * @chainable
          */
         Mat4R.prototype.reflection = function (n) {
-            // FIXME; Symmetry says this should take a VectorE4
             var nx = mustBeNumber('n.x', n.x);
             var ny = mustBeNumber('n.y', n.y);
             var nz = mustBeNumber('n.z', n.z);
@@ -463,21 +482,24 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
          * <code>this ⟼ translation(spinor) * this</code>
          * </p>
          * @method translate
-         * @param displacement {VectorE3}
+         * @param d {VectorE3}
          * @return {Mat4R}
-         * @chaninable
+         * @chainable
          */
-        Mat4R.prototype.translate = function (displacement) {
-            return this.rmul(Mat4R.translation(displacement));
+        Mat4R.prototype.translate = function (d) {
+            return this.rmul(Mat4R.translation(d));
         };
         /**
          * @method translation
-         * @param displacement {VectorE3}
+         * @param d {VectorE3}
          * @return {Mat4R}
-         * @chaninable
+         * @chainable
          */
-        Mat4R.prototype.translation = function (displacement) {
-            return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
+        Mat4R.prototype.translation = function (d) {
+            var x = d.x;
+            var y = d.y;
+            var z = d.z;
+            return this.set(1, 0, 0, x, 0, 1, 0, y, 0, 0, 1, z, 0, 0, 0, 1);
         };
         /**
          * Sets this matrix to the identity element for addition, <b>0</b>.

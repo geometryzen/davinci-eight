@@ -1189,12 +1189,6 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
                 set β(β) {
                     M.xyz = β;
                 },
-                magnitude: function () {
-                    throw new Error("magnitude() should not be needed.");
-                },
-                squaredNorm: function () {
-                    throw new Error("squaredNorm() should not be needed.");
-                }
             };
             return that;
         };
