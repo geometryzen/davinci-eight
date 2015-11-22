@@ -86,10 +86,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "LineMaterial",
         "LineTopology",
         "LocalizableMessage",
+        "Mat2R",
+        "Mat3R",
+        "Mat4R",
         "MaterialParameters",
-        "Matrix2",
-        "Matrix3",
-        "Matrix4",
         "MeshLambertMaterial",
         "MeshMaterial",
         "MeshTopology",
@@ -183,6 +183,7 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "geometries",
             "description": "A barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly."
         }
-    ]
+    ],
+    "elements": []
 } };
 });

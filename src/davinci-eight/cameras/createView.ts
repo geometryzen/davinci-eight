@@ -3,7 +3,7 @@ import IFacetVisitor = require('../core/IFacetVisitor')
 import R3 = require('../math/R3')
 import VectorE3 = require('../math/VectorE3')
 import SpinG3 = require('../math/SpinG3')
-import Matrix4 = require('../math/Matrix4')
+import Mat4R = require('../math/Mat4R')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import View = require('../cameras/View')
@@ -22,7 +22,7 @@ let createView = function(options?: { viewMatrixName?: string }): View {
     let eye: R3 = new R3()
     let look: R3 = new R3()
     let up: R3 = R3.copy(Euclidean3.e2)
-    let viewMatrix: Matrix4 = Matrix4.one()
+    let viewMatrix: Mat4R = Mat4R.one()
     let viewMatrixName = isUndefined(options.viewMatrixName) ? GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX : options.viewMatrixName
 
     // Force an update of the view matrix.
@@ -100,7 +100,7 @@ let createView = function(options?: { viewMatrixName?: string }): View {
                 look.modified = false
                 up.modified = false
             }
-            visitor.uniformMatrix4(viewMatrixName, false, viewMatrix, canvasId)
+            visitor.mat4(viewMatrixName, viewMatrix, false, canvasId)
         }
     }
 

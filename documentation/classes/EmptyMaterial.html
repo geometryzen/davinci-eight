@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -206,6 +206,7 @@
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -377,6 +378,18 @@
                                 <a href="#method_makeReady">makeReady</a>
 
                             </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_mat2">mat2</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_mat3">mat3</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_mat4">mat4</a>
+
+                            </li>
                             <li class="index-item method inherited inherited">
                                 <a href="#method_release">release</a>
 
@@ -395,18 +408,6 @@
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_uniform4f">uniform4f</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_uniformMatrix2">uniformMatrix2</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_uniformMatrix3">uniformMatrix3</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_uniformMatrix4">uniformMatrix4</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -1070,6 +1071,315 @@ This causes this GraphicsProgram instance to receive a contextGain call allowing
 
 
 </div>
+<div id="method_mat2" class="method item inherited">
+    <h3 class="name"><code>mat2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>matrix</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[transpose]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/GraphicsProgram.html#method_mat2">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l396"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:396</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">matrix</code>
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[transpose]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        Determines which WebGLProgram to use.
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mat3" class="method item inherited">
+    <h3 class="name"><code>mat3</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>matrix</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[transpose]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/GraphicsProgram.html#method_mat3">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l423"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:423</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">matrix</code>
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[transpose]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        Determines which WebGLProgram to use.
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mat4" class="method item inherited">
+    <h3 class="name"><code>mat4</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>matrix</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[transpose]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/GraphicsProgram.html#method_mat4">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l450"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:450</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">matrix</code>
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[transpose]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        Determines which WebGLProgram to use.
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_release" class="method item inherited">
     <h3 class="name"><code>release</code></h3>
 
@@ -1519,312 +1829,6 @@ Notifies this instance that something is dereferencing it.
                 <li class="param">
                         <code class="param-name">w</code>
                         <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[canvasId]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        Determines which WebGLProgram to use.
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_uniformMatrix2" class="method item inherited">
-    <h3 class="name"><code>uniformMatrix2</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>transpose</code>
-                </li>
-                <li class="arg">
-                        <code>matrix</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[canvasId]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GraphicsProgram.html#method_uniformMatrix2">GraphicsProgram</a>:
-        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l396"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:396</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[canvasId]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        Determines which WebGLProgram to use.
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_uniformMatrix3" class="method item inherited">
-    <h3 class="name"><code>uniformMatrix3</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>transpose</code>
-                </li>
-                <li class="arg">
-                        <code>matrix</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[canvasId]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GraphicsProgram.html#method_uniformMatrix3">GraphicsProgram</a>:
-        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l423"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:423</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[canvasId]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        Determines which WebGLProgram to use.
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_uniformMatrix4" class="method item inherited">
-    <h3 class="name"><code>uniformMatrix4</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>transpose</code>
-                </li>
-                <li class="arg">
-                        <code>matrix</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[canvasId]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GraphicsProgram.html#method_uniformMatrix4">GraphicsProgram</a>:
-        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l450"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:450</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
 
 
                     <div class="param-description">

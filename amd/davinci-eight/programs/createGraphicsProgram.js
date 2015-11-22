@@ -190,7 +190,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            uniformMatrix2: function (name, transpose, matrix, canvasId) {
+            mat2: function (name, matrix, transpose, canvasId) {
                 if (canvasId === void 0) { canvasId = DEFAULT_CANVAS_ID; }
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
@@ -198,11 +198,11 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.matrix2(transpose, matrix);
+                        uniformLoc.mat2(matrix, transpose);
                     }
                 }
             },
-            uniformMatrix3: function (name, transpose, matrix, canvasId) {
+            mat3: function (name, matrix, transpose, canvasId) {
                 if (canvasId === void 0) { canvasId = DEFAULT_CANVAS_ID; }
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
@@ -210,11 +210,11 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.matrix3(transpose, matrix);
+                        uniformLoc.mat3(matrix, transpose);
                     }
                 }
             },
-            uniformMatrix4: function (name, transpose, matrix, canvasId) {
+            mat4: function (name, matrix, transpose, canvasId) {
                 if (canvasId === void 0) { canvasId = DEFAULT_CANVAS_ID; }
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
@@ -222,7 +222,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.matrix4(transpose, matrix);
+                        uniformLoc.mat4(matrix, transpose);
                     }
                 }
             },

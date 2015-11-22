@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '../checks/mustBeString', '../math/R3', '../math/Matrix4', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, CartesianE3, mustBeArray, mustBeString, R3, Matrix4, readOnly, Shareable) {
+define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '../checks/mustBeString', '../math/R3', '../math/Mat4R', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, CartesianE3, mustBeArray, mustBeString, R3, Mat4R, readOnly, Shareable) {
     /**
      * @class ReflectionFacetE3
      * @extends Shareable
@@ -19,10 +19,10 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
             _super.call(this, 'ReflectionFacetE3');
             /**
              * @property matrix
-             * @type {Matrix4}
+             * @type {Mat4R}
              * @private
              */
-            this.matrix = Matrix4.one();
+            this.matrix = Mat4R.one();
             this.name = mustBeString('name', name);
             // The mathematics of the reflection causes a zero vector to be the identity transformation.
             this._normal = new R3().copy(CartesianE3.zero);
@@ -83,7 +83,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
                 this.matrix.reflection(this._normal);
                 this._normal.modified = false;
             }
-            visitor.uniformMatrix4(this.name, false, this.matrix, canvasId);
+            visitor.mat4(this.name, this.matrix, false, canvasId);
         };
         return ReflectionFacetE3;
     })(Shareable);

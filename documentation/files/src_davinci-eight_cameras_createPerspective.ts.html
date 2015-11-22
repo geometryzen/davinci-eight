@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -251,18 +252,18 @@
 // createPerspective.ts
 //
 import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;);
-import Perspective        = require(&#x27;../cameras/Perspective&#x27;);
-import View               = require(&#x27;../cameras/View&#x27;);
-import createView         = require(&#x27;../cameras/createView&#x27;);
-import Matrix4            = require(&#x27;../math/Matrix4&#x27;);
-import SpinG3            = require(&#x27;../math/SpinG3&#x27;);
-import GraphicsProgramSymbols           = require(&#x27;../core/GraphicsProgramSymbols&#x27;);
-import VectorE3         = require(&#x27;../math/VectorE3&#x27;);
-import R1            = require(&#x27;../math/R1&#x27;);
-import R3            = require(&#x27;../math/R3&#x27;);
-import isDefined          = require(&#x27;../checks/isDefined&#x27;);
-import isUndefined        = require(&#x27;../checks/isUndefined&#x27;);
-import expectArg          = require(&#x27;../checks/expectArg&#x27;);
+import Perspective = require(&#x27;../cameras/Perspective&#x27;);
+import View = require(&#x27;../cameras/View&#x27;);
+import createView = require(&#x27;../cameras/createView&#x27;);
+import Mat4R = require(&#x27;../math/Mat4R&#x27;);
+import SpinG3 = require(&#x27;../math/SpinG3&#x27;);
+import GraphicsProgramSymbols = require(&#x27;../core/GraphicsProgramSymbols&#x27;);
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
+import R1 = require(&#x27;../math/R1&#x27;);
+import R3 = require(&#x27;../math/R3&#x27;);
+import isDefined = require(&#x27;../checks/isDefined&#x27;);
+import isUndefined = require(&#x27;../checks/isUndefined&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import computePerspectiveMatrix = require(&#x27;../cameras/perspectiveMatrix&#x27;);
 
 /**
@@ -274,127 +275,127 @@ import computePerspectiveMatrix = require(&#x27;../cameras/perspectiveMatrix&#x2
  * @param far {number}
  * @return {Perspective}
  */
-let createPerspective = function(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string;}): Perspective {
+let createPerspective = function(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string; }): Perspective {
 
-  options = options || {};
-  let fov: R1 = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-  let aspect: R1 = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
-  let near: R1 = new R1([isUndefined(options.near) ? 0.1 : options.near]);
-  let far: R1 = new R1([expectArg(&#x27;options.far&#x27;, isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
-  let projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
+    options = options || {};
+    let fov: R1 = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+    let aspect: R1 = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
+    let near: R1 = new R1([isUndefined(options.near) ? 0.1 : options.near]);
+    let far: R1 = new R1([expectArg(&#x27;options.far&#x27;, isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
+    let projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
-  var refCount = 1
-  let base: View = createView(options)
-  let projectionMatrix: Matrix4 = Matrix4.one()
-  var matrixNeedsUpdate = true
+    var refCount = 1
+    let base: View = createView(options)
+    let projectionMatrix: Mat4R = Mat4R.one()
+    var matrixNeedsUpdate = true
 
-  let self: Perspective = {
-    addRef(): number {
-      refCount++
-      return refCount
-    },
-    release(): number {
-      refCount--
-      return refCount;
-    },
-    get uuid(): string {
-      return &quot;&quot;
-    },
-    getProperty(name: string): number[] {
-      return void 0
-    },
-    setProperty(name: string, value: number[]): void {
-    },
-    // Delegate to the base camera.
-    get eye(): R3 {
-      return base.eye;
-    },
-    set eye(eye: R3) {
-      base.eye = eye;
-    },
-    setEye(eye: VectorE3) {
-      base.setEye(eye);
-      return self;
-    },
-    get look(): R3 {
-      return base.look;
-    },
-    set look(value: R3) {
-      base.look = value;
-    },
-    setLook(look: VectorE3) {
-      base.setLook(look);
-      return self;
-    },
-    get up(): R3 {
-      return base.up;
-    },
-    set up(value: R3) {
-      base.up = value;
-    },
-    setUp(up: VectorE3) {
-      base.setUp(up);
-      return self;
-    },
-    get fov(): number {
-      return fov.x;
-    },
-    set fov(value: number) {
-      self.setFov(value);
-    },
-    setFov(value: number) {
-      expectArg(&#x27;fov&#x27;, value).toBeNumber();
-      matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
-      fov.x = value;
-      return self;
-    },
-    get aspect(): number {
-      return aspect.x;
-    },
-    set aspect(value: number) {
-      self.setAspect(value);
-    },
-    setAspect(value: number) {
-      expectArg(&#x27;aspect&#x27;, value).toBeNumber();
-      matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
-      aspect.x = value;
-      return self;
-    },
-    get near(): number {
-      return near.x;
-    },
-    set near(value: number) {
-      self.setNear(value);
-    },
-    setNear(value: number) {
-      expectArg(&#x27;near&#x27;, value).toBeNumber();
-      matrixNeedsUpdate = matrixNeedsUpdate || near.x !== value;
-      near.x = value;
-      return self;
-    },
-    get far(): number {
-      return far.x;
-    },
-    set far(value: number) {
-      self.setFar(value);
-    },
-    setFar(value: number) {
-      expectArg(&#x27;far&#x27;, value).toBeNumber();
-      matrixNeedsUpdate = matrixNeedsUpdate || far.x !== value;
-      far.x = value;
-      return self;
-    },
-    setUniforms(visitor: IFacetVisitor, canvasId?: number) {
-      if (matrixNeedsUpdate) {
-        computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
-        matrixNeedsUpdate = false;
-      }
-      visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
-      base.setUniforms(visitor, canvasId);
-    }
-  };
+    let self: Perspective = {
+        addRef(): number {
+            refCount++
+            return refCount
+        },
+        release(): number {
+            refCount--
+            return refCount;
+        },
+        get uuid(): string {
+            return &quot;&quot;
+        },
+        getProperty(name: string): number[] {
+            return void 0
+        },
+        setProperty(name: string, value: number[]): void {
+        },
+        // Delegate to the base camera.
+        get eye(): R3 {
+            return base.eye;
+        },
+        set eye(eye: R3) {
+            base.eye = eye;
+        },
+        setEye(eye: VectorE3) {
+            base.setEye(eye);
+            return self;
+        },
+        get look(): R3 {
+            return base.look;
+        },
+        set look(value: R3) {
+            base.look = value;
+        },
+        setLook(look: VectorE3) {
+            base.setLook(look);
+            return self;
+        },
+        get up(): R3 {
+            return base.up;
+        },
+        set up(value: R3) {
+            base.up = value;
+        },
+        setUp(up: VectorE3) {
+            base.setUp(up);
+            return self;
+        },
+        get fov(): number {
+            return fov.x;
+        },
+        set fov(value: number) {
+            self.setFov(value);
+        },
+        setFov(value: number) {
+            expectArg(&#x27;fov&#x27;, value).toBeNumber();
+            matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
+            fov.x = value;
+            return self;
+        },
+        get aspect(): number {
+            return aspect.x;
+        },
+        set aspect(value: number) {
+            self.setAspect(value);
+        },
+        setAspect(value: number) {
+            expectArg(&#x27;aspect&#x27;, value).toBeNumber();
+            matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
+            aspect.x = value;
+            return self;
+        },
+        get near(): number {
+            return near.x;
+        },
+        set near(value: number) {
+            self.setNear(value);
+        },
+        setNear(value: number) {
+            expectArg(&#x27;near&#x27;, value).toBeNumber();
+            matrixNeedsUpdate = matrixNeedsUpdate || near.x !== value;
+            near.x = value;
+            return self;
+        },
+        get far(): number {
+            return far.x;
+        },
+        set far(value: number) {
+            self.setFar(value);
+        },
+        setFar(value: number) {
+            expectArg(&#x27;far&#x27;, value).toBeNumber();
+            matrixNeedsUpdate = matrixNeedsUpdate || far.x !== value;
+            far.x = value;
+            return self;
+        },
+        setUniforms(visitor: IFacetVisitor, canvasId?: number) {
+            if (matrixNeedsUpdate) {
+                computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
+                matrixNeedsUpdate = false;
+            }
+            visitor.mat4(projectionMatrixName, projectionMatrix, false, canvasId);
+            base.setUniforms(visitor, canvasId);
+        }
+    };
 
-  return self;
+    return self;
 };
 
 export =  createPerspective;

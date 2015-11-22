@@ -123,33 +123,46 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             this._context.uniform1fv(this._location, matrix.coords);
         };
         /**
-         * @method matrix2
-         * @param transpose {boolean}
-         * @param matrix {Matrix2}
+         * Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.
+         * @method mat2
+         * @param matrix {Mat2R}
+         * @param [transpose = false] {boolean}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.matrix2 = function (transpose, matrix) {
+        UniformLocation.prototype.mat2 = function (matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
             this._context.useProgram(this._program);
             this._context.uniformMatrix2fv(this._location, transpose, matrix.elements);
+            return this;
         };
         /**
-         * @method matrix3
-         * @param transpose {boolean}
-         * @param matrix {Matrix3}
+         * Sets a uniform location of type <code>mat3</code> in the <code>WebGLProgram</code>.
+         * @method mat3
+         * @param matrix {Mat3R}
+         * @param [transpose = false] {boolean}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.matrix3 = function (transpose, matrix) {
+        UniformLocation.prototype.mat3 = function (matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
             this._context.useProgram(this._program);
             this._context.uniformMatrix3fv(this._location, transpose, matrix.elements);
+            return this;
         };
         /**
-         * @method matrix4
-         * @param transpose {boolean}
-         * @param matrix {Matrix4}
+         * Sets a uniform location of type <code>mat4</code> in the <code>WebGLProgram</code>.
+         * @method mat4
+         * @param matrix {Mat4R}
+         * @param [transpose = false] {boolean}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.matrix4 = function (transpose, matrix) {
-            if (matrix) {
-                this._context.useProgram(this._program);
-                this._context.uniformMatrix4fv(this._location, transpose, matrix.elements);
-            }
+        UniformLocation.prototype.mat4 = function (matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
+            this._context.useProgram(this._program);
+            this._context.uniformMatrix4fv(this._location, transpose, matrix.elements);
+            return this;
         };
         /**
          * @method vector2

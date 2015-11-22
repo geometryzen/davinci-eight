@@ -353,80 +353,80 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             }
         };
         /**
-         * @method uniformMatrix2
+         * @method mat2
          * @param name {string}
-         * @param transpose {boolean}
-         * @param matrix {Matrix2}
+         * @param matrix {Mat2R}
+         * @param [transpose] {boolean}
          * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
-        GraphicsProgram.prototype.uniformMatrix2 = function (name, transpose, matrix, canvasId) {
+        GraphicsProgram.prototype.mat2 = function (name, matrix, transpose, canvasId) {
             if (this.inner) {
-                this.inner.uniformMatrix2(name, transpose, matrix, canvasId);
+                this.inner.mat2(name, matrix, transpose, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformMatrix2(name, transpose, matrix, canvasId);
+                    this.inner.mat2(name, matrix, transpose, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Matrix2', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'Mat2R', name, canvasId);
                     }
                 }
             }
         };
         /**
-         * @method uniformMatrix3
+         * @method mat3
          * @param name {string}
-         * @param transpose {boolean}
-         * @param matrix {Matrix3}
+         * @param matrix {Mat3R}
+         * @param [transpose] {boolean}
          * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
-        GraphicsProgram.prototype.uniformMatrix3 = function (name, transpose, matrix, canvasId) {
+        GraphicsProgram.prototype.mat3 = function (name, matrix, transpose, canvasId) {
             if (this.inner) {
-                this.inner.uniformMatrix3(name, transpose, matrix, canvasId);
+                this.inner.mat3(name, matrix, transpose, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformMatrix3(name, transpose, matrix, canvasId);
+                    this.inner.mat3(name, matrix, transpose, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Matrix3', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'Mat3R', name, canvasId);
                     }
                 }
             }
         };
         /**
-         * @method uniformMatrix4
+         * @method mat4
          * @param name {string}
-         * @param transpose {boolean}
-         * @param matrix {Matrix4}
+         * @param matrix {Mat4R}
+         * @param [transpose] {boolean}
          * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
-        GraphicsProgram.prototype.uniformMatrix4 = function (name, transpose, matrix, canvasId) {
+        GraphicsProgram.prototype.mat4 = function (name, matrix, transpose, canvasId) {
             if (this.inner) {
-                this.inner.uniformMatrix4(name, transpose, matrix, canvasId);
+                this.inner.mat4(name, matrix, transpose, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformMatrix4(name, transpose, matrix, canvasId);
+                    this.inner.mat4(name, matrix, transpose, canvasId);
                 }
                 else {
                     if (!readyPending) {
                         if (core.verbose) {
-                            consoleWarnDroppedUniform(this.type, 'Matrix4', name, canvasId);
+                            consoleWarnDroppedUniform(this.type, 'Mat4R', name, canvasId);
                         }
                     }
                 }

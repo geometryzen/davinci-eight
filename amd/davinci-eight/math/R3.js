@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/Matrix3', '../math/Matrix4', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, Matrix3, Matrix4, isDefined, isNumber, mustBeNumber, mustBeObject, toStringCustom, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/Mat3R', '../math/Mat4R', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3, Euclidean3, Mat3R, Mat4R, isDefined, isNumber, mustBeNumber, mustBeObject, toStringCustom, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     var exp = Math.exp;
     var log = Math.log;
     var sqrt = Math.sqrt;
@@ -131,7 +131,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
          * <code>this ⟼ m * this<sup>T</sup></code>
          * </p>
          * @method applyMatrix
-         * @param m {Matrix3}
+         * @param m {Mat3R}
          * @return {R3} <code>this</code>
          * @chainable
          */
@@ -582,11 +582,11 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             if (typeof lhs === 'number') {
                 return this.clone().scale(lhs);
             }
-            else if (lhs instanceof Matrix3) {
+            else if (lhs instanceof Mat3R) {
                 var m33 = lhs;
                 return this.clone().applyMatrix(m33);
             }
-            else if (lhs instanceof Matrix4) {
+            else if (lhs instanceof Mat4R) {
                 var m44 = lhs;
                 return this.clone().applyMatrix4(m44);
             }

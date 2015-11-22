@@ -15,7 +15,7 @@ import clamp = require('../math/clamp');
 import Curve = require('../curves/Curve');
 import Face3 = require('../core/Face3');
 import SimplexGeometry = require('../geometries/SimplexGeometry');
-import Matrix4 = require('../math/Matrix4');
+import Mat4R = require('../math/Mat4R');
 import R2 = require('../math/R2');
 import R3 = require('../math/R3');
 
@@ -154,7 +154,7 @@ class FrenetFrames {
     var binormals: R3[] = [];
 
     var vec = new R3([0, 0, 0]);
-    var mat = Matrix4.one();
+    var mat = Mat4R.one();
 
     var numpoints: number = segments + 1;
     var theta: number;

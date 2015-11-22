@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -277,6 +278,18 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
+                                <a href="#method_mat2">mat2</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mat3">mat3</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mat4">mat4</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_uniform1f">uniform1f</a>
 
                             </li>
@@ -290,18 +303,6 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_uniform3f">uniform3f</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_uniformMatrix2">uniformMatrix2</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_uniformMatrix3">uniformMatrix3</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_uniformMatrix4">uniformMatrix4</a>
 
                             </li>
                             <li class="index-item method">
@@ -338,6 +339,318 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_mat2" class="method item">
+    <h3 class="name"><code>mat2</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>matrix</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[transpose = false]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:58</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">matrix</code>
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[transpose = false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines which WebGLProgram to use.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mat3" class="method item">
+    <h3 class="name"><code>mat3</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>matrix</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[transpose = false]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:68</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">matrix</code>
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[transpose = false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines which WebGLProgram to use.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_mat4" class="method item">
+    <h3 class="name"><code>mat4</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>matrix</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[transpose = false]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:78</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">matrix</code>
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[transpose = false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines which WebGLProgram to use.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_uniform1f" class="method item">
     <h3 class="name"><code>uniform1f</code></h3>
 
@@ -549,122 +862,6 @@
                         <code>z</code>
                 </li>
                 <li class="arg">
-                        <code class="optional">[canvasId]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:35</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">x</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">y</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">z</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[canvasId]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <p>Determines which WebGLProgram to use.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_uniform3f" class="method item">
-    <h3 class="name"><code>uniform3f</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>x</code>
-                </li>
-                <li class="arg">
-                        <code>y</code>
-                </li>
-                <li class="arg">
-                        <code>z</code>
-                </li>
-                <li class="arg">
                         <code>w</code>
                 </li>
                 <li class="arg">
@@ -776,8 +973,8 @@
 
 
 </div>
-<div id="method_uniformMatrix2" class="method item">
-    <h3 class="name"><code>uniformMatrix2</code></h3>
+<div id="method_uniform3f" class="method item">
+    <h3 class="name"><code>uniform3f</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -785,10 +982,13 @@
                         <code>name</code>
                 </li>
                 <li class="arg">
-                        <code>transpose</code>
+                        <code>x</code>
                 </li>
                 <li class="arg">
-                        <code>matrix</code>
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>z</code>
                 </li>
                 <li class="arg">
                         <code class="optional">[canvasId]</code>
@@ -809,7 +1009,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:58</code></a>
+        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:35</code></a>
         </p>
 
 
@@ -835,101 +1035,8 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[canvasId]</code>
+                        <code class="param-name">x</code>
                         <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <p>Determines which WebGLProgram to use.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_uniformMatrix3" class="method item">
-    <h3 class="name"><code>uniformMatrix3</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>transpose</code>
-                </li>
-                <li class="arg">
-                        <code>matrix</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[canvasId]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:68</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
 
 
                     <div class="param-description">
@@ -938,101 +1045,8 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[canvasId]</code>
+                        <code class="param-name">y</code>
                         <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <p>Determines which WebGLProgram to use.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_uniformMatrix4" class="method item">
-    <h3 class="name"><code>uniformMatrix4</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-                <li class="arg">
-                        <code>transpose</code>
-                </li>
-                <li class="arg">
-                        <code>matrix</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[canvasId]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IFacetVisitor.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IFacetVisitor.ts:78</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
 
 
                     <div class="param-description">
@@ -1041,18 +1055,8 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name">transpose</code>
-                        <span class="type">Boolean</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+                        <code class="param-name">z</code>
+                        <span class="type">Number</span>
 
 
                     <div class="param-description">

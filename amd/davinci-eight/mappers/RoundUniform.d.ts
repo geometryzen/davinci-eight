@@ -1,6 +1,6 @@
-import Matrix2 = require('../math/Matrix2');
-import Matrix3 = require('../math/Matrix3');
-import Matrix4 = require('../math/Matrix4');
+import Mat2R = require('../math/Mat2R');
+import Mat3R = require('../math/Mat3R');
+import Mat4R = require('../math/Mat4R');
 import IFacetVisitor = require('../core/IFacetVisitor');
 import VectorE2 = require('../math/VectorE2');
 import VectorE3 = require('../math/VectorE3');
@@ -13,9 +13,9 @@ declare class RoundUniform implements IFacetVisitor {
     uniform2f(name: string, x: number, y: number): void;
     uniform3f(name: string, x: number, y: number, z: number): void;
     uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2): void;
-    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3): void;
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4): void;
+    mat2(name: string, matrix: Mat2R, transpose?: boolean): void;
+    mat3(name: string, matrix: Mat3R, transpose?: boolean): void;
+    mat4(name: string, matrix: Mat4R, transpose?: boolean): void;
     uniformVectorE2(name: string, vector: VectorE2): void;
     uniformVectorE3(name: string, vector: VectorE3): void;
     uniformVectorE4(name: string, vector: VectorE4): void;

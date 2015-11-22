@@ -1,3 +1,3 @@
-import Matrix4 = require('../math/Matrix4');
-declare function perspectiveMatrix(fov: number, aspect: number, near: number, far: number, matrix?: Matrix4): Matrix4;
+import Mat4R = require('../math/Mat4R');
+declare function perspectiveMatrix(fov: number, aspect: number, near: number, far: number, matrix?: Mat4R): Mat4R;
 export = perspectiveMatrix;

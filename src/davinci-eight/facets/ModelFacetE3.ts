@@ -5,8 +5,8 @@ import IFacetVisitor = require('../core/IFacetVisitor')
 import IAnimationTarget = require('../slideshow/IAnimationTarget')
 import isUndefined = require('../checks/isUndefined')
 import IUnknownExt = require('../core/IUnknownExt')
-import Matrix3 = require('../math/Matrix3')
-import Matrix4 = require('../math/Matrix4')
+import Mat3R = require('../math/Mat3R')
+import Mat4R = require('../math/Mat4R')
 import ModelE3 = require('../models/ModelE3')
 import mustBeString = require('../checks/mustBeString')
 import G3 = require('../math/G3')
@@ -24,11 +24,11 @@ class ModelFacetE3 extends ModelE3 implements IFacet, IAnimationTarget, IUnknown
 
     // FIXME: I don't like this non-geometric scaling.
     private _scaleXYZ: R3 = new R3([1, 1, 1]);
-    private matM = Matrix4.one();
-    private matN = Matrix3.one();
-    private matR = Matrix4.one();
-    private matS = Matrix4.one();
-    private matT = Matrix4.one();
+    private matM = Mat4R.one();
+    private matN = Mat3R.one();
+    private matR = Mat4R.one();
+    private matS = Mat4R.one();
+    private matT = Mat4R.one();
     /**
      * <p>
      * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
@@ -98,10 +98,10 @@ class ModelFacetE3 extends ModelE3 implements IFacet, IAnimationTarget, IUnknown
         }
         this.matM.copy(this.matT).mul(this.matR).mul(this.matS)
 
-        this.matN.normalFromMatrix4(this.matM)
+        this.matN.normalFromMat4R(this.matM)
 
-        visitor.uniformMatrix4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId)
-        visitor.uniformMatrix3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId)
+        visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this.matM, false, canvasId)
+        visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this.matN, false, canvasId)
     }
     /**
      * @method incRef

@@ -5,54 +5,32 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, det2x2, isDefined, mustBeInteger, mustBeNumber) {
     /**
-     * @class Matrix2
+     * @class Mat2R
      * @extends AbstractMatrix
      */
-    var Matrix2 = (function (_super) {
-        __extends(Matrix2, _super);
+    var Mat2R = (function (_super) {
+        __extends(Mat2R, _super);
         /**
          * 2x2 (square) matrix of numbers.
-         * Constructs a Matrix2 by wrapping a Float32Array.
+         * Constructs a Mat2R by wrapping a Float32Array.
          * The elements are stored in column-major order:
          * 0 2
          * 1 3
          *
-         * @class Matrix2
+         * @class Mat2R
          * @constructor
          * @param elements {Float32Array} The elements of the matrix in column-major order.
          */
-        function Matrix2(elements) {
+        function Mat2R(elements) {
             _super.call(this, elements, 2);
         }
         /**
-         * <p>
-         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-         * </p>
-         * @method one
-         * @return {Matrix2}
-         * @static
-         */
-        Matrix2.one = function () {
-            return new Matrix2(new Float32Array([1, 0, 0, 1]));
-        };
-        /**
-         * <p>
-         * Creates a new matrix with all elements zero.
-         * </p>
-         * @method zero
-         * @return {Matrix2}
-         * @static
-         */
-        Matrix2.zero = function () {
-            return new Matrix2(new Float32Array([0, 0, 0, 0]));
-        };
-        /**
          * @method add
-         * @param rhs {Matrix2}
-         * @return {Matrix2}
+         * @param rhs {Mat2R}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.add = function (rhs) {
+        Mat2R.prototype.add = function (rhs) {
             var te = this.elements;
             var t11 = te[0];
             var t21 = te[1];
@@ -69,28 +47,28 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
             var m22 = t22 + r22;
             return this.set(m11, m12, m21, m22);
         };
-        Matrix2.prototype.clone = function () {
+        Mat2R.prototype.clone = function () {
             var te = this.elements;
             var m11 = te[0];
             var m21 = te[1];
             var m12 = te[2];
             var m22 = te[3];
-            return Matrix2.zero().set(m11, m12, m21, m22);
+            return Mat2R.zero().set(m11, m12, m21, m22);
         };
         /**
          * Computes the determinant.
          * @method det
          * @return {number}
          */
-        Matrix2.prototype.det = function () {
+        Mat2R.prototype.det = function () {
             return det2x2(this.elements);
         };
         /**
          * @method inv
-         * @return {Matrix2}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.inv = function () {
+        Mat2R.prototype.inv = function () {
             var te = this.elements;
             var a = te[0];
             var c = te[1];
@@ -103,7 +81,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
          * @method isOne
          * @return {boolean}
          */
-        Matrix2.prototype.isOne = function () {
+        Mat2R.prototype.isOne = function () {
             var te = this.elements;
             var a = te[0];
             var c = te[1];
@@ -115,7 +93,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
          * @method isZero
          * @return {boolean}
          */
-        Matrix2.prototype.isZero = function () {
+        Mat2R.prototype.isZero = function () {
             var te = this.elements;
             var a = te[0];
             var c = te[1];
@@ -125,21 +103,21 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
         };
         /**
          * @method mul
-         * @param rhs {Matrix2}
-         * @return {Matrix2}
+         * @param rhs {Mat2R}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.mul = function (rhs) {
+        Mat2R.prototype.mul = function (rhs) {
             return this.mul2(this, rhs);
         };
         /**
          * @method mul2
-         * @param a {Matrix2}
-         * @param b {Matrix2}
-         * @return {Matrix2}
+         * @param a {Mat2R}
+         * @param b {Mat2R}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.mul2 = function (a, b) {
+        Mat2R.prototype.mul2 = function (a, b) {
             var ae = a.elements;
             var a11 = ae[0];
             var a21 = ae[1];
@@ -158,33 +136,33 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
         };
         /**
          * @method neg
-         * @return {Matrix2}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.neg = function () {
+        Mat2R.prototype.neg = function () {
             return this.scale(-1);
         };
         /**
          * Sets this matrix to the identity element for multiplication, <b>1</b>.
          * @method one
-         * @return {Matrix2}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.one = function () {
+        Mat2R.prototype.one = function () {
             return this.set(1, 0, 0, 1);
         };
         /**
          * Sets this matrix to the transformation for a
          * reflection in the line normal to the unit vector <code>n</code>.
          * <p>
-         * <code>this ⟼ reflection(n)</code>
+         * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
          * </p>
          * @method reflection
          * @param n {VectorE2}
-         * @return {Matrix2}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.reflection = function (n) {
+        Mat2R.prototype.reflection = function (n) {
             var nx = mustBeNumber('n.x', n.x);
             var ny = mustBeNumber('n.y', n.y);
             var aa = -2 * nx * ny;
@@ -197,17 +175,17 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
          * @param i {number} the zero-based index of the row.
          * @return {Array<number>}
          */
-        Matrix2.prototype.row = function (i) {
+        Mat2R.prototype.row = function (i) {
             var te = this.elements;
             return [te[0 + i], te[2 + i]];
         };
         /**
          * @method scale
          * @param α {number}
-         * @return {Matrix2}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.scale = function (α) {
+        Mat2R.prototype.scale = function (α) {
             var te = this.elements;
             var m11 = te[0] * α;
             var m21 = te[1] * α;
@@ -222,10 +200,10 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
          * @param m12 {number}
          * @param m21 {number}
          * @param m22 {number}
-         * @return {Matrix2}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.set = function (m11, m12, m21, m22) {
+        Mat2R.prototype.set = function (m11, m12, m21, m22) {
             var te = this.elements;
             // The elements are stored in column-major order.
             te[0x0] = m11;
@@ -236,11 +214,11 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
         };
         /**
          * @method sub
-         * @param rhs {Matrix2}
-         * @return {Matrix2}
+         * @param rhs {Mat2R}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.sub = function (rhs) {
+        Mat2R.prototype.sub = function (rhs) {
             var te = this.elements;
             var t11 = te[0];
             var t21 = te[1];
@@ -261,7 +239,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
          * @method toExponential
          * @return {string}
          */
-        Matrix2.prototype.toExponential = function () {
+        Mat2R.prototype.toExponential = function () {
             var text = [];
             for (var i = 0; i < this.dimensions; i++) {
                 text.push(this.row(i).map(function (element, index) { return element.toExponential(); }).join(' '));
@@ -273,7 +251,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
          * @param [digits] {number}
          * @return {string}
          */
-        Matrix2.prototype.toFixed = function (digits) {
+        Mat2R.prototype.toFixed = function (digits) {
             if (isDefined(digits)) {
                 mustBeInteger('digits', digits);
             }
@@ -287,7 +265,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
          * @method toString
          * @return {string}
          */
-        Matrix2.prototype.toString = function () {
+        Mat2R.prototype.toString = function () {
             var text = [];
             for (var i = 0, iLength = this.dimensions; i < iLength; i++) {
                 text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
@@ -297,30 +275,30 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
         /**
          * Sets this matrix to the identity element for addition, <b>0</b>.
          * @method zero
-         * @return {Matrix2}
+         * @return {Mat2R}
          * @chainable
          */
-        Matrix2.prototype.zero = function () {
+        Mat2R.prototype.zero = function () {
             return this.set(0, 0, 0, 0);
         };
-        Matrix2.prototype.__add__ = function (rhs) {
-            if (rhs instanceof Matrix2) {
+        Mat2R.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Mat2R) {
                 return this.clone().add(rhs);
             }
             else {
                 return void 0;
             }
         };
-        Matrix2.prototype.__radd__ = function (lhs) {
-            if (lhs instanceof Matrix2) {
+        Mat2R.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Mat2R) {
                 return lhs.clone().add(this);
             }
             else {
                 return void 0;
             }
         };
-        Matrix2.prototype.__mul__ = function (rhs) {
-            if (rhs instanceof Matrix2) {
+        Mat2R.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Mat2R) {
                 return this.clone().mul(rhs);
             }
             else if (typeof rhs === 'number') {
@@ -330,8 +308,8 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
                 return void 0;
             }
         };
-        Matrix2.prototype.__rmul__ = function (lhs) {
-            if (lhs instanceof Matrix2) {
+        Mat2R.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Mat2R) {
                 return lhs.clone().mul(this);
             }
             else if (typeof lhs === 'number') {
@@ -341,29 +319,63 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det2x2', '../ch
                 return void 0;
             }
         };
-        Matrix2.prototype.__pos__ = function () {
+        Mat2R.prototype.__pos__ = function () {
             return this.clone();
         };
-        Matrix2.prototype.__neg__ = function () {
+        Mat2R.prototype.__neg__ = function () {
             return this.clone().scale(-1);
         };
-        Matrix2.prototype.__sub__ = function (rhs) {
-            if (rhs instanceof Matrix2) {
+        Mat2R.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Mat2R) {
                 return this.clone().sub(rhs);
             }
             else {
                 return void 0;
             }
         };
-        Matrix2.prototype.__rsub__ = function (lhs) {
-            if (lhs instanceof Matrix2) {
+        Mat2R.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Mat2R) {
                 return lhs.clone().sub(this);
             }
             else {
                 return void 0;
             }
         };
-        return Matrix2;
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+         * </p>
+         * @method one
+         * @return {Mat2R}
+         * @static
+         * @chainable
+         */
+        Mat2R.one = function () {
+            return new Mat2R(new Float32Array([1, 0, 0, 1]));
+        };
+        /**
+         * @method reflection
+         * @param n {VectorE2}
+         * @return {Mat2R}
+         * @static
+         * @chainable
+         */
+        Mat2R.reflection = function (n) {
+            return Mat2R.zero().reflection(n);
+        };
+        /**
+         * <p>
+         * Creates a new matrix with all elements zero.
+         * </p>
+         * @method zero
+         * @return {Mat2R}
+         * @static
+         * @chainable
+         */
+        Mat2R.zero = function () {
+            return new Mat2R(new Float32Array([0, 0, 0, 0]));
+        };
+        return Mat2R;
     })(AbstractMatrix);
-    return Matrix2;
+    return Mat2R;
 });

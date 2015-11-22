@@ -136,9 +136,9 @@ import GeometricElement = require('davinci-eight/math/GeometricElement')
 import LinearElement = require('davinci-eight/math/LinearElement')
 import mathcore = require('davinci-eight/math/mathcore')
 import R1 = require('davinci-eight/math/R1')
-import Matrix2 = require('davinci-eight/math/Matrix2')
-import Matrix3 = require('davinci-eight/math/Matrix3')
-import Matrix4 = require('davinci-eight/math/Matrix4')
+import Mat2R = require('davinci-eight/math/Mat2R')
+import Mat3R = require('davinci-eight/math/Mat3R')
+import Mat4R = require('davinci-eight/math/Mat4R')
 import Measure = require('davinci-eight/math/Measure')
 import Mutable = require('davinci-eight/math/Mutable')
 import QQ = require('davinci-eight/math/QQ')
@@ -187,6 +187,7 @@ import renderer = require('davinci-eight/renderers/renderer')
 // utils
 import contextProxy = require('davinci-eight/utils/contextProxy')
 import Framerate = require('davinci-eight/utils/Framerate')
+import getCanvasElementById = require('davinci-eight/utils/getCanvasElementById')
 import IUnknownArray = require('davinci-eight/collections/IUnknownArray')
 import loadImageTexture = require('davinci-eight/utils/loadImageTexture')
 import makeBox = require('davinci-eight/utils/makeBox')
@@ -276,6 +277,7 @@ var eight = {
     get Scene() { return Scene },
     get Drawable() { return Drawable },
     get PerspectiveCamera() { return PerspectiveCamera },
+    get getCanvasElementById() { return getCanvasElementById },
     get GraphicsContext() { return GraphicsContext },
     get createDrawList() { return createDrawList },
     get renderer() { return renderer },
@@ -327,9 +329,9 @@ var eight = {
     get Unit() { return Unit },
     get Euclidean2() { return Euclidean2 },
     get Euclidean3() { return Euclidean3 },
-    get Matrix2() { return Matrix2 },
-    get Matrix3() { return Matrix3 },
-    get Matrix4() { return Matrix4 },
+    get Mat2R() { return Mat2R },
+    get Mat3R() { return Mat3R },
+    get Mat4R() { return Mat4R },
     get QQ() { return QQ },
     get G2() { return G2 },
     get G3() { return G3 },

@@ -16,7 +16,7 @@ declare class ReflectionFacetE3 extends Shareable implements IFacet {
     _normal: R3;
     /**
      * @property matrix
-     * @type {Matrix4}
+     * @type {Mat4R}
      * @private
      */
     private matrix;

@@ -4,48 +4,30 @@ import Ring = require('../math/MutableRingElement');
 import RingOperators = require('../math/RingOperators');
 import VectorE2 = require('../math/VectorE2');
 /**
- * @class Matrix2
+ * @class Mat2R
  * @extends AbstractMatrix
  */
-declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE2>, Ring<Matrix2>, RingOperators<Matrix2> {
+declare class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, VectorE2>, Ring<Mat2R>, RingOperators<Mat2R> {
     /**
      * 2x2 (square) matrix of numbers.
-     * Constructs a Matrix2 by wrapping a Float32Array.
+     * Constructs a Mat2R by wrapping a Float32Array.
      * The elements are stored in column-major order:
      * 0 2
      * 1 3
      *
-     * @class Matrix2
+     * @class Mat2R
      * @constructor
      * @param elements {Float32Array} The elements of the matrix in column-major order.
      */
     constructor(elements: Float32Array);
     /**
-     * <p>
-     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-     * </p>
-     * @method one
-     * @return {Matrix2}
-     * @static
-     */
-    static one(): Matrix2;
-    /**
-     * <p>
-     * Creates a new matrix with all elements zero.
-     * </p>
-     * @method zero
-     * @return {Matrix2}
-     * @static
-     */
-    static zero(): Matrix2;
-    /**
      * @method add
-     * @param rhs {Matrix2}
-     * @return {Matrix2}
+     * @param rhs {Mat2R}
+     * @return {Mat2R}
      * @chainable
      */
-    add(rhs: Matrix2): Matrix2;
-    clone(): Matrix2;
+    add(rhs: Mat2R): Mat2R;
+    clone(): Mat2R;
     /**
      * Computes the determinant.
      * @method det
@@ -54,10 +36,10 @@ declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2,
     det(): number;
     /**
      * @method inv
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    inv(): Matrix2;
+    inv(): Mat2R;
     /**
      * @method isOne
      * @return {boolean}
@@ -70,44 +52,44 @@ declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2,
     isZero(): boolean;
     /**
      * @method mul
-     * @param rhs {Matrix2}
-     * @return {Matrix2}
+     * @param rhs {Mat2R}
+     * @return {Mat2R}
      * @chainable
      */
-    mul(rhs: Matrix2): Matrix2;
+    mul(rhs: Mat2R): Mat2R;
     /**
      * @method mul2
-     * @param a {Matrix2}
-     * @param b {Matrix2}
-     * @return {Matrix2}
+     * @param a {Mat2R}
+     * @param b {Mat2R}
+     * @return {Mat2R}
      * @chainable
      */
-    mul2(a: Matrix2, b: Matrix2): Matrix2;
+    mul2(a: Mat2R, b: Mat2R): Mat2R;
     /**
      * @method neg
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    neg(): Matrix2;
+    neg(): Mat2R;
     /**
      * Sets this matrix to the identity element for multiplication, <b>1</b>.
      * @method one
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    one(): Matrix2;
+    one(): Mat2R;
     /**
      * Sets this matrix to the transformation for a
      * reflection in the line normal to the unit vector <code>n</code>.
      * <p>
-     * <code>this ⟼ reflection(n)</code>
+     * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
      * </p>
      * @method reflection
      * @param n {VectorE2}
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    reflection(n: VectorE2): Matrix2;
+    reflection(n: VectorE2): Mat2R;
     /**
      * @method row
      * @param i {number} the zero-based index of the row.
@@ -117,10 +99,10 @@ declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2,
     /**
      * @method scale
      * @param α {number}
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    scale(α: number): Matrix2;
+    scale(α: number): Mat2R;
     /**
      * Sets all elements of this matrix to the supplied row-major values m11, ..., m22.
      * @method set
@@ -128,17 +110,17 @@ declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2,
      * @param m12 {number}
      * @param m21 {number}
      * @param m22 {number}
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    set(m11: number, m12: number, m21: number, m22: number): Matrix2;
+    set(m11: number, m12: number, m21: number, m22: number): Mat2R;
     /**
      * @method sub
-     * @param rhs {Matrix2}
-     * @return {Matrix2}
+     * @param rhs {Mat2R}
+     * @return {Mat2R}
      * @chainable
      */
-    sub(rhs: Matrix2): Matrix2;
+    sub(rhs: Mat2R): Mat2R;
     /**
      * @method toExponential
      * @return {string}
@@ -158,17 +140,45 @@ declare class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2,
     /**
      * Sets this matrix to the identity element for addition, <b>0</b>.
      * @method zero
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    zero(): Matrix2;
-    __add__(rhs: any): Matrix2;
-    __radd__(lhs: any): Matrix2;
-    __mul__(rhs: any): Matrix2;
-    __rmul__(lhs: any): Matrix2;
-    __pos__(): Matrix2;
-    __neg__(): Matrix2;
-    __sub__(rhs: any): Matrix2;
-    __rsub__(lhs: any): Matrix2;
+    zero(): Mat2R;
+    __add__(rhs: any): Mat2R;
+    __radd__(lhs: any): Mat2R;
+    __mul__(rhs: any): Mat2R;
+    __rmul__(lhs: any): Mat2R;
+    __pos__(): Mat2R;
+    __neg__(): Mat2R;
+    __sub__(rhs: any): Mat2R;
+    __rsub__(lhs: any): Mat2R;
+    /**
+     * <p>
+     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+     * </p>
+     * @method one
+     * @return {Mat2R}
+     * @static
+     * @chainable
+     */
+    static one(): Mat2R;
+    /**
+     * @method reflection
+     * @param n {VectorE2}
+     * @return {Mat2R}
+     * @static
+     * @chainable
+     */
+    static reflection(n: VectorE2): Mat2R;
+    /**
+     * <p>
+     * Creates a new matrix with all elements zero.
+     * </p>
+     * @method zero
+     * @return {Mat2R}
+     * @static
+     * @chainable
+     */
+    static zero(): Mat2R;
 }
-export = Matrix2;
+export = Mat2R;

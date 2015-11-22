@@ -4,8 +4,8 @@ import dotVectorE3 = require('../math/dotVectorE3')
 import Euclidean3 = require('../math/Euclidean3')
 import expectArg = require('../checks/expectArg')
 import MutableLinearElement = require('../math/MutableLinearElement')
-import Matrix3 = require('../math/Matrix3')
-import Matrix4 = require('../math/Matrix4')
+import Mat3R = require('../math/Mat3R')
+import Mat4R = require('../math/Mat4R')
 import isDefined = require('../checks/isDefined')
 import isNumber = require('../checks/isNumber')
 import mustBeNumber = require('../checks/mustBeNumber')
@@ -37,7 +37,7 @@ function coordinates(m: VectorE3): number[] {
  * @class R3
  * @extends VectorN<number>
  */
-class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
+class R3 extends VectorN<number> implements ColumnVector<Mat3R, R3>, VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
     /**
      * @property e1
      * @type {Euclidean3}
@@ -150,11 +150,11 @@ class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3,
      * <code>this ⟼ m * this<sup>T</sup></code>
      * </p>
      * @method applyMatrix
-     * @param m {Matrix3}
+     * @param m {Mat3R}
      * @return {R3} <code>this</code>
      * @chainable
      */
-    applyMatrix(m: Matrix3): R3 {
+    applyMatrix(m: Mat3R): R3 {
         let x = this.x;
         let y = this.y;
         let z = this.z;
@@ -179,7 +179,7 @@ class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3,
      * @return {R3} <code>this</code>
      * @chainable
      */
-    applyMatrix4(m: Matrix4): R3 {
+    applyMatrix4(m: Mat4R): R3 {
 
         var x = this.x, y = this.y, z = this.z;
 
@@ -632,12 +632,12 @@ class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3,
         if (typeof lhs === 'number') {
             return this.clone().scale(lhs);
         }
-        else if (lhs instanceof Matrix3) {
-            let m33: Matrix3 = lhs;
+        else if (lhs instanceof Mat3R) {
+            let m33: Mat3R = lhs;
             return this.clone().applyMatrix(m33);
         }
-        else if (lhs instanceof Matrix4) {
-            let m44: Matrix4 = lhs;
+        else if (lhs instanceof Mat4R) {
+            let m44: Mat4R = lhs;
             return this.clone().applyMatrix4(m44);
         }
         else {

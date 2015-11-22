@@ -1,39 +1,39 @@
 import AbstractMatrix = require('../math/AbstractMatrix');
 import Matrix = require('../math/Matrix');
-import Matrix4 = require('./Matrix4');
+import Mat4R = require('./Mat4R');
 import Ring = require('../math/MutableRingElement');
 import RingOperators = require('../math/RingOperators');
 import VectorE3 = require('../math/VectorE3');
 /**
- * @class Matrix3
+ * @class Mat3R
  * @extends AbstractMatrix
  */
-declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3, VectorE3>, Ring<Matrix3>, RingOperators<Matrix3> {
+declare class Mat3R extends AbstractMatrix<Mat3R> implements Matrix<Mat3R, VectorE3>, Ring<Mat3R>, RingOperators<Mat3R> {
     /**
      * 3x3 (square) matrix of numbers.
-     * Constructs a Matrix3 by wrapping a Float32Array.
+     * Constructs a Mat3R by wrapping a Float32Array.
      * The elements are stored in column-major order:
      * 0 3 6
      * 1 4 7
      * 2 5 8
      *
-     * @class Matrix3
+     * @class Mat3R
      * @constructor
      */
     constructor(elements: Float32Array);
     /**
      * @method add
-     * @param rhs {Matrix3}
-     * @return {Matrix3}
+     * @param rhs {Mat3R}
+     * @return {Mat3R}
      */
-    add(rhs: Matrix3): Matrix3;
+    add(rhs: Mat3R): Mat3R;
     /**
-     * Returns a copy of this Matrix3 instance.
+     * Returns a copy of this Mat3R instance.
      * @method clone
-     * @return {Matrix3}
+     * @return {Mat3R}
      * @chainable
      */
-    clone(): Matrix3;
+    clone(): Mat3R;
     /**
      * Computes the determinant.
      * @method det
@@ -42,18 +42,18 @@ declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3,
     det(): number;
     /**
      * @method getInverse
-     * @param matrix {Matrix4}
-     * @return {Matrix3}
+     * @param matrix {Mat4R}
+     * @return {Mat3R}
      * @deprecated
      * @private
      */
-    getInverse(matrix: Matrix4, throwOnInvertible?: boolean): Matrix3;
+    getInverse(matrix: Mat4R, throwOnInvertible?: boolean): Mat3R;
     /**
      * @method inv
-     * @return {Matrix3}
+     * @return {Mat3R}
      * @chainable
      */
-    inv(): Matrix3;
+    inv(): Mat3R;
     /**
      * @method isOne
      * @return {boolean}
@@ -66,39 +66,39 @@ declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3,
     isZero(): boolean;
     /**
      * @method mul
-     * @param rhs {Matrix3}
-     * @return {Matrix3}
+     * @param rhs {Mat3R}
+     * @return {Mat3R}
      * @chainable
      */
-    mul(rhs: Matrix3): Matrix3;
+    mul(rhs: Mat3R): Mat3R;
     /**
      * @method mul2
-     * @param a {Matrix3}
-     * @param b {Matrix3}
-     * @return {Matrix3}
+     * @param a {Mat3R}
+     * @param b {Mat3R}
+     * @return {Mat3R}
      * @chainable
      */
-    mul2(a: Matrix3, b: Matrix3): Matrix3;
+    mul2(a: Mat3R, b: Mat3R): Mat3R;
     /**
      * @method neg
-     * @return {Matrix3}
+     * @return {Mat3R}
      * @chainable
      */
-    neg(): Matrix3;
+    neg(): Mat3R;
     /**
-     * @method normalFromMatrix4
-     * @param m {Matrix4}
-     * @return {Matrix3}
+     * @method normalFromMat4R
+     * @param m {Mat4R}
+     * @return {Mat3R}
      * @deprecated
      * @private
      */
-    normalFromMatrix4(m: Matrix4): Matrix3;
+    normalFromMat4R(m: Mat4R): Mat3R;
     /**
      * @method one
-     * @return {Matrix3}
+     * @return {Mat3R}
      * @chainable
      */
-    one(): Matrix3;
+    one(): Mat3R;
     /**
      * Sets this matrix to the transformation for a
      * reflection in the plane normal to the unit vector <code>n</code>.
@@ -107,10 +107,10 @@ declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3,
      * </p>
      * @method reflection
      * @param n {VectorE3}
-     * @return {Matrix3}
+     * @return {Mat3R}
      * @chainable
      */
-    reflection(n: VectorE3): Matrix3;
+    reflection(n: VectorE3): Mat3R;
     /**
      * @method row
      * @param i {number} the zero-based index of the row.
@@ -120,9 +120,9 @@ declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3,
     /**
      * @method scale
      * @param s {number}
-     * @return {Matrix3}
+     * @return {Mat3R}
      */
-    scale(s: number): Matrix3;
+    scale(s: number): Mat3R;
     /**
      * Sets all elements of this matrix to the supplied row-major values.
      * @method set
@@ -135,16 +135,16 @@ declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3,
      * @param m31 {number}
      * @param m32 {number}
      * @param m33 {number}
-     * @return {Matrix3}
+     * @return {Mat3R}
      * @chainable
      */
-    set(n11: number, n12: number, n13: number, n21: number, n22: number, n23: number, n31: number, n32: number, n33: number): Matrix3;
+    set(n11: number, n12: number, n13: number, n21: number, n22: number, n23: number, n31: number, n32: number, n33: number): Mat3R;
     /**
      * @method sub
-     * @param rhs {Matrix3}
-     * @return {Matrix3}
+     * @param rhs {Mat3R}
+     * @return {Mat3R}
      */
-    sub(rhs: Matrix3): Matrix3;
+    sub(rhs: Mat3R): Mat3R;
     /**
      * @method toString
      * @return {string}
@@ -152,41 +152,49 @@ declare class Matrix3 extends AbstractMatrix<Matrix3> implements Matrix<Matrix3,
     toString(): string;
     /**
      * @method transpose
-     * @return {Matrix3}
+     * @return {Mat3R}
      */
-    transpose(): Matrix3;
+    transpose(): Mat3R;
     /**
      * Sets this matrix to the identity element for addition, <b>0</b>.
      * @method zero
-     * @return {Matrix3}
+     * @return {Mat3R}
      * @chainable
      */
-    zero(): Matrix3;
-    __add__(rhs: any): Matrix3;
-    __radd__(lhs: any): Matrix3;
-    __mul__(rhs: any): Matrix3;
-    __rmul__(lhs: any): Matrix3;
-    __pos__(): Matrix3;
-    __neg__(): Matrix3;
-    __sub__(rhs: any): Matrix3;
-    __rsub__(lhs: any): Matrix3;
+    zero(): Mat3R;
+    __add__(rhs: any): Mat3R;
+    __radd__(lhs: any): Mat3R;
+    __mul__(rhs: any): Mat3R;
+    __rmul__(lhs: any): Mat3R;
+    __pos__(): Mat3R;
+    __neg__(): Mat3R;
+    __sub__(rhs: any): Mat3R;
+    __rsub__(lhs: any): Mat3R;
     /**
      * <p>
      * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
      * </p>
      * @method one
-     * @return {Matrix3}
+     * @return {Mat3R}
      * @static
      */
-    static one(): Matrix3;
+    static one(): Mat3R;
+    /**
+     * @method reflection
+     * @param n {VectorE3}
+     * @return {Mat3R}
+     * @static
+     * @chainable
+     */
+    static reflection(n: VectorE3): Mat3R;
     /**
      * <p>
      * Creates a new matrix with all elements zero.
      * </p>
      * @method zero
-     * @return {Matrix3}
+     * @return {Mat3R}
      * @static
      */
-    static zero(): Matrix3;
+    static zero(): Mat3R;
 }
-export = Matrix3;
+export = Mat3R;

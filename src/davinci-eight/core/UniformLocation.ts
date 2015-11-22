@@ -5,9 +5,9 @@ import VectorE4 = require('../math/VectorE4')
 import expectArg = require('../checks/expectArg')
 import feedback = require('../feedback/feedback')
 import R1 = require('../math/R1')
-import Matrix2 = require('../math/Matrix2')
-import Matrix3 = require('../math/Matrix3')
-import Matrix4 = require('../math/Matrix4')
+import Mat2R = require('../math/Mat2R')
+import Mat3R = require('../math/Mat3R')
+import Mat4R = require('../math/Mat4R')
 import IContextProgramConsumer = require('../core/IContextProgramConsumer')
 import IContextProvider = require('../core/IContextProvider')
 import R2 = require('../math/R2')
@@ -141,35 +141,49 @@ class UniformLocation implements IContextProgramConsumer {
         this._context.useProgram(this._program);
         this._context.uniform1fv(this._location, matrix.coords);
     }
+
     /**
-     * @method matrix2
-     * @param transpose {boolean}
-     * @param matrix {Matrix2}
+     * Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.
+     * @method mat2
+     * @param matrix {Mat2R}
+     * @param [transpose = false] {boolean}
+     * @return {UniformLocation}
+     * @chainable
      */
-    matrix2(transpose: boolean, matrix: Matrix2): void {
-        this._context.useProgram(this._program);
-        this._context.uniformMatrix2fv(this._location, transpose, matrix.elements);
+    mat2(matrix: Mat2R, transpose: boolean = false): UniformLocation {
+        this._context.useProgram(this._program)
+        this._context.uniformMatrix2fv(this._location, transpose, matrix.elements)
+        return this
     }
+
     /**
-     * @method matrix3
-     * @param transpose {boolean}
-     * @param matrix {Matrix3}
+     * Sets a uniform location of type <code>mat3</code> in the <code>WebGLProgram</code>.
+     * @method mat3
+     * @param matrix {Mat3R}
+     * @param [transpose = false] {boolean}
+     * @return {UniformLocation}
+     * @chainable
      */
-    matrix3(transpose: boolean, matrix: Matrix3): void {
-        this._context.useProgram(this._program);
-        this._context.uniformMatrix3fv(this._location, transpose, matrix.elements);
+    mat3(matrix: Mat3R, transpose: boolean = false): UniformLocation {
+        this._context.useProgram(this._program)
+        this._context.uniformMatrix3fv(this._location, transpose, matrix.elements)
+        return this
     }
+
     /**
-     * @method matrix4
-     * @param transpose {boolean}
-     * @param matrix {Matrix4}
+     * Sets a uniform location of type <code>mat4</code> in the <code>WebGLProgram</code>.
+     * @method mat4
+     * @param matrix {Mat4R}
+     * @param [transpose = false] {boolean}
+     * @return {UniformLocation}
+     * @chainable
      */
-    matrix4(transpose: boolean, matrix: Matrix4): void {
-        if (matrix) {
-            this._context.useProgram(this._program)
-            this._context.uniformMatrix4fv(this._location, transpose, matrix.elements)
-        }
+    mat4(matrix: Mat4R, transpose: boolean = false): UniformLocation {
+        this._context.useProgram(this._program)
+        this._context.uniformMatrix4fv(this._location, transpose, matrix.elements)
+        return this
     }
+
     /**
      * @method vector2
      * @param data {Array<number> | Float32Array}

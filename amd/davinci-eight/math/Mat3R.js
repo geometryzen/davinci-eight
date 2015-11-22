@@ -5,59 +5,88 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../math/inv3x3', '../math/mul3x3', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, det3x3, inv3x3, mul3x3, mustBeNumber) {
     /**
-     * @class Matrix3
+     * @class Mat3R
      * @extends AbstractMatrix
      */
-    var Matrix3 = (function (_super) {
-        __extends(Matrix3, _super);
+    var Mat3R = (function (_super) {
+        __extends(Mat3R, _super);
         /**
          * 3x3 (square) matrix of numbers.
-         * Constructs a Matrix3 by wrapping a Float32Array.
+         * Constructs a Mat3R by wrapping a Float32Array.
          * The elements are stored in column-major order:
          * 0 3 6
          * 1 4 7
          * 2 5 8
          *
-         * @class Matrix3
+         * @class Mat3R
          * @constructor
          */
-        function Matrix3(elements) {
+        function Mat3R(elements) {
             _super.call(this, elements, 3);
         }
         /**
          * @method add
-         * @param rhs {Matrix3}
-         * @return {Matrix3}
+         * @param rhs {Mat3R}
+         * @return {Mat3R}
          */
-        Matrix3.prototype.add = function (rhs) {
-            return this;
+        Mat3R.prototype.add = function (rhs) {
+            var te = this.elements;
+            var t11 = te[0];
+            var t21 = te[1];
+            var t31 = te[2];
+            var t12 = te[3];
+            var t22 = te[4];
+            var t32 = te[5];
+            var t13 = te[6];
+            var t23 = te[7];
+            var t33 = te[5];
+            var re = rhs.elements;
+            var r11 = re[0];
+            var r21 = re[1];
+            var r31 = re[2];
+            var r12 = re[3];
+            var r22 = re[4];
+            var r32 = re[5];
+            var r13 = re[6];
+            var r23 = re[7];
+            var r33 = re[8];
+            var m11 = t11 + r11;
+            var m21 = t21 + r21;
+            var m31 = t31 + r31;
+            var m12 = t12 + r12;
+            var m22 = t22 + r22;
+            var m32 = t32 + r32;
+            var m13 = t13 + r13;
+            var m23 = t23 + r23;
+            var m33 = t33 + r33;
+            return this.set(m11, m12, m13, m21, m22, m23, m31, m32, m33);
         };
         /**
-         * Returns a copy of this Matrix3 instance.
+         * Returns a copy of this Mat3R instance.
          * @method clone
-         * @return {Matrix3}
+         * @return {Mat3R}
          * @chainable
          */
-        Matrix3.prototype.clone = function () {
-            return Matrix3.zero().copy(this);
+        Mat3R.prototype.clone = function () {
+            return Mat3R.zero().copy(this);
         };
         /**
          * Computes the determinant.
          * @method det
          * @return {number}
          */
-        Matrix3.prototype.det = function () {
+        Mat3R.prototype.det = function () {
             return det3x3(this.elements);
         };
         /**
          * @method getInverse
-         * @param matrix {Matrix4}
-         * @return {Matrix3}
+         * @param matrix {Mat4R}
+         * @return {Mat3R}
          * @deprecated
          * @private
          */
-        Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
-            // input: Matrix4
+        Mat3R.prototype.getInverse = function (matrix, throwOnInvertible) {
+            // input: Mat4R
             // ( based on http://code.google.com/p/webgl-mjs/ )
             var me = matrix.elements;
             var te = this.elements;
@@ -73,7 +102,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
             var det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
             // no inverse
             if (det === 0) {
-                var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
+                var msg = "Mat3R.getInverse(): can't invert matrix, determinant is 0";
                 if (throwOnInvertible || !throwOnInvertible) {
                     throw new Error(msg);
                 }
@@ -88,10 +117,10 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
         };
         /**
          * @method inv
-         * @return {Matrix3}
+         * @return {Mat3R}
          * @chainable
          */
-        Matrix3.prototype.inv = function () {
+        Mat3R.prototype.inv = function () {
             inv3x3(this.elements, this.elements);
             return this;
         };
@@ -99,7 +128,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
          * @method isOne
          * @return {boolean}
          */
-        Matrix3.prototype.isOne = function () {
+        Mat3R.prototype.isOne = function () {
             var te = this.elements;
             var m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
             var m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
@@ -110,7 +139,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
          * @method isZero
          * @return {boolean}
          */
-        Matrix3.prototype.isZero = function () {
+        Mat3R.prototype.isZero = function () {
             var te = this.elements;
             var m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
             var m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
@@ -119,48 +148,48 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
         };
         /**
          * @method mul
-         * @param rhs {Matrix3}
-         * @return {Matrix3}
+         * @param rhs {Mat3R}
+         * @return {Mat3R}
          * @chainable
          */
-        Matrix3.prototype.mul = function (rhs) {
+        Mat3R.prototype.mul = function (rhs) {
             return this.mul2(this, rhs);
         };
         /**
          * @method mul2
-         * @param a {Matrix3}
-         * @param b {Matrix3}
-         * @return {Matrix3}
+         * @param a {Mat3R}
+         * @param b {Mat3R}
+         * @return {Mat3R}
          * @chainable
          */
-        Matrix3.prototype.mul2 = function (a, b) {
+        Mat3R.prototype.mul2 = function (a, b) {
             mul3x3(a.elements, b.elements, this.elements);
             return this;
         };
         /**
          * @method neg
-         * @return {Matrix3}
+         * @return {Mat3R}
          * @chainable
          */
-        Matrix3.prototype.neg = function () {
+        Mat3R.prototype.neg = function () {
             return this.scale(-1);
         };
         /**
-         * @method normalFromMatrix4
-         * @param m {Matrix4}
-         * @return {Matrix3}
+         * @method normalFromMat4R
+         * @param m {Mat4R}
+         * @return {Mat3R}
          * @deprecated
          * @private
          */
-        Matrix3.prototype.normalFromMatrix4 = function (m) {
+        Mat3R.prototype.normalFromMat4R = function (m) {
             return this.getInverse(m).transpose();
         };
         /**
          * @method one
-         * @return {Matrix3}
+         * @return {Mat3R}
          * @chainable
          */
-        Matrix3.prototype.one = function () {
+        Mat3R.prototype.one = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
         };
         /**
@@ -171,10 +200,10 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
          * </p>
          * @method reflection
          * @param n {VectorE3}
-         * @return {Matrix3}
+         * @return {Mat3R}
          * @chainable
          */
-        Matrix3.prototype.reflection = function (n) {
+        Mat3R.prototype.reflection = function (n) {
             var nx = mustBeNumber('n.x', n.x);
             var ny = mustBeNumber('n.y', n.y);
             var nz = mustBeNumber('n.z', n.z);
@@ -192,16 +221,16 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
          * @param i {number} the zero-based index of the row.
          * @return {number[]}
          */
-        Matrix3.prototype.row = function (i) {
+        Mat3R.prototype.row = function (i) {
             var te = this.elements;
             return [te[0 + i], te[3 + i], te[6 + i]];
         };
         /**
          * @method scale
          * @param s {number}
-         * @return {Matrix3}
+         * @return {Mat3R}
          */
-        Matrix3.prototype.scale = function (s) {
+        Mat3R.prototype.scale = function (s) {
             var m = this.elements;
             m[0] *= s;
             m[3] *= s;
@@ -226,10 +255,10 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
          * @param m31 {number}
          * @param m32 {number}
          * @param m33 {number}
-         * @return {Matrix3}
+         * @return {Mat3R}
          * @chainable
          */
-        Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
+        Mat3R.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
             var te = this.elements;
             te[0] = n11;
             te[3] = n12;
@@ -244,17 +273,46 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
         };
         /**
          * @method sub
-         * @param rhs {Matrix3}
-         * @return {Matrix3}
+         * @param rhs {Mat3R}
+         * @return {Mat3R}
          */
-        Matrix3.prototype.sub = function (rhs) {
-            return this;
+        Mat3R.prototype.sub = function (rhs) {
+            var te = this.elements;
+            var t11 = te[0];
+            var t21 = te[1];
+            var t31 = te[2];
+            var t12 = te[3];
+            var t22 = te[4];
+            var t32 = te[5];
+            var t13 = te[6];
+            var t23 = te[7];
+            var t33 = te[5];
+            var re = rhs.elements;
+            var r11 = re[0];
+            var r21 = re[1];
+            var r31 = re[2];
+            var r12 = re[3];
+            var r22 = re[4];
+            var r32 = re[5];
+            var r13 = re[6];
+            var r23 = re[7];
+            var r33 = re[8];
+            var m11 = t11 - r11;
+            var m21 = t21 - r21;
+            var m31 = t31 - r31;
+            var m12 = t12 - r12;
+            var m22 = t22 - r22;
+            var m32 = t32 - r32;
+            var m13 = t13 - r13;
+            var m23 = t23 - r23;
+            var m33 = t33 - r33;
+            return this.set(m11, m12, m13, m21, m22, m23, m31, m32, m33);
         };
         /**
          * @method toString
          * @return {string}
          */
-        Matrix3.prototype.toString = function () {
+        Mat3R.prototype.toString = function () {
             var text = [];
             for (var i = 0; i < this.dimensions; i++) {
                 text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
@@ -263,9 +321,9 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
         };
         /**
          * @method transpose
-         * @return {Matrix3}
+         * @return {Mat3R}
          */
-        Matrix3.prototype.transpose = function () {
+        Mat3R.prototype.transpose = function () {
             var tmp;
             var m = this.elements;
             tmp = m[1];
@@ -282,30 +340,30 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
         /**
          * Sets this matrix to the identity element for addition, <b>0</b>.
          * @method zero
-         * @return {Matrix3}
+         * @return {Mat3R}
          * @chainable
          */
-        Matrix3.prototype.zero = function () {
+        Mat3R.prototype.zero = function () {
             return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
         };
-        Matrix3.prototype.__add__ = function (rhs) {
-            if (rhs instanceof Matrix3) {
+        Mat3R.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Mat3R) {
                 return this.clone().add(rhs);
             }
             else {
                 return void 0;
             }
         };
-        Matrix3.prototype.__radd__ = function (lhs) {
-            if (lhs instanceof Matrix3) {
+        Mat3R.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof Mat3R) {
                 return lhs.clone().add(this);
             }
             else {
                 return void 0;
             }
         };
-        Matrix3.prototype.__mul__ = function (rhs) {
-            if (rhs instanceof Matrix3) {
+        Mat3R.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof Mat3R) {
                 return this.clone().mul(rhs);
             }
             else if (typeof rhs === 'number') {
@@ -315,8 +373,8 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
                 return void 0;
             }
         };
-        Matrix3.prototype.__rmul__ = function (lhs) {
-            if (lhs instanceof Matrix3) {
+        Mat3R.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof Mat3R) {
                 return lhs.clone().mul(this);
             }
             else if (typeof lhs === 'number') {
@@ -326,22 +384,22 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
                 return void 0;
             }
         };
-        Matrix3.prototype.__pos__ = function () {
+        Mat3R.prototype.__pos__ = function () {
             return this.clone();
         };
-        Matrix3.prototype.__neg__ = function () {
+        Mat3R.prototype.__neg__ = function () {
             return this.clone().scale(-1);
         };
-        Matrix3.prototype.__sub__ = function (rhs) {
-            if (rhs instanceof Matrix3) {
+        Mat3R.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Mat3R) {
                 return this.clone().sub(rhs);
             }
             else {
                 return void 0;
             }
         };
-        Matrix3.prototype.__rsub__ = function (lhs) {
-            if (lhs instanceof Matrix3) {
+        Mat3R.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof Mat3R) {
                 return lhs.clone().sub(this);
             }
             else {
@@ -353,24 +411,34 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/det3x3', '../ma
          * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
          * </p>
          * @method one
-         * @return {Matrix3}
+         * @return {Mat3R}
          * @static
          */
-        Matrix3.one = function () {
-            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+        Mat3R.one = function () {
+            return new Mat3R(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+        };
+        /**
+         * @method reflection
+         * @param n {VectorE3}
+         * @return {Mat3R}
+         * @static
+         * @chainable
+         */
+        Mat3R.reflection = function (n) {
+            return Mat3R.zero().reflection(n);
         };
         /**
          * <p>
          * Creates a new matrix with all elements zero.
          * </p>
          * @method zero
-         * @return {Matrix3}
+         * @return {Mat3R}
          * @static
          */
-        Matrix3.zero = function () {
-            return new Matrix3(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
+        Mat3R.zero = function () {
+            return new Mat3R(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
         };
-        return Matrix3;
+        return Mat3R;
     })(AbstractMatrix);
-    return Matrix3;
+    return Mat3R;
 });

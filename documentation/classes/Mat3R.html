@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Matrix3 - davinci-eight</title>
+    <title>Mat3R - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -243,7 +244,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Matrix3 Class</h1>
+<h1>Mat3R Class</h1>
 <div class="box meta">
 
         <div class="extends">
@@ -251,7 +252,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:20</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:20</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -261,7 +262,7 @@
 
 <div class="box intro">
     <p>3x3 (square) matrix of numbers.
-Constructs a Matrix3 by wrapping a Float32Array.
+Constructs a Mat3R by wrapping a Float32Array.
 The elements are stored in column-major order:
 0 3 6
 1 4 7
@@ -271,8 +272,8 @@ The elements are stored in column-major order:
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_Matrix3" class="method item">
-    <h3 class="name"><code>Matrix3</code></h3>
+<div id="method_Mat3R" class="method item">
+    <h3 class="name"><code>Mat3R</code></h3>
 
         <span class="paren">()</span>
 
@@ -286,7 +287,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:20</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:20</code></a>
         </p>
 
 
@@ -365,9 +366,13 @@ The elements are stored in column-major order:
 
                             </li>
                             <li class="index-item method private deprecated">
-                                <a href="#method_normalFromMatrix4">normalFromMatrix4</a>
+                                <a href="#method_normalFromMat4R">normalFromMat4R</a>
 
                                     <span class="flag deprecated">deprecated</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_one">one</a>
+
                             </li>
                             <li class="index-item method">
                                 <a href="#method_one">one</a>
@@ -375,8 +380,9 @@ The elements are stored in column-major order:
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
-                                <a href="#method_one">one</a>
+                                <a href="#method_reflection">reflection</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_reflection">reflection</a>
@@ -471,7 +477,7 @@ The elements are stored in column-major order:
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -483,7 +489,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:35</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:35</code></a>
         </p>
 
 
@@ -500,7 +506,7 @@ The elements are stored in column-major order:
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">rhs</code>
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
 
 
                     <div class="param-description">
@@ -515,7 +521,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -527,7 +533,7 @@ The elements are stored in column-major order:
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -540,7 +546,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:44</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:75</code></a>
         </p>
 
 
@@ -548,7 +554,7 @@ The elements are stored in column-major order:
     </div>
 
     <div class="description">
-        <p>Returns a copy of this Matrix3 instance.</p>
+        <p>Returns a copy of this Mat3R instance.</p>
 
     </div>
 
@@ -557,7 +563,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -643,7 +649,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:54</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l85"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:85</code></a>
         </p>
 
 
@@ -678,7 +684,7 @@ The elements are stored in column-major order:
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
         <span class="flag deprecated">deprecated</span>
@@ -692,7 +698,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:63</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:94</code></a>
         </p>
 
 
@@ -709,7 +715,7 @@ The elements are stored in column-major order:
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">matrix</code>
-                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
 
 
                     <div class="param-description">
@@ -724,7 +730,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -736,7 +742,7 @@ The elements are stored in column-major order:
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -749,7 +755,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l118"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:118</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l149"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:149</code></a>
         </p>
 
 
@@ -765,7 +771,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -789,7 +795,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l128"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:128</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l159"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:159</code></a>
         </p>
 
 
@@ -829,7 +835,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:140</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l171"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:171</code></a>
         </p>
 
 
@@ -863,7 +869,7 @@ The elements are stored in column-major order:
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -876,7 +882,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l152"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:152</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:183</code></a>
         </p>
 
 
@@ -893,7 +899,7 @@ The elements are stored in column-major order:
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">rhs</code>
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
 
 
                     <div class="param-description">
@@ -908,7 +914,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -929,7 +935,7 @@ The elements are stored in column-major order:
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -942,7 +948,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l162"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:162</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l193"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:193</code></a>
         </p>
 
 
@@ -959,7 +965,7 @@ The elements are stored in column-major order:
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
 
 
                     <div class="param-description">
@@ -969,7 +975,7 @@ The elements are stored in column-major order:
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
 
 
                     <div class="param-description">
@@ -984,7 +990,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -996,7 +1002,7 @@ The elements are stored in column-major order:
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -1009,7 +1015,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l174"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:174</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l205"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:205</code></a>
         </p>
 
 
@@ -1025,14 +1031,14 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
 
 </div>
-<div id="method_normalFromMatrix4" class="method item private deprecated">
-    <h3 class="name"><code>normalFromMatrix4</code></h3>
+<div id="method_normalFromMat4R" class="method item private deprecated">
+    <h3 class="name"><code>normalFromMat4R</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -1043,7 +1049,7 @@ The elements are stored in column-major order:
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
         <span class="flag deprecated">deprecated</span>
@@ -1057,7 +1063,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l183"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:183</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:214</code></a>
         </p>
 
 
@@ -1074,7 +1080,7 @@ The elements are stored in column-major order:
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">m</code>
-                        <span class="type"><a href="../classes/Matrix4.html" class="crosslink">Matrix4</a></span>
+                        <span class="type"><a href="../classes/Mat4R.html" class="crosslink">Mat4R</a></span>
 
 
                     <div class="param-description">
@@ -1089,7 +1095,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -1101,7 +1107,48 @@ The elements are stored in column-major order:
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l225"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:225</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_one" class="method item">
+    <h3 class="name"><code>one</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -1114,7 +1161,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l413"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:413</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l475"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:475</code></a>
         </p>
 
 
@@ -1132,48 +1179,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_one" class="method item">
-    <h3 class="name"><code>one</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l194"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:194</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -1191,7 +1197,71 @@ Creates a new matrix with all elements zero except those along the main diagonal
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l487"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:487</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">n</code>
+                        <span class="type"><a href="../classes/VectorE3.html" class="crosslink">VectorE3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_reflection" class="method item">
+    <h3 class="name"><code>reflection</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>n</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -1204,7 +1274,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l203"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:203</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l234"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:234</code></a>
         </p>
 
 
@@ -1240,7 +1310,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -1270,7 +1340,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l236"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:236</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l267"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:267</code></a>
         </p>
 
 
@@ -1321,7 +1391,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -1333,7 +1403,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l246"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:246</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l277"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:277</code></a>
         </p>
 
 
@@ -1365,7 +1435,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -1407,7 +1477,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -1420,7 +1490,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l259"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:259</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l290"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:290</code></a>
         </p>
 
 
@@ -1533,7 +1603,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -1551,7 +1621,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -1563,7 +1633,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l287"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:287</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l318"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:318</code></a>
         </p>
 
 
@@ -1580,7 +1650,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">rhs</code>
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
 
 
                     <div class="param-description">
@@ -1595,7 +1665,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -1619,7 +1689,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l296"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:296</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l358"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:358</code></a>
         </p>
 
 
@@ -1647,7 +1717,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -1659,7 +1729,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:308</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l370"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:370</code></a>
         </p>
 
 
@@ -1675,7 +1745,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -1687,7 +1757,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -1700,7 +1770,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l323"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:323</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l385"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:385</code></a>
         </p>
 
 
@@ -1717,7 +1787,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 
@@ -1729,7 +1799,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>
+            <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>
         </span>
 
 
@@ -1742,7 +1812,7 @@ reflection in the plane normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix3.ts.html#l425"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix3.ts:425</code></a>
+        <a href="../files/src_davinci-eight_math_Mat3R.ts.html#l498"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat3R.ts:498</code></a>
         </p>
 
 
@@ -1760,7 +1830,7 @@ Creates a new matrix with all elements zero.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix3.html" class="crosslink">Matrix3</a></span>:
+                        <span class="type"><a href="../classes/Mat3R.html" class="crosslink">Mat3R</a></span>:
             </div>
         </div>
 

@@ -6,9 +6,9 @@ import expectArg = require('../checks/expectArg');
 import fragmentShader = require('../programs/fragmentShader');
 import isDefined = require('../checks/isDefined');
 import R1 = require('../math/R1');
-import Matrix2 = require('../math/Matrix2');
-import Matrix3 = require('../math/Matrix3');
-import Matrix4 = require('../math/Matrix4');
+import Mat2R = require('../math/Mat2R');
+import Mat3R = require('../math/Mat3R');
+import Mat4R = require('../math/Mat4R');
 import mergeStringMapList = require('../utils/mergeStringMapList');
 import mustBeDefined = require('../checks/mustBeDefined');
 import createGraphicsProgram = require('./createGraphicsProgram');
@@ -89,14 +89,14 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
         uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId?: number) {
             return innerProgram.uniform4f(name, x, y, z, w, canvasId);
         },
-        uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number) {
-            return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
+        mat2(name: string, matrix: Mat2R, transpose?: boolean, canvasId?: number) {
+            return innerProgram.mat2(name, matrix, transpose, canvasId);
         },
-        uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId?: number) {
-            return innerProgram.uniformMatrix3(name, transpose, matrix, canvasId);
+        mat3(name: string, matrix: Mat3R, transpose?: boolean, canvasId?: number) {
+            return innerProgram.mat3(name, matrix, transpose, canvasId);
         },
-        uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number) {
-            return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
+        mat4(name: string, matrix: Mat4R, transpose?: boolean, canvasId?: number) {
+            return innerProgram.mat4(name, matrix, transpose, canvasId);
         },
         uniformVectorE2(name: string, vector: R2, canvasId?: number) {
             return innerProgram.uniformVectorE2(name, vector, canvasId);

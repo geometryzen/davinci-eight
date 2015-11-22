@@ -4,7 +4,7 @@ import IFacetVisitor = require('../core/IFacetVisitor')
 import mustBeArray = require('../checks/mustBeArray')
 import mustBeString = require('../checks/mustBeString')
 import R3 = require('../math/R3')
-import Matrix4 = require('../math/Matrix4')
+import Mat4R = require('../math/Mat4R')
 import readOnly = require('../i18n/readOnly');
 import Shareable = require('../utils/Shareable')
 import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
@@ -23,10 +23,10 @@ class ReflectionFacetE3 extends Shareable implements IFacet {
     public _normal: R3;
     /**
      * @property matrix
-     * @type {Matrix4}
+     * @type {Mat4R}
      * @private
      */
-    private matrix = Matrix4.one();
+    private matrix = Mat4R.one();
     private name: string;
 
     /**
@@ -97,7 +97,7 @@ class ReflectionFacetE3 extends Shareable implements IFacet {
             this.matrix.reflection(this._normal)
             this._normal.modified = false
         }
-        visitor.uniformMatrix4(this.name, false, this.matrix, canvasId)
+        visitor.mat4(this.name, this.matrix, false, canvasId)
     }
 }
 

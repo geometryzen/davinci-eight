@@ -2,7 +2,7 @@ import dotVectorCartesianE3 = require('../math/dotVectorCartesianE3')
 import Euclidean3 = require('../math/Euclidean3')
 import dotVector = require('../math/dotVectorE3')
 import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
-import Matrix4 = require('../math/Matrix4')
+import Mat4R = require('../math/Mat4R')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
@@ -285,7 +285,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         this.t = cos(φ)
         return this;
     }
-    setFromRotationMatrix(m: Matrix4): HH {
+    setFromRotationMatrix(m: Mat4R): HH {
         // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
         // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
         var te = m.elements,

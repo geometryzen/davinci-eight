@@ -1,7 +1,7 @@
 import ColumnVector = require('../math/ColumnVector')
 import b2 = require('../geometries/b2')
 import b3 = require('../geometries/b3')
-import Matrix2 = require('../math/Matrix2');
+import Mat2R = require('../math/Mat2R');
 import MutableLinearElement = require('../math/MutableLinearElement');
 import SpinorE2 = require('../math/SpinorE2');
 import VectorN = require('../math/VectorN');
@@ -17,7 +17,7 @@ let COORD_Y = 1
 /**
  * @class R2
  */
-class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, VectorE2, MutableLinearElement<VectorE2, R2, SpinorE2, VectorE2> {
+class R2 extends VectorN<number> implements ColumnVector<Mat2R, R2>, VectorE2, MutableLinearElement<VectorE2, R2, SpinorE2, VectorE2> {
     /**
      * @class R2
      * @constructor
@@ -88,11 +88,11 @@ class R2 extends VectorN<number> implements ColumnVector<Matrix2, R2>, VectorE2,
      * <code>this ⟼ m * this<sup>T</sup></code>
      * </p>
      * @method applyMatrix
-     * @param m {Matrix2}
+     * @param m {Mat2R}
      * @return {R2} <code>this</code>
      * @chainable
      */
-    applyMatrix(m: Matrix2): R2 {
+    applyMatrix(m: Mat2R): R2 {
         let x = this.x;
         let y = this.y;
 

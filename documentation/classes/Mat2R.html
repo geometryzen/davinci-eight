@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Matrix2 - davinci-eight</title>
+    <title>Mat2R - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -243,7 +244,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Matrix2 Class</h1>
+<h1>Mat2R Class</h1>
 <div class="box meta">
 
         <div class="extends">
@@ -251,7 +252,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:19</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:19</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -261,7 +262,7 @@
 
 <div class="box intro">
     <p>2x2 (square) matrix of numbers.
-Constructs a Matrix2 by wrapping a Float32Array.
+Constructs a Mat2R by wrapping a Float32Array.
 The elements are stored in column-major order:
 0 2
 1 3</p>
@@ -270,8 +271,8 @@ The elements are stored in column-major order:
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_Matrix2" class="method item">
-    <h3 class="name"><code>Matrix2</code></h3>
+<div id="method_Mat2R" class="method item">
+    <h3 class="name"><code>Mat2R</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -291,7 +292,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:19</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:19</code></a>
         </p>
 
 
@@ -395,6 +396,11 @@ The elements are stored in column-major order:
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_reflection">reflection</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_row">row</a>
 
                             </li>
@@ -487,7 +493,7 @@ The elements are stored in column-major order:
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -500,7 +506,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:58</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:34</code></a>
         </p>
 
 
@@ -517,7 +523,7 @@ The elements are stored in column-major order:
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">rhs</code>
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
 
 
                     <div class="param-description">
@@ -532,7 +538,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -618,7 +624,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:93</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:69</code></a>
         </p>
 
 
@@ -647,7 +653,7 @@ The elements are stored in column-major order:
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -660,7 +666,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:102</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:78</code></a>
         </p>
 
 
@@ -676,7 +682,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -700,7 +706,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:117</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:93</code></a>
         </p>
 
 
@@ -740,7 +746,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:130</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:106</code></a>
         </p>
 
 
@@ -815,7 +821,7 @@ The elements are stored in column-major order:
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -828,7 +834,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l143"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:143</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l119"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:119</code></a>
         </p>
 
 
@@ -845,7 +851,7 @@ The elements are stored in column-major order:
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">rhs</code>
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
 
 
                     <div class="param-description">
@@ -860,7 +866,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -881,7 +887,7 @@ The elements are stored in column-major order:
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -894,7 +900,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l153"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:153</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:129</code></a>
         </p>
 
 
@@ -911,7 +917,7 @@ The elements are stored in column-major order:
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">a</code>
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
 
 
                     <div class="param-description">
@@ -921,7 +927,7 @@ The elements are stored in column-major order:
                 </li>
                 <li class="param">
                         <code class="param-name">b</code>
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
 
 
                     <div class="param-description">
@@ -936,7 +942,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -948,7 +954,7 @@ The elements are stored in column-major order:
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -961,7 +967,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l180"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:180</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l156"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:156</code></a>
         </p>
 
 
@@ -977,7 +983,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -989,7 +995,7 @@ The elements are stored in column-major order:
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -1002,7 +1008,7 @@ The elements are stored in column-major order:
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l189"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:189</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l165"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:165</code></a>
         </p>
 
 
@@ -1019,7 +1025,7 @@ The elements are stored in column-major order:
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -1031,7 +1037,7 @@ The elements are stored in column-major order:
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -1039,12 +1045,13 @@ The elements are stored in column-major order:
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:34</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l398"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:398</code></a>
         </p>
 
 
@@ -1062,7 +1069,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -1080,7 +1087,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -1093,7 +1100,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l199"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:199</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:175</code></a>
         </p>
 
 
@@ -1104,7 +1111,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
         <p>Sets this matrix to the transformation for a
 reflection in the line normal to the unit vector <code>n</code>.</p>
 <p>
-<code>this ⟼ reflection(n)</code>
+this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
 </p>
     </div>
 
@@ -1129,7 +1136,71 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_reflection" class="method item">
+    <h3 class="name"><code>reflection</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>n</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
+        </span>
+
+
+
+
+        <span class="flag static">static</span>
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l411"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:411</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">n</code>
+                        <span class="type"><a href="../classes/VectorE2.html" class="crosslink">VectorE2</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -1159,7 +1230,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l223"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:223</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l199"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:199</code></a>
         </p>
 
 
@@ -1210,7 +1281,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -1223,7 +1294,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l233"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:233</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l209"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:209</code></a>
         </p>
 
 
@@ -1255,7 +1326,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -1282,7 +1353,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -1295,7 +1366,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l248"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:248</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l224"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:224</code></a>
         </p>
 
 
@@ -1358,7 +1429,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -1376,7 +1447,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -1389,7 +1460,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l266"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:266</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l242"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:242</code></a>
         </p>
 
 
@@ -1406,7 +1477,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">rhs</code>
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
 
 
                     <div class="param-description">
@@ -1421,7 +1492,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -1445,7 +1516,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l292"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:292</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l268"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:268</code></a>
         </p>
 
 
@@ -1491,7 +1562,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l304"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:304</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l280"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:280</code></a>
         </p>
 
 
@@ -1548,7 +1619,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l320"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:320</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l296"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:296</code></a>
         </p>
 
 
@@ -1576,7 +1647,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -1589,7 +1660,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l332"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:332</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l308"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:308</code></a>
         </p>
 
 
@@ -1606,7 +1677,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 
@@ -1618,7 +1689,7 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>
+            <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>
         </span>
 
 
@@ -1626,12 +1697,13 @@ reflection in the line normal to the unit vector <code>n</code>.</p>
 
         <span class="flag static">static</span>
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Matrix2.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Matrix2.ts:46</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l422"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:422</code></a>
         </p>
 
 
@@ -1649,7 +1721,7 @@ Creates a new matrix with all elements zero.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Matrix2.html" class="crosslink">Matrix2</a></span>:
+                        <span class="type"><a href="../classes/Mat2R.html" class="crosslink">Mat2R</a></span>:
             </div>
         </div>
 

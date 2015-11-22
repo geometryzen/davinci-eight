@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/Matrix4.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/Mat3R.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -243,145 +244,92 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/Matrix4.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/Mat3R.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;);
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import GeometricElement = require(&#x27;../math/GeometricElement&#x27;);
-import inv4x4 = require(&#x27;../math/inv4x4&#x27;)
-import isDefined = require(&#x27;../checks/isDefined&#x27;);
-import Matrix = require(&#x27;../math/Matrix&#x27;);
-import mul4x4 = require(&#x27;../math/mul4x4&#x27;);
+import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;)
+import det3x3 = require(&#x27;../math/det3x3&#x27;)
+import expectArg = require(&#x27;../checks/expectArg&#x27;)
+import inv3x3 = require(&#x27;../math/inv3x3&#x27;)
+import isDefined = require(&#x27;../checks/isDefined&#x27;)
+import Matrix = require(&#x27;../math/Matrix&#x27;)
+import Mat4R = require(&#x27;./Mat4R&#x27;)
+import mul3x3 = require(&#x27;../math/mul3x3&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
-import Ring = require(&#x27;../math/MutableRingElement&#x27;);
-import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;);
-import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
-import VectorE4 = require(&#x27;../math/VectorE4&#x27;);
-
-// TODO: Anything after this line hints of excessive coupling.
-// TODO: Probably better not to couple this way.
-import frustumMatrix = require(&#x27;../cameras/frustumMatrix&#x27;);
+import Ring = require(&#x27;../math/MutableRingElement&#x27;)
+import RingOperators = require(&#x27;../math/RingOperators&#x27;)
+import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 
 /**
- * @class Matrix4
+ * @class Mat3R
  * @extends AbstractMatrix
  */
-class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4, VectorE4&gt;, Ring&lt;Matrix4&gt; {
-
-    // The correspondence between the elements property index and the matrix entries is...
-    //
-    //  0  4  8 12
-    //  1  5  9 13
-    //  2  6 10 14
-    //  3  7 11 15
+class Mat3R extends AbstractMatrix&lt;Mat3R&gt; implements Matrix&lt;Mat3R, VectorE3&gt;, Ring&lt;Mat3R&gt;, RingOperators&lt;Mat3R&gt; {
     /**
-     * 4x4 (square) matrix of numbers.
-     * Constructs a Matrix4 by wrapping a Float32Array.
-     * @class Matrix4
+     * 3x3 (square) matrix of numbers.
+     * Constructs a Mat3R by wrapping a Float32Array.
+     * The elements are stored in column-major order:
+     * 0 3 6
+     * 1 4 7
+     * 2 5 8
+     *
+     * @class Mat3R
      * @constructor
      */
     constructor(elements: Float32Array) {
-        super(elements, 4);
+        super(elements, 3);
     }
 
     /**
-     * &lt;p&gt;
-     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-     * &lt;/p&gt;
-     * @method one
-     * @return {Matrix4}
-     * @chainable
-     * @static
+     * @method add
+     * @param rhs {Mat3R}
+     * @return {Mat3R}
      */
-    public static one() {
-        return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+    add(rhs: Mat3R): Mat3R {
+        let te = this.elements;
+        let t11 = te[0];
+        let t21 = te[1];
+        let t31 = te[2];
+        let t12 = te[3];
+        let t22 = te[4];
+        let t32 = te[5];
+        let t13 = te[6];
+        let t23 = te[7];
+        let t33 = te[5];
+
+        let re = rhs.elements;
+        let r11 = re[0];
+        let r21 = re[1];
+        let r31 = re[2];
+        let r12 = re[3];
+        let r22 = re[4];
+        let r32 = re[5];
+        let r13 = re[6];
+        let r23 = re[7];
+        let r33 = re[8];
+
+        let m11 = t11 + r11;
+        let m21 = t21 + r21;
+        let m31 = t31 + r31;
+        let m12 = t12 + r12;
+        let m22 = t22 + r22;
+        let m32 = t32 + r32;
+        let m13 = t13 + r13;
+        let m23 = t23 + r23;
+        let m33 = t33 + r33;
+        return this.set(m11, m12, m13, m21, m22, m23, m31, m32, m33)
     }
 
     /**
-     * &lt;p&gt;
-     * Creates a new matrix with all elements zero.
-     * &lt;/p&gt;
-     * @method zero
-     * @return {Matrix4}
-     * @chainable
-     * @static
-     */
-    public static zero() {
-        return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
-    }
-
-    /**
-     * @method scaling
-     * @param scale {VectorE3}
-     * @return {Matrix4}
-     * @chainable
-     * @static
-     */
-    public static scaling(scale: VectorE3): Matrix4 {
-        return Matrix4.one().scaling(scale);
-    }
-
-    /**
-     * @method translation
-     * @param vector {VectorE3}
-     * @return {Matrix4}
-     * @chainable
-     * @static
-     */
-    public static translation(vector: VectorE3): Matrix4 {
-        return Matrix4.one().translation(vector);
-    }
-
-    /**
-     * @method rotation
-     * @param spinor {SpinorE3}
-     * @return {Matrix4}
-     * @chainable
-     * @static
-     */
-    public static rotation(spinor: SpinorE3): Matrix4 {
-        return Matrix4.one().rotation(spinor);
-    }
-
-    /**
-     * Returns a copy of this Matrix4 instance.
+     * Returns a copy of this Mat3R instance.
      * @method clone
-     * @return {Matrix4}
+     * @return {Mat3R}
      * @chainable
      */
-    clone(): Matrix4 {
-        return Matrix4.zero().copy(this);
-    }
-
-    /**
-     * @method compose
-     * @param scale {VectorE3}
-     * @param attitude {SpinorE3}
-     * @param position {VectorE3}
-     * @return {Matrix4}
-     * @chainable
-     */
-    compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4 {
-        // We 
-        // this.one();
-        // this.scale(scale);
-        this.scaling(scale);
-        this.rotate(attitude);
-        this.translate(position);
-        return this;
-    }
-
-    /**
-     * @method copy
-     * @param m {Matrix4}
-     * @return {Matrix4}
-     * @chaninable
-     */
-    copy(m: Matrix4): Matrix4 {
-        this.elements.set(m.elements)
-        return this;
+    clone(): Mat3R {
+        return Mat3R.zero().copy(this)
     }
 
     /**
@@ -390,185 +338,147 @@ class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4
      * @return {number}
      */
     det(): number {
-        let te = this.elements;
+        return det3x3(this.elements)
+    }
 
-        let n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
-        let n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
-        let n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
-        let n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
+    /**
+     * @method getInverse
+     * @param matrix {Mat4R}
+     * @return {Mat3R}
+     * @deprecated
+     * @private
+     */
+    getInverse(matrix: Mat4R, throwOnInvertible?: boolean): Mat3R {
 
-        //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
+        // input: Mat4R
+        // ( based on http://code.google.com/p/webgl-mjs/ )
 
-        let n1122 = n11 * n22;
-        let n1123 = n11 * n23;
-        let n1124 = n11 * n24;
-        let n1221 = n12 * n21;
-        let n1223 = n12 * n23;
-        let n1224 = n12 * n24;
-        let n1321 = n13 * n21;
-        let n1322 = n13 * n22;
-        let n1324 = n13 * n24;
-        let n1421 = n14 * n21;
-        let n1422 = n14 * n22;
-        let n1423 = n14 * n23;
+        var me = matrix.elements;
+        var te = this.elements;
 
-        return n41 * ((n1423 - n1324) * n32 + (n1224 - n1422) * n33 + (n1322 - n1223) * n34) +
-            n42 * ((n1324 - n1423) * n31 + (n1421 - n1124) * n33 + (n1123 - n1321) * n34) +
-            n43 * ((n1422 - n1224) * n31 + (n1124 - n1421) * n32 + (n1221 - n1122) * n34) +
-            n44 * ((n1223 - n1322) * n31 + (n1321 - n1123) * n32 + (n1122 - n1221) * n33);
+        te[0] = me[10] * me[5] - me[6] * me[9];
+        te[1] = - me[10] * me[1] + me[2] * me[9];
+        te[2] = me[6] * me[1] - me[2] * me[5];
+        te[3] = - me[10] * me[4] + me[6] * me[8];
+        te[4] = me[10] * me[0] - me[2] * me[8];
+        te[5] = - me[6] * me[0] + me[2] * me[4];
+        te[6] = me[9] * me[4] - me[5] * me[8];
+        te[7] = - me[9] * me[0] + me[1] * me[8];
+        te[8] = me[5] * me[0] - me[1] * me[4];
+
+        var det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
+
+        // no inverse
+
+        if (det === 0) {
+
+            var msg = &quot;Mat3R.getInverse(): can&#x27;t invert matrix, determinant is 0&quot;;
+
+            if (throwOnInvertible || !throwOnInvertible) {
+
+                throw new Error(msg);
+
+            } else {
+
+                console.warn(msg);
+
+            }
+
+            this.one();
+
+            return this;
+
+        }
+
+        this.scale(1.0 / det);
+
+        return this;
+
     }
 
     /**
      * @method inv
-     * @return {Matrix4}
+     * @return {Mat3R}
+     * @chainable
      */
-    inv(): Matrix4 {
-        inv4x4(this.elements, this.elements)
+    inv(): Mat3R {
+        inv3x3(this.elements, this.elements)
         return this
     }
 
     /**
-     * @method invert
-     * @param m {Matrix4}
-     * @return {Matrix4}
-     * @deprecated
-     * @private
+     * @method isOne
+     * @return {boolean}
      */
-    invert(m: Matrix4): Matrix4 {
-        inv4x4(m.elements, this.elements)
-        return this
-    }
-
-    /**
-     * Sets this matrix to the identity element for multiplication, &lt;b&gt;1&lt;/b&gt;.
-     * @method one
-     * @return {Matrix4}
-     * @chainable
-     */
-    one(): Matrix4 {
-        return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-    }
-
-    /**
-     * @method scale
-     * @param s {number}
-     * @return {Matrix4}
-     * @chainable
-     */
-    scale(s: number): Matrix4 {
+    isOne(): boolean {
         let te = this.elements;
-        te[0] *= s; te[4] *= s; te[8] *= s; te[12] *= s;
-        te[1] *= s; te[5] *= s; te[9] *= s; te[13] *= s;
-        te[2] *= s; te[6] *= s; te[10] *= s; te[14] *= s;
-        te[3] *= s; te[7] *= s; te[11] *= s; te[15] *= s;
-        return this;
+        let m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
+        let m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
+        let m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
+        return (m11 === 1 &amp;&amp; m12 === 0 &amp;&amp; m13 === 0 &amp;&amp; m21 === 0 &amp;&amp; m22 === 1 &amp;&amp; m23 === 0 &amp;&amp; m31 === 0 &amp;&amp; m32 === 0 &amp;&amp; m33 === 1)
     }
 
     /**
-     * @method transpose
-     * @return {Matrix4}
-     * @chainable
+     * @method isZero
+     * @return {boolean}
      */
-    transpose(): Matrix4 {
-        let te: Float32Array = this.elements;
-        var tmp: number;
-
-        tmp = te[1]; te[1] = te[4]; te[4] = tmp;
-        tmp = te[2]; te[2] = te[8]; te[8] = tmp;
-        tmp = te[6]; te[6] = te[9]; te[9] = tmp;
-
-        tmp = te[3]; te[3] = te[12]; te[12] = tmp;
-        tmp = te[7]; te[7] = te[13]; te[13] = tmp;
-        tmp = te[11]; te[11] = te[14]; te[14] = tmp;
-
-        return this;
-    }
-
-    /**
-     * @method frustum
-     * @param left {number}
-     * @param right {number}
-     * @param bottom {number}
-     * @param top {number}
-     * @param near {number}
-     * @param far {number}
-     * @return {Matrix4}
-     * @chainable
-     */
-    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4 {
+    isZero(): boolean {
         let te = this.elements;
-        let x = 2 * near / (right - left);
-        let y = 2 * near / (top - bottom);
-
-        let a = (right + left) / (right - left);
-        let b = (top + bottom) / (top - bottom);
-        let c = - (far + near) / (far - near);
-        let d = - 2 * far * near / (far - near);
-
-        te[0] = x; te[4] = 0; te[8] = a; te[12] = 0;
-        te[1] = 0; te[5] = y; te[9] = b; te[13] = 0;
-        te[2] = 0; te[6] = 0; te[10] = c; te[14] = d;
-        te[3] = 0; te[7] = 0; te[11] = -1; te[15] = 0;
-
-        return this;
-    }
-
-    /**
-     * @method rotationAxis
-     * @param axis {VectorE3}
-     * @param angle {number}
-     * @return {Matrix4}
-     * @chainable
-     * @beta
-     */
-    rotationAxis(axis: VectorE3, angle: number): Matrix4 {
-
-        // Based on http://www.gamedev.net/reference/articles/article1199.asp
-
-        let c = Math.cos(angle);
-        let s = Math.sin(angle);
-        let t = 1 - c;
-        let x = axis.x, y = axis.y, z = axis.z;
-        let tx = t * x, ty = t * y;
-
-        return this.set(
-            tx * x + c, tx * y - s * z, tx * z + s * y, 0,
-            tx * y + s * z, ty * y + c, ty * z - s * x, 0,
-            tx * z - s * y, ty * z + s * x, t * z * z + c, 0,
-            0, 0, 0, 1
-        );
+        let m11 = te[0x0], m12 = te[0x3], m13 = te[0x6];
+        let m21 = te[0x1], m22 = te[0x4], m23 = te[0x7];
+        let m31 = te[0x2], m32 = te[0x5], m33 = te[0x8];
+        return (m11 === 0 &amp;&amp; m12 === 0 &amp;&amp; m13 === 0 &amp;&amp; m21 === 0 &amp;&amp; m22 === 0 &amp;&amp; m23 === 0 &amp;&amp; m31 === 0 &amp;&amp; m32 === 0 &amp;&amp; m33 === 0)
     }
 
     /**
      * @method mul
-     * @param rhs {Matrix4}
-     * @return {Matrix4}
+     * @param rhs {Mat3R}
+     * @return {Mat3R}
      * @chainable
      */
-    mul(rhs: Matrix4): Matrix4 {
-        return this.mul2(this, rhs);
+    mul(rhs: Mat3R): Mat3R {
+        return this.mul2(this, rhs)
     }
 
     /**
      * @method mul2
-     * @param a {Matrix4}
-     * @param b {Matrix4}
-     * @return {Matrix4}
+     * @param a {Mat3R}
+     * @param b {Mat3R}
+     * @return {Mat3R}
      * @chainable
      */
-    mul2(a: Matrix4, b: Matrix4): Matrix4 {
-        mul4x4(a.elements, b.elements, this.elements);
-        return this;
+    mul2(a: Mat3R, b: Mat3R): Mat3R {
+        mul3x3(a.elements, b.elements, this.elements)
+        return this
     }
 
     /**
-     * @method rmul
-     * @param lhs {Matrix4}
-     * @return {Matrix4}
+     * @method neg
+     * @return {Mat3R}
      * @chainable
      */
-    rmul(lhs: Matrix4): Matrix4 {
-        return this.mul2(lhs, this);
+    neg(): Mat3R {
+        return this.scale(-1)
+    }
+
+    /**
+     * @method normalFromMat4R
+     * @param m {Mat4R}
+     * @return {Mat3R}
+     * @deprecated
+     * @private
+     */
+    normalFromMat4R(m: Mat4R): Mat3R {
+        return this.getInverse(m).transpose();
+    }
+
+    /**
+     * @method one
+     * @return {Mat3R}
+     * @chainable
+     */
+    one(): Mat3R {
+        return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
     }
 
     /**
@@ -579,11 +489,11 @@ class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4
      * &lt;/p&gt;
      * @method reflection
      * @param n {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat3R}
      * @chainable
      */
-    reflection(n: VectorE3): Matrix4 {
-        // FIXME; Symmetry says this should take a VectorE4
+    reflection(n: VectorE3): Mat3R {
+
         let nx = mustBeNumber(&#x27;n.x&#x27;, n.x);
         let ny = mustBeNumber(&#x27;n.y&#x27;, n.y);
         let nz = mustBeNumber(&#x27;n.z&#x27;, n.z);
@@ -597,146 +507,102 @@ class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4
         let zz = 1 - 2 * nz * nz;
 
         this.set(
-            xx, aa, bb, 0,
-            aa, yy, cc, 0,
-            bb, cc, zz, 0,
-            0, 0, 0, 1
+            xx, aa, bb,
+            aa, yy, cc,
+            bb, cc, zz
         );
-        return this;
-    }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ rotation(spinor) * this&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method rotate
-     * @param spinor {SpinorE3}
-     * @return {Matrix4}
-     * @chainable
-     */
-    rotate(spinor: SpinorE3): Matrix4 {
-        return this.rmul(Matrix4.rotation(spinor))
-    }
-
-    /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ rotation(spinor)&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method rotation
-     * @param attitude  The spinor from which the rotation will be computed.
-     * @return {Matrix4}
-     * @chainable
-     */
-    rotation(spinor: SpinorE3): Matrix4 {
-        // The correspondence between quaternions and spinors is
-        // i &lt;=&gt; -e2^e3, j &lt;=&gt; -e3^e1, k &lt;=&gt; -e1^e2.
-        let x: number = -expectArg(&#x27;spinor.yz&#x27;, spinor.yz).toBeNumber().value;
-        let y: number = -expectArg(&#x27;spinor.zx&#x27;, spinor.zx).toBeNumber().value;
-        let z: number = -expectArg(&#x27;spinor.xy&#x27;, spinor.xy).toBeNumber().value;
-        let α: number = expectArg(&#x27;spinor.α&#x27;, spinor.α).toBeNumber().value;
-
-        let x2 = x + x, y2 = y + y, z2 = z + z;
-        let xx = x * x2, xy = x * y2, xz = x * z2;
-        let yy = y * y2, yz = y * z2, zz = z * z2;
-        let wx = α * x2, wy = α * y2, wz = α * z2;
-
-        this.set(
-            1 - yy - zz, xy - wz, xz + wy, 0,
-            xy + wz, 1 - xx - zz, yz - wx, 0,
-            xz - wy, yz + wx, 1 - xx - yy, 0,
-            0, 0, 0, 1
-        );
-
         return this;
     }
 
     /**
      * @method row
      * @param i {number} the zero-based index of the row.
-     * @return {Array&lt;number&gt;}
+     * @return {number[]}
      */
-    row(i: number): Array&lt;number&gt; {
-        let te = this.elements;
-        return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
+    row(i: number): number[] {
+        let te = this.elements
+        return [te[0 + i], te[3 + i], te[6 + i]]
     }
 
     /**
-     * @method scaleXYZ
-     * @param scale {VectorE3}
-     * @return {Matrix4}
-     * @chainable
+     * @method scale
+     * @param s {number}
+     * @return {Mat3R}
      */
-    scaleXYZ(scale: VectorE3): Matrix4 {
-        // We treat the scale operation as pre-multiplication: 
-        // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
-        // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
-        // |0 0 z 0|   |m[2] m[6] m[A] m[E]|   |z * m[2] z * m[6] z * m[A] z * m[E]|
-        // |0 0 0 1|   |m[3] m[7] m[B] m[F]|   |    m[3]     m[7]     m[B]     m[F]|
-
-        // The following would be post-multiplication:
-        // |m[0] m[4] m[8] m[C]|   |x 0 0 0|   |x * m[0] y * m[4] z * m[8]     m[C]|
-        // |m[1] m[5] m[9] m[D]| * |0 y 0 0| = |x * m[1] y * m[5] z * m[9]     m[D]|
-        // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
-        // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
-        return this.rmul(Matrix4.scaling(scale))
+    scale(s: number): Mat3R {
+        let m = this.elements;
+        m[0] *= s; m[3] *= s; m[6] *= s;
+        m[1] *= s; m[4] *= s; m[7] *= s;
+        m[2] *= s; m[5] *= s; m[8] *= s;
+        return this;
     }
 
     /**
-     * @method scaling
-     * @param scale {VectorE3}
-     * @return {Matrix4}
-     * @chainable
-     */
-    scaling(scale: VectorE3): Matrix4 {
-        return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
-    }
-
-    /**
+     * Sets all elements of this matrix to the supplied row-major values.
      * @method set
-     * @return {Matrix4}
+     * @param m11 {number}
+     * @param m12 {number}
+     * @param m13 {number}
+     * @param m21 {number}
+     * @param m22 {number}
+     * @param m23 {number}
+     * @param m31 {number}
+     * @param m32 {number}
+     * @param m33 {number}
+     * @return {Mat3R}
      * @chainable
-     * @private
      */
-    private set(
-        n11: number,
-        n12: number,
-        n13: number,
-        n14: number,
-        n21: number,
-        n22: number,
-        n23: number,
-        n24: number,
-        n31: number,
-        n32: number,
-        n33: number,
-        n34: number,
-        n41: number,
-        n42: number,
-        n43: number,
-        n44: number): Matrix4 {
+    set(n11: number, n12: number, n13: number,
+        n21: number, n22: number, n23: number,
+        n31: number, n32: number, n33: number): Mat3R {
 
         var te = this.elements;
 
-        te[0x0] = n11; te[0x4] = n12; te[0x8] = n13; te[0xC] = n14;
-        te[0x1] = n21; te[0x5] = n22; te[0x9] = n23; te[0xD] = n24;
-        te[0x2] = n31; te[0x6] = n32; te[0xA] = n33; te[0xE] = n34;
-        te[0x3] = n41; te[0x7] = n42; te[0xB] = n43; te[0xF] = n44;
+        te[0] = n11; te[3] = n12; te[6] = n13;
+        te[1] = n21; te[4] = n22; te[7] = n23;
+        te[2] = n31; te[5] = n32; te[8] = n33;
 
         return this;
     }
 
     /**
-     * @method toFixed
-     * @param [digits] {number}
-     * @return {string}
+     * @method sub
+     * @param rhs {Mat3R}
+     * @return {Mat3R}
      */
-    toFixed(digits?: number): string {
-        if (isDefined(digits)) { expectArg(&#x27;digits&#x27;, digits).toBeNumber(); }
-        let text: string[] = [];
-        for (var i = 0; i &lt; this.dimensions; i++) {
-            text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(digits) }).join(&#x27; &#x27;));
-        }
-        return text.join(&#x27;\n&#x27;);
+    sub(rhs: Mat3R): Mat3R {
+        let te = this.elements;
+        let t11 = te[0];
+        let t21 = te[1];
+        let t31 = te[2];
+        let t12 = te[3];
+        let t22 = te[4];
+        let t32 = te[5];
+        let t13 = te[6];
+        let t23 = te[7];
+        let t33 = te[5];
+
+        let re = rhs.elements;
+        let r11 = re[0];
+        let r21 = re[1];
+        let r31 = re[2];
+        let r12 = re[3];
+        let r22 = re[4];
+        let r32 = re[5];
+        let r13 = re[6];
+        let r23 = re[7];
+        let r33 = re[8];
+
+        let m11 = t11 - r11;
+        let m21 = t21 - r21;
+        let m31 = t31 - r31;
+        let m12 = t12 - r12;
+        let m22 = t22 - r22;
+        let m32 = t32 - r32;
+        let m13 = t13 - r13;
+        let m23 = t23 -  r23;
+        let m33 = t33 -  r33;
+        return this.set(m11, m12, m13, m21, m22, m23, m31, m32, m33)
     }
 
     /**
@@ -752,51 +618,104 @@ class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4
     }
 
     /**
-     * &lt;p&gt;
-     * &lt;code&gt;this ⟼ translation(spinor) * this&lt;/code&gt;
-     * &lt;/p&gt;
-     * @method translate
-     * @param displacement {VectorE3}
-     * @return {Matrix4}
-     * @chaninable
+     * @method transpose
+     * @return {Mat3R}
      */
-    translate(displacement: VectorE3): Matrix4 {
-        return this.rmul(Matrix4.translation(displacement))
-    }
+    transpose(): Mat3R {
+        var tmp: number;
+        var m = this.elements;
 
-    /**
-     * @method translation
-     * @param displacement {VectorE3}
-     * @return {Matrix4}
-     * @chaninable
-     */
-    translation(displacement: VectorE3): Matrix4 {
-        return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
+        tmp = m[1]; m[1] = m[3]; m[3] = tmp;
+        tmp = m[2]; m[2] = m[6]; m[6] = tmp;
+        tmp = m[5]; m[5] = m[7]; m[7] = tmp;
+
+        return this;
     }
 
     /**
      * Sets this matrix to the identity element for addition, &lt;b&gt;0&lt;/b&gt;.
      * @method zero
-     * @return {Matrix4}
+     * @return {Mat3R}
      * @chainable
      */
-    zero(): Matrix4 {
-        return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    zero(): Mat3R {
+        return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    /**
-     * @method __mul__
-     * @param rhs {Matrix4|number}
-     * @return {Matrix4}
-     * @chainable
-     * @private
-     */
-    private __mul__(rhs: Matrix4 | number): Matrix4 {
-        if (rhs instanceof Matrix4) {
-            return Matrix4.one().mul2(this, rhs)
+    __add__(rhs: any): Mat3R {
+        if (rhs instanceof Mat3R) {
+            return this.clone().add(rhs)
+        }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === &#x27;number&#x27;) {
+        //            return this.clone().scale(rhs);
+        //        }
+        else {
+            return void 0
+        }
+    }
+
+    __radd__(lhs: any): Mat3R {
+        if (lhs instanceof Mat3R) {
+            return lhs.clone().add(this)
+        }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === &#x27;number&#x27;) {
+        //            return this.clone().scale(rhs);
+        //        }
+        else {
+            return void 0
+        }
+    }
+
+    __mul__(rhs: any): Mat3R {
+        if (rhs instanceof Mat3R) {
+            return this.clone().mul(rhs)
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            return this.clone().scale(rhs)
+            return this.clone().scale(rhs);
+        }
+        else {
+            return void 0
+        }
+    }
+
+    __rmul__(lhs: any): Mat3R {
+        if (lhs instanceof Mat3R) {
+            return lhs.clone().mul(this)
+        }
+        else if (typeof lhs === &#x27;number&#x27;) {
+            return this.clone().scale(lhs);
+        }
+        else {
+            return void 0
+        }
+    }
+
+    __pos__(): Mat3R {
+        return this.clone()
+    }
+
+    __neg__(): Mat3R {
+        return this.clone().scale(-1)
+    }
+
+    __sub__(rhs: any): Mat3R {
+        if (rhs instanceof Mat3R) {
+            return this.clone().sub(rhs)
+        }
+        // TODO: Interpret this as I * rhs?
+        //        else if (typeof rhs === &#x27;number&#x27;) {
+        //            return this.clone().scale(rhs);
+        //        }
+        else {
+            return void 0
+        }
+    }
+
+    __rsub__(lhs: any): Mat3R {
+        if (lhs instanceof Mat3R) {
+            return lhs.clone().sub(this)
         }
         else {
             return void 0
@@ -804,26 +723,42 @@ class Matrix4 extends AbstractMatrix&lt;Matrix4&gt; implements Matrix&lt;Matrix4
     }
 
     /**
-     * @method __rmul__
-     * @param lhs {Matrix4|number}
-     * @return {Matrix4}
-     * @chainable
-     * @private
+     * &lt;p&gt;
+     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+     * &lt;/p&gt;
+     * @method one
+     * @return {Mat3R}
+     * @static
      */
-    private __rmul__(lhs: Matrix4 | number): Matrix4 {
-        if (lhs instanceof Matrix4) {
-            return Matrix4.one().mul2(lhs, this)
-        }
-        else if (typeof lhs === &#x27;number&#x27;) {
-            return this.clone().scale(lhs)
-        }
-        else {
-            return void 0
-        }
+    public static one() {
+        return new Mat3R(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+    }
+
+    /**
+     * @method reflection
+     * @param n {VectorE3}
+     * @return {Mat3R}
+     * @static
+     * @chainable
+     */
+    public static reflection(n: VectorE3): Mat3R {
+        return Mat3R.zero().reflection(n)
+    }
+
+    /**
+     * &lt;p&gt;
+     * Creates a new matrix with all elements zero.
+     * &lt;/p&gt;
+     * @method zero
+     * @return {Mat3R}
+     * @static
+     */
+    public static zero(): Mat3R {
+        return new Mat3R(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0]));
     }
 }
 
-export = Matrix4;
+export = Mat3R;
 
     </pre>
 </div>

@@ -7,7 +7,7 @@
 declare module x {
 }
 
-interface Matrix3Service {
+interface Mat3RService {
   /**
    * Creates a new identity mat3
    */
@@ -15,8 +15,8 @@ interface Matrix3Service {
   identity(matrix: number[]): void;
   /**
    * Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
-   * @param {Matrix3x3} out Matrix3x3 receiving operation result.
-   * @param {Matrix4} a Matrix4x4 to derive the normal matrix from
+   * @param {Mat3Rx3} out Mat3Rx3 receiving operation result.
+   * @param {Mat4R} a Matrix4x4 to derive the normal matrix from
    */
   normalFromMat4(out: number[], a: number[]);
 }
@@ -40,7 +40,7 @@ interface Vector3Service {
 
 interface glMatrix {
   create(): number;
-  mat3: Matrix3Service;
+  mat3: Mat3RService;
   mat4: Matrix4Service;
   vec3: Vector3Service;
 }

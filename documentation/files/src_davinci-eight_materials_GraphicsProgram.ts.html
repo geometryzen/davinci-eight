@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -256,9 +257,9 @@ import isUndefined = require(&#x27;../checks/isUndefined&#x27;)
 import MonitorList = require(&#x27;../scene/MonitorList&#x27;)
 import IGraphicsProgram = require(&#x27;../core/IGraphicsProgram&#x27;)
 import R1 = require(&#x27;../math/R1&#x27;)
-import Matrix2 = require(&#x27;../math/Matrix2&#x27;)
-import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
-import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
+import Mat2R = require(&#x27;../math/Mat2R&#x27;)
+import Mat3R = require(&#x27;../math/Mat3R&#x27;)
+import Mat4R = require(&#x27;../math/Mat4R&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import refChange = require(&#x27;../utils/refChange&#x27;)
@@ -643,82 +644,82 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     }
 
     /**
-     * @method uniformMatrix2
+     * @method mat2
      * @param name {string}
-     * @param transpose {boolean}
-     * @param matrix {Matrix2}
+     * @param matrix {Mat2R}
+     * @param [transpose] {boolean}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number): void {
+    mat2(name: string, matrix: Mat2R, transpose?: boolean, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformMatrix2(name, transpose, matrix, canvasId)
+            this.inner.mat2(name, matrix, transpose, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformMatrix2(name, transpose, matrix, canvasId)
+                this.inner.mat2(name, matrix, transpose, canvasId)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, &#x27;Matrix2&#x27;, name, canvasId)
+                    consoleWarnDroppedUniform(this.type, &#x27;Mat2R&#x27;, name, canvasId)
                 }
             }
         }
     }
 
     /**
-     * @method uniformMatrix3
+     * @method mat3
      * @param name {string}
-     * @param transpose {boolean}
-     * @param matrix {Matrix3}
+     * @param matrix {Mat3R}
+     * @param [transpose] {boolean}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId?: number): void {
+    mat3(name: string, matrix: Mat3R, transpose?: boolean, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformMatrix3(name, transpose, matrix, canvasId)
+            this.inner.mat3(name, matrix, transpose, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformMatrix3(name, transpose, matrix, canvasId)
+                this.inner.mat3(name, matrix, transpose, canvasId)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, &#x27;Matrix3&#x27;, name, canvasId)
+                    consoleWarnDroppedUniform(this.type, &#x27;Mat3R&#x27;, name, canvasId)
                 }
             }
         }
     }
 
     /**
-     * @method uniformMatrix4
+     * @method mat4
      * @param name {string}
-     * @param transpose {boolean}
-     * @param matrix {Matrix4}
+     * @param matrix {Mat4R}
+     * @param [transpose] {boolean}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number): void {
+    mat4(name: string, matrix: Mat4R, transpose?: boolean, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformMatrix4(name, transpose, matrix, canvasId)
+            this.inner.mat4(name, matrix, transpose, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformMatrix4(name, transpose, matrix, canvasId)
+                this.inner.mat4(name, matrix, transpose, canvasId)
             }
             else {
                 if (!readyPending) {
                     if (core.verbose) {
-                        consoleWarnDroppedUniform(this.type, &#x27;Matrix4&#x27;, name, canvasId)
+                        consoleWarnDroppedUniform(this.type, &#x27;Mat4R&#x27;, name, canvasId)
                     }
                 }
             }

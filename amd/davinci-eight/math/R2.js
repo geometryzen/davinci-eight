@@ -89,7 +89,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
          * <code>this ⟼ m * this<sup>T</sup></code>
          * </p>
          * @method applyMatrix
-         * @param m {Matrix2}
+         * @param m {Mat2R}
          * @return {R2} <code>this</code>
          * @chainable
          */

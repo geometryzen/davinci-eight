@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -254,8 +255,8 @@ import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
 import IAnimationTarget = require(&#x27;../slideshow/IAnimationTarget&#x27;)
 import isUndefined = require(&#x27;../checks/isUndefined&#x27;)
 import IUnknownExt = require(&#x27;../core/IUnknownExt&#x27;)
-import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
-import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
+import Mat3R = require(&#x27;../math/Mat3R&#x27;)
+import Mat4R = require(&#x27;../math/Mat4R&#x27;)
 import ModelE3 = require(&#x27;../models/ModelE3&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import G3 = require(&#x27;../math/G3&#x27;)
@@ -273,11 +274,11 @@ class ModelFacetE3 extends ModelE3 implements IFacet, IAnimationTarget, IUnknown
 
     // FIXME: I don&#x27;t like this non-geometric scaling.
     private _scaleXYZ: R3 = new R3([1, 1, 1]);
-    private matM = Matrix4.one();
-    private matN = Matrix3.one();
-    private matR = Matrix4.one();
-    private matS = Matrix4.one();
-    private matT = Matrix4.one();
+    private matM = Mat4R.one();
+    private matN = Mat3R.one();
+    private matR = Mat4R.one();
+    private matS = Mat4R.one();
+    private matT = Mat4R.one();
     /**
      * &lt;p&gt;
      * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
@@ -347,10 +348,10 @@ class ModelFacetE3 extends ModelE3 implements IFacet, IAnimationTarget, IUnknown
         }
         this.matM.copy(this.matT).mul(this.matR).mul(this.matS)
 
-        this.matN.normalFromMatrix4(this.matM)
+        this.matN.normalFromMat4R(this.matM)
 
-        visitor.uniformMatrix4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId)
-        visitor.uniformMatrix3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId)
+        visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this.matM, false, canvasId)
+        visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this.matN, false, canvasId)
     }
     /**
      * @method incRef

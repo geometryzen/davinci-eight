@@ -28,13 +28,13 @@ define(["require", "exports"], function (require, exports) {
         RoundUniform.prototype.uniform4f = function (name, x, y, z, w) {
             console.warn("uniform");
         };
-        RoundUniform.prototype.uniformMatrix2 = function (name, transpose, matrix) {
+        RoundUniform.prototype.mat2 = function (name, matrix, transpose) {
             console.warn("uniform");
         };
-        RoundUniform.prototype.uniformMatrix3 = function (name, transpose, matrix) {
+        RoundUniform.prototype.mat3 = function (name, matrix, transpose) {
             console.warn("uniform");
         };
-        RoundUniform.prototype.uniformMatrix4 = function (name, transpose, matrix) {
+        RoundUniform.prototype.mat4 = function (name, matrix, transpose) {
             console.warn("uniform");
         };
         RoundUniform.prototype.uniformVectorE2 = function (name, vector) {

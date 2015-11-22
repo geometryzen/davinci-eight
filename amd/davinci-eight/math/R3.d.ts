@@ -2,15 +2,15 @@ import ColumnVector = require('../math/ColumnVector');
 import VectorE3 = require('../math/VectorE3');
 import Euclidean3 = require('../math/Euclidean3');
 import MutableLinearElement = require('../math/MutableLinearElement');
-import Matrix3 = require('../math/Matrix3');
-import Matrix4 = require('../math/Matrix4');
+import Mat3R = require('../math/Mat3R');
+import Mat4R = require('../math/Mat4R');
 import SpinorE3 = require('../math/SpinorE3');
 import VectorN = require('../math/VectorN');
 /**
  * @class R3
  * @extends VectorN<number>
  */
-declare class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
+declare class R3 extends VectorN<number> implements ColumnVector<Mat3R, R3>, VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
     /**
      * @property e1
      * @type {Euclidean3}
@@ -86,11 +86,11 @@ declare class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, V
      * <code>this ⟼ m * this<sup>T</sup></code>
      * </p>
      * @method applyMatrix
-     * @param m {Matrix3}
+     * @param m {Mat3R}
      * @return {R3} <code>this</code>
      * @chainable
      */
-    applyMatrix(m: Matrix3): R3;
+    applyMatrix(m: Mat3R): R3;
     /**
      * Pre-multiplies the column vector corresponding to this vector by the matrix.
      * The result is applied to this vector.
@@ -102,7 +102,7 @@ declare class R3 extends VectorN<number> implements ColumnVector<Matrix3, R3>, V
      * @return {R3} <code>this</code>
      * @chainable
      */
-    applyMatrix4(m: Matrix4): R3;
+    applyMatrix4(m: Mat4R): R3;
     /**
      * <p>
      * <code>this ⟼ - n * this * n</code>

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -206,6 +206,7 @@
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
@@ -366,9 +367,13 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @property commands
      * @type {IUnknownArray}
      * @beta
+     * @readOnly
      */
     get commands(): IUnknownArray&lt;IContextCommand&gt; {
         return this._renderer.commands;
+    }
+    set commands(unused) {
+        throw new Error(readOnly(&#x27;commands&#x27;).message)
     }
 
     /**
@@ -380,10 +385,12 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @param green {number}
      * @param blue {number}
      * @param alpha {number}
-     * @return {void}
+     * @return {GraphicsContext}
+     * @chainable
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): void {
-        return this._renderer.clearColor(red, green, blue, alpha)
+    clearColor(red: number, green: number, blue: number, alpha: number): GraphicsContext {
+        this._renderer.clearColor(red, green, blue, alpha)
+        return this
     }
 
     /**
@@ -459,20 +466,24 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * Turns off specific WebGL capabilities for this context.
      * @method disable
      * @param capability {Capability}
-     * @return {void} This method does not return a value.
+     * @return {GraphicsContext}
+     * @chainable
      */
-    disable(capability: Capability): void {
-        return this._renderer.disable(capability)
+    disable(capability: Capability): GraphicsContext {
+        this._renderer.disable(capability)
+        return this
     }
 
     /**
      * Turns on specific WebGL capabilities for this context.
      * @method enable
      * @param capability {Capability}
-     * @return {void} This method does not return a value.
+     * @return {GraphicsContext}
+     * @chainable
      */
-    enable(capability: Capability): void {
-        return this._renderer.enable(capability)
+    enable(capability: Capability): GraphicsContext {
+        this._renderer.enable(capability)
+        return this
     }
 
     /**
@@ -482,6 +493,9 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      */
     get gl(): WebGLRenderingContext {
         return this._kahuna.gl
+    }
+    set gl(unused) {
+        throw new Error(readOnly(&#x27;gl&#x27;).message)
     }
 
     /**
@@ -500,10 +514,12 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @param y {number}
      * @param width {number}
      * @param height {number}
-     * @return {void} This method does not return a value.
+     * @return {GraphicsContext}
+     * @chainable
      */
-    viewport(x: number, y: number, width: number, height: number): void {
-        return this._renderer.viewport(x, y, width, height)
+    viewport(x: number, y: number, width: number, height: number): GraphicsContext {
+        this._renderer.viewport(x, y, width, height)
+        return this
     }
 
     /**

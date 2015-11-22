@@ -7,9 +7,9 @@ import isUndefined = require('../checks/isUndefined')
 import MonitorList = require('../scene/MonitorList')
 import IGraphicsProgram = require('../core/IGraphicsProgram')
 import R1 = require('../math/R1')
-import Matrix2 = require('../math/Matrix2')
-import Matrix3 = require('../math/Matrix3')
-import Matrix4 = require('../math/Matrix4')
+import Mat2R = require('../math/Mat2R')
+import Mat3R = require('../math/Mat3R')
+import Mat4R = require('../math/Mat4R')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeString = require('../checks/mustBeString')
 import refChange = require('../utils/refChange')
@@ -394,82 +394,82 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     }
 
     /**
-     * @method uniformMatrix2
+     * @method mat2
      * @param name {string}
-     * @param transpose {boolean}
-     * @param matrix {Matrix2}
+     * @param matrix {Mat2R}
+     * @param [transpose] {boolean}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId?: number): void {
+    mat2(name: string, matrix: Mat2R, transpose?: boolean, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformMatrix2(name, transpose, matrix, canvasId)
+            this.inner.mat2(name, matrix, transpose, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformMatrix2(name, transpose, matrix, canvasId)
+                this.inner.mat2(name, matrix, transpose, canvasId)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'Matrix2', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'Mat2R', name, canvasId)
                 }
             }
         }
     }
 
     /**
-     * @method uniformMatrix3
+     * @method mat3
      * @param name {string}
-     * @param transpose {boolean}
-     * @param matrix {Matrix3}
+     * @param matrix {Mat3R}
+     * @param [transpose] {boolean}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId?: number): void {
+    mat3(name: string, matrix: Mat3R, transpose?: boolean, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformMatrix3(name, transpose, matrix, canvasId)
+            this.inner.mat3(name, matrix, transpose, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformMatrix3(name, transpose, matrix, canvasId)
+                this.inner.mat3(name, matrix, transpose, canvasId)
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'Matrix3', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'Mat3R', name, canvasId)
                 }
             }
         }
     }
 
     /**
-     * @method uniformMatrix4
+     * @method mat4
      * @param name {string}
-     * @param transpose {boolean}
-     * @param matrix {Matrix4}
+     * @param matrix {Mat4R}
+     * @param [transpose] {boolean}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId?: number): void {
+    mat4(name: string, matrix: Mat4R, transpose?: boolean, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformMatrix4(name, transpose, matrix, canvasId)
+            this.inner.mat4(name, matrix, transpose, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformMatrix4(name, transpose, matrix, canvasId)
+                this.inner.mat4(name, matrix, transpose, canvasId)
             }
             else {
                 if (!readyPending) {
                     if (core.verbose) {
-                        consoleWarnDroppedUniform(this.type, 'Matrix4', name, canvasId)
+                        consoleWarnDroppedUniform(this.type, 'Mat4R', name, canvasId)
                     }
                 }
             }

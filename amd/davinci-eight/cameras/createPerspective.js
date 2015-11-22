@@ -1,4 +1,4 @@
-define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../core/GraphicsProgramSymbols', '../math/R1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, createView, Matrix4, GraphicsProgramSymbols, R1, isUndefined, expectArg, computePerspectiveMatrix) {
+define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core/GraphicsProgramSymbols', '../math/R1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, createView, Mat4R, GraphicsProgramSymbols, R1, isUndefined, expectArg, computePerspectiveMatrix) {
     /**
      * @function createPerspective
      * @constructor
@@ -17,7 +17,7 @@ define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../co
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
         var refCount = 1;
         var base = createView(options);
-        var projectionMatrix = Matrix4.one();
+        var projectionMatrix = Mat4R.one();
         var matrixNeedsUpdate = true;
         var self = {
             addRef: function () {
@@ -120,7 +120,7 @@ define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../co
                     computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
                     matrixNeedsUpdate = false;
                 }
-                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
+                visitor.mat4(projectionMatrixName, projectionMatrix, false, canvasId);
                 base.setUniforms(visitor, canvasId);
             }
         };

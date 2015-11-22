@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../models/ModelE3', '../checks/mustBeString', '../math/R3', '../i18n/readOnly', '../core/GraphicsProgramSymbols'], function (require, exports, Matrix3, Matrix4, ModelE3, mustBeString, R3, readOnly, GraphicsProgramSymbols) {
+define(["require", "exports", '../math/Mat3R', '../math/Mat4R', '../models/ModelE3', '../checks/mustBeString', '../math/R3', '../i18n/readOnly', '../core/GraphicsProgramSymbols'], function (require, exports, Mat3R, Mat4R, ModelE3, mustBeString, R3, readOnly, GraphicsProgramSymbols) {
     /**
      * @class ModelFacetE3
      */
@@ -32,11 +32,11 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../models/M
             _super.call(this, mustBeString('type', type));
             // FIXME: I don't like this non-geometric scaling.
             this._scaleXYZ = new R3([1, 1, 1]);
-            this.matM = Matrix4.one();
-            this.matN = Matrix3.one();
-            this.matR = Matrix4.one();
-            this.matS = Matrix4.one();
-            this.matT = Matrix4.one();
+            this.matM = Mat4R.one();
+            this.matN = Mat3R.one();
+            this.matR = Mat4R.one();
+            this.matS = Mat4R.one();
+            this.matT = Mat4R.one();
             this._scaleXYZ.modified = true;
         }
         /**
@@ -87,9 +87,9 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../models/M
                 this.scaleXYZ.modified = false;
             }
             this.matM.copy(this.matT).mul(this.matR).mul(this.matS);
-            this.matN.normalFromMatrix4(this.matM);
-            visitor.uniformMatrix4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, false, this.matM, canvasId);
-            visitor.uniformMatrix3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, false, this.matN, canvasId);
+            this.matN.normalFromMat4R(this.matM);
+            visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this.matM, false, canvasId);
+            visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this.matN, false, canvasId);
         };
         /**
          * @method incRef

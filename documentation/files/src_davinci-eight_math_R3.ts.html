@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -253,8 +254,8 @@ import dotVectorE3 = require(&#x27;../math/dotVectorE3&#x27;)
 import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;)
 import MutableLinearElement = require(&#x27;../math/MutableLinearElement&#x27;)
-import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
-import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
+import Mat3R = require(&#x27;../math/Mat3R&#x27;)
+import Mat4R = require(&#x27;../math/Mat4R&#x27;)
 import isDefined = require(&#x27;../checks/isDefined&#x27;)
 import isNumber = require(&#x27;../checks/isNumber&#x27;)
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
@@ -286,7 +287,7 @@ function coordinates(m: VectorE3): number[] {
  * @class R3
  * @extends VectorN&lt;number&gt;
  */
-class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix3, R3&gt;, VectorE3, MutableLinearElement&lt;VectorE3, R3, SpinorE3, VectorE3&gt; {
+class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt;Mat3R, R3&gt;, VectorE3, MutableLinearElement&lt;VectorE3, R3, SpinorE3, VectorE3&gt; {
     /**
      * @property e1
      * @type {Euclidean3}
@@ -399,11 +400,11 @@ class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix3, R3&gt
      * &lt;code&gt;this ⟼ m * this&lt;sup&gt;T&lt;/sup&gt;&lt;/code&gt;
      * &lt;/p&gt;
      * @method applyMatrix
-     * @param m {Matrix3}
+     * @param m {Mat3R}
      * @return {R3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    applyMatrix(m: Matrix3): R3 {
+    applyMatrix(m: Mat3R): R3 {
         let x = this.x;
         let y = this.y;
         let z = this.z;
@@ -428,7 +429,7 @@ class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix3, R3&gt
      * @return {R3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    applyMatrix4(m: Matrix4): R3 {
+    applyMatrix4(m: Mat4R): R3 {
 
         var x = this.x, y = this.y, z = this.z;
 
@@ -881,12 +882,12 @@ class R3 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix3, R3&gt
         if (typeof lhs === &#x27;number&#x27;) {
             return this.clone().scale(lhs);
         }
-        else if (lhs instanceof Matrix3) {
-            let m33: Matrix3 = lhs;
+        else if (lhs instanceof Mat3R) {
+            let m33: Mat3R = lhs;
             return this.clone().applyMatrix(m33);
         }
-        else if (lhs instanceof Matrix4) {
-            let m44: Matrix4 = lhs;
+        else if (lhs instanceof Mat4R) {
+            let m44: Mat4R = lhs;
             return this.clone().applyMatrix4(m44);
         }
         else {

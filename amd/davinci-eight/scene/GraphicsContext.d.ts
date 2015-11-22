@@ -63,6 +63,7 @@ declare class GraphicsContext extends Shareable implements ContextController, IC
      * @property commands
      * @type {IUnknownArray}
      * @beta
+     * @readOnly
      */
     commands: IUnknownArray<IContextCommand>;
     /**
@@ -74,9 +75,10 @@ declare class GraphicsContext extends Shareable implements ContextController, IC
      * @param green {number}
      * @param blue {number}
      * @param alpha {number}
-     * @return {void}
+     * @return {GraphicsContext}
+     * @chainable
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): void;
+    clearColor(red: number, green: number, blue: number, alpha: number): GraphicsContext;
     /**
      * @method contextFree
      * @param [canvasId] {number}
@@ -126,16 +128,18 @@ declare class GraphicsContext extends Shareable implements ContextController, IC
      * Turns off specific WebGL capabilities for this context.
      * @method disable
      * @param capability {Capability}
-     * @return {void} This method does not return a value.
+     * @return {GraphicsContext}
+     * @chainable
      */
-    disable(capability: Capability): void;
+    disable(capability: Capability): GraphicsContext;
     /**
      * Turns on specific WebGL capabilities for this context.
      * @method enable
      * @param capability {Capability}
-     * @return {void} This method does not return a value.
+     * @return {GraphicsContext}
+     * @chainable
      */
-    enable(capability: Capability): void;
+    enable(capability: Capability): GraphicsContext;
     /**
      * @property gl
      * @type {WebGLRenderingContext}
@@ -155,9 +159,10 @@ declare class GraphicsContext extends Shareable implements ContextController, IC
      * @param y {number}
      * @param width {number}
      * @param height {number}
-     * @return {void} This method does not return a value.
+     * @return {GraphicsContext}
+     * @chainable
      */
-    viewport(x: number, y: number, width: number, height: number): void;
+    viewport(x: number, y: number, width: number, height: number): GraphicsContext;
     /**
      * Initializes the WebGL context for the specified <code>canvas</code>.
      * @method start

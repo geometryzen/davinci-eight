@@ -3,7 +3,7 @@ import IFacetVisitor = require('../core/IFacetVisitor')
 import mustBeArray = require('../checks/mustBeArray')
 import mustBeString = require('../checks/mustBeString')
 import R2 = require('../math/R2')
-import Matrix2 = require('../math/Matrix2')
+import Mat2R = require('../math/Mat2R')
 import readOnly = require('../i18n/readOnly');
 import Shareable = require('../utils/Shareable')
 import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
@@ -22,10 +22,10 @@ class ReflectionFacetE2 extends Shareable implements IFacet {
     public _normal: R2;
     /**
      * @property matrix
-     * @type {Matrix2}
+     * @type {Mat2R}
      * @private
      */
-    private matrix = Matrix2.one();
+    private matrix = Mat2R.one();
     private name: string;
 
     /**
@@ -96,7 +96,7 @@ class ReflectionFacetE2 extends Shareable implements IFacet {
             this.matrix.reflection(this._normal)
             this._normal.modified = false
         }
-        visitor.uniformMatrix2(this.name, false, this.matrix, canvasId)
+        visitor.mat2(this.name, this.matrix, false, canvasId)
     }
 }
 

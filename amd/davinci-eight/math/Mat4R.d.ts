@@ -5,14 +5,14 @@ import SpinorE3 = require('../math/SpinorE3');
 import VectorE3 = require('../math/VectorE3');
 import VectorE4 = require('../math/VectorE4');
 /**
- * @class Matrix4
+ * @class Mat4R
  * @extends AbstractMatrix
  */
-declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE4>, Ring<Matrix4> {
+declare class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4>, Ring<Mat4R> {
     /**
      * 4x4 (square) matrix of numbers.
-     * Constructs a Matrix4 by wrapping a Float32Array.
-     * @class Matrix4
+     * Constructs a Mat4R by wrapping a Float32Array.
+     * @class Mat4R
      * @constructor
      */
     constructor(elements: Float32Array);
@@ -21,68 +21,68 @@ declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4,
      * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
      * </p>
      * @method one
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
-    static one(): Matrix4;
+    static one(): Mat4R;
     /**
      * <p>
      * Creates a new matrix with all elements zero.
      * </p>
      * @method zero
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
-    static zero(): Matrix4;
+    static zero(): Mat4R;
     /**
      * @method scaling
      * @param scale {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
-    static scaling(scale: VectorE3): Matrix4;
+    static scaling(scale: VectorE3): Mat4R;
     /**
      * @method translation
      * @param vector {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
-    static translation(vector: VectorE3): Matrix4;
+    static translation(vector: VectorE3): Mat4R;
     /**
      * @method rotation
      * @param spinor {SpinorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
-    static rotation(spinor: SpinorE3): Matrix4;
+    static rotation(spinor: SpinorE3): Mat4R;
     /**
-     * Returns a copy of this Matrix4 instance.
+     * Returns a copy of this Mat4R instance.
      * @method clone
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    clone(): Matrix4;
+    clone(): Mat4R;
     /**
      * @method compose
      * @param scale {VectorE3}
      * @param attitude {SpinorE3}
      * @param position {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4;
+    compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Mat4R;
     /**
      * @method copy
-     * @param m {Matrix4}
-     * @return {Matrix4}
+     * @param m {Mat4R}
+     * @return {Mat4R}
      * @chaninable
      */
-    copy(m: Matrix4): Matrix4;
+    copy(m: Mat4R): Mat4R;
     /**
      * Computes the determinant.
      * @method det
@@ -91,37 +91,37 @@ declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4,
     det(): number;
     /**
      * @method inv
-     * @return {Matrix4}
+     * @return {Mat4R}
      */
-    inv(): Matrix4;
+    inv(): Mat4R;
     /**
      * @method invert
-     * @param m {Matrix4}
-     * @return {Matrix4}
+     * @param m {Mat4R}
+     * @return {Mat4R}
      * @deprecated
      * @private
      */
-    invert(m: Matrix4): Matrix4;
+    invert(m: Mat4R): Mat4R;
     /**
      * Sets this matrix to the identity element for multiplication, <b>1</b>.
      * @method one
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    one(): Matrix4;
+    one(): Mat4R;
     /**
      * @method scale
      * @param s {number}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    scale(s: number): Matrix4;
+    scale(s: number): Mat4R;
     /**
      * @method transpose
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    transpose(): Matrix4;
+    transpose(): Mat4R;
     /**
      * @method frustum
      * @param left {number}
@@ -130,41 +130,41 @@ declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4,
      * @param top {number}
      * @param near {number}
      * @param far {number}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4;
+    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Mat4R;
     /**
      * @method rotationAxis
      * @param axis {VectorE3}
      * @param angle {number}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @beta
      */
-    rotationAxis(axis: VectorE3, angle: number): Matrix4;
+    rotationAxis(axis: VectorE3, angle: number): Mat4R;
     /**
      * @method mul
-     * @param rhs {Matrix4}
-     * @return {Matrix4}
+     * @param rhs {Mat4R}
+     * @return {Mat4R}
      * @chainable
      */
-    mul(rhs: Matrix4): Matrix4;
+    mul(rhs: Mat4R): Mat4R;
     /**
      * @method mul2
-     * @param a {Matrix4}
-     * @param b {Matrix4}
-     * @return {Matrix4}
+     * @param a {Mat4R}
+     * @param b {Mat4R}
+     * @return {Mat4R}
      * @chainable
      */
-    mul2(a: Matrix4, b: Matrix4): Matrix4;
+    mul2(a: Mat4R, b: Mat4R): Mat4R;
     /**
      * @method rmul
-     * @param lhs {Matrix4}
-     * @return {Matrix4}
+     * @param lhs {Mat4R}
+     * @return {Mat4R}
      * @chainable
      */
-    rmul(lhs: Matrix4): Matrix4;
+    rmul(lhs: Mat4R): Mat4R;
     /**
      * Sets this matrix to the transformation for a
      * reflection in the plane normal to the unit vector <code>n</code>.
@@ -173,30 +173,30 @@ declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4,
      * </p>
      * @method reflection
      * @param n {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    reflection(n: VectorE3): Matrix4;
+    reflection(n: VectorE3): Mat4R;
     /**
      * <p>
      * <code>this ⟼ rotation(spinor) * this</code>
      * </p>
      * @method rotate
      * @param spinor {SpinorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    rotate(spinor: SpinorE3): Matrix4;
+    rotate(spinor: SpinorE3): Mat4R;
     /**
      * <p>
      * <code>this ⟼ rotation(spinor)</code>
      * </p>
      * @method rotation
      * @param attitude  The spinor from which the rotation will be computed.
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    rotation(spinor: SpinorE3): Matrix4;
+    rotation(spinor: SpinorE3): Mat4R;
     /**
      * @method row
      * @param i {number} the zero-based index of the row.
@@ -206,20 +206,20 @@ declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4,
     /**
      * @method scaleXYZ
      * @param scale {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    scaleXYZ(scale: VectorE3): Matrix4;
+    scaleXYZ(scale: VectorE3): Mat4R;
     /**
      * @method scaling
      * @param scale {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    scaling(scale: VectorE3): Matrix4;
+    scaling(scale: VectorE3): Mat4R;
     /**
      * @method set
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @private
      */
@@ -241,39 +241,39 @@ declare class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4,
      * </p>
      * @method translate
      * @param displacement {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chaninable
      */
-    translate(displacement: VectorE3): Matrix4;
+    translate(displacement: VectorE3): Mat4R;
     /**
      * @method translation
      * @param displacement {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chaninable
      */
-    translation(displacement: VectorE3): Matrix4;
+    translation(displacement: VectorE3): Mat4R;
     /**
      * Sets this matrix to the identity element for addition, <b>0</b>.
      * @method zero
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    zero(): Matrix4;
+    zero(): Mat4R;
     /**
      * @method __mul__
-     * @param rhs {Matrix4|number}
-     * @return {Matrix4}
+     * @param rhs {Mat4R|number}
+     * @return {Mat4R}
      * @chainable
      * @private
      */
     private __mul__(rhs);
     /**
      * @method __rmul__
-     * @param lhs {Matrix4|number}
-     * @return {Matrix4}
+     * @param lhs {Mat4R|number}
+     * @return {Mat4R}
      * @chainable
      * @private
      */
     private __rmul__(lhs);
 }
-export = Matrix4;
+export = Mat4R;

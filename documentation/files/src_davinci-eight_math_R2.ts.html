@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -250,7 +251,7 @@
 import ColumnVector = require(&#x27;../math/ColumnVector&#x27;)
 import b2 = require(&#x27;../geometries/b2&#x27;)
 import b3 = require(&#x27;../geometries/b3&#x27;)
-import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
+import Mat2R = require(&#x27;../math/Mat2R&#x27;);
 import MutableLinearElement = require(&#x27;../math/MutableLinearElement&#x27;);
 import SpinorE2 = require(&#x27;../math/SpinorE2&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
@@ -266,7 +267,7 @@ let COORD_Y = 1
 /**
  * @class R2
  */
-class R2 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix2, R2&gt;, VectorE2, MutableLinearElement&lt;VectorE2, R2, SpinorE2, VectorE2&gt; {
+class R2 extends VectorN&lt;number&gt; implements ColumnVector&lt;Mat2R, R2&gt;, VectorE2, MutableLinearElement&lt;VectorE2, R2, SpinorE2, VectorE2&gt; {
     /**
      * @class R2
      * @constructor
@@ -337,11 +338,11 @@ class R2 extends VectorN&lt;number&gt; implements ColumnVector&lt;Matrix2, R2&gt
      * &lt;code&gt;this ⟼ m * this&lt;sup&gt;T&lt;/sup&gt;&lt;/code&gt;
      * &lt;/p&gt;
      * @method applyMatrix
-     * @param m {Matrix2}
+     * @param m {Mat2R}
      * @return {R2} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    applyMatrix(m: Matrix2): R2 {
+    applyMatrix(m: Mat2R): R2 {
         let x = this.x;
         let y = this.y;
 

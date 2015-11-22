@@ -1,9 +1,9 @@
-define(['davinci-eight/math/Matrix2'], function(Matrix2)
+define(['davinci-eight/math/Mat2R'], function(Mat2R)
 {
-  describe("Matrix2", function() {
+  describe("Mat2R", function() {
     describe("elements", function() {
       it("should be a Float32Array to support WebGL", function() {
-        var m = new Matrix2(new Float32Array([1, 0, 0, 1]));
+        var m = new Mat2R(new Float32Array([1, 0, 0, 1]));
         expect(m.elements instanceof Float32Array).toBe(true);
       });
     });

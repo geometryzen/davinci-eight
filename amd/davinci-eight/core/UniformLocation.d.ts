@@ -3,9 +3,9 @@ import VectorE2 = require('../math/VectorE2');
 import VectorE3 = require('../math/VectorE3');
 import VectorE4 = require('../math/VectorE4');
 import R1 = require('../math/R1');
-import Matrix2 = require('../math/Matrix2');
-import Matrix3 = require('../math/Matrix3');
-import Matrix4 = require('../math/Matrix4');
+import Mat2R = require('../math/Mat2R');
+import Mat3R = require('../math/Mat3R');
+import Mat4R = require('../math/Mat4R');
 import IContextProgramConsumer = require('../core/IContextProgramConsumer');
 import IContextProvider = require('../core/IContextProvider');
 /**
@@ -91,23 +91,32 @@ declare class UniformLocation implements IContextProgramConsumer {
      */
     matrix1(transpose: boolean, matrix: R1): void;
     /**
-     * @method matrix2
-     * @param transpose {boolean}
-     * @param matrix {Matrix2}
+     * Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.
+     * @method mat2
+     * @param matrix {Mat2R}
+     * @param [transpose = false] {boolean}
+     * @return {UniformLocation}
+     * @chainable
      */
-    matrix2(transpose: boolean, matrix: Matrix2): void;
+    mat2(matrix: Mat2R, transpose?: boolean): UniformLocation;
     /**
-     * @method matrix3
-     * @param transpose {boolean}
-     * @param matrix {Matrix3}
+     * Sets a uniform location of type <code>mat3</code> in the <code>WebGLProgram</code>.
+     * @method mat3
+     * @param matrix {Mat3R}
+     * @param [transpose = false] {boolean}
+     * @return {UniformLocation}
+     * @chainable
      */
-    matrix3(transpose: boolean, matrix: Matrix3): void;
+    mat3(matrix: Mat3R, transpose?: boolean): UniformLocation;
     /**
-     * @method matrix4
-     * @param transpose {boolean}
-     * @param matrix {Matrix4}
+     * Sets a uniform location of type <code>mat4</code> in the <code>WebGLProgram</code>.
+     * @method mat4
+     * @param matrix {Mat4R}
+     * @param [transpose = false] {boolean}
+     * @return {UniformLocation}
+     * @chainable
      */
-    matrix4(transpose: boolean, matrix: Matrix4): void;
+    mat4(matrix: Mat4R, transpose?: boolean): UniformLocation;
     /**
      * @method vector2
      * @param data {Array<number> | Float32Array}

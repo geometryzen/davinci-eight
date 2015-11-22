@@ -84,9 +84,13 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
              * @property commands
              * @type {IUnknownArray}
              * @beta
+             * @readOnly
              */
             get: function () {
                 return this._renderer.commands;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('commands').message);
             },
             enumerable: true,
             configurable: true
@@ -100,10 +104,12 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
          * @param green {number}
          * @param blue {number}
          * @param alpha {number}
-         * @return {void}
+         * @return {GraphicsContext}
+         * @chainable
          */
         GraphicsContext.prototype.clearColor = function (red, green, blue, alpha) {
-            return this._renderer.clearColor(red, green, blue, alpha);
+            this._renderer.clearColor(red, green, blue, alpha);
+            return this;
         };
         /**
          * @method contextFree
@@ -170,19 +176,23 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
          * Turns off specific WebGL capabilities for this context.
          * @method disable
          * @param capability {Capability}
-         * @return {void} This method does not return a value.
+         * @return {GraphicsContext}
+         * @chainable
          */
         GraphicsContext.prototype.disable = function (capability) {
-            return this._renderer.disable(capability);
+            this._renderer.disable(capability);
+            return this;
         };
         /**
          * Turns on specific WebGL capabilities for this context.
          * @method enable
          * @param capability {Capability}
-         * @return {void} This method does not return a value.
+         * @return {GraphicsContext}
+         * @chainable
          */
         GraphicsContext.prototype.enable = function (capability) {
-            return this._renderer.enable(capability);
+            this._renderer.enable(capability);
+            return this;
         };
         Object.defineProperty(GraphicsContext.prototype, "gl", {
             /**
@@ -192,6 +202,9 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
              */
             get: function () {
                 return this._kahuna.gl;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('gl').message);
             },
             enumerable: true,
             configurable: true
@@ -211,10 +224,12 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
          * @param y {number}
          * @param width {number}
          * @param height {number}
-         * @return {void} This method does not return a value.
+         * @return {GraphicsContext}
+         * @chainable
          */
         GraphicsContext.prototype.viewport = function (x, y, width, height) {
-            return this._renderer.viewport(x, y, width, height);
+            this._renderer.viewport(x, y, width, height);
+            return this;
         };
         /**
          * Initializes the WebGL context for the specified <code>canvas</code>.

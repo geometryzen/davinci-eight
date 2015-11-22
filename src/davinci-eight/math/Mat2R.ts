@@ -11,19 +11,19 @@ import SpinorE2 = require('../math/SpinorE2')
 import VectorE2 = require('../math/VectorE2')
 
 /**
- * @class Matrix2
+ * @class Mat2R
  * @extends AbstractMatrix
  */
-class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE2>, Ring<Matrix2>, RingOperators<Matrix2> {
+class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, VectorE2>, Ring<Mat2R>, RingOperators<Mat2R> {
 
     /**
      * 2x2 (square) matrix of numbers.
-     * Constructs a Matrix2 by wrapping a Float32Array.
+     * Constructs a Mat2R by wrapping a Float32Array.
      * The elements are stored in column-major order:
      * 0 2
      * 1 3
      *
-     * @class Matrix2
+     * @class Mat2R
      * @constructor
      * @param elements {Float32Array} The elements of the matrix in column-major order.
      */
@@ -32,36 +32,12 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
     }
 
     /**
-     * <p>
-     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-     * </p>
-     * @method one
-     * @return {Matrix2}
-     * @static
-     */
-    public static one(): Matrix2 {
-        return new Matrix2(new Float32Array([1, 0, 0, 1]));
-    }
-
-    /**
-     * <p>
-     * Creates a new matrix with all elements zero.
-     * </p>
-     * @method zero
-     * @return {Matrix2}
-     * @static
-     */
-    public static zero(): Matrix2 {
-        return new Matrix2(new Float32Array([0, 0, 0, 0]))
-    }
-
-    /**
      * @method add
-     * @param rhs {Matrix2}
-     * @return {Matrix2}
+     * @param rhs {Mat2R}
+     * @return {Mat2R}
      * @chainable
      */
-    add(rhs: Matrix2): Matrix2 {
+    add(rhs: Mat2R): Mat2R {
         let te = this.elements;
         let t11 = te[0];
         let t21 = te[1];
@@ -81,13 +57,13 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
         return this.set(m11, m12, m21, m22)
     }
 
-    clone(): Matrix2 {
+    clone(): Mat2R {
         let te = this.elements;
         let m11 = te[0];
         let m21 = te[1];
         let m12 = te[2];
         let m22 = te[3];
-        return Matrix2.zero().set(m11, m12, m21, m22)
+        return Mat2R.zero().set(m11, m12, m21, m22)
     }
 
     /**
@@ -101,10 +77,10 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
 
     /**
      * @method inv
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    inv(): Matrix2 {
+    inv(): Mat2R {
         let te = this.elements;
         let a = te[0];
         let c = te[1];
@@ -142,22 +118,22 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
 
     /**
      * @method mul
-     * @param rhs {Matrix2}
-     * @return {Matrix2}
+     * @param rhs {Mat2R}
+     * @return {Mat2R}
      * @chainable
      */
-    mul(rhs: Matrix2): Matrix2 {
+    mul(rhs: Mat2R): Mat2R {
         return this.mul2(this, rhs);
     }
 
     /**
      * @method mul2
-     * @param a {Matrix2}
-     * @param b {Matrix2}
-     * @return {Matrix2}
+     * @param a {Mat2R}
+     * @param b {Mat2R}
+     * @return {Mat2R}
      * @chainable
      */
-    mul2(a: Matrix2, b: Matrix2): Matrix2 {
+    mul2(a: Mat2R, b: Mat2R): Mat2R {
         let ae = a.elements;
         let a11 = ae[0];
         let a21 = ae[1];
@@ -179,20 +155,20 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
 
     /**
      * @method neg
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    neg(): Matrix2 {
+    neg(): Mat2R {
         return this.scale(-1)
     }
 
     /**
      * Sets this matrix to the identity element for multiplication, <b>1</b>.
      * @method one
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    one(): Matrix2 {
+    one(): Mat2R {
         return this.set(1, 0, 0, 1)
     }
 
@@ -200,14 +176,14 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
      * Sets this matrix to the transformation for a
      * reflection in the line normal to the unit vector <code>n</code>.
      * <p>
-     * <code>this ⟼ reflection(n)</code>
+     * this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
      * </p>
      * @method reflection
      * @param n {VectorE2}
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    reflection(n: VectorE2): Matrix2 {
+    reflection(n: VectorE2): Mat2R {
 
         let nx = mustBeNumber('n.x', n.x);
         let ny = mustBeNumber('n.y', n.y);
@@ -233,10 +209,10 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
     /**
      * @method scale
      * @param α {number}
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    scale(α: number): Matrix2 {
+    scale(α: number): Mat2R {
         let te = this.elements;
         let m11 = te[0] * α;
         let m21 = te[1] * α;
@@ -252,10 +228,10 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
      * @param m12 {number}
      * @param m21 {number}
      * @param m22 {number}
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    set(m11: number, m12: number, m21: number, m22: number): Matrix2 {
+    set(m11: number, m12: number, m21: number, m22: number): Mat2R {
         let te = this.elements;
         // The elements are stored in column-major order.
         te[0x0] = m11; te[0x2] = m12;
@@ -265,11 +241,11 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
 
     /**
      * @method sub
-     * @param rhs {Matrix2}
-     * @return {Matrix2}
+     * @param rhs {Mat2R}
+     * @return {Mat2R}
      * @chainable
      */
-    sub(rhs: Matrix2): Matrix2 {
+    sub(rhs: Mat2R): Mat2R {
         let te = this.elements;
         let t11 = te[0];
         let t21 = te[1];
@@ -332,15 +308,15 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
     /**
      * Sets this matrix to the identity element for addition, <b>0</b>.
      * @method zero
-     * @return {Matrix2}
+     * @return {Mat2R}
      * @chainable
      */
-    zero(): Matrix2 {
+    zero(): Mat2R {
         return this.set(0, 0, 0, 0);
     }
 
-    __add__(rhs: any): Matrix2 {
-        if (rhs instanceof Matrix2) {
+    __add__(rhs: any): Mat2R {
+        if (rhs instanceof Mat2R) {
             return this.clone().add(rhs)
         }
         // TODO: Interpret this as I * rhs?
@@ -352,8 +328,8 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
         }
     }
 
-    __radd__(lhs: any): Matrix2 {
-        if (lhs instanceof Matrix2) {
+    __radd__(lhs: any): Mat2R {
+        if (lhs instanceof Mat2R) {
             return lhs.clone().add(this)
         }
         // TODO: Interpret this as I * rhs?
@@ -365,8 +341,8 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
         }
     }
 
-    __mul__(rhs: any): Matrix2 {
-        if (rhs instanceof Matrix2) {
+    __mul__(rhs: any): Mat2R {
+        if (rhs instanceof Mat2R) {
             return this.clone().mul(rhs)
         }
         else if (typeof rhs === 'number') {
@@ -377,8 +353,8 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
         }
     }
 
-    __rmul__(lhs: any): Matrix2 {
-        if (lhs instanceof Matrix2) {
+    __rmul__(lhs: any): Mat2R {
+        if (lhs instanceof Mat2R) {
             return lhs.clone().mul(this)
         }
         else if (typeof lhs === 'number') {
@@ -389,16 +365,16 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
         }
     }
 
-    __pos__(): Matrix2 {
+    __pos__(): Mat2R {
         return this.clone()
     }
 
-    __neg__(): Matrix2 {
+    __neg__(): Mat2R {
         return this.clone().scale(-1)
     }
 
-    __sub__(rhs: any): Matrix2 {
-        if (rhs instanceof Matrix2) {
+    __sub__(rhs: any): Mat2R {
+        if (rhs instanceof Mat2R) {
             return this.clone().sub(rhs)
         }
         // TODO: Interpret this as I * rhs?
@@ -410,14 +386,51 @@ class Matrix2 extends AbstractMatrix<Matrix2> implements Matrix<Matrix2, VectorE
         }
     }
 
-    __rsub__(lhs: any): Matrix2 {
-        if (lhs instanceof Matrix2) {
+    __rsub__(lhs: any): Mat2R {
+        if (lhs instanceof Mat2R) {
             return lhs.clone().sub(this)
         }
         else {
             return void 0
         }
     }
+
+    /**
+     * <p>
+     * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
+     * </p>
+     * @method one
+     * @return {Mat2R}
+     * @static
+     * @chainable
+     */
+    public static one(): Mat2R {
+        return new Mat2R(new Float32Array([1, 0, 0, 1]));
+    }
+
+    /**
+     * @method reflection
+     * @param n {VectorE2}
+     * @return {Mat2R}
+     * @static
+     * @chainable
+     */
+    public static reflection(n: VectorE2): Mat2R {
+        return Mat2R.zero().reflection(n)
+    }
+
+    /**
+     * <p>
+     * Creates a new matrix with all elements zero.
+     * </p>
+     * @method zero
+     * @return {Mat2R}
+     * @static
+     * @chainable
+     */
+    public static zero(): Mat2R {
+        return new Mat2R(new Float32Array([0, 0, 0, 0]))
+    }
 }
 
-export = Matrix2;
+export = Mat2R;

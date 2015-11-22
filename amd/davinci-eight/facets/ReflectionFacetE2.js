@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString', '../math/R2', '../math/Matrix2', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, mustBeArray, mustBeString, R2, Matrix2, readOnly, Shareable) {
+define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString', '../math/R2', '../math/Mat2R', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, mustBeArray, mustBeString, R2, Mat2R, readOnly, Shareable) {
     /**
      * @class ReflectionFacetE2
      * @extends Shareable
@@ -19,10 +19,10 @@ define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString',
             _super.call(this, 'ReflectionFacetE2');
             /**
              * @property matrix
-             * @type {Matrix2}
+             * @type {Mat2R}
              * @private
              */
-            this.matrix = Matrix2.one();
+            this.matrix = Mat2R.one();
             this.name = mustBeString('name', name);
             // The mathematics of the reflection causes a zero vector to be the identity transformation.
             this._normal = new R2().zero();
@@ -83,7 +83,7 @@ define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString',
                 this.matrix.reflection(this._normal);
                 this._normal.modified = false;
             }
-            visitor.uniformMatrix2(this.name, false, this.matrix, canvasId);
+            visitor.mat2(this.name, this.matrix, false, canvasId);
         };
         return ReflectionFacetE2;
     })(Shareable);

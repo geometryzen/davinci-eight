@@ -117,9 +117,13 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @property commands
      * @type {IUnknownArray}
      * @beta
+     * @readOnly
      */
     get commands(): IUnknownArray<IContextCommand> {
         return this._renderer.commands;
+    }
+    set commands(unused) {
+        throw new Error(readOnly('commands').message)
     }
 
     /**
@@ -131,10 +135,12 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @param green {number}
      * @param blue {number}
      * @param alpha {number}
-     * @return {void}
+     * @return {GraphicsContext}
+     * @chainable
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): void {
-        return this._renderer.clearColor(red, green, blue, alpha)
+    clearColor(red: number, green: number, blue: number, alpha: number): GraphicsContext {
+        this._renderer.clearColor(red, green, blue, alpha)
+        return this
     }
 
     /**
@@ -210,20 +216,24 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * Turns off specific WebGL capabilities for this context.
      * @method disable
      * @param capability {Capability}
-     * @return {void} This method does not return a value.
+     * @return {GraphicsContext}
+     * @chainable
      */
-    disable(capability: Capability): void {
-        return this._renderer.disable(capability)
+    disable(capability: Capability): GraphicsContext {
+        this._renderer.disable(capability)
+        return this
     }
 
     /**
      * Turns on specific WebGL capabilities for this context.
      * @method enable
      * @param capability {Capability}
-     * @return {void} This method does not return a value.
+     * @return {GraphicsContext}
+     * @chainable
      */
-    enable(capability: Capability): void {
-        return this._renderer.enable(capability)
+    enable(capability: Capability): GraphicsContext {
+        this._renderer.enable(capability)
+        return this
     }
 
     /**
@@ -233,6 +243,9 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      */
     get gl(): WebGLRenderingContext {
         return this._kahuna.gl
+    }
+    set gl(unused) {
+        throw new Error(readOnly('gl').message)
     }
 
     /**
@@ -251,10 +264,12 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @param y {number}
      * @param width {number}
      * @param height {number}
-     * @return {void} This method does not return a value.
+     * @return {GraphicsContext}
+     * @chainable
      */
-    viewport(x: number, y: number, width: number, height: number): void {
-        return this._renderer.viewport(x, y, width, height)
+    viewport(x: number, y: number, width: number, height: number): GraphicsContext {
+        this._renderer.viewport(x, y, width, height)
+        return this
     }
 
     /**

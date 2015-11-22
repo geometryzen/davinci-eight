@@ -1,4 +1,4 @@
-define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Matrix4', '../math/R1'], function (require, exports, createView, Matrix4, R1) {
+define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Mat4R', '../math/R1'], function (require, exports, createView, Mat4R, R1) {
     /**
      * @function createFrustum
      * @constructor
@@ -14,7 +14,7 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
         var near = new R1();
         var far = new R1();
         // TODO: We should immediately create with a frustum static constructor?
-        var projectionMatrix = Matrix4.one();
+        var projectionMatrix = Mat4R.one();
         function updateProjectionMatrix() {
             projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
         }
@@ -110,7 +110,7 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
                 updateProjectionMatrix();
             },
             setUniforms: function (visitor, canvasId) {
-                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
+                visitor.mat4(projectionMatrixName, projectionMatrix, false, canvasId);
                 base.setUniforms(visitor, canvasId);
             }
         };

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.160.0</em>
+            <em>API Docs for: 2.162.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -124,10 +124,10 @@
                                 <li><a href="../classes/LineMaterial.html">LineMaterial</a></li>
                                 <li><a href="../classes/LineTopology.html">LineTopology</a></li>
                                 <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
+                                <li><a href="../classes/Mat2R.html">Mat2R</a></li>
+                                <li><a href="../classes/Mat3R.html">Mat3R</a></li>
+                                <li><a href="../classes/Mat4R.html">Mat4R</a></li>
                                 <li><a href="../classes/MaterialParameters.html">MaterialParameters</a></li>
-                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
-                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/MeshLambertMaterial.html">MeshLambertMaterial</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
@@ -207,6 +207,7 @@
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
+                
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                                 <li><a href="../modules/geometries.html">geometries</a></li>
@@ -253,7 +254,7 @@ import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
 import mustBeArray = require(&#x27;../checks/mustBeArray&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import R3 = require(&#x27;../math/R3&#x27;)
-import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
+import Mat4R = require(&#x27;../math/Mat4R&#x27;)
 import readOnly = require(&#x27;../i18n/readOnly&#x27;);
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import GraphicsProgramSymbols = require(&#x27;../core/GraphicsProgramSymbols&#x27;)
@@ -272,10 +273,10 @@ class ReflectionFacetE3 extends Shareable implements IFacet {
     public _normal: R3;
     /**
      * @property matrix
-     * @type {Matrix4}
+     * @type {Mat4R}
      * @private
      */
-    private matrix = Matrix4.one();
+    private matrix = Mat4R.one();
     private name: string;
 
     /**
@@ -346,7 +347,7 @@ class ReflectionFacetE3 extends Shareable implements IFacet {
             this.matrix.reflection(this._normal)
             this._normal.modified = false
         }
-        visitor.uniformMatrix4(this.name, false, this.matrix, canvasId)
+        visitor.mat4(this.name, this.matrix, false, canvasId)
     }
 }
 

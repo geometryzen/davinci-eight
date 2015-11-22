@@ -16,10 +16,10 @@ import VectorE4 = require('../math/VectorE4');
 import frustumMatrix = require('../cameras/frustumMatrix');
 
 /**
- * @class Matrix4
+ * @class Mat4R
  * @extends AbstractMatrix
  */
-class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE4>, Ring<Matrix4> {
+class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4>, Ring<Mat4R> {
 
     // The correspondence between the elements property index and the matrix entries is...
     //
@@ -29,8 +29,8 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
     //  3  7 11 15
     /**
      * 4x4 (square) matrix of numbers.
-     * Constructs a Matrix4 by wrapping a Float32Array.
-     * @class Matrix4
+     * Constructs a Mat4R by wrapping a Float32Array.
+     * @class Mat4R
      * @constructor
      */
     constructor(elements: Float32Array) {
@@ -42,12 +42,12 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
      * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
      * </p>
      * @method one
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
     public static one() {
-        return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+        return new Mat4R(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
     }
 
     /**
@@ -55,55 +55,55 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
      * Creates a new matrix with all elements zero.
      * </p>
      * @method zero
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
     public static zero() {
-        return new Matrix4(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+        return new Mat4R(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
     }
 
     /**
      * @method scaling
      * @param scale {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
-    public static scaling(scale: VectorE3): Matrix4 {
-        return Matrix4.one().scaling(scale);
+    public static scaling(scale: VectorE3): Mat4R {
+        return Mat4R.one().scaling(scale);
     }
 
     /**
      * @method translation
      * @param vector {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
-    public static translation(vector: VectorE3): Matrix4 {
-        return Matrix4.one().translation(vector);
+    public static translation(vector: VectorE3): Mat4R {
+        return Mat4R.one().translation(vector);
     }
 
     /**
      * @method rotation
      * @param spinor {SpinorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @static
      */
-    public static rotation(spinor: SpinorE3): Matrix4 {
-        return Matrix4.one().rotation(spinor);
+    public static rotation(spinor: SpinorE3): Mat4R {
+        return Mat4R.one().rotation(spinor);
     }
 
     /**
-     * Returns a copy of this Matrix4 instance.
+     * Returns a copy of this Mat4R instance.
      * @method clone
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    clone(): Matrix4 {
-        return Matrix4.zero().copy(this);
+    clone(): Mat4R {
+        return Mat4R.zero().copy(this);
     }
 
     /**
@@ -111,10 +111,10 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
      * @param scale {VectorE3}
      * @param attitude {SpinorE3}
      * @param position {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Matrix4 {
+    compose(scale: VectorE3, attitude: SpinorE3, position: VectorE3): Mat4R {
         // We 
         // this.one();
         // this.scale(scale);
@@ -126,11 +126,11 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
 
     /**
      * @method copy
-     * @param m {Matrix4}
-     * @return {Matrix4}
+     * @param m {Mat4R}
+     * @return {Mat4R}
      * @chaninable
      */
-    copy(m: Matrix4): Matrix4 {
+    copy(m: Mat4R): Mat4R {
         this.elements.set(m.elements)
         return this;
     }
@@ -171,21 +171,21 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
 
     /**
      * @method inv
-     * @return {Matrix4}
+     * @return {Mat4R}
      */
-    inv(): Matrix4 {
+    inv(): Mat4R {
         inv4x4(this.elements, this.elements)
         return this
     }
 
     /**
      * @method invert
-     * @param m {Matrix4}
-     * @return {Matrix4}
+     * @param m {Mat4R}
+     * @return {Mat4R}
      * @deprecated
      * @private
      */
-    invert(m: Matrix4): Matrix4 {
+    invert(m: Mat4R): Mat4R {
         inv4x4(m.elements, this.elements)
         return this
     }
@@ -193,20 +193,20 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
     /**
      * Sets this matrix to the identity element for multiplication, <b>1</b>.
      * @method one
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    one(): Matrix4 {
+    one(): Mat4R {
         return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
 
     /**
      * @method scale
      * @param s {number}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    scale(s: number): Matrix4 {
+    scale(s: number): Mat4R {
         let te = this.elements;
         te[0] *= s; te[4] *= s; te[8] *= s; te[12] *= s;
         te[1] *= s; te[5] *= s; te[9] *= s; te[13] *= s;
@@ -217,10 +217,10 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
 
     /**
      * @method transpose
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    transpose(): Matrix4 {
+    transpose(): Mat4R {
         let te: Float32Array = this.elements;
         var tmp: number;
 
@@ -243,10 +243,10 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
      * @param top {number}
      * @param near {number}
      * @param far {number}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4 {
+    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Mat4R {
         let te = this.elements;
         let x = 2 * near / (right - left);
         let y = 2 * near / (top - bottom);
@@ -268,11 +268,11 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
      * @method rotationAxis
      * @param axis {VectorE3}
      * @param angle {number}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @beta
      */
-    rotationAxis(axis: VectorE3, angle: number): Matrix4 {
+    rotationAxis(axis: VectorE3, angle: number): Mat4R {
 
         // Based on http://www.gamedev.net/reference/articles/article1199.asp
 
@@ -292,33 +292,33 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
 
     /**
      * @method mul
-     * @param rhs {Matrix4}
-     * @return {Matrix4}
+     * @param rhs {Mat4R}
+     * @return {Mat4R}
      * @chainable
      */
-    mul(rhs: Matrix4): Matrix4 {
+    mul(rhs: Mat4R): Mat4R {
         return this.mul2(this, rhs);
     }
 
     /**
      * @method mul2
-     * @param a {Matrix4}
-     * @param b {Matrix4}
-     * @return {Matrix4}
+     * @param a {Mat4R}
+     * @param b {Mat4R}
+     * @return {Mat4R}
      * @chainable
      */
-    mul2(a: Matrix4, b: Matrix4): Matrix4 {
+    mul2(a: Mat4R, b: Mat4R): Mat4R {
         mul4x4(a.elements, b.elements, this.elements);
         return this;
     }
 
     /**
      * @method rmul
-     * @param lhs {Matrix4}
-     * @return {Matrix4}
+     * @param lhs {Mat4R}
+     * @return {Mat4R}
      * @chainable
      */
-    rmul(lhs: Matrix4): Matrix4 {
+    rmul(lhs: Mat4R): Mat4R {
         return this.mul2(lhs, this);
     }
 
@@ -330,10 +330,10 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
      * </p>
      * @method reflection
      * @param n {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    reflection(n: VectorE3): Matrix4 {
+    reflection(n: VectorE3): Mat4R {
         // FIXME; Symmetry says this should take a VectorE4
         let nx = mustBeNumber('n.x', n.x);
         let ny = mustBeNumber('n.y', n.y);
@@ -362,11 +362,11 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
      * </p>
      * @method rotate
      * @param spinor {SpinorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    rotate(spinor: SpinorE3): Matrix4 {
-        return this.rmul(Matrix4.rotation(spinor))
+    rotate(spinor: SpinorE3): Mat4R {
+        return this.rmul(Mat4R.rotation(spinor))
     }
 
     /**
@@ -375,10 +375,10 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
      * </p>
      * @method rotation
      * @param attitude  The spinor from which the rotation will be computed.
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    rotation(spinor: SpinorE3): Matrix4 {
+    rotation(spinor: SpinorE3): Mat4R {
         // The correspondence between quaternions and spinors is
         // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
         let x: number = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
@@ -414,10 +414,10 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
     /**
      * @method scaleXYZ
      * @param scale {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    scaleXYZ(scale: VectorE3): Matrix4 {
+    scaleXYZ(scale: VectorE3): Mat4R {
         // We treat the scale operation as pre-multiplication: 
         // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
         // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
@@ -429,22 +429,22 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
         // |m[1] m[5] m[9] m[D]| * |0 y 0 0| = |x * m[1] y * m[5] z * m[9]     m[D]|
         // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
         // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
-        return this.rmul(Matrix4.scaling(scale))
+        return this.rmul(Mat4R.scaling(scale))
     }
 
     /**
      * @method scaling
      * @param scale {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    scaling(scale: VectorE3): Matrix4 {
+    scaling(scale: VectorE3): Mat4R {
         return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
     }
 
     /**
      * @method set
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      * @private
      */
@@ -464,7 +464,7 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
         n41: number,
         n42: number,
         n43: number,
-        n44: number): Matrix4 {
+        n44: number): Mat4R {
 
         var te = this.elements;
 
@@ -508,43 +508,43 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
      * </p>
      * @method translate
      * @param displacement {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chaninable
      */
-    translate(displacement: VectorE3): Matrix4 {
-        return this.rmul(Matrix4.translation(displacement))
+    translate(displacement: VectorE3): Mat4R {
+        return this.rmul(Mat4R.translation(displacement))
     }
 
     /**
      * @method translation
      * @param displacement {VectorE3}
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chaninable
      */
-    translation(displacement: VectorE3): Matrix4 {
+    translation(displacement: VectorE3): Mat4R {
         return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
     }
 
     /**
      * Sets this matrix to the identity element for addition, <b>0</b>.
      * @method zero
-     * @return {Matrix4}
+     * @return {Mat4R}
      * @chainable
      */
-    zero(): Matrix4 {
+    zero(): Mat4R {
         return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     /**
      * @method __mul__
-     * @param rhs {Matrix4|number}
-     * @return {Matrix4}
+     * @param rhs {Mat4R|number}
+     * @return {Mat4R}
      * @chainable
      * @private
      */
-    private __mul__(rhs: Matrix4 | number): Matrix4 {
-        if (rhs instanceof Matrix4) {
-            return Matrix4.one().mul2(this, rhs)
+    private __mul__(rhs: Mat4R | number): Mat4R {
+        if (rhs instanceof Mat4R) {
+            return Mat4R.one().mul2(this, rhs)
         }
         else if (typeof rhs === 'number') {
             return this.clone().scale(rhs)
@@ -556,14 +556,14 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
 
     /**
      * @method __rmul__
-     * @param lhs {Matrix4|number}
-     * @return {Matrix4}
+     * @param lhs {Mat4R|number}
+     * @return {Mat4R}
      * @chainable
      * @private
      */
-    private __rmul__(lhs: Matrix4 | number): Matrix4 {
-        if (lhs instanceof Matrix4) {
-            return Matrix4.one().mul2(lhs, this)
+    private __rmul__(lhs: Mat4R | number): Mat4R {
+        if (lhs instanceof Mat4R) {
+            return Mat4R.one().mul2(lhs, this)
         }
         else if (typeof lhs === 'number') {
             return this.clone().scale(lhs)
@@ -574,4 +574,4 @@ class Matrix4 extends AbstractMatrix<Matrix4> implements Matrix<Matrix4, VectorE
     }
 }
 
-export = Matrix4;
+export = Mat4R;

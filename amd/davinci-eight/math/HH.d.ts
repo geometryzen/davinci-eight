@@ -1,5 +1,5 @@
 import MutableGeometricElement3D = require('../math/MutableGeometricElement3D');
-import Matrix4 = require('../math/Matrix4');
+import Mat4R = require('../math/Mat4R');
 import TrigMethods = require('../math/TrigMethods');
 import VectorE3 = require('../math/VectorE3');
 declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods<HH> {
@@ -59,7 +59,7 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     rotorFromDirections(a: VectorE3, b: VectorE3): HH;
     rotorFromAxisAngle(axis: VectorE3, θ: number): HH;
     rotorFromGeneratorAngle(B: HH, θ: number): HH;
-    setFromRotationMatrix(m: Matrix4): HH;
+    setFromRotationMatrix(m: Mat4R): HH;
     spinor(a: VectorE3, b: VectorE3): HH;
     slerp(qb: HH, t: number): HH;
     scp(rhs: HH): HH;
