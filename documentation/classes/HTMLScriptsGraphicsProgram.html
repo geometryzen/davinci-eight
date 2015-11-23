@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.163.0</em>
+            <em>API Docs for: 2.164.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -136,7 +136,7 @@
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
-                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Path.html">Path</a></li>
@@ -440,19 +440,19 @@
 
                             </li>
                             <li class="index-item method inherited">
-                                <a href="#method_uniformVectorE2">uniformVectorE2</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_uniformVectorE3">uniformVectorE3</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_uniformVectorE4">uniformVectorE4</a>
-
-                            </li>
-                            <li class="index-item method inherited">
                                 <a href="#method_use">use</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_vec2">vec2</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_vec3">vec3</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_vec4">vec4</a>
 
                             </li>
                             <li class="index-item method inherited">
@@ -1982,8 +1982,73 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="method_uniformVectorE2" class="method item inherited">
-    <h3 class="name"><code>uniformVectorE2</code></h3>
+<div id="method_use" class="method item inherited">
+    <h3 class="name"><code>use</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/GraphicsProgram.html#method_use">GraphicsProgram</a>:
+        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:126</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Makes the WebGLProgram associated with the specified canvas the current program for WebGL.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>Determines which WebGLProgram to use.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_vec2" class="method item inherited">
+    <h3 class="name"><code>vec2</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -2011,7 +2076,7 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/GraphicsProgram.html#method_uniformVectorE2">GraphicsProgram</a>:
+                <a href="../classes/GraphicsProgram.html#method_vec2">GraphicsProgram</a>:
         <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l479"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:479</code></a>
         </p>
 
@@ -2072,8 +2137,8 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="method_uniformVectorE3" class="method item inherited">
-    <h3 class="name"><code>uniformVectorE3</code></h3>
+<div id="method_vec3" class="method item inherited">
+    <h3 class="name"><code>vec3</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -2101,7 +2166,7 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/GraphicsProgram.html#method_uniformVectorE3">GraphicsProgram</a>:
+                <a href="../classes/GraphicsProgram.html#method_vec3">GraphicsProgram</a>:
         <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l505"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:505</code></a>
         </p>
 
@@ -2162,8 +2227,8 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
-<div id="method_uniformVectorE4" class="method item inherited">
-    <h3 class="name"><code>uniformVectorE4</code></h3>
+<div id="method_vec4" class="method item inherited">
+    <h3 class="name"><code>vec4</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -2191,7 +2256,7 @@ Notifies this instance that something is dereferencing it.
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/GraphicsProgram.html#method_uniformVectorE4">GraphicsProgram</a>:
+                <a href="../classes/GraphicsProgram.html#method_vec4">GraphicsProgram</a>:
         <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l531"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:531</code></a>
         </p>
 
@@ -2227,71 +2292,6 @@ Notifies this instance that something is dereferencing it.
                     </div>
 
                 </li>
-                <li class="param">
-                        <code class="param-name optional">[canvasId]</code>
-                        <span class="type">Number</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <p>Determines which WebGLProgram to use.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_use" class="method item inherited">
-    <h3 class="name"><code>use</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code class="optional">[canvasId]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/GraphicsProgram.html#method_use">GraphicsProgram</a>:
-        <a href="../files/src_davinci-eight_materials_GraphicsProgram.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;materials&#x2F;GraphicsProgram.ts:126</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Makes the WebGLProgram associated with the specified canvas the current program for WebGL.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
                 <li class="param">
                         <code class="param-name optional">[canvasId]</code>
                         <span class="type">Number</span>

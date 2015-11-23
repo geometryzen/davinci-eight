@@ -75,29 +75,29 @@ interface IFacetVisitor {
      */
     mat4(name: string, matrix: Mat4R, transpose?: boolean, canvasId?: number): void;
     /**
-     * @method uniformVectorE2
+     * @method vec2
      * @param name {string}
      * @param vector {VectorE2}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE2(name: string, vector: VectorE2, canvasId?: number): void;
+    vec2(name: string, vector: VectorE2, canvasId?: number): void;
     /**
-     * @method uniformVectorE3
+     * @method vec3
      * @param name {string}
      * @param vector {VectorE3}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE3(name: string, vector: VectorE3, canvasId?: number): void;
+    vec3(name: string, vector: VectorE3, canvasId?: number): void;
     /**
-     * @method uniformVectorE4
+     * @method vec4
      * @param name {string}
      * @param vector {VectorE4}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE4(name: string, vector: VectorE4, canvasId?: number): void;
+    vec4(name: string, vector: VectorE4, canvasId?: number): void;
     /**
      * @method vector2
      * @param name {string}

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.163.0</em>
+            <em>API Docs for: 2.164.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -136,7 +136,7 @@
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
-                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Path.html">Path</a></li>
@@ -257,75 +257,133 @@ import Shareable = require(&#x27;../utils/Shareable&#x27;)
 let LOGGING_NAME = &#x27;NumberIUnknownMap&#x27;;
 
 /**
- * @class NumberIUnknownMap&lt;V&gt;
+ * @class NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;
+ * @extends Shareable
  */
 class NumberIUnknownMap&lt;V extends IUnknown&gt; extends Shareable implements IUnknown {
-  private _elements: { [key: number]: V } = {};
-  /**
-   * @class NumberIUnknownMap&lt;V&gt;
-   * @constructor
-   */
-  constructor() {
-    super(LOGGING_NAME)
-  }
-  protected destructor(): void {
-    let self = this;
-    this.forEach(function(key, value) {
-      if (value) {
-          value.release()
+
+    /**
+     * @property _elements
+     * @private
+     */
+    private _elements: { [key: number]: V } = {};
+
+    /**
+     * @class NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;
+     * @constructor
+     */
+    constructor() {
+        super(LOGGING_NAME)
+    }
+
+    /**
+     * @property destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        let self = this;
+        this.forEach(function(key, value) {
+            if (value) {
+                value.release()
+            }
+        });
+        this._elements = void 0
+    }
+
+    /**
+     * @method exists
+     * @param {number}
+     * @return {boolean}
+     */
+    exists(key: number): boolean {
+        let element = this._elements[key]
+        return element ? true : false
+    }
+
+    /**
+     * @method get
+     * @param key {number}
+     * @return {V}
+     */
+    get(key: number): V {
+        let element = this.getWeakRef(key)
+        if (element) {
+            element.addRef()
         }
-      });
-      this._elements = void 0;
-  }
-  exists(key: number): boolean {
-    let element = this._elements[key];
-    return element ? true : false;
-  }
-  get(key: number): V {
-    let element = this.getWeakRef(key)
-    if (element) {
-      element.addRef()
+        return element
     }
-    return element;
-  }
-  // FIXME
-  /*private*/ getWeakRef(index: number): V {
-    return this._elements[index]
-  }
-  put(key: number, value: V): void {
-    if (value) {
-      value.addRef()
+
+    /**
+     * @method getWeakRef
+     * @param key {number}
+     * @return {V}
+     */
+    getWeakRef(index: number): V {
+        return this._elements[index]
     }
-    this.putWeakRef(key, value)
-  }
-  // FIXME
-  /*private*/ putWeakRef(key: number, value: V): void {
-    var elements = this._elements
-    var existing = elements[key]
-    if (existing) {
-      existing.release()
+
+    /**
+     * @method put
+     * @param key {number}
+     * @param value {V}
+     * @return {void}
+     */
+    put(key: number, value: V): void {
+        if (value) {
+            value.addRef()
+        }
+        this.putWeakRef(key, value)
     }
-    elements[key] = value
-  }
-  forEach(callback: (key: number, value: V) =&gt; void) {
-    let keys: number[] = this.keys;
-    var i: number;
-    let length: number = keys.length;
-    for (i = 0; i &lt; length; i++) {
-      let key: number = keys[i];
-      let value = this._elements[key];
-      callback(key, value);
+
+    /**
+     * @method putWeakRef
+     * @param key {number}
+     * @param value {V}
+     * @return {void}
+     */
+    putWeakRef(key: number, value: V): void {
+        var elements = this._elements
+        var existing = elements[key]
+        if (existing) {
+            existing.release()
+        }
+        elements[key] = value
     }
-  }
-  get keys(): number[] {
-    // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
-    return Object.keys(this._elements).map(function(keyString){return parseFloat(keyString)});
-  }
-  remove(key: number): void {
-    // Strong or Weak doesn&#x27;t matter because the value is &#x60;undefined&#x60;.
-    this.put(key, void 0);
-    delete this._elements[key];
-  }
+
+    /**
+     * @method forEach
+     * @param callback {(key: number, value: V) =&gt; void}
+     * @return {void}
+     */
+    forEach(callback: (key: number, value: V) =&gt; void) {
+        let keys: number[] = this.keys
+        for (var i = 0, iLength = keys.length; i &lt; iLength; i++) {
+            let key: number = keys[i]
+            let value = this._elements[key]
+            callback(key, value)
+        }
+    }
+
+    /**
+     * @property keys
+     * @type {number[]}
+     */
+    get keys(): number[] {
+        // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
+        return Object.keys(this._elements).map(function(keyString) { return parseFloat(keyString) })
+    }
+
+    /**
+     * @method remove
+     * @param key {number}
+     * @return {void}
+     */
+    remove(key: number): void {
+        // Strong or Weak doesn&#x27;t matter because the value is &#x60;undefined&#x60;.
+        this.put(key, void 0)
+        delete this._elements[key]
+    }
 }
 
 export = NumberIUnknownMap;

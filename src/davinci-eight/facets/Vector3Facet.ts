@@ -37,7 +37,7 @@ class Vector3Facet extends Shareable implements IFacet {
   setProperty(name:string, value: number[]): void {
   }
   setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
-    visitor.uniformVectorE3(this._name, this._vector, canvasId)
+    visitor.vec3(this._name, this._vector, canvasId)
   }
 }
 

@@ -11947,7 +11947,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-11-22',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.163.0'
+        VERSION: '2.164.0'
     };
     return core;
 });
@@ -12042,45 +12042,54 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
             this._program = void 0;
         };
         /**
-         * @method cartesian1
+         * Calls <code>uniform1f</code> on the underlying <code>WebGLUniformLocation</code>.
+         * @method vec1
          * @param coords {VectorE1}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.cartesian1 = function (coords) {
-            this._context.useProgram(this._program);
+        UniformLocation.prototype.vec1 = function (coords) {
             this._context.uniform1f(this._location, coords.x);
+            return this;
         };
         /**
-         * @method cartesian2
+         * Calls <code>uniform2f</code> on the underlying <code>WebGLUniformLocation</code>.
+         * @method vec2
          * @param coords {VectorE2}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.cartesian2 = function (coords) {
-            this._context.useProgram(this._program);
+        UniformLocation.prototype.vec2 = function (coords) {
             this._context.uniform2f(this._location, coords.x, coords.y);
+            return this;
         };
         /**
-         * @method cartesian3
+         * Calls <code>uniform3f</code> on the underlying <code>WebGLUniformLocation</code>.
+         * @method vec3
          * @param coords {VectorE3}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.cartesian3 = function (coords) {
-            if (coords) {
-                this._context.useProgram(this._program);
-                this._context.uniform3f(this._location, coords.x, coords.y, coords.z);
-            }
+        UniformLocation.prototype.vec3 = function (coords) {
+            this._context.uniform3f(this._location, coords.x, coords.y, coords.z);
+            return this;
         };
         /**
-         * @method cartesian4
+         * Calls <code>uniform4f</code> on the underlying <code>WebGLUniformLocation</code>.
+         * @method vec4
          * @param coords {VectorE4}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.cartesian4 = function (coords) {
-            this._context.useProgram(this._program);
+        UniformLocation.prototype.vec4 = function (coords) {
             this._context.uniform4f(this._location, coords.x, coords.y, coords.z, coords.w);
+            return this;
         };
         /**
          * @method uniform1f
          * @param x {number}
          */
         UniformLocation.prototype.uniform1f = function (x) {
-            this._context.useProgram(this._program);
             this._context.uniform1f(this._location, x);
         };
         /**
@@ -12089,7 +12098,6 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @param y {number}
          */
         UniformLocation.prototype.uniform2f = function (x, y) {
-            this._context.useProgram(this._program);
             this._context.uniform2f(this._location, x, y);
         };
         /**
@@ -12099,7 +12107,6 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @param z {number}
          */
         UniformLocation.prototype.uniform3f = function (x, y, z) {
-            this._context.useProgram(this._program);
             this._context.uniform3f(this._location, x, y, z);
         };
         /**
@@ -12110,17 +12117,7 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @param w {number}
          */
         UniformLocation.prototype.uniform4f = function (x, y, z, w) {
-            this._context.useProgram(this._program);
             this._context.uniform4f(this._location, x, y, z, w);
-        };
-        /**
-         * @method matrix1
-         * @param transpose {boolean}
-         * @param matrix {R1}
-         */
-        UniformLocation.prototype.matrix1 = function (transpose, matrix) {
-            this._context.useProgram(this._program);
-            this._context.uniform1fv(this._location, matrix.coords);
         };
         /**
          * Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.
@@ -12132,7 +12129,6 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          */
         UniformLocation.prototype.mat2 = function (matrix, transpose) {
             if (transpose === void 0) { transpose = false; }
-            this._context.useProgram(this._program);
             this._context.uniformMatrix2fv(this._location, transpose, matrix.elements);
             return this;
         };
@@ -12146,7 +12142,6 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          */
         UniformLocation.prototype.mat3 = function (matrix, transpose) {
             if (transpose === void 0) { transpose = false; }
-            this._context.useProgram(this._program);
             this._context.uniformMatrix3fv(this._location, transpose, matrix.elements);
             return this;
         };
@@ -12160,7 +12155,6 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          */
         UniformLocation.prototype.mat4 = function (matrix, transpose) {
             if (transpose === void 0) { transpose = false; }
-            this._context.useProgram(this._program);
             this._context.uniformMatrix4fv(this._location, transpose, matrix.elements);
             return this;
         };
@@ -12169,7 +12163,6 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @param data {Array<number> | Float32Array}
          */
         UniformLocation.prototype.vector2 = function (data) {
-            this._context.useProgram(this._program);
             this._context.uniform2fv(this._location, data);
         };
         /**
@@ -12177,7 +12170,6 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @param data {number[]}
          */
         UniformLocation.prototype.vector3 = function (data) {
-            this._context.useProgram(this._program);
             this._context.uniform3fv(this._location, data);
         };
         /**
@@ -12185,7 +12177,6 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @param data {number[]}
          */
         UniformLocation.prototype.vector4 = function (data) {
-            this._context.useProgram(this._program);
             this._context.uniform4fv(this._location, data);
         };
         /**
@@ -15262,18 +15253,28 @@ define('davinci-eight/collections/NumberIUnknownMap',["require", "exports", '../
     // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
     var LOGGING_NAME = 'NumberIUnknownMap';
     /**
-     * @class NumberIUnknownMap<V>
+     * @class NumberIUnknownMap&lt;V extends IUnknown&gt;
+     * @extends Shareable
      */
     var NumberIUnknownMap = (function (_super) {
         __extends(NumberIUnknownMap, _super);
         /**
-         * @class NumberIUnknownMap<V>
+         * @class NumberIUnknownMap&lt;V extends IUnknown&gt;
          * @constructor
          */
         function NumberIUnknownMap() {
             _super.call(this, LOGGING_NAME);
+            /**
+             * @property _elements
+             * @private
+             */
             this._elements = {};
         }
+        /**
+         * @property destructor
+         * @return {void}
+         * @protected
+         */
         NumberIUnknownMap.prototype.destructor = function () {
             var self = this;
             this.forEach(function (key, value) {
@@ -15283,10 +15284,20 @@ define('davinci-eight/collections/NumberIUnknownMap',["require", "exports", '../
             });
             this._elements = void 0;
         };
+        /**
+         * @method exists
+         * @param {number}
+         * @return {boolean}
+         */
         NumberIUnknownMap.prototype.exists = function (key) {
             var element = this._elements[key];
             return element ? true : false;
         };
+        /**
+         * @method get
+         * @param key {number}
+         * @return {V}
+         */
         NumberIUnknownMap.prototype.get = function (key) {
             var element = this.getWeakRef(key);
             if (element) {
@@ -15294,18 +15305,33 @@ define('davinci-eight/collections/NumberIUnknownMap',["require", "exports", '../
             }
             return element;
         };
-        // FIXME
-        /*private*/ NumberIUnknownMap.prototype.getWeakRef = function (index) {
+        /**
+         * @method getWeakRef
+         * @param key {number}
+         * @return {V}
+         */
+        NumberIUnknownMap.prototype.getWeakRef = function (index) {
             return this._elements[index];
         };
+        /**
+         * @method put
+         * @param key {number}
+         * @param value {V}
+         * @return {void}
+         */
         NumberIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
             }
             this.putWeakRef(key, value);
         };
-        // FIXME
-        /*private*/ NumberIUnknownMap.prototype.putWeakRef = function (key, value) {
+        /**
+         * @method putWeakRef
+         * @param key {number}
+         * @param value {V}
+         * @return {void}
+         */
+        NumberIUnknownMap.prototype.putWeakRef = function (key, value) {
             var elements = this._elements;
             var existing = elements[key];
             if (existing) {
@@ -15313,17 +15339,24 @@ define('davinci-eight/collections/NumberIUnknownMap',["require", "exports", '../
             }
             elements[key] = value;
         };
+        /**
+         * @method forEach
+         * @param callback {(key: number, value: V) => void}
+         * @return {void}
+         */
         NumberIUnknownMap.prototype.forEach = function (callback) {
             var keys = this.keys;
-            var i;
-            var length = keys.length;
-            for (i = 0; i < length; i++) {
+            for (var i = 0, iLength = keys.length; i < iLength; i++) {
                 var key = keys[i];
                 var value = this._elements[key];
                 callback(key, value);
             }
         };
         Object.defineProperty(NumberIUnknownMap.prototype, "keys", {
+            /**
+             * @property keys
+             * @type {number[]}
+             */
             get: function () {
                 // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
                 return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
@@ -15331,6 +15364,11 @@ define('davinci-eight/collections/NumberIUnknownMap',["require", "exports", '../
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method remove
+         * @param key {number}
+         * @return {void}
+         */
         NumberIUnknownMap.prototype.remove = function (key) {
             // Strong or Weak doesn't matter because the value is `undefined`.
             this.put(key, void 0);
@@ -21102,7 +21140,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                     }
                 }
             },
-            uniformVectorE2: function (name, vector, canvasId) {
+            vec2: function (name, vector, canvasId) {
                 if (canvasId === void 0) { canvasId = DEFAULT_CANVAS_ID; }
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
@@ -21110,11 +21148,11 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.cartesian2(vector);
+                        uniformLoc.vec2(vector);
                     }
                 }
             },
-            uniformVectorE3: function (name, vector, canvasId) {
+            vec3: function (name, vector, canvasId) {
                 if (canvasId === void 0) { canvasId = DEFAULT_CANVAS_ID; }
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
@@ -21122,11 +21160,11 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.cartesian3(vector);
+                        uniformLoc.vec3(vector);
                     }
                 }
             },
-            uniformVectorE4: function (name, vector, canvasId) {
+            vec4: function (name, vector, canvasId) {
                 if (canvasId === void 0) { canvasId = DEFAULT_CANVAS_ID; }
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
@@ -21134,7 +21172,7 @@ define('davinci-eight/programs/createGraphicsProgram',["require", "exports", '..
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.cartesian4(vector);
+                        uniformLoc.vec4(vector);
                     }
                 }
             },
@@ -21563,14 +21601,14 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/Mo
             mat4: function (name, matrix, transpose, canvasId) {
                 return innerProgram.mat4(name, matrix, transpose, canvasId);
             },
-            uniformVectorE2: function (name, vector, canvasId) {
-                return innerProgram.uniformVectorE2(name, vector, canvasId);
+            vec2: function (name, vector, canvasId) {
+                return innerProgram.vec2(name, vector, canvasId);
             },
-            uniformVectorE3: function (name, vector, canvasId) {
-                return innerProgram.uniformVectorE3(name, vector, canvasId);
+            vec3: function (name, vector, canvasId) {
+                return innerProgram.vec3(name, vector, canvasId);
             },
-            uniformVectorE4: function (name, vector, canvasId) {
-                return innerProgram.uniformVectorE4(name, vector, canvasId);
+            vec4: function (name, vector, canvasId) {
+                return innerProgram.vec4(name, vector, canvasId);
             },
             vector2: function (name, data, canvasId) {
                 return innerProgram.vector2(name, data, canvasId);
@@ -22057,22 +22095,22 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
             }
         };
         /**
-         * @method uniformVectorE2
+         * @method vec2
          * @param name {string}
          * @param vector {VectorE2}
          * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
-        GraphicsProgram.prototype.uniformVectorE2 = function (name, vector, canvasId) {
+        GraphicsProgram.prototype.vec2 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVectorE2(name, vector, canvasId);
+                this.inner.vec2(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVectorE2(name, vector, canvasId);
+                    this.inner.vec2(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
@@ -22082,22 +22120,22 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
             }
         };
         /**
-         * @method uniformVectorE3
+         * @method vec3
          * @param name {string}
          * @param vector {VectorE3}
          * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
-        GraphicsProgram.prototype.uniformVectorE3 = function (name, vector, canvasId) {
+        GraphicsProgram.prototype.vec3 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVectorE3(name, vector, canvasId);
+                this.inner.vec3(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVectorE3(name, vector, canvasId);
+                    this.inner.vec3(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
@@ -22107,22 +22145,22 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
             }
         };
         /**
-         * @method uniformVectorE4
+         * @method vec4
          * @param name {string}
          * @param vector {VectorE4}
          * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
-        GraphicsProgram.prototype.uniformVectorE4 = function (name, vector, canvasId) {
+        GraphicsProgram.prototype.vec4 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVectorE4(name, vector, canvasId);
+                this.inner.vec4(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVectorE4(name, vector, canvasId);
+                    this.inner.vec4(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
@@ -22764,14 +22802,14 @@ define('davinci-eight/mappers/RoundUniform',["require", "exports"], function (re
         RoundUniform.prototype.mat4 = function (name, matrix, transpose) {
             console.warn("uniform");
         };
-        RoundUniform.prototype.uniformVectorE2 = function (name, vector) {
-            console.warn("uniformVectorE2");
+        RoundUniform.prototype.vec2 = function (name, vector) {
+            console.warn("vec2");
         };
-        RoundUniform.prototype.uniformVectorE3 = function (name, vector) {
-            console.warn("uniformVectorE3");
+        RoundUniform.prototype.vec3 = function (name, vector) {
+            console.warn("vec3");
         };
-        RoundUniform.prototype.uniformVectorE4 = function (name, vector) {
-            console.warn("uniformVectorE4");
+        RoundUniform.prototype.vec4 = function (name, vector) {
+            console.warn("vec4");
         };
         RoundUniform.prototype.vector2 = function (name, data, canvasId) {
             this._next.vector2(name, data, canvasId);
@@ -27123,7 +27161,7 @@ define('davinci-eight/facets/Vector3Facet',["require", "exports", '../checks/mus
         Vector3Facet.prototype.setProperty = function (name, value) {
         };
         Vector3Facet.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.uniformVectorE3(this._name, this._vector, canvasId);
+            visitor.vec3(this._name, this._vector, canvasId);
         };
         return Vector3Facet;
     })(Shareable);

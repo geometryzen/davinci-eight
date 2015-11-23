@@ -98,7 +98,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ModelFacetE3",
         "Mutable",
         "MutableVector",
-        "NumberIUnknownMap<V>",
+        "NumberIUnknownMap&lt;V extends IUnknown&gt;",
         "OcosahedronGeometry",
         "OctahedronSimplexGeometry",
         "Path",

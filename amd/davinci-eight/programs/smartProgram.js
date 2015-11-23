@@ -71,14 +71,14 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             mat4: function (name, matrix, transpose, canvasId) {
                 return innerProgram.mat4(name, matrix, transpose, canvasId);
             },
-            uniformVectorE2: function (name, vector, canvasId) {
-                return innerProgram.uniformVectorE2(name, vector, canvasId);
+            vec2: function (name, vector, canvasId) {
+                return innerProgram.vec2(name, vector, canvasId);
             },
-            uniformVectorE3: function (name, vector, canvasId) {
-                return innerProgram.uniformVectorE3(name, vector, canvasId);
+            vec3: function (name, vector, canvasId) {
+                return innerProgram.vec3(name, vector, canvasId);
             },
-            uniformVectorE4: function (name, vector, canvasId) {
-                return innerProgram.uniformVectorE4(name, vector, canvasId);
+            vec4: function (name, vector, canvasId) {
+                return innerProgram.vec4(name, vector, canvasId);
             },
             vector2: function (name, data, canvasId) {
                 return innerProgram.vector2(name, data, canvasId);

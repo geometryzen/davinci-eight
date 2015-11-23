@@ -433,22 +433,22 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             }
         };
         /**
-         * @method uniformVectorE2
+         * @method vec2
          * @param name {string}
          * @param vector {VectorE2}
          * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
-        GraphicsProgram.prototype.uniformVectorE2 = function (name, vector, canvasId) {
+        GraphicsProgram.prototype.vec2 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVectorE2(name, vector, canvasId);
+                this.inner.vec2(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVectorE2(name, vector, canvasId);
+                    this.inner.vec2(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
@@ -458,22 +458,22 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             }
         };
         /**
-         * @method uniformVectorE3
+         * @method vec3
          * @param name {string}
          * @param vector {VectorE3}
          * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
-        GraphicsProgram.prototype.uniformVectorE3 = function (name, vector, canvasId) {
+        GraphicsProgram.prototype.vec3 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVectorE3(name, vector, canvasId);
+                this.inner.vec3(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVectorE3(name, vector, canvasId);
+                    this.inner.vec3(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
@@ -483,22 +483,22 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             }
         };
         /**
-         * @method uniformVectorE4
+         * @method vec4
          * @param name {string}
          * @param vector {VectorE4}
          * @param [canvasId] {number} Determines which WebGLProgram to use.
          * @return {void}
          */
-        GraphicsProgram.prototype.uniformVectorE4 = function (name, vector, canvasId) {
+        GraphicsProgram.prototype.vec4 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVectorE4(name, vector, canvasId);
+                this.inner.vec4(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVectorE4(name, vector, canvasId);
+                    this.inner.vec4(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {

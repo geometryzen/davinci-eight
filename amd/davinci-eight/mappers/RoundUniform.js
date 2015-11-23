@@ -37,14 +37,14 @@ define(["require", "exports"], function (require, exports) {
         RoundUniform.prototype.mat4 = function (name, matrix, transpose) {
             console.warn("uniform");
         };
-        RoundUniform.prototype.uniformVectorE2 = function (name, vector) {
-            console.warn("uniformVectorE2");
+        RoundUniform.prototype.vec2 = function (name, vector) {
+            console.warn("vec2");
         };
-        RoundUniform.prototype.uniformVectorE3 = function (name, vector) {
-            console.warn("uniformVectorE3");
+        RoundUniform.prototype.vec3 = function (name, vector) {
+            console.warn("vec3");
         };
-        RoundUniform.prototype.uniformVectorE4 = function (name, vector) {
-            console.warn("uniformVectorE4");
+        RoundUniform.prototype.vec4 = function (name, vector) {
+            console.warn("vec4");
         };
         RoundUniform.prototype.vector2 = function (name, data, canvasId) {
             this._next.vector2(name, data, canvasId);

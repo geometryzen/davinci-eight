@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>NumberIUnknownMap&lt;V&gt; - davinci-eight</title>
+    <title>NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt; - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.163.0</em>
+            <em>API Docs for: 2.164.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -136,7 +136,7 @@
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
-                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Path.html">Path</a></li>
@@ -245,12 +245,15 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>NumberIUnknownMap&lt;V&gt; Class</h1>
+<h1>NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt; Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:13</code></a>
+            Defined in: <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:20</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -264,8 +267,8 @@
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_NumberIUnknownMap&lt;V&gt;" class="method item">
-    <h3 class="name"><code>NumberIUnknownMap&lt;V&gt;</code></h3>
+<div id="method_NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;" class="method item">
+    <h3 class="name"><code>NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</code></h3>
 
         <span class="paren">()</span>
 
@@ -279,7 +282,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:13</code></a>
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:20</code></a>
         </p>
 
 
@@ -300,18 +303,795 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
 
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_destructor">destructor</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_exists">exists</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_forEach">forEach</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_get">get</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getWeakRef">getWeakRef</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_put">put</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_putWeakRef">putWeakRef</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_remove">remove</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property__elements">_elements</a>
+
+                            </li>
+                            <li class="index-item property protected">
+                                <a href="#property_destructor">destructor</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_keys">keys</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:24</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+<div id="method_destructor" class="method item protected inherited">
+    <h3 class="name"><code>destructor</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#method_destructor">Shareable</a>:
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:58</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Outputs a warning to the console that this method should be implemented by the derived class.
+</p>
+<p>
+<em>This method should be implemented by derived classes.</em>
+</p>
+<p>
+<em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_exists" class="method item">
+    <h3 class="name"><code>exists</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>UNKNOWN</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:43</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">UNKNOWN</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_forEach" class="method item">
+    <h3 class="name"><code>forEach</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>callback</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l103"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:103</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">callback</code>
+                        <span class="type">(key: number, value: V) => void</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_get" class="method item">
+    <h3 class="name"><code>get</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>key</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">V</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:53</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">key</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">V</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getWeakRef" class="method item">
+    <h3 class="name"><code>getWeakRef</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>key</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">V</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:66</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">key</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">V</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_put" class="method item">
+    <h3 class="name"><code>put</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>key</code>
+                </li>
+                <li class="arg">
+                        <code>value</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l75"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:75</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">key</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">value</code>
+                        <span class="type">V</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_putWeakRef" class="method item">
+    <h3 class="name"><code>putWeakRef</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>key</code>
+                </li>
+                <li class="arg">
+                        <code>value</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:88</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">key</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">value</code>
+                        <span class="type">V</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:37</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+<div id="method_remove" class="method item">
+    <h3 class="name"><code>remove</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>key</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:126</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">key</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property__elements" class="property item private">
+    <h3 class="name"><code>_elements</code></h3>
+    <span class="type">Unknown</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:14</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_destructor" class="property item protected">
+    <h3 class="name"><code>destructor</code></h3>
+    <span class="type">Unknown</span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:28</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_keys" class="property item">
+    <h3 class="name"><code>keys</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_collections_NumberIUnknownMap.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;collections&#x2F;NumberIUnknownMap.ts:117</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:77</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+            </div>
 
 
     </div>

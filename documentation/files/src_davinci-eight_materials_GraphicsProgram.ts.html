@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.163.0</em>
+            <em>API Docs for: 2.164.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -136,7 +136,7 @@
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
-                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Path.html">Path</a></li>
@@ -728,22 +728,22 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     }
 
     /**
-     * @method uniformVectorE2
+     * @method vec2
      * @param name {string}
      * @param vector {VectorE2}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE2(name: string, vector: VectorE2, canvasId?: number): void {
+    vec2(name: string, vector: VectorE2, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformVectorE2(name, vector, canvasId)
+            this.inner.vec2(name, vector, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformVectorE2(name, vector, canvasId)
+                this.inner.vec2(name, vector, canvasId)
             }
             else {
                 if (!readyPending) {
@@ -754,22 +754,22 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     }
 
     /**
-     * @method uniformVectorE3
+     * @method vec3
      * @param name {string}
      * @param vector {VectorE3}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE3(name: string, vector: VectorE3, canvasId?: number): void {
+    vec3(name: string, vector: VectorE3, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformVectorE3(name, vector, canvasId)
+            this.inner.vec3(name, vector, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformVectorE3(name, vector, canvasId)
+                this.inner.vec3(name, vector, canvasId)
             }
             else {
                 if (!readyPending) {
@@ -780,22 +780,22 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     }
 
     /**
-     * @method uniformVectorE4
+     * @method vec4
      * @param name {string}
      * @param vector {VectorE4}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE4(name: string, vector: VectorE4, canvasId?: number): void {
+    vec4(name: string, vector: VectorE4, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformVectorE4(name, vector, canvasId)
+            this.inner.vec4(name, vector, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformVectorE4(name, vector, canvasId)
+                this.inner.vec4(name, vector, canvasId)
             }
             else {
                 if (!readyPending) {

@@ -226,7 +226,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                     }
                 }
             },
-            uniformVectorE2: function (name, vector, canvasId) {
+            vec2: function (name, vector, canvasId) {
                 if (canvasId === void 0) { canvasId = DEFAULT_CANVAS_ID; }
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
@@ -234,11 +234,11 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.cartesian2(vector);
+                        uniformLoc.vec2(vector);
                     }
                 }
             },
-            uniformVectorE3: function (name, vector, canvasId) {
+            vec3: function (name, vector, canvasId) {
                 if (canvasId === void 0) { canvasId = DEFAULT_CANVAS_ID; }
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
@@ -246,11 +246,11 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.cartesian3(vector);
+                        uniformLoc.vec3(vector);
                     }
                 }
             },
-            uniformVectorE4: function (name, vector, canvasId) {
+            vec4: function (name, vector, canvasId) {
                 if (canvasId === void 0) { canvasId = DEFAULT_CANVAS_ID; }
                 mustBeString('name', name);
                 mustBeInteger('canvasId', canvasId);
@@ -258,7 +258,7 @@ define(["require", "exports", '../scene/MonitorList', '../collections/NumberIUnk
                 if (program) {
                     var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
-                        uniformLoc.cartesian4(vector);
+                        uniformLoc.vec4(vector);
                     }
                 }
             },

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.163.0</em>
+            <em>API Docs for: 2.164.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -136,7 +136,7 @@
                                 <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
-                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
                                 <li><a href="../classes/OcosahedronGeometry.html">OcosahedronGeometry</a></li>
                                 <li><a href="../classes/OctahedronSimplexGeometry.html">OctahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Path.html">Path</a></li>
@@ -503,36 +503,36 @@ let createGraphicsProgram = function(monitors: IContextMonitor[], vertexShader: 
         }
       }
     },
-    uniformVectorE2(name: string, vector: VectorE2, canvasId: number = DEFAULT_CANVAS_ID) {
+    vec2(name: string, vector: VectorE2, canvasId: number = DEFAULT_CANVAS_ID) {
       mustBeString(&#x27;name&#x27;, name)
       mustBeInteger(&#x27;canvasId&#x27;, canvasId)
       let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.cartesian2(vector)
+          uniformLoc.vec2(vector)
         }
       }
     },
-    uniformVectorE3(name: string, vector: VectorE3, canvasId: number = DEFAULT_CANVAS_ID) {
+    vec3(name: string, vector: VectorE3, canvasId: number = DEFAULT_CANVAS_ID) {
       mustBeString(&#x27;name&#x27;, name)
       mustBeInteger(&#x27;canvasId&#x27;, canvasId)
       let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.cartesian3(vector)
+          uniformLoc.vec3(vector)
         }
       }
     },
-    uniformVectorE4(name: string, vector: VectorE4, canvasId: number = DEFAULT_CANVAS_ID): void {
+    vec4(name: string, vector: VectorE4, canvasId: number = DEFAULT_CANVAS_ID): void {
       mustBeString(&#x27;name&#x27;, name)
       mustBeInteger(&#x27;canvasId&#x27;, canvasId)
       let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.cartesian4(vector)
+          uniformLoc.vec4(vector)
         }
       }
     },

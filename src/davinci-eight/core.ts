@@ -9,7 +9,7 @@ var core =
         LAST_MODIFIED: '2015-11-22',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.163.0'
+        VERSION: '2.164.0'
     };
 
 export = core;

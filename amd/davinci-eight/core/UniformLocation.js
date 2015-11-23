@@ -42,45 +42,54 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             this._program = void 0;
         };
         /**
-         * @method cartesian1
+         * Calls <code>uniform1f</code> on the underlying <code>WebGLUniformLocation</code>.
+         * @method vec1
          * @param coords {VectorE1}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.cartesian1 = function (coords) {
-            this._context.useProgram(this._program);
+        UniformLocation.prototype.vec1 = function (coords) {
             this._context.uniform1f(this._location, coords.x);
+            return this;
         };
         /**
-         * @method cartesian2
+         * Calls <code>uniform2f</code> on the underlying <code>WebGLUniformLocation</code>.
+         * @method vec2
          * @param coords {VectorE2}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.cartesian2 = function (coords) {
-            this._context.useProgram(this._program);
+        UniformLocation.prototype.vec2 = function (coords) {
             this._context.uniform2f(this._location, coords.x, coords.y);
+            return this;
         };
         /**
-         * @method cartesian3
+         * Calls <code>uniform3f</code> on the underlying <code>WebGLUniformLocation</code>.
+         * @method vec3
          * @param coords {VectorE3}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.cartesian3 = function (coords) {
-            if (coords) {
-                this._context.useProgram(this._program);
-                this._context.uniform3f(this._location, coords.x, coords.y, coords.z);
-            }
+        UniformLocation.prototype.vec3 = function (coords) {
+            this._context.uniform3f(this._location, coords.x, coords.y, coords.z);
+            return this;
         };
         /**
-         * @method cartesian4
+         * Calls <code>uniform4f</code> on the underlying <code>WebGLUniformLocation</code>.
+         * @method vec4
          * @param coords {VectorE4}
+         * @return {UniformLocation}
+         * @chainable
          */
-        UniformLocation.prototype.cartesian4 = function (coords) {
-            this._context.useProgram(this._program);
+        UniformLocation.prototype.vec4 = function (coords) {
             this._context.uniform4f(this._location, coords.x, coords.y, coords.z, coords.w);
+            return this;
         };
         /**
          * @method uniform1f
          * @param x {number}
          */
         UniformLocation.prototype.uniform1f = function (x) {
-            this._context.useProgram(this._program);
             this._context.uniform1f(this._location, x);
         };
         /**
@@ -89,7 +98,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param y {number}
          */
         UniformLocation.prototype.uniform2f = function (x, y) {
-            this._context.useProgram(this._program);
             this._context.uniform2f(this._location, x, y);
         };
         /**
@@ -99,7 +107,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param z {number}
          */
         UniformLocation.prototype.uniform3f = function (x, y, z) {
-            this._context.useProgram(this._program);
             this._context.uniform3f(this._location, x, y, z);
         };
         /**
@@ -110,17 +117,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param w {number}
          */
         UniformLocation.prototype.uniform4f = function (x, y, z, w) {
-            this._context.useProgram(this._program);
             this._context.uniform4f(this._location, x, y, z, w);
-        };
-        /**
-         * @method matrix1
-         * @param transpose {boolean}
-         * @param matrix {R1}
-         */
-        UniformLocation.prototype.matrix1 = function (transpose, matrix) {
-            this._context.useProgram(this._program);
-            this._context.uniform1fv(this._location, matrix.coords);
         };
         /**
          * Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.
@@ -132,7 +129,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.mat2 = function (matrix, transpose) {
             if (transpose === void 0) { transpose = false; }
-            this._context.useProgram(this._program);
             this._context.uniformMatrix2fv(this._location, transpose, matrix.elements);
             return this;
         };
@@ -146,7 +142,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.mat3 = function (matrix, transpose) {
             if (transpose === void 0) { transpose = false; }
-            this._context.useProgram(this._program);
             this._context.uniformMatrix3fv(this._location, transpose, matrix.elements);
             return this;
         };
@@ -160,7 +155,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.mat4 = function (matrix, transpose) {
             if (transpose === void 0) { transpose = false; }
-            this._context.useProgram(this._program);
             this._context.uniformMatrix4fv(this._location, transpose, matrix.elements);
             return this;
         };
@@ -169,7 +163,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param data {Array<number> | Float32Array}
          */
         UniformLocation.prototype.vector2 = function (data) {
-            this._context.useProgram(this._program);
             this._context.uniform2fv(this._location, data);
         };
         /**
@@ -177,7 +170,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param data {number[]}
          */
         UniformLocation.prototype.vector3 = function (data) {
-            this._context.useProgram(this._program);
             this._context.uniform3fv(this._location, data);
         };
         /**
@@ -185,7 +177,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param data {number[]}
          */
         UniformLocation.prototype.vector4 = function (data) {
-            this._context.useProgram(this._program);
             this._context.uniform4fv(this._location, data);
         };
         /**

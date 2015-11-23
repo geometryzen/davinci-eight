@@ -477,22 +477,22 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     }
 
     /**
-     * @method uniformVectorE2
+     * @method vec2
      * @param name {string}
      * @param vector {VectorE2}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE2(name: string, vector: VectorE2, canvasId?: number): void {
+    vec2(name: string, vector: VectorE2, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformVectorE2(name, vector, canvasId)
+            this.inner.vec2(name, vector, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformVectorE2(name, vector, canvasId)
+                this.inner.vec2(name, vector, canvasId)
             }
             else {
                 if (!readyPending) {
@@ -503,22 +503,22 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     }
 
     /**
-     * @method uniformVectorE3
+     * @method vec3
      * @param name {string}
      * @param vector {VectorE3}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE3(name: string, vector: VectorE3, canvasId?: number): void {
+    vec3(name: string, vector: VectorE3, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformVectorE3(name, vector, canvasId)
+            this.inner.vec3(name, vector, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformVectorE3(name, vector, canvasId)
+                this.inner.vec3(name, vector, canvasId)
             }
             else {
                 if (!readyPending) {
@@ -529,22 +529,22 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
     }
 
     /**
-     * @method uniformVectorE4
+     * @method vec4
      * @param name {string}
      * @param vector {VectorE4}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniformVectorE4(name: string, vector: VectorE4, canvasId?: number): void {
+    vec4(name: string, vector: VectorE4, canvasId?: number): void {
         if (this.inner) {
-            this.inner.uniformVectorE4(name, vector, canvasId)
+            this.inner.vec4(name, vector, canvasId)
         }
         else {
             let async = false
             let readyPending = this.readyPending
             this.makeReady(async)
             if (this.inner) {
-                this.inner.uniformVectorE4(name, vector, canvasId)
+                this.inner.vec4(name, vector, canvasId)
             }
             else {
                 if (!readyPending) {

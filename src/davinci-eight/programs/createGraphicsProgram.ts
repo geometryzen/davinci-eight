@@ -252,36 +252,36 @@ let createGraphicsProgram = function(monitors: IContextMonitor[], vertexShader: 
         }
       }
     },
-    uniformVectorE2(name: string, vector: VectorE2, canvasId: number = DEFAULT_CANVAS_ID) {
+    vec2(name: string, vector: VectorE2, canvasId: number = DEFAULT_CANVAS_ID) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.cartesian2(vector)
+          uniformLoc.vec2(vector)
         }
       }
     },
-    uniformVectorE3(name: string, vector: VectorE3, canvasId: number = DEFAULT_CANVAS_ID) {
+    vec3(name: string, vector: VectorE3, canvasId: number = DEFAULT_CANVAS_ID) {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.cartesian3(vector)
+          uniformLoc.vec3(vector)
         }
       }
     },
-    uniformVectorE4(name: string, vector: VectorE4, canvasId: number = DEFAULT_CANVAS_ID): void {
+    vec4(name: string, vector: VectorE4, canvasId: number = DEFAULT_CANVAS_ID): void {
       mustBeString('name', name)
       mustBeInteger('canvasId', canvasId)
       let program = programsByCanvasId.getWeakRef(canvasId)
       if (program) {
         let uniformLoc = program.uniforms[name]
         if (uniformLoc) {
-          uniformLoc.cartesian4(vector)
+          uniformLoc.vec4(vector)
         }
       }
     },

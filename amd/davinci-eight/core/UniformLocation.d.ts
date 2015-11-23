@@ -2,7 +2,6 @@ import VectorE1 = require('../math/VectorE1');
 import VectorE2 = require('../math/VectorE2');
 import VectorE3 = require('../math/VectorE3');
 import VectorE4 = require('../math/VectorE4');
-import R1 = require('../math/R1');
 import Mat2R = require('../math/Mat2R');
 import Mat3R = require('../math/Mat3R');
 import Mat4R = require('../math/Mat4R');
@@ -39,25 +38,37 @@ declare class UniformLocation implements IContextProgramConsumer {
      */
     contextLost(): void;
     /**
-     * @method cartesian1
+     * Calls <code>uniform1f</code> on the underlying <code>WebGLUniformLocation</code>.
+     * @method vec1
      * @param coords {VectorE1}
+     * @return {UniformLocation}
+     * @chainable
      */
-    cartesian1(coords: VectorE1): void;
+    vec1(coords: VectorE1): UniformLocation;
     /**
-     * @method cartesian2
+     * Calls <code>uniform2f</code> on the underlying <code>WebGLUniformLocation</code>.
+     * @method vec2
      * @param coords {VectorE2}
+     * @return {UniformLocation}
+     * @chainable
      */
-    cartesian2(coords: VectorE2): void;
+    vec2(coords: VectorE2): UniformLocation;
     /**
-     * @method cartesian3
+     * Calls <code>uniform3f</code> on the underlying <code>WebGLUniformLocation</code>.
+     * @method vec3
      * @param coords {VectorE3}
+     * @return {UniformLocation}
+     * @chainable
      */
-    cartesian3(coords: VectorE3): void;
+    vec3(coords: VectorE3): UniformLocation;
     /**
-     * @method cartesian4
+     * Calls <code>uniform4f</code> on the underlying <code>WebGLUniformLocation</code>.
+     * @method vec4
      * @param coords {VectorE4}
+     * @return {UniformLocation}
+     * @chainable
      */
-    cartesian4(coords: VectorE4): void;
+    vec4(coords: VectorE4): UniformLocation;
     /**
      * @method uniform1f
      * @param x {number}
@@ -84,12 +95,6 @@ declare class UniformLocation implements IContextProgramConsumer {
      * @param w {number}
      */
     uniform4f(x: number, y: number, z: number, w: number): void;
-    /**
-     * @method matrix1
-     * @param transpose {boolean}
-     * @param matrix {R1}
-     */
-    matrix1(transpose: boolean, matrix: R1): void;
     /**
      * Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.
      * @method mat2

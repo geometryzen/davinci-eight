@@ -98,14 +98,14 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
         mat4(name: string, matrix: Mat4R, transpose?: boolean, canvasId?: number) {
             return innerProgram.mat4(name, matrix, transpose, canvasId);
         },
-        uniformVectorE2(name: string, vector: R2, canvasId?: number) {
-            return innerProgram.uniformVectorE2(name, vector, canvasId);
+        vec2(name: string, vector: R2, canvasId?: number) {
+            return innerProgram.vec2(name, vector, canvasId);
         },
-        uniformVectorE3(name: string, vector: R3, canvasId?: number) {
-            return innerProgram.uniformVectorE3(name, vector, canvasId);
+        vec3(name: string, vector: R3, canvasId?: number) {
+            return innerProgram.vec3(name, vector, canvasId);
         },
-        uniformVectorE4(name: string, vector: R4, canvasId?: number) {
-            return innerProgram.uniformVectorE4(name, vector, canvasId);
+        vec4(name: string, vector: R4, canvasId?: number) {
+            return innerProgram.vec4(name, vector, canvasId);
         },
         vector2(name: string, data: number[], canvasId?: number): void {
             return innerProgram.vector2(name, data, canvasId);

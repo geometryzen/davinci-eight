@@ -7,18 +7,28 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
     // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
     var LOGGING_NAME = 'NumberIUnknownMap';
     /**
-     * @class NumberIUnknownMap<V>
+     * @class NumberIUnknownMap&lt;V extends IUnknown&gt;
+     * @extends Shareable
      */
     var NumberIUnknownMap = (function (_super) {
         __extends(NumberIUnknownMap, _super);
         /**
-         * @class NumberIUnknownMap<V>
+         * @class NumberIUnknownMap&lt;V extends IUnknown&gt;
          * @constructor
          */
         function NumberIUnknownMap() {
             _super.call(this, LOGGING_NAME);
+            /**
+             * @property _elements
+             * @private
+             */
             this._elements = {};
         }
+        /**
+         * @property destructor
+         * @return {void}
+         * @protected
+         */
         NumberIUnknownMap.prototype.destructor = function () {
             var self = this;
             this.forEach(function (key, value) {
@@ -28,10 +38,20 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             });
             this._elements = void 0;
         };
+        /**
+         * @method exists
+         * @param {number}
+         * @return {boolean}
+         */
         NumberIUnknownMap.prototype.exists = function (key) {
             var element = this._elements[key];
             return element ? true : false;
         };
+        /**
+         * @method get
+         * @param key {number}
+         * @return {V}
+         */
         NumberIUnknownMap.prototype.get = function (key) {
             var element = this.getWeakRef(key);
             if (element) {
@@ -39,18 +59,33 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             }
             return element;
         };
-        // FIXME
-        /*private*/ NumberIUnknownMap.prototype.getWeakRef = function (index) {
+        /**
+         * @method getWeakRef
+         * @param key {number}
+         * @return {V}
+         */
+        NumberIUnknownMap.prototype.getWeakRef = function (index) {
             return this._elements[index];
         };
+        /**
+         * @method put
+         * @param key {number}
+         * @param value {V}
+         * @return {void}
+         */
         NumberIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
             }
             this.putWeakRef(key, value);
         };
-        // FIXME
-        /*private*/ NumberIUnknownMap.prototype.putWeakRef = function (key, value) {
+        /**
+         * @method putWeakRef
+         * @param key {number}
+         * @param value {V}
+         * @return {void}
+         */
+        NumberIUnknownMap.prototype.putWeakRef = function (key, value) {
             var elements = this._elements;
             var existing = elements[key];
             if (existing) {
@@ -58,17 +93,24 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             }
             elements[key] = value;
         };
+        /**
+         * @method forEach
+         * @param callback {(key: number, value: V) => void}
+         * @return {void}
+         */
         NumberIUnknownMap.prototype.forEach = function (callback) {
             var keys = this.keys;
-            var i;
-            var length = keys.length;
-            for (i = 0; i < length; i++) {
+            for (var i = 0, iLength = keys.length; i < iLength; i++) {
                 var key = keys[i];
                 var value = this._elements[key];
                 callback(key, value);
             }
         };
         Object.defineProperty(NumberIUnknownMap.prototype, "keys", {
+            /**
+             * @property keys
+             * @type {number[]}
+             */
             get: function () {
                 // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
                 return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
@@ -76,6 +118,11 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method remove
+         * @param key {number}
+         * @return {void}
+         */
         NumberIUnknownMap.prototype.remove = function (key) {
             // Strong or Weak doesn't matter because the value is `undefined`.
             this.put(key, void 0);

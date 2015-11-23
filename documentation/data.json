@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.163.0",
+        "version": "2.164.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -70,7 +70,7 @@
             "name": "src/davinci-eight/collections/NumberIUnknownMap.ts",
             "modules": {},
             "classes": {
-                "NumberIUnknownMap<V>": 1
+                "NumberIUnknownMap&lt;V extends IUnknown&gt;": 1
             },
             "fors": {},
             "namespaces": {}
@@ -2086,7 +2086,7 @@
                 "View": 1,
                 "createView": 1,
                 "IUnknownArray": 1,
-                "NumberIUnknownMap<V>": 1,
+                "NumberIUnknownMap&lt;V extends IUnknown&gt;": 1,
                 "StringIUnknownMap": 1,
                 "BlendFactor": 1,
                 "Capability": 1,
@@ -2339,9 +2339,9 @@
             "description": "Collection class for maintaining an array of types derived from IUnknown.\nProvides a safer way to maintain reference counts than a native array.",
             "is_constructor": 1
         },
-        "NumberIUnknownMap<V>": {
-            "name": "NumberIUnknownMap<V>",
-            "shortname": "NumberIUnknownMap<V>",
+        "NumberIUnknownMap&lt;V extends IUnknown&gt;": {
+            "name": "NumberIUnknownMap&lt;V extends IUnknown&gt;",
+            "shortname": "NumberIUnknownMap&lt;V extends IUnknown&gt;",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2349,7 +2349,8 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
-            "line": 13,
+            "line": 20,
+            "extends": "Shareable",
             "is_constructor": 1
         },
         "StringIUnknownMap": {
@@ -6384,6 +6385,172 @@
             "class": "IUnknownArray"
         },
         {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 14,
+            "itemtype": "property",
+            "name": "_elements",
+            "access": "private",
+            "tagname": "",
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 28,
+            "itemtype": "property",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 43,
+            "itemtype": "method",
+            "name": "exists",
+            "params": [
+                {
+                    "name": "UNKNOWN",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 53,
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "V"
+            },
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 66,
+            "itemtype": "method",
+            "name": "getWeakRef",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "V"
+            },
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 75,
+            "itemtype": "method",
+            "name": "put",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "V"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 88,
+            "itemtype": "method",
+            "name": "putWeakRef",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "V"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 103,
+            "itemtype": "method",
+            "name": "forEach",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "(key: number, value: V) => void"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 117,
+            "itemtype": "property",
+            "name": "keys",
+            "type": "{number[]}",
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
+            "file": "src/davinci-eight/collections/NumberIUnknownMap.ts",
+            "line": 126,
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "NumberIUnknownMap&lt;V extends IUnknown&gt;"
+        },
+        {
             "file": "src/davinci-eight/collections/StringIUnknownMap.ts",
             "line": 10,
             "itemtype": "property",
@@ -8633,7 +8800,7 @@
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
             "line": 88,
             "itemtype": "method",
-            "name": "uniformVectorE2",
+            "name": "vec2",
             "params": [
                 {
                     "name": "name",
@@ -8662,7 +8829,7 @@
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
             "line": 97,
             "itemtype": "method",
-            "name": "uniformVectorE3",
+            "name": "vec3",
             "params": [
                 {
                     "name": "name",
@@ -8691,7 +8858,7 @@
             "file": "src/davinci-eight/core/IFacetVisitor.ts",
             "line": 106,
             "itemtype": "method",
-            "name": "uniformVectorE4",
+            "name": "vec4",
             "params": [
                 {
                     "name": "name",
@@ -8996,14 +9163,14 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 36,
+            "line": 37,
             "itemtype": "method",
             "name": "contextFree",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 42,
+            "line": 44,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -9022,16 +9189,17 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 55,
+            "line": 58,
             "itemtype": "method",
             "name": "contextLost",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 63,
+            "line": 67,
+            "description": "Calls <code>uniform1f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
-            "name": "cartesian1",
+            "name": "vec1",
             "params": [
                 {
                     "name": "coords",
@@ -9039,13 +9207,19 @@
                     "type": "VectorE1"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "UniformLocation"
+            },
+            "chainable": 1,
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 71,
+            "line": 79,
+            "description": "Calls <code>uniform2f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
-            "name": "cartesian2",
+            "name": "vec2",
             "params": [
                 {
                     "name": "coords",
@@ -9053,13 +9227,19 @@
                     "type": "VectorE2"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "UniformLocation"
+            },
+            "chainable": 1,
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 79,
+            "line": 91,
+            "description": "Calls <code>uniform3f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
-            "name": "cartesian3",
+            "name": "vec3",
             "params": [
                 {
                     "name": "coords",
@@ -9067,13 +9247,19 @@
                     "type": "VectorE3"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "UniformLocation"
+            },
+            "chainable": 1,
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 89,
+            "line": 103,
+            "description": "Calls <code>uniform4f</code> on the underlying <code>WebGLUniformLocation</code>.",
             "itemtype": "method",
-            "name": "cartesian4",
+            "name": "vec4",
             "params": [
                 {
                     "name": "coords",
@@ -9081,11 +9267,16 @@
                     "type": "VectorE4"
                 }
             ],
+            "return": {
+                "description": "",
+                "type": "UniformLocation"
+            },
+            "chainable": 1,
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 97,
+            "line": 115,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -9099,7 +9290,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 105,
+            "line": 123,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -9118,7 +9309,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 114,
+            "line": 132,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -9142,7 +9333,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 124,
+            "line": 142,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -9171,26 +9362,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 135,
-            "itemtype": "method",
-            "name": "matrix1",
-            "params": [
-                {
-                    "name": "transpose",
-                    "description": "",
-                    "type": "Boolean"
-                },
-                {
-                    "name": "matrix",
-                    "description": "",
-                    "type": "R1"
-                }
-            ],
-            "class": "UniformLocation"
-        },
-        {
-            "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 145,
+            "line": 153,
             "description": "Sets a uniform location of type <code>mat2</code> in the <code>WebGLProgram</code>.",
             "itemtype": "method",
             "name": "mat2",
@@ -9217,7 +9389,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 159,
+            "line": 166,
             "description": "Sets a uniform location of type <code>mat3</code> in the <code>WebGLProgram</code>.",
             "itemtype": "method",
             "name": "mat3",
@@ -9244,7 +9416,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 173,
+            "line": 179,
             "description": "Sets a uniform location of type <code>mat4</code> in the <code>WebGLProgram</code>.",
             "itemtype": "method",
             "name": "mat4",
@@ -9271,7 +9443,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 187,
+            "line": 192,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -9285,7 +9457,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 195,
+            "line": 200,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -9299,7 +9471,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 203,
+            "line": 208,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -9313,7 +9485,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 211,
+            "line": 216,
             "itemtype": "method",
             "name": "toString",
             "class": "UniformLocation"
@@ -13264,7 +13436,7 @@
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
             "line": 479,
             "itemtype": "method",
-            "name": "uniformVectorE2",
+            "name": "vec2",
             "params": [
                 {
                     "name": "name",
@@ -13294,7 +13466,7 @@
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
             "line": 505,
             "itemtype": "method",
-            "name": "uniformVectorE3",
+            "name": "vec3",
             "params": [
                 {
                     "name": "name",
@@ -13324,7 +13496,7 @@
             "file": "src/davinci-eight/materials/GraphicsProgram.ts",
             "line": 531,
             "itemtype": "method",
-            "name": "uniformVectorE4",
+            "name": "vec4",
             "params": [
                 {
                     "name": "name",
@@ -29304,6 +29476,10 @@
         {
             "message": "replacing incorrect tag: function with method",
             "line": " src/davinci-eight/cameras/createPerspective.ts:19"
+        },
+        {
+            "message": "param name missing: {number}",
+            "line": " src/davinci-eight/collections/NumberIUnknownMap.ts:43"
         },
         {
             "message": "unknown tag: parameters",

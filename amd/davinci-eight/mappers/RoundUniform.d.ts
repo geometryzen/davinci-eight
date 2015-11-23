@@ -16,9 +16,9 @@ declare class RoundUniform implements IFacetVisitor {
     mat2(name: string, matrix: Mat2R, transpose?: boolean): void;
     mat3(name: string, matrix: Mat3R, transpose?: boolean): void;
     mat4(name: string, matrix: Mat4R, transpose?: boolean): void;
-    uniformVectorE2(name: string, vector: VectorE2): void;
-    uniformVectorE3(name: string, vector: VectorE3): void;
-    uniformVectorE4(name: string, vector: VectorE4): void;
+    vec2(name: string, vector: VectorE2): void;
+    vec3(name: string, vector: VectorE3): void;
+    vec4(name: string, vector: VectorE4): void;
     vector2(name: string, data: number[], canvasId: number): void;
     vector3(name: string, data: number[], canvasId: number): void;
     vector4(name: string, data: number[], canvasId: number): void;

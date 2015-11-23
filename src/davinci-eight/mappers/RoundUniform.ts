@@ -42,14 +42,14 @@ class RoundUniform implements IFacetVisitor {
     mat4(name: string, matrix: Mat4R, transpose?: boolean): void {
         console.warn("uniform");
     }
-    uniformVectorE2(name: string, vector: VectorE2): void {
-        console.warn("uniformVectorE2");
+    vec2(name: string, vector: VectorE2): void {
+        console.warn("vec2");
     }
-    uniformVectorE3(name: string, vector: VectorE3): void {
-        console.warn("uniformVectorE3");
+    vec3(name: string, vector: VectorE3): void {
+        console.warn("vec3");
     }
-    uniformVectorE4(name: string, vector: VectorE4): void {
-        console.warn("uniformVectorE4");
+    vec4(name: string, vector: VectorE4): void {
+        console.warn("vec4");
     }
     vector2(name: string, data: number[], canvasId: number): void {
         this._next.vector2(name, data, canvasId)
