@@ -11944,10 +11944,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-22',
+        LAST_MODIFIED: '2015-11-24',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.164.0'
+        VERSION: '2.165.0'
     };
     return core;
 });
@@ -19429,7 +19429,7 @@ define('davinci-eight/geometries/PolyhedronSimplexGeometry',["require", "exports
         something['uv'] = new R2([u, 1 - v]);
         return vertex;
     }
-    // Texture fixing helper. Spheres have some odd behaviours.
+    // Texture fixing helper.
     function correctUV(uv, vector, azimuth) {
         if ((azimuth < 0) && (uv.x === 1))
             uv = new R2([uv.x - 1, uv.y]);
@@ -19508,7 +19508,6 @@ define('davinci-eight/geometries/PolyhedronSimplexGeometry',["require", "exports
             // Merge vertices
             this.mergeVertices();
             //    this.computeFaceNormals();
-            //    this.boundingSphere = new Sphere(new R3([0, 0, 0]), radius);
             function centroid(v1, v2, v3) {
                 var x = (v1.x + v2.x + v3.x) / 3;
                 var y = (v1.y + v2.y + v3.y) / 3;
@@ -20241,9 +20240,10 @@ define('davinci-eight/geometries/SphericalPolarSimplexGeometry',["require", "exp
              * distance position parallel to the axis correct.
              */
             var cosθ = Math.cos(θ);
+            var displacement = radius * cosθ;
             for (var j = 0; j < jLength; j++) {
                 var u = j / widthSegments;
-                var point = arcPoints[j].add(axis, cosθ);
+                var point = arcPoints[j].add(axis, displacement);
                 points.push(point);
                 uvs.push(new R2([u, 1 - v]));
             }

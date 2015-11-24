@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.164.0</em>
+            <em>API Docs for: 2.165.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -254,7 +254,6 @@ import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 import SimplexGeometry = require(&#x27;../geometries/SimplexGeometry&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
-import Sphere = require(&#x27;../math/Sphere&#x27;)
 import GraphicsProgramSymbols = require(&#x27;../core/GraphicsProgramSymbols&#x27;)
 import R2 = require(&#x27;../math/R2&#x27;)
 import R3 = require(&#x27;../math/R3&#x27;)
@@ -287,7 +286,7 @@ function prepare(point: VectorE3, points: R3[]): VectorE3 {
     return vertex;
 }
 
-// Texture fixing helper. Spheres have some odd behaviours.
+// Texture fixing helper.
 function correctUV(uv: R2, vector: VectorE3, azimuth: number): R2 {
     if ((azimuth &lt; 0) &amp;&amp; (uv.x === 1)) uv = new R2([uv.x - 1, uv.y]);
     if ((vector.x === 0) &amp;&amp; (vector.z === 0)) uv = new R2([azimuth / 2 / Math.PI + 0.5, uv.y]);
@@ -379,8 +378,6 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
         this.mergeVertices();
 
         //    this.computeFaceNormals();
-
-        //    this.boundingSphere = new Sphere(new R3([0, 0, 0]), radius);
 
 
         function centroid(v1: VectorE3, v2: VectorE3, v3: VectorE3): VectorE3 {

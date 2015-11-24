@@ -19,9 +19,10 @@ define(["require", "exports", '../geometries/arc3', '../checks/mustBeNumber', '.
              * distance position parallel to the axis correct.
              */
             var cosθ = Math.cos(θ);
+            var displacement = radius * cosθ;
             for (var j = 0; j < jLength; j++) {
                 var u = j / widthSegments;
-                var point = arcPoints[j].add(axis, cosθ);
+                var point = arcPoints[j].add(axis, displacement);
                 points.push(point);
                 uvs.push(new R2([u, 1 - v]));
             }

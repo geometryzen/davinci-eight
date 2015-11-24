@@ -2615,15 +2615,6 @@ declare module EIGHT {
     /**
      *
      */
-    class Sphere {
-        center: VectorE3;
-        radius: number;
-        constructor(center?: VectorE3, radius?: number);
-        setFromPoints(points: VectorE3[]);
-    }
-    /**
-     *
-     */
     interface IGeometry<T> {
         setPosition(position: VectorE3): T
         toPrimitives(): DrawPrimitive[];

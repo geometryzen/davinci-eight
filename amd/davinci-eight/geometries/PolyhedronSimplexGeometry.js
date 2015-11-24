@@ -29,7 +29,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
         something['uv'] = new R2([u, 1 - v]);
         return vertex;
     }
-    // Texture fixing helper. Spheres have some odd behaviours.
+    // Texture fixing helper.
     function correctUV(uv, vector, azimuth) {
         if ((azimuth < 0) && (uv.x === 1))
             uv = new R2([uv.x - 1, uv.y]);
@@ -108,7 +108,6 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
             // Merge vertices
             this.mergeVertices();
             //    this.computeFaceNormals();
-            //    this.boundingSphere = new Sphere(new R3([0, 0, 0]), radius);
             function centroid(v1, v2, v3) {
                 var x = (v1.x + v2.x + v3.x) / 3;
                 var y = (v1.y + v2.y + v3.y) / 3;

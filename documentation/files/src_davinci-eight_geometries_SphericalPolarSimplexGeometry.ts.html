@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.164.0</em>
+            <em>API Docs for: 2.165.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -257,7 +257,6 @@ import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import R1 = require(&#x27;../math/R1&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;);
 import SliceSimplexGeometry = require(&#x27;../geometries/SliceSimplexGeometry&#x27;)
-import Sphere = require(&#x27;../math/Sphere&#x27;)
 import SpinG3 = require(&#x27;../math/SpinG3&#x27;)
 import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
 import GraphicsProgramSymbols = require(&#x27;../core/GraphicsProgramSymbols&#x27;)
@@ -274,20 +273,21 @@ function computeVertices(radius: number, axis: CartesianE3, phiStart: R3, phiLen
     for (var i = 0; i &lt; iLength; i++) {
         var v = i / heightSegments;
 
-        let θ = thetaStart + v * thetaLength
+        let θ: number = thetaStart + v * thetaLength
         let arcRadius = radius * Math.sin(θ)
         let begin = R3.copy(phiStart).scale(arcRadius)
 
-        let arcPoints = arc3(begin, phiLength, generator, widthSegments)
+        let arcPoints: R3[] = arc3(begin, phiLength, generator, widthSegments)
         /**
          * Displacement that we need to add to each arc point to get the
          * distance position parallel to the axis correct.
          */
         let cosθ = Math.cos(θ)
+        let displacement = radius * cosθ
 
         for (var j = 0; j &lt; jLength; j++) {
             var u = j / widthSegments;
-            var point = arcPoints[j].add(axis, cosθ)
+            var point = arcPoints[j].add(axis, displacement)
             points.push(point)
             uvs.push(new R2([u, 1 - v]))
         }

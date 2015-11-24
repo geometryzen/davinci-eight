@@ -6,7 +6,6 @@ import mustBeNumber = require('../checks/mustBeNumber')
 import R1 = require('../math/R1')
 import Simplex = require('../geometries/Simplex');
 import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry')
-import Sphere = require('../math/Sphere')
 import SpinG3 = require('../math/SpinG3')
 import SpinorE3 = require('../math/SpinorE3')
 import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
@@ -23,20 +22,21 @@ function computeVertices(radius: number, axis: CartesianE3, phiStart: R3, phiLen
     for (var i = 0; i < iLength; i++) {
         var v = i / heightSegments;
 
-        let θ = thetaStart + v * thetaLength
+        let θ: number = thetaStart + v * thetaLength
         let arcRadius = radius * Math.sin(θ)
         let begin = R3.copy(phiStart).scale(arcRadius)
 
-        let arcPoints = arc3(begin, phiLength, generator, widthSegments)
+        let arcPoints: R3[] = arc3(begin, phiLength, generator, widthSegments)
         /**
          * Displacement that we need to add to each arc point to get the
          * distance position parallel to the axis correct.
          */
         let cosθ = Math.cos(θ)
+        let displacement = radius * cosθ
 
         for (var j = 0; j < jLength; j++) {
             var u = j / widthSegments;
-            var point = arcPoints[j].add(axis, cosθ)
+            var point = arcPoints[j].add(axis, displacement)
             points.push(point)
             uvs.push(new R2([u, 1 - v]))
         }

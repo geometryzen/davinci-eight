@@ -2,7 +2,6 @@ import VectorE2 = require('../math/VectorE2');
 import VectorE3 = require('../math/VectorE3');
 import Face3 = require('../core/Face3');
 import Simplex = require('../geometries/Simplex');
-import Sphere = require('../math/Sphere');
 import R2 = require('../math/R2');
 import R3 = require('../math/R3');
 import isDefined = require('../checks/isDefined');
@@ -32,11 +31,7 @@ class SimplexGeometry {
     public verticesNeedUpdate = false;
     public elementsNeedUpdate = false;
     public uvsNeedUpdate = false;
-    public boundingSphere: Sphere = new Sphere({ x: 0, y: 0, z: 0 }, Infinity);
     constructor() {
-    }
-    protected computeBoundingSphere(): void {
-        this.boundingSphere.setFromPoints(this.vertices);
     }
     /**
      * Ensures that the normal property of each face is assigned

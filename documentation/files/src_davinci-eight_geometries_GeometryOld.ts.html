@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.164.0</em>
+            <em>API Docs for: 2.165.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -253,7 +253,6 @@ import VectorE2 = require(&#x27;../math/VectorE2&#x27;);
 import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
 import Face3 = require(&#x27;../core/Face3&#x27;);
 import Simplex = require(&#x27;../geometries/Simplex&#x27;);
-import Sphere = require(&#x27;../math/Sphere&#x27;);
 import R2 = require(&#x27;../math/R2&#x27;);
 import R3 = require(&#x27;../math/R3&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
@@ -283,11 +282,7 @@ class SimplexGeometry {
     public verticesNeedUpdate = false;
     public elementsNeedUpdate = false;
     public uvsNeedUpdate = false;
-    public boundingSphere: Sphere = new Sphere({ x: 0, y: 0, z: 0 }, Infinity);
     constructor() {
-    }
-    protected computeBoundingSphere(): void {
-        this.boundingSphere.setFromPoints(this.vertices);
     }
     /**
      * Ensures that the normal property of each face is assigned

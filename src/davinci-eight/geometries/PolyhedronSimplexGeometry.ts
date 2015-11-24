@@ -3,7 +3,6 @@ import Euclidean3 = require('../math/Euclidean3')
 import VectorE3 = require('../math/VectorE3')
 import SimplexGeometry = require('../geometries/SimplexGeometry')
 import Simplex = require('../geometries/Simplex')
-import Sphere = require('../math/Sphere')
 import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
@@ -36,7 +35,7 @@ function prepare(point: VectorE3, points: R3[]): VectorE3 {
     return vertex;
 }
 
-// Texture fixing helper. Spheres have some odd behaviours.
+// Texture fixing helper.
 function correctUV(uv: R2, vector: VectorE3, azimuth: number): R2 {
     if ((azimuth < 0) && (uv.x === 1)) uv = new R2([uv.x - 1, uv.y]);
     if ((vector.x === 0) && (vector.z === 0)) uv = new R2([azimuth / 2 / Math.PI + 0.5, uv.y]);
@@ -128,8 +127,6 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
         this.mergeVertices();
 
         //    this.computeFaceNormals();
-
-        //    this.boundingSphere = new Sphere(new R3([0, 0, 0]), radius);
 
 
         function centroid(v1: VectorE3, v2: VectorE3, v3: VectorE3): VectorE3 {

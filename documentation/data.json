@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.164.0",
+        "version": "2.165.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -3888,7 +3888,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/PolyhedronSimplexGeometry.ts",
-            "line": 51,
+            "line": 50,
             "extends": "SimplexGeometry",
             "is_constructor": 1
         },
@@ -11338,7 +11338,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryOld.ts",
-            "line": 41,
+            "line": 36,
             "description": "Ensures that the normal property of each face is assigned\na value equal to the normalized cross product of two edge vectors\ntaken counter-clockwise. This pseudo vector is then taken to face outwards by convention.",
             "itemtype": "method",
             "name": "computeFaceNormals",
@@ -11347,21 +11347,21 @@
         },
         {
             "file": "src/davinci-eight/geometries/GeometryOld.ts",
-            "line": 120,
+            "line": 115,
             "description": "Hashmap for looking up vertice by position coordinates (and making sure they are unique).\nkey is constructed from coordinates, value is index in vertices array.",
             "class": "Glyph",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/GeometryOld.ts",
-            "line": 125,
+            "line": 120,
             "description": "The list of unique vertices.",
             "class": "Glyph",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/GeometryOld.ts",
-            "line": 129,
+            "line": 124,
             "description": "Index is original index in vertices. Entry is index in unique array.",
             "class": "Glyph",
             "module": "EIGHT"
@@ -11727,7 +11727,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/PolyhedronSimplexGeometry.ts",
-            "line": 21,
+            "line": 20,
             "description": "Modifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a R2.\nOK!",
             "class": "PolyhedronSimplexGeometry",
             "module": "EIGHT"
@@ -12544,7 +12544,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/SphericalPolarSimplexGeometry.ts",
-            "line": 31,
+            "line": 30,
             "description": "Displacement that we need to add to each arc point to get the\ndistance position parallel to the axis correct.",
             "class": "SphericalPolarSimplexGeometry",
             "module": "EIGHT"
@@ -29675,15 +29675,15 @@
         },
         {
             "message": "Missing item type\nHashmap for looking up vertice by position coordinates (and making sure they are unique).\nkey is constructed from coordinates, value is index in vertices array.",
-            "line": " src/davinci-eight/geometries/GeometryOld.ts:120"
+            "line": " src/davinci-eight/geometries/GeometryOld.ts:115"
         },
         {
             "message": "Missing item type\nThe list of unique vertices.",
-            "line": " src/davinci-eight/geometries/GeometryOld.ts:125"
+            "line": " src/davinci-eight/geometries/GeometryOld.ts:120"
         },
         {
             "message": "Missing item type\nIndex is original index in vertices. Entry is index in unique array.",
-            "line": " src/davinci-eight/geometries/GeometryOld.ts:129"
+            "line": " src/davinci-eight/geometries/GeometryOld.ts:124"
         },
         {
             "message": "Missing item type\nTemporary array of points.",
@@ -29703,7 +29703,7 @@
         },
         {
             "message": "Missing item type\nModifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a R2.\nOK!",
-            "line": " src/davinci-eight/geometries/PolyhedronSimplexGeometry.ts:21"
+            "line": " src/davinci-eight/geometries/PolyhedronSimplexGeometry.ts:20"
         },
         {
             "message": "Missing item type\nTemporary list of points.",
@@ -29739,7 +29739,7 @@
         },
         {
             "message": "Missing item type\nDisplacement that we need to add to each arc point to get the\ndistance position parallel to the axis correct.",
-            "line": " src/davinci-eight/geometries/SphericalPolarSimplexGeometry.ts:31"
+            "line": " src/davinci-eight/geometries/SphericalPolarSimplexGeometry.ts:30"
         },
         {
             "message": "Missing item type\nIntentionally undocumented",
