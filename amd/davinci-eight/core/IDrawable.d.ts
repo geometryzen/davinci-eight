@@ -1,9 +1,9 @@
+import IFacet = require('../core/IFacet');
 import IGraphicsProgram = require('../core/IGraphicsProgram');
 import IResource = require('../core/IResource');
-import IFacet = require('../core/IFacet');
 /**
  * <p>
- * The Drawable interface indicates that the implementation can make a call
+ * The IDrawable interface indicates that the implementation can make a call
  * to either drawArrays or drawElements on the WebGL rendering context.
  * It also contains other meta-data that may be used to optimize the rendering.
  * e.g. transparency, visibility, bounding volumes, etc.
@@ -16,11 +16,11 @@ interface IDrawable extends IResource {
     /**
      * @property material
      * @type {IGraphicsProgram}
-     * Contains a WebGLProgram for each canvas that this IDrawable can draw to.
      */
     material: IGraphicsProgram;
     /**
-     * User assigned name of the drawable object. Allows an object to be found in a scene.
+     * User assigned name of the drawable object.
+     * Allows a drawable object to be found in a scene.
      * @property name
      * @type {string}
      * @optional
@@ -41,9 +41,9 @@ interface IDrawable extends IResource {
     /**
      * @method setFacet
      * @param name {string}
-     * @param value {IFacet}
+     * @param facet {IFacet}
      * @return {void}
      */
-    setFacet<T extends IFacet>(name: string, value: T): T;
+    setFacet(name: string, facet: IFacet): void;
 }
 export = IDrawable;

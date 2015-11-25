@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.165.0",
+        "version": "2.166.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -237,13 +237,6 @@
         },
         "src/davinci-eight/core/ContextUnique.ts": {
             "name": "src/davinci-eight/core/ContextUnique.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/DrawContext.ts": {
-            "name": "src/davinci-eight/core/DrawContext.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -554,15 +547,6 @@
             "modules": {},
             "classes": {
                 "ReflectionFacetE3": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/facets/RigidBodyFacetE3.ts": {
-            "name": "src/davinci-eight/facets/RigidBodyFacetE3.ts",
-            "modules": {},
-            "classes": {
-                "RigidBodyFacetE3": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1745,24 +1729,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/models/RigidBodyE2.ts": {
-            "name": "src/davinci-eight/models/RigidBodyE2.ts",
-            "modules": {},
-            "classes": {
-                "RigidBodyE2": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/models/RigidBodyE3.ts": {
-            "name": "src/davinci-eight/models/RigidBodyE3.ts",
-            "modules": {},
-            "classes": {
-                "RigidBodyE3": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/programs/SimpleWebGLProgram.ts": {
             "name": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
             "modules": {},
@@ -1809,13 +1775,6 @@
         },
         "src/davinci-eight/programs/vertexShader.ts": {
             "name": "src/davinci-eight/programs/vertexShader.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/renderers/FrameworkDrawContext.ts": {
-            "name": "src/davinci-eight/renderers/FrameworkDrawContext.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -2133,7 +2092,6 @@
                 "PointSizeFacet": 1,
                 "ReflectionFacetE2": 1,
                 "ReflectionFacetE3": 1,
-                "RigidBodyFacetE3": 1,
                 "Vector3Facet": 1,
                 "ArrowGeometry": 1,
                 "AxialGeometry": 1,
@@ -2229,8 +2187,6 @@
                 "CylinderArgs": 1,
                 "ModelE2": 1,
                 "ModelE3": 1,
-                "RigidBodyE2": 1,
-                "RigidBodyE3": 1,
                 "SimpleWebGLProgram": 1,
                 "IContextRenderer": 1,
                 "Drawable": 1,
@@ -2796,8 +2752,8 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 7,
-            "description": "<p>\nThe Drawable interface indicates that the implementation can make a call\nto either drawArrays or drawElements on the WebGL rendering context.\nIt also contains other meta-data that may be used to optimize the rendering.\ne.g. transparency, visibility, bounding volumes, etc.\n</p>",
+            "line": 5,
+            "description": "<p>\nThe IDrawable interface indicates that the implementation can make a call\nto either drawArrays or drawElements on the WebGL rendering context.\nIt also contains other meta-data that may be used to optimize the rendering.\ne.g. transparency, visibility, bounding volumes, etc.\n</p>",
             "extends": "IResource"
         },
         "IFacet": {
@@ -3154,30 +3110,6 @@
                 }
             ]
         },
-        "RigidBodyFacetE3": {
-            "name": "RigidBodyFacetE3",
-            "shortname": "RigidBodyFacetE3",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/facets/RigidBodyFacetE3.ts",
-            "line": 30,
-            "extends": "ModelFacetE3",
-            "description": "<p>\nConstructs a RigidBodyFacetE3.\n</p>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "type ",
-                    "description": "The name used for reference counting.",
-                    "type": "String",
-                    "optional": true,
-                    "optdefault": " 'RigidBodyFacetE3'"
-                }
-            ]
-        },
         "Vector3Facet": {
             "name": "Vector3Facet",
             "shortname": "Vector3Facet",
@@ -3446,9 +3378,6 @@
                     "optional": true,
                     "optdefault": " 0"
                 }
-            ],
-            "example": [
-                "\n        var geometry = new EIGHT.CuboidSimplexGeometry();\n        var primitive = geometry.toDrawPrimitive();\n        var material = new EIGHT.MeshMaterial();\n        var cube = new EIGHT.Drawable([primitive], material);"
             ]
         },
         "CylinderGeometry": {
@@ -5335,56 +5264,6 @@
                 }
             ]
         },
-        "RigidBodyE2": {
-            "name": "RigidBodyE2",
-            "shortname": "RigidBodyE2",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/models/RigidBodyE2.ts",
-            "line": 25,
-            "extends": "ModelE2",
-            "description": "<p>\nConstructs a RigidBodyE2.\n</p>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "type ",
-                    "description": "The name used for reference counting.",
-                    "type": "String",
-                    "optional": true,
-                    "optdefault": " 'RigidBodyE2'"
-                }
-            ]
-        },
-        "RigidBodyE3": {
-            "name": "RigidBodyE3",
-            "shortname": "RigidBodyE3",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/models/RigidBodyE3.ts",
-            "line": 25,
-            "extends": "ModelE3",
-            "description": "<p>\nConstructs a RigidBodyE3.\n</p>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "type ",
-                    "description": "The name used for reference counting.",
-                    "type": "String",
-                    "optional": true,
-                    "optdefault": " 'RigidBodyE3'"
-                }
-            ]
-        },
         "SimpleWebGLProgram": {
             "name": "SimpleWebGLProgram",
             "shortname": "SimpleWebGLProgram",
@@ -5450,8 +5329,8 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 75,
-            "extends": "IDrawable",
+            "line": 73,
+            "extends": "Shareable",
             "is_constructor": 1,
             "params": [
                 {
@@ -5462,12 +5341,7 @@
                 {
                     "name": "material",
                     "description": "",
-                    "type": "M"
-                },
-                {
-                    "name": "model",
-                    "description": "",
-                    "type": "U"
+                    "type": "IGraphicsProgram"
                 }
             ]
         },
@@ -7874,18 +7748,6 @@
             "class": "DrawMode"
         },
         {
-            "file": "src/davinci-eight/core/DrawContext.ts",
-            "line": 1,
-            "description": "A DrawContext is the argument for the Drawable draw() method.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/davinci-eight/core/DrawContext.ts",
-            "line": 5,
-            "description": "The time of the current animation frame.",
-            "class": "DrawMode"
-        },
-        {
             "file": "src/davinci-eight/core/DrawMode.ts",
             "line": 6,
             "itemtype": "property",
@@ -8443,16 +8305,16 @@
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 19,
+            "line": 17,
             "itemtype": "property",
             "name": "material",
-            "type": "{IGraphicsProgram}\nContains a WebGLProgram for each canvas that this IDrawable can draw to.",
+            "type": "{IGraphicsProgram}",
             "class": "IDrawable"
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 25,
-            "description": "User assigned name of the drawable object. Allows an object to be found in a scene.",
+            "line": 23,
+            "description": "User assigned name of the drawable object.\nAllows a drawable object to be found in a scene.",
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -8480,7 +8342,7 @@
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 38,
+            "line": 39,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -8498,7 +8360,7 @@
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 44,
+            "line": 46,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -8508,7 +8370,7 @@
                     "type": "String"
                 },
                 {
-                    "name": "value",
+                    "name": "facet",
                     "description": "",
                     "type": "IFacet"
                 }
@@ -10498,39 +10360,6 @@
             "class": "ReflectionFacetE3"
         },
         {
-            "file": "src/davinci-eight/facets/RigidBodyFacetE3.ts",
-            "line": 10,
-            "description": "<p>\nThe <em>linear velocity</em>, a vector.\n</p>",
-            "itemtype": "property",
-            "name": "V",
-            "type": "{G3}",
-            "default": "0",
-            "class": "RigidBodyFacetE3"
-        },
-        {
-            "file": "src/davinci-eight/facets/RigidBodyFacetE3.ts",
-            "line": 20,
-            "description": "<p>\nThe <em>rotational velocity</em>, a bivector.\n</p>",
-            "itemtype": "property",
-            "name": "Ω",
-            "type": "{G3}",
-            "default": "<b>1</b>",
-            "class": "RigidBodyFacetE3"
-        },
-        {
-            "file": "src/davinci-eight/facets/RigidBodyFacetE3.ts",
-            "line": 42,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "RigidBodyFacetE3"
-        },
-        {
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
             "line": 15,
             "itemtype": "property",
@@ -11018,7 +10847,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 85,
+            "line": 80,
             "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e1.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
             "itemtype": "property",
             "name": "a",
@@ -11028,7 +10857,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 101,
+            "line": 96,
             "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e2.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
             "itemtype": "property",
             "name": "b",
@@ -11038,7 +10867,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 117,
+            "line": 112,
             "description": "<p>\nA vector parameterizing the shape of the cuboid.\nDefaults to the standard basis vector e3.\nAssignment is by reference making it possible for parameters to be shared references.\n</p>",
             "itemtype": "property",
             "name": "c",
@@ -11048,7 +10877,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 136,
+            "line": 131,
             "itemtype": "method",
             "name": "setModified",
             "params": [
@@ -11067,7 +10896,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/CuboidSimplexGeometry.ts",
-            "line": 147,
+            "line": 142,
             "description": "regenerate the geometry based upon the current parameters.",
             "itemtype": "method",
             "name": "regenerate",
@@ -27350,74 +27179,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/RigidBodyE2.ts",
-            "line": 9,
-            "description": "<p>\nThe <em>linear velocity</em>, a vector.\n</p>",
-            "itemtype": "property",
-            "name": "V",
-            "type": "{G2}",
-            "class": "RigidBodyE2",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/models/RigidBodyE2.ts",
-            "line": 17,
-            "description": "<p>\nThe <em>rotational velocity</em>, a spinor.\n</p>",
-            "itemtype": "property",
-            "name": "Ω",
-            "type": "{G2}",
-            "class": "RigidBodyE2",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/models/RigidBodyE2.ts",
-            "line": 36,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "RigidBodyE2",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/models/RigidBodyE3.ts",
-            "line": 9,
-            "description": "<p>\nThe <em>linear velocity</em>, a vector.\n</p>",
-            "itemtype": "property",
-            "name": "V",
-            "type": "{G3}",
-            "class": "RigidBodyE3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/models/RigidBodyE3.ts",
-            "line": 17,
-            "description": "<p>\nThe <em>rotational velocity</em>, a spinor.\n</p>",
-            "itemtype": "property",
-            "name": "Ω",
-            "type": "{G3}",
-            "class": "RigidBodyE3",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/models/RigidBodyE3.ts",
-            "line": 36,
-            "itemtype": "method",
-            "name": "destructor",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "access": "protected",
-            "tagname": "",
-            "class": "RigidBodyE3",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/programs/SimpleWebGLProgram.ts",
             "line": 17,
             "itemtype": "property",
@@ -27629,13 +27390,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/renderers/FrameworkDrawContext.ts",
-            "line": 2,
-            "description": "TODO: Undecided as to whether this should be used.",
-            "class": "IContextRenderer",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/renderers/IContextRenderer.ts",
             "line": 15,
             "description": "The (readonly) cached WebGL rendering context. The context may sometimes be undefined.",
@@ -27785,7 +27539,7 @@
         },
         {
             "file": "src/davinci-eight/renderers/renderer.ts",
-            "line": 26,
+            "line": 24,
             "description": "We need to know the canvasId so that we can tell drawables where to draw.\nHowever, we don't need an don't want a canvas because we can only get that once the\ncanvas has loaded. I suppose a promise would be OK, but that's for another day.\n\nPart of the role of this class is to manage the commands that are executed at startup/prolog.",
             "class": "Drawable",
             "module": "EIGHT"
@@ -27815,14 +27569,14 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 23,
+            "line": 24,
             "description": "Name used for reference count monitoring and logging.",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 38,
+            "line": 39,
             "itemtype": "property",
             "name": "primitives",
             "type": "{DrawPrimitive[]}",
@@ -27831,10 +27585,10 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 43,
+            "line": 45,
             "itemtype": "property",
-            "name": "_material",
-            "type": "{M}",
+            "name": "graphicsProgram",
+            "type": "{IGraphicsProgram}",
             "access": "private",
             "tagname": "",
             "class": "Drawable",
@@ -27842,7 +27596,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 49,
+            "line": 52,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -27852,17 +27606,17 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 55,
-            "description": "FIXME This is a bad name because it is not just a collection of buffersByCanvasId.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lokup",
+            "line": 59,
+            "description": "FIXME This is a bad name because it is not just a collection of buffersByCanvasId.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lookup",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 61,
+            "line": 66,
             "itemtype": "property",
-            "name": "uniforms",
-            "type": "{StringIUnknownMap<IFacet>}",
+            "name": "facets",
+            "type": "{StringIUnknownMap&lt;IFacet&gt;}",
             "access": "private",
             "tagname": "",
             "class": "Drawable",
@@ -27870,18 +27624,97 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 67,
-            "itemtype": "property",
-            "name": "mode",
-            "type": "{number}",
-            "access": "private",
+            "line": 91,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
             "tagname": "",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 151,
+            "line": 106,
+            "itemtype": "method",
+            "name": "draw",
+            "params": [
+                {
+                    "name": "canvasId ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 0"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Drawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Drawable.ts",
+            "line": 137,
+            "itemtype": "method",
+            "name": "contextFree",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "class": "Drawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Drawable.ts",
+            "line": 145,
+            "itemtype": "method",
+            "name": "contextGain",
+            "params": [
+                {
+                    "name": "manager",
+                    "description": "",
+                    "type": "IContextProvider"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Drawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Drawable.ts",
+            "line": 169,
+            "itemtype": "method",
+            "name": "contextLost",
+            "params": [
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Drawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Drawable.ts",
+            "line": 178,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -27900,11 +27733,36 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 164,
-            "description": "Provides a reference counted reference to the material.",
+            "line": 187,
+            "itemtype": "method",
+            "name": "setFacet",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "facet",
+                    "description": "",
+                    "type": "IFacet"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Drawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Drawable.ts",
+            "line": 197,
+            "description": "Provides a reference counted reference to the graphics program.",
             "itemtype": "property",
             "name": "material",
-            "type": "{M}",
+            "type": "{IGraphicsProgram}",
+            "readonly": "",
             "class": "Drawable",
             "module": "EIGHT"
         },
@@ -28832,14 +28690,14 @@
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 121,
-            "description": "Should look like a set of Drawable Groups. Maybe like a Scene!",
+            "description": "Should look like a set of IDrawable Groups. Maybe like a Scene!",
             "class": "Director",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 125,
-            "description": "Mapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])",
+            "description": "Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])",
             "class": "Director",
             "module": "EIGHT"
         },
@@ -29524,14 +29382,6 @@
         {
             "message": "Missing item type\nThe identifier of a canvas must be unique and stable.\nFor speed we assume a low cardinality number.",
             "line": " src/davinci-eight/core/ContextUnique.ts:5"
-        },
-        {
-            "message": "Missing item type\nA DrawContext is the argument for the Drawable draw() method.",
-            "line": " src/davinci-eight/core/DrawContext.ts:1"
-        },
-        {
-            "message": "Missing item type\nThe time of the current animation frame.",
-            "line": " src/davinci-eight/core/DrawContext.ts:5"
         },
         {
             "message": "Missing item type\nlength 3 implies per-vertex normals with correspondence index 0 <=> a, 1 <=> b, 2 <=> c.\nlength 1 implies a face normal.\nlength 0 implies",
@@ -30334,16 +30184,12 @@
             "line": " src/davinci-eight/programs/vertexShader.ts:28"
         },
         {
-            "message": "Missing item type\nTODO: Undecided as to whether this should be used.",
-            "line": " src/davinci-eight/renderers/FrameworkDrawContext.ts:2"
-        },
-        {
             "message": "Missing item type\nReturns the WebGLRenderingContext given a canvas.\ncanvas\nattributes\nIf the canvas is undefined then an undefined value is returned for the context.",
             "line": " src/davinci-eight/renderers/initWebGL.ts:3"
         },
         {
             "message": "Missing item type\nWe need to know the canvasId so that we can tell drawables where to draw.\nHowever, we don't need an don't want a canvas because we can only get that once the\ncanvas has loaded. I suppose a promise would be OK, but that's for another day.\n\nPart of the role of this class is to manage the commands that are executed at startup/prolog.",
-            "line": " src/davinci-eight/renderers/renderer.ts:26"
+            "line": " src/davinci-eight/renderers/renderer.ts:24"
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
@@ -30351,11 +30197,11 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/scene/Drawable.ts:23"
+            "line": " src/davinci-eight/scene/Drawable.ts:24"
         },
         {
-            "message": "Missing item type\nFIXME This is a bad name because it is not just a collection of buffersByCanvasId.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lokup",
-            "line": " src/davinci-eight/scene/Drawable.ts:55"
+            "message": "Missing item type\nFIXME This is a bad name because it is not just a collection of buffersByCanvasId.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lookup",
+            "line": " src/davinci-eight/scene/Drawable.ts:59"
         },
         {
             "message": "Missing item type\nImplementation Only.",
@@ -30386,11 +30232,11 @@
             "line": " src/davinci-eight/scene/createDrawList.ts:71"
         },
         {
-            "message": "Missing item type\nShould look like a set of Drawable Groups. Maybe like a Scene!",
+            "message": "Missing item type\nShould look like a set of IDrawable Groups. Maybe like a Scene!",
             "line": " src/davinci-eight/scene/createDrawList.ts:121"
         },
         {
-            "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])",
+            "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])",
             "line": " src/davinci-eight/scene/createDrawList.ts:125"
         },
         {

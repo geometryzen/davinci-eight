@@ -166,14 +166,11 @@ import ModelFacetE3 = require('davinci-eight/facets/ModelFacetE3')
 import PointSizeFacet = require('davinci-eight/facets/PointSizeFacet')
 import ReflectionFacetE2 = require('davinci-eight/facets/ReflectionFacetE2')
 import ReflectionFacetE3 = require('davinci-eight/facets/ReflectionFacetE3')
-import RigidBodyFacetE3 = require('davinci-eight/facets/RigidBodyFacetE3')
 import Vector3Facet = require('davinci-eight/facets/Vector3Facet')
 
 // models
 import ModelE2 = require('davinci-eight/models/ModelE2')
 import ModelE3 = require('davinci-eight/models/ModelE3')
-import RigidBodyE2 = require('davinci-eight/models/RigidBodyE2')
-import RigidBodyE3 = require('davinci-eight/models/RigidBodyE3')
 
 // programs
 import IGraphicsProgram = require('davinci-eight/core/IGraphicsProgram')
@@ -262,10 +259,7 @@ var eight = {
     get ModelE2() { return ModelE2 },
     get ModelE3() { return ModelE3 },
     get EulerFacet() { return EulerFacet },
-    get RigidBodyFacetE3() { return RigidBodyFacetE3 },
     get ModelFacetE3() { return ModelFacetE3 },
-    get RigidBodyE2() { return RigidBodyE2 },
-    get RigidBodyE3() { return RigidBodyE3 },
 
     get Simplex() { return Simplex },
     get Vertex() { return Vertex },

@@ -119,11 +119,11 @@ class DrawableGroup implements IUnknown {
 }
 
 /**
- * Should look like a set of Drawable Groups. Maybe like a Scene!
+ * Should look like a set of IDrawable Groups. Maybe like a Scene!
  */
 class DrawableGroups extends Shareable/*IDrawList*/ {
     /**
-     * Mapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])
+     * Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])
      */
     private _groups = new StringIUnknownMap<DrawableGroup>();
     constructor() {

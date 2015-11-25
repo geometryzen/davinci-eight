@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.165.0</em>
+            <em>API Docs for: 2.166.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,9 +158,6 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
-                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
-                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
-                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
@@ -249,15 +246,13 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import IFacet = require(&#x27;../core/IFacet&#x27;)
 import IGraphicsProgram = require(&#x27;../core/IGraphicsProgram&#x27;)
 import IResource = require(&#x27;../core/IResource&#x27;)
-import IFacet = require(&#x27;../core/IFacet&#x27;)
 
-// FIXME: Move to scene folder.
-// FIXME. Maybe hide the program and only expose program id?
 /**
  * &lt;p&gt;
- * The Drawable interface indicates that the implementation can make a call
+ * The IDrawable interface indicates that the implementation can make a call
  * to either drawArrays or drawElements on the WebGL rendering context.
  * It also contains other meta-data that may be used to optimize the rendering.
  * e.g. transparency, visibility, bounding volumes, etc.
@@ -267,38 +262,42 @@ import IFacet = require(&#x27;../core/IFacet&#x27;)
  * @extends IResource
  */
 interface IDrawable extends IResource {
-  /**
-   * @property material
-   * @type {IGraphicsProgram}
-   * Contains a WebGLProgram for each canvas that this IDrawable can draw to.
-   */
-  material: IGraphicsProgram;
-  /**
-   * User assigned name of the drawable object. Allows an object to be found in a scene.
-   * @property name
-   * @type {string}
-   * @optional
-   */
-  name: string;
-  /**
-   * @method draw
-   * @param [canvasId] {number} Determines which canvas the IDrawable should draw to.
-   * @return {void}
-   */
-  draw(canvasId?: number): void;
-  /**
-   * @method getFacet
-   * @param name {string}
-   * @return {IFacet}
-   */
-  getFacet(name: string): IFacet;
-  /**
-   * @method setFacet
-   * @param name {string}
-   * @param value {IFacet}
-   * @return {void}
-   */
-  setFacet&lt;T extends IFacet&gt;(name: string, value: T): T;
+    /**
+     * @property material
+     * @type {IGraphicsProgram}
+     */
+    material: IGraphicsProgram;
+
+    /**
+     * User assigned name of the drawable object.
+     * Allows a drawable object to be found in a scene.
+     * @property name
+     * @type {string}
+     * @optional
+     */
+    name: string;
+
+    /**
+     * @method draw
+     * @param [canvasId] {number} Determines which canvas the IDrawable should draw to.
+     * @return {void}
+     */
+    draw(canvasId?: number): void;
+
+    /**
+     * @method getFacet
+     * @param name {string}
+     * @return {IFacet}
+     */
+    getFacet(name: string): IFacet;
+
+    /**
+     * @method setFacet
+     * @param name {string}
+     * @param facet {IFacet}
+     * @return {void}
+     */
+    setFacet(name: string, facet: IFacet): void;
 }
 
 export = IDrawable;

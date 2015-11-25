@@ -1,12 +1,10 @@
+import IFacet = require('../core/IFacet')
 import IGraphicsProgram = require('../core/IGraphicsProgram')
 import IResource = require('../core/IResource')
-import IFacet = require('../core/IFacet')
 
-// FIXME: Move to scene folder.
-// FIXME. Maybe hide the program and only expose program id?
 /**
  * <p>
- * The Drawable interface indicates that the implementation can make a call
+ * The IDrawable interface indicates that the implementation can make a call
  * to either drawArrays or drawElements on the WebGL rendering context.
  * It also contains other meta-data that may be used to optimize the rendering.
  * e.g. transparency, visibility, bounding volumes, etc.
@@ -16,38 +14,42 @@ import IFacet = require('../core/IFacet')
  * @extends IResource
  */
 interface IDrawable extends IResource {
-  /**
-   * @property material
-   * @type {IGraphicsProgram}
-   * Contains a WebGLProgram for each canvas that this IDrawable can draw to.
-   */
-  material: IGraphicsProgram;
-  /**
-   * User assigned name of the drawable object. Allows an object to be found in a scene.
-   * @property name
-   * @type {string}
-   * @optional
-   */
-  name: string;
-  /**
-   * @method draw
-   * @param [canvasId] {number} Determines which canvas the IDrawable should draw to.
-   * @return {void}
-   */
-  draw(canvasId?: number): void;
-  /**
-   * @method getFacet
-   * @param name {string}
-   * @return {IFacet}
-   */
-  getFacet(name: string): IFacet;
-  /**
-   * @method setFacet
-   * @param name {string}
-   * @param value {IFacet}
-   * @return {void}
-   */
-  setFacet<T extends IFacet>(name: string, value: T): T;
+    /**
+     * @property material
+     * @type {IGraphicsProgram}
+     */
+    material: IGraphicsProgram;
+
+    /**
+     * User assigned name of the drawable object.
+     * Allows a drawable object to be found in a scene.
+     * @property name
+     * @type {string}
+     * @optional
+     */
+    name: string;
+
+    /**
+     * @method draw
+     * @param [canvasId] {number} Determines which canvas the IDrawable should draw to.
+     * @return {void}
+     */
+    draw(canvasId?: number): void;
+
+    /**
+     * @method getFacet
+     * @param name {string}
+     * @return {IFacet}
+     */
+    getFacet(name: string): IFacet;
+
+    /**
+     * @method setFacet
+     * @param name {string}
+     * @param facet {IFacet}
+     * @return {void}
+     */
+    setFacet(name: string, facet: IFacet): void;
 }
 
 export = IDrawable;

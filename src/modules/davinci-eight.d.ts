@@ -2912,26 +2912,6 @@ declare module EIGHT {
     }
 
     /**
-     * A set of <em>kinematic variables</em> for rigid body modeling in Euclidean 2D space.
-     */
-    class RigidBodyE2 extends ModelE2 {
-        /**
-         * The <em>linear velocity</em>, a vector. Initialized to <em>0</em>
-         */
-        V: G2;
-        /**
-         * The <em>rotational velocity</em>, a spinor. Initialized to <em>1</em>.
-         */
-        Ω: G2;
-        /**
-         * Constructs a <code>RigidBodyE2</code>.
-         * Initializes <code>V</code> to <code>0</code>.
-         * Initializes <code>Ω</code> to <code>1</code>.
-         */
-        constructor();
-    }
-
-    /**
      * A collection of properties governing GLSL uniforms for Computer Graphics Modeling.
      */
     class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacetE3> {
@@ -2956,25 +2936,6 @@ declare module EIGHT {
         getProperty(name: string): number[];
         setProperty(name: string, value: number[]): void;
         setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
-    }
-
-    /**
-     * A collection of properties governing GLSL uniforms for Rigid Body Modeling.
-     */
-    class RigidBodyFacetE3 extends ModelFacetE3 {
-        /**
-         * The linear velocity, a vector.
-         */
-        V: G3;
-        /**
-         * The rotational velocity, a spinor.
-         */
-        Ω: G3;
-        /**
-         * Constructs a RigidBodyFacetE3.
-         */
-        constructor(type?: string);
-        destructor(): void;
     }
 
     /**
@@ -3108,20 +3069,33 @@ declare module EIGHT {
      * to either drawArrays or drawElements on the WebGL rendering context.
      */
     interface IDrawable extends IResource {
+
         /**
-         *
+         * The graphics program that will be used when drawing.
+         * Drawable objects may be grouped by program for efficiency.
          */
         material: IGraphicsProgram;
+
         /**
-         * User assigned name of the drawable object. Allows an object to be found in a scene.
+         * User assigned name of the drawable object.
+         * Allows the drawable object to be found by name.
          */
         name: string;
+
         /**
          * canvasId: Identifies the canvas on which to draw.
          */
         draw(canvasId?: number): void;
+
+        /**
+         *
+         */
         getFacet(name: string): IFacet;
-        setFacet<T extends IFacet>(name: string, value: T): T;
+
+        /**
+         *
+         */
+        setFacet(name: string, facet: IFacet): void;
     }
 
     /**
@@ -3679,21 +3653,48 @@ declare module EIGHT {
     }
 
     /**
-     *
+     * A collection of primitives, a single graphics program, and some facets.
+     * The primitives provide attribute arguments to the graphics program.
+     * The facets provide uniform arguments to the graphics program. 
      */
-    class Drawable<M extends IGraphicsProgram> implements IDrawable {
+    class Drawable extends Shareable implements IDrawable {
+        /**
+         * The primitives that are submitted to the graphics pipeline to
+         * render this drawable object.
+         */
         primitives: DrawPrimitive[];
-        material: M;
+
+        /**
+         * The graphics program used to render the primitives.
+         */
+        material: IGraphicsProgram;
+
+        /**
+         * A user-assigned name that allows the drawable object to be found.
+         */
         name: string;
-        constructor(primitives: DrawPrimitive[], material: M);
-        addRef(): number;
-        release(): number;
+
+        constructor(primitives: DrawPrimitive[], material: IGraphicsProgram);
+        /**
+         * Draws the primitives using the graphics program to the specified canvas.
+         * <code>canvasId</code> is optional and may be omitted when using a single canvas.
+         */
         draw(canvasId?: number): void;
         contextFree(canvasId?: number): void;
         contextGain(manager: IContextProvider): void;
         contextLost(canvasId?: number): void;
-        getFacet(name: string): IFacet
-        setFacet<T extends IFacet>(name: string, value: T): T
+
+        /**
+         * Gets a facet of this drawable object by name.
+         * Facets provide uniform arguments to the graphics program.
+         */
+        getFacet(name: string): IFacet;
+
+        /**
+         * Sets a facet of this drawable object by name.
+         * Facets provide uniform arguments to the graphics program.
+         */
+        setFacet(name: string, facet: IFacet): void;
     }
 
     /**

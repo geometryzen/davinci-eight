@@ -11944,10 +11944,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-24',
+        LAST_MODIFIED: '2015-11-25',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.165.0'
+        VERSION: '2.166.0'
     };
     return core;
 });
@@ -15482,14 +15482,14 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../collectio
         return DrawableGroup;
     })();
     /**
-     * Should look like a set of Drawable Groups. Maybe like a Scene!
+     * Should look like a set of IDrawable Groups. Maybe like a Scene!
      */
     var DrawableGroups = (function (_super) {
         __extends(DrawableGroups, _super);
         function DrawableGroups() {
             _super.call(this, CLASS_NAME_ALL);
             /**
-             * Mapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])
+             * Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])
              */
             this._groups = new StringIUnknownMap();
         }
@@ -15702,7 +15702,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, IUnknownArray, NumberIUnknownMap, Shareable, StringIUnknownMap) {
+define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../i18n/readOnly', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, IUnknownArray, NumberIUnknownMap, readOnly, Shareable, StringIUnknownMap) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -15713,48 +15713,54 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
     /**
      * @class Drawable
      * @extends Shareable
-     * @extends IDrawable
      */
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
-        // FIXME: Do we insist on a IContextMonitor here.
-        // We can also assume that we are OK because of the Scene - but can't assume that there is one?
         /**
          * @class Drawable
          * @constructor
          * @param primitives {DrawPrimitive[]}
-         * @param material {M}
-         * @param model {U}
+         * @param material {IGraphicsProgram}
          */
         function Drawable(primitives, material) {
             _super.call(this, LOGGING_NAME);
             this.primitives = primitives;
-            this._material = material;
-            this._material.addRef();
+            this.graphicsProgram = material;
+            this.graphicsProgram.addRef();
             this.buffersByCanvasId = new NumberIUnknownMap();
-            this.uniforms = new StringIUnknownMap();
+            this.facets = new StringIUnknownMap();
         }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
         Drawable.prototype.destructor = function () {
             this.primitives = void 0;
             this.buffersByCanvasId.release();
             this.buffersByCanvasId = void 0;
-            this._material.release();
-            this._material = void 0;
-            this.uniforms.release();
-            this.uniforms = void 0;
+            this.graphicsProgram.release();
+            this.graphicsProgram = void 0;
+            this.facets.release();
+            this.facets = void 0;
         };
+        /**
+         * @method draw
+         * @param [canvasId = 0] {number}
+         * @return {void}
+         */
         Drawable.prototype.draw = function (canvasId) {
             if (canvasId === void 0) { canvasId = 0; }
             // We know we are going to need a "good" canvasId to perform the buffers lookup.
             // So we may as well test that condition now.
             if (isDefined(canvasId)) {
-                var material = this._material;
+                var material = this.graphicsProgram;
                 var buffers = this.buffersByCanvasId.getWeakRef(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
                     // FIXME: The name is unused. Think we should just have a list
                     // and then access using either the real uniform name or a property name.
-                    this.uniforms.forEach(function (name, uniform) {
+                    this.facets.forEach(function (name, uniform) {
                         uniform.setUniforms(material, canvasId);
                     });
                     for (var i = 0; i < buffers.length; i++) {
@@ -15766,13 +15772,22 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
                 }
             }
         };
+        /**
+         * @method contextFree
+         * @param [canvasId] {number}
+         */
         Drawable.prototype.contextFree = function (canvasId) {
-            this._material.contextFree(canvasId);
+            this.graphicsProgram.contextFree(canvasId);
         };
+        /**
+         * @method contextGain
+         * @param manager {IContextProvider}
+         * @return {void}
+         */
         Drawable.prototype.contextGain = function (manager) {
             // 1. Replace the existing buffer geometry if we have geometry. 
             if (this.primitives) {
-                for (var i = 0; i < this.primitives.length; i++) {
+                for (var i = 0, iLength = this.primitives.length; i < iLength; i++) {
                     var primitive = this.primitives[i];
                     if (!this.buffersByCanvasId.exists(manager.canvasId)) {
                         this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray([]));
@@ -15782,13 +15797,18 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
                 }
             }
             else {
-                console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId);
+                console.warn("contextGain method has no primitices, canvasId => " + manager.canvasId);
             }
             // 2. Delegate the context to the material.
-            this._material.contextGain(manager);
+            this.graphicsProgram.contextGain(manager);
         };
+        /**
+         * @method contextLost
+         * @param [canvasId] {number}
+         * @return {void}
+         */
         Drawable.prototype.contextLost = function (canvasId) {
-            this._material.contextLost(canvasId);
+            this.graphicsProgram.contextLost(canvasId);
         };
         /**
          * @method getFacet
@@ -15796,21 +15816,30 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
          * @return {IFacet}
          */
         Drawable.prototype.getFacet = function (name) {
-            return this.uniforms.get(name);
+            return this.facets.get(name);
         };
-        Drawable.prototype.setFacet = function (name, value) {
-            this.uniforms.put(name, value);
-            return value;
+        /**
+         * @method setFacet
+         * @param name {string}
+         * @param facet {IFacet}
+         * @return {void}
+         */
+        Drawable.prototype.setFacet = function (name, facet) {
+            this.facets.put(name, facet);
         };
         Object.defineProperty(Drawable.prototype, "material", {
             /**
-             * Provides a reference counted reference to the material.
+             * Provides a reference counted reference to the graphics program.
              * @property material
-             * @type {M}
+             * @type {IGraphicsProgram}
+             * @readOnly
              */
             get: function () {
-                this._material.addRef();
-                return this._material;
+                this.graphicsProgram.addRef();
+                return this.graphicsProgram;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('material').message);
             },
             enumerable: true,
             configurable: true
@@ -19011,11 +19040,6 @@ define('davinci-eight/geometries/CuboidSimplexGeometry',["require", "exports", '
          * @param [k = Simplex.TRIANGLE] {number}
          * @param [subdivide = 0] {number = 0}
          * @param [boundary = 0] {number}
-         * @example
-             var geometry = new EIGHT.CuboidSimplexGeometry();
-             var primitive = geometry.toDrawPrimitive();
-             var material = new EIGHT.MeshMaterial();
-             var cube = new EIGHT.Drawable([primitive], material);
          */
         function CuboidSimplexGeometry(a, b, c, k, subdivide, boundary) {
             if (a === void 0) { a = CartesianE3.e1; }
@@ -27070,67 +27094,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/facets/RigidBodyFacetE3',["require", "exports", '../facets/ModelFacetE3', '../math/G3'], function (require, exports, ModelFacetE3, G3) {
-    /**
-     * @class RigidBodyFacetE3
-     * @extends ModelFacetE3
-     */
-    var RigidBodyFacetE3 = (function (_super) {
-        __extends(RigidBodyFacetE3, _super);
-        /**
-         * <p>
-         * Constructs a RigidBodyFacetE3.
-         * </p>
-         * @class RigidBodyFacetE3
-         * @constructor
-         * @param [type = 'RigidBodyFacetE3'] {string} The name used for reference counting.
-         */
-        function RigidBodyFacetE3(type) {
-            if (type === void 0) { type = 'RigidBodyFacetE3'; }
-            _super.call(this, type);
-            /**
-             * <p>
-             * The <em>linear velocity</em>, a vector.
-             * </p>
-             * @property V
-             * @type {G3}
-             * @default 0
-             */
-            this.V = new G3().zero();
-            /**
-             * <p>
-             * The <em>rotational velocity</em>, a bivector.
-             * </p>
-             * @property Ω
-             * @type {G3}
-             * @default <b>1</b>
-             */
-            this.Ω = new G3().one();
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        RigidBodyFacetE3.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        RigidBodyFacetE3.prototype.getProperty = function (name) {
-            return _super.prototype.getProperty.call(this, name);
-        };
-        RigidBodyFacetE3.prototype.setProperty = function (name, value) {
-            return _super.prototype.setProperty.call(this, name, value);
-        };
-        return RigidBodyFacetE3;
-    })(ModelFacetE3);
-    return RigidBodyFacetE3;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 define('davinci-eight/facets/Vector3Facet',["require", "exports", '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeObject, mustBeString, Shareable) {
     var LOGGING_NAME = 'Vector3Facet';
     function contextBuilder() {
@@ -27328,112 +27291,6 @@ define('davinci-eight/models/ModelE2',["require", "exports", '../checks/mustBeSt
         return ModelE2;
     })(Shareable);
     return ModelE2;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/models/RigidBodyE2',["require", "exports", '../models/ModelE2', '../math/G2'], function (require, exports, ModelE2, G2) {
-    /**
-     * @class RigidBodyE2
-     * @extends ModelE2
-     */
-    var RigidBodyE2 = (function (_super) {
-        __extends(RigidBodyE2, _super);
-        /**
-         * <p>
-         * Constructs a RigidBodyE2.
-         * </p>
-         * @class RigidBodyE2
-         * @constructor
-         * @param [type = 'RigidBodyE2'] {string} The name used for reference counting.
-         */
-        function RigidBodyE2(type) {
-            if (type === void 0) { type = 'RigidBodyE2'; }
-            _super.call(this, type);
-            /**
-             * <p>
-             * The <em>linear velocity</em>, a vector.
-             * </p>
-             * @property V
-             * @type {G2}
-             */
-            this.V = new G2().zero();
-            /**
-             * <p>
-             * The <em>rotational velocity</em>, a spinor.
-             * </p>
-             * @property Ω
-             * @type {G2}
-             */
-            this.Ω = new G2().zero().addScalar(1);
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        RigidBodyE2.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        return RigidBodyE2;
-    })(ModelE2);
-    return RigidBodyE2;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/models/RigidBodyE3',["require", "exports", '../models/ModelE3', '../math/G3'], function (require, exports, ModelE3, G3) {
-    /**
-     * @class RigidBodyE3
-     * @extends ModelE3
-     */
-    var RigidBodyE3 = (function (_super) {
-        __extends(RigidBodyE3, _super);
-        /**
-         * <p>
-         * Constructs a RigidBodyE3.
-         * </p>
-         * @class RigidBodyE3
-         * @constructor
-         * @param [type = 'RigidBodyE3'] {string} The name used for reference counting.
-         */
-        function RigidBodyE3(type) {
-            if (type === void 0) { type = 'RigidBodyE3'; }
-            _super.call(this, type);
-            /**
-             * <p>
-             * The <em>linear velocity</em>, a vector.
-             * </p>
-             * @property V
-             * @type {G3}
-             */
-            this.V = new G3().zero();
-            /**
-             * <p>
-             * The <em>rotational velocity</em>, a spinor.
-             * </p>
-             * @property Ω
-             * @type {G3}
-             */
-            this.Ω = new G3().zero().addScalar(1);
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        RigidBodyE3.prototype.destructor = function () {
-            _super.prototype.destructor.call(this);
-        };
-        return RigidBodyE3;
-    })(ModelE3);
-    return RigidBodyE3;
 });
 
 define('davinci-eight/utils/getCanvasElementById',["require", "exports", '../checks/mustBeString', '../checks/mustBeObject'], function (require, exports, mustBeString, mustBeObject) {
@@ -27648,7 +27505,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/GraphicsProgramSymbols', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/GraphicsContext', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createGraphicsProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/GraphicsProgram', 'davinci-eight/materials/HTMLScriptsGraphicsProgram', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/GraphicsProgramBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Mat2R', 'davinci-eight/math/Mat3R', 'davinci-eight/math/Mat4R', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLightE3', 'davinci-eight/facets/EulerFacet', 'davinci-eight/facets/ModelFacetE3', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacetE2', 'davinci-eight/facets/ReflectionFacetE3', 'davinci-eight/facets/RigidBodyFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/models/ModelE2', 'davinci-eight/models/ModelE3', 'davinci-eight/models/RigidBodyE2', 'davinci-eight/models/RigidBodyE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/getCanvasElementById', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, GraphicsProgramSymbols, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, GraphicsContext, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createGraphicsProgram, smartProgram, programFromScripts, GraphicsProgram, HTMLScriptsGraphicsProgram, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, GraphicsProgramBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Mat2R, Mat3R, Mat4R, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, AmbientLight, ColorFacet, DirectionalLightE3, EulerFacet, ModelFacetE3, PointSizeFacet, ReflectionFacetE2, ReflectionFacetE3, RigidBodyFacetE3, Vector3Facet, ModelE2, ModelE3, RigidBodyE2, RigidBodyE3, initWebGL, renderer, contextProxy, getCanvasElementById, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/GraphicsProgramSymbols', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/GraphicsContext', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createGraphicsProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/GraphicsProgram', 'davinci-eight/materials/HTMLScriptsGraphicsProgram', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/GraphicsProgramBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Mat2R', 'davinci-eight/math/Mat3R', 'davinci-eight/math/Mat4R', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLightE3', 'davinci-eight/facets/EulerFacet', 'davinci-eight/facets/ModelFacetE3', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacetE2', 'davinci-eight/facets/ReflectionFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/models/ModelE2', 'davinci-eight/models/ModelE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/getCanvasElementById', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, GraphicsProgramSymbols, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, GraphicsContext, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createGraphicsProgram, smartProgram, programFromScripts, GraphicsProgram, HTMLScriptsGraphicsProgram, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, GraphicsProgramBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Mat2R, Mat3R, Mat4R, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, AmbientLight, ColorFacet, DirectionalLightE3, EulerFacet, ModelFacetE3, PointSizeFacet, ReflectionFacetE2, ReflectionFacetE3, Vector3Facet, ModelE2, ModelE3, initWebGL, renderer, contextProxy, getCanvasElementById, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -27708,10 +27565,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get ModelE2() { return ModelE2; },
         get ModelE3() { return ModelE3; },
         get EulerFacet() { return EulerFacet; },
-        get RigidBodyFacetE3() { return RigidBodyFacetE3; },
         get ModelFacetE3() { return ModelFacetE3; },
-        get RigidBodyE2() { return RigidBodyE2; },
-        get RigidBodyE3() { return RigidBodyE3; },
         get Simplex() { return Simplex; },
         get Vertex() { return Vertex; },
         get frustumMatrix() { return frustumMatrix; },

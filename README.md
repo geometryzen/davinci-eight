@@ -265,7 +265,8 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.162.0: 2015-11-22 Unit
 * 2.163.0: 2015-11-22 translation
 * 2.164.0: 2015-11-22 UniformLocation
-* 2.165.0: 2015-11-22 SphericalPolarSimplexGeometry
+* 2.165.0: 2015-11-24 SphericalPolarSimplexGeometry
+* 2.166.0: 2015-11-25 Drawable
 
 ## License
 Copyright (c) 2014-2015 David Holmes

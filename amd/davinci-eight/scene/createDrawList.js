@@ -101,14 +101,14 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
         return DrawableGroup;
     })();
     /**
-     * Should look like a set of Drawable Groups. Maybe like a Scene!
+     * Should look like a set of IDrawable Groups. Maybe like a Scene!
      */
     var DrawableGroups = (function (_super) {
         __extends(DrawableGroups, _super);
         function DrawableGroups() {
             _super.call(this, CLASS_NAME_ALL);
             /**
-             * Mapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])
+             * Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])
              */
             this._groups = new StringIUnknownMap();
         }

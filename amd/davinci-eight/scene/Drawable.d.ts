@@ -7,20 +7,19 @@ import IFacet = require('../core/IFacet');
 /**
  * @class Drawable
  * @extends Shareable
- * @extends IDrawable
  */
-declare class Drawable<M extends IGraphicsProgram> extends Shareable implements IDrawable {
+declare class Drawable extends Shareable implements IDrawable {
     /**
      * @property primitives
      * @type {DrawPrimitive[]}
      */
     primitives: DrawPrimitive[];
     /**
-     * @property _material
-     * @type {M}
+     * @property graphicsProgram
+     * @type {IGraphicsProgram}
      * @private
      */
-    _material: M;
+    graphicsProgram: IGraphicsProgram;
     /**
      * @property name
      * @type {string}
@@ -30,33 +29,50 @@ declare class Drawable<M extends IGraphicsProgram> extends Shareable implements 
     /**
      * FIXME This is a bad name because it is not just a collection of buffersByCanvasId.
      * A map from canvas to IBufferGeometry.
-     * It's a function that returns a mesh, given a canvasId a lokup
+     * It's a function that returns a mesh, given a canvasId a lookup
      */
     private buffersByCanvasId;
     /**
-     * @property uniforms
-     * @type {StringIUnknownMap<IFacet>}
+     * @property facets
+     * @type {StringIUnknownMap&lt;IFacet&gt;}
      * @private
      */
-    private uniforms;
-    /**
-     * @property mode
-     * @type {number}
-     * @private
-     */
-    private mode;
+    private facets;
     /**
      * @class Drawable
      * @constructor
      * @param primitives {DrawPrimitive[]}
-     * @param material {M}
-     * @param model {U}
+     * @param material {IGraphicsProgram}
      */
-    constructor(primitives: DrawPrimitive[], material: M);
+    constructor(primitives: DrawPrimitive[], material: IGraphicsProgram);
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
     protected destructor(): void;
+    /**
+     * @method draw
+     * @param [canvasId = 0] {number}
+     * @return {void}
+     */
     draw(canvasId?: number): void;
+    /**
+     * @method contextFree
+     * @param [canvasId] {number}
+     */
     contextFree(canvasId?: number): void;
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextGain(manager: IContextProvider): void;
+    /**
+     * @method contextLost
+     * @param [canvasId] {number}
+     * @return {void}
+     */
     contextLost(canvasId?: number): void;
     /**
      * @method getFacet
@@ -64,12 +80,19 @@ declare class Drawable<M extends IGraphicsProgram> extends Shareable implements 
      * @return {IFacet}
      */
     getFacet(name: string): IFacet;
-    setFacet<T extends IFacet>(name: string, value: T): T;
     /**
-     * Provides a reference counted reference to the material.
-     * @property material
-     * @type {M}
+     * @method setFacet
+     * @param name {string}
+     * @param facet {IFacet}
+     * @return {void}
      */
-    material: M;
+    setFacet(name: string, facet: IFacet): void;
+    /**
+     * Provides a reference counted reference to the graphics program.
+     * @property material
+     * @type {IGraphicsProgram}
+     * @readOnly
+     */
+    material: IGraphicsProgram;
 }
 export = Drawable;

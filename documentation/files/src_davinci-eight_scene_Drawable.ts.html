@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.165.0</em>
+            <em>API Docs for: 2.166.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,9 +158,6 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
-                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
-                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
-                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
@@ -263,6 +260,7 @@ import IUnknownArray = require(&#x27;../collections/IUnknownArray&#x27;)
 import GraphicsProgram = require(&#x27;../materials/GraphicsProgram&#x27;)
 import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
 import NumberIUnknownMap = require(&#x27;../collections/NumberIUnknownMap&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import refChange = require(&#x27;../utils/refChange&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
@@ -277,150 +275,186 @@ import uuid4 = require(&#x27;../utils/uuid4&#x27;)
 let LOGGING_NAME = &#x27;Drawable&#x27;
 
 function contextBuilder() {
-  return LOGGING_NAME
+    return LOGGING_NAME
 }
 
 /**
  * @class Drawable
  * @extends Shareable
- * @extends IDrawable
  */
-class Drawable&lt;M extends IGraphicsProgram&gt; extends Shareable implements IDrawable {
-  /**
-   * @property primitives
-   * @type {DrawPrimitive[]}
-   */
-  public primitives: DrawPrimitive[];
-  /**
-   * @property _material
-   * @type {M}
-   * @private
-   */
-  public _material: M;
-  /**
-   * @property name
-   * @type {string}
-   * @optional
-   */
-  public name: string;
-  /**
-   * FIXME This is a bad name because it is not just a collection of buffersByCanvasId.
-   * A map from canvas to IBufferGeometry.
-   * It&#x27;s a function that returns a mesh, given a canvasId a lokup
-   */
-  private buffersByCanvasId: NumberIUnknownMap&lt;IUnknownArray&lt;IBufferGeometry&gt;&gt;;
-  /**
-   * @property uniforms
-   * @type {StringIUnknownMap&lt;IFacet&gt;}
-   * @private
-   */
-  private uniforms: StringIUnknownMap&lt;IFacet&gt;;
-  /**
-   * @property mode
-   * @type {number}
-   * @private
-   */
-  private mode: number;
-  // FIXME: Do we insist on a IContextMonitor here.
-  // We can also assume that we are OK because of the Scene - but can&#x27;t assume that there is one?
-  /**
-   * @class Drawable
-   * @constructor
-   * @param primitives {DrawPrimitive[]}
-   * @param material {M}
-   * @param model {U}
-   */
-  constructor(primitives: DrawPrimitive[], material: M) {
-    super(LOGGING_NAME)
-    this.primitives = primitives
+class Drawable extends Shareable implements IDrawable {
 
-    this._material = material
-    this._material.addRef()
+    /**
+     * @property primitives
+     * @type {DrawPrimitive[]}
+     */
+    public primitives: DrawPrimitive[];
 
-    this.buffersByCanvasId = new NumberIUnknownMap&lt;IUnknownArray&lt;IBufferGeometry&gt;&gt;()
+    /**
+     * @property graphicsProgram
+     * @type {IGraphicsProgram}
+     * @private
+     */
+    public graphicsProgram: IGraphicsProgram;
 
-    this.uniforms = new StringIUnknownMap&lt;IFacet&gt;();
-  }
-  protected destructor(): void {
-    this.primitives = void 0;
-    this.buffersByCanvasId.release()
-    this.buffersByCanvasId = void 0
-    this._material.release()
-    this._material = void 0
-    this.uniforms.release()
-    this.uniforms = void 0
-  }
-  draw(canvasId: number = 0): void {
-    // We know we are going to need a &quot;good&quot; canvasId to perform the buffers lookup.
-    // So we may as well test that condition now.
-    if (isDefined(canvasId)) {
-      let material = this._material
+    /**
+     * @property name
+     * @type {string}
+     * @optional
+     */
+    public name: string;
 
-      let buffers: IUnknownArray&lt;IBufferGeometry&gt; = this.buffersByCanvasId.getWeakRef(canvasId)
-      if (isDefined(buffers)) {
-        material.use(canvasId)
+    /**
+     * FIXME This is a bad name because it is not just a collection of buffersByCanvasId.
+     * A map from canvas to IBufferGeometry.
+     * It&#x27;s a function that returns a mesh, given a canvasId a lookup
+     */
+    private buffersByCanvasId: NumberIUnknownMap&lt;IUnknownArray&lt;IBufferGeometry&gt;&gt;;
 
-        // FIXME: The name is unused. Think we should just have a list
-        // and then access using either the real uniform name or a property name.
-        this.uniforms.forEach(function(name, uniform) {
-          uniform.setUniforms(material, canvasId)
-        })
+    /**
+     * @property facets
+     * @type {StringIUnknownMap&amp;lt;IFacet&amp;gt;}
+     * @private
+     */
+    private facets: StringIUnknownMap&lt;IFacet&gt;;
 
-        for (var i = 0; i &lt; buffers.length; i++) {
-          var buffer = buffers.getWeakRef(i)
-          buffer.bind(material/*, aNameToKeyName*/) // FIXME: Why not part of the API?
-          buffer.draw()
-          buffer.unbind()
+    /**
+     * @class Drawable
+     * @constructor
+     * @param primitives {DrawPrimitive[]}
+     * @param material {IGraphicsProgram}
+     */
+    constructor(primitives: DrawPrimitive[], material: IGraphicsProgram) {
+        super(LOGGING_NAME)
+        this.primitives = primitives
+
+        this.graphicsProgram = material
+        this.graphicsProgram.addRef()
+
+        this.buffersByCanvasId = new NumberIUnknownMap&lt;IUnknownArray&lt;IBufferGeometry&gt;&gt;()
+
+        this.facets = new StringIUnknownMap&lt;IFacet&gt;();
+    }
+
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        this.primitives = void 0;
+        this.buffersByCanvasId.release()
+        this.buffersByCanvasId = void 0
+        this.graphicsProgram.release()
+        this.graphicsProgram = void 0
+        this.facets.release()
+        this.facets = void 0
+    }
+
+    /**
+     * @method draw
+     * @param [canvasId = 0] {number}
+     * @return {void}
+     */
+    draw(canvasId: number = 0): void {
+        // We know we are going to need a &quot;good&quot; canvasId to perform the buffers lookup.
+        // So we may as well test that condition now.
+        if (isDefined(canvasId)) {
+            let material = this.graphicsProgram
+
+            let buffers: IUnknownArray&lt;IBufferGeometry&gt; = this.buffersByCanvasId.getWeakRef(canvasId)
+            if (isDefined(buffers)) {
+                material.use(canvasId)
+
+                // FIXME: The name is unused. Think we should just have a list
+                // and then access using either the real uniform name or a property name.
+                this.facets.forEach(function(name, uniform) {
+                    uniform.setUniforms(material, canvasId)
+                })
+
+                for (var i = 0; i &lt; buffers.length; i++) {
+                    var buffer = buffers.getWeakRef(i)
+                    buffer.bind(material/*, aNameToKeyName*/) // FIXME: Why not part of the API?
+                    buffer.draw()
+                    buffer.unbind()
+                }
+            }
         }
-      }
     }
-  }
-  contextFree(canvasId?: number): void {
-    this._material.contextFree(canvasId)
-  }
-  contextGain(manager: IContextProvider): void {
-    // 1. Replace the existing buffer geometry if we have geometry. 
-    if (this.primitives) {
-      for (var i = 0; i &lt; this.primitives.length; i++) {
-        var primitive = this.primitives[i]
-        if (!this.buffersByCanvasId.exists(manager.canvasId)) {
-          this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray&lt;IBufferGeometry&gt;([]))
-        }
-        var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId)
-        buffers.pushWeakRef(manager.createBufferGeometry(primitive))
-      }
-    }
-    else {
-      console.warn(LOGGING_NAME + &quot; contextGain method has no elements, canvasId =&gt; &quot; + manager.canvasId)
-    }
-    // 2. Delegate the context to the material.
-    this._material.contextGain(manager)
-  }
-  contextLost(canvasId?: number): void {
-    this._material.contextLost(canvasId)
-  }
-  /**
-   * @method getFacet
-   * @param name {string}
-   * @return {IFacet}
-   */
-  getFacet(name: string): IFacet {
-    return this.uniforms.get(name)
-  }
-  setFacet&lt;T extends IFacet&gt;(name: string, value: T): T {
-    this.uniforms.put(name, value)
-    return value
-  }
 
-  /**
-   * Provides a reference counted reference to the material.
-   * @property material
-   * @type {M}
-   */
-  get material(): M {
-    this._material.addRef()
-    return this._material
-  }
+    /**
+     * @method contextFree
+     * @param [canvasId] {number}
+     */
+    contextFree(canvasId?: number): void {
+        this.graphicsProgram.contextFree(canvasId)
+    }
+
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
+    contextGain(manager: IContextProvider): void {
+        // 1. Replace the existing buffer geometry if we have geometry. 
+        if (this.primitives) {
+            for (var i = 0, iLength = this.primitives.length; i &lt; iLength; i++) {
+                var primitive = this.primitives[i]
+                if (!this.buffersByCanvasId.exists(manager.canvasId)) {
+                    this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray&lt;IBufferGeometry&gt;([]))
+                }
+                var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId)
+                buffers.pushWeakRef(manager.createBufferGeometry(primitive))
+            }
+        }
+        else {
+            console.warn(&quot;contextGain method has no primitices, canvasId =&gt; &quot; + manager.canvasId)
+        }
+        // 2. Delegate the context to the material.
+        this.graphicsProgram.contextGain(manager)
+    }
+
+    /**
+     * @method contextLost
+     * @param [canvasId] {number}
+     * @return {void}
+     */
+    contextLost(canvasId?: number): void {
+        this.graphicsProgram.contextLost(canvasId)
+    }
+
+    /**
+     * @method getFacet
+     * @param name {string}
+     * @return {IFacet}
+     */
+    getFacet(name: string): IFacet {
+        return this.facets.get(name)
+    }
+
+    /**
+     * @method setFacet
+     * @param name {string}
+     * @param facet {IFacet}
+     * @return {void}
+     */
+    setFacet(name: string, facet: IFacet): void {
+        this.facets.put(name, facet)
+    }
+
+    /**
+     * Provides a reference counted reference to the graphics program.
+     * @property material
+     * @type {IGraphicsProgram}
+     * @readOnly
+     */
+    get material(): IGraphicsProgram {
+        this.graphicsProgram.addRef()
+        return this.graphicsProgram
+    }
+    set material(unused) {
+        throw new Error(readOnly(&#x27;material&#x27;).message)
+    }
 }
 
 export = Drawable

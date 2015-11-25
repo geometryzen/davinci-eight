@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.165.0</em>
+            <em>API Docs for: 2.166.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,9 +158,6 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
-                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
-                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
-                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
@@ -253,7 +250,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:7</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:5</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -263,7 +260,7 @@
 
 <div class="box intro">
     <p>
-The Drawable interface indicates that the implementation can make a call
+The IDrawable interface indicates that the implementation can make a call
 to either drawArrays or drawElements on the WebGL rendering context.
 It also contains other meta-data that may be used to optimize the rendering.
 e.g. transparency, visibility, bounding volumes, etc.
@@ -411,7 +408,7 @@ e.g. transparency, visibility, bounding volumes, etc.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:38</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:39</code></a>
         </p>
 
 
@@ -458,7 +455,7 @@ e.g. transparency, visibility, bounding volumes, etc.
                         <code>name</code>
                 </li>
                 <li class="arg">
-                        <code>value</code>
+                        <code>facet</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -476,7 +473,7 @@ e.g. transparency, visibility, bounding volumes, etc.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:44</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:46</code></a>
         </p>
 
 
@@ -502,7 +499,7 @@ e.g. transparency, visibility, bounding volumes, etc.
 
                 </li>
                 <li class="param">
-                        <code class="param-name">value</code>
+                        <code class="param-name">facet</code>
                         <span class="type"><a href="../classes/IFacet.html" class="crosslink">IFacet</a></span>
 
 
@@ -531,8 +528,7 @@ e.g. transparency, visibility, bounding volumes, etc.
 
 <div id="property_material" class="property item">
     <h3 class="name"><code>material</code></h3>
-    <span class="type">IGraphicsProgram
-Contains a WebGLProgram for each canvas that this IDrawable can draw to.</span>
+    <span class="type"><a href="../classes/IGraphicsProgram.html" class="crosslink">IGraphicsProgram</a></span>
 
 
 
@@ -541,7 +537,7 @@ Contains a WebGLProgram for each canvas that this IDrawable can draw to.</span>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:19</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:17</code></a>
         </p>
 
 
@@ -565,14 +561,15 @@ Contains a WebGLProgram for each canvas that this IDrawable can draw to.</span>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:25</code></a>
+        <a href="../files/src_davinci-eight_core_IDrawable.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IDrawable.ts:23</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>User assigned name of the drawable object. Allows an object to be found in a scene.</p>
+        <p>User assigned name of the drawable object.
+Allows a drawable object to be found in a scene.</p>
 
     </div>
 

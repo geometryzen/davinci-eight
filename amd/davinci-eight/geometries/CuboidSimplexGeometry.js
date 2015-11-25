@@ -25,11 +25,6 @@ define(["require", "exports", '../math/CartesianE3', '../geometries/computeFaceN
          * @param [k = Simplex.TRIANGLE] {number}
          * @param [subdivide = 0] {number = 0}
          * @param [boundary = 0] {number}
-         * @example
-             var geometry = new EIGHT.CuboidSimplexGeometry();
-             var primitive = geometry.toDrawPrimitive();
-             var material = new EIGHT.MeshMaterial();
-             var cube = new EIGHT.Drawable([primitive], material);
          */
         function CuboidSimplexGeometry(a, b, c, k, subdivide, boundary) {
             if (a === void 0) { a = CartesianE3.e1; }

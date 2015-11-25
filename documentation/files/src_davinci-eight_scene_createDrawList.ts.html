@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.165.0</em>
+            <em>API Docs for: 2.166.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,9 +158,6 @@
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
-                                <li><a href="../classes/RigidBodyE2.html">RigidBodyE2</a></li>
-                                <li><a href="../classes/RigidBodyE3.html">RigidBodyE3</a></li>
-                                <li><a href="../classes/RigidBodyFacetE3.html">RigidBodyFacetE3</a></li>
                                 <li><a href="../classes/RingGeometry.html">RingGeometry</a></li>
                                 <li><a href="../classes/RingSimplexGeometry.html">RingSimplexGeometry</a></li>
                                 <li><a href="../classes/Scalar.html">Scalar</a></li>
@@ -370,11 +367,11 @@ class DrawableGroup implements IUnknown {
 }
 
 /**
- * Should look like a set of Drawable Groups. Maybe like a Scene!
+ * Should look like a set of IDrawable Groups. Maybe like a Scene!
  */
 class DrawableGroups extends Shareable/*IDrawList*/ {
     /**
-     * Mapping from programId to DrawableGroup ~ (IGraphicsProgram,IDrawable[])
+     * Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])
      */
     private _groups = new StringIUnknownMap&lt;DrawableGroup&gt;();
     constructor() {

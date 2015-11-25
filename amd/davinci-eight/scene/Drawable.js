@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, IUnknownArray, NumberIUnknownMap, Shareable, StringIUnknownMap) {
+define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../i18n/readOnly', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined, IUnknownArray, NumberIUnknownMap, readOnly, Shareable, StringIUnknownMap) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -14,48 +14,54 @@ define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArr
     /**
      * @class Drawable
      * @extends Shareable
-     * @extends IDrawable
      */
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
-        // FIXME: Do we insist on a IContextMonitor here.
-        // We can also assume that we are OK because of the Scene - but can't assume that there is one?
         /**
          * @class Drawable
          * @constructor
          * @param primitives {DrawPrimitive[]}
-         * @param material {M}
-         * @param model {U}
+         * @param material {IGraphicsProgram}
          */
         function Drawable(primitives, material) {
             _super.call(this, LOGGING_NAME);
             this.primitives = primitives;
-            this._material = material;
-            this._material.addRef();
+            this.graphicsProgram = material;
+            this.graphicsProgram.addRef();
             this.buffersByCanvasId = new NumberIUnknownMap();
-            this.uniforms = new StringIUnknownMap();
+            this.facets = new StringIUnknownMap();
         }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
         Drawable.prototype.destructor = function () {
             this.primitives = void 0;
             this.buffersByCanvasId.release();
             this.buffersByCanvasId = void 0;
-            this._material.release();
-            this._material = void 0;
-            this.uniforms.release();
-            this.uniforms = void 0;
+            this.graphicsProgram.release();
+            this.graphicsProgram = void 0;
+            this.facets.release();
+            this.facets = void 0;
         };
+        /**
+         * @method draw
+         * @param [canvasId = 0] {number}
+         * @return {void}
+         */
         Drawable.prototype.draw = function (canvasId) {
             if (canvasId === void 0) { canvasId = 0; }
             // We know we are going to need a "good" canvasId to perform the buffers lookup.
             // So we may as well test that condition now.
             if (isDefined(canvasId)) {
-                var material = this._material;
+                var material = this.graphicsProgram;
                 var buffers = this.buffersByCanvasId.getWeakRef(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
                     // FIXME: The name is unused. Think we should just have a list
                     // and then access using either the real uniform name or a property name.
-                    this.uniforms.forEach(function (name, uniform) {
+                    this.facets.forEach(function (name, uniform) {
                         uniform.setUniforms(material, canvasId);
                     });
                     for (var i = 0; i < buffers.length; i++) {
@@ -67,13 +73,22 @@ define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArr
                 }
             }
         };
+        /**
+         * @method contextFree
+         * @param [canvasId] {number}
+         */
         Drawable.prototype.contextFree = function (canvasId) {
-            this._material.contextFree(canvasId);
+            this.graphicsProgram.contextFree(canvasId);
         };
+        /**
+         * @method contextGain
+         * @param manager {IContextProvider}
+         * @return {void}
+         */
         Drawable.prototype.contextGain = function (manager) {
             // 1. Replace the existing buffer geometry if we have geometry. 
             if (this.primitives) {
-                for (var i = 0; i < this.primitives.length; i++) {
+                for (var i = 0, iLength = this.primitives.length; i < iLength; i++) {
                     var primitive = this.primitives[i];
                     if (!this.buffersByCanvasId.exists(manager.canvasId)) {
                         this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray([]));
@@ -83,13 +98,18 @@ define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArr
                 }
             }
             else {
-                console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId);
+                console.warn("contextGain method has no primitices, canvasId => " + manager.canvasId);
             }
             // 2. Delegate the context to the material.
-            this._material.contextGain(manager);
+            this.graphicsProgram.contextGain(manager);
         };
+        /**
+         * @method contextLost
+         * @param [canvasId] {number}
+         * @return {void}
+         */
         Drawable.prototype.contextLost = function (canvasId) {
-            this._material.contextLost(canvasId);
+            this.graphicsProgram.contextLost(canvasId);
         };
         /**
          * @method getFacet
@@ -97,21 +117,30 @@ define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArr
          * @return {IFacet}
          */
         Drawable.prototype.getFacet = function (name) {
-            return this.uniforms.get(name);
+            return this.facets.get(name);
         };
-        Drawable.prototype.setFacet = function (name, value) {
-            this.uniforms.put(name, value);
-            return value;
+        /**
+         * @method setFacet
+         * @param name {string}
+         * @param facet {IFacet}
+         * @return {void}
+         */
+        Drawable.prototype.setFacet = function (name, facet) {
+            this.facets.put(name, facet);
         };
         Object.defineProperty(Drawable.prototype, "material", {
             /**
-             * Provides a reference counted reference to the material.
+             * Provides a reference counted reference to the graphics program.
              * @property material
-             * @type {M}
+             * @type {IGraphicsProgram}
+             * @readOnly
              */
             get: function () {
-                this._material.addRef();
-                return this._material;
+                this.graphicsProgram.addRef();
+                return this.graphicsProgram;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('material').message);
             },
             enumerable: true,
             configurable: true

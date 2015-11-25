@@ -49,11 +49,6 @@ declare class CuboidSimplexGeometry extends SimplexGeometry {
      * @param [k = Simplex.TRIANGLE] {number}
      * @param [subdivide = 0] {number = 0}
      * @param [boundary = 0] {number}
-     * @example
-         var geometry = new EIGHT.CuboidSimplexGeometry();
-         var primitive = geometry.toDrawPrimitive();
-         var material = new EIGHT.MeshMaterial();
-         var cube = new EIGHT.Drawable([primitive], material);
      */
     constructor(a?: VectorE3, b?: VectorE3, c?: VectorE3, k?: number, subdivide?: number, boundary?: number);
     /**
