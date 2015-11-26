@@ -11370,6 +11370,251 @@ define('davinci-eight/cameras/createPerspective',["require", "exports", '../came
     return createPerspective;
 });
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeObject', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, createPerspective, readOnly, mustBeObject, mustBeNumber, mustBeString, Shareable) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var CLASS_NAME = 'PerspectiveCamera';
+    /**
+     * @class PerspectiveCamera
+     */
+    var PerspectiveCamera = (function (_super) {
+        __extends(PerspectiveCamera, _super);
+        /**
+         * <p>
+         *
+         * </p>
+         * @class PerspectiveCamera
+         * @constructor
+         * @param [fov = 75 * Math.PI / 180] {number}
+         * @param [aspect=1] {number}
+         * @param [near=0.1] {number}
+         * @param [far=2000] {number}
+         * @example
+         *   var camera = new EIGHT.PerspectiveCamera()
+         *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
+         *   camera.setFov(3.0 * e3)
+         */
+        function PerspectiveCamera(fov, aspect, near, far) {
+            if (fov === void 0) { fov = 75 * Math.PI / 180; }
+            if (aspect === void 0) { aspect = 1; }
+            if (near === void 0) { near = 0.1; }
+            if (far === void 0) { far = 2000; }
+            _super.call(this, 'PerspectiveCamera');
+            mustBeNumber('fov', fov);
+            mustBeNumber('aspect', aspect);
+            mustBeNumber('near', near);
+            mustBeNumber('far', far);
+            this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far });
+        }
+        PerspectiveCamera.prototype.destructor = function () {
+        };
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param [canvasId] {number}
+         * @return {void}
+         */
+        PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
+            this.inner.setNear(this.near);
+            this.inner.setFar(this.far);
+            this.inner.setUniforms(visitor, canvasId);
+        };
+        PerspectiveCamera.prototype.contextFree = function () {
+        };
+        PerspectiveCamera.prototype.contextGain = function (manager) {
+        };
+        PerspectiveCamera.prototype.contextLost = function () {
+        };
+        PerspectiveCamera.prototype.draw = function (canvasId) {
+            console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
+            // Do nothing.
+        };
+        PerspectiveCamera.prototype.getProperty = function (name) {
+            mustBeString('name', name);
+            switch (name) {
+                case PerspectiveCamera.PROP_EYE:
+                case PerspectiveCamera.PROP_POSITION: {
+                    return this.eye.coords;
+                    break;
+                }
+                default: {
+                }
+            }
+        };
+        PerspectiveCamera.prototype.setProperty = function (name, value) {
+            mustBeString('name', name);
+            mustBeObject('value', value);
+            switch (name) {
+                case PerspectiveCamera.PROP_EYE:
+                case PerspectiveCamera.PROP_POSITION: {
+                    this.eye.copyCoordinates(value);
+                    break;
+                }
+                default: {
+                }
+            }
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
+            /**
+             * The aspect ratio (width / height) of the camera viewport.
+             * @property aspect
+             * @type {number}
+             * @readOnly
+             */
+            get: function () {
+                return this.inner.aspect;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setAspect
+         * @param aspect {number}
+         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setAspect = function (aspect) {
+            this.inner.aspect = aspect;
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "eye", {
+            /**
+             * The position of the camera.
+             * @property eye
+             * @type {R3}
+             * @readOnly
+             */
+            get: function () {
+                return this.inner.eye;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setEye
+         * @param eye {VectorE3}
+         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setEye = function (eye) {
+            this.inner.setEye(eye);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "fov", {
+            /**
+             * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
+             * Measured in radians.
+             * @property fov
+             * @type {number}
+             * @readOnly
+             */
+            // TODO: Field of view could be specified as an Aspect + Magnitude of a SpinG3!?
+            get: function () {
+                return this.inner.fov;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('fov').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setFov
+         * @param fov {number}
+         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setFov = function (fov) {
+            mustBeNumber('fov', fov);
+            this.inner.fov = fov;
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "look", {
+            get: function () {
+                return this.inner.look;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PerspectiveCamera.prototype.setLook = function (look) {
+            this.inner.setLook(look);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "near", {
+            /**
+             * The distance to the near plane.
+             * @property near
+             * @type {number}
+             * @readOnly
+             */
+            get: function () {
+                return this.inner.near;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('near').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setNear
+         * @param near {number}
+         * @return {PerspectiveCamera} <p><code>this</code> instance, <em>without incrementing the reference count</em>.</p>
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setNear = function (near) {
+            this.inner.setNear(near);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "far", {
+            get: function () {
+                return this.inner.far;
+            },
+            set: function (far) {
+                this.inner.far = far;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PerspectiveCamera.prototype.setFar = function (far) {
+            this.inner.setFar(far);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "up", {
+            get: function () {
+                return this.inner.up;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('up').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PerspectiveCamera.prototype.setUp = function (up) {
+            this.inner.setUp(up);
+            return this;
+        };
+        /**
+         * The name of the property that designates the position.
+         * @property PROP_POSITION
+         * @type {string}
+         * @default 'X'
+         * @static
+         * @readOnly
+         */
+        PerspectiveCamera.PROP_POSITION = 'X';
+        PerspectiveCamera.PROP_EYE = 'eye';
+        return PerspectiveCamera;
+    })(Shareable);
+    return PerspectiveCamera;
+});
+
 define('davinci-eight/commands/BlendFactor',["require", "exports"], function (require, exports) {
     /**
      * <p>
@@ -11947,7 +12192,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-11-25',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.166.0'
+        VERSION: '2.167.0'
     };
     return core;
 });
@@ -15847,251 +16092,6 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
         return Drawable;
     })(Shareable);
     return Drawable;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeObject', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, createPerspective, readOnly, mustBeObject, mustBeNumber, mustBeString, Shareable) {
-    /**
-     * Name used for reference count monitoring and logging.
-     */
-    var CLASS_NAME = 'PerspectiveCamera';
-    /**
-     * @class PerspectiveCamera
-     */
-    var PerspectiveCamera = (function (_super) {
-        __extends(PerspectiveCamera, _super);
-        /**
-         * <p>
-         *
-         * </p>
-         * @class PerspectiveCamera
-         * @constructor
-         * @param [fov = 75 * Math.PI / 180] {number}
-         * @param [aspect=1] {number}
-         * @param [near=0.1] {number}
-         * @param [far=2000] {number}
-         * @example
-         *   var camera = new EIGHT.PerspectiveCamera()
-         *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
-         *   camera.setFov(3.0 * e3)
-         */
-        function PerspectiveCamera(fov, aspect, near, far) {
-            if (fov === void 0) { fov = 75 * Math.PI / 180; }
-            if (aspect === void 0) { aspect = 1; }
-            if (near === void 0) { near = 0.1; }
-            if (far === void 0) { far = 2000; }
-            _super.call(this, 'PerspectiveCamera');
-            mustBeNumber('fov', fov);
-            mustBeNumber('aspect', aspect);
-            mustBeNumber('near', near);
-            mustBeNumber('far', far);
-            this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far });
-        }
-        PerspectiveCamera.prototype.destructor = function () {
-        };
-        /**
-         * @method setUniforms
-         * @param visitor {IFacetVisitor}
-         * @param [canvasId] {number}
-         * @return {void}
-         */
-        PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
-            this.inner.setNear(this.near);
-            this.inner.setFar(this.far);
-            this.inner.setUniforms(visitor, canvasId);
-        };
-        PerspectiveCamera.prototype.contextFree = function () {
-        };
-        PerspectiveCamera.prototype.contextGain = function (manager) {
-        };
-        PerspectiveCamera.prototype.contextLost = function () {
-        };
-        PerspectiveCamera.prototype.draw = function (canvasId) {
-            console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
-            // Do nothing.
-        };
-        PerspectiveCamera.prototype.getProperty = function (name) {
-            mustBeString('name', name);
-            switch (name) {
-                case PerspectiveCamera.PROP_EYE:
-                case PerspectiveCamera.PROP_POSITION: {
-                    return this.eye.coords;
-                    break;
-                }
-                default: {
-                }
-            }
-        };
-        PerspectiveCamera.prototype.setProperty = function (name, value) {
-            mustBeString('name', name);
-            mustBeObject('value', value);
-            switch (name) {
-                case PerspectiveCamera.PROP_EYE:
-                case PerspectiveCamera.PROP_POSITION: {
-                    this.eye.copyCoordinates(value);
-                    break;
-                }
-                default: {
-                }
-            }
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
-            /**
-             * The aspect ratio (width / height) of the camera viewport.
-             * @property aspect
-             * @type {number}
-             * @readOnly
-             */
-            get: function () {
-                return this.inner.aspect;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method setAspect
-         * @param aspect {number}
-         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
-         * @chainable
-         */
-        PerspectiveCamera.prototype.setAspect = function (aspect) {
-            this.inner.aspect = aspect;
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "eye", {
-            /**
-             * The position of the camera.
-             * @property eye
-             * @type {R3}
-             * @readOnly
-             */
-            get: function () {
-                return this.inner.eye;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method setEye
-         * @param eye {VectorE3}
-         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
-         * @chainable
-         */
-        PerspectiveCamera.prototype.setEye = function (eye) {
-            this.inner.setEye(eye);
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "fov", {
-            /**
-             * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
-             * Measured in radians.
-             * @property fov
-             * @type {number}
-             * @readOnly
-             */
-            // TODO: Field of view could be specified as an Aspect + Magnitude of a SpinG3!?
-            get: function () {
-                return this.inner.fov;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('fov').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method setFov
-         * @param fov {number}
-         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
-         * @chainable
-         */
-        PerspectiveCamera.prototype.setFov = function (fov) {
-            mustBeNumber('fov', fov);
-            this.inner.fov = fov;
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "look", {
-            get: function () {
-                return this.inner.look;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        PerspectiveCamera.prototype.setLook = function (look) {
-            this.inner.setLook(look);
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "near", {
-            /**
-             * The distance to the near plane.
-             * @property near
-             * @type {number}
-             * @readOnly
-             */
-            get: function () {
-                return this.inner.near;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('near').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method setNear
-         * @param near {number}
-         * @return {PerspectiveCamera} <p><code>this</code> instance, <em>without incrementing the reference count</em>.</p>
-         * @chainable
-         */
-        PerspectiveCamera.prototype.setNear = function (near) {
-            this.inner.setNear(near);
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "far", {
-            get: function () {
-                return this.inner.far;
-            },
-            set: function (far) {
-                this.inner.far = far;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        PerspectiveCamera.prototype.setFar = function (far) {
-            this.inner.setFar(far);
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "up", {
-            get: function () {
-                return this.inner.up;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('up').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        PerspectiveCamera.prototype.setUp = function (up) {
-            this.inner.setUp(up);
-            return this;
-        };
-        /**
-         * The name of the property that designates the position.
-         * @property PROP_POSITION
-         * @type {string}
-         * @default 'X'
-         * @static
-         * @readOnly
-         */
-        PerspectiveCamera.PROP_POSITION = 'X';
-        PerspectiveCamera.PROP_EYE = 'eye';
-        return PerspectiveCamera;
-    })(Shareable);
-    return PerspectiveCamera;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -22787,68 +22787,6 @@ define('davinci-eight/materials/PointMaterial',["require", "exports", '../materi
     return PointMaterial;
 });
 
-define('davinci-eight/mappers/RoundUniform',["require", "exports"], function (require, exports) {
-    var RoundUniform = (function () {
-        function RoundUniform() {
-        }
-        Object.defineProperty(RoundUniform.prototype, "next", {
-            get: function () {
-                // FIXME: No reference counting yet.
-                return this._next;
-            },
-            set: function (next) {
-                // FIXME: No reference counting yet.
-                this._next = next;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        RoundUniform.prototype.uniform1f = function (name, x, canvasId) {
-            if (this._next) {
-                this._next.uniform1f(name, Math.round(x), canvasId);
-            }
-        };
-        RoundUniform.prototype.uniform2f = function (name, x, y) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniform3f = function (name, x, y, z) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniform4f = function (name, x, y, z, w) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.mat2 = function (name, matrix, transpose) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.mat3 = function (name, matrix, transpose) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.mat4 = function (name, matrix, transpose) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.vec2 = function (name, vector) {
-            console.warn("vec2");
-        };
-        RoundUniform.prototype.vec3 = function (name, vector) {
-            console.warn("vec3");
-        };
-        RoundUniform.prototype.vec4 = function (name, vector) {
-            console.warn("vec4");
-        };
-        RoundUniform.prototype.vector2 = function (name, data, canvasId) {
-            this._next.vector2(name, data, canvasId);
-        };
-        RoundUniform.prototype.vector3 = function (name, data, canvasId) {
-            this._next.vector3(name, data, canvasId);
-        };
-        RoundUniform.prototype.vector4 = function (name, data, canvasId) {
-            this._next.vector4(name, data, canvasId);
-        };
-        return RoundUniform;
-    })();
-    return RoundUniform;
-});
-
 define('davinci-eight/math/extE2',["require", "exports"], function (require, exports) {
     function extE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
         a0 = +a0;
@@ -27312,49 +27250,7 @@ define('davinci-eight/utils/getCanvasElementById',["require", "exports", '../che
     return getCanvasElementById;
 });
 
-define('davinci-eight/utils/workbench3D',["require", "exports"], function (require, exports) {
-    var EVENT_NAME_RESIZE = 'resize';
-    var TAG_NAME_CANVAS = 'canvas';
-    function removeElementsByTagName(doc, tagname) {
-        var elements = doc.getElementsByTagName(tagname);
-        for (var i = elements.length - 1; i >= 0; i--) {
-            var e = elements[i];
-            e.parentNode.removeChild(e);
-        }
-    }
-    /**
-     * Creates and returns a workbench3D thing.
-     * canvas: An HTML canvas element to be inserted.
-     * TODO: We should remove the camera as being too opinionated, replace with a callback providing
-     */
-    // FIXME: With renderer typed as `any`, anything could happen.
-    var workbench3D = function (canvas, renderer, camera, win) {
-        if (win === void 0) { win = window; }
-        var doc = win.document;
-        function syncToWindow() {
-            var width = win.innerWidth;
-            var height = win.innerHeight;
-            renderer.setSize(width, height);
-            camera.aspect = width / height;
-        }
-        var onWindowResize = function (event) { syncToWindow(); };
-        var that = {
-            setUp: function () {
-                doc.body.insertBefore(canvas, doc.body.firstChild);
-                win.addEventListener(EVENT_NAME_RESIZE, onWindowResize, false);
-                syncToWindow();
-            },
-            tearDown: function () {
-                win.removeEventListener(EVENT_NAME_RESIZE, onWindowResize, false);
-                removeElementsByTagName(doc, TAG_NAME_CANVAS);
-            }
-        };
-        return that;
-    };
-    return workbench3D;
-});
-
-define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+define('davinci-eight/utils/animation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
     function defaultSetUp() {
     }
     function defaultTearDown(animateException) {
@@ -27505,7 +27401,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     return animation;
 });
 
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/GraphicsProgramSymbols', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/GraphicsContext', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createGraphicsProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/GraphicsProgram', 'davinci-eight/materials/HTMLScriptsGraphicsProgram', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/GraphicsProgramBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Mat2R', 'davinci-eight/math/Mat3R', 'davinci-eight/math/Mat4R', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLightE3', 'davinci-eight/facets/EulerFacet', 'davinci-eight/facets/ModelFacetE3', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacetE2', 'davinci-eight/facets/ReflectionFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/models/ModelE2', 'davinci-eight/models/ModelE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/getCanvasElementById', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, GraphicsProgramSymbols, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, PerspectiveCamera, Scene, GraphicsContext, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createGraphicsProgram, smartProgram, programFromScripts, GraphicsProgram, HTMLScriptsGraphicsProgram, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, GraphicsProgramBuilder, RoundUniform, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Mat2R, Mat3R, Mat4R, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, AmbientLight, ColorFacet, DirectionalLightE3, EulerFacet, ModelFacetE3, PointSizeFacet, ReflectionFacetE2, ReflectionFacetE3, Vector3Facet, ModelE2, ModelE3, initWebGL, renderer, contextProxy, getCanvasElementById, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/DirectorKeyboardHandler', 'davinci-eight/slideshow/animations/WaitAnimation', 'davinci-eight/slideshow/animations/ColorAnimation', 'davinci-eight/slideshow/animations/Vector2Animation', 'davinci-eight/slideshow/animations/Vector3Animation', 'davinci-eight/slideshow/animations/Spinor2Animation', 'davinci-eight/slideshow/animations/Spinor3Animation', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/BlendFactor', 'davinci-eight/commands/WebGLBlendFunc', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/Capability', 'davinci-eight/commands/WebGLDisable', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/GraphicsProgramSymbols', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/devices/Keyboard', 'davinci-eight/geometries/DrawAttribute', 'davinci-eight/geometries/DrawPrimitive', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/simplicesToGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/simplicesToDrawPrimitive', 'davinci-eight/geometries/triangle', 'davinci-eight/topologies/Topology', 'davinci-eight/topologies/PointTopology', 'davinci-eight/topologies/LineTopology', 'davinci-eight/topologies/MeshTopology', 'davinci-eight/topologies/GridTopology', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/Scene', 'davinci-eight/scene/GraphicsContext', 'davinci-eight/geometries/AxialSimplexGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnSimplexGeometry', 'davinci-eight/geometries/ConeGeometry', 'davinci-eight/geometries/ConeSimplexGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSimplexGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/CylinderSimplexGeometry', 'davinci-eight/geometries/DodecahedronSimplexGeometry', 'davinci-eight/geometries/IcosahedronSimplexGeometry', 'davinci-eight/geometries/KleinBottleSimplexGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripSimplexGeometry', 'davinci-eight/geometries/OctahedronSimplexGeometry', 'davinci-eight/geometries/SliceSimplexGeometry', 'davinci-eight/geometries/GridSimplexGeometry', 'davinci-eight/geometries/PolyhedronSimplexGeometry', 'davinci-eight/geometries/RevolutionSimplexGeometry', 'davinci-eight/geometries/RingGeometry', 'davinci-eight/geometries/RingSimplexGeometry', 'davinci-eight/geometries/SphericalPolarSimplexGeometry', 'davinci-eight/geometries/TetrahedronSimplexGeometry', 'davinci-eight/geometries/VortexSimplexGeometry', 'davinci-eight/programs/createGraphicsProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/GraphicsProgram', 'davinci-eight/materials/HTMLScriptsGraphicsProgram', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/GraphicsProgramBuilder', 'davinci-eight/math/Dimensions', 'davinci-eight/math/Euclidean2', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/mathcore', 'davinci-eight/math/R1', 'davinci-eight/math/Mat2R', 'davinci-eight/math/Mat3R', 'davinci-eight/math/Mat4R', 'davinci-eight/math/QQ', 'davinci-eight/math/Unit', 'davinci-eight/math/G2', 'davinci-eight/math/G3', 'davinci-eight/math/SpinG2', 'davinci-eight/math/SpinG3', 'davinci-eight/math/R2', 'davinci-eight/math/R3', 'davinci-eight/math/R4', 'davinci-eight/math/VectorN', 'davinci-eight/facets/AmbientLight', 'davinci-eight/facets/ColorFacet', 'davinci-eight/facets/DirectionalLightE3', 'davinci-eight/facets/EulerFacet', 'davinci-eight/facets/ModelFacetE3', 'davinci-eight/facets/PointSizeFacet', 'davinci-eight/facets/ReflectionFacetE2', 'davinci-eight/facets/ReflectionFacetE3', 'davinci-eight/facets/Vector3Facet', 'davinci-eight/models/ModelE2', 'davinci-eight/models/ModelE3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/getCanvasElementById', 'davinci-eight/collections/IUnknownArray', 'davinci-eight/collections/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/collections/StringIUnknownMap', 'davinci-eight/utils/animation'], function (require, exports, Slide, Director, DirectorKeyboardHandler, WaitAnimation, ColorAnimation, Vector2Animation, Vector3Animation, Spinor2Animation, Spinor3Animation, createFrustum, createPerspective, createView, frustumMatrix, PerspectiveCamera, perspectiveMatrix, viewMatrix, BlendFactor, WebGLBlendFunc, WebGLClearColor, Capability, WebGLDisable, WebGLEnable, AttribLocation, Color, core, DrawMode, GraphicsProgramSymbols, UniformLocation, Curve, Keyboard, DrawAttribute, DrawPrimitive, Simplex, Vertex, simplicesToGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, simplicesToDrawPrimitive, triangle, Topology, PointTopology, LineTopology, MeshTopology, GridTopology, createDrawList, Drawable, Scene, GraphicsContext, AxialSimplexGeometry, ArrowGeometry, BarnSimplexGeometry, ConeGeometry, ConeSimplexGeometry, CuboidGeometry, CuboidSimplexGeometry, CylinderGeometry, CylinderSimplexGeometry, DodecahedronSimplexGeometry, IcosahedronSimplexGeometry, KleinBottleSimplexGeometry, Simplex1Geometry, MobiusStripSimplexGeometry, OctahedronSimplexGeometry, SliceSimplexGeometry, GridSimplexGeometry, PolyhedronSimplexGeometry, RevolutionSimplexGeometry, RingGeometry, RingSimplexGeometry, SphericalPolarSimplexGeometry, TetrahedronSimplexGeometry, VortexSimplexGeometry, createGraphicsProgram, smartProgram, programFromScripts, GraphicsProgram, HTMLScriptsGraphicsProgram, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, GraphicsProgramBuilder, Dimensions, Euclidean2, Euclidean3, mathcore, R1, Mat2R, Mat3R, Mat4R, QQ, Unit, G2, G3, SpinG2, SpinG3, R2, R3, R4, VectorN, AmbientLight, ColorFacet, DirectionalLightE3, EulerFacet, ModelFacetE3, PointSizeFacet, ReflectionFacetE2, ReflectionFacetE3, Vector3Facet, ModelE2, ModelE3, initWebGL, renderer, contextProxy, getCanvasElementById, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, animation) {
     /**
      * @module EIGHT
      */
@@ -27579,8 +27475,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get createDrawList() { return createDrawList; },
         get renderer() { return renderer; },
         get webgl() { return contextProxy; },
-        workbench: workbench3D,
-        animation: windowAnimationRunner,
+        get animation() { return animation; },
         get DrawMode() { return DrawMode; },
         get AttribLocation() { return AttribLocation; },
         get UniformLocation() { return UniformLocation; },
@@ -27639,8 +27534,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Slide', '
         get R4() { return R4; },
         get VectorN() { return VectorN; },
         get Curve() { return Curve; },
-        // mappers
-        get RoundUniform() { return RoundUniform; },
         get simplicesToGeometryMeta() { return simplicesToGeometryMeta; },
         get computeFaceNormals() { return computeFaceNormals; },
         get cube() { return cube; },

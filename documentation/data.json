@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.166.0",
+        "version": "2.167.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -21,6 +21,15 @@
             "modules": {},
             "classes": {
                 "Perspective": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/cameras/PerspectiveCamera.ts": {
+            "name": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "modules": {},
+            "classes": {
+                "PerspectiveCamera": 1
             },
             "fors": {},
             "namespaces": {}
@@ -719,13 +728,6 @@
             "classes": {
                 "GeometryMeta": 1
             },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/geometries/GeometryOld.ts": {
-            "name": "src/davinci-eight/geometries/GeometryOld.ts",
-            "modules": {},
-            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -1675,42 +1677,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/mesh/BoxBuilder.ts": {
-            "name": "src/davinci-eight/mesh/BoxBuilder.ts",
-            "modules": {},
-            "classes": {
-                "BoxBuilder": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/mesh/BoxMesh.ts": {
-            "name": "src/davinci-eight/mesh/BoxMesh.ts",
-            "modules": {},
-            "classes": {
-                "BoxMesh": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/mesh/CuboidMesh.ts": {
-            "name": "src/davinci-eight/mesh/CuboidMesh.ts",
-            "modules": {},
-            "classes": {
-                "CuboidMesh": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/mesh/CylinderArgs.ts": {
-            "name": "src/davinci-eight/mesh/CylinderArgs.ts",
-            "modules": {},
-            "classes": {
-                "CylinderArgs": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/models/ModelE2.ts": {
             "name": "src/davinci-eight/models/ModelE2.ts",
             "modules": {},
@@ -1837,26 +1803,10 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/scene/KahunaList.ts": {
-            "name": "src/davinci-eight/scene/KahunaList.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/scene/MonitorList.ts": {
             "name": "src/davinci-eight/scene/MonitorList.ts",
             "modules": {},
             "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/scene/PerspectiveCamera.ts": {
-            "name": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "modules": {},
-            "classes": {
-                "PerspectiveCamera": 1
-            },
             "fors": {},
             "namespaces": {}
         },
@@ -1989,6 +1939,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/utils/animation.ts": {
+            "name": "src/davinci-eight/utils/animation.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/utils/contextProxy.ts": {
             "name": "src/davinci-eight/utils/contextProxy.ts",
             "modules": {},
@@ -2005,20 +1962,6 @@
         },
         "src/davinci-eight/utils/randumbInteger.ts": {
             "name": "src/davinci-eight/utils/randumbInteger.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/utils/windowAnimationRunner.ts": {
-            "name": "src/davinci-eight/utils/windowAnimationRunner.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/utils/workbench3D.ts": {
-            "name": "src/davinci-eight/utils/workbench3D.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -2042,6 +1985,7 @@
             "classes": {
                 "Frustum": 1,
                 "Perspective": 1,
+                "PerspectiveCamera": 1,
                 "View": 1,
                 "createView": 1,
                 "IUnknownArray": 1,
@@ -2181,10 +2125,6 @@
                 "VectorE3": 1,
                 "VectorE4": 1,
                 "VectorN<T>": 1,
-                "BoxBuilder": 1,
-                "BoxMesh": 1,
-                "CuboidMesh": 1,
-                "CylinderArgs": 1,
                 "ModelE2": 1,
                 "ModelE3": 1,
                 "SimpleWebGLProgram": 1,
@@ -2192,7 +2132,6 @@
                 "Drawable": 1,
                 "GraphicsContext": 1,
                 "IDrawList": 1,
-                "PerspectiveCamera": 1,
                 "Scene": 1,
                 "Director": 1,
                 "IAnimation": 1,
@@ -2254,6 +2193,53 @@
             "file": "src/davinci-eight/cameras/Perspective.ts",
             "line": 5,
             "extends": "View"
+        },
+        "PerspectiveCamera": {
+            "name": "PerspectiveCamera",
+            "shortname": "PerspectiveCamera",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 58,
+            "description": "<p>\n\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "fov ",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": " 75 * Math.PI / 180"
+                },
+                {
+                    "name": "aspect",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "1"
+                },
+                {
+                    "name": "near",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0.1"
+                },
+                {
+                    "name": "far",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "2000"
+                }
+            ],
+            "example": [
+                "\n  var camera = new EIGHT.PerspectiveCamera()\n  camera.setAspect(canvas.clientWidth / canvas.clientHeight)\n  camera.setFov(3.0 * e3)"
+            ]
         },
         "View": {
             "name": "View",
@@ -5152,76 +5138,6 @@
                 }
             ]
         },
-        "BoxBuilder": {
-            "name": "BoxBuilder",
-            "shortname": "BoxBuilder",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/mesh/BoxBuilder.ts",
-            "line": 8
-        },
-        "BoxMesh": {
-            "name": "BoxMesh",
-            "shortname": "BoxMesh",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/mesh/BoxMesh.ts",
-            "line": 9,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "width",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "height",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "depth",
-                    "description": "",
-                    "type": "Number"
-                }
-            ]
-        },
-        "CuboidMesh": {
-            "name": "CuboidMesh",
-            "shortname": "CuboidMesh",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/mesh/CuboidMesh.ts",
-            "line": 4
-        },
-        "CylinderArgs": {
-            "name": "CylinderArgs",
-            "shortname": "CylinderArgs",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/mesh/CylinderArgs.ts",
-            "line": 8
-        },
         "ModelE2": {
             "name": "ModelE2",
             "shortname": "ModelE2",
@@ -5382,54 +5298,6 @@
             "file": "src/davinci-eight/scene/IDrawList.ts",
             "line": 8,
             "extends": "IContextConsumer"
-        },
-        "PerspectiveCamera": {
-            "name": "PerspectiveCamera",
-            "shortname": "PerspectiveCamera",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 58,
-            "description": "<p>\n\n</p>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "fov ",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": " 75 * Math.PI / 180"
-                },
-                {
-                    "name": "aspect",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "1"
-                },
-                {
-                    "name": "near",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "0.1"
-                },
-                {
-                    "name": "far",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true,
-                    "optdefault": "2000"
-                }
-            ],
-            "example": [
-                "\n  var camera = new EIGHT.PerspectiveCamera()\n  camera.setAspect(canvas.clientWidth / canvas.clientHeight)\n  camera.setFov(3.0 * e3)"
-            ]
         },
         "Scene": {
             "name": "Scene",
@@ -5898,6 +5766,186 @@
                 }
             ],
             "class": "Perspective"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 21,
+            "description": "Name used for reference count monitoring and logging.",
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 30,
+            "description": "The name of the property that designates the position.",
+            "itemtype": "property",
+            "name": "PROP_POSITION",
+            "type": "{string}",
+            "default": "'X'",
+            "static": 1,
+            "readonly": "",
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 41,
+            "itemtype": "property",
+            "name": "material",
+            "type": "{IGraphicsProgram}",
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 47,
+            "itemtype": "property",
+            "name": "name",
+            "type": "{string}",
+            "optional": 1,
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 54,
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 84,
+            "itemtype": "method",
+            "name": "setUniforms",
+            "params": [
+                {
+                    "name": "visitor",
+                    "description": "",
+                    "type": "IFacetVisitor"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 131,
+            "description": "The aspect ratio (width / height) of the camera viewport.",
+            "itemtype": "property",
+            "name": "aspect",
+            "type": "{number}",
+            "readonly": "",
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 141,
+            "itemtype": "method",
+            "name": "setAspect",
+            "params": [
+                {
+                    "name": "aspect",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "`this` instance without incrementing the reference count.",
+                "type": "PerspectiveCamera"
+            },
+            "chainable": 1,
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 152,
+            "description": "The position of the camera.",
+            "itemtype": "property",
+            "name": "eye",
+            "type": "{R3}",
+            "readonly": "",
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 162,
+            "itemtype": "method",
+            "name": "setEye",
+            "params": [
+                {
+                    "name": "eye",
+                    "description": "",
+                    "type": "VectorE3"
+                }
+            ],
+            "return": {
+                "description": "`this` instance without incrementing the reference count.",
+                "type": "PerspectiveCamera"
+            },
+            "chainable": 1,
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 173,
+            "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
+            "itemtype": "property",
+            "name": "fov",
+            "type": "{number}",
+            "readonly": "",
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 187,
+            "itemtype": "method",
+            "name": "setFov",
+            "params": [
+                {
+                    "name": "fov",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "`this` instance without incrementing the reference count.",
+                "type": "PerspectiveCamera"
+            },
+            "chainable": 1,
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 206,
+            "description": "The distance to the near plane.",
+            "itemtype": "property",
+            "name": "near",
+            "type": "{number}",
+            "readonly": "",
+            "class": "PerspectiveCamera"
+        },
+        {
+            "file": "src/davinci-eight/cameras/PerspectiveCamera.ts",
+            "line": 218,
+            "itemtype": "method",
+            "name": "setNear",
+            "params": [
+                {
+                    "name": "near",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "<p><code>this</code> instance, <em>without incrementing the reference count</em>.</p>",
+                "type": "PerspectiveCamera"
+            },
+            "chainable": 1,
+            "class": "PerspectiveCamera"
         },
         {
             "file": "src/davinci-eight/cameras/View.ts",
@@ -11163,36 +11211,6 @@
             "line": 11,
             "description": "The properties of the attributes.\nThe size refers to the size of the GLSL type, not the chunking size.\nThe name is an override of the key that produces the variable name.",
             "class": "GeometryMeta",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/GeometryOld.ts",
-            "line": 36,
-            "description": "Ensures that the normal property of each face is assigned\na value equal to the normalized cross product of two edge vectors\ntaken counter-clockwise. This pseudo vector is then taken to face outwards by convention.",
-            "itemtype": "method",
-            "name": "computeFaceNormals",
-            "class": "Glyph",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/GeometryOld.ts",
-            "line": 115,
-            "description": "Hashmap for looking up vertice by position coordinates (and making sure they are unique).\nkey is constructed from coordinates, value is index in vertices array.",
-            "class": "Glyph",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/GeometryOld.ts",
-            "line": 120,
-            "description": "The list of unique vertices.",
-            "class": "Glyph",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/GeometryOld.ts",
-            "line": 124,
-            "description": "Index is original index in vertices. Entry is index in unique array.",
-            "class": "Glyph",
             "module": "EIGHT"
         },
         {
@@ -26771,131 +26789,98 @@
             "file": "src/davinci-eight/math/det2x2.ts",
             "line": 1,
             "description": "Computes the determinant of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/det3x3.ts",
             "line": 1,
             "description": "Computes the determinant of a 3x3 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/dotVectorCartesianE2.ts",
             "line": 1,
             "description": "Computes the dot product of the Cartesian components in a Euclidean metric",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/dotVectorCartesianE3.ts",
             "line": 1,
             "description": "Computes the dot product of the Cartesian components in a Euclidean metric",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/inv2x2.ts",
             "line": 1,
             "description": "Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/inv3x3.ts",
             "line": 3,
             "description": "Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/inv4x4.ts",
             "line": 1,
             "description": "Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/mathcore.ts",
             "line": 12,
             "description": "Determines whether a property name is callable on an object.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/mulE3.ts",
             "line": 1,
             "description": "Multiplication of G3.\nThis was originally written for asm.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/rotorFromDirections.ts",
             "line": 5,
             "description": "Sets this multivector to a rotor representing a rotation from a to b.\nR = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))\nReturns undefined (void 0) if the vectors are anti-parallel.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/scpE3.ts",
             "line": 1,
             "description": "Scalar Product of G3.\nThis was originally written for asm.\nNote that all componenets except the zeroth are zero and so users can optimize.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/wedgeXY.ts",
             "line": 1,
             "description": "Computes the z component of the cross-product of Cartesian vector components.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/wedgeYZ.ts",
             "line": 1,
             "description": "Computes the x component of the cross-product of Cartesian vector components.",
-            "class": "BoxBuilder",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/wedgeZX.ts",
             "line": 1,
             "description": "Computes the y component of the cross-product of Cartesian vector components.",
-            "class": "BoxBuilder",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/mesh/CuboidMesh.ts",
-            "line": 8,
-            "itemtype": "property",
-            "name": "a",
-            "class": "CuboidMesh",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/mesh/CuboidMesh.ts",
-            "line": 12,
-            "itemtype": "property",
-            "name": "b",
-            "class": "CuboidMesh",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/mesh/CuboidMesh.ts",
-            "line": 16,
-            "itemtype": "property",
-            "name": "c",
-            "class": "CuboidMesh",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/mesh/CuboidMesh.ts",
-            "line": 20,
-            "itemtype": "property",
-            "name": "color",
-            "type": "Color",
-            "class": "CuboidMesh",
+            "class": "ModelE2",
             "module": "EIGHT"
         },
         {
@@ -28310,211 +28295,10 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/scene/KahunaList.ts",
-            "line": 11,
-            "description": "Implementation Only.",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/scene/MonitorList.ts",
             "line": 23,
             "description": "Implementation Only.",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 21,
-            "description": "Name used for reference count monitoring and logging.",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 30,
-            "description": "The name of the property that designates the position.",
-            "itemtype": "property",
-            "name": "PROP_POSITION",
-            "type": "{string}",
-            "default": "'X'",
-            "static": 1,
-            "readonly": "",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 41,
-            "itemtype": "property",
-            "name": "material",
-            "type": "{IGraphicsProgram}",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 47,
-            "itemtype": "property",
-            "name": "name",
-            "type": "{string}",
-            "optional": 1,
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 54,
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 84,
-            "itemtype": "method",
-            "name": "setUniforms",
-            "params": [
-                {
-                    "name": "visitor",
-                    "description": "",
-                    "type": "IFacetVisitor"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 131,
-            "description": "The aspect ratio (width / height) of the camera viewport.",
-            "itemtype": "property",
-            "name": "aspect",
-            "type": "{number}",
-            "readonly": "",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 141,
-            "itemtype": "method",
-            "name": "setAspect",
-            "params": [
-                {
-                    "name": "aspect",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "`this` instance without incrementing the reference count.",
-                "type": "PerspectiveCamera"
-            },
-            "chainable": 1,
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 152,
-            "description": "The position of the camera.",
-            "itemtype": "property",
-            "name": "eye",
-            "type": "{R3}",
-            "readonly": "",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 162,
-            "itemtype": "method",
-            "name": "setEye",
-            "params": [
-                {
-                    "name": "eye",
-                    "description": "",
-                    "type": "VectorE3"
-                }
-            ],
-            "return": {
-                "description": "`this` instance without incrementing the reference count.",
-                "type": "PerspectiveCamera"
-            },
-            "chainable": 1,
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 173,
-            "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
-            "itemtype": "property",
-            "name": "fov",
-            "type": "{number}",
-            "readonly": "",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 187,
-            "itemtype": "method",
-            "name": "setFov",
-            "params": [
-                {
-                    "name": "fov",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "`this` instance without incrementing the reference count.",
-                "type": "PerspectiveCamera"
-            },
-            "chainable": 1,
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 206,
-            "description": "The distance to the near plane.",
-            "itemtype": "property",
-            "name": "near",
-            "type": "{number}",
-            "readonly": "",
-            "class": "PerspectiveCamera",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 218,
-            "itemtype": "method",
-            "name": "setNear",
-            "params": [
-                {
-                    "name": "near",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "<p><code>this</code> instance, <em>without incrementing the reference count</em>.</p>",
-                "type": "PerspectiveCamera"
-            },
-            "chainable": 1,
-            "class": "PerspectiveCamera",
+            "class": "Scene",
             "module": "EIGHT"
         },
         {
@@ -29172,6 +28956,13 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/utils/animation.ts",
+            "line": 19,
+            "description": "Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.\nclass WindowAnimationRunner\nconstructor\nparam animate The `animate` function is called for each animation frame.\nparam options.setUp The `setUp` function is called synchronously each time the start() method is called.\nparam options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.\nparam options.terminate The `terminate` function is called to determine whether the animation should stop.\nparam options.window {Window} The window in which the animation will run. Defaults to the global window.",
+            "class": "",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/utils/contextProxy.ts",
             "line": 47,
             "description": "Renders geometric primitives indexed by element array data.",
@@ -29306,20 +29097,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/utils/windowAnimationRunner.ts",
-            "line": 19,
-            "description": "Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.\nclass WindowAnimationRunner\nconstructor\nparam animate The `animate` function is called for each animation frame.\nparam options.setUp The `setUp` function is called synchronously each time the start() method is called.\nparam options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.\nparam options.terminate The `terminate` function is called to determine whether the animation should stop.\nparam options.window {Window} The window in which the animation will run. Defaults to the global window.",
-            "class": "",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/workbench3D.ts",
-            "line": 12,
-            "description": "Creates and returns a workbench3D thing.\ncanvas: An HTML canvas element to be inserted.\nTODO: We should remove the camera as being too opinionated, replace with a callback providing",
-            "class": "",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/core.ts",
             "line": 1,
             "class": "",
@@ -29358,6 +29135,14 @@
         {
             "message": "param name missing: {number}",
             "line": " src/davinci-eight/math/R3.ts:486"
+        },
+        {
+            "message": "Missing item type\nName used for reference count monitoring and logging.",
+            "line": " src/davinci-eight/cameras/PerspectiveCamera.ts:21"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/cameras/PerspectiveCamera.ts:54"
         },
         {
             "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -29522,18 +29307,6 @@
         {
             "message": "Missing item type\nThe properties of the attributes.\nThe size refers to the size of the GLSL type, not the chunking size.\nThe name is an override of the key that produces the variable name.",
             "line": " src/davinci-eight/geometries/GeometryMeta.ts:11"
-        },
-        {
-            "message": "Missing item type\nHashmap for looking up vertice by position coordinates (and making sure they are unique).\nkey is constructed from coordinates, value is index in vertices array.",
-            "line": " src/davinci-eight/geometries/GeometryOld.ts:115"
-        },
-        {
-            "message": "Missing item type\nThe list of unique vertices.",
-            "line": " src/davinci-eight/geometries/GeometryOld.ts:120"
-        },
-        {
-            "message": "Missing item type\nIndex is original index in vertices. Entry is index in unique array.",
-            "line": " src/davinci-eight/geometries/GeometryOld.ts:124"
         },
         {
             "message": "Missing item type\nTemporary array of points.",
@@ -30205,19 +29978,7 @@
         },
         {
             "message": "Missing item type\nImplementation Only.",
-            "line": " src/davinci-eight/scene/KahunaList.ts:11"
-        },
-        {
-            "message": "Missing item type\nImplementation Only.",
             "line": " src/davinci-eight/scene/MonitorList.ts:23"
-        },
-        {
-            "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/scene/PerspectiveCamera.ts:21"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/scene/PerspectiveCamera.ts:54"
         },
         {
             "message": "Missing item type\nA grouping of IDrawable, by IGraphicsProgram.",
@@ -30290,6 +30051,10 @@
         {
             "message": "Missing item type\nIndex for triangle strip array.",
             "line": " src/davinci-eight/topologies/GridTopology.ts:36"
+        },
+        {
+            "message": "Missing item type\nCreates an object implementing a stopwatch API that makes callbacks to user-supplied functions.\nclass WindowAnimationRunner\nconstructor\nparam animate The `animate` function is called for each animation frame.\nparam options.setUp The `setUp` function is called synchronously each time the start() method is called.\nparam options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.\nparam options.terminate The `terminate` function is called to determine whether the animation should stop.\nparam options.window {Window} The window in which the animation will run. Defaults to the global window.",
+            "line": " src/davinci-eight/utils/animation.ts:19"
         },
         {
             "message": "Missing item type\nRenders geometric primitives indexed by element array data.",
@@ -30370,14 +30135,6 @@
         {
             "message": "Missing item type\nInitially used to give me a canvasId.\nUsing the big-enough space principle to avoid collisions.",
             "line": " src/davinci-eight/utils/randumbInteger.ts:1"
-        },
-        {
-            "message": "Missing item type\nCreates an object implementing a stopwatch API that makes callbacks to user-supplied functions.\nclass WindowAnimationRunner\nconstructor\nparam animate The `animate` function is called for each animation frame.\nparam options.setUp The `setUp` function is called synchronously each time the start() method is called.\nparam options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.\nparam options.terminate The `terminate` function is called to determine whether the animation should stop.\nparam options.window {Window} The window in which the animation will run. Defaults to the global window.",
-            "line": " src/davinci-eight/utils/windowAnimationRunner.ts:19"
-        },
-        {
-            "message": "Missing item type\nCreates and returns a workbench3D thing.\ncanvas: An HTML canvas element to be inserted.\nTODO: We should remove the camera as being too opinionated, replace with a callback providing",
-            "line": " src/davinci-eight/utils/workbench3D.ts:12"
         },
         {
             "message": "Missing item type",

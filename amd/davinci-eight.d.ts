@@ -10,6 +10,7 @@ import Spinor3Animation = require('davinci-eight/slideshow/animations/Spinor3Ani
 import Frustum = require('davinci-eight/cameras/Frustum');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
+import PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera');
 import BlendFactor = require('davinci-eight/commands/BlendFactor');
 import WebGLBlendFunc = require('davinci-eight/commands/WebGLBlendFunc');
 import WebGLClearColor = require('davinci-eight/commands/WebGLClearColor');
@@ -39,7 +40,6 @@ import MeshTopology = require('davinci-eight/topologies/MeshTopology');
 import GridTopology = require('davinci-eight/topologies/GridTopology');
 import IDrawList = require('davinci-eight/scene/IDrawList');
 import Drawable = require('davinci-eight/scene/Drawable');
-import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
 import Scene = require('davinci-eight/scene/Scene');
 import GraphicsContext = require('davinci-eight/scene/GraphicsContext');
 import AxialSimplexGeometry = require('davinci-eight/geometries/AxialSimplexGeometry');
@@ -73,7 +73,6 @@ import MeshMaterial = require('davinci-eight/materials/MeshMaterial');
 import MeshLambertMaterial = require('davinci-eight/materials/MeshLambertMaterial');
 import PointMaterial = require('davinci-eight/materials/PointMaterial');
 import GraphicsProgramBuilder = require('davinci-eight/materials/GraphicsProgramBuilder');
-import RoundUniform = require('davinci-eight/mappers/RoundUniform');
 import VectorE3 = require('davinci-eight/math/VectorE3');
 import Dimensions = require('davinci-eight/math/Dimensions');
 import Euclidean2 = require('davinci-eight/math/Euclidean2');
@@ -170,12 +169,6 @@ declare var eight: {
     createDrawList: () => IDrawList;
     renderer: () => IContextRenderer;
     webgl: (attributes?: WebGLContextAttributes) => ContextKahuna;
-    workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
-        aspect: number;
-    }, win?: Window) => {
-        setUp: () => void;
-        tearDown: () => void;
-    };
     animation: (animate: (time: number) => void, options?: {
         setUp?: () => void;
         tearDown?: (animateException: any) => void;
@@ -239,7 +232,6 @@ declare var eight: {
     R4: typeof R4;
     VectorN: typeof VectorN;
     Curve: typeof Curve;
-    RoundUniform: typeof RoundUniform;
     simplicesToGeometryMeta: (geometry: Simplex[]) => GeometryMeta;
     computeFaceNormals: (simplex: Simplex, positionName?: string, normalName?: string) => void;
     cube: (size?: number) => Simplex[];

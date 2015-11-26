@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/utils/windowAnimationRunner.ts - davinci-eight</title>
+    <title>src/davinci-eight/cameras/PerspectiveCamera.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.166.0</em>
+            <em>API Docs for: 2.167.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,8 +47,6 @@
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
-                                <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
@@ -63,10 +61,8 @@
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
-                                <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CurvePath.html">CurvePath</a></li>
-                                <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
@@ -242,182 +238,260 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/utils/windowAnimationRunner.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/cameras/PerspectiveCamera.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import WindowAnimationRunner = require(&#x27;../utils/WindowAnimationRunner&#x27;);
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
-
-function defaultSetUp(): void {
-}
-
-function defaultTearDown(animateException: any): void {
-  if (animateException) {
-    let message = &quot;Exception raised during animate function: &quot; + animateException;
-    console.warn(message);
-  }
-}
-
-function defaultTerminate(time: number): boolean {
-  // Never ending, because whenever asked we say nee.
-  return false;
-}
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
+import IGraphicsProgram = require(&#x27;../core/IGraphicsProgram&#x27;)
+import createPerspective = require(&#x27;../cameras/createPerspective&#x27;)
+import isDefined = require(&#x27;../checks/isDefined&#x27;)
+import isInteger = require(&#x27;../checks/isInteger&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
+import mustBeCanvasId = require(&#x27;../checks/mustBeCanvasId&#x27;)
+import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
+import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
+import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
+import Perspective = require(&#x27;../cameras/Perspective&#x27;)
+import refChange = require(&#x27;../utils/refChange&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import IFacet = require(&#x27;../core/IFacet&#x27;)
+import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
+import uuid4 = require(&#x27;../utils/uuid4&#x27;)
+import R3 = require(&#x27;../math/R3&#x27;)
 
 /**
- * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
- * class WindowAnimationRunner
- * constructor
- * param animate The &#x60;animate&#x60; function is called for each animation frame.
- * param options.setUp The &#x60;setUp&#x60; function is called synchronously each time the start() method is called.
- * param options.tearDown The &#x60;tearDown&#x60; function is called asynchronously each time the animation is stopped.
- * param options.terminate The &#x60;terminate&#x60; function is called to determine whether the animation should stop.
- * param options.window {Window} The window in which the animation will run. Defaults to the global window. 
+ * Name used for reference count monitoring and logging.
  */
-var animation = function(
-    animate: (time: number) =&gt; void,
-    options?: {
-      setUp?: () =&gt; void;
-      tearDown?: (animateException: any) =&gt; void;
-      terminate?: (time: number) =&gt; boolean;
-      window?: Window }): WindowAnimationRunner {
+let CLASS_NAME = &#x27;PerspectiveCamera&#x27;
 
-    // TODO: Use enum when TypeScript compiler version is appropriate.
-    var STATE_INITIAL = 1;
-    var STATE_RUNNING = 2;
-    var STATE_PAUSED = 3;
+/**
+ * @class PerspectiveCamera
+ */
+class PerspectiveCamera extends Shareable implements Perspective, IFacet {
+    /**
+     * The name of the property that designates the position.
+     * @property PROP_POSITION
+     * @type {string}
+     * @default &#x27;X&#x27;
+     * @static
+     * @readOnly
+     */
+    public static PROP_POSITION = &#x27;X&#x27;;
+    public static PROP_EYE = &#x27;eye&#x27;;
 
-    options = options || {};
+    /**
+     * @property material
+     * @type {IGraphicsProgram}
+     */
+    public material: IGraphicsProgram;
 
-    let $window: Window = expectArg(&#x27;options.window&#x27;, options.window || window).toNotBeNull().value;
-    let setUp: () =&gt; void = expectArg(&#x27;options.setUp&#x27;, options.setUp || defaultSetUp).value;
-    let tearDown: (animateException: any) =&gt; void = expectArg(&#x27;options.tearDown&#x27;, options.tearDown || defaultTearDown).value;
-    let terminate: (time: number) =&gt; boolean = expectArg(&#x27;options.terminate&#x27;, options.terminate || defaultTerminate).toNotBeNull().value;
+    /**
+     * @property name
+     * @type {string}
+     * @optional
+     */
+    public name: string;
 
-    var stopSignal = false;       // 27 is Esc
-//  var pauseKeyPressed = false;  // 19
-//  var enterKeyPressed = false;  // 13
-    var startTime: number;
-    var elapsed: number = 0;
-    var MILLIS_PER_SECOND = 1000;
-    var requestID: number = null;
-    var animateException: any;
-    var state = STATE_INITIAL;
+    /**
+     *
+     */
+    private inner: Perspective;
+    /**
+     * &lt;p&gt;
+     * 
+     * &lt;/p&gt;
+     * @class PerspectiveCamera
+     * @constructor
+     * @param [fov = 75 * Math.PI / 180] {number}
+     * @param [aspect=1] {number}
+     * @param [near=0.1] {number}
+     * @param [far=2000] {number}
+     * @example
+     *   var camera = new EIGHT.PerspectiveCamera()
+     *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
+     *   camera.setFov(3.0 * e3)
+     */
+    constructor(fov: number = 75 * Math.PI / 180, aspect: number = 1, near: number = 0.1, far: number = 2000) {
+        super(&#x27;PerspectiveCamera&#x27;)
+        mustBeNumber(&#x27;fov&#x27;, fov)
+        mustBeNumber(&#x27;aspect&#x27;, aspect)
+        mustBeNumber(&#x27;near&#x27;, near)
+        mustBeNumber(&#x27;far&#x27;, far)
+        this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far })
+    }
+    protected destructor(): void {
 
-    let frameRequestCallback: FrameRequestCallback = function(timestamp: number) {
-      if (startTime) {
-        elapsed = elapsed + timestamp - startTime;
-      }
-      startTime = timestamp;
+    }
+    /**
+     * @method setUniforms
+     * @param visitor {IFacetVisitor}
+     * @param [canvasId] {number}
+     * @return {void}
+     */
+    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
+        this.inner.setNear(this.near)
+        this.inner.setFar(this.far)
+        this.inner.setUniforms(visitor, canvasId)
+    }
+    contextFree(): void {
+    }
+    contextGain(manager: IContextProvider): void {
+    }
+    contextLost(): void {
+    }
+    draw(canvasId?: number): void {
+        console.warn(CLASS_NAME + &quot;.draw(&quot; + canvasId + &quot;)&quot;)
+        // Do nothing.
+    }
+    getProperty(name: string): number[] {
+        mustBeString(&#x27;name&#x27;, name)
+        switch (name) {
+            case PerspectiveCamera.PROP_EYE:
+            case PerspectiveCamera.PROP_POSITION: {
+                return this.eye.coords
+                break;
+            }
+            default: {
+            }
+        }
+    }
+    setProperty(name: string, value: number[]): void {
+        mustBeString(&#x27;name&#x27;, name)
+        mustBeObject(&#x27;value&#x27;, value)
+        switch (name) {
+            case PerspectiveCamera.PROP_EYE:
+            case PerspectiveCamera.PROP_POSITION: {
+                this.eye.copyCoordinates(value)
+                break;
+            }
+            default: {
+            }
+        }
+    }
 
-      if (stopSignal || terminate(elapsed / MILLIS_PER_SECOND)) {
-        // Clear the stopSignal.
-        stopSignal = false;
+    /**
+     * The aspect ratio (width / height) of the camera viewport.
+     * @property aspect
+     * @type {number}
+     * @readOnly
+     */
+    get aspect(): number {
+        return this.inner.aspect
+    }
 
-        $window.cancelAnimationFrame(requestID);
-        if (publicAPI.isRunning) {
-          state = STATE_PAUSED;
-          startTime = void 0;
-        }
-        else {
-          // TODO: Can we recover?
-          console.error(&quot;stopSignal received while not running.&quot;);
-        }
-        $window.document.removeEventListener(&#x27;keydown&#x27;, onDocumentKeyDown, false);
-        try {
-          tearDown(animateException);
-        }
-        catch (e) {
-          console.warn(&quot;Exception raised during tearDown function: &quot; + e);
-        }
-      }
-      else {
-        requestID = $window.requestAnimationFrame(frameRequestCallback);
-        // If an exception happens, cache it to be reported later and simulate a stopSignal.
-        try {
-          animate(elapsed / MILLIS_PER_SECOND);
-        }
-        catch (e) {
-          animateException = e;
-          stopSignal = true;
-        }
-      }
-    };
+    /**
+     * @method setAspect
+     * @param aspect {number}
+     * @return {PerspectiveCamera} &#x60;this&#x60; instance without incrementing the reference count.
+     * @chainable
+     */
+    setAspect(aspect: number): PerspectiveCamera {
+        this.inner.aspect = aspect
+        return this
+    }
 
-    var onDocumentKeyDown = function(event: KeyboardEvent) {
-      // TODO: It would be nice for all key responses to be soft-defined.
-      // In other words, a mapping of event (keyCode) to action (start, stop, reset)
-      if (event.keyCode === 27) {
-        stopSignal = true;
-        event.preventDefault();
-      }
-      /*
-      else if (event.keyCode === 19) {
-        pauseKeyPressed = true;
-        event.preventDefault();
-      }
-      else if (event.keyCode === 13) {
-        enterKeyPressed = true;
-        event.preventDefault();
-      }
-      */
-    };
+    /**
+     * The position of the camera.
+     * @property eye
+     * @type {R3}
+     * @readOnly
+     */
+    get eye(): R3 {
+        return this.inner.eye
+    }
 
-    // The public API is a classic stopwatch.
-    // The states are INITIAL, RUNNING, PAUSED.
-    var publicAPI: WindowAnimationRunner = {
-      start() {
-        if (!publicAPI.isRunning) {
-          setUp();
-          $window.document.addEventListener(&#x27;keydown&#x27;, onDocumentKeyDown, false);
-          state = STATE_RUNNING;
-          requestID = $window.requestAnimationFrame(frameRequestCallback);
-        }
-        else {
-          throw new Error(&quot;The &#x60;start&#x60; method may only be called when not running.&quot;);
-        }
-      },
-      stop() {
-        if (publicAPI.isRunning) {
-          stopSignal = true;
-        }
-        else {
-          throw new Error(&quot;The &#x60;stop&#x60; method may only be called when running.&quot;);
-        }
-      },
-      reset: function() {
-        if (publicAPI.isPaused) {
-          startTime = void 0;
-          elapsed = 0;
-          state = STATE_INITIAL;
-        }
-        else {
-          throw new Error(&quot;The &#x60;reset&#x60; method may only be called when paused.&quot;);
-        }
-      },
-      get time(): number {
-        return elapsed / MILLIS_PER_SECOND;
-      },
-      lap: function() {
-        if (publicAPI.isRunning) {
-          // No change of state. We just record the current lap time and save it to some kind of history.
-        }
-        else {
-          throw new Error(&quot;The &#x60;lap&#x60; method may only be called when running.&quot;);
-        }
-      },
-      get isRunning(): boolean {
-        return state === STATE_RUNNING;
-      },
-      get isPaused(): boolean {
-        return state === STATE_PAUSED;
-      }
-    };
+    /**
+     * @method setEye
+     * @param eye {VectorE3}
+     * @return {PerspectiveCamera} &#x60;this&#x60; instance without incrementing the reference count.
+     * @chainable
+     */
+    setEye(eye: VectorE3): PerspectiveCamera {
+        this.inner.setEye(eye)
+        return this
+    }
 
-    return publicAPI;
-};
+    /**
+     * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
+     * Measured in radians.
+     * @property fov
+     * @type {number}
+     * @readOnly
+     */
+    // TODO: Field of view could be specified as an Aspect + Magnitude of a SpinG3!?
+    get fov(): number {
+        return this.inner.fov
+    }
+    set fov(unused: number) {
+        throw new Error(readOnly(&#x27;fov&#x27;).message)
+    }
+    /**
+     * @method setFov
+     * @param fov {number}
+     * @return {PerspectiveCamera} &#x60;this&#x60; instance without incrementing the reference count.
+     * @chainable
+     */
+    setFov(fov: number): PerspectiveCamera {
+        mustBeNumber(&#x27;fov&#x27;, fov)
+        this.inner.fov = fov
+        return this
+    }
+    get look() {
+        return this.inner.look
+    }
+    setLook(look: VectorE3): PerspectiveCamera {
+        this.inner.setLook(look)
+        return this
+    }
 
-export = animation;
+    /**
+     * The distance to the near plane.
+     * @property near
+     * @type {number}
+     * @readOnly
+     */
+    get near(): number {
+        return this.inner.near
+    }
+    set near(unused) {
+        throw new Error(readOnly(&#x27;near&#x27;).message)
+    }
+    /**
+     * @method setNear
+     * @param near {number}
+     * @return {PerspectiveCamera} &lt;p&gt;&lt;code&gt;this&lt;/code&gt; instance, &lt;em&gt;without incrementing the reference count&lt;/em&gt;.&lt;/p&gt;
+     * @chainable
+     */
+    setNear(near: number): PerspectiveCamera {
+        this.inner.setNear(near)
+        return this
+    }
+    get far(): number {
+        return this.inner.far
+    }
+    set far(far: number) {
+        this.inner.far = far
+    }
+    setFar(far: number): PerspectiveCamera {
+        this.inner.setFar(far)
+        return this
+    }
+    get up(): R3 {
+        return this.inner.up
+    }
+    set up(unused) {
+        throw new Error(readOnly(&#x27;up&#x27;).message)
+    }
+    setUp(up: VectorE3): PerspectiveCamera {
+        this.inner.setUp(up)
+        return this
+    }
+}
+
+export = PerspectiveCamera
 
     </pre>
 </div>

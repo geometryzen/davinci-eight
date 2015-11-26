@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>BoxMesh - davinci-eight</title>
+    <title>src/davinci-eight/utils/animation.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.166.0</em>
+            <em>API Docs for: 2.167.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,8 +47,6 @@
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
-                                <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
@@ -63,10 +61,8 @@
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
-                                <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CurvePath.html">CurvePath</a></li>
-                                <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
@@ -242,124 +238,184 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>BoxMesh Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: src/davinci-eight/utils/animation.ts</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+import WindowAnimationRunner = require(&#x27;../utils/WindowAnimationRunner&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
 
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_mesh_BoxMesh.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;mesh&#x2F;BoxMesh.ts:9</code></a>
-        </div>
+function defaultSetUp(): void {
+}
 
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
+function defaultTearDown(animateException: any): void {
+  if (animateException) {
+    let message = &quot;Exception raised during animate function: &quot; + animateException;
+    console.warn(message);
+  }
+}
 
-</div>
+function defaultTerminate(time: number): boolean {
+  // Never ending, because whenever asked we say nee.
+  return false;
+}
 
+/**
+ * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
+ * class WindowAnimationRunner
+ * constructor
+ * param animate The &#x60;animate&#x60; function is called for each animation frame.
+ * param options.setUp The &#x60;setUp&#x60; function is called synchronously each time the start() method is called.
+ * param options.tearDown The &#x60;tearDown&#x60; function is called asynchronously each time the animation is stopped.
+ * param options.terminate The &#x60;terminate&#x60; function is called to determine whether the animation should stop.
+ * param options.window {Window} The window in which the animation will run. Defaults to the global window. 
+ */
+var animation = function(
+    animate: (time: number) =&gt; void,
+    options?: {
+      setUp?: () =&gt; void;
+      tearDown?: (animateException: any) =&gt; void;
+      terminate?: (time: number) =&gt; boolean;
+      window?: Window }): WindowAnimationRunner {
 
-<div class="box intro">
-    
-</div>
+    // TODO: Use enum when TypeScript compiler version is appropriate.
+    var STATE_INITIAL = 1;
+    var STATE_RUNNING = 2;
+    var STATE_PAUSED = 3;
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_BoxMesh" class="method item">
-    <h3 class="name"><code>BoxMesh</code></h3>
+    options = options || {};
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>width</code>
-                </li>
-                <li class="arg">
-                        <code>height</code>
-                </li>
-                <li class="arg">
-                        <code>depth</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+    let $window: Window = expectArg(&#x27;options.window&#x27;, options.window || window).toNotBeNull().value;
+    let setUp: () =&gt; void = expectArg(&#x27;options.setUp&#x27;, options.setUp || defaultSetUp).value;
+    let tearDown: (animateException: any) =&gt; void = expectArg(&#x27;options.tearDown&#x27;, options.tearDown || defaultTearDown).value;
+    let terminate: (time: number) =&gt; boolean = expectArg(&#x27;options.terminate&#x27;, options.terminate || defaultTerminate).toNotBeNull().value;
 
+    var stopSignal = false;       // 27 is Esc
+//  var pauseKeyPressed = false;  // 19
+//  var enterKeyPressed = false;  // 13
+    var startTime: number;
+    var elapsed: number = 0;
+    var MILLIS_PER_SECOND = 1000;
+    var requestID: number = null;
+    var animateException: any;
+    var state = STATE_INITIAL;
 
+    let frameRequestCallback: FrameRequestCallback = function(timestamp: number) {
+      if (startTime) {
+        elapsed = elapsed + timestamp - startTime;
+      }
+      startTime = timestamp;
 
+      if (stopSignal || terminate(elapsed / MILLIS_PER_SECOND)) {
+        // Clear the stopSignal.
+        stopSignal = false;
 
+        $window.cancelAnimationFrame(requestID);
+        if (publicAPI.isRunning) {
+          state = STATE_PAUSED;
+          startTime = void 0;
+        }
+        else {
+          // TODO: Can we recover?
+          console.error(&quot;stopSignal received while not running.&quot;);
+        }
+        $window.document.removeEventListener(&#x27;keydown&#x27;, onDocumentKeyDown, false);
+        try {
+          tearDown(animateException);
+        }
+        catch (e) {
+          console.warn(&quot;Exception raised during tearDown function: &quot; + e);
+        }
+      }
+      else {
+        requestID = $window.requestAnimationFrame(frameRequestCallback);
+        // If an exception happens, cache it to be reported later and simulate a stopSignal.
+        try {
+          animate(elapsed / MILLIS_PER_SECOND);
+        }
+        catch (e) {
+          animateException = e;
+          stopSignal = true;
+        }
+      }
+    };
 
+    var onDocumentKeyDown = function(event: KeyboardEvent) {
+      // TODO: It would be nice for all key responses to be soft-defined.
+      // In other words, a mapping of event (keyCode) to action (start, stop, reset)
+      if (event.keyCode === 27) {
+        stopSignal = true;
+        event.preventDefault();
+      }
+      /*
+      else if (event.keyCode === 19) {
+        pauseKeyPressed = true;
+        event.preventDefault();
+      }
+      else if (event.keyCode === 13) {
+        enterKeyPressed = true;
+        event.preventDefault();
+      }
+      */
+    };
 
+    // The public API is a classic stopwatch.
+    // The states are INITIAL, RUNNING, PAUSED.
+    var publicAPI: WindowAnimationRunner = {
+      start() {
+        if (!publicAPI.isRunning) {
+          setUp();
+          $window.document.addEventListener(&#x27;keydown&#x27;, onDocumentKeyDown, false);
+          state = STATE_RUNNING;
+          requestID = $window.requestAnimationFrame(frameRequestCallback);
+        }
+        else {
+          throw new Error(&quot;The &#x60;start&#x60; method may only be called when not running.&quot;);
+        }
+      },
+      stop() {
+        if (publicAPI.isRunning) {
+          stopSignal = true;
+        }
+        else {
+          throw new Error(&quot;The &#x60;stop&#x60; method may only be called when running.&quot;);
+        }
+      },
+      reset: function() {
+        if (publicAPI.isPaused) {
+          startTime = void 0;
+          elapsed = 0;
+          state = STATE_INITIAL;
+        }
+        else {
+          throw new Error(&quot;The &#x60;reset&#x60; method may only be called when paused.&quot;);
+        }
+      },
+      get time(): number {
+        return elapsed / MILLIS_PER_SECOND;
+      },
+      lap: function() {
+        if (publicAPI.isRunning) {
+          // No change of state. We just record the current lap time and save it to some kind of history.
+        }
+        else {
+          throw new Error(&quot;The &#x60;lap&#x60; method may only be called when running.&quot;);
+        }
+      },
+      get isRunning(): boolean {
+        return state === STATE_RUNNING;
+      },
+      get isPaused(): boolean {
+        return state === STATE_PAUSED;
+      }
+    };
 
+    return publicAPI;
+};
 
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_mesh_BoxMesh.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;mesh&#x2F;BoxMesh.ts:9</code></a>
-        </p>
+export = animation;
 
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">width</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">height</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">depth</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-
-
-        </div>
-
-
-
-
-    </div>
+    </pre>
 </div>
                     </div>
                 </div>

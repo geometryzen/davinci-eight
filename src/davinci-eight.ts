@@ -17,6 +17,7 @@ import Frustum = require('davinci-eight/cameras/Frustum')
 import Perspective = require('davinci-eight/cameras/Perspective')
 import View = require('davinci-eight/cameras/View')
 import frustumMatrix = require('davinci-eight/cameras/frustumMatrix')
+import PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera')
 import perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix')
 import viewMatrix = require('davinci-eight/cameras/viewMatrix')
 // commands
@@ -71,7 +72,6 @@ import GridTopology = require('davinci-eight/topologies/GridTopology')
 import createDrawList = require('davinci-eight/scene/createDrawList')
 import IDrawList = require('davinci-eight/scene/IDrawList')
 import Drawable = require('davinci-eight/scene/Drawable')
-import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera')
 import Scene = require('davinci-eight/scene/Scene')
 import GraphicsContext = require('davinci-eight/scene/GraphicsContext')
 // geometries
@@ -116,8 +116,6 @@ import MeshMaterial = require('davinci-eight/materials/MeshMaterial')
 import MeshLambertMaterial = require('davinci-eight/materials/MeshLambertMaterial')
 import PointMaterial = require('davinci-eight/materials/PointMaterial')
 import GraphicsProgramBuilder = require('davinci-eight/materials/GraphicsProgramBuilder')
-// mappers
-import RoundUniform = require('davinci-eight/mappers/RoundUniform')
 // math
 import AbstractMatrix = require('davinci-eight/math/AbstractMatrix')
 import CartesianE3 = require('davinci-eight/math/CartesianE3')
@@ -191,9 +189,8 @@ import NumberIUnknownMap = require('davinci-eight/collections/NumberIUnknownMap'
 import refChange = require('davinci-eight/utils/refChange')
 import Shareable = require('davinci-eight/utils/Shareable')
 import StringIUnknownMap = require('davinci-eight/collections/StringIUnknownMap')
-import workbench3D = require('davinci-eight/utils/workbench3D')
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner')
-import windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner')
+import animation = require('davinci-eight/utils/animation')
 
 /**
  * @module EIGHT
@@ -274,8 +271,7 @@ var eight = {
     get createDrawList() { return createDrawList },
     get renderer() { return renderer },
     get webgl() { return contextProxy },
-    workbench: workbench3D,
-    animation: windowAnimationRunner,
+    get animation() { return animation },
     get DrawMode() { return DrawMode },
     get AttribLocation() { return AttribLocation },
     get UniformLocation() { return UniformLocation },
@@ -335,8 +331,6 @@ var eight = {
     get R4() { return R4 },
     get VectorN() { return VectorN },
     get Curve() { return Curve },
-    // mappers
-    get RoundUniform() { return RoundUniform },
 
     get simplicesToGeometryMeta() { return simplicesToGeometryMeta },
     get computeFaceNormals() { return computeFaceNormals },
