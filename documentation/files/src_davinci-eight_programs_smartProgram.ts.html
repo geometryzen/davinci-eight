@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.167.0</em>
+            <em>API Docs for: 2.168.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -260,9 +260,9 @@ import IGraphicsProgram = require(&#x27;../core/IGraphicsProgram&#x27;);
 import GraphicsProgramSymbols = require(&#x27;../core/GraphicsProgramSymbols&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import vColorRequired = require(&#x27;../programs/vColorRequired&#x27;);
-import R2 = require(&#x27;../math/R2&#x27;);
-import R3 = require(&#x27;../math/R3&#x27;);
-import R4 = require(&#x27;../math/R4&#x27;);
+import VectorE2 = require(&#x27;../math/VectorE2&#x27;);
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
+import VectorE4 = require(&#x27;../math/VectorE4&#x27;);
 import vertexShader = require(&#x27;../programs/vertexShader&#x27;);
 import vLightRequired = require(&#x27;../programs/vLightRequired&#x27;);
 
@@ -342,13 +342,13 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
         mat4(name: string, matrix: Mat4R, transpose?: boolean, canvasId?: number) {
             return innerProgram.mat4(name, matrix, transpose, canvasId);
         },
-        vec2(name: string, vector: R2, canvasId?: number) {
+        vec2(name: string, vector: VectorE2, canvasId?: number) {
             return innerProgram.vec2(name, vector, canvasId);
         },
-        vec3(name: string, vector: R3, canvasId?: number) {
+        vec3(name: string, vector: VectorE3, canvasId?: number) {
             return innerProgram.vec3(name, vector, canvasId);
         },
-        vec4(name: string, vector: R4, canvasId?: number) {
+        vec4(name: string, vector: VectorE4, canvasId?: number) {
             return innerProgram.vec4(name, vector, canvasId);
         },
         vector2(name: string, data: number[], canvasId?: number): void {

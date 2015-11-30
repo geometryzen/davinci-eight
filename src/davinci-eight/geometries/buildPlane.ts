@@ -1,9 +1,8 @@
-import Simplex = require('../geometries/Simplex');
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
-import R1 = require('../math/R1');
-import R2 = require('../math/R2');
-import R3 = require('../math/R3');
-import R4 = require('../math/R4');
+import Simplex = require('../geometries/Simplex')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
+import R1 = require('../math/R1')
+import R2 = require('../math/R2')
+import R3 = require('../math/R3')
 
 function buildPlane(
   u: string,

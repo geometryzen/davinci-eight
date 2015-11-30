@@ -16,9 +16,9 @@ import IGraphicsProgram = require('../core/IGraphicsProgram');
 import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import vColorRequired = require('../programs/vColorRequired');
-import R2 = require('../math/R2');
-import R3 = require('../math/R3');
-import R4 = require('../math/R4');
+import VectorE2 = require('../math/VectorE2');
+import VectorE3 = require('../math/VectorE3');
+import VectorE4 = require('../math/VectorE4');
 import vertexShader = require('../programs/vertexShader');
 import vLightRequired = require('../programs/vLightRequired');
 
@@ -98,13 +98,13 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
         mat4(name: string, matrix: Mat4R, transpose?: boolean, canvasId?: number) {
             return innerProgram.mat4(name, matrix, transpose, canvasId);
         },
-        vec2(name: string, vector: R2, canvasId?: number) {
+        vec2(name: string, vector: VectorE2, canvasId?: number) {
             return innerProgram.vec2(name, vector, canvasId);
         },
-        vec3(name: string, vector: R3, canvasId?: number) {
+        vec3(name: string, vector: VectorE3, canvasId?: number) {
             return innerProgram.vec3(name, vector, canvasId);
         },
-        vec4(name: string, vector: R4, canvasId?: number) {
+        vec4(name: string, vector: VectorE4, canvasId?: number) {
             return innerProgram.vec4(name, vector, canvasId);
         },
         vector2(name: string, data: number[], canvasId?: number): void {

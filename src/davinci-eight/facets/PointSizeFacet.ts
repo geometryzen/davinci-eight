@@ -5,7 +5,6 @@ import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeString = require('../checks/mustBeString')
 import Shareable = require('../utils/Shareable')
 import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import R3 = require('../math/R3')
 
 var LOGGING_NAME = 'PointSizeFacet'
 

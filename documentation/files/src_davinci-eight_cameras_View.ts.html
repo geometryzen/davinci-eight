@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.167.0</em>
+            <em>API Docs for: 2.168.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -242,49 +242,53 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IFacet = require(&#x27;../core/IFacet&#x27;);
-import R3 = require(&#x27;../math/R3&#x27;);
-import VectorE3 = require(&#x27;../math/VectorE3&#x27;);
-import SpinG3 = require(&#x27;../math/SpinG3&#x27;);
-import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;);
+import IFacet = require(&#x27;../core/IFacet&#x27;)
+import R3 = require(&#x27;../math/R3&#x27;)
+import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
 
 /**
  * @class View
  */
 interface View extends IFacet {
-  /**
-   * @property eye
-   * @type R3
-   */
-  eye: R3;
-  /**
-   * @property look
-   * @type R3
-   */
-  look: R3;
-  /**
-   * @property up
-   * @type R3
-   */
-  up: R3;
-  /**
-   * Convenience method for setting the eye property allowing chainable method calls.
-   * @method setEye
-   * @param eye {VectorE3}
-   */
-  setEye(eye: VectorE3): View;
-  /**
-   * Convenience method for setting the look property allowing chainable method calls.
-   * @method setLook
-   * @param look {VectorE3}
-   */
-  setLook(look: VectorE3): View;
-  /**
-   * Convenience method for setting the up property allowing chainable method calls.
-   * @method setUp
-   * @param up {VectorE3}
-   */
-  setUp(up: VectorE3): View;
+
+    /**
+     * @property eye
+     * @type R3
+     */
+    eye: R3;
+
+    /**
+     * @property look
+     * @type R3
+     */
+    look: R3;
+
+    /**
+     * @property up
+     * @type R3
+     */
+    up: R3;
+
+    /**
+     * Convenience method for setting the eye property allowing chainable method calls.
+     * @method setEye
+     * @param eye {VectorE3}
+     */
+    setEye(eye: VectorE3): View;
+
+    /**
+     * Convenience method for setting the look property allowing chainable method calls.
+     * @method setLook
+     * @param look {VectorE3}
+     */
+    setLook(look: VectorE3): View;
+
+    /**
+     * Convenience method for setting the up property allowing chainable method calls.
+     * @method setUp
+     * @param up {VectorE3}
+     */
+    setUp(up: VectorE3): View;
 }
 
 export = View;

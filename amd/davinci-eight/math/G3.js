@@ -87,14 +87,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             set β(unused) {
                 throw new Error(readOnly(label + '.β').message);
             },
-            //        magnitude(): number {
-            // FIXME: should be the full multivector.
-            //            return sqrt(quadSpinor(that))
-            //        },
-            //        squaredNorm(): number {
-            //            // FIXME: should be the full multivector.
-            //            return quadSpinor(that)
-            //        },
             toString: function () {
                 return label;
             }

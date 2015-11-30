@@ -40,9 +40,9 @@ class BarnSimplexGeometry extends SimplexGeometry {
         return this
     }
     public regenerate(): void {
+
         this.setModified(false)
 
-        // FIXME: R3 would probably work fine here.
         var points: G3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(index) { return void 0 })
 
         // Define the anchor points relative to the origin.

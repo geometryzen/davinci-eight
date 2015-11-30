@@ -1,7 +1,3 @@
-import VectorE1 = require('../math/VectorE1')
-import VectorE2 = require('../math/VectorE2')
-import VectorE3 = require('../math/VectorE3')
-import VectorE4 = require('../math/VectorE4')
 import expectArg = require('../checks/expectArg')
 import feedback = require('../feedback/feedback')
 import R1 = require('../math/R1')
@@ -10,9 +6,10 @@ import Mat3R = require('../math/Mat3R')
 import Mat4R = require('../math/Mat4R')
 import IContextProgramConsumer = require('../core/IContextProgramConsumer')
 import IContextProvider = require('../core/IContextProvider')
-import R2 = require('../math/R2')
-import R3 = require('../math/R3')
-import R4 = require('../math/R4')
+import VectorE1 = require('../math/VectorE1')
+import VectorE2 = require('../math/VectorE2')
+import VectorE3 = require('../math/VectorE3')
+import VectorE4 = require('../math/VectorE4')
 
 /**
  * Utility class for managing a shader uniform variable.

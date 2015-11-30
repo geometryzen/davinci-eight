@@ -113,14 +113,6 @@ function makeConstantE3(label: string, α: number, x: number, y: number, z: numb
         set β(unused: number) {
             throw new Error(readOnly(label + '.β').message);
         },
-        //        magnitude(): number {
-        // FIXME: should be the full multivector.
-        //            return sqrt(quadSpinor(that))
-        //        },
-        //        squaredNorm(): number {
-        //            // FIXME: should be the full multivector.
-        //            return quadSpinor(that)
-        //        },
         toString() {
             return label;
         }

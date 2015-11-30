@@ -1,4 +1,3 @@
-import VectorE3 = require('../math/VectorE3');
 import IContextProvider = require('../core/IContextProvider');
 import IGraphicsProgram = require('../core/IGraphicsProgram');
 import Perspective = require('../cameras/Perspective');
@@ -6,6 +5,7 @@ import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
 import R3 = require('../math/R3');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class PerspectiveCamera
  */
@@ -32,16 +32,15 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
      */
     name: string;
     /**
-     *
+     * @property inner
+     * @type {Perspective}
+     * @private
      */
     private inner;
     /**
-     * <p>
-     *
-     * </p>
      * @class PerspectiveCamera
      * @constructor
-     * @param [fov = 75 * Math.PI / 180] {number}
+     * @param [fov = 45 * Math.PI / 180] {number}
      * @param [aspect=1] {number}
      * @param [near=0.1] {number}
      * @param [far=2000] {number}
@@ -51,6 +50,11 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
      *   camera.setFov(3.0 * e3)
      */
     constructor(fov?: number, aspect?: number, near?: number, far?: number);
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
     protected destructor(): void;
     /**
      * @method setUniforms
@@ -59,11 +63,42 @@ declare class PerspectiveCamera extends Shareable implements Perspective, IFacet
      * @return {void}
      */
     setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
-    contextFree(): void;
+    /**
+     * @method contextFree
+     * @param [canvasId] {number}
+     * @return {void}
+     */
+    contextFree(canvasId?: number): void;
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextGain(manager: IContextProvider): void;
-    contextLost(): void;
+    /**
+     * @method contextLost
+     * @param [canvasId] {number}
+     * @return {void}
+     */
+    contextLost(canvasId?: number): void;
+    /**
+     * @method draw
+     * @param [canvasId] {number}
+     * @return {void}
+     */
     draw(canvasId?: number): void;
+    /**
+     * @method getProperty
+     * @param name {string}
+     * @return {number[]}
+     */
     getProperty(name: string): number[];
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param value {number[]}
+     * @return {void}
+     */
     setProperty(name: string, value: number[]): void;
     /**
      * The aspect ratio (width / height) of the camera viewport.

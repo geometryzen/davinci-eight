@@ -5,21 +5,14 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeObject', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, createPerspective, readOnly, mustBeObject, mustBeNumber, mustBeString, Shareable) {
     /**
-     * Name used for reference count monitoring and logging.
-     */
-    var CLASS_NAME = 'PerspectiveCamera';
-    /**
      * @class PerspectiveCamera
      */
     var PerspectiveCamera = (function (_super) {
         __extends(PerspectiveCamera, _super);
         /**
-         * <p>
-         *
-         * </p>
          * @class PerspectiveCamera
          * @constructor
-         * @param [fov = 75 * Math.PI / 180] {number}
+         * @param [fov = 45 * Math.PI / 180] {number}
          * @param [aspect=1] {number}
          * @param [near=0.1] {number}
          * @param [far=2000] {number}
@@ -29,7 +22,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
          *   camera.setFov(3.0 * e3)
          */
         function PerspectiveCamera(fov, aspect, near, far) {
-            if (fov === void 0) { fov = 75 * Math.PI / 180; }
+            if (fov === void 0) { fov = 45 * Math.PI / 180; }
             if (aspect === void 0) { aspect = 1; }
             if (near === void 0) { near = 0.1; }
             if (far === void 0) { far = 2000; }
@@ -40,6 +33,11 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             mustBeNumber('far', far);
             this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far });
         }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
         PerspectiveCamera.prototype.destructor = function () {
         };
         /**
@@ -53,16 +51,40 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             this.inner.setFar(this.far);
             this.inner.setUniforms(visitor, canvasId);
         };
-        PerspectiveCamera.prototype.contextFree = function () {
+        /**
+         * @method contextFree
+         * @param [canvasId] {number}
+         * @return {void}
+         */
+        PerspectiveCamera.prototype.contextFree = function (canvasId) {
         };
+        /**
+         * @method contextGain
+         * @param manager {IContextProvider}
+         * @return {void}
+         */
         PerspectiveCamera.prototype.contextGain = function (manager) {
         };
-        PerspectiveCamera.prototype.contextLost = function () {
+        /**
+         * @method contextLost
+         * @param [canvasId] {number}
+         * @return {void}
+         */
+        PerspectiveCamera.prototype.contextLost = function (canvasId) {
         };
+        /**
+         * @method draw
+         * @param [canvasId] {number}
+         * @return {void}
+         */
         PerspectiveCamera.prototype.draw = function (canvasId) {
-            console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
             // Do nothing.
         };
+        /**
+         * @method getProperty
+         * @param name {string}
+         * @return {number[]}
+         */
         PerspectiveCamera.prototype.getProperty = function (name) {
             mustBeString('name', name);
             switch (name) {
@@ -75,6 +97,12 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
                 }
             }
         };
+        /**
+         * @method setProperty
+         * @param name {string}
+         * @param value {number[]}
+         * @return {void}
+         */
         PerspectiveCamera.prototype.setProperty = function (name, value) {
             mustBeString('name', name);
             mustBeObject('value', value);
@@ -120,6 +148,9 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
              */
             get: function () {
                 return this.inner.eye;
+            },
+            set: function (eye) {
+                this.inner.eye.copy(eye);
             },
             enumerable: true,
             configurable: true

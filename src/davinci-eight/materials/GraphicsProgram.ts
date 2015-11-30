@@ -496,7 +496,7 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'R2', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'VectorE2', name, canvasId)
                 }
             }
         }
@@ -522,7 +522,7 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'R3', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'VectorE3', name, canvasId)
                 }
             }
         }
@@ -548,7 +548,7 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
             }
             else {
                 if (!readyPending) {
-                    consoleWarnDroppedUniform(this.type, 'R4', name, canvasId)
+                    consoleWarnDroppedUniform(this.type, 'VectorE4', name, canvasId)
                 }
             }
         }

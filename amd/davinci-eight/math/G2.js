@@ -179,6 +179,25 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         };
         /**
          * <p>
+         * <code>this ⟼ a + b</code>
+         * </p>
+         * @method add2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.add2 = function (a, b) {
+            mustBeObject('a', a);
+            mustBeObject('b', b);
+            this.α = a.α + b.α;
+            this.x = a.x + b.x;
+            this.y = a.y + b.y;
+            this.β = a.β + b.β;
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ this + Iβ</code>
          * </p>
          * @method addPseudo
@@ -223,31 +242,16 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             this.y += v.y * α;
             return this;
         };
-        /**
-         * <p>
-         * <code>this ⟼ a + b</code>
-         * </p>
-         * @method add2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.add2 = function (a, b) {
-            mustBeObject('a', a);
-            mustBeObject('b', b);
-            this.α = a.α + b.α;
-            this.x = a.x + b.x;
-            this.y = a.y + b.y;
-            this.β = a.β + b.β;
-            return this;
-        };
         G2.prototype.adj = function () {
             throw new Error('TODO: G2.adj');
         };
         /**
+         * <p>
+         * <code>this ⟼ log(this).grade(2)</code>
+         * </p>
          * @method angle
-         * @return {G2}
+         * @return {G2} <code>this</code>
+         * @chainable
          */
         G2.prototype.angle = function () {
             return this.log().grade(2);
@@ -255,6 +259,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         /**
          * @method clone
          * @return {G2} <code>copy(this)</code>
+         * @chainable
          */
         G2.prototype.clone = function () {
             var m = new G2();
@@ -307,7 +312,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         /**
          * Sets this multivector to the value of the scalar, <code>α</code>.
          * @method copyScalar
-         * @return {G2}
+         * @return {G2} <code>this</code>
          * @chainable
          */
         G2.prototype.copyScalar = function (α) {
@@ -353,7 +358,8 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * @param controlBegin {GeometricE2}
          * @param controlEnd {GeometricE2}
          * @param endPoint {GeometricE2}
-         * @return {G2}
+         * @return {G2} <code>this</code>
+         * @chainable
          */
         G2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
             var α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
@@ -364,6 +370,23 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             this.x = x;
             this.y = y;
             this.β = β;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this / magnitude(this)</code>
+         * </p>
+         * @method direction
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.direction = function () {
+            // The squaredNorm is the squared norm.
+            var norm = sqrt(this.squaredNorm());
+            this.α = this.α / norm;
+            this.x = this.x / norm;
+            this.y = this.y / norm;
+            this.β = this.β / norm;
             return this;
         };
         /**
@@ -380,6 +403,20 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         };
         /**
          * <p>
+         * <code>this ⟼ a / b</code>
+         * </p>
+         * @method div2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.div2 = function (a, b) {
+            // FIXME: Generalize
+            return this;
+        };
+        /**
+         * <p>
          * <code>this ⟼ this / α</code>
          * </p>
          * @method divByScalar
@@ -393,20 +430,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             this.x /= α;
             this.y /= α;
             this.β /= α;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a / b</code>
-         * </p>
-         * @method div2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.div2 = function (a, b) {
-            // FIXME: Generalize
             return this;
         };
         /**
@@ -447,6 +470,43 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
             this.α = expW * cos(φ);
             this.β = z * s;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this ^ m</code>
+         * </p>
+         * @method ext
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.ext = function (m) {
+            return this.ext2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a ^ b</code>
+         * </p>
+         * @method ext2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.ext2 = function (a, b) {
+            var a0 = a.α;
+            var a1 = a.x;
+            var a2 = a.y;
+            var a3 = a.β;
+            var b0 = b.α;
+            var b1 = b.x;
+            var b2 = b.y;
+            var b3 = b.β;
+            this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
             return this;
         };
         /**
@@ -645,23 +705,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             return this;
         };
         /**
-         * <p>
-         * <code>this ⟼ this / magnitude(this)</code>
-         * </p>
-         * @method direction
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.direction = function () {
-            // The squaredNorm is the squared norm.
-            var norm = sqrt(this.squaredNorm());
-            this.α = this.α / norm;
-            this.x = this.x / norm;
-            this.y = this.y / norm;
-            this.β = this.β / norm;
-            return this;
-        };
-        /**
          * Sets this multivector to the identity element for multiplication, <b>1</b>.
          * @method one
          * @return {G2}
@@ -791,13 +834,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             throw new Error("G2.sinh");
         };
         /**
-         * @method __tilde__
-         * @return {G2}
-         */
-        G2.prototype.__tilde__ = function () {
-            return G2.copy(this).rev();
-        };
-        /**
          * <p>
          * <code>this ⟼ R * this * rev(R)</code>
          * </p>
@@ -879,7 +915,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * <p>
          * <code>this ⟼ scp(this, m)</code>
          * </p>
-         * @method align
+         * @method scp
          * @param m {GeometricE2}
          * @return {G2} <code>this</code>
          * @chainable
@@ -1024,6 +1060,12 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             var coordToString = function (coord) { return coord.toString(); };
             return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
         };
+        /**
+         * @method grade
+         * @param grade {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
         G2.prototype.grade = function (grade) {
             mustBeInteger('grade', grade);
             switch (grade) {
@@ -1054,43 +1096,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
                     this.β = 0;
                 }
             }
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this ^ m</code>
-         * </p>
-         * @method wedge
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.ext = function (m) {
-            return this.ext2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a ^ b</code>
-         * </p>
-         * @method ext2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.ext2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
             return this;
         };
         /**
@@ -1420,6 +1425,15 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
             return G2.copy(this).inv();
         };
         /**
+         * @method __tilde__
+         * @return {G2}
+         * @private
+         * @chainable
+         */
+        G2.prototype.__tilde__ = function () {
+            return G2.copy(this).rev();
+        };
+        /**
          * @method __pos__
          * @return {G2}
          * @private
@@ -1454,6 +1468,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * @param M {GeometricE2}
          * @return {G2}
          * @static
+         * @chainable
          */
         G2.copy = function (M) {
             var copy = new G2();
@@ -1478,6 +1493,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * @param spinor {SpinorE2}
          * @return {G2}
          * @static
+         * @chainable
          */
         G2.fromSpinor = function (spinor) {
             return new G2().copySpinor(spinor);
@@ -1487,6 +1503,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * @param vector {VectorE2}
          * @return {G2}
          * @static
+         * @chainable
          */
         G2.fromVector = function (vector) {
             if (isDefined(vector)) {
@@ -1504,6 +1521,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         * @param α {number}
         * @return {G2} <code>A + α * (B - A)</code>
         * @static
+        * @chainable
         */
         G2.lerp = function (A, B, α) {
             return G2.copy(A).lerp(B, α);
@@ -1516,6 +1534,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * @param b {VectorE2} The <em>to</em> vector.
          * @return {G2}
          * @static
+         * @chainable
          */
         G2.rotorFromDirections = function (a, b) {
             return new G2().rotorFromDirections(a, b);

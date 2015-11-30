@@ -36,7 +36,6 @@ define(["require", "exports", '../geometries/computeFaceNormals', '../math/Eucli
         };
         BarnSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
-            // FIXME: R3 would probably work fine here.
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
             // Define the anchor points relative to the origin.
             points[0] = new G3().sub(this.a).sub(this.b).sub(this.c).divByScalar(2);

@@ -452,7 +452,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'R2', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'VectorE2', name, canvasId);
                     }
                 }
             }
@@ -477,7 +477,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'R3', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'VectorE3', name, canvasId);
                     }
                 }
             }
@@ -502,7 +502,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'R4', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'VectorE4', name, canvasId);
                     }
                 }
             }

@@ -1,12 +1,12 @@
-import VectorE1 = require('../math/VectorE1');
-import VectorE2 = require('../math/VectorE2');
-import VectorE3 = require('../math/VectorE3');
-import VectorE4 = require('../math/VectorE4');
 import Mat2R = require('../math/Mat2R');
 import Mat3R = require('../math/Mat3R');
 import Mat4R = require('../math/Mat4R');
 import IContextProgramConsumer = require('../core/IContextProgramConsumer');
 import IContextProvider = require('../core/IContextProvider');
+import VectorE1 = require('../math/VectorE1');
+import VectorE2 = require('../math/VectorE2');
+import VectorE3 = require('../math/VectorE3');
+import VectorE4 = require('../math/VectorE4');
 /**
  * Utility class for managing a shader uniform variable.
  * @class UniformLocation

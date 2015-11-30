@@ -11377,21 +11377,14 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeObject', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, createPerspective, readOnly, mustBeObject, mustBeNumber, mustBeString, Shareable) {
     /**
-     * Name used for reference count monitoring and logging.
-     */
-    var CLASS_NAME = 'PerspectiveCamera';
-    /**
      * @class PerspectiveCamera
      */
     var PerspectiveCamera = (function (_super) {
         __extends(PerspectiveCamera, _super);
         /**
-         * <p>
-         *
-         * </p>
          * @class PerspectiveCamera
          * @constructor
-         * @param [fov = 75 * Math.PI / 180] {number}
+         * @param [fov = 45 * Math.PI / 180] {number}
          * @param [aspect=1] {number}
          * @param [near=0.1] {number}
          * @param [far=2000] {number}
@@ -11401,7 +11394,7 @@ define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", '../came
          *   camera.setFov(3.0 * e3)
          */
         function PerspectiveCamera(fov, aspect, near, far) {
-            if (fov === void 0) { fov = 75 * Math.PI / 180; }
+            if (fov === void 0) { fov = 45 * Math.PI / 180; }
             if (aspect === void 0) { aspect = 1; }
             if (near === void 0) { near = 0.1; }
             if (far === void 0) { far = 2000; }
@@ -11412,6 +11405,11 @@ define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", '../came
             mustBeNumber('far', far);
             this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far });
         }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
         PerspectiveCamera.prototype.destructor = function () {
         };
         /**
@@ -11425,16 +11423,40 @@ define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", '../came
             this.inner.setFar(this.far);
             this.inner.setUniforms(visitor, canvasId);
         };
-        PerspectiveCamera.prototype.contextFree = function () {
+        /**
+         * @method contextFree
+         * @param [canvasId] {number}
+         * @return {void}
+         */
+        PerspectiveCamera.prototype.contextFree = function (canvasId) {
         };
+        /**
+         * @method contextGain
+         * @param manager {IContextProvider}
+         * @return {void}
+         */
         PerspectiveCamera.prototype.contextGain = function (manager) {
         };
-        PerspectiveCamera.prototype.contextLost = function () {
+        /**
+         * @method contextLost
+         * @param [canvasId] {number}
+         * @return {void}
+         */
+        PerspectiveCamera.prototype.contextLost = function (canvasId) {
         };
+        /**
+         * @method draw
+         * @param [canvasId] {number}
+         * @return {void}
+         */
         PerspectiveCamera.prototype.draw = function (canvasId) {
-            console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
             // Do nothing.
         };
+        /**
+         * @method getProperty
+         * @param name {string}
+         * @return {number[]}
+         */
         PerspectiveCamera.prototype.getProperty = function (name) {
             mustBeString('name', name);
             switch (name) {
@@ -11447,6 +11469,12 @@ define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", '../came
                 }
             }
         };
+        /**
+         * @method setProperty
+         * @param name {string}
+         * @param value {number[]}
+         * @return {void}
+         */
         PerspectiveCamera.prototype.setProperty = function (name, value) {
             mustBeString('name', name);
             mustBeObject('value', value);
@@ -11492,6 +11520,9 @@ define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", '../came
              */
             get: function () {
                 return this.inner.eye;
+            },
+            set: function (eye) {
+                this.inner.eye.copy(eye);
             },
             enumerable: true,
             configurable: true
@@ -12189,10 +12220,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-25',
+        LAST_MODIFIED: '2015-11-30',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.167.0'
+        VERSION: '2.168.0'
     };
     return core;
 });
@@ -13044,6 +13075,2597 @@ define('davinci-eight/geometries/Simplex',["require", "exports", '../checks/expe
     return Simplex;
 });
 
+define('davinci-eight/math/extE2',["require", "exports"], function (require, exports) {
+    function extE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a0 * b1 + a1 * b0);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a0 * b2 + a2 * b0);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    return extE2;
+});
+
+define('davinci-eight/math/lcoE2',["require", "exports"], function (require, exports) {
+    function lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a0 * b1 - a2 * b3);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a0 * b2 + a1 * b3);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a0 * b3);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    return lcoE2;
+});
+
+define('davinci-eight/math/rcoE2',["require", "exports"], function (require, exports) {
+    function rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
+                }
+                break;
+            case 1:
+                {
+                    x = +(-a1 * b0 - a3 * b2);
+                }
+                break;
+            case 2:
+                {
+                    x = +(-a2 * b0 + a3 * b1);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a3 * b0);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    return rcoE2;
+});
+
+define('davinci-eight/math/mulE2',["require", "exports"], function (require, exports) {
+    function mulE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    return mulE2;
+});
+
+define('davinci-eight/math/scpE2',["require", "exports"], function (require, exports) {
+    function scpE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        switch (index) {
+            case 0:
+                return a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3;
+            case 1:
+                return 0;
+            case 2:
+                return 0;
+            case 3:
+                return 0;
+            default:
+                throw new Error("index must be in the range [0..3]");
+        }
+    }
+    return scpE2;
+});
+
+define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/extE2', '../checks/isDefined', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, b2, b3, extE2, isDefined, lcoE2, rcoE2, mulE2, mustBeInteger, mustBeNumber, readOnly, scpE2, stringFromCoordinates, Unit) {
+    var exp = Math.exp;
+    var cos = Math.cos;
+    var sin = Math.sin;
+    var sqrt = Math.sqrt;
+    function assertArgEuclidean2(name, arg) {
+        if (arg instanceof Euclidean2) {
+            return arg;
+        }
+        else {
+            throw new Error("Argument '" + arg + "' must be a Euclidean2");
+        }
+    }
+    function assertArgUnitOrUndefined(name, uom) {
+        if (typeof uom === 'undefined' || uom instanceof Unit) {
+            return uom;
+        }
+        else {
+            throw new Error("Argument '" + uom + "' must be a Unit or undefined");
+        }
+    }
+    function add00(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a00 + b00);
+    }
+    function add01(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a01 + b01);
+    }
+    function add10(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a10 + b10);
+    }
+    function add11(a00, a01, a10, a11, b00, b01, b10, b11) {
+        a00 = +a00;
+        a01 = +a01;
+        a10 = +a10;
+        a11 = +a11;
+        b00 = +b00;
+        b01 = +b01;
+        b10 = +b10;
+        b11 = +b11;
+        return +(a11 + b11);
+    }
+    function addE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 + b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a1 + b1);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a2 + b2);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a3 + b3);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    function subE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 - b0);
+                }
+                break;
+            case 1:
+                {
+                    x = +(a1 - b1);
+                }
+                break;
+            case 2:
+                {
+                    x = +(a2 - b2);
+                }
+                break;
+            case 3:
+                {
+                    x = +(a3 - b3);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..3]");
+            }
+        }
+        return +x;
+    }
+    var divide = function (a00, a01, a10, a11, b00, b01, b10, b11, uom) {
+        var c00;
+        var c01;
+        var c10;
+        var c11;
+        var i00;
+        var i01;
+        var i10;
+        var i11;
+        var k00;
+        var m00;
+        var m01;
+        var m10;
+        var m11;
+        var r00;
+        var r01;
+        var r10;
+        var r11;
+        var s00;
+        var s01;
+        var s10;
+        var s11;
+        var x00;
+        var x01;
+        var x10;
+        var x11;
+        r00 = +b00;
+        r01 = +b01;
+        r10 = +b10;
+        r11 = -b11;
+        m00 = b00 * r00 + b01 * r01 + b10 * r10 - b11 * r11;
+        m01 = 0;
+        m10 = 0;
+        m11 = 0;
+        c00 = +m00;
+        c01 = -m01;
+        c10 = -m10;
+        c11 = -m11;
+        s00 = r00 * c00 + r01 * c01 + r10 * c10 - r11 * c11;
+        s01 = r00 * c01 + r01 * c00 - r10 * c11 + r11 * c10;
+        s10 = r00 * c10 + r01 * c11 + r10 * c00 - r11 * c01;
+        s11 = r00 * c11 + r01 * c10 - r10 * c01 + r11 * c00;
+        k00 = b00 * s00 + b01 * s01 + b10 * s10 - b11 * s11;
+        i00 = s00 / k00;
+        i01 = s01 / k00;
+        i10 = s10 / k00;
+        i11 = s11 / k00;
+        x00 = a00 * i00 + a01 * i01 + a10 * i10 - a11 * i11;
+        x01 = a00 * i01 + a01 * i00 - a10 * i11 + a11 * i10;
+        x10 = a00 * i10 + a01 * i11 + a10 * i00 - a11 * i01;
+        x11 = a00 * i11 + a01 * i10 - a10 * i01 + a11 * i00;
+        return new Euclidean2(x00, x01, x10, x11, uom);
+    };
+    /**
+     * @class Euclidean2
+     */
+    var Euclidean2 = (function () {
+        /**
+         * The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.
+         *
+         * @class Euclidean2
+         * @constructor
+         * @param {number} α The scalar part of the multivector.
+         * @param {number} x The vector component of the multivector in the x-direction.
+         * @param {number} y The vector component of the multivector in the y-direction.
+         * @param {number} β The pseudoscalar part of the multivector.
+         * @param uom The optional unit of measure.
+         */
+        function Euclidean2(α, x, y, β, uom) {
+            this.w = mustBeNumber('α', α);
+            this.x = mustBeNumber('x', x);
+            this.y = mustBeNumber('y', y);
+            this.xy = mustBeNumber('β', β);
+            this.uom = assertArgUnitOrUndefined('uom', uom);
+            if (this.uom && this.uom.multiplier !== 1) {
+                var multiplier = this.uom.multiplier;
+                this.w *= multiplier;
+                this.x *= multiplier;
+                this.y *= multiplier;
+                this.xy *= multiplier;
+                this.uom = new Unit(1, uom.dimensions, uom.labels);
+            }
+        }
+        Object.defineProperty(Euclidean2.prototype, "α", {
+            /**
+             * The scalar part of this multivector.
+             * @property α
+             * @return {number}
+             */
+            get: function () {
+                return this.w;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('α').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Euclidean2.prototype, "β", {
+            /**
+             * The pseudoscalar part of this multivector.
+             * @property β
+             * @return {number}
+             */
+            get: function () {
+                return this.xy;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('β').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        // FIXME: Replace x & y with a VectorE2, a
+        Euclidean2.prototype.fromCartesian = function (α, x, y, β, uom) {
+            mustBeNumber('α', α);
+            mustBeNumber('x', x);
+            mustBeNumber('y', y);
+            mustBeNumber('β', β);
+            assertArgUnitOrUndefined('uom', uom);
+            return new Euclidean2(α, x, y, β, uom);
+        };
+        Euclidean2.prototype.fromPolar = function (α, r, θ, β, uom) {
+            mustBeNumber('α', α);
+            mustBeNumber('r', r);
+            mustBeNumber('θ', θ);
+            mustBeNumber('β', β);
+            assertArgUnitOrUndefined('uom', uom);
+            return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom);
+        };
+        Object.defineProperty(Euclidean2.prototype, "coords", {
+            get: function () {
+                return [this.w, this.x, this.y, this.xy];
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Euclidean2.prototype.coordinate = function (index) {
+            mustBeNumber('index', index);
+            switch (index) {
+                case 0:
+                    return this.w;
+                case 1:
+                    return this.x;
+                case 2:
+                    return this.y;
+                case 3:
+                    return this.xy;
+                default:
+                    throw new Error("index must be in the range [0..3]");
+            }
+        };
+        Euclidean2.add = function (a, b) {
+            var a00 = a[0];
+            var a01 = a[1];
+            var a10 = a[2];
+            var a11 = a[3];
+            var b00 = b[0];
+            var b01 = b[1];
+            var b10 = b[2];
+            var b11 = b[3];
+            var x00 = add00(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x01 = add01(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x10 = add10(a00, a01, a10, a11, b00, b01, b10, b11);
+            var x11 = add11(a00, a01, a10, a11, b00, b01, b10, b11);
+            return [x00, x01, x10, x11];
+        };
+        Euclidean2.prototype.add = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.add(this.coords, rhs.coords);
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.addPseudo = function (β) {
+            return new Euclidean2(this.α, this.x, this.y, this.β + β, this.uom);
+        };
+        Euclidean2.prototype.addScalar = function (α) {
+            return new Euclidean2(this.α + α, this.x, this.y, this.β, this.uom);
+        };
+        Euclidean2.prototype.adj = function () {
+            throw new Error("TODO: adj");
+        };
+        Euclidean2.prototype.__add__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.add(other);
+            }
+            else if (typeof other === 'number') {
+                return this.add(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__radd__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return other.add(this);
+            }
+            else if (typeof other === 'number') {
+                return new Euclidean2(other, 0, 0, 0, undefined).add(this);
+            }
+        };
+        /**
+         * @method angle
+         * @return {Euclidean2}
+         */
+        Euclidean2.prototype.angle = function () {
+            return this.log().grade(2);
+        };
+        Euclidean2.prototype.clone = function () {
+            return this;
+        };
+        Euclidean2.prototype.conj = function () {
+            throw new Error("TODO: adj");
+        };
+        Euclidean2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
+            var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            return new Euclidean2(0, x, y, 0, this.uom);
+        };
+        Euclidean2.prototype.direction = function () {
+            throw new Error('direction');
+        };
+        Euclidean2.prototype.distanceTo = function (point) {
+            throw new Error("TODO: Euclidean2.distanceTo");
+        };
+        Euclidean2.prototype.equals = function (point) {
+            throw new Error("TODO: Euclidean2.equals");
+        };
+        Euclidean2.sub = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.sub = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.sub(this.coords, rhs.coords);
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__sub__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.sub(other);
+            }
+            else if (typeof other === 'number') {
+                return this.sub(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rsub__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return other.sub(this);
+            }
+            else if (typeof other === 'number') {
+                return new Euclidean2(other, 0, 0, 0, undefined).sub(this);
+            }
+        };
+        Euclidean2.prototype.mul = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var a0 = this.w;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.xy;
+            var b0 = rhs.w;
+            var b1 = rhs.x;
+            var b2 = rhs.y;
+            var b3 = rhs.xy;
+            var c0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var c1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var c2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var c3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return new Euclidean2(c0, c1, c2, c3, Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__mul__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.mul(other);
+            }
+            else if (typeof other === 'number') {
+                return this.mul(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rmul__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var lhs = other;
+                return lhs.mul(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new Euclidean2(w, 0, 0, 0, undefined).mul(this);
+            }
+        };
+        Euclidean2.prototype.scale = function (α) {
+            return new Euclidean2(this.w * α, this.x * α, this.y * α, this.xy * α, this.uom);
+        };
+        Euclidean2.prototype.div = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            return divide(this.w, this.x, this.y, this.xy, rhs.w, rhs.x, rhs.y, rhs.xy, Unit.div(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.divByScalar = function (α) {
+            return new Euclidean2(this.w / α, this.x / α, this.y / α, this.xy / α, this.uom);
+        };
+        Euclidean2.prototype.__div__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.div(other);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.div(new Euclidean2(w, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rdiv__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var lhs = other;
+                return lhs.div(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new Euclidean2(w, 0, 0, 0, undefined).div(this);
+            }
+        };
+        Euclidean2.scp = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3;
+            var x1 = 0;
+            var x2 = 0;
+            var x3 = 0;
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.scp = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var a0 = this.w;
+            var a1 = this.x;
+            var a2 = this.y;
+            var a3 = this.xy;
+            var b0 = this.w;
+            var b1 = this.x;
+            var b2 = this.y;
+            var b3 = this.xy;
+            var c0 = scpE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            return new Euclidean2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.ext = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.ext = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.ext(this.coords, rhs.coords);
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__wedge__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var rhs = other;
+                return this.ext(rhs);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.ext(new Euclidean2(w, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rwedge__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var lhs = other;
+                return lhs.ext(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new Euclidean2(w, 0, 0, 0, undefined).ext(this);
+            }
+        };
+        Euclidean2.lshift = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.lerp = function (target, α) {
+            // FIXME: TODO
+            return this;
+        };
+        Euclidean2.prototype.lco = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.lshift(this.coords, rhs.coords);
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__lshift__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var rhs = other;
+                return this.lco(rhs);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return this.lco(new Euclidean2(w, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rlshift__ = function (other) {
+            if (other instanceof Euclidean2) {
+                var lhs = other;
+                return lhs.lco(this);
+            }
+            else if (typeof other === 'number') {
+                var w = other;
+                return new Euclidean2(w, 0, 0, 0, undefined).lco(this);
+            }
+        };
+        Euclidean2.rshift = function (a, b) {
+            var a0 = a[0];
+            var a1 = a[1];
+            var a2 = a[2];
+            var a3 = a[3];
+            var b0 = b[0];
+            var b1 = b[1];
+            var b2 = b[2];
+            var b3 = b[3];
+            var x0 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            var x1 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            var x2 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            var x3 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return [x0, x1, x2, x3];
+        };
+        Euclidean2.prototype.rco = function (rhs) {
+            assertArgEuclidean2('rhs', rhs);
+            var xs = Euclidean2.rshift(this.coords, rhs.coords);
+            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
+        };
+        Euclidean2.prototype.__rshift__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.rco(other);
+            }
+            else if (typeof other === 'number') {
+                return this.rco(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rrshift__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return other.rco(this);
+            }
+            else if (typeof other === 'number') {
+                return new Euclidean2(other, 0, 0, 0, undefined).rco(this);
+            }
+        };
+        Euclidean2.prototype.__vbar__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return this.scp(other);
+            }
+            else if (typeof other === 'number') {
+                return this.scp(new Euclidean2(other, 0, 0, 0, undefined));
+            }
+        };
+        Euclidean2.prototype.__rvbar__ = function (other) {
+            if (other instanceof Euclidean2) {
+                return other.scp(this);
+            }
+            else if (typeof other === 'number') {
+                return new Euclidean2(other, 0, 0, 0, undefined).scp(this);
+            }
+        };
+        Euclidean2.prototype.pow = function (exponent) {
+            // assertArgEuclidean2('exponent', exponent);
+            throw new Error('pow');
+        };
+        Euclidean2.prototype.__bang__ = function () {
+            return this.inv();
+        };
+        Euclidean2.prototype.__pos__ = function () {
+            return this;
+        };
+        Euclidean2.prototype.neg = function () {
+            return new Euclidean2(-this.α, -this.x, -this.y, -this.β, this.uom);
+        };
+        Euclidean2.prototype.__neg__ = function () {
+            return this.neg();
+        };
+        /**
+         * ~ (tilde) produces reversion.
+         */
+        Euclidean2.prototype.__tilde__ = function () {
+            return new Euclidean2(this.α, this.x, this.y, -this.β, this.uom);
+        };
+        Euclidean2.prototype.grade = function (grade) {
+            mustBeInteger('grade', grade);
+            switch (grade) {
+                case 0:
+                    return new Euclidean2(this.α, 0, 0, 0, this.uom);
+                case 1:
+                    return new Euclidean2(0, this.x, this.y, 0, this.uom);
+                case 2:
+                    return new Euclidean2(0, 0, 0, this.β, this.uom);
+                default:
+                    return new Euclidean2(0, 0, 0, 0, this.uom);
+            }
+        };
+        Euclidean2.prototype.cos = function () {
+            throw new Error('cos');
+        };
+        Euclidean2.prototype.cosh = function () {
+            throw new Error('cosh');
+        };
+        Euclidean2.prototype.exp = function () {
+            Unit.assertDimensionless(this.uom);
+            var expα = exp(this.α);
+            var cosβ = cos(this.β);
+            var sinβ = sin(this.β);
+            return new Euclidean2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
+        };
+        Euclidean2.prototype.inv = function () {
+            throw new Error('inv');
+        };
+        Euclidean2.prototype.log = function () {
+            throw new Error('log');
+        };
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         * @method magnitude
+         * @return {number}
+         */
+        Euclidean2.prototype.magnitude = function () {
+            return sqrt(this.squaredNorm());
+        };
+        Euclidean2.prototype.norm = function () {
+            return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
+        };
+        Euclidean2.prototype.quad = function () {
+            return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        Euclidean2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
+            var x = b2(t, this.x, controlPoint.x, endPoint.x);
+            var y = b2(t, this.y, controlPoint.y, endPoint.y);
+            return new Euclidean2(0, x, y, 0, this.uom);
+        };
+        Euclidean2.prototype.squaredNorm = function () {
+            return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
+        };
+        /**
+         * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
+         * @method reflect
+         * @param n {VectorE2}
+         * @return {Euclidean2}
+         */
+        Euclidean2.prototype.reflect = function (n) {
+            // TODO: Optimize to minimize object creation and increase performance.
+            var m = Euclidean2.fromVectorE2(n);
+            return m.mul(this).mul(m).scale(-1);
+        };
+        Euclidean2.prototype.rev = function () {
+            throw new Error('rev');
+        };
+        Euclidean2.prototype.rotate = function (R) {
+            throw new Error('rotate');
+        };
+        Euclidean2.prototype.sin = function () {
+            throw new Error('sin');
+        };
+        Euclidean2.prototype.sinh = function () {
+            throw new Error('sinh');
+        };
+        Euclidean2.prototype.slerp = function (target, α) {
+            // FIXME: TODO
+            return this;
+        };
+        /**
+         * @method tan
+         * @return {Euclidean2}
+         */
+        Euclidean2.prototype.tan = function () {
+            return this.sin().div(this.cos());
+        };
+        Euclidean2.prototype.isOne = function () { return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0; };
+        Euclidean2.prototype.isNaN = function () { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy); };
+        Euclidean2.prototype.isZero = function () { return this.w === 0 && this.x === 0 && this.y === 0 && this.xy === 0; };
+        Euclidean2.prototype.toStringCustom = function (coordToString, labels) {
+            var quantityString = stringFromCoordinates(this.coords, coordToString, labels);
+            if (this.uom) {
+                var unitString = this.uom.toString().trim();
+                if (unitString) {
+                    return quantityString + ' ' + unitString;
+                }
+                else {
+                    return quantityString;
+                }
+            }
+            else {
+                return quantityString;
+            }
+        };
+        Euclidean2.prototype.toExponential = function () {
+            var coordToString = function (coord) { return coord.toExponential(); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        Euclidean2.prototype.toFixed = function (digits) {
+            var coordToString = function (coord) { return coord.toFixed(digits); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        Euclidean2.prototype.toString = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
+        };
+        Euclidean2.prototype.toStringIJK = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return this.toStringCustom(coordToString, ["1", "i", "j", "I"]);
+        };
+        Euclidean2.prototype.toStringLATEX = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{12}"]);
+        };
+        /**
+         * @method copy
+         * @param M {GeometricE2}
+         * @return {Euclidean2}
+         * @static
+         */
+        Euclidean2.copy = function (m) {
+            if (m instanceof Euclidean2) {
+                return m;
+            }
+            else {
+                return new Euclidean2(m.α, m.x, m.y, m.β, void 0);
+            }
+        };
+        /**
+         * @method fromVectorE2
+         * @param vector {VectorE2}
+         * @return {Euclidean2}
+         * @static
+         */
+        Euclidean2.fromVectorE2 = function (vector) {
+            if (isDefined(vector)) {
+                if (vector instanceof Euclidean2) {
+                    return new Euclidean2(0, vector.x, vector.y, 0, vector.uom);
+                }
+                else {
+                    return new Euclidean2(0, vector.x, vector.y, 0, void 0);
+                }
+            }
+            else {
+                return void 0;
+            }
+        };
+        return Euclidean2;
+    })();
+    return Euclidean2;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/Euclidean2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2, b3, dotVector, Euclidean2, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, quadVector, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
+    // GraphicsProgramSymbols constants for the coordinate indices into the data array.
+    var COORD_W = 0;
+    var COORD_X = 1;
+    var COORD_Y = 2;
+    var COORD_XY = 3;
+    var PI = Math.PI;
+    var abs = Math.abs;
+    var atan2 = Math.atan2;
+    var exp = Math.exp;
+    var log = Math.log;
+    var cos = Math.cos;
+    var sin = Math.sin;
+    var sqrt = Math.sqrt;
+    //let ANTICLOCKWISE_GAPPED_CIRCLE = "⟲"
+    //let ANTICLOCKWISE_CLOSED_CIRCLE = "⥀"
+    //let CLOCKWISE_GAPPED_CIRCLE = "⟳"
+    var LEFTWARDS_ARROW = "←";
+    var RIGHTWARDS_ARROW = "→";
+    var UPWARDS_ARROW = "↑";
+    var DOWNWARDS_ARROW = "↓";
+    var BULLSEYE = "◎";
+    var CLOCKWISE_OPEN_CIRCLE_ARROW = "↻";
+    var ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺";
+    var ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
+    var STANDARD_LABELS = ["1", "e1", "e2", "I"];
+    /**
+     * Coordinates corresponding to basis labels.
+     */
+    function coordinates(m) {
+        return [m.α, m.x, m.y, m.β];
+    }
+    /**
+     * Promotes an unknown value to a G2, or returns undefined.
+     */
+    function duckCopy(value) {
+        if (isObject(value)) {
+            var m = value;
+            if (isNumber(m.x) && isNumber(m.y)) {
+                if (isNumber(m.α) && isNumber(m.β)) {
+                    console.warn("Copying GeometricE2 to G2");
+                    return G2.copy(m);
+                }
+                else {
+                    console.warn("Copying VectorE2 to G2");
+                    return G2.fromVector(m);
+                }
+            }
+            else {
+                if (isNumber(m.α) && isNumber(m.β)) {
+                    console.warn("Copying SpinorE2 to G2");
+                    return G2.fromSpinor(m);
+                }
+                else {
+                    return void 0;
+                }
+            }
+        }
+        else {
+            return void 0;
+        }
+    }
+    /**
+     * @class G2
+     * @extends VectorN
+     * @beta
+     */
+    var G2 = (function (_super) {
+        __extends(G2, _super);
+        /**
+         * Constructs a <code>G2</code>.
+         * The multivector is initialized to zero.
+         * @class G2
+         * @beta
+         * @constructor
+         */
+        function G2() {
+            _super.call(this, [0, 0, 0, 0], false, 4);
+        }
+        Object.defineProperty(G2.prototype, "α", {
+            /**
+             * The coordinate corresponding to the unit standard basis scalar.
+             * @property α
+             * @type {number}
+             */
+            get: function () {
+                return this.coords[COORD_W];
+            },
+            set: function (α) {
+                this.modified = this.modified || this.coords[COORD_W] !== α;
+                this.coords[COORD_W] = α;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "x", {
+            /**
+             * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
+             * @property x
+             * @type {number}
+             */
+            get: function () {
+                return this.coords[COORD_X];
+            },
+            set: function (x) {
+                this.modified = this.modified || this.coords[COORD_X] !== x;
+                this.coords[COORD_X] = x;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "y", {
+            /**
+             * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
+             * @property y
+             * @type {number}
+             */
+            get: function () {
+                return this.coords[COORD_Y];
+            },
+            set: function (y) {
+                this.modified = this.modified || this.coords[COORD_Y] !== y;
+                this.coords[COORD_Y] = y;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "β", {
+            /**
+             * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
+             * @property β
+             * @type {number}
+             */
+            get: function () {
+                return this.coords[COORD_XY];
+            },
+            set: function (β) {
+                this.modified = this.modified || this.coords[COORD_XY] !== β;
+                this.coords[COORD_XY] = β;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(G2.prototype, "xy", {
+            get: function () {
+                return this.coords[COORD_XY];
+            },
+            set: function (xy) {
+                this.modified = this.modified || this.coords[COORD_XY] !== xy;
+                this.coords[COORD_XY] = xy;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * <p>
+         * <code>this ⟼ this + M * α</code>
+         * </p>
+         * @method add
+         * @param M {GeometricE2}
+         * @param [α = 1] {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.add = function (M, α) {
+            if (α === void 0) { α = 1; }
+            mustBeObject('M', M);
+            mustBeNumber('α', α);
+            this.α += M.α * α;
+            this.x += M.x * α;
+            this.y += M.y * α;
+            this.β += M.β * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a + b</code>
+         * </p>
+         * @method add2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.add2 = function (a, b) {
+            mustBeObject('a', a);
+            mustBeObject('b', b);
+            this.α = a.α + b.α;
+            this.x = a.x + b.x;
+            this.y = a.y + b.y;
+            this.β = a.β + b.β;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + Iβ</code>
+         * </p>
+         * @method addPseudo
+         * @param β {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.addPseudo = function (β) {
+            mustBeNumber('β', β);
+            this.β += β;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + α</code>
+         * </p>
+         * @method addScalar
+         * @param α {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.addScalar = function (α) {
+            mustBeNumber('α', α);
+            this.α += α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + v * α</code>
+         * </p>
+         * @method addVector
+         * @param v {VectorE2}
+         * @param [α = 1] {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.addVector = function (v, α) {
+            if (α === void 0) { α = 1; }
+            mustBeObject('v', v);
+            mustBeNumber('α', α);
+            this.x += v.x * α;
+            this.y += v.y * α;
+            return this;
+        };
+        G2.prototype.adj = function () {
+            throw new Error('TODO: G2.adj');
+        };
+        /**
+         * <p>
+         * <code>this ⟼ log(this).grade(2)</code>
+         * </p>
+         * @method angle
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.angle = function () {
+            return this.log().grade(2);
+        };
+        /**
+         * @method clone
+         * @return {G2} <code>copy(this)</code>
+         * @chainable
+         */
+        G2.prototype.clone = function () {
+            var m = new G2();
+            m.copy(this);
+            return m;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ conjugate(this)</code>
+         * </p>
+         * @method conj
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.conj = function () {
+            // FIXME: This is only the bivector part.
+            // Also need to think about various involutions.
+            this.β = -this.β;
+            return this;
+        };
+        G2.prototype.cos = function () {
+            throw new Error("TODO: G2.cos");
+        };
+        G2.prototype.cosh = function () {
+            throw new Error("TODO: G2.cosh");
+        };
+        G2.prototype.distanceTo = function (point) {
+            throw new Error("TODO: G2.distanceTo");
+        };
+        G2.prototype.equals = function (point) {
+            throw new Error("TODO: G2.equals");
+        };
+        /**
+         * <p>
+         * <code>this ⟼ copy(M)</code>
+         * </p>
+         * @method copy
+         * @param M {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.copy = function (M) {
+            mustBeObject('M', M);
+            this.α = M.α;
+            this.x = M.x;
+            this.y = M.y;
+            this.β = M.β;
+            return this;
+        };
+        /**
+         * Sets this multivector to the value of the scalar, <code>α</code>.
+         * @method copyScalar
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.copyScalar = function (α) {
+            return this.zero().addScalar(α);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ copy(spinor)</code>
+         * </p>
+         * @method copySpinor
+         * @param spinor {SpinorE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.copySpinor = function (spinor) {
+            mustBeObject('spinor', spinor);
+            this.α = spinor.α;
+            this.x = 0;
+            this.y = 0;
+            this.β = spinor.xy;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ copyVector(vector)</code>
+         * </p>
+         * @method copyVector
+         * @param vector {VectorE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.copyVector = function (vector) {
+            mustBeObject('vector', vector);
+            this.α = 0;
+            this.x = vector.x;
+            this.y = vector.y;
+            this.β = 0;
+            return this;
+        };
+        /**
+         * @method cubicBezier
+         * @param t {number}
+         * @param controlBegin {GeometricE2}
+         * @param controlEnd {GeometricE2}
+         * @param endPoint {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
+            var α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
+            var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            var β = b3(t, this.β, controlBegin.β, controlEnd.β, endPoint.β);
+            this.α = α;
+            this.x = x;
+            this.y = y;
+            this.β = β;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this / magnitude(this)</code>
+         * </p>
+         * @method direction
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.direction = function () {
+            // The squaredNorm is the squared norm.
+            var norm = sqrt(this.squaredNorm());
+            this.α = this.α / norm;
+            this.x = this.x / norm;
+            this.y = this.y / norm;
+            this.β = this.β / norm;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this / m</code>
+         * </p>
+         * @method div
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.div = function (m) {
+            return this.div2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a / b</code>
+         * </p>
+         * @method div2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.div2 = function (a, b) {
+            // FIXME: Generalize
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this / α</code>
+         * </p>
+         * @method divByScalar
+         * @param α {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.divByScalar = function (α) {
+            mustBeNumber('α', α);
+            this.α /= α;
+            this.x /= α;
+            this.y /= α;
+            this.β /= α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ dual(m) = I * m</code>
+         * </p>
+         * @method dual
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.dual = function (m) {
+            var w = -m.β;
+            var x = +m.y;
+            var y = -m.x;
+            var β = +m.α;
+            this.α = w;
+            this.x = x;
+            this.y = y;
+            this.β = β;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ e<sup>this</sup></code>
+         * </p>
+         * @method exp
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.exp = function () {
+            var w = this.α;
+            var z = this.β;
+            var expW = exp(w);
+            // φ is actually the absolute value of one half the rotation angle.
+            // The orientation of the rotation gets carried in the bivector components.
+            var φ = sqrt(z * z);
+            var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
+            this.α = expW * cos(φ);
+            this.β = z * s;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this ^ m</code>
+         * </p>
+         * @method ext
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.ext = function (m) {
+            return this.ext2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a ^ b</code>
+         * </p>
+         * @method ext2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.ext2 = function (a, b) {
+            var a0 = a.α;
+            var a1 = a.x;
+            var a2 = a.y;
+            var a3 = a.β;
+            var b0 = b.α;
+            var b1 = b.x;
+            var b2 = b.y;
+            var b3 = b.β;
+            this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ conj(this) / quad(this)</code>
+         * </p>
+         * @method inv
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.inv = function () {
+            // FIXME: TODO
+            this.conj();
+            // this.divByScalar(this.squaredNorm());
+            return this;
+        };
+        /**
+         * @method isOne
+         * @return {boolean}
+         */
+        G2.prototype.isOne = function () {
+            return this.α === 1 && this.x === 0 && this.y === 0 && this.β === 0;
+        };
+        /**
+         * @method isZero
+         * @return {boolean}
+         */
+        G2.prototype.isZero = function () {
+            return this.α === 0 && this.x === 0 && this.y === 0 && this.β === 0;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this << m</code>
+         * </p>
+         * @method lco
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.lco = function (m) {
+            return this.lco2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a << b</code>
+         * </p>
+         * @method lco2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.lco2 = function (a, b) {
+            var a0 = a.α;
+            var a1 = a.x;
+            var a2 = a.y;
+            var a3 = a.β;
+            var b0 = b.α;
+            var b1 = b.x;
+            var b2 = b.y;
+            var b3 = b.β;
+            this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this + α * (target - this)</code>
+         * </p>
+         * @method lerp
+         * @param target {GeometricE2}
+         * @param α {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.lerp = function (target, α) {
+            mustBeObject('target', target);
+            mustBeNumber('α', α);
+            this.α += (target.α - this.α) * α;
+            this.x += (target.x - this.x) * α;
+            this.y += (target.y - this.y) * α;
+            this.β += (target.β - this.β) * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a + α * (b - a)</code>
+         * </p>
+         * @method lerp2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @param α {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.lerp2 = function (a, b, α) {
+            mustBeObject('a', a);
+            mustBeObject('b', b);
+            mustBeNumber('α', α);
+            this.copy(a).lerp(b, α);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>
+         * </p>
+         * @method log
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.log = function () {
+            // FIXME: This only handles the spinor components.
+            var α = this.α;
+            var β = this.β;
+            this.α = log(sqrt(α * α + β * β));
+            this.x = 0;
+            this.y = 0;
+            this.β = atan2(β, α);
+            return this;
+        };
+        /**
+         * Computes the <em>square root</em> of the <em>squared norm</em>.
+         * @method magnitude
+         * @return {number}
+         */
+        G2.prototype.magnitude = function () {
+            return sqrt(this.squaredNorm());
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this * s</code>
+         * </p>
+         * @method mul
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.mul = function (m) {
+            return this.mul2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a * b</code>
+         * </p>
+         * @method mul2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.mul2 = function (a, b) {
+            var a0 = a.α;
+            var a1 = a.x;
+            var a2 = a.y;
+            var a3 = a.β;
+            var b0 = b.α;
+            var b1 = b.x;
+            var b2 = b.y;
+            var b3 = b.β;
+            this.α = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            this.x = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            this.y = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            this.β = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ -1 * this</code>
+         * </p>
+         * @method neg
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.neg = function () {
+            this.α = -this.α;
+            this.x = -this.x;
+            this.y = -this.y;
+            this.β = -this.β;
+            return this;
+        };
+        /**
+        * <p>
+        * <code>this ⟼ sqrt(this * conj(this))</code>
+        * </p>
+        * @method norm
+        * @return {G2} <code>this</code>
+        * @chainable
+        */
+        G2.prototype.norm = function () {
+            this.α = this.magnitude();
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
+            return this;
+        };
+        /**
+         * Sets this multivector to the identity element for multiplication, <b>1</b>.
+         * @method one
+         * @return {G2}
+         * @chainable
+         */
+        G2.prototype.one = function () {
+            this.α = 1;
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
+            return this;
+        };
+        G2.prototype.pow = function () {
+            throw new Error("TODO: G2.pow");
+        };
+        /**
+         * <p>
+         * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
+         * </p>
+         * <p>
+         * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+         * </p>
+         * @method quad
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.quad = function () {
+            this.α = this.squaredNorm();
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
+            return this;
+        };
+        /**
+         * @method quadraticBezier
+         * @param t {number}
+         * @param controlPoint {GeometricE2}
+         * @param endPoint {GeometricE2}
+         * @return {G2}
+         */
+        G2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
+            var α = b2(t, this.α, controlPoint.α, endPoint.α);
+            var x = b2(t, this.x, controlPoint.x, endPoint.x);
+            var y = b2(t, this.y, controlPoint.y, endPoint.y);
+            var β = b2(t, this.β, controlPoint.β, endPoint.β);
+            this.α = α;
+            this.x = x;
+            this.y = y;
+            this.β = β;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this >> m</code>
+         * </p>
+         * @method rco
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.rco = function (m) {
+            return this.rco2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a >> b</code>
+         * </p>
+         * @method rco2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.rco2 = function (a, b) {
+            var a0 = a.α;
+            var a1 = a.x;
+            var a2 = a.y;
+            var a3 = a.β;
+            var b0 = b.α;
+            var b1 = b.x;
+            var b2 = b.y;
+            var b3 = b.β;
+            this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
+            this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
+            this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
+            this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ - n * this * n</code>
+         * </p>
+         * @method reflect
+         * @param n {VectorE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.reflect = function (n) {
+            // TODO: Optimize.
+            mustBeObject('n', n);
+            var N = Euclidean2.fromVectorE2(n);
+            var M = Euclidean2.copy(this);
+            var R = N.mul(M).mul(N).scale(-1);
+            this.copy(R);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ rev(this)</code>
+         * </p>
+         * @method reverse
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.rev = function () {
+            // reverse has a ++-- structure.
+            this.α = this.α;
+            this.x = this.x;
+            this.y = this.y;
+            this.β = -this.β;
+            return this;
+        };
+        G2.prototype.sin = function () {
+            throw new Error("G2.sin");
+        };
+        G2.prototype.sinh = function () {
+            throw new Error("G2.sinh");
+        };
+        /**
+         * <p>
+         * <code>this ⟼ R * this * rev(R)</code>
+         * </p>
+         * @method rotate
+         * @param R {SpinorE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.rotate = function (R) {
+            mustBeObject('R', R);
+            // FIXME: This only rotates the vector components.
+            var x = this.x;
+            var y = this.y;
+            var a = R.xy;
+            var α = R.α;
+            var ix = α * x + a * y;
+            var iy = α * y - a * x;
+            this.x = ix * α + iy * a;
+            this.y = iy * α - ix * a;
+            return this;
+        };
+        /**
+         * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
+         * @method rotorFromDirections
+         * @param a {VectorE2} The starting vector
+         * @param b {VectorE2} The ending vector
+         * @return {G2} <code>this</code> The rotor representing a rotation from a to b.
+         * @chainable
+         */
+        G2.prototype.rotorFromDirections = function (a, b) {
+            if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
+                return this;
+            }
+            else {
+                // In two dimensions, the rotation plane is not ambiguous.
+                // FIXME: This is a bit dubious.
+                // Probably better to make undefined a first-class concept.
+                this.rotorFromGeneratorAngle(G2.I, PI);
+            }
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this = ⟼ exp(- B * θ / 2)</code>
+         * </p>
+         * @method rotorFromGeneratorAngle
+         * @param B {SpinorE2}
+         * @param θ {number}
+         * @return {G2} <code>this</code>
+         */
+        G2.prototype.rotorFromGeneratorAngle = function (B, θ) {
+            mustBeObject('B', B);
+            mustBeNumber('θ', θ);
+            // We assume that B really is just a bivector
+            // by ignoring scalar and vector components.
+            // Normally, B will have unit magnitude and B * B => -1.
+            // However, we don't assume that is the case.
+            // The effect will be a scaling of the angle.
+            // A non unitary rotor, on the other hand, will scale the transformation.
+            // We must also take into account the orientation of B.
+            var β = B.xy;
+            /**
+             * Sandwich operation means we need the half-angle.
+             */
+            var φ = θ / 2;
+            /**
+             * scalar part = cos(|B| * θ / 2)
+             */
+            this.α = cos(abs(β) * φ);
+            this.x = 0;
+            this.y = 0;
+            /**
+             * pseudo part = -unit(B) * sin(|B| * θ / 2)
+             */
+            this.β = -sin(β * φ);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ scp(this, m)</code>
+         * </p>
+         * @method scp
+         * @param m {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.scp = function (m) {
+            return this.scp2(this, m);
+        };
+        /**
+         * <p>
+         * <code>this ⟼ scp(a, b)</code>
+         * </p>
+         * @method scp2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.scp2 = function (a, b) {
+            this.α = scpE2(a.α, a.x, a.y, a.β, b.α, b.x, b.y, b.β, 0);
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this * α</code>
+         * </p>
+         * @method scale
+         * @param α {number}
+         */
+        G2.prototype.scale = function (α) {
+            mustBeNumber('α', α);
+            this.α *= α;
+            this.x *= α;
+            this.y *= α;
+            this.β *= α;
+            return this;
+        };
+        G2.prototype.slerp = function (target, α) {
+            mustBeObject('target', target);
+            mustBeNumber('α', α);
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a * b = a · b + a ^ b</code>
+         * </p>
+         * Sets this G2 to the geometric product a * b of the vector arguments.
+         * @method spinor
+         * @param a {VectorE2}
+         * @param b {VectorE2}
+         * @return {G2} <code>this</code>
+         */
+        G2.prototype.spinor = function (a, b) {
+            var ax = a.x;
+            var ay = a.y;
+            var bx = b.x;
+            var by = b.y;
+            this.α = dotVector(a, b);
+            this.x = 0;
+            this.y = 0;
+            this.β = wedgeXY(ax, ay, 0, bx, by, 0); // FIXME wedgeVectorsE2
+            return this;
+        };
+        /**
+         * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
+         * @method squaredNorm
+         * @return {number} <code>this | ~this</code>
+         */
+        G2.prototype.squaredNorm = function () {
+            var w = this.α;
+            var x = this.x;
+            var y = this.y;
+            var B = this.β;
+            return w * w + x * x + y * y + B * B;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ this - M * α</code>
+         * </p>
+         * @method sub
+         * @param M {GeometricE2}
+         * @param [α = 1] {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.sub = function (M, α) {
+            if (α === void 0) { α = 1; }
+            mustBeObject('M', M);
+            mustBeNumber('α', α);
+            this.α -= M.α * α;
+            this.x -= M.x * α;
+            this.y -= M.y * α;
+            this.β -= M.β * α;
+            return this;
+        };
+        /**
+         * <p>
+         * <code>this ⟼ a - b</code>
+         * </p>
+         * @method sub2
+         * @param a {GeometricE2}
+         * @param b {GeometricE2}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.sub2 = function (a, b) {
+            mustBeObject('a', a);
+            mustBeObject('b', b);
+            this.α = a.α - b.α;
+            this.x = a.x - b.x;
+            this.y = a.y - b.y;
+            this.β = a.β - b.β;
+            return this;
+        };
+        /**
+         * Returns a string representing the number in exponential notation.
+         * @method toExponential
+         * @return {string}
+         */
+        G2.prototype.toExponential = function () {
+            var coordToString = function (coord) { return coord.toExponential(); };
+            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
+        };
+        /**
+         * Returns a string representing the number in fixed-point notation.
+         * @method toFixed
+         * @param [fractionDigits] {number}
+         * @return {string}
+         */
+        G2.prototype.toFixed = function (fractionDigits) {
+            var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
+            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
+        };
+        /**
+         * Returns a string representation of the number.
+         * @method toString
+         * @return {string}
+         */
+        G2.prototype.toString = function () {
+            var coordToString = function (coord) { return coord.toString(); };
+            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
+        };
+        /**
+         * @method grade
+         * @param grade {number}
+         * @return {G2} <code>this</code>
+         * @chainable
+         */
+        G2.prototype.grade = function (grade) {
+            mustBeInteger('grade', grade);
+            switch (grade) {
+                case 0:
+                    {
+                        this.x = 0;
+                        this.y = 0;
+                        this.β = 0;
+                    }
+                    break;
+                case 1:
+                    {
+                        this.α = 0;
+                        this.β = 0;
+                    }
+                    break;
+                case 2:
+                    {
+                        this.α = 0;
+                        this.x = 0;
+                        this.y = 0;
+                    }
+                    break;
+                default: {
+                    this.α = 0;
+                    this.x = 0;
+                    this.y = 0;
+                    this.β = 0;
+                }
+            }
+            return this;
+        };
+        /**
+         * Sets this multivector to the identity element for addition, <b>0</b>.
+         * @method zero
+         * @return {G2}
+         * @chainable
+         */
+        G2.prototype.zero = function () {
+            this.α = 0;
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
+            return this;
+        };
+        /**
+         * @method __add__
+         * @param rhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__add__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).add(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                // Addition commutes, but addScalar might be useful.
+                return G2.fromScalar(rhs).add(this);
+            }
+            else {
+                var rhsCopy = duckCopy(rhs);
+                if (rhsCopy) {
+                    // rhs is a copy and addition commutes.
+                    return rhsCopy.add(this);
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        /**
+         * @method __div__
+         * @param rhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__div__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).div(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).divByScalar(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rdiv__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rdiv__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).div(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).div(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __mul__
+         * @param rhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__mul__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).mul(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).scale(rhs);
+            }
+            else {
+                var rhsCopy = duckCopy(rhs);
+                if (rhsCopy) {
+                    // rhsCopy is a copy but multiplication does not commute.
+                    // If we had rmul then we could mutate the rhs!
+                    return this.__mul__(rhsCopy);
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        /**
+         * @method __rmul__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rmul__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).mul(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.copy(this).scale(lhs);
+            }
+            else {
+                var lhsCopy = duckCopy(lhs);
+                if (lhsCopy) {
+                    // lhs is a copy, so we can mutate it, and use it on the left.
+                    return lhsCopy.mul(this);
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        /**
+         * @method __radd__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__radd__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).add(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).add(this);
+            }
+            else {
+                var lhsCopy = duckCopy(lhs);
+                if (lhsCopy) {
+                    // lhs is a copy, so we can mutate it.
+                    return lhsCopy.add(this);
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        /**
+         * @method __sub__
+         * @param rhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).sub(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G2.fromScalar(-rhs).add(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rsub__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rsub__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).sub(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).sub(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __wedge__
+         * @param rhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__wedge__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).ext(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                // The outer product with a scalar is simply scalar multiplication.
+                return G2.copy(this).scale(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rwedge__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rwedge__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).ext(this);
+            }
+            else if (typeof lhs === 'number') {
+                // The outer product with a scalar is simply scalar multiplication, and commutes.
+                return G2.copy(this).scale(lhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __lshift__
+         * @param other {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__lshift__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).lco(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).lco(G2.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rlshift__
+         * @param other {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rlshift__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).lco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).lco(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rshift__
+         * @param rhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rshift__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).rco(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).rco(G2.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rrshift__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rrshift__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).rco(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).rco(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __vbar__
+         * @param rhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__vbar__ = function (rhs) {
+            if (rhs instanceof G2) {
+                return G2.copy(this).scp(rhs);
+            }
+            else if (typeof rhs === 'number') {
+                return G2.copy(this).scp(G2.fromScalar(rhs));
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __rvbar__
+         * @param lhs {any}
+         * @return {G2}
+         * @private
+         */
+        G2.prototype.__rvbar__ = function (lhs) {
+            if (lhs instanceof G2) {
+                return G2.copy(lhs).scp(this);
+            }
+            else if (typeof lhs === 'number') {
+                return G2.fromScalar(lhs).scp(this);
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method __bang__
+         * @return {G2}
+         * @private
+         * @chainable
+         */
+        G2.prototype.__bang__ = function () {
+            return G2.copy(this).inv();
+        };
+        /**
+         * @method __tilde__
+         * @return {G2}
+         * @private
+         * @chainable
+         */
+        G2.prototype.__tilde__ = function () {
+            return G2.copy(this).rev();
+        };
+        /**
+         * @method __pos__
+         * @return {G2}
+         * @private
+         * @chainable
+         */
+        G2.prototype.__pos__ = function () {
+            // It's important that we make a copy whenever using operators.
+            return G2.copy(this); /*.pos()*/
+        };
+        /**
+         * @method __neg__
+         * @return {G2}
+         * @private
+         * @chainable
+         */
+        G2.prototype.__neg__ = function () {
+            return G2.copy(this).neg();
+        };
+        /**
+         * Intentionally undocumented.
+         */
+        G2.fromCartesian = function (α, x, y, β) {
+            var m = new G2();
+            m.α = α;
+            m.x = x;
+            m.y = y;
+            m.β = β;
+            return m;
+        };
+        /**
+         * @method copy
+         * @param M {GeometricE2}
+         * @return {G2}
+         * @static
+         * @chainable
+         */
+        G2.copy = function (M) {
+            var copy = new G2();
+            copy.α = M.α;
+            copy.x = M.x;
+            copy.y = M.y;
+            copy.β = M.β;
+            return copy;
+        };
+        /**
+         * @method fromScalar
+         * @param α {number}
+         * @return {G2}
+         * @static
+         * @chainable
+         */
+        G2.fromScalar = function (α) {
+            return new G2().addScalar(α);
+        };
+        /**
+         * @method fromSpinor
+         * @param spinor {SpinorE2}
+         * @return {G2}
+         * @static
+         * @chainable
+         */
+        G2.fromSpinor = function (spinor) {
+            return new G2().copySpinor(spinor);
+        };
+        /**
+         * @method fromVector
+         * @param vector {VectorE2}
+         * @return {G2}
+         * @static
+         * @chainable
+         */
+        G2.fromVector = function (vector) {
+            if (isDefined(vector)) {
+                return new G2().copyVector(vector);
+            }
+            else {
+                // We could also return an undefined value here!
+                return void 0;
+            }
+        };
+        /**
+        * @method lerp
+        * @param A {GeometricE2}
+        * @param B {GeometricE2}
+        * @param α {number}
+        * @return {G2} <code>A + α * (B - A)</code>
+        * @static
+        * @chainable
+        */
+        G2.lerp = function (A, B, α) {
+            return G2.copy(A).lerp(B, α);
+            // return G2.copy(B).sub(A).scale(α).add(A)
+        };
+        /**
+         * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
+         * @method rotorFromDirections
+         * @param a {VectorE2} The <em>from</em> vector.
+         * @param b {VectorE2} The <em>to</em> vector.
+         * @return {G2}
+         * @static
+         * @chainable
+         */
+        G2.rotorFromDirections = function (a, b) {
+            return new G2().rotorFromDirections(a, b);
+        };
+        /**
+         * @property BASIS_LABELS
+         * @type {(string | string[])[]}
+         */
+        G2.BASIS_LABELS = STANDARD_LABELS;
+        /**
+         * The identity element for addition, <b>0</b>.
+         * @property zero
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.zero = G2.fromCartesian(0, 0, 0, 0);
+        /**
+         * The identity element for multiplication, <b>1</b>.
+         * @property one
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.one = G2.fromCartesian(1, 0, 0, 0);
+        /**
+         * Basis vector corresponding to the <code>x</code> coordinate.
+         * @property e1
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.e1 = G2.fromCartesian(0, 1, 0, 0);
+        /**
+         * Basis vector corresponding to the <code>y</code> coordinate.
+         * @property e2
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.e2 = G2.fromCartesian(0, 0, 1, 0);
+        /**
+         * Basis vector corresponding to the <code>β</code> coordinate.
+         * @property I
+         * @type {G2}
+         * @readOnly
+         * @static
+         */
+        G2.I = G2.fromCartesian(0, 0, 0, 1);
+        return G2;
+    })(VectorN);
+    return G2;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -13133,14 +15755,6 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
             set β(unused) {
                 throw new Error(readOnly(label + '.β').message);
             },
-            //        magnitude(): number {
-            // FIXME: should be the full multivector.
-            //            return sqrt(quadSpinor(that))
-            //        },
-            //        squaredNorm(): number {
-            //            // FIXME: should be the full multivector.
-            //            return quadSpinor(that)
-            //        },
             toString: function () {
                 return label;
             }
@@ -14733,14 +17347,23 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
     return G3;
 });
 
-define('davinci-eight/geometries/dataLength',["require", "exports", '../math/G3', '../math/R2', '../math/R3'], function (require, exports, G3, R2, R3) {
+define('davinci-eight/geometries/dataLength',["require", "exports", '../math/G2', '../math/G3', '../math/R2', '../math/R3'], function (require, exports, G2, G3, R2, R3) {
     /**
      * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
-     * geometric numbers fo vertex attributes, but allows us to extract the vector (grade-1) part?
+     * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
      */
     function dataLength(source) {
         if (source instanceof G3) {
+            if (source.length !== 8) {
+                throw new Error("source.length is expected to be 8");
+            }
             return 3;
+        }
+        else if (source instanceof G2) {
+            if (source.length !== 4) {
+                throw new Error("source.length is expected to be 4");
+            }
+            return 2;
         }
         else if (source instanceof R3) {
             if (source.length !== 3) {
@@ -15049,15 +17672,19 @@ define('davinci-eight/collections/copyToArray',["require", "exports"], function 
     return copyToArray;
 });
 
-define('davinci-eight/geometries/dataFromVectorN',["require", "exports", '../math/G3', '../math/R2', '../math/R3'], function (require, exports, G3, R2, R3) {
+define('davinci-eight/geometries/dataFromVectorN',["require", "exports", '../math/G2', '../math/G3', '../math/R2', '../math/R3'], function (require, exports, G2, G3, R2, R3) {
     /**
      * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
-     * geometric numbers fo vertex attributes, but allows us to extract the vector (grade-1) part?
+     * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
      */
     function dataFromVectorN(source) {
         if (source instanceof G3) {
             var g3 = source;
             return [g3.x, g3.y, g3.z];
+        }
+        else if (source instanceof G2) {
+            var g2 = source;
+            return [g2.x, g2.y];
         }
         else if (source instanceof R3) {
             var v3 = source;
@@ -18611,7 +21238,6 @@ define('davinci-eight/geometries/BarnSimplexGeometry',["require", "exports", '..
         };
         BarnSimplexGeometry.prototype.regenerate = function () {
             this.setModified(false);
-            // FIXME: R3 would probably work fine here.
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
             // Define the anchor points relative to the origin.
             points[0] = new G3().sub(this.a).sub(this.b).sub(this.c).divByScalar(2);
@@ -22138,7 +24764,7 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'R2', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'VectorE2', name, canvasId);
                     }
                 }
             }
@@ -22163,7 +24789,7 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'R3', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'VectorE3', name, canvasId);
                     }
                 }
             }
@@ -22188,7 +24814,7 @@ define('davinci-eight/materials/GraphicsProgram',["require", "exports", '../core
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'R4', name, canvasId);
+                        consoleWarnDroppedUniform(this.type, 'VectorE4', name, canvasId);
                     }
                 }
             }
@@ -22787,1006 +25413,6 @@ define('davinci-eight/materials/PointMaterial',["require", "exports", '../materi
     return PointMaterial;
 });
 
-define('davinci-eight/math/extE2',["require", "exports"], function (require, exports) {
-    function extE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a2 * b0);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    return extE2;
-});
-
-define('davinci-eight/math/lcoE2',["require", "exports"], function (require, exports) {
-    function lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 - a2 * b3);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b3);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    return lcoE2;
-});
-
-define('davinci-eight/math/rcoE2',["require", "exports"], function (require, exports) {
-    function rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-                }
-                break;
-            case 1:
-                {
-                    x = +(-a1 * b0 - a3 * b2);
-                }
-                break;
-            case 2:
-                {
-                    x = +(-a2 * b0 + a3 * b1);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 * b0);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    return rcoE2;
-});
-
-define('davinci-eight/math/mulE2',["require", "exports"], function (require, exports) {
-    function mulE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 + a1 * b2 - a2 * b1 + a3 * b0);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    return mulE2;
-});
-
-define('davinci-eight/math/scpE2',["require", "exports"], function (require, exports) {
-    function scpE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        switch (index) {
-            case 0:
-                return a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3;
-            case 1:
-                return 0;
-            case 2:
-                return 0;
-            case 3:
-                return 0;
-            default:
-                throw new Error("index must be in the range [0..3]");
-        }
-    }
-    return scpE2;
-});
-
-define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/extE2', '../checks/isDefined', '../math/lcoE2', '../math/rcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../i18n/readOnly', '../math/scpE2', '../math/stringFromCoordinates', '../math/Unit'], function (require, exports, b2, b3, extE2, isDefined, lcoE2, rcoE2, mulE2, mustBeInteger, mustBeNumber, readOnly, scpE2, stringFromCoordinates, Unit) {
-    var exp = Math.exp;
-    var cos = Math.cos;
-    var sin = Math.sin;
-    var sqrt = Math.sqrt;
-    function assertArgEuclidean2(name, arg) {
-        if (arg instanceof Euclidean2) {
-            return arg;
-        }
-        else {
-            throw new Error("Argument '" + arg + "' must be a Euclidean2");
-        }
-    }
-    function assertArgUnitOrUndefined(name, uom) {
-        if (typeof uom === 'undefined' || uom instanceof Unit) {
-            return uom;
-        }
-        else {
-            throw new Error("Argument '" + uom + "' must be a Unit or undefined");
-        }
-    }
-    function add00(a00, a01, a10, a11, b00, b01, b10, b11) {
-        a00 = +a00;
-        a01 = +a01;
-        a10 = +a10;
-        a11 = +a11;
-        b00 = +b00;
-        b01 = +b01;
-        b10 = +b10;
-        b11 = +b11;
-        return +(a00 + b00);
-    }
-    function add01(a00, a01, a10, a11, b00, b01, b10, b11) {
-        a00 = +a00;
-        a01 = +a01;
-        a10 = +a10;
-        a11 = +a11;
-        b00 = +b00;
-        b01 = +b01;
-        b10 = +b10;
-        b11 = +b11;
-        return +(a01 + b01);
-    }
-    function add10(a00, a01, a10, a11, b00, b01, b10, b11) {
-        a00 = +a00;
-        a01 = +a01;
-        a10 = +a10;
-        a11 = +a11;
-        b00 = +b00;
-        b01 = +b01;
-        b10 = +b10;
-        b11 = +b11;
-        return +(a10 + b10);
-    }
-    function add11(a00, a01, a10, a11, b00, b01, b10, b11) {
-        a00 = +a00;
-        a01 = +a01;
-        a10 = +a10;
-        a11 = +a11;
-        b00 = +b00;
-        b01 = +b01;
-        b10 = +b10;
-        b11 = +b11;
-        return +(a11 + b11);
-    }
-    function addE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 + b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a1 + b1);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a2 + b2);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 + b3);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    function subE2(a0, a1, a2, a3, b0, b1, b2, b3, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 - b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a1 - b1);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a2 - b2);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 - b3);
-                }
-                break;
-            default: {
-                throw new Error("index must be in the range [0..3]");
-            }
-        }
-        return +x;
-    }
-    var divide = function (a00, a01, a10, a11, b00, b01, b10, b11, uom) {
-        var c00;
-        var c01;
-        var c10;
-        var c11;
-        var i00;
-        var i01;
-        var i10;
-        var i11;
-        var k00;
-        var m00;
-        var m01;
-        var m10;
-        var m11;
-        var r00;
-        var r01;
-        var r10;
-        var r11;
-        var s00;
-        var s01;
-        var s10;
-        var s11;
-        var x00;
-        var x01;
-        var x10;
-        var x11;
-        r00 = +b00;
-        r01 = +b01;
-        r10 = +b10;
-        r11 = -b11;
-        m00 = b00 * r00 + b01 * r01 + b10 * r10 - b11 * r11;
-        m01 = 0;
-        m10 = 0;
-        m11 = 0;
-        c00 = +m00;
-        c01 = -m01;
-        c10 = -m10;
-        c11 = -m11;
-        s00 = r00 * c00 + r01 * c01 + r10 * c10 - r11 * c11;
-        s01 = r00 * c01 + r01 * c00 - r10 * c11 + r11 * c10;
-        s10 = r00 * c10 + r01 * c11 + r10 * c00 - r11 * c01;
-        s11 = r00 * c11 + r01 * c10 - r10 * c01 + r11 * c00;
-        k00 = b00 * s00 + b01 * s01 + b10 * s10 - b11 * s11;
-        i00 = s00 / k00;
-        i01 = s01 / k00;
-        i10 = s10 / k00;
-        i11 = s11 / k00;
-        x00 = a00 * i00 + a01 * i01 + a10 * i10 - a11 * i11;
-        x01 = a00 * i01 + a01 * i00 - a10 * i11 + a11 * i10;
-        x10 = a00 * i10 + a01 * i11 + a10 * i00 - a11 * i01;
-        x11 = a00 * i11 + a01 * i10 - a10 * i01 + a11 * i00;
-        return new Euclidean2(x00, x01, x10, x11, uom);
-    };
-    /**
-     * @class Euclidean2
-     */
-    var Euclidean2 = (function () {
-        /**
-         * The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.
-         *
-         * @class Euclidean2
-         * @constructor
-         * @param {number} α The scalar part of the multivector.
-         * @param {number} x The vector component of the multivector in the x-direction.
-         * @param {number} y The vector component of the multivector in the y-direction.
-         * @param {number} β The pseudoscalar part of the multivector.
-         * @param uom The optional unit of measure.
-         */
-        function Euclidean2(α, x, y, β, uom) {
-            this.w = mustBeNumber('α', α);
-            this.x = mustBeNumber('x', x);
-            this.y = mustBeNumber('y', y);
-            this.xy = mustBeNumber('β', β);
-            this.uom = assertArgUnitOrUndefined('uom', uom);
-            if (this.uom && this.uom.multiplier !== 1) {
-                var multiplier = this.uom.multiplier;
-                this.w *= multiplier;
-                this.x *= multiplier;
-                this.y *= multiplier;
-                this.xy *= multiplier;
-                this.uom = new Unit(1, uom.dimensions, uom.labels);
-            }
-        }
-        Object.defineProperty(Euclidean2.prototype, "α", {
-            /**
-             * The scalar part of this multivector.
-             * @property α
-             * @return {number}
-             */
-            get: function () {
-                return this.w;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('α').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Euclidean2.prototype, "β", {
-            /**
-             * The pseudoscalar part of this multivector.
-             * @property β
-             * @return {number}
-             */
-            get: function () {
-                return this.xy;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('β').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        // FIXME: Replace x & y with a VectorE2, a
-        Euclidean2.prototype.fromCartesian = function (α, x, y, β, uom) {
-            mustBeNumber('α', α);
-            mustBeNumber('x', x);
-            mustBeNumber('y', y);
-            mustBeNumber('β', β);
-            assertArgUnitOrUndefined('uom', uom);
-            return new Euclidean2(α, x, y, β, uom);
-        };
-        Euclidean2.prototype.fromPolar = function (α, r, θ, β, uom) {
-            mustBeNumber('α', α);
-            mustBeNumber('r', r);
-            mustBeNumber('θ', θ);
-            mustBeNumber('β', β);
-            assertArgUnitOrUndefined('uom', uom);
-            return new Euclidean2(α, r * cos(θ), r * sin(θ), β, uom);
-        };
-        Object.defineProperty(Euclidean2.prototype, "coords", {
-            get: function () {
-                return [this.w, this.x, this.y, this.xy];
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Euclidean2.prototype.coordinate = function (index) {
-            mustBeNumber('index', index);
-            switch (index) {
-                case 0:
-                    return this.w;
-                case 1:
-                    return this.x;
-                case 2:
-                    return this.y;
-                case 3:
-                    return this.xy;
-                default:
-                    throw new Error("index must be in the range [0..3]");
-            }
-        };
-        Euclidean2.add = function (a, b) {
-            var a00 = a[0];
-            var a01 = a[1];
-            var a10 = a[2];
-            var a11 = a[3];
-            var b00 = b[0];
-            var b01 = b[1];
-            var b10 = b[2];
-            var b11 = b[3];
-            var x00 = add00(a00, a01, a10, a11, b00, b01, b10, b11);
-            var x01 = add01(a00, a01, a10, a11, b00, b01, b10, b11);
-            var x10 = add10(a00, a01, a10, a11, b00, b01, b10, b11);
-            var x11 = add11(a00, a01, a10, a11, b00, b01, b10, b11);
-            return [x00, x01, x10, x11];
-        };
-        Euclidean2.prototype.add = function (rhs) {
-            assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.add(this.coords, rhs.coords);
-            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
-        };
-        Euclidean2.prototype.addPseudo = function (β) {
-            return new Euclidean2(this.α, this.x, this.y, this.β + β, this.uom);
-        };
-        Euclidean2.prototype.addScalar = function (α) {
-            return new Euclidean2(this.α + α, this.x, this.y, this.β, this.uom);
-        };
-        Euclidean2.prototype.adj = function () {
-            throw new Error("TODO: adj");
-        };
-        Euclidean2.prototype.__add__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return this.add(other);
-            }
-            else if (typeof other === 'number') {
-                return this.add(new Euclidean2(other, 0, 0, 0, undefined));
-            }
-        };
-        Euclidean2.prototype.__radd__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return other.add(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean2(other, 0, 0, 0, undefined).add(this);
-            }
-        };
-        /**
-         * @method angle
-         * @return {Euclidean2}
-         */
-        Euclidean2.prototype.angle = function () {
-            return this.log().grade(2);
-        };
-        Euclidean2.prototype.clone = function () {
-            return this;
-        };
-        Euclidean2.prototype.conj = function () {
-            throw new Error("TODO: adj");
-        };
-        Euclidean2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
-            var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
-            var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
-            return new Euclidean2(0, x, y, 0, this.uom);
-        };
-        Euclidean2.prototype.direction = function () {
-            throw new Error('direction');
-        };
-        Euclidean2.prototype.distanceTo = function (point) {
-            throw new Error("TODO: Euclidean2.distanceTo");
-        };
-        Euclidean2.prototype.equals = function (point) {
-            throw new Error("TODO: Euclidean2.equals");
-        };
-        Euclidean2.sub = function (a, b) {
-            var a0 = a[0];
-            var a1 = a[1];
-            var a2 = a[2];
-            var a3 = a[3];
-            var b0 = b[0];
-            var b1 = b[1];
-            var b2 = b[2];
-            var b3 = b[3];
-            var x0 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            var x1 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            var x2 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            var x3 = subE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return [x0, x1, x2, x3];
-        };
-        Euclidean2.prototype.sub = function (rhs) {
-            assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.sub(this.coords, rhs.coords);
-            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.compatible(this.uom, rhs.uom));
-        };
-        Euclidean2.prototype.__sub__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return this.sub(other);
-            }
-            else if (typeof other === 'number') {
-                return this.sub(new Euclidean2(other, 0, 0, 0, undefined));
-            }
-        };
-        Euclidean2.prototype.__rsub__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return other.sub(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean2(other, 0, 0, 0, undefined).sub(this);
-            }
-        };
-        Euclidean2.prototype.mul = function (rhs) {
-            assertArgEuclidean2('rhs', rhs);
-            var a0 = this.w;
-            var a1 = this.x;
-            var a2 = this.y;
-            var a3 = this.xy;
-            var b0 = rhs.w;
-            var b1 = rhs.x;
-            var b2 = rhs.y;
-            var b3 = rhs.xy;
-            var c0 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            var c1 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            var c2 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            var c3 = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return new Euclidean2(c0, c1, c2, c3, Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean2.prototype.__mul__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return this.mul(other);
-            }
-            else if (typeof other === 'number') {
-                return this.mul(new Euclidean2(other, 0, 0, 0, undefined));
-            }
-        };
-        Euclidean2.prototype.__rmul__ = function (other) {
-            if (other instanceof Euclidean2) {
-                var lhs = other;
-                return lhs.mul(this);
-            }
-            else if (typeof other === 'number') {
-                var w = other;
-                return new Euclidean2(w, 0, 0, 0, undefined).mul(this);
-            }
-        };
-        Euclidean2.prototype.scale = function (α) {
-            return new Euclidean2(this.w * α, this.x * α, this.y * α, this.xy * α, this.uom);
-        };
-        Euclidean2.prototype.div = function (rhs) {
-            assertArgEuclidean2('rhs', rhs);
-            return divide(this.w, this.x, this.y, this.xy, rhs.w, rhs.x, rhs.y, rhs.xy, Unit.div(this.uom, rhs.uom));
-        };
-        Euclidean2.prototype.divByScalar = function (α) {
-            return new Euclidean2(this.w / α, this.x / α, this.y / α, this.xy / α, this.uom);
-        };
-        Euclidean2.prototype.__div__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return this.div(other);
-            }
-            else if (typeof other === 'number') {
-                var w = other;
-                return this.div(new Euclidean2(w, 0, 0, 0, undefined));
-            }
-        };
-        Euclidean2.prototype.__rdiv__ = function (other) {
-            if (other instanceof Euclidean2) {
-                var lhs = other;
-                return lhs.div(this);
-            }
-            else if (typeof other === 'number') {
-                var w = other;
-                return new Euclidean2(w, 0, 0, 0, undefined).div(this);
-            }
-        };
-        Euclidean2.scp = function (a, b) {
-            var a0 = a[0];
-            var a1 = a[1];
-            var a2 = a[2];
-            var a3 = a[3];
-            var b0 = b[0];
-            var b1 = b[1];
-            var b2 = b[2];
-            var b3 = b[3];
-            var x0 = a0 * b0 + a1 * b1 + a2 * b2 - a3 * b3;
-            var x1 = 0;
-            var x2 = 0;
-            var x3 = 0;
-            return [x0, x1, x2, x3];
-        };
-        Euclidean2.prototype.scp = function (rhs) {
-            assertArgEuclidean2('rhs', rhs);
-            var a0 = this.w;
-            var a1 = this.x;
-            var a2 = this.y;
-            var a3 = this.xy;
-            var b0 = this.w;
-            var b1 = this.x;
-            var b2 = this.y;
-            var b3 = this.xy;
-            var c0 = scpE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            return new Euclidean2(c0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean2.ext = function (a, b) {
-            var a0 = a[0];
-            var a1 = a[1];
-            var a2 = a[2];
-            var a3 = a[3];
-            var b0 = b[0];
-            var b1 = b[1];
-            var b2 = b[2];
-            var b3 = b[3];
-            var x0 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            var x1 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            var x2 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            var x3 = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return [x0, x1, x2, x3];
-        };
-        Euclidean2.prototype.ext = function (rhs) {
-            assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.ext(this.coords, rhs.coords);
-            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean2.prototype.__wedge__ = function (other) {
-            if (other instanceof Euclidean2) {
-                var rhs = other;
-                return this.ext(rhs);
-            }
-            else if (typeof other === 'number') {
-                var w = other;
-                return this.ext(new Euclidean2(w, 0, 0, 0, undefined));
-            }
-        };
-        Euclidean2.prototype.__rwedge__ = function (other) {
-            if (other instanceof Euclidean2) {
-                var lhs = other;
-                return lhs.ext(this);
-            }
-            else if (typeof other === 'number') {
-                var w = other;
-                return new Euclidean2(w, 0, 0, 0, undefined).ext(this);
-            }
-        };
-        Euclidean2.lshift = function (a, b) {
-            var a0 = a[0];
-            var a1 = a[1];
-            var a2 = a[2];
-            var a3 = a[3];
-            var b0 = b[0];
-            var b1 = b[1];
-            var b2 = b[2];
-            var b3 = b[3];
-            var x0 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            var x1 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            var x2 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            var x3 = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return [x0, x1, x2, x3];
-        };
-        Euclidean2.prototype.lerp = function (target, α) {
-            // FIXME: TODO
-            return this;
-        };
-        Euclidean2.prototype.lco = function (rhs) {
-            assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.lshift(this.coords, rhs.coords);
-            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean2.prototype.__lshift__ = function (other) {
-            if (other instanceof Euclidean2) {
-                var rhs = other;
-                return this.lco(rhs);
-            }
-            else if (typeof other === 'number') {
-                var w = other;
-                return this.lco(new Euclidean2(w, 0, 0, 0, undefined));
-            }
-        };
-        Euclidean2.prototype.__rlshift__ = function (other) {
-            if (other instanceof Euclidean2) {
-                var lhs = other;
-                return lhs.lco(this);
-            }
-            else if (typeof other === 'number') {
-                var w = other;
-                return new Euclidean2(w, 0, 0, 0, undefined).lco(this);
-            }
-        };
-        Euclidean2.rshift = function (a, b) {
-            var a0 = a[0];
-            var a1 = a[1];
-            var a2 = a[2];
-            var a3 = a[3];
-            var b0 = b[0];
-            var b1 = b[1];
-            var b2 = b[2];
-            var b3 = b[3];
-            var x0 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            var x1 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            var x2 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            var x3 = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return [x0, x1, x2, x3];
-        };
-        Euclidean2.prototype.rco = function (rhs) {
-            assertArgEuclidean2('rhs', rhs);
-            var xs = Euclidean2.rshift(this.coords, rhs.coords);
-            return new Euclidean2(xs[0], xs[1], xs[2], xs[3], Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean2.prototype.__rshift__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return this.rco(other);
-            }
-            else if (typeof other === 'number') {
-                return this.rco(new Euclidean2(other, 0, 0, 0, undefined));
-            }
-        };
-        Euclidean2.prototype.__rrshift__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return other.rco(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean2(other, 0, 0, 0, undefined).rco(this);
-            }
-        };
-        Euclidean2.prototype.__vbar__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return this.scp(other);
-            }
-            else if (typeof other === 'number') {
-                return this.scp(new Euclidean2(other, 0, 0, 0, undefined));
-            }
-        };
-        Euclidean2.prototype.__rvbar__ = function (other) {
-            if (other instanceof Euclidean2) {
-                return other.scp(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean2(other, 0, 0, 0, undefined).scp(this);
-            }
-        };
-        Euclidean2.prototype.pow = function (exponent) {
-            // assertArgEuclidean2('exponent', exponent);
-            throw new Error('pow');
-        };
-        Euclidean2.prototype.__bang__ = function () {
-            return this.inv();
-        };
-        Euclidean2.prototype.__pos__ = function () {
-            return this;
-        };
-        Euclidean2.prototype.neg = function () {
-            return new Euclidean2(-this.α, -this.x, -this.y, -this.β, this.uom);
-        };
-        Euclidean2.prototype.__neg__ = function () {
-            return this.neg();
-        };
-        /**
-         * ~ (tilde) produces reversion.
-         */
-        Euclidean2.prototype.__tilde__ = function () {
-            return new Euclidean2(this.α, this.x, this.y, -this.β, this.uom);
-        };
-        Euclidean2.prototype.grade = function (grade) {
-            mustBeInteger('grade', grade);
-            switch (grade) {
-                case 0:
-                    return new Euclidean2(this.α, 0, 0, 0, this.uom);
-                case 1:
-                    return new Euclidean2(0, this.x, this.y, 0, this.uom);
-                case 2:
-                    return new Euclidean2(0, 0, 0, this.β, this.uom);
-                default:
-                    return new Euclidean2(0, 0, 0, 0, this.uom);
-            }
-        };
-        Euclidean2.prototype.cos = function () {
-            throw new Error('cos');
-        };
-        Euclidean2.prototype.cosh = function () {
-            throw new Error('cosh');
-        };
-        Euclidean2.prototype.exp = function () {
-            Unit.assertDimensionless(this.uom);
-            var expα = exp(this.α);
-            var cosβ = cos(this.β);
-            var sinβ = sin(this.β);
-            return new Euclidean2(expα * cosβ, 0, 0, expα * sinβ, this.uom);
-        };
-        Euclidean2.prototype.inv = function () {
-            throw new Error('inv');
-        };
-        Euclidean2.prototype.log = function () {
-            throw new Error('log');
-        };
-        /**
-         * Computes the <em>square root</em> of the <em>squared norm</em>.
-         * @method magnitude
-         * @return {number}
-         */
-        Euclidean2.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
-        };
-        Euclidean2.prototype.norm = function () {
-            return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
-        };
-        Euclidean2.prototype.quad = function () {
-            return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
-        };
-        Euclidean2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
-            var x = b2(t, this.x, controlPoint.x, endPoint.x);
-            var y = b2(t, this.y, controlPoint.y, endPoint.y);
-            return new Euclidean2(0, x, y, 0, this.uom);
-        };
-        Euclidean2.prototype.squaredNorm = function () {
-            return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
-        };
-        /**
-         * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
-         * @method reflect
-         * @param n {VectorE2}
-         * @return {Euclidean2}
-         */
-        Euclidean2.prototype.reflect = function (n) {
-            // TODO: Optimize to minimize object creation and increase performance.
-            var m = Euclidean2.fromVectorE2(n);
-            return m.mul(this).mul(m).scale(-1);
-        };
-        Euclidean2.prototype.rev = function () {
-            throw new Error('rev');
-        };
-        Euclidean2.prototype.rotate = function (R) {
-            throw new Error('rotate');
-        };
-        Euclidean2.prototype.sin = function () {
-            throw new Error('sin');
-        };
-        Euclidean2.prototype.sinh = function () {
-            throw new Error('sinh');
-        };
-        Euclidean2.prototype.slerp = function (target, α) {
-            // FIXME: TODO
-            return this;
-        };
-        /**
-         * @method tan
-         * @return {Euclidean2}
-         */
-        Euclidean2.prototype.tan = function () {
-            return this.sin().div(this.cos());
-        };
-        Euclidean2.prototype.isOne = function () { return this.w === 1 && this.x === 0 && this.y === 0 && this.xy === 0; };
-        Euclidean2.prototype.isNaN = function () { return isNaN(this.w) || isNaN(this.x) || isNaN(this.y) || isNaN(this.xy); };
-        Euclidean2.prototype.isZero = function () { return this.w === 0 && this.x === 0 && this.y === 0 && this.xy === 0; };
-        Euclidean2.prototype.toStringCustom = function (coordToString, labels) {
-            var quantityString = stringFromCoordinates(this.coords, coordToString, labels);
-            if (this.uom) {
-                var unitString = this.uom.toString().trim();
-                if (unitString) {
-                    return quantityString + ' ' + unitString;
-                }
-                else {
-                    return quantityString;
-                }
-            }
-            else {
-                return quantityString;
-            }
-        };
-        Euclidean2.prototype.toExponential = function () {
-            var coordToString = function (coord) { return coord.toExponential(); };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
-        };
-        Euclidean2.prototype.toFixed = function (digits) {
-            var coordToString = function (coord) { return coord.toFixed(digits); };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
-        };
-        Euclidean2.prototype.toString = function () {
-            var coordToString = function (coord) { return coord.toString(); };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e12"]);
-        };
-        Euclidean2.prototype.toStringIJK = function () {
-            var coordToString = function (coord) { return coord.toString(); };
-            return this.toStringCustom(coordToString, ["1", "i", "j", "I"]);
-        };
-        Euclidean2.prototype.toStringLATEX = function () {
-            var coordToString = function (coord) { return coord.toString(); };
-            return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{12}"]);
-        };
-        /**
-         * @method copy
-         * @param M {GeometricE2}
-         * @return {Euclidean2}
-         * @static
-         */
-        Euclidean2.copy = function (m) {
-            if (m instanceof Euclidean2) {
-                return m;
-            }
-            else {
-                return new Euclidean2(m.α, m.x, m.y, m.β, void 0);
-            }
-        };
-        /**
-         * @method fromVectorE2
-         * @param vector {VectorE2}
-         * @return {Euclidean2}
-         * @static
-         */
-        Euclidean2.fromVectorE2 = function (vector) {
-            if (isDefined(vector)) {
-                if (vector instanceof Euclidean2) {
-                    return new Euclidean2(0, vector.x, vector.y, 0, vector.uom);
-                }
-                else {
-                    return new Euclidean2(0, vector.x, vector.y, 0, void 0);
-                }
-            }
-            else {
-                return void 0;
-            }
-        };
-        return Euclidean2;
-    })();
-    return Euclidean2;
-});
-
 define('davinci-eight/math/add2x2',["require", "exports"], function (require, exports) {
     function add3x3(a, b, c) {
         var a11 = a[0x0], a12 = a[0x2];
@@ -24198,1578 +25824,6 @@ define('davinci-eight/math/Mat2R',["require", "exports", '../math/AbstractMatrix
         return Mat2R;
     })(AbstractMatrix);
     return Mat2R;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../geometries/b3', '../math/dotVectorE2', '../math/Euclidean2', '../math/extE2', '../checks/isDefined', '../checks/isNumber', '../checks/isObject', '../math/lcoE2', '../math/mulE2', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE2', '../math/rcoE2', '../math/rotorFromDirections', '../math/scpE2', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY'], function (require, exports, b2, b3, dotVector, Euclidean2, extE2, isDefined, isNumber, isObject, lcoE2, mulE2, mustBeInteger, mustBeNumber, mustBeObject, quadVector, rcoE2, rotorFromDirections, scpE2, stringFromCoordinates, VectorN, wedgeXY) {
-    // GraphicsProgramSymbols constants for the coordinate indices into the data array.
-    var COORD_W = 0;
-    var COORD_X = 1;
-    var COORD_Y = 2;
-    var COORD_XY = 3;
-    var PI = Math.PI;
-    var abs = Math.abs;
-    var atan2 = Math.atan2;
-    var exp = Math.exp;
-    var log = Math.log;
-    var cos = Math.cos;
-    var sin = Math.sin;
-    var sqrt = Math.sqrt;
-    //let ANTICLOCKWISE_GAPPED_CIRCLE = "⟲"
-    //let ANTICLOCKWISE_CLOSED_CIRCLE = "⥀"
-    //let CLOCKWISE_GAPPED_CIRCLE = "⟳"
-    var LEFTWARDS_ARROW = "←";
-    var RIGHTWARDS_ARROW = "→";
-    var UPWARDS_ARROW = "↑";
-    var DOWNWARDS_ARROW = "↓";
-    var BULLSEYE = "◎";
-    var CLOCKWISE_OPEN_CIRCLE_ARROW = "↻";
-    var ANTICLOCKWISE_OPEN_CIRCLE_ARROW = "↺";
-    var ARROW_LABELS = ["1", [LEFTWARDS_ARROW, RIGHTWARDS_ARROW], [DOWNWARDS_ARROW, UPWARDS_ARROW], [CLOCKWISE_OPEN_CIRCLE_ARROW, ANTICLOCKWISE_OPEN_CIRCLE_ARROW]];
-    var STANDARD_LABELS = ["1", "e1", "e2", "I"];
-    /**
-     * Coordinates corresponding to basis labels.
-     */
-    function coordinates(m) {
-        return [m.α, m.x, m.y, m.β];
-    }
-    /**
-     * Promotes an unknown value to a G2, or returns undefined.
-     */
-    function duckCopy(value) {
-        if (isObject(value)) {
-            var m = value;
-            if (isNumber(m.x) && isNumber(m.y)) {
-                if (isNumber(m.α) && isNumber(m.β)) {
-                    console.warn("Copying GeometricE2 to G2");
-                    return G2.copy(m);
-                }
-                else {
-                    console.warn("Copying VectorE2 to G2");
-                    return G2.fromVector(m);
-                }
-            }
-            else {
-                if (isNumber(m.α) && isNumber(m.β)) {
-                    console.warn("Copying SpinorE2 to G2");
-                    return G2.fromSpinor(m);
-                }
-                else {
-                    return void 0;
-                }
-            }
-        }
-        else {
-            return void 0;
-        }
-    }
-    /**
-     * @class G2
-     * @extends VectorN
-     * @beta
-     */
-    var G2 = (function (_super) {
-        __extends(G2, _super);
-        /**
-         * Constructs a <code>G2</code>.
-         * The multivector is initialized to zero.
-         * @class G2
-         * @beta
-         * @constructor
-         */
-        function G2() {
-            _super.call(this, [0, 0, 0, 0], false, 4);
-        }
-        Object.defineProperty(G2.prototype, "α", {
-            /**
-             * The coordinate corresponding to the unit standard basis scalar.
-             * @property α
-             * @type {number}
-             */
-            get: function () {
-                return this.coords[COORD_W];
-            },
-            set: function (α) {
-                this.modified = this.modified || this.coords[COORD_W] !== α;
-                this.coords[COORD_W] = α;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(G2.prototype, "x", {
-            /**
-             * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
-             * @property x
-             * @type {number}
-             */
-            get: function () {
-                return this.coords[COORD_X];
-            },
-            set: function (x) {
-                this.modified = this.modified || this.coords[COORD_X] !== x;
-                this.coords[COORD_X] = x;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(G2.prototype, "y", {
-            /**
-             * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
-             * @property y
-             * @type {number}
-             */
-            get: function () {
-                return this.coords[COORD_Y];
-            },
-            set: function (y) {
-                this.modified = this.modified || this.coords[COORD_Y] !== y;
-                this.coords[COORD_Y] = y;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(G2.prototype, "β", {
-            /**
-             * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
-             * @property β
-             * @type {number}
-             */
-            get: function () {
-                return this.coords[COORD_XY];
-            },
-            set: function (β) {
-                this.modified = this.modified || this.coords[COORD_XY] !== β;
-                this.coords[COORD_XY] = β;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(G2.prototype, "xy", {
-            get: function () {
-                return this.coords[COORD_XY];
-            },
-            set: function (xy) {
-                this.modified = this.modified || this.coords[COORD_XY] !== xy;
-                this.coords[COORD_XY] = xy;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * <p>
-         * <code>this ⟼ this + M * α</code>
-         * </p>
-         * @method add
-         * @param M {GeometricE2}
-         * @param [α = 1] {number}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.add = function (M, α) {
-            if (α === void 0) { α = 1; }
-            mustBeObject('M', M);
-            mustBeNumber('α', α);
-            this.α += M.α * α;
-            this.x += M.x * α;
-            this.y += M.y * α;
-            this.β += M.β * α;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this + Iβ</code>
-         * </p>
-         * @method addPseudo
-         * @param β {number}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.addPseudo = function (β) {
-            mustBeNumber('β', β);
-            this.β += β;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this + α</code>
-         * </p>
-         * @method addScalar
-         * @param α {number}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.addScalar = function (α) {
-            mustBeNumber('α', α);
-            this.α += α;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this + v * α</code>
-         * </p>
-         * @method addVector
-         * @param v {VectorE2}
-         * @param [α = 1] {number}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.addVector = function (v, α) {
-            if (α === void 0) { α = 1; }
-            mustBeObject('v', v);
-            mustBeNumber('α', α);
-            this.x += v.x * α;
-            this.y += v.y * α;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a + b</code>
-         * </p>
-         * @method add2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.add2 = function (a, b) {
-            mustBeObject('a', a);
-            mustBeObject('b', b);
-            this.α = a.α + b.α;
-            this.x = a.x + b.x;
-            this.y = a.y + b.y;
-            this.β = a.β + b.β;
-            return this;
-        };
-        G2.prototype.adj = function () {
-            throw new Error('TODO: G2.adj');
-        };
-        /**
-         * @method angle
-         * @return {G2}
-         */
-        G2.prototype.angle = function () {
-            return this.log().grade(2);
-        };
-        /**
-         * @method clone
-         * @return {G2} <code>copy(this)</code>
-         */
-        G2.prototype.clone = function () {
-            var m = new G2();
-            m.copy(this);
-            return m;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ conjugate(this)</code>
-         * </p>
-         * @method conj
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.conj = function () {
-            // FIXME: This is only the bivector part.
-            // Also need to think about various involutions.
-            this.β = -this.β;
-            return this;
-        };
-        G2.prototype.cos = function () {
-            throw new Error("TODO: G2.cos");
-        };
-        G2.prototype.cosh = function () {
-            throw new Error("TODO: G2.cosh");
-        };
-        G2.prototype.distanceTo = function (point) {
-            throw new Error("TODO: G2.distanceTo");
-        };
-        G2.prototype.equals = function (point) {
-            throw new Error("TODO: G2.equals");
-        };
-        /**
-         * <p>
-         * <code>this ⟼ copy(M)</code>
-         * </p>
-         * @method copy
-         * @param M {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.copy = function (M) {
-            mustBeObject('M', M);
-            this.α = M.α;
-            this.x = M.x;
-            this.y = M.y;
-            this.β = M.β;
-            return this;
-        };
-        /**
-         * Sets this multivector to the value of the scalar, <code>α</code>.
-         * @method copyScalar
-         * @return {G2}
-         * @chainable
-         */
-        G2.prototype.copyScalar = function (α) {
-            return this.zero().addScalar(α);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ copy(spinor)</code>
-         * </p>
-         * @method copySpinor
-         * @param spinor {SpinorE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.copySpinor = function (spinor) {
-            mustBeObject('spinor', spinor);
-            this.α = spinor.α;
-            this.x = 0;
-            this.y = 0;
-            this.β = spinor.xy;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ copyVector(vector)</code>
-         * </p>
-         * @method copyVector
-         * @param vector {VectorE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.copyVector = function (vector) {
-            mustBeObject('vector', vector);
-            this.α = 0;
-            this.x = vector.x;
-            this.y = vector.y;
-            this.β = 0;
-            return this;
-        };
-        /**
-         * @method cubicBezier
-         * @param t {number}
-         * @param controlBegin {GeometricE2}
-         * @param controlEnd {GeometricE2}
-         * @param endPoint {GeometricE2}
-         * @return {G2}
-         */
-        G2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
-            var α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
-            var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
-            var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
-            var β = b3(t, this.β, controlBegin.β, controlEnd.β, endPoint.β);
-            this.α = α;
-            this.x = x;
-            this.y = y;
-            this.β = β;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this / m</code>
-         * </p>
-         * @method div
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.div = function (m) {
-            return this.div2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this / α</code>
-         * </p>
-         * @method divByScalar
-         * @param α {number}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.divByScalar = function (α) {
-            mustBeNumber('α', α);
-            this.α /= α;
-            this.x /= α;
-            this.y /= α;
-            this.β /= α;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a / b</code>
-         * </p>
-         * @method div2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.div2 = function (a, b) {
-            // FIXME: Generalize
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ dual(m) = I * m</code>
-         * </p>
-         * @method dual
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.dual = function (m) {
-            var w = -m.β;
-            var x = +m.y;
-            var y = -m.x;
-            var β = +m.α;
-            this.α = w;
-            this.x = x;
-            this.y = y;
-            this.β = β;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ e<sup>this</sup></code>
-         * </p>
-         * @method exp
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.exp = function () {
-            var w = this.α;
-            var z = this.β;
-            var expW = exp(w);
-            // φ is actually the absolute value of one half the rotation angle.
-            // The orientation of the rotation gets carried in the bivector components.
-            var φ = sqrt(z * z);
-            var s = expW * (φ !== 0 ? sin(φ) / φ : 1);
-            this.α = expW * cos(φ);
-            this.β = z * s;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ conj(this) / quad(this)</code>
-         * </p>
-         * @method inv
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.inv = function () {
-            // FIXME: TODO
-            this.conj();
-            // this.divByScalar(this.squaredNorm());
-            return this;
-        };
-        /**
-         * @method isOne
-         * @return {boolean}
-         */
-        G2.prototype.isOne = function () {
-            return this.α === 1 && this.x === 0 && this.y === 0 && this.β === 0;
-        };
-        /**
-         * @method isZero
-         * @return {boolean}
-         */
-        G2.prototype.isZero = function () {
-            return this.α === 0 && this.x === 0 && this.y === 0 && this.β === 0;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this << m</code>
-         * </p>
-         * @method lco
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.lco = function (m) {
-            return this.lco2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a << b</code>
-         * </p>
-         * @method lco2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.lco2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = lcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this + α * (target - this)</code>
-         * </p>
-         * @method lerp
-         * @param target {GeometricE2}
-         * @param α {number}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.lerp = function (target, α) {
-            mustBeObject('target', target);
-            mustBeNumber('α', α);
-            this.α += (target.α - this.α) * α;
-            this.x += (target.x - this.x) * α;
-            this.y += (target.y - this.y) * α;
-            this.β += (target.β - this.β) * α;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a + α * (b - a)</code>
-         * </p>
-         * @method lerp2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @param α {number}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.lerp2 = function (a, b, α) {
-            mustBeObject('a', a);
-            mustBeObject('b', b);
-            mustBeNumber('α', α);
-            this.copy(a).lerp(b, α);
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>
-         * </p>
-         * @method log
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.log = function () {
-            // FIXME: This only handles the spinor components.
-            var α = this.α;
-            var β = this.β;
-            this.α = log(sqrt(α * α + β * β));
-            this.x = 0;
-            this.y = 0;
-            this.β = atan2(β, α);
-            return this;
-        };
-        /**
-         * Computes the <em>square root</em> of the <em>squared norm</em>.
-         * @method magnitude
-         * @return {number}
-         */
-        G2.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this * s</code>
-         * </p>
-         * @method mul
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.mul = function (m) {
-            return this.mul2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a * b</code>
-         * </p>
-         * @method mul2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.mul2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ -1 * this</code>
-         * </p>
-         * @method neg
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.neg = function () {
-            this.α = -this.α;
-            this.x = -this.x;
-            this.y = -this.y;
-            this.β = -this.β;
-            return this;
-        };
-        /**
-        * <p>
-        * <code>this ⟼ sqrt(this * conj(this))</code>
-        * </p>
-        * @method norm
-        * @return {G2} <code>this</code>
-        * @chainable
-        */
-        G2.prototype.norm = function () {
-            this.α = this.magnitude();
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this / magnitude(this)</code>
-         * </p>
-         * @method direction
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.direction = function () {
-            // The squaredNorm is the squared norm.
-            var norm = sqrt(this.squaredNorm());
-            this.α = this.α / norm;
-            this.x = this.x / norm;
-            this.y = this.y / norm;
-            this.β = this.β / norm;
-            return this;
-        };
-        /**
-         * Sets this multivector to the identity element for multiplication, <b>1</b>.
-         * @method one
-         * @return {G2}
-         * @chainable
-         */
-        G2.prototype.one = function () {
-            this.α = 1;
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
-        };
-        G2.prototype.pow = function () {
-            throw new Error("TODO: G2.pow");
-        };
-        /**
-         * <p>
-         * Updates <code>this</code> target to be the <em>quad</em> or <em>squared norm</em> of the target.
-         * </p>
-         * <p>
-         * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
-         * </p>
-         * @method quad
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.quad = function () {
-            this.α = this.squaredNorm();
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
-        };
-        /**
-         * @method quadraticBezier
-         * @param t {number}
-         * @param controlPoint {GeometricE2}
-         * @param endPoint {GeometricE2}
-         * @return {G2}
-         */
-        G2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
-            var α = b2(t, this.α, controlPoint.α, endPoint.α);
-            var x = b2(t, this.x, controlPoint.x, endPoint.x);
-            var y = b2(t, this.y, controlPoint.y, endPoint.y);
-            var β = b2(t, this.β, controlPoint.β, endPoint.β);
-            this.α = α;
-            this.x = x;
-            this.y = y;
-            this.β = β;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this >> m</code>
-         * </p>
-         * @method rco
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.rco = function (m) {
-            return this.rco2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a >> b</code>
-         * </p>
-         * @method rco2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.rco2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = rcoE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ - n * this * n</code>
-         * </p>
-         * @method reflect
-         * @param n {VectorE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.reflect = function (n) {
-            // TODO: Optimize.
-            mustBeObject('n', n);
-            var N = Euclidean2.fromVectorE2(n);
-            var M = Euclidean2.copy(this);
-            var R = N.mul(M).mul(N).scale(-1);
-            this.copy(R);
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ rev(this)</code>
-         * </p>
-         * @method reverse
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.rev = function () {
-            // reverse has a ++-- structure.
-            this.α = this.α;
-            this.x = this.x;
-            this.y = this.y;
-            this.β = -this.β;
-            return this;
-        };
-        G2.prototype.sin = function () {
-            throw new Error("G2.sin");
-        };
-        G2.prototype.sinh = function () {
-            throw new Error("G2.sinh");
-        };
-        /**
-         * @method __tilde__
-         * @return {G2}
-         */
-        G2.prototype.__tilde__ = function () {
-            return G2.copy(this).rev();
-        };
-        /**
-         * <p>
-         * <code>this ⟼ R * this * rev(R)</code>
-         * </p>
-         * @method rotate
-         * @param R {SpinorE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.rotate = function (R) {
-            mustBeObject('R', R);
-            // FIXME: This only rotates the vector components.
-            var x = this.x;
-            var y = this.y;
-            var a = R.xy;
-            var α = R.α;
-            var ix = α * x + a * y;
-            var iy = α * y - a * x;
-            this.x = ix * α + iy * a;
-            this.y = iy * α - ix * a;
-            return this;
-        };
-        /**
-         * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
-         * @method rotorFromDirections
-         * @param a {VectorE2} The starting vector
-         * @param b {VectorE2} The ending vector
-         * @return {G2} <code>this</code> The rotor representing a rotation from a to b.
-         * @chainable
-         */
-        G2.prototype.rotorFromDirections = function (a, b) {
-            if (isDefined(rotorFromDirections(a, b, quadVector, dotVector, this))) {
-                return this;
-            }
-            else {
-                // In two dimensions, the rotation plane is not ambiguous.
-                // FIXME: This is a bit dubious.
-                // Probably better to make undefined a first-class concept.
-                this.rotorFromGeneratorAngle(G2.I, PI);
-            }
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this = ⟼ exp(- B * θ / 2)</code>
-         * </p>
-         * @method rotorFromGeneratorAngle
-         * @param B {SpinorE2}
-         * @param θ {number}
-         * @return {G2} <code>this</code>
-         */
-        G2.prototype.rotorFromGeneratorAngle = function (B, θ) {
-            mustBeObject('B', B);
-            mustBeNumber('θ', θ);
-            // We assume that B really is just a bivector
-            // by ignoring scalar and vector components.
-            // Normally, B will have unit magnitude and B * B => -1.
-            // However, we don't assume that is the case.
-            // The effect will be a scaling of the angle.
-            // A non unitary rotor, on the other hand, will scale the transformation.
-            // We must also take into account the orientation of B.
-            var β = B.xy;
-            /**
-             * Sandwich operation means we need the half-angle.
-             */
-            var φ = θ / 2;
-            /**
-             * scalar part = cos(|B| * θ / 2)
-             */
-            this.α = cos(abs(β) * φ);
-            this.x = 0;
-            this.y = 0;
-            /**
-             * pseudo part = -unit(B) * sin(|B| * θ / 2)
-             */
-            this.β = -sin(β * φ);
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ scp(this, m)</code>
-         * </p>
-         * @method align
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.scp = function (m) {
-            return this.scp2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ scp(a, b)</code>
-         * </p>
-         * @method scp2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.scp2 = function (a, b) {
-            this.α = scpE2(a.α, a.x, a.y, a.β, b.α, b.x, b.y, b.β, 0);
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this * α</code>
-         * </p>
-         * @method scale
-         * @param α {number}
-         */
-        G2.prototype.scale = function (α) {
-            mustBeNumber('α', α);
-            this.α *= α;
-            this.x *= α;
-            this.y *= α;
-            this.β *= α;
-            return this;
-        };
-        G2.prototype.slerp = function (target, α) {
-            mustBeObject('target', target);
-            mustBeNumber('α', α);
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a * b = a · b + a ^ b</code>
-         * </p>
-         * Sets this G2 to the geometric product a * b of the vector arguments.
-         * @method spinor
-         * @param a {VectorE2}
-         * @param b {VectorE2}
-         * @return {G2} <code>this</code>
-         */
-        G2.prototype.spinor = function (a, b) {
-            var ax = a.x;
-            var ay = a.y;
-            var bx = b.x;
-            var by = b.y;
-            this.α = dotVector(a, b);
-            this.x = 0;
-            this.y = 0;
-            this.β = wedgeXY(ax, ay, 0, bx, by, 0); // FIXME wedgeVectorsE2
-            return this;
-        };
-        /**
-         * Computes the <em>squared norm</em> of this <code>G2</code> multivector.
-         * @method squaredNorm
-         * @return {number} <code>this | ~this</code>
-         */
-        G2.prototype.squaredNorm = function () {
-            var w = this.α;
-            var x = this.x;
-            var y = this.y;
-            var B = this.β;
-            return w * w + x * x + y * y + B * B;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this - M * α</code>
-         * </p>
-         * @method sub
-         * @param M {GeometricE2}
-         * @param [α = 1] {number}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.sub = function (M, α) {
-            if (α === void 0) { α = 1; }
-            mustBeObject('M', M);
-            mustBeNumber('α', α);
-            this.α -= M.α * α;
-            this.x -= M.x * α;
-            this.y -= M.y * α;
-            this.β -= M.β * α;
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a - b</code>
-         * </p>
-         * @method sub2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.sub2 = function (a, b) {
-            mustBeObject('a', a);
-            mustBeObject('b', b);
-            this.α = a.α - b.α;
-            this.x = a.x - b.x;
-            this.y = a.y - b.y;
-            this.β = a.β - b.β;
-            return this;
-        };
-        /**
-         * Returns a string representing the number in exponential notation.
-         * @method toExponential
-         * @return {string}
-         */
-        G2.prototype.toExponential = function () {
-            var coordToString = function (coord) { return coord.toExponential(); };
-            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
-        };
-        /**
-         * Returns a string representing the number in fixed-point notation.
-         * @method toFixed
-         * @param [fractionDigits] {number}
-         * @return {string}
-         */
-        G2.prototype.toFixed = function (fractionDigits) {
-            var coordToString = function (coord) { return coord.toFixed(fractionDigits); };
-            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
-        };
-        /**
-         * Returns a string representation of the number.
-         * @method toString
-         * @return {string}
-         */
-        G2.prototype.toString = function () {
-            var coordToString = function (coord) { return coord.toString(); };
-            return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS);
-        };
-        G2.prototype.grade = function (grade) {
-            mustBeInteger('grade', grade);
-            switch (grade) {
-                case 0:
-                    {
-                        this.x = 0;
-                        this.y = 0;
-                        this.β = 0;
-                    }
-                    break;
-                case 1:
-                    {
-                        this.α = 0;
-                        this.β = 0;
-                    }
-                    break;
-                case 2:
-                    {
-                        this.α = 0;
-                        this.x = 0;
-                        this.y = 0;
-                    }
-                    break;
-                default: {
-                    this.α = 0;
-                    this.x = 0;
-                    this.y = 0;
-                    this.β = 0;
-                }
-            }
-            return this;
-        };
-        /**
-         * <p>
-         * <code>this ⟼ this ^ m</code>
-         * </p>
-         * @method wedge
-         * @param m {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.ext = function (m) {
-            return this.ext2(this, m);
-        };
-        /**
-         * <p>
-         * <code>this ⟼ a ^ b</code>
-         * </p>
-         * @method ext2
-         * @param a {GeometricE2}
-         * @param b {GeometricE2}
-         * @return {G2} <code>this</code>
-         * @chainable
-         */
-        G2.prototype.ext2 = function (a, b) {
-            var a0 = a.α;
-            var a1 = a.x;
-            var a2 = a.y;
-            var a3 = a.β;
-            var b0 = b.α;
-            var b1 = b.x;
-            var b2 = b.y;
-            var b3 = b.β;
-            this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0);
-            this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1);
-            this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2);
-            this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3);
-            return this;
-        };
-        /**
-         * Sets this multivector to the identity element for addition, <b>0</b>.
-         * @method zero
-         * @return {G2}
-         * @chainable
-         */
-        G2.prototype.zero = function () {
-            this.α = 0;
-            this.x = 0;
-            this.y = 0;
-            this.β = 0;
-            return this;
-        };
-        /**
-         * @method __add__
-         * @param rhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__add__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).add(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                // Addition commutes, but addScalar might be useful.
-                return G2.fromScalar(rhs).add(this);
-            }
-            else {
-                var rhsCopy = duckCopy(rhs);
-                if (rhsCopy) {
-                    // rhs is a copy and addition commutes.
-                    return rhsCopy.add(this);
-                }
-                else {
-                    return void 0;
-                }
-            }
-        };
-        /**
-         * @method __div__
-         * @param rhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__div__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).div(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).divByScalar(rhs);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __rdiv__
-         * @param lhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__rdiv__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).div(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).div(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __mul__
-         * @param rhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__mul__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).mul(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).scale(rhs);
-            }
-            else {
-                var rhsCopy = duckCopy(rhs);
-                if (rhsCopy) {
-                    // rhsCopy is a copy but multiplication does not commute.
-                    // If we had rmul then we could mutate the rhs!
-                    return this.__mul__(rhsCopy);
-                }
-                else {
-                    return void 0;
-                }
-            }
-        };
-        /**
-         * @method __rmul__
-         * @param lhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__rmul__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).mul(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.copy(this).scale(lhs);
-            }
-            else {
-                var lhsCopy = duckCopy(lhs);
-                if (lhsCopy) {
-                    // lhs is a copy, so we can mutate it, and use it on the left.
-                    return lhsCopy.mul(this);
-                }
-                else {
-                    return void 0;
-                }
-            }
-        };
-        /**
-         * @method __radd__
-         * @param lhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__radd__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).add(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).add(this);
-            }
-            else {
-                var lhsCopy = duckCopy(lhs);
-                if (lhsCopy) {
-                    // lhs is a copy, so we can mutate it.
-                    return lhsCopy.add(this);
-                }
-                else {
-                    return void 0;
-                }
-            }
-        };
-        /**
-         * @method __sub__
-         * @param rhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__sub__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).sub(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.fromScalar(-rhs).add(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __rsub__
-         * @param lhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__rsub__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).sub(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).sub(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __wedge__
-         * @param rhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__wedge__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).ext(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                // The outer product with a scalar is simply scalar multiplication.
-                return G2.copy(this).scale(rhs);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __rwedge__
-         * @param lhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__rwedge__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).ext(this);
-            }
-            else if (typeof lhs === 'number') {
-                // The outer product with a scalar is simply scalar multiplication, and commutes.
-                return G2.copy(this).scale(lhs);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __lshift__
-         * @param other {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__lshift__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).lco(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).lco(G2.fromScalar(rhs));
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __rlshift__
-         * @param other {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__rlshift__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).lco(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).lco(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __rshift__
-         * @param rhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__rshift__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).rco(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).rco(G2.fromScalar(rhs));
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __rrshift__
-         * @param lhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__rrshift__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).rco(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).rco(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __vbar__
-         * @param rhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__vbar__ = function (rhs) {
-            if (rhs instanceof G2) {
-                return G2.copy(this).scp(rhs);
-            }
-            else if (typeof rhs === 'number') {
-                return G2.copy(this).scp(G2.fromScalar(rhs));
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __rvbar__
-         * @param lhs {any}
-         * @return {G2}
-         * @private
-         */
-        G2.prototype.__rvbar__ = function (lhs) {
-            if (lhs instanceof G2) {
-                return G2.copy(lhs).scp(this);
-            }
-            else if (typeof lhs === 'number') {
-                return G2.fromScalar(lhs).scp(this);
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method __bang__
-         * @return {G2}
-         * @private
-         * @chainable
-         */
-        G2.prototype.__bang__ = function () {
-            return G2.copy(this).inv();
-        };
-        /**
-         * @method __pos__
-         * @return {G2}
-         * @private
-         * @chainable
-         */
-        G2.prototype.__pos__ = function () {
-            // It's important that we make a copy whenever using operators.
-            return G2.copy(this); /*.pos()*/
-        };
-        /**
-         * @method __neg__
-         * @return {G2}
-         * @private
-         * @chainable
-         */
-        G2.prototype.__neg__ = function () {
-            return G2.copy(this).neg();
-        };
-        /**
-         * Intentionally undocumented.
-         */
-        G2.fromCartesian = function (α, x, y, β) {
-            var m = new G2();
-            m.α = α;
-            m.x = x;
-            m.y = y;
-            m.β = β;
-            return m;
-        };
-        /**
-         * @method copy
-         * @param M {GeometricE2}
-         * @return {G2}
-         * @static
-         */
-        G2.copy = function (M) {
-            var copy = new G2();
-            copy.α = M.α;
-            copy.x = M.x;
-            copy.y = M.y;
-            copy.β = M.β;
-            return copy;
-        };
-        /**
-         * @method fromScalar
-         * @param α {number}
-         * @return {G2}
-         * @static
-         * @chainable
-         */
-        G2.fromScalar = function (α) {
-            return new G2().addScalar(α);
-        };
-        /**
-         * @method fromSpinor
-         * @param spinor {SpinorE2}
-         * @return {G2}
-         * @static
-         */
-        G2.fromSpinor = function (spinor) {
-            return new G2().copySpinor(spinor);
-        };
-        /**
-         * @method fromVector
-         * @param vector {VectorE2}
-         * @return {G2}
-         * @static
-         */
-        G2.fromVector = function (vector) {
-            if (isDefined(vector)) {
-                return new G2().copyVector(vector);
-            }
-            else {
-                // We could also return an undefined value here!
-                return void 0;
-            }
-        };
-        /**
-        * @method lerp
-        * @param A {GeometricE2}
-        * @param B {GeometricE2}
-        * @param α {number}
-        * @return {G2} <code>A + α * (B - A)</code>
-        * @static
-        */
-        G2.lerp = function (A, B, α) {
-            return G2.copy(A).lerp(B, α);
-            // return G2.copy(B).sub(A).scale(α).add(A)
-        };
-        /**
-         * Computes the rotor that rotates vector <code>a</code> to vector <code>b</code>.
-         * @method rotorFromDirections
-         * @param a {VectorE2} The <em>from</em> vector.
-         * @param b {VectorE2} The <em>to</em> vector.
-         * @return {G2}
-         * @static
-         */
-        G2.rotorFromDirections = function (a, b) {
-            return new G2().rotorFromDirections(a, b);
-        };
-        /**
-         * @property BASIS_LABELS
-         * @type {(string | string[])[]}
-         */
-        G2.BASIS_LABELS = STANDARD_LABELS;
-        /**
-         * The identity element for addition, <b>0</b>.
-         * @property zero
-         * @type {G2}
-         * @readOnly
-         * @static
-         */
-        G2.zero = G2.fromCartesian(0, 0, 0, 0);
-        /**
-         * The identity element for multiplication, <b>1</b>.
-         * @property one
-         * @type {G2}
-         * @readOnly
-         * @static
-         */
-        G2.one = G2.fromCartesian(1, 0, 0, 0);
-        /**
-         * Basis vector corresponding to the <code>x</code> coordinate.
-         * @property e1
-         * @type {G2}
-         * @readOnly
-         * @static
-         */
-        G2.e1 = G2.fromCartesian(0, 1, 0, 0);
-        /**
-         * Basis vector corresponding to the <code>y</code> coordinate.
-         * @property e2
-         * @type {G2}
-         * @readOnly
-         * @static
-         */
-        G2.e2 = G2.fromCartesian(0, 0, 1, 0);
-        /**
-         * Basis vector corresponding to the <code>β</code> coordinate.
-         * @property I
-         * @type {G2}
-         * @readOnly
-         * @static
-         */
-        G2.I = G2.fromCartesian(0, 0, 0, 1);
-        return G2;
-    })(VectorN);
-    return G2;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {

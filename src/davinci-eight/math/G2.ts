@@ -129,6 +129,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     constructor() {
         super([0, 0, 0, 0], false, 4)
     }
+
     /**
      * The coordinate corresponding to the unit standard basis scalar.
      * @property α
@@ -141,6 +142,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.modified = this.modified || this.coords[COORD_W] !== α
         this.coords[COORD_W] = α
     }
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
      * @property x
@@ -153,6 +155,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.modified = this.modified || this.coords[COORD_X] !== x
         this.coords[COORD_X] = x
     }
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
      * @property y
@@ -165,6 +168,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.modified = this.modified || this.coords[COORD_Y] !== y
         this.coords[COORD_Y] = y
     }
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
      * @property β
@@ -177,6 +181,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.modified = this.modified || this.coords[COORD_XY] !== β
         this.coords[COORD_XY] = β
     }
+
     get xy(): number {
         return this.coords[COORD_XY]
     }
@@ -202,6 +207,26 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.x += M.x * α
         this.y += M.y * α
         this.β += M.β * α
+        return this
+    }
+
+    /**
+     * <p>
+     * <code>this ⟼ a + b</code>
+     * </p>
+     * @method add2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    add2(a: GeometricE2, b: GeometricE2): G2 {
+        mustBeObject('a', a)
+        mustBeObject('b', b)
+        this.α = a.α + b.α
+        this.x = a.x + b.x
+        this.y = a.y + b.y
+        this.β = a.β + b.β
         return this
     }
 
@@ -253,33 +278,17 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         return this
     }
 
-    /**
-     * <p>
-     * <code>this ⟼ a + b</code>
-     * </p>
-     * @method add2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    add2(a: GeometricE2, b: GeometricE2): G2 {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
-        this.α = a.α + b.α
-        this.x = a.x + b.x
-        this.y = a.y + b.y
-        this.β = a.β + b.β
-        return this
-    }
-
     adj(): G2 {
         throw new Error('TODO: G2.adj')
     }
 
     /**
+     * <p>
+     * <code>this ⟼ log(this).grade(2)</code>
+     * </p>
      * @method angle
-     * @return {G2}
+     * @return {G2} <code>this</code>
+     * @chainable
      */
     angle(): G2 {
         return this.log().grade(2);
@@ -288,12 +297,14 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     /**
      * @method clone
      * @return {G2} <code>copy(this)</code>
+     * @chainable
      */
     clone(): G2 {
         let m = new G2()
         m.copy(this)
         return m
     }
+
     /**
      * <p>
      * <code>this ⟼ conjugate(this)</code>
@@ -346,7 +357,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     /**
      * Sets this multivector to the value of the scalar, <code>α</code>.
      * @method copyScalar
-     * @return {G2}
+     * @return {G2} <code>this</code>
      * @chainable
      */
     copyScalar(α: number): G2 {
@@ -395,7 +406,8 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * @param controlBegin {GeometricE2}
      * @param controlEnd {GeometricE2}
      * @param endPoint {GeometricE2}
-     * @return {G2}
+     * @return {G2} <code>this</code>
+     * @chainable
      */
     cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2) {
         let α = b3(t, this.α, controlBegin.α, controlEnd.α, endPoint.α);
@@ -411,6 +423,24 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
 
     /**
      * <p>
+     * <code>this ⟼ this / magnitude(this)</code>
+     * </p>
+     * @method direction
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    direction(): G2 {
+        // The squaredNorm is the squared norm.
+        let norm = sqrt(this.squaredNorm())
+        this.α = this.α / norm
+        this.x = this.x / norm
+        this.y = this.y / norm
+        this.β = this.β / norm
+        return this
+    }
+
+    /**
+     * <p>
      * <code>this ⟼ this / m</code>
      * </p>
      * @method div
@@ -421,6 +451,22 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     div(m: GeometricE2): G2 {
         return this.div2(this, m)
     }
+
+    /**
+     * <p>
+     * <code>this ⟼ a / b</code>
+     * </p>
+     * @method div2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    div2(a: SpinorE2, b: SpinorE2): G2 {
+        // FIXME: Generalize
+        return this;
+    }
+
     /**
      * <p>
      * <code>this ⟼ this / α</code>
@@ -438,20 +484,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.β /= α
         return this
     }
-    /**
-     * <p>
-     * <code>this ⟼ a / b</code>
-     * </p>
-     * @method div2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    div2(a: SpinorE2, b: SpinorE2): G2 {
-        // FIXME: Generalize
-        return this;
-    }
+
     /**
      * <p>
      * <code>this ⟼ dual(m) = I * m</code>
@@ -473,6 +506,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.β = β
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ e<sup>this</sup></code>
@@ -491,6 +525,45 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         let s = expW * (φ !== 0 ? sin(φ) / φ : 1)
         this.α = expW * cos(φ)
         this.β = z * s
+        return this
+    }
+
+    /**
+     * <p>
+     * <code>this ⟼ this ^ m</code>
+     * </p>
+     * @method ext
+     * @param m {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    ext(m: GeometricE2): G2 {
+        return this.ext2(this, m)
+    }
+
+    /**
+     * <p>
+     * <code>this ⟼ a ^ b</code>
+     * </p>
+     * @method ext2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    ext2(a: GeometricE2, b: GeometricE2): G2 {
+        let a0 = a.α
+        let a1 = a.x
+        let a2 = a.y
+        let a3 = a.β
+        let b0 = b.α
+        let b1 = b.x
+        let b2 = b.y
+        let b3 = b.β
+        this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
+        this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
+        this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
+        this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
         return this
     }
 
@@ -584,6 +657,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.β += (target.β - this.β) * α;
         return this;
     }
+
     /**
      * <p>
      * <code>this ⟼ a + α * (b - a)</code>
@@ -602,6 +676,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.copy(a).lerp(b, α)
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ log(sqrt(w * w + β * β)) + <b>e</b><sub>1</sub><b>e</b><sub>2</sub> * atan2(β, w)</code>
@@ -642,6 +717,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     mul(m: GeometricE2): G2 {
         return this.mul2(this, m)
     }
+
     /**
      * <p>
      * <code>this ⟼ a * b</code>
@@ -667,6 +743,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.β = mulE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ -1 * this</code>
@@ -696,24 +773,6 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.x = 0
         this.y = 0
         this.β = 0
-        return this
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ this / magnitude(this)</code>
-     * </p>
-     * @method direction
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    direction(): G2 {
-        // The squaredNorm is the squared norm.
-        let norm = sqrt(this.squaredNorm())
-        this.α = this.α / norm
-        this.x = this.x / norm
-        this.y = this.y / norm
-        this.β = this.β / norm
         return this
     }
 
@@ -785,6 +844,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     rco(m: GeometricE2): G2 {
         return this.rco2(this, m)
     }
+
     /**
      * <p>
      * <code>this ⟼ a >> b</code>
@@ -856,13 +916,6 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     }
 
     /**
-     * @method __tilde__
-     * @return {G2}
-     */
-    __tilde__(): G2 {
-        return G2.copy(this).rev()
-    }
-    /**
      * <p>
      * <code>this ⟼ R * this * rev(R)</code>
      * </p>
@@ -888,6 +941,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
 
         return this;
     }
+
     /**
      * Sets this multivector to a rotation from vector <code>a</code> to vector <code>b</code>.
      * @method rotorFromDirections
@@ -908,6 +962,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         }
         return this;
     }
+
     /**
      * <p>
      * <code>this = ⟼ exp(- B * θ / 2)</code>
@@ -949,7 +1004,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * <p>
      * <code>this ⟼ scp(this, m)</code>
      * </p>
-     * @method align
+     * @method scp
      * @param m {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
@@ -957,6 +1012,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     scp(m: GeometricE2): G2 {
         return this.scp2(this, m)
     }
+
     /**
      * <p>
      * <code>this ⟼ scp(a, b)</code>
@@ -1053,6 +1109,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         this.β -= M.β * α
         return this
     }
+
     /**
      * <p>
      * <code>this ⟼ a - b</code>
@@ -1104,6 +1161,12 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         return stringFromCoordinates(coordinates(this), coordToString, G2.BASIS_LABELS)
     }
 
+    /**
+     * @method grade
+     * @param grade {number}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
     grade(grade: number): G2 {
         mustBeInteger('grade', grade)
         switch (grade) {
@@ -1132,44 +1195,6 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
             }
         }
         return this;
-    }
-
-    /**
-     * <p>
-     * <code>this ⟼ this ^ m</code>
-     * </p>
-     * @method wedge
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    ext(m: GeometricE2): G2 {
-        return this.ext2(this, m)
-    }
-    /**
-     * <p>
-     * <code>this ⟼ a ^ b</code>
-     * </p>
-     * @method ext2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    ext2(a: GeometricE2, b: GeometricE2): G2 {
-        let a0 = a.α
-        let a1 = a.x
-        let a2 = a.y
-        let a3 = a.β
-        let b0 = b.α
-        let b1 = b.x
-        let b2 = b.y
-        let b3 = b.β
-        this.α = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 0)
-        this.x = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 1)
-        this.y = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 2)
-        this.β = extE2(a0, a1, a2, a3, b0, b1, b2, b3, 3)
-        return this
     }
 
     /**
@@ -1323,6 +1348,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
             }
         }
     }
+
     /**
      * @method __sub__
      * @param rhs {any}
@@ -1340,6 +1366,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
             return void 0
         }
     }
+
     /**
      * @method __rsub__
      * @param lhs {any}
@@ -1515,6 +1542,16 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     }
 
     /**
+     * @method __tilde__
+     * @return {G2}
+     * @private
+     * @chainable
+     */
+    __tilde__(): G2 {
+        return G2.copy(this).rev()
+    }
+
+    /**
      * @method __pos__
      * @return {G2}
      * @private
@@ -1597,6 +1634,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * @param M {GeometricE2}
      * @return {G2}
      * @static
+     * @chainable
      */
     static copy(M: GeometricE2): G2 {
         var copy = new G2()
@@ -1623,6 +1661,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * @param spinor {SpinorE2}
      * @return {G2}
      * @static
+     * @chainable
      */
     static fromSpinor(spinor: SpinorE2): G2 {
         return new G2().copySpinor(spinor)
@@ -1633,6 +1672,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * @param vector {VectorE2}
      * @return {G2}
      * @static
+     * @chainable
      */
     static fromVector(vector: VectorE2): G2 {
         if (isDefined(vector)) {
@@ -1643,6 +1683,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
             return void 0
         }
     }
+
     /**
     * @method lerp
     * @param A {GeometricE2}
@@ -1650,6 +1691,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     * @param α {number}
     * @return {G2} <code>A + α * (B - A)</code>
     * @static
+    * @chainable
     */
     static lerp(A: GeometricE2, B: GeometricE2, α: number): G2 {
         return G2.copy(A).lerp(B, α)
@@ -1663,6 +1705,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * @param b {VectorE2} The <em>to</em> vector.
      * @return {G2}
      * @static
+     * @chainable
      */
     static rotorFromDirections(a: VectorE2, b: VectorE2): G2 {
         return new G2().rotorFromDirections(a, b)

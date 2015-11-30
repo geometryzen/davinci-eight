@@ -1,4 +1,3 @@
-import VectorE3 = require('../math/VectorE3')
 import IContextProvider = require('../core/IContextProvider')
 import IGraphicsProgram = require('../core/IGraphicsProgram')
 import createPerspective = require('../cameras/createPerspective')
@@ -17,11 +16,7 @@ import IFacet = require('../core/IFacet')
 import IFacetVisitor = require('../core/IFacetVisitor')
 import uuid4 = require('../utils/uuid4')
 import R3 = require('../math/R3')
-
-/**
- * Name used for reference count monitoring and logging.
- */
-let CLASS_NAME = 'PerspectiveCamera'
+import VectorE3 = require('../math/VectorE3')
 
 /**
  * @class PerspectiveCamera
@@ -52,16 +47,16 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
     public name: string;
 
     /**
-     *
+     * @property inner
+     * @type {Perspective}
+     * @private
      */
     private inner: Perspective;
+
     /**
-     * <p>
-     * 
-     * </p>
      * @class PerspectiveCamera
      * @constructor
-     * @param [fov = 75 * Math.PI / 180] {number}
+     * @param [fov = 45 * Math.PI / 180] {number}
      * @param [aspect=1] {number}
      * @param [near=0.1] {number}
      * @param [far=2000] {number}
@@ -70,7 +65,7 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
      *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
      *   camera.setFov(3.0 * e3)
      */
-    constructor(fov: number = 75 * Math.PI / 180, aspect: number = 1, near: number = 0.1, far: number = 2000) {
+    constructor(fov: number = 45 * Math.PI / 180, aspect: number = 1, near: number = 0.1, far: number = 2000) {
         super('PerspectiveCamera')
         mustBeNumber('fov', fov)
         mustBeNumber('aspect', aspect)
@@ -78,9 +73,16 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
         mustBeNumber('far', far)
         this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far })
     }
+
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
     protected destructor(): void {
 
     }
+
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}
@@ -92,16 +94,45 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
         this.inner.setFar(this.far)
         this.inner.setUniforms(visitor, canvasId)
     }
-    contextFree(): void {
+
+    /**
+     * @method contextFree
+     * @param [canvasId] {number}
+     * @return {void}
+     */
+    contextFree(canvasId?: number): void {
     }
+
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextGain(manager: IContextProvider): void {
     }
-    contextLost(): void {
+
+    /**
+     * @method contextLost
+     * @param [canvasId] {number}
+     * @return {void}
+     */
+    contextLost(canvasId?: number): void {
     }
+
+    /**
+     * @method draw
+     * @param [canvasId] {number}
+     * @return {void}
+     */
     draw(canvasId?: number): void {
-        console.warn(CLASS_NAME + ".draw(" + canvasId + ")")
         // Do nothing.
     }
+
+    /**
+     * @method getProperty
+     * @param name {string}
+     * @return {number[]}
+     */
     getProperty(name: string): number[] {
         mustBeString('name', name)
         switch (name) {
@@ -114,6 +145,13 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
             }
         }
     }
+
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param value {number[]}
+     * @return {void}
+     */
     setProperty(name: string, value: number[]): void {
         mustBeString('name', name)
         mustBeObject('value', value)
@@ -158,6 +196,9 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
     get eye(): R3 {
         return this.inner.eye
     }
+    set eye(eye: R3) {
+        this.inner.eye.copy(eye)
+    }
 
     /**
      * @method setEye
@@ -195,7 +236,8 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
         this.inner.fov = fov
         return this
     }
-    get look() {
+
+    get look(): R3 {
         return this.inner.look
     }
     setLook(look: VectorE3): PerspectiveCamera {
@@ -215,6 +257,7 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
     set near(unused) {
         throw new Error(readOnly('near').message)
     }
+
     /**
      * @method setNear
      * @param near {number}
@@ -225,22 +268,26 @@ class PerspectiveCamera extends Shareable implements Perspective, IFacet {
         this.inner.setNear(near)
         return this
     }
+
     get far(): number {
         return this.inner.far
     }
     set far(far: number) {
         this.inner.far = far
     }
+
     setFar(far: number): PerspectiveCamera {
         this.inner.setFar(far)
         return this
     }
+
     get up(): R3 {
         return this.inner.up
     }
     set up(unused) {
         throw new Error(readOnly('up').message)
     }
+
     setUp(up: VectorE3): PerspectiveCamera {
         this.inner.setUp(up)
         return this

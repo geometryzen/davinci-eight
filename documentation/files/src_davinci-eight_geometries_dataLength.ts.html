@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.167.0</em>
+            <em>API Docs for: 2.168.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -242,6 +242,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import G2 = require(&#x27;../math/G2&#x27;)
 import G3 = require(&#x27;../math/G3&#x27;)
 import R2 = require(&#x27;../math/R2&#x27;)
 import R3 = require(&#x27;../math/R3&#x27;)
@@ -249,11 +250,20 @@ import VectorN = require(&#x27;../math/VectorN&#x27;)
 
 /**
  * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
- * geometric numbers fo vertex attributes, but allows us to extract the vector (grade-1) part?
+ * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
  */
 function dataLength(source: VectorN&lt;number&gt;): number {
     if (source instanceof G3) {
+        if (source.length !== 8) {
+            throw new Error(&quot;source.length is expected to be 8&quot;)
+        }
         return 3
+    }
+    else if (source instanceof G2) {
+        if (source.length !== 4) {
+            throw new Error(&quot;source.length is expected to be 4&quot;)
+        }
+        return 2
     }
     else if (source instanceof R3) {
         if (source.length !== 3) {

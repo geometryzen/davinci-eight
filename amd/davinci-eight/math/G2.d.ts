@@ -70,6 +70,17 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
     add(M: GeometricE2, α?: number): G2;
     /**
      * <p>
+     * <code>this ⟼ a + b</code>
+     * </p>
+     * @method add2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    add2(a: GeometricE2, b: GeometricE2): G2;
+    /**
+     * <p>
      * <code>this ⟼ this + Iβ</code>
      * </p>
      * @method addPseudo
@@ -99,26 +110,20 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @chainable
      */
     addVector(v: VectorE2, α?: number): G2;
-    /**
-     * <p>
-     * <code>this ⟼ a + b</code>
-     * </p>
-     * @method add2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    add2(a: GeometricE2, b: GeometricE2): G2;
     adj(): G2;
     /**
+     * <p>
+     * <code>this ⟼ log(this).grade(2)</code>
+     * </p>
      * @method angle
-     * @return {G2}
+     * @return {G2} <code>this</code>
+     * @chainable
      */
     angle(): G2;
     /**
      * @method clone
      * @return {G2} <code>copy(this)</code>
+     * @chainable
      */
     clone(): G2;
     /**
@@ -147,7 +152,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
     /**
      * Sets this multivector to the value of the scalar, <code>α</code>.
      * @method copyScalar
-     * @return {G2}
+     * @return {G2} <code>this</code>
      * @chainable
      */
     copyScalar(α: number): G2;
@@ -177,9 +182,19 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @param controlBegin {GeometricE2}
      * @param controlEnd {GeometricE2}
      * @param endPoint {GeometricE2}
-     * @return {G2}
+     * @return {G2} <code>this</code>
+     * @chainable
      */
     cubicBezier(t: number, controlBegin: GeometricE2, controlEnd: GeometricE2, endPoint: GeometricE2): G2;
+    /**
+     * <p>
+     * <code>this ⟼ this / magnitude(this)</code>
+     * </p>
+     * @method direction
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    direction(): G2;
     /**
      * <p>
      * <code>this ⟼ this / m</code>
@@ -192,16 +207,6 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
     div(m: GeometricE2): G2;
     /**
      * <p>
-     * <code>this ⟼ this / α</code>
-     * </p>
-     * @method divByScalar
-     * @param α {number}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    divByScalar(α: number): G2;
-    /**
-     * <p>
      * <code>this ⟼ a / b</code>
      * </p>
      * @method div2
@@ -211,6 +216,16 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @chainable
      */
     div2(a: SpinorE2, b: SpinorE2): G2;
+    /**
+     * <p>
+     * <code>this ⟼ this / α</code>
+     * </p>
+     * @method divByScalar
+     * @param α {number}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    divByScalar(α: number): G2;
     /**
      * <p>
      * <code>this ⟼ dual(m) = I * m</code>
@@ -230,6 +245,27 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @chainable
      */
     exp(): G2;
+    /**
+     * <p>
+     * <code>this ⟼ this ^ m</code>
+     * </p>
+     * @method ext
+     * @param m {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    ext(m: GeometricE2): G2;
+    /**
+     * <p>
+     * <code>this ⟼ a ^ b</code>
+     * </p>
+     * @method ext2
+     * @param a {GeometricE2}
+     * @param b {GeometricE2}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
+    ext2(a: GeometricE2, b: GeometricE2): G2;
     /**
      * <p>
      * <code>this ⟼ conj(this) / quad(this)</code>
@@ -348,15 +384,6 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
     */
     norm(): G2;
     /**
-     * <p>
-     * <code>this ⟼ this / magnitude(this)</code>
-     * </p>
-     * @method direction
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    direction(): G2;
-    /**
      * Sets this multivector to the identity element for multiplication, <b>1</b>.
      * @method one
      * @return {G2}
@@ -427,11 +454,6 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
     sin(): G2;
     sinh(): G2;
     /**
-     * @method __tilde__
-     * @return {G2}
-     */
-    __tilde__(): G2;
-    /**
      * <p>
      * <code>this ⟼ R * this * rev(R)</code>
      * </p>
@@ -464,7 +486,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * <p>
      * <code>this ⟼ scp(this, m)</code>
      * </p>
-     * @method align
+     * @method scp
      * @param m {GeometricE2}
      * @return {G2} <code>this</code>
      * @chainable
@@ -548,28 +570,13 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @return {string}
      */
     toString(): string;
+    /**
+     * @method grade
+     * @param grade {number}
+     * @return {G2} <code>this</code>
+     * @chainable
+     */
     grade(grade: number): G2;
-    /**
-     * <p>
-     * <code>this ⟼ this ^ m</code>
-     * </p>
-     * @method wedge
-     * @param m {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    ext(m: GeometricE2): G2;
-    /**
-     * <p>
-     * <code>this ⟼ a ^ b</code>
-     * </p>
-     * @method ext2
-     * @param a {GeometricE2}
-     * @param b {GeometricE2}
-     * @return {G2} <code>this</code>
-     * @chainable
-     */
-    ext2(a: GeometricE2, b: GeometricE2): G2;
     /**
      * Sets this multivector to the identity element for addition, <b>0</b>.
      * @method zero
@@ -697,6 +704,13 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      */
     __bang__(): G2;
     /**
+     * @method __tilde__
+     * @return {G2}
+     * @private
+     * @chainable
+     */
+    __tilde__(): G2;
+    /**
      * @method __pos__
      * @return {G2}
      * @private
@@ -759,6 +773,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @param M {GeometricE2}
      * @return {G2}
      * @static
+     * @chainable
      */
     static copy(M: GeometricE2): G2;
     /**
@@ -774,6 +789,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @param spinor {SpinorE2}
      * @return {G2}
      * @static
+     * @chainable
      */
     static fromSpinor(spinor: SpinorE2): G2;
     /**
@@ -781,6 +797,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @param vector {VectorE2}
      * @return {G2}
      * @static
+     * @chainable
      */
     static fromVector(vector: VectorE2): G2;
     /**
@@ -790,6 +807,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
     * @param α {number}
     * @return {G2} <code>A + α * (B - A)</code>
     * @static
+    * @chainable
     */
     static lerp(A: GeometricE2, B: GeometricE2, α: number): G2;
     /**
@@ -799,6 +817,7 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @param b {VectorE2} The <em>to</em> vector.
      * @return {G2}
      * @static
+     * @chainable
      */
     static rotorFromDirections(a: VectorE2, b: VectorE2): G2;
 }

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.167.0</em>
+            <em>API Docs for: 2.168.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -242,31 +242,28 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextProvider = require(&#x27;../core/IContextProvider&#x27;);
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import isDefined = require(&#x27;../checks/isDefined&#x27;);
-import R1 = require(&#x27;../math/R1&#x27;);
-import Mat2R = require(&#x27;../math/Mat2R&#x27;);
-import Mat3R = require(&#x27;../math/Mat3R&#x27;);
-import Mat4R = require(&#x27;../math/Mat4R&#x27;);
-import IDrawable = require(&#x27;../core/IDrawable&#x27;);
-import IDrawList = require(&#x27;../scene/IDrawList&#x27;);
-import IGraphicsProgram = require(&#x27;../core/IGraphicsProgram&#x27;);
-import IUnknown = require(&#x27;../core/IUnknown&#x27;);
-import IUnknownArray = require(&#x27;../collections/IUnknownArray&#x27;);
-import NumberIUnknownMap = require(&#x27;../collections/NumberIUnknownMap&#x27;);
-import refChange = require(&#x27;../utils/refChange&#x27;);
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
+import expectArg = require(&#x27;../checks/expectArg&#x27;)
+import isDefined = require(&#x27;../checks/isDefined&#x27;)
+import R1 = require(&#x27;../math/R1&#x27;)
+import Mat2R = require(&#x27;../math/Mat2R&#x27;)
+import Mat3R = require(&#x27;../math/Mat3R&#x27;)
+import Mat4R = require(&#x27;../math/Mat4R&#x27;)
+import IDrawable = require(&#x27;../core/IDrawable&#x27;)
+import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
+import IGraphicsProgram = require(&#x27;../core/IGraphicsProgram&#x27;)
+import IUnknown = require(&#x27;../core/IUnknown&#x27;)
+import IUnknownArray = require(&#x27;../collections/IUnknownArray&#x27;)
+import NumberIUnknownMap = require(&#x27;../collections/NumberIUnknownMap&#x27;)
+import refChange = require(&#x27;../utils/refChange&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
-import StringIUnknownMap = require(&#x27;../collections/StringIUnknownMap&#x27;);
-import uuid4 = require(&#x27;../utils/uuid4&#x27;);
-import IFacet = require(&#x27;../core/IFacet&#x27;);
-import R2 = require(&#x27;../math/R2&#x27;);
-import R3 = require(&#x27;../math/R3&#x27;);
-import R4 = require(&#x27;../math/R4&#x27;);
+import StringIUnknownMap = require(&#x27;../collections/StringIUnknownMap&#x27;)
+import uuid4 = require(&#x27;../utils/uuid4&#x27;)
+import IFacet = require(&#x27;../core/IFacet&#x27;)
 
-let CLASS_NAME_DRAWLIST = &quot;createDrawList&quot;;
-let CLASS_NAME_GROUP = &quot;DrawableGroup&quot;;
-let CLASS_NAME_ALL = &quot;DrawableGroups&quot;;
+let CLASS_NAME_DRAWLIST = &quot;createDrawList&quot;
+let CLASS_NAME_GROUP = &quot;DrawableGroup&quot;
+let CLASS_NAME_ALL = &quot;DrawableGroups&quot;
 
 // FIXME; Probably good to have another collection of DrawableGroup
 

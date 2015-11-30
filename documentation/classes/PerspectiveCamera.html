@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.167.0</em>
+            <em>API Docs for: 2.168.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -243,7 +243,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:58</code></a>
+            Defined in: <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:56</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -252,8 +252,7 @@
 
 
 <div class="box intro">
-    <p>
-</p>
+    
 </div>
 
     <div class="constructor">
@@ -264,7 +263,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[fov = 75 * Math.PI / 180]</code>
+                        <code class="optional">[fov = 45 * Math.PI / 180]</code>
                 </li>
                 <li class="arg">
                         <code class="optional">[aspect=1]</code>
@@ -288,7 +287,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:58</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:56</code></a>
         </p>
 
 
@@ -304,7 +303,7 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[fov = 75 * Math.PI / 180]</code>
+                        <code class="param-name optional">[fov = 45 * Math.PI / 180]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
@@ -382,6 +381,30 @@ camera.setFov(3.0 * e3)</p>
 
                     <ul class="index-list methods">
                             <li class="index-item method">
+                                <a href="#method_contextFree">contextFree</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextGain">contextGain</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextLost">contextLost</a>
+
+                            </li>
+                            <li class="index-item method protected">
+                                <a href="#method_destructor">destructor</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_draw">draw</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getProperty">getProperty</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_setAspect">setAspect</a>
 
                             </li>
@@ -395,6 +418,10 @@ camera.setFov(3.0 * e3)</p>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_setNear">setNear</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setProperty">setProperty</a>
 
                             </li>
                             <li class="index-item method">
@@ -418,6 +445,10 @@ camera.setFov(3.0 * e3)</p>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_fov">fov</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_inner">inner</a>
 
                             </li>
                             <li class="index-item property">
@@ -446,6 +477,360 @@ camera.setFov(3.0 * e3)</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_contextFree" class="method item">
+    <h3 class="name"><code>contextFree</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:98</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextGain" class="method item">
+    <h3 class="name"><code>contextGain</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>manager</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:106</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">manager</code>
+                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextLost" class="method item">
+    <h3 class="name"><code>contextLost</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:114</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_destructor" class="method item protected">
+    <h3 class="name"><code>destructor</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:77</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_draw" class="method item">
+    <h3 class="name"><code>draw</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[canvasId]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:122</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[canvasId]</code>
+                        <span class="type">Number</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getProperty" class="method item">
+    <h3 class="name"><code>getProperty</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:131</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_setAspect" class="method item">
     <h3 class="name"><code>setAspect</code></h3>
 
@@ -471,7 +856,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:141</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l179"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:179</code></a>
         </p>
 
 
@@ -536,7 +921,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l162"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:162</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l203"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:203</code></a>
         </p>
 
 
@@ -601,7 +986,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l187"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:187</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l228"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:228</code></a>
         </p>
 
 
@@ -666,7 +1051,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l218"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:218</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l261"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:261</code></a>
         </p>
 
 
@@ -705,6 +1090,81 @@ camera.setFov(3.0 * e3)</p>
 
 
 </div>
+<div id="method_setProperty" class="method item">
+    <h3 class="name"><code>setProperty</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>value</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l149"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:149</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">value</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_setUniforms" class="method item">
     <h3 class="name"><code>setUniforms</code></h3>
 
@@ -732,7 +1192,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l84"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:84</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l86"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:86</code></a>
         </p>
 
 
@@ -797,7 +1257,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:131</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l169"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:169</code></a>
         </p>
 
 
@@ -822,7 +1282,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l152"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:152</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l190"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:190</code></a>
         </p>
 
 
@@ -847,7 +1307,7 @@ camera.setFov(3.0 * e3)</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:173</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l214"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:214</code></a>
         </p>
 
 
@@ -857,6 +1317,31 @@ camera.setFov(3.0 * e3)</p>
         <p>The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
 Measured in radians.</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_inner" class="property item private">
+    <h3 class="name"><code>inner</code></h3>
+    <span class="type"><a href="../classes/Perspective.html" class="crosslink">Perspective</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:49</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 
@@ -873,7 +1358,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:41</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:36</code></a>
         </p>
 
 
@@ -897,7 +1382,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:47</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:42</code></a>
         </p>
 
 
@@ -921,7 +1406,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l206"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:206</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l248"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:248</code></a>
         </p>
 
 
@@ -947,7 +1432,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:30</code></a>
+        <a href="../files/src_davinci-eight_cameras_PerspectiveCamera.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;PerspectiveCamera.ts:25</code></a>
         </p>
 
 

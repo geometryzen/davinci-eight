@@ -1,12 +1,16 @@
-define(["require", "exports", '../math/G3', '../math/R2', '../math/R3'], function (require, exports, G3, R2, R3) {
+define(["require", "exports", '../math/G2', '../math/G3', '../math/R2', '../math/R3'], function (require, exports, G2, G3, R2, R3) {
     /**
      * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
-     * geometric numbers fo vertex attributes, but allows us to extract the vector (grade-1) part?
+     * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
      */
     function dataFromVectorN(source) {
         if (source instanceof G3) {
             var g3 = source;
             return [g3.x, g3.y, g3.z];
+        }
+        else if (source instanceof G2) {
+            var g2 = source;
+            return [g2.x, g2.y];
         }
         else if (source instanceof R3) {
             var v3 = source;
