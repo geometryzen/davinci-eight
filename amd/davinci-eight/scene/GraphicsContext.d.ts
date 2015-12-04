@@ -4,13 +4,13 @@ import IContextProvider = require('../core/IContextProvider');
 import IContextMonitor = require('../core/IContextMonitor');
 import IContextConsumer = require('../core/IContextConsumer');
 import IContextRenderer = require('../renderers/IContextRenderer');
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IBuffer = require('../core/IBuffer');
 import IContextCommand = require('../core/IContextCommand');
 import IBufferGeometry = require('../geometries/IBufferGeometry');
 import ITexture2D = require('../core/ITexture2D');
 import ITextureCubeMap = require('../core/ITextureCubeMap');
 import IUnknownArray = require('../collections/IUnknownArray');
+import Primitive = require('../geometries/Primitive');
 import Shareable = require('../utils/Shareable');
 /**
  * @class GraphicsContext
@@ -104,11 +104,11 @@ declare class GraphicsContext extends Shareable implements ContextController, IC
     createArrayBuffer(): IBuffer;
     /**
      * @method createBufferGeometry
-     * @param primitive {DrawPrimitive}
+     * @param primitive {Primitive}
      * @param [usage] {number}
      * @return {IBufferGeometry}
      */
-    createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry;
+    createBufferGeometry(primitive: Primitive, usage?: number): IBufferGeometry;
     /**
      * @method createElementArrayBuffer
      * @return {IBuffer}

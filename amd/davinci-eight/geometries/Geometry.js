@@ -61,7 +61,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeBoolean', 
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         Geometry.prototype.toPrimitives = function () {
             console.warn("Geometry.toPrimitives() must be implemented by derived classes.");

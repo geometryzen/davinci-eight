@@ -1,15 +1,17 @@
+import Attribute = require('../geometries/Attribute')
 import DrawMode = require('../core/DrawMode')
 import DrawAttribute = require('../geometries/DrawAttribute')
 import DrawPrimitive = require('../geometries/DrawPrimitive')
 import G3 = require('../math/G3')
 import mustBeInteger = require('../checks/mustBeInteger')
+import Primitive = require('../geometries/Primitive')
 import Simplex = require('../geometries/Simplex')
 import VectorN = require('../math/VectorN')
 import Vertex = require('../geometries/Vertex')
 import dataFromVectorN = require('../geometries/dataFromVectorN')
 
-function attributes(elements: number[], vertices: Vertex[]): { [name: string]: DrawAttribute } {
-    let attribs: { [name: string]: DrawAttribute } = {}
+function attributes(elements: number[], vertices: Vertex[]): { [name: string]: Attribute } {
+    let attribs: { [name: string]: Attribute } = {}
 
     for (var vertexIndex = 0; vertexIndex < vertices.length; vertexIndex++) {
 
@@ -19,12 +21,12 @@ function attributes(elements: number[], vertices: Vertex[]): { [name: string]: D
         for (var namesIndex = 0; namesIndex < names.length; namesIndex++) {
             var name: string = names[namesIndex]
             var data: number[] = dataFromVectorN(vertex.attributes[name])
-            var chunkSize = data.length
+            var size = data.length
             var attrib = attribs[name]
             if (!attrib) {
-                attrib = attribs[name] = new DrawAttribute([], chunkSize)
+                attrib = attribs[name] = new DrawAttribute([], size)
             }
-            for (var coordIndex = 0; coordIndex < chunkSize; coordIndex++) {
+            for (var coordIndex = 0; coordIndex < size; coordIndex++) {
                 attrib.values.push(data[coordIndex])
             }
         }
@@ -74,9 +76,9 @@ class Topology {
      * This may involve creating some redundancy in order to get WebGL efficiency.
      * Thus, we should regard the topology as normalized
      * @method toDrawPrimitive
-     * @return {DrawPrimitive}
+     * @return {Primitive}
      */
-    public toDrawPrimitive(): DrawPrimitive {
+    public toDrawPrimitive(): Primitive {
         return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices))
     }
 }

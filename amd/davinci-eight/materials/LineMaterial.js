@@ -20,11 +20,11 @@ define(["require", "exports", '../checks/isDefined', '../materials/GraphicsProgr
             if (monitors === void 0) { monitors = []; }
             if (parameters === void 0) { parameters = {}; }
             _super.call(this, monitors, 'LineMaterial');
-            if (isDefined(parameters.chunkSize)) {
-                this.chunkSize = mustBeInteger('parameters.chunkSize', parameters.chunkSize);
+            if (isDefined(parameters.size)) {
+                this.size = mustBeInteger('parameters.size', parameters.size);
             }
             else {
-                this.chunkSize = 3;
+                this.size = 3;
             }
         }
         /**
@@ -34,7 +34,7 @@ define(["require", "exports", '../checks/isDefined', '../materials/GraphicsProgr
          */
         LineMaterial.prototype.createGraphicsProgram = function () {
             var smb = new GraphicsProgramBuilder();
-            smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.chunkSize);
+            smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.size);
             smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
             smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
             smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');

@@ -20,7 +20,7 @@ define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArr
         /**
          * @class Drawable
          * @constructor
-         * @param primitives {DrawPrimitive[]}
+         * @param primitives {Primitive[]}
          * @param material {IGraphicsProgram}
          */
         function Drawable(primitives, material) {

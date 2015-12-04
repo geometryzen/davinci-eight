@@ -1,7 +1,7 @@
 import IContextProvider = require('../core/IContextProvider');
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IDrawable = require('../core/IDrawable');
 import IGraphicsProgram = require('../core/IGraphicsProgram');
+import Primitive = require('../geometries/Primitive');
 import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 /**
@@ -11,9 +11,9 @@ import IFacet = require('../core/IFacet');
 declare class Drawable extends Shareable implements IDrawable {
     /**
      * @property primitives
-     * @type {DrawPrimitive[]}
+     * @type {Primitive[]}
      */
-    primitives: DrawPrimitive[];
+    primitives: Primitive[];
     /**
      * @property graphicsProgram
      * @type {IGraphicsProgram}
@@ -41,10 +41,10 @@ declare class Drawable extends Shareable implements IDrawable {
     /**
      * @class Drawable
      * @constructor
-     * @param primitives {DrawPrimitive[]}
+     * @param primitives {Primitive[]}
      * @param material {IGraphicsProgram}
      */
-    constructor(primitives: DrawPrimitive[], material: IGraphicsProgram);
+    constructor(primitives: Primitive[], material: IGraphicsProgram);
     /**
      * @method destructor
      * @return {void}

@@ -269,6 +269,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.166.0: 2015-11-25 Drawable
 * 2.167.0: 2015-11-25 cleanup
 * 2.168.0: 2015-11-30 cleanup
+* 2.169.0: 2015-12-03 Primitive
 
 ## License
 Copyright (c) 2014-2015 David Holmes

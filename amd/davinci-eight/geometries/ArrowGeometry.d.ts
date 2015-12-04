@@ -1,7 +1,7 @@
 import VectorE3 = require('../math/VectorE3');
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import AxialGeometry = require('../geometries/AxialGeometry');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
+import Primitive = require('../geometries/Primitive');
 /**
  * @class ArrowGeometry
  */
@@ -49,9 +49,9 @@ declare class ArrowGeometry extends AxialGeometry implements IAxialGeometry<Arro
     setAxis(axis: VectorE3): ArrowGeometry;
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    toPrimitives(): DrawPrimitive[];
+    toPrimitives(): Primitive[];
     enableTextureCoords(enable: boolean): ArrowGeometry;
 }
 export = ArrowGeometry;

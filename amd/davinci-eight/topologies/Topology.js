@@ -7,12 +7,12 @@ define(["require", "exports", '../geometries/DrawAttribute', '../geometries/Draw
             for (var namesIndex = 0; namesIndex < names.length; namesIndex++) {
                 var name = names[namesIndex];
                 var data = dataFromVectorN(vertex.attributes[name]);
-                var chunkSize = data.length;
+                var size = data.length;
                 var attrib = attribs[name];
                 if (!attrib) {
-                    attrib = attribs[name] = new DrawAttribute([], chunkSize);
+                    attrib = attribs[name] = new DrawAttribute([], size);
                 }
-                for (var coordIndex = 0; coordIndex < chunkSize; coordIndex++) {
+                for (var coordIndex = 0; coordIndex < size; coordIndex++) {
                     attrib.values.push(data[coordIndex]);
                 }
             }
@@ -43,7 +43,7 @@ define(["require", "exports", '../geometries/DrawAttribute', '../geometries/Draw
          * This may involve creating some redundancy in order to get WebGL efficiency.
          * Thus, we should regard the topology as normalized
          * @method toDrawPrimitive
-         * @return {DrawPrimitive}
+         * @return {Primitive}
          */
         Topology.prototype.toDrawPrimitive = function () {
             return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices));

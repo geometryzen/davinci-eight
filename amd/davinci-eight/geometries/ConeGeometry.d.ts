@@ -1,7 +1,7 @@
 import AxialGeometry = require('../geometries/AxialGeometry');
 import VectorE3 = require('../math/VectorE3');
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
+import Primitive = require('../geometries/Primitive');
 /**
  * @class ConeGeometry
  */
@@ -44,9 +44,9 @@ declare class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeG
     setPosition(position: VectorE3): ConeGeometry;
     /**
      * @method tPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    toPrimitives(): DrawPrimitive[];
+    toPrimitives(): Primitive[];
     enableTextureCoords(enable: boolean): ConeGeometry;
 }
 export = ConeGeometry;

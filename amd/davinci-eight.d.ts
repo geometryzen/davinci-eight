@@ -29,6 +29,7 @@ import UniformMetaInfo = require('davinci-eight/core/UniformMetaInfo');
 import Curve = require('davinci-eight/curves/Curve');
 import Keyboard = require('davinci-eight/devices/Keyboard');
 import DrawAttribute = require('davinci-eight/geometries/DrawAttribute');
+import Primitive = require('davinci-eight/geometries/Primitive');
 import DrawPrimitive = require('davinci-eight/geometries/DrawPrimitive');
 import Simplex = require('davinci-eight/geometries/Simplex');
 import Vertex = require('davinci-eight/geometries/Vertex');
@@ -245,7 +246,7 @@ declare var eight: {
     triangle: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: {
         [name: string]: VectorN<number>[];
     }, triangles?: Simplex[]) => Simplex[];
-    simplicesToDrawPrimitive: (simplices: Simplex[], geometryMeta?: GeometryMeta) => DrawPrimitive;
+    simplicesToDrawPrimitive: (simplices: Simplex[], geometryMeta?: GeometryMeta) => Primitive;
     GraphicsProgramSymbols: typeof GraphicsProgramSymbols;
     programFromScripts: (monitors: IContextMonitor[], vsId: string, fsId: string, domDocument: Document, attribs?: string[]) => IGraphicsProgram;
     DrawAttribute: typeof DrawAttribute;

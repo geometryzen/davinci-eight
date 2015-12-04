@@ -1,4 +1,3 @@
-import DrawPrimitive = require('../geometries/DrawPrimitive')
 import Euclidean3 = require('../math/Euclidean3')
 import GeometryMeta = require('../geometries/GeometryMeta')
 import IGeometry = require('../geometries/IGeometry')
@@ -10,6 +9,7 @@ import Simplex = require('../geometries/Simplex')
 import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import simplicesToDrawPrimitive = require('../geometries/simplicesToDrawPrimitive')
 import simplicesToGeometryMeta = require('../geometries/simplicesToGeometryMeta')
+import Primitive = require('../geometries/Primitive')
 import R1 = require('../math/R1')
 import R3 = require('../math/R3')
 import R2 = require('../math/R2')
@@ -207,9 +207,9 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
 
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    public toPrimitives(): DrawPrimitive[] {
+    public toPrimitives(): Primitive[] {
         if (this.isModified()) {
             this.regenerate()
         }

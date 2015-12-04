@@ -4,7 +4,6 @@ import DrawMode = require('../core/DrawMode')
 import IContextProvider = require('../core/IContextProvider')
 import IContextConsumer = require('../core/IContextConsumer')
 import core = require('../core')
-import DrawPrimitive = require('../geometries/DrawPrimitive')
 import expectArg = require('../checks/expectArg')
 import initWebGL = require('../renderers/initWebGL')
 import IBuffer = require('../core/IBuffer')
@@ -15,11 +14,13 @@ import isUndefined = require('../checks/isUndefined')
 import ITexture = require('../core/ITexture')
 import IUnknown = require('../core/IUnknown')
 import IGraphicsProgram = require('../core/IGraphicsProgram')
+import mustBeArray = require('../checks/mustBeArray')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustBeNumber = require('../checks/mustBeNumber')
 import mustBeObject = require('../checks/mustBeObject')
 import mustBeString = require('../checks/mustBeString')
 import randumbInteger = require('../utils/randumbInteger');
+import Primitive = require('../geometries/Primitive')
 import RefCount = require('../utils/RefCount')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
@@ -206,6 +207,7 @@ class ElementsBlockAttrib extends Shareable {
     }
 }
 
+// FIXME: usage must be defined as an enumeration like DrawMode
 function isBufferUsage(usage: number): boolean {
     mustBeNumber('usage', usage);
     switch (usage) {
@@ -460,8 +462,11 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         /**
          *
          */
-        createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry {
-            expectArg('primitive', primitive).toSatisfy(primitive instanceof DrawPrimitive, "primitive must be an instance of DrawPrimitive")
+        createBufferGeometry(primitive: Primitive, usage?: number): IBufferGeometry {
+            mustBeObject('primitive', primitive);
+            mustBeInteger('primitive.mode', primitive.mode);
+            mustBeArray('primitive.indices', primitive.indices);
+            mustBeObject('primitive.attributes', primitive.attributes);
             if (isDefined(usage)) {
                 expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...")
             }
@@ -500,7 +505,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
                 let data: number[] = vertexAttrib.values
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage)
                 // TODO: stride = 0 and offset = 0
-                let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.chunkSize, false, 0, 0)
+                let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0)
                 attributes.put(name, attribute)
                 attribute.release()
                 buffer.unbind()

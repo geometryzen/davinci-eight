@@ -1,10 +1,10 @@
 import VectorE3 = require('../math/VectorE3')
 import ConeGeometry = require('../geometries/ConeGeometry')
 import CylinderGeometry = require('../geometries/CylinderGeometry')
-import DrawPrimitive = require('../geometries/DrawPrimitive')
 import AxialGeometry = require('../geometries/AxialGeometry')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
+import Primitive = require('../geometries/Primitive')
 import RingGeometry = require('../geometries/RingGeometry')
 import R3 = require('../math/R3')
 
@@ -63,9 +63,9 @@ class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometr
     }
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    toPrimitives(): DrawPrimitive[] {
+    toPrimitives(): Primitive[] {
         let heightShaft = 1 - this.heightCone
         /**
          * The opposite direction to the axis.

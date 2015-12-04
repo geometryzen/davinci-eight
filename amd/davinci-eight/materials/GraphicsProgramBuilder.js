@@ -6,9 +6,9 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         for (var i = 0; i < keysLength; i++) {
             var key = keys[i];
             var attribute = values[key];
-            var chunkSize = mustBeInteger('chunkSize', attribute.chunkSize);
+            var size = mustBeInteger('size', attribute.size);
             var varName = getAttribVarName(attribute, key);
-            result[varName] = { glslType: glslAttribType(key, chunkSize) };
+            result[varName] = { glslType: glslAttribType(key, size) };
         }
         return result;
     }
@@ -39,7 +39,7 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
          * The same builder instance may be reused to create other programs.
          * @class GraphicsProgramBuilder
          * @constructor
-         * @param [primitive] {DrawPrimitive}
+         * @param [primitive] {Primitive}
          */
         function GraphicsProgramBuilder(primitive) {
             /**
@@ -58,22 +58,22 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
                 for (var i = 0, iLength = keys.length; i < iLength; i++) {
                     var key = keys[i];
                     var attribute = attributes[key];
-                    this.attribute(key, attribute.chunkSize);
+                    this.attribute(key, attribute.size);
                 }
             }
         }
         /**
-         * Declares that the material should have an `attribute` with the specified name and chunkSize.
+         * Declares that the material should have an `attribute` with the specified name and size.
          * @method attribute
          * @param name {string}
-         * @param chunkSize {number}
+         * @param size {number}
          * @return {GraphicsProgramBuilder}
          * @chainable
          */
-        GraphicsProgramBuilder.prototype.attribute = function (name, chunkSize) {
+        GraphicsProgramBuilder.prototype.attribute = function (name, size) {
             mustBeString('name', name);
-            mustBeInteger('chunkSize', chunkSize);
-            this.aMeta[name] = { chunkSize: chunkSize };
+            mustBeInteger('size', size);
+            this.aMeta[name] = { size: size };
             return this;
         };
         /**
@@ -100,7 +100,7 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
          */
         GraphicsProgramBuilder.prototype.build = function (contexts) {
             // FIXME: Push this calculation down into the functions.
-            // Then the data structures are based on chunkSize.
+            // Then the data structures are based on size.
             // uniforms based on numeric type?
             var aParams = computeAttribParams(this.aMeta);
             var vColor = vColorRequired(aParams, this.uParams);

@@ -179,7 +179,7 @@ define(["require", "exports", '../math/Euclidean3', '../checks/mustBeBoolean', '
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         SimplexGeometry.prototype.toPrimitives = function () {
             if (this.isModified()) {

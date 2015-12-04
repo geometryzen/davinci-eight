@@ -9,14 +9,14 @@ define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeInteger'
          * @constructor
          * @param mode {DrawMode} <p>The primitive type.</p>
          * @param indices {number[]} <p>A list of index into the attributes</p>
-         * @param attributes {{[name:string]: DrawAttribute}}
+         * @param attributes {{[name:string]: Attribute}}
          */
         function DrawPrimitive(mode, indices, attributes) {
             // TODO: Looks like a DrawAttributeMap here (implementation only)
             /**
-             * A map from attribute name to <code>DrawAttribute</code>.
+             * A map from attribute name to <code>Attribute</code>.
              * @property attributes
-             * @type {{[name:string]: DrawAttribute}}
+             * @type {{[name:string]: Attribute}}
              */
             this.attributes = {};
             this.mode = mustBeInteger('mode', mode);

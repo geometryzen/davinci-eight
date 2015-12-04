@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.168.0</em>
+            <em>API Docs for: 2.169.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
@@ -145,6 +146,7 @@
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -242,7 +244,6 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import DrawPrimitive = require(&#x27;../geometries/DrawPrimitive&#x27;)
 import getAttribVarName = require(&#x27;../core/getAttribVarName&#x27;)
 import getUniformVarName = require(&#x27;../core/getUniformVarName&#x27;)
 import glslAttribType = require(&#x27;../programs/glslAttribType&#x27;)
@@ -250,21 +251,22 @@ import GraphicsProgram = require(&#x27;../materials/GraphicsProgram&#x27;)
 import IContextMonitor = require(&#x27;../core/IContextMonitor&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
+import Primitive = require(&#x27;../geometries/Primitive&#x27;)
 import SmartGraphicsProgram = require(&#x27;../materials/SmartGraphicsProgram&#x27;)
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;)
 import vColorRequired = require(&#x27;../programs/vColorRequired&#x27;)
 import vLightRequired = require(&#x27;../programs/vLightRequired&#x27;)
 
-function computeAttribParams(values: { [key: string]: { chunkSize: number, name?: string } }) {
+function computeAttribParams(values: { [key: string]: { size: number, name?: string } }) {
     var result: { [key: string]: { glslType: string, name?: string } } = {}
     let keys = Object.keys(values)
     let keysLength = keys.length
     for (var i = 0; i &lt; keysLength; i++) {
         let key = keys[i]
         let attribute = values[key]
-        let chunkSize = mustBeInteger(&#x27;chunkSize&#x27;, attribute.chunkSize)
+        let size = mustBeInteger(&#x27;size&#x27;, attribute.size)
         let varName = getAttribVarName(attribute, key)
-        result[varName] = { glslType: glslAttribType(key, chunkSize) }
+        result[varName] = { glslType: glslAttribType(key, size) }
     }
     return result
 }
@@ -291,7 +293,7 @@ class GraphicsProgramBuilder {
      * @property aMeta
      * @private
      */
-    private aMeta: { [key: string]: { chunkSize: number; } } = {};
+    private aMeta: { [key: string]: { size: number; } } = {};
 
     /**
      * @property uParams
@@ -310,32 +312,32 @@ class GraphicsProgramBuilder {
      * The same builder instance may be reused to create other programs.
      * @class GraphicsProgramBuilder
      * @constructor
-     * @param [primitive] {DrawPrimitive}
+     * @param [primitive] {Primitive}
      */
-    constructor(primitive?: DrawPrimitive) {
+    constructor(primitive?: Primitive) {
         if (primitive) {
             let attributes = primitive.attributes
             let keys = Object.keys(attributes)
             for (var i = 0, iLength = keys.length; i &lt; iLength; i++) {
                 let key = keys[i]
                 let attribute = attributes[key]
-                this.attribute(key, attribute.chunkSize)
+                this.attribute(key, attribute.size)
             }
         }
     }
 
     /**
-     * Declares that the material should have an &#x60;attribute&#x60; with the specified name and chunkSize.
+     * Declares that the material should have an &#x60;attribute&#x60; with the specified name and size.
      * @method attribute
      * @param name {string}
-     * @param chunkSize {number}
+     * @param size {number}
      * @return {GraphicsProgramBuilder}
      * @chainable
      */
-    public attribute(name: string, chunkSize: number): GraphicsProgramBuilder {
+    public attribute(name: string, size: number): GraphicsProgramBuilder {
         mustBeString(&#x27;name&#x27;, name)
-        mustBeInteger(&#x27;chunkSize&#x27;, chunkSize)
-        this.aMeta[name] = { chunkSize: chunkSize }
+        mustBeInteger(&#x27;size&#x27;, size)
+        this.aMeta[name] = { size: size }
         return this
     }
 
@@ -364,7 +366,7 @@ class GraphicsProgramBuilder {
      */
     public build(contexts: IContextMonitor[]): GraphicsProgram {
         // FIXME: Push this calculation down into the functions.
-        // Then the data structures are based on chunkSize.
+        // Then the data structures are based on size.
         // uniforms based on numeric type?
         let aParams = computeAttribParams(this.aMeta)
         let vColor = vColorRequired(aParams, this.uParams)

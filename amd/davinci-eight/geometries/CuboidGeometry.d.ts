@@ -1,6 +1,6 @@
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import Geometry = require('../geometries/Geometry');
 import IGeometry = require('../geometries/IGeometry');
+import Primitive = require('../geometries/Primitive');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class CuboidGeometry
@@ -42,9 +42,9 @@ declare class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometr
     setPosition(position: VectorE3): CuboidGeometry;
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    toPrimitives(): DrawPrimitive[];
+    toPrimitives(): Primitive[];
     enableTextureCoords(enable: boolean): CuboidGeometry;
 }
 export = CuboidGeometry;

@@ -8,10 +8,10 @@ import GraphicsProgram = require('../materials/GraphicsProgram');
  */
 declare class LineMaterial extends GraphicsProgram {
     /**
-     * @property chunkSize
+     * @property size
      * @type {number}
      */
-    chunkSize: number;
+    size: number;
     /**
      * @class LineMaterial
      * @constructor

@@ -1,8 +1,8 @@
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import GeometryMeta = require('../geometries/GeometryMeta');
 import IGeometry = require('../geometries/IGeometry');
 import Geometry = require('../geometries/Geometry');
 import Simplex = require('../geometries/Simplex');
+import Primitive = require('../geometries/Primitive');
 import R3 = require('../math/R3');
 import R2 = require('../math/R2');
 import VectorE3 = require('../math/VectorE3');
@@ -146,9 +146,9 @@ declare class SimplexGeometry extends Geometry implements IGeometry<SimplexGeome
     setPosition(position: VectorE3): SimplexGeometry;
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    toPrimitives(): DrawPrimitive[];
+    toPrimitives(): Primitive[];
     /**
      * @method mergeVertices
      * @param [precisionPonts = 4] {number}

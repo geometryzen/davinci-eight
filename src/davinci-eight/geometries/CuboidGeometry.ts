@@ -1,12 +1,12 @@
-import DrawPrimitive = require('../geometries/DrawPrimitive')
 import Euclidean3 = require('../math/Euclidean3')
 import GridTopology = require('../topologies/GridTopology')
 import Geometry = require('../geometries/Geometry')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import IGeometry = require('../geometries/IGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustBeNumber = require('../checks/mustBeNumber')
+import Primitive = require('../geometries/Primitive')
 import R3 = require('../math/R3')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import VectorE3 = require('../math/VectorE3')
 
@@ -111,9 +111,9 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     }
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    public toPrimitives(): DrawPrimitive[] {
+    public toPrimitives(): Primitive[] {
         this.regenerate()
         return this.sides.map((side) => { return side.toDrawPrimitive() })
     }

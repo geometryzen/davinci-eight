@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../math/R2', '../math/G3'], function (require, exports, GridTopology, AxialGeometry, GraphicsProgramSymbols, R2, G3) {
+define(["require", "exports", '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../geometries/AxialGeometry', '../math/R2', '../math/G3'], function (require, exports, GraphicsProgramSymbols, GridTopology, AxialGeometry, R2, G3) {
     /**
      * @class RingGeometry
      */
@@ -55,7 +55,7 @@ define(["require", "exports", '../topologies/GridTopology', '../geometries/Axial
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         RingGeometry.prototype.toPrimitives = function () {
             var uSegments = this.thetaSegments;

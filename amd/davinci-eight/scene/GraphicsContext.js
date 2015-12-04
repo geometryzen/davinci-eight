@@ -144,7 +144,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         };
         /**
          * @method createBufferGeometry
-         * @param primitive {DrawPrimitive}
+         * @param primitive {Primitive}
          * @param [usage] {number}
          * @return {IBufferGeometry}
          */

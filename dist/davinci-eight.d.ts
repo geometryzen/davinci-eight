@@ -188,23 +188,71 @@ declare module EIGHT {
          */
         TRIANGLE_FAN
     }
+
     /**
-     *
+     * An array of attribute values associated with meta data describing how to interpret the values.
+     * {values: number[]; size: number;}
      */
-    class DrawPrimitive {
+    interface Attribute {
+        /**
+         * The attribute values.
+         */
+        values: number[];
+        /**
+         * The number of values that are associated with a given vertex.
+         */
+        size: number;
+        normalized?: boolean;
+        stride?: number;
+        offset?: number;
+    }
+
+    /**
+     * A convenience class for constructing and validating attribute values used for drawing.
+     */
+    class DrawAttribute implements Attribute {
+        /**
+         * The attribute values.
+         */
+        values: number[];
+        /**
+         * The number of values that constitute one vertex.
+         */
+        size: number;
+        /**
+         * Constructs the attribute and validates the arguments.
+         */
+        constructor(values: number[], size: number);
+    }
+
+    /**
+     * {mode: DrawMode; indices: number[]; attributes: {[name: string]: Attribute};}
+     */
+    interface Primitive {
+        /**
+         *
+         */
         mode: DrawMode;
+
+        /**
+         *
+         */
         indices: number[];
-        attributes: { [name: string]: DrawAttribute };
-        constructor(mode: DrawMode, indices: number[], attributes: { [name: string]: DrawAttribute });
+
+        /**
+         *
+         */
+        attributes: { [name: string]: Attribute };
     }
 
     /**
      *
      */
-    class DrawAttribute {
-        values: number[];
-        chunkSize: number;
-        constructor(values: number[], chunkSize: number);
+    class DrawPrimitive implements Primitive {
+        mode: DrawMode;
+        indices: number[];
+        attributes: { [name: string]: Attribute };
+        constructor(mode: DrawMode, indices: number[], attributes: { [name: string]: Attribute });
     }
 
     /**
@@ -342,9 +390,9 @@ declare module EIGHT {
     function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
 
     /**
-     * geometry to DrawPrimitive conversion.
+     * geometry to Primitive conversion.
      */
-    function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): DrawPrimitive;
+    function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): Primitive;
 
     /**
      *
@@ -2617,7 +2665,7 @@ declare module EIGHT {
      */
     interface IGeometry<T> {
         setPosition(position: VectorE3): T
-        toPrimitives(): DrawPrimitive[];
+        toPrimitives(): Primitive[];
     }
     /**
      *
@@ -2690,7 +2738,7 @@ declare module EIGHT {
         /**
          * Computes and returns the primitives used to draw in WebGL.
          */
-        toPrimitives(): DrawPrimitive[];
+        toPrimitives(): Primitive[];
     }
 
     /**
@@ -2874,7 +2922,7 @@ declare module EIGHT {
     interface IContextProvider extends ContextUnique, IUnknown {
         createArrayBuffer(): IBuffer;
         createElementArrayBuffer(): IBuffer;
-        createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry;
+        createBufferGeometry(primitive: Primitive, usage?: number): IBufferGeometry;
         createTexture2D(): ITexture2D;
         createTextureCubeMap(): ITextureCubeMap;
         gl: WebGLRenderingContext;
@@ -3308,7 +3356,7 @@ declare module EIGHT {
         /**
          *
          */
-        createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry;
+        createBufferGeometry(primitive: Primitive, usage?: number): IBufferGeometry;
 
         /**
          *
@@ -3382,7 +3430,7 @@ declare module EIGHT {
         constructor();
         enableTextureCoords(enable: boolean): Geometry;
         setPosition(position: VectorE3): Geometry;
-        toPrimitives(): DrawPrimitive[];
+        toPrimitives(): Primitive[];
     }
 
     class AxialGeometry extends Geometry {
@@ -3423,7 +3471,7 @@ declare module EIGHT {
          */
         constructor(axis: VectorE3, sliceStart?: VectorE3);
         setPosition(position: VectorE3): ArrowGeometry;
-        toPrimitives(): DrawPrimitive[];
+        toPrimitives(): Primitive[];
     }
 
     class VortexSimplexGeometry extends SimplexGeometry {
@@ -3439,7 +3487,7 @@ declare module EIGHT {
         constructor();
         setAxis(axis: VectorE3): RingGeometry
         setPosition(position: VectorE3): RingGeometry
-        toPrimitives(): DrawPrimitive[];
+        toPrimitives(): Primitive[];
     }
     /**
      *
@@ -3473,7 +3521,7 @@ declare module EIGHT {
         height: number;
         constructor(axis: VectorE3);
         setPosition(position: VectorE3): ConeGeometry;
-        toPrimitives(): DrawPrimitive[];
+        toPrimitives(): Primitive[];
     }
 
     /**
@@ -3515,7 +3563,7 @@ declare module EIGHT {
         depth: number;
         constructor();
         setPosition(position: VectorE3): CuboidGeometry;
-        toPrimitives(): DrawPrimitive[];
+        toPrimitives(): Primitive[];
     }
     /**
      *
@@ -3549,7 +3597,7 @@ declare module EIGHT {
         height: number;
         constructor(axis: VectorE3);
         setPosition(position: VectorE3): CylinderGeometry
-        toPrimitives(): DrawPrimitive[];
+        toPrimitives(): Primitive[];
     }
 
     class DodecahedronSimplexGeometry extends PolyhedronSimplexGeometry {
@@ -3662,7 +3710,7 @@ declare module EIGHT {
          * The primitives that are submitted to the graphics pipeline to
          * render this drawable object.
          */
-        primitives: DrawPrimitive[];
+        primitives: Primitive[];
 
         /**
          * The graphics program used to render the primitives.
@@ -3674,7 +3722,7 @@ declare module EIGHT {
          */
         name: string;
 
-        constructor(primitives: DrawPrimitive[], material: IGraphicsProgram);
+        constructor(primitives: Primitive[], material: IGraphicsProgram);
         /**
          * Draws the primitives using the graphics program to the specified canvas.
          * <code>canvasId</code> is optional and may be omitted when using a single canvas.
@@ -3698,10 +3746,11 @@ declare module EIGHT {
     }
 
     /**
-     *
+     * AAA
      */
     class HTMLScriptsGraphicsProgram extends GraphicsProgram {
         /**
+         * BBB
          * contexts:  The contexts that this material must support.
          * scriptIds: The id properties of the script elements. Defaults to [].
          * dom:       The document object model. Defaults to document.
@@ -3777,9 +3826,9 @@ declare module EIGHT {
 
         /**
          * Declares that the material should have an `attribute`
-         * with the specified name and chunkSize.
+         * with the specified name and size.
          */
-        public attribute(name: string, chunkSize: number): GraphicsProgramBuilder;
+        public attribute(name: string, size: number): GraphicsProgramBuilder;
 
         /**
          * Declares that the material should have a `uniform` with the specified name and type.
@@ -4267,7 +4316,7 @@ declare module EIGHT {
     ///////////////////////////////////////////////////////////////////////////////
     class Topology {
         constructor(numVertices: number);
-        toDrawPrimitive(): DrawPrimitive;
+        toDrawPrimitive(): Primitive;
     }
 
     class PointTopology extends Topology {

@@ -8,7 +8,6 @@ import IContextConsumer = require('../core/IContextConsumer')
 import contextProxy = require('../utils/contextProxy')
 import IContextRenderer = require('../renderers/IContextRenderer')
 import core = require('../core')
-import DrawPrimitive = require('../geometries/DrawPrimitive')
 import IBuffer = require('../core/IBuffer')
 import IContextCommand = require('../core/IContextCommand')
 import IDrawList = require('../scene/IDrawList')
@@ -21,6 +20,7 @@ import mustBeDefined = require('../checks/mustBeDefined')
 import mustBeFunction = require('../checks/mustBeFunction')
 import mustBeInteger = require('../checks/mustBeInteger')
 import mustSatisfy = require('../checks/mustSatisfy')
+import Primitive = require('../geometries/Primitive')
 import readOnly = require('../i18n/readOnly')
 import Scene = require('../scene/Scene')
 import Shareable = require('../utils/Shareable')
@@ -180,11 +180,11 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
 
     /**
      * @method createBufferGeometry
-     * @param primitive {DrawPrimitive}
+     * @param primitive {Primitive}
      * @param [usage] {number}
      * @return {IBufferGeometry}
      */
-    createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry {
+    createBufferGeometry(primitive: Primitive, usage?: number): IBufferGeometry {
         return this._kahuna.createBufferGeometry(primitive, usage)
     }
 

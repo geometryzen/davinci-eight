@@ -1,7 +1,7 @@
-import VectorE3 = require('../math/VectorE3');
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
 import AxialGeometry = require('../geometries/AxialGeometry');
+import Primitive = require('../geometries/Primitive');
+import VectorE3 = require('../math/VectorE3');
 /**
  * @class RingGeometry
  */
@@ -44,9 +44,9 @@ declare class RingGeometry extends AxialGeometry implements IAxialGeometry<RingG
     setPosition(position: VectorE3): RingGeometry;
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    toPrimitives(): DrawPrimitive[];
+    toPrimitives(): Primitive[];
     /**
      * @method enableTextureCoords
      * @param enable {boolean}

@@ -1,6 +1,6 @@
 import CartesianE3 = require('../math/CartesianE3');
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IGeometry = require('../geometries/IGeometry');
+import Primitive = require('../geometries/Primitive');
 import VectorE3 = require('../math/VectorE3');
 /**
  * @class Geometry
@@ -46,8 +46,8 @@ declare class Geometry implements IGeometry<Geometry> {
     setPosition(position: VectorE3): Geometry;
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    toPrimitives(): DrawPrimitive[];
+    toPrimitives(): Primitive[];
 }
 export = Geometry;

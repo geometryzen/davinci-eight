@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.168.0",
+        "version": "2.169.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -585,6 +585,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/Attribute.ts": {
+            "name": "src/davinci-eight/geometries/Attribute.ts",
+            "modules": {},
+            "classes": {
+                "Attribute": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/AxialGeometry.ts": {
             "name": "src/davinci-eight/geometries/AxialGeometry.ts",
             "modules": {},
@@ -825,6 +834,15 @@
             "modules": {},
             "classes": {
                 "PolyhedronSimplexGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/Primitive.ts": {
+            "name": "src/davinci-eight/geometries/Primitive.ts",
+            "modules": {},
+            "classes": {
+                "Primitive": 1
             },
             "fors": {},
             "namespaces": {}
@@ -2038,6 +2056,7 @@
                 "ReflectionFacetE3": 1,
                 "Vector3Facet": 1,
                 "ArrowGeometry": 1,
+                "Attribute": 1,
                 "AxialGeometry": 1,
                 "AxialSimplexGeometry": 1,
                 "BarnSimplexGeometry": 1,
@@ -2065,6 +2084,7 @@
                 "PathArgs": 1,
                 "PathKind": 1,
                 "PolyhedronSimplexGeometry": 1,
+                "Primitive": 1,
                 "RevolutionSimplexGeometry": 1,
                 "RingGeometry": 1,
                 "RingSimplexGeometry": 1,
@@ -3144,6 +3164,19 @@
                 }
             ]
         },
+        "Attribute": {
+            "name": "Attribute",
+            "shortname": "Attribute",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/geometries/Attribute.ts",
+            "line": 1,
+            "description": "An array of attribute values associated with meta data describing how to interpret the values."
+        },
         "AxialGeometry": {
             "name": "AxialGeometry",
             "shortname": "AxialGeometry",
@@ -3475,7 +3508,8 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/DrawAttribute.ts",
-            "line": 48,
+            "line": 51,
+            "description": "A convenience class for constructing and validating attribute values used for drawing.",
             "is_constructor": 1,
             "params": [
                 {
@@ -3484,7 +3518,7 @@
                     "type": "Number[]"
                 },
                 {
-                    "name": "chunkSize",
+                    "name": "size",
                     "description": "",
                     "type": "Number"
                 }
@@ -3501,7 +3535,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "line": 33,
+            "line": 34,
             "description": "A tuple representing the information required to describe a single WebGL primitive.",
             "is_constructor": 1,
             "params": [
@@ -3518,7 +3552,7 @@
                 {
                     "name": "attributes",
                     "description": "}",
-                    "type": "[name:string]: DrawAttribute"
+                    "type": "[name:string]: Attribute"
                 }
             ]
         },
@@ -3805,6 +3839,19 @@
             "line": 50,
             "extends": "SimplexGeometry",
             "is_constructor": 1
+        },
+        "Primitive": {
+            "name": "Primitive",
+            "shortname": "Primitive",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/Primitive.ts",
+            "line": 4
         },
         "RevolutionSimplexGeometry": {
             "name": "RevolutionSimplexGeometry",
@@ -4197,7 +4244,7 @@
                 {
                     "name": "primitive",
                     "description": "",
-                    "type": "DrawPrimitive",
+                    "type": "Primitive",
                     "optional": true
                 }
             ]
@@ -5251,7 +5298,7 @@
                 {
                     "name": "primitives",
                     "description": "",
-                    "type": "DrawPrimitive[]"
+                    "type": "Primitive[]"
                 },
                 {
                     "name": "material",
@@ -5481,7 +5528,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/topologies/Topology.ts",
-            "line": 57,
+            "line": 59,
             "description": "Abstract base class for all geometric primitive types",
             "is_constructor": 1,
             "params": [
@@ -8394,7 +8441,7 @@
                 {
                     "name": "primitive",
                     "description": "",
-                    "type": "DrawPrimitive"
+                    "type": "Primitive"
                 },
                 {
                     "name": "usage",
@@ -10611,7 +10658,7 @@
             "name": "toPrimitives",
             "return": {
                 "description": "",
-                "type": "DrawPrimitive[]"
+                "type": "Primitive[]"
             },
             "class": "ArrowGeometry"
         },
@@ -10655,7 +10702,43 @@
             "file": "src/davinci-eight/geometries/ArrowSimplexGeometry.ts",
             "line": 44,
             "description": "Intentionally undocumented.\n\nThis doesn't work because of the difficulty of constructing normals.\nWith more information, RevolutionSimplexGeometry might do the job.",
-            "class": "AxialGeometry"
+            "class": "Attribute"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Attribute.ts",
+            "line": 6,
+            "description": "The values of the attribute.",
+            "itemtype": "property",
+            "name": "values",
+            "type": "{number[]}",
+            "class": "Attribute"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Attribute.ts",
+            "line": 13,
+            "description": "The number of values that are associated with a given vertex.",
+            "itemtype": "property",
+            "name": "size",
+            "type": "{number}",
+            "class": "Attribute"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Attribute.ts",
+            "line": 20,
+            "description": "Intentionally undocumented.\nThis functionality may be introduced in future.",
+            "class": "Attribute"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Attribute.ts",
+            "line": 26,
+            "description": "Intentionally undocumented.\nThis functionality may be introduced in future.",
+            "class": "Attribute"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Attribute.ts",
+            "line": 32,
+            "description": "Intentionally undocumented.\nThis functionality may be introduced in future.",
+            "class": "Attribute"
         },
         {
             "file": "src/davinci-eight/geometries/AxialGeometry.ts",
@@ -10909,7 +10992,7 @@
             "name": "tPrimitives",
             "return": {
                 "description": "",
-                "type": "DrawPrimitive[]"
+                "type": "Primitive[]"
             },
             "class": "ConeGeometry",
             "module": "EIGHT"
@@ -10967,7 +11050,7 @@
             "name": "toPrimitives",
             "return": {
                 "description": "",
-                "type": "DrawPrimitive[]"
+                "type": "Primitive[]"
             },
             "class": "CuboidGeometry",
             "module": "EIGHT"
@@ -11163,7 +11246,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/DrawAttribute.ts",
-            "line": 35,
+            "line": 36,
             "description": "The values of the attribute.",
             "itemtype": "property",
             "name": "values",
@@ -11173,17 +11256,17 @@
         },
         {
             "file": "src/davinci-eight/geometries/DrawAttribute.ts",
-            "line": 41,
-            "description": "The chunking chunkSize of the attribute.\nThe chunking chunkSize is invariant given the values and is used to describe the vertex attribute pointer.",
+            "line": 43,
+            "description": "The chunking size of the attribute.\nThe chunking size is invariant given the values and is used to describe the vertex attribute pointer.",
             "itemtype": "property",
-            "name": "chunkSize",
+            "name": "size",
             "type": "{number}",
             "class": "DrawAttribute",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "line": 12,
+            "line": 13,
             "itemtype": "property",
             "name": "mode",
             "type": "{DrawMode}",
@@ -11192,8 +11275,8 @@
         },
         {
             "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "line": 18,
-            "description": "An array of index into the <code>DrawAttribute</code>.",
+            "line": 19,
+            "description": "An array of index into the <code>Attribute</code>.",
             "itemtype": "property",
             "name": "indices",
             "type": "{number[]}",
@@ -11202,11 +11285,11 @@
         },
         {
             "file": "src/davinci-eight/geometries/DrawPrimitive.ts",
-            "line": 26,
-            "description": "A map from attribute name to <code>DrawAttribute</code>.",
+            "line": 27,
+            "description": "A map from attribute name to <code>Attribute</code>.",
             "itemtype": "property",
             "name": "attributes",
-            "type": "{{[name:string]: DrawAttribute}}",
+            "type": "{{[name:string]: Attribute}}",
             "class": "DrawPrimitive",
             "module": "EIGHT"
         },
@@ -11318,7 +11401,7 @@
             "name": "toPrimitives",
             "return": {
                 "description": "",
-                "type": "DrawPrimitive[]"
+                "type": "Primitive[]"
             },
             "class": "Geometry",
             "module": "EIGHT"
@@ -11707,6 +11790,33 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/geometries/Primitive.ts",
+            "line": 8,
+            "itemtype": "property",
+            "name": "mode",
+            "type": "{DrawMode}",
+            "class": "Primitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Primitive.ts",
+            "line": 14,
+            "itemtype": "property",
+            "name": "indices",
+            "type": "{number[]}",
+            "class": "Primitive",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Primitive.ts",
+            "line": 20,
+            "itemtype": "property",
+            "name": "attributes",
+            "type": "{{[name: string]: Attribute}}",
+            "class": "Primitive",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/geometries/RevolutionSimplexGeometry.ts",
             "line": 19,
             "itemtype": "method",
@@ -11826,7 +11936,7 @@
             "name": "toPrimitives",
             "return": {
                 "description": "",
-                "type": "DrawPrimitive[]"
+                "type": "Primitive[]"
             },
             "class": "RingGeometry",
             "module": "EIGHT"
@@ -12327,7 +12437,7 @@
             "name": "toPrimitives",
             "return": {
                 "description": "",
-                "type": "DrawPrimitive[]"
+                "type": "Primitive[]"
             },
             "class": "SimplexGeometry",
             "module": "EIGHT"
@@ -13619,7 +13729,7 @@
         {
             "file": "src/davinci-eight/materials/GraphicsProgramBuilder.ts",
             "line": 83,
-            "description": "Declares that the material should have an `attribute` with the specified name and chunkSize.",
+            "description": "Declares that the material should have an `attribute` with the specified name and size.",
             "itemtype": "method",
             "name": "attribute",
             "params": [
@@ -13629,7 +13739,7 @@
                     "type": "String"
                 },
                 {
-                    "name": "chunkSize",
+                    "name": "size",
                     "description": "",
                     "type": "Number"
                 }
@@ -13735,7 +13845,7 @@
             "file": "src/davinci-eight/materials/LineMaterial.ts",
             "line": 18,
             "itemtype": "property",
-            "name": "chunkSize",
+            "name": "size",
             "type": "{number}",
             "class": "LineMaterial",
             "module": "EIGHT"
@@ -13758,7 +13868,7 @@
             "file": "src/davinci-eight/materials/MaterialParameters.ts",
             "line": 5,
             "itemtype": "property",
-            "name": "chunkSize",
+            "name": "size",
             "type": "{number}",
             "optional": 1,
             "default": "3",
@@ -27581,7 +27691,7 @@
             "line": 39,
             "itemtype": "property",
             "name": "primitives",
-            "type": "{DrawPrimitive[]}",
+            "type": "{Primitive[]}",
             "class": "Drawable",
             "module": "EIGHT"
         },
@@ -27966,7 +28076,7 @@
                 {
                     "name": "primitive",
                     "description": "",
-                    "type": "DrawPrimitive"
+                    "type": "Primitive"
                 },
                 {
                     "name": "usage",
@@ -28795,7 +28905,7 @@
         },
         {
             "file": "src/davinci-eight/topologies/Topology.ts",
-            "line": 39,
+            "line": 41,
             "itemtype": "property",
             "name": "mode",
             "type": "{DrawMode}",
@@ -28806,7 +28916,7 @@
         },
         {
             "file": "src/davinci-eight/topologies/Topology.ts",
-            "line": 45,
+            "line": 47,
             "itemtype": "property",
             "name": "elements",
             "type": "{number[]}",
@@ -28817,7 +28927,7 @@
         },
         {
             "file": "src/davinci-eight/topologies/Topology.ts",
-            "line": 51,
+            "line": 53,
             "itemtype": "property",
             "name": "vertices",
             "type": "{Vertex[]}",
@@ -28828,13 +28938,13 @@
         },
         {
             "file": "src/davinci-eight/topologies/Topology.ts",
-            "line": 72,
+            "line": 74,
             "description": "Creates the elements in a format required for WebGL.\nThis may involve creating some redundancy in order to get WebGL efficiency.\nThus, we should regard the topology as normalized",
             "itemtype": "method",
             "name": "toDrawPrimitive",
             "return": {
                 "description": "",
-                "type": "DrawPrimitive"
+                "type": "Primitive"
             },
             "class": "Topology",
             "module": "EIGHT"
@@ -28981,121 +29091,121 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 47,
+            "line": 48,
             "description": "Renders geometric primitives indexed by element array data.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 52,
+            "line": 53,
             "description": "Specifies the kind of primitives to render.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 57,
+            "line": 58,
             "description": "The number of elements to render.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 62,
+            "line": 63,
             "description": "The type of elements in the element array buffer. Usually a gl.UNSIGNED_SHORT.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 67,
+            "line": 68,
             "description": "Offset into the element array buffer. Must be a valid multiple of the size of type.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 72,
+            "line": 73,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 86,
+            "line": 87,
             "description": "Executes the drawElements command using the instance state.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 120,
+            "line": 121,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 125,
+            "line": 126,
             "description": "Mapping from attribute name to a data structure describing and containing a buffer.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 130,
+            "line": 131,
             "description": "The buffer containing element indices used in the drawElements command.\nWe keep the index buffer private to avoid unnecessary addRef() and release() calls.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 136,
+            "line": 137,
             "description": "An executable command. May be a call to drawElements or drawArrays.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 141,
+            "line": 142,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 161,
+            "line": 162,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 236,
+            "line": 238,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 296,
+            "line": 298,
             "description": "Implementation of IBufferGeometry coupled to the 'blocks' implementation.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 391,
+            "line": 393,
             "description": "Implementation of removeContextListener for the kahuna.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 424,
+            "line": 426,
             "description": "We must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 460,
+            "line": 462,
             "class": "",
             "module": "EIGHT"
         },
@@ -29284,6 +29394,18 @@
         {
             "message": "Missing item type\nIntentionally undocumented.\n\nThis doesn't work because of the difficulty of constructing normals.\nWith more information, RevolutionSimplexGeometry might do the job.",
             "line": " src/davinci-eight/geometries/ArrowSimplexGeometry.ts:44"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.\nThis functionality may be introduced in future.",
+            "line": " src/davinci-eight/geometries/Attribute.ts:20"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.\nThis functionality may be introduced in future.",
+            "line": " src/davinci-eight/geometries/Attribute.ts:26"
+        },
+        {
+            "message": "Missing item type\nIntentionally undocumented.\nThis functionality may be introduced in future.",
+            "line": " src/davinci-eight/geometries/Attribute.ts:32"
         },
         {
             "message": "Missing item type\nA displacement in the direction of axis that we must move for each height step.",
@@ -30067,75 +30189,75 @@
         },
         {
             "message": "Missing item type\nRenders geometric primitives indexed by element array data.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:47"
+            "line": " src/davinci-eight/utils/contextProxy.ts:48"
         },
         {
             "message": "Missing item type\nSpecifies the kind of primitives to render.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:52"
+            "line": " src/davinci-eight/utils/contextProxy.ts:53"
         },
         {
             "message": "Missing item type\nThe number of elements to render.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:57"
+            "line": " src/davinci-eight/utils/contextProxy.ts:58"
         },
         {
             "message": "Missing item type\nThe type of elements in the element array buffer. Usually a gl.UNSIGNED_SHORT.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:62"
+            "line": " src/davinci-eight/utils/contextProxy.ts:63"
         },
         {
             "message": "Missing item type\nOffset into the element array buffer. Must be a valid multiple of the size of type.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:67"
+            "line": " src/davinci-eight/utils/contextProxy.ts:68"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:72"
+            "line": " src/davinci-eight/utils/contextProxy.ts:73"
         },
         {
             "message": "Missing item type\nExecutes the drawElements command using the instance state.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:86"
+            "line": " src/davinci-eight/utils/contextProxy.ts:87"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:120"
+            "line": " src/davinci-eight/utils/contextProxy.ts:121"
         },
         {
             "message": "Missing item type\nMapping from attribute name to a data structure describing and containing a buffer.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:125"
+            "line": " src/davinci-eight/utils/contextProxy.ts:126"
         },
         {
             "message": "Missing item type\nThe buffer containing element indices used in the drawElements command.\nWe keep the index buffer private to avoid unnecessary addRef() and release() calls.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:130"
+            "line": " src/davinci-eight/utils/contextProxy.ts:131"
         },
         {
             "message": "Missing item type\nAn executable command. May be a call to drawElements or drawArrays.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:136"
+            "line": " src/davinci-eight/utils/contextProxy.ts:137"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:141"
+            "line": " src/davinci-eight/utils/contextProxy.ts:142"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:161"
+            "line": " src/davinci-eight/utils/contextProxy.ts:162"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:236"
+            "line": " src/davinci-eight/utils/contextProxy.ts:238"
         },
         {
             "message": "Missing item type\nImplementation of IBufferGeometry coupled to the 'blocks' implementation.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:296"
+            "line": " src/davinci-eight/utils/contextProxy.ts:298"
         },
         {
             "message": "Missing item type\nImplementation of removeContextListener for the kahuna.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:391"
+            "line": " src/davinci-eight/utils/contextProxy.ts:393"
         },
         {
             "message": "Missing item type\nWe must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:424"
+            "line": " src/davinci-eight/utils/contextProxy.ts:426"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:460"
+            "line": " src/davinci-eight/utils/contextProxy.ts:462"
         },
         {
             "message": "Missing item type\nConvenience function for &lt;HTMLCanvasElement&gt;document.getElementById(elementId).",

@@ -11,32 +11,33 @@ define(["require", "exports"], function (require, exports) {
     function isExactMultipleOf(numer, denom) {
         return numer % denom === 0;
     }
-    function checkSize(chunkSize, values) {
-        if (typeof chunkSize === 'number') {
-            if (!isExactMultipleOf(values.length, chunkSize)) {
-                throw new Error("values.length must be an exact multiple of chunkSize");
+    function checkSize(size, values) {
+        if (typeof size === 'number') {
+            if (!isExactMultipleOf(values.length, size)) {
+                throw new Error("values.length must be an exact multiple of size");
             }
         }
         else {
-            throw new Error("chunkSize must be a number");
+            throw new Error("size must be a number");
         }
-        return chunkSize;
+        return size;
     }
     /**
      * @class DrawAttribute
      */
     var DrawAttribute = (function () {
         /**
+         * A convenience class for constructing and validating attribute values used for drawing.
          * @class DrawAttribute
          * @constructor
          * @param values {number[]}
-         * @param chunkSize {number}
+         * @param size {number}
          */
-        function DrawAttribute(values, chunkSize) {
+        function DrawAttribute(values, size) {
             // mustBeArray('values', values)
-            // mustBeInteger('chunkSize', chunkSize)
+            // mustBeInteger('size', size)
             this.values = checkValues(values);
-            this.chunkSize = checkSize(chunkSize, values);
+            this.size = checkSize(size, values);
         }
         return DrawAttribute;
     })();

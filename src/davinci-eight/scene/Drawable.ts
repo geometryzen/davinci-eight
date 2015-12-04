@@ -2,7 +2,6 @@ import simplicesToGeometryMeta = require('../geometries/simplicesToGeometryMeta'
 import IContextProvider = require('../core/IContextProvider')
 import IContextMonitor = require('../core/IContextMonitor')
 import core = require('../core');
-import DrawPrimitive = require('../geometries/DrawPrimitive')
 import GeometryMeta = require('../geometries/GeometryMeta')
 import IDrawable = require('../core/IDrawable')
 import IBufferGeometry = require('../geometries/IBufferGeometry')
@@ -12,6 +11,7 @@ import IUnknownArray = require('../collections/IUnknownArray')
 import GraphicsProgram = require('../materials/GraphicsProgram')
 import mustBeDefined = require('../checks/mustBeDefined')
 import NumberIUnknownMap = require('../collections/NumberIUnknownMap')
+import Primitive = require('../geometries/Primitive')
 import readOnly = require('../i18n/readOnly')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
@@ -38,9 +38,9 @@ class Drawable extends Shareable implements IDrawable {
 
     /**
      * @property primitives
-     * @type {DrawPrimitive[]}
+     * @type {Primitive[]}
      */
-    public primitives: DrawPrimitive[];
+    public primitives: Primitive[];
 
     /**
      * @property graphicsProgram
@@ -73,10 +73,10 @@ class Drawable extends Shareable implements IDrawable {
     /**
      * @class Drawable
      * @constructor
-     * @param primitives {DrawPrimitive[]}
+     * @param primitives {Primitive[]}
      * @param material {IGraphicsProgram}
      */
-    constructor(primitives: DrawPrimitive[], material: IGraphicsProgram) {
+    constructor(primitives: Primitive[], material: IGraphicsProgram) {
         super(LOGGING_NAME)
         this.primitives = primitives
 

@@ -1,8 +1,8 @@
 import CartesianE3 = require('../math/CartesianE3')
-import DrawPrimitive = require('../geometries/DrawPrimitive')
 import IGeometry = require('../geometries/IGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustBeObject = require('../checks/mustBeObject')
+import Primitive = require('../geometries/Primitive')
 import VectorE3 = require('../math/VectorE3')
 
 /**
@@ -65,9 +65,9 @@ class Geometry implements IGeometry<Geometry> {
 
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    toPrimitives(): DrawPrimitive[] {
+    toPrimitives(): Primitive[] {
         console.warn("Geometry.toPrimitives() must be implemented by derived classes.")
         return []
     }

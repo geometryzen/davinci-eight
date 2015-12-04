@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.168.0</em>
+            <em>API Docs for: 2.169.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
@@ -145,6 +146,7 @@
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -252,7 +254,6 @@ import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;)
 import contextProxy = require(&#x27;../utils/contextProxy&#x27;)
 import IContextRenderer = require(&#x27;../renderers/IContextRenderer&#x27;)
 import core = require(&#x27;../core&#x27;)
-import DrawPrimitive = require(&#x27;../geometries/DrawPrimitive&#x27;)
 import IBuffer = require(&#x27;../core/IBuffer&#x27;)
 import IContextCommand = require(&#x27;../core/IContextCommand&#x27;)
 import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
@@ -265,6 +266,7 @@ import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
 import mustBeFunction = require(&#x27;../checks/mustBeFunction&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 import mustSatisfy = require(&#x27;../checks/mustSatisfy&#x27;)
+import Primitive = require(&#x27;../geometries/Primitive&#x27;)
 import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import Scene = require(&#x27;../scene/Scene&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
@@ -424,11 +426,11 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
 
     /**
      * @method createBufferGeometry
-     * @param primitive {DrawPrimitive}
+     * @param primitive {Primitive}
      * @param [usage] {number}
      * @return {IBufferGeometry}
      */
-    createBufferGeometry(primitive: DrawPrimitive, usage?: number): IBufferGeometry {
+    createBufferGeometry(primitive: Primitive, usage?: number): IBufferGeometry {
         return this._kahuna.createBufferGeometry(primitive, usage)
     }
 

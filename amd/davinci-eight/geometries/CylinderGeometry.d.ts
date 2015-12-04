@@ -1,7 +1,7 @@
 import AxialGeometry = require('../geometries/AxialGeometry');
 import VectorE3 = require('../math/VectorE3');
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import IAxialGeometry = require('../geometries/IAxialGeometry');
+import Primitive = require('../geometries/Primitive');
 /**
  * @class CylinderGeometry
  */
@@ -33,7 +33,7 @@ declare class CylinderGeometry extends AxialGeometry implements IAxialGeometry<C
     constructor(axis: VectorE3, sliceStart: VectorE3);
     setAxis(axis: VectorE3): CylinderGeometry;
     setPosition(position: VectorE3): CylinderGeometry;
-    toPrimitives(): DrawPrimitive[];
+    toPrimitives(): Primitive[];
     enableTextureCoords(enable: boolean): CylinderGeometry;
 }
 export = CylinderGeometry;

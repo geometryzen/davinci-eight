@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/DrawPrimitive', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, DrawPrimitive, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
+define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, expectArg, initWebGL, isDefined, isUndefined, mustBeArray, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Drawable';
     var LOGGING_NAME_KAHUNA = 'ContextKahuna';
@@ -139,6 +139,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
         });
         return ElementsBlockAttrib;
     })(Shareable);
+    // FIXME: usage must be defined as an enumeration like DrawMode
     function isBufferUsage(usage) {
         mustBeNumber('usage', usage);
         switch (usage) {
@@ -372,7 +373,10 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
              *
              */
             createBufferGeometry: function (primitive, usage) {
-                expectArg('primitive', primitive).toSatisfy(primitive instanceof DrawPrimitive, "primitive must be an instance of DrawPrimitive");
+                mustBeObject('primitive', primitive);
+                mustBeInteger('primitive.mode', primitive.mode);
+                mustBeArray('primitive.indices', primitive.indices);
+                mustBeObject('primitive.attributes', primitive.attributes);
                 if (isDefined(usage)) {
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
                 }
@@ -408,7 +412,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
                     var data = vertexAttrib.values;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
                     // TODO: stride = 0 and offset = 0
-                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.chunkSize, false, 0, 0);
+                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
                     attributes.put(name_1, attribute);
                     attribute.release();
                     buffer.unbind();

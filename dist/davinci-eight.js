@@ -12220,10 +12220,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-11-30',
+        LAST_MODIFIED: '2015-12-03',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.168.0'
+        VERSION: '2.169.0'
     };
     return core;
 });
@@ -12702,32 +12702,33 @@ define('davinci-eight/geometries/DrawAttribute',["require", "exports"], function
     function isExactMultipleOf(numer, denom) {
         return numer % denom === 0;
     }
-    function checkSize(chunkSize, values) {
-        if (typeof chunkSize === 'number') {
-            if (!isExactMultipleOf(values.length, chunkSize)) {
-                throw new Error("values.length must be an exact multiple of chunkSize");
+    function checkSize(size, values) {
+        if (typeof size === 'number') {
+            if (!isExactMultipleOf(values.length, size)) {
+                throw new Error("values.length must be an exact multiple of size");
             }
         }
         else {
-            throw new Error("chunkSize must be a number");
+            throw new Error("size must be a number");
         }
-        return chunkSize;
+        return size;
     }
     /**
      * @class DrawAttribute
      */
     var DrawAttribute = (function () {
         /**
+         * A convenience class for constructing and validating attribute values used for drawing.
          * @class DrawAttribute
          * @constructor
          * @param values {number[]}
-         * @param chunkSize {number}
+         * @param size {number}
          */
-        function DrawAttribute(values, chunkSize) {
+        function DrawAttribute(values, size) {
             // mustBeArray('values', values)
-            // mustBeInteger('chunkSize', chunkSize)
+            // mustBeInteger('size', size)
             this.values = checkValues(values);
-            this.chunkSize = checkSize(chunkSize, values);
+            this.size = checkSize(size, values);
         }
         return DrawAttribute;
     })();
@@ -12745,14 +12746,14 @@ define('davinci-eight/geometries/DrawPrimitive',["require", "exports", '../check
          * @constructor
          * @param mode {DrawMode} <p>The primitive type.</p>
          * @param indices {number[]} <p>A list of index into the attributes</p>
-         * @param attributes {{[name:string]: DrawAttribute}}
+         * @param attributes {{[name:string]: Attribute}}
          */
         function DrawPrimitive(mode, indices, attributes) {
             // TODO: Looks like a DrawAttributeMap here (implementation only)
             /**
-             * A map from attribute name to <code>DrawAttribute</code>.
+             * A map from attribute name to <code>Attribute</code>.
              * @property attributes
-             * @type {{[name:string]: DrawAttribute}}
+             * @type {{[name:string]: Attribute}}
              */
             this.attributes = {};
             this.mode = mustBeInteger('mode', mode);
@@ -17729,7 +17730,7 @@ define('davinci-eight/geometries/computeUniqueVertices',["require", "exports"], 
     return computeUniqueVertices;
 });
 
-define('davinci-eight/geometries/simplicesToDrawPrimitive',["require", "exports", '../collections/copyToArray', '../geometries/dataFromVectorN', '../core/DrawMode', '../geometries/simplicesToGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/DrawPrimitive', '../geometries/DrawAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, copyToArray, dataFromVectorN, DrawMode, simplicesToGeometryMeta, computeUniqueVertices, DrawPrimitive, DrawAttribute, expectArg, Simplex, VectorN) {
+define('davinci-eight/geometries/simplicesToDrawPrimitive',["require", "exports", '../collections/copyToArray', '../geometries/dataFromVectorN', '../geometries/DrawAttribute', '../core/DrawMode', '../geometries/DrawPrimitive', '../geometries/simplicesToGeometryMeta', '../geometries/computeUniqueVertices', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, copyToArray, dataFromVectorN, DrawAttribute, DrawMode, DrawPrimitive, simplicesToGeometryMeta, computeUniqueVertices, expectArg, Simplex, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {
@@ -17853,12 +17854,12 @@ define('davinci-eight/topologies/Topology',["require", "exports", '../geometries
             for (var namesIndex = 0; namesIndex < names.length; namesIndex++) {
                 var name = names[namesIndex];
                 var data = dataFromVectorN(vertex.attributes[name]);
-                var chunkSize = data.length;
+                var size = data.length;
                 var attrib = attribs[name];
                 if (!attrib) {
-                    attrib = attribs[name] = new DrawAttribute([], chunkSize);
+                    attrib = attribs[name] = new DrawAttribute([], size);
                 }
-                for (var coordIndex = 0; coordIndex < chunkSize; coordIndex++) {
+                for (var coordIndex = 0; coordIndex < size; coordIndex++) {
                     attrib.values.push(data[coordIndex]);
                 }
             }
@@ -17889,7 +17890,7 @@ define('davinci-eight/topologies/Topology',["require", "exports", '../geometries
          * This may involve creating some redundancy in order to get WebGL efficiency.
          * Thus, we should regard the topology as normalized
          * @method toDrawPrimitive
-         * @return {DrawPrimitive}
+         * @return {Primitive}
          */
         Topology.prototype.toDrawPrimitive = function () {
             return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices));
@@ -18591,7 +18592,7 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
         /**
          * @class Drawable
          * @constructor
-         * @param primitives {DrawPrimitive[]}
+         * @param primitives {Primitive[]}
          * @param material {IGraphicsProgram}
          */
         function Drawable(primitives, material) {
@@ -19298,7 +19299,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../geometries/DrawPrimitive', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, DrawPrimitive, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
+define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawMode, core, expectArg, initWebGL, isDefined, isUndefined, mustBeArray, mustBeInteger, mustBeNumber, mustBeObject, mustBeString, randumbInteger, refChange, Shareable, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Drawable';
     var LOGGING_NAME_KAHUNA = 'ContextKahuna';
@@ -19434,6 +19435,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         });
         return ElementsBlockAttrib;
     })(Shareable);
+    // FIXME: usage must be defined as an enumeration like DrawMode
     function isBufferUsage(usage) {
         mustBeNumber('usage', usage);
         switch (usage) {
@@ -19667,7 +19669,10 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
              *
              */
             createBufferGeometry: function (primitive, usage) {
-                expectArg('primitive', primitive).toSatisfy(primitive instanceof DrawPrimitive, "primitive must be an instance of DrawPrimitive");
+                mustBeObject('primitive', primitive);
+                mustBeInteger('primitive.mode', primitive.mode);
+                mustBeArray('primitive.indices', primitive.indices);
+                mustBeObject('primitive.attributes', primitive.attributes);
                 if (isDefined(usage)) {
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
                 }
@@ -19703,7 +19708,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     var data = vertexAttrib.values;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
                     // TODO: stride = 0 and offset = 0
-                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.chunkSize, false, 0, 0);
+                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
                     attributes.put(name_1, attribute);
                     attribute.release();
                     buffer.unbind();
@@ -19983,7 +19988,7 @@ define('davinci-eight/scene/GraphicsContext',["require", "exports", '../renderer
         };
         /**
          * @method createBufferGeometry
-         * @param primitive {DrawPrimitive}
+         * @param primitive {Primitive}
          * @param [usage] {number}
          * @return {IBufferGeometry}
          */
@@ -20311,7 +20316,7 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Carte
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         Geometry.prototype.toPrimitives = function () {
             console.warn("Geometry.toPrimitives() must be implemented by derived classes.");
@@ -20503,7 +20508,7 @@ define('davinci-eight/geometries/SimplexGeometry',["require", "exports", '../mat
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         SimplexGeometry.prototype.toPrimitives = function () {
             if (this.isModified()) {
@@ -20804,7 +20809,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GridTopology, GraphicsProgramSymbols, R2, R3) {
+define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GraphicsProgramSymbols, GridTopology, R2, R3) {
     /**
      * @class ConeGeometry
      */
@@ -20856,7 +20861,7 @@ define('davinci-eight/geometries/ConeGeometry',["require", "exports", '../geomet
         };
         /**
          * @method tPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         ConeGeometry.prototype.toPrimitives = function () {
             var topo = new GridTopology(this.thetaSegments, 1);
@@ -20901,7 +20906,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../math/SpinG3', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GridTopology, SpinG3, GraphicsProgramSymbols, R2, R3) {
+define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GraphicsProgramSymbols, GridTopology, SpinG3, R2, R3) {
     /**
      * @class CylinderGeometry
      */
@@ -20979,7 +20984,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/RingGeometry',["require", "exports", '../topologies/GridTopology', '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../math/R2', '../math/G3'], function (require, exports, GridTopology, AxialGeometry, GraphicsProgramSymbols, R2, G3) {
+define('davinci-eight/geometries/RingGeometry',["require", "exports", '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../geometries/AxialGeometry', '../math/R2', '../math/G3'], function (require, exports, GraphicsProgramSymbols, GridTopology, AxialGeometry, R2, G3) {
     /**
      * @class RingGeometry
      */
@@ -21031,7 +21036,7 @@ define('davinci-eight/geometries/RingGeometry',["require", "exports", '../topolo
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         RingGeometry.prototype.toPrimitives = function () {
             var uSegments = this.thetaSegments;
@@ -21135,7 +21140,7 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         ArrowGeometry.prototype.toPrimitives = function () {
             var heightShaft = 1 - this.heightCone;
@@ -21511,7 +21516,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeNumber', '../math/R3', '../core/GraphicsProgramSymbols', '../math/R2'], function (require, exports, Euclidean3, GridTopology, Geometry, mustBeNumber, R3, GraphicsProgramSymbols, R2) {
+define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../core/GraphicsProgramSymbols', '../checks/mustBeNumber', '../math/R3', '../math/R2'], function (require, exports, Euclidean3, GridTopology, Geometry, GraphicsProgramSymbols, mustBeNumber, R3, R2) {
     function side(basis, uSegments, vSegments) {
         var normal = R3.copy(basis[0]).cross(basis[1]).direction();
         var aNeg = R3.copy(basis[0]).scale(-0.5);
@@ -21624,7 +21629,7 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../math
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         CuboidGeometry.prototype.toPrimitives = function () {
             this.regenerate();
@@ -25101,9 +25106,9 @@ define('davinci-eight/materials/GraphicsProgramBuilder',["require", "exports", '
         for (var i = 0; i < keysLength; i++) {
             var key = keys[i];
             var attribute = values[key];
-            var chunkSize = mustBeInteger('chunkSize', attribute.chunkSize);
+            var size = mustBeInteger('size', attribute.size);
             var varName = getAttribVarName(attribute, key);
-            result[varName] = { glslType: glslAttribType(key, chunkSize) };
+            result[varName] = { glslType: glslAttribType(key, size) };
         }
         return result;
     }
@@ -25134,7 +25139,7 @@ define('davinci-eight/materials/GraphicsProgramBuilder',["require", "exports", '
          * The same builder instance may be reused to create other programs.
          * @class GraphicsProgramBuilder
          * @constructor
-         * @param [primitive] {DrawPrimitive}
+         * @param [primitive] {Primitive}
          */
         function GraphicsProgramBuilder(primitive) {
             /**
@@ -25153,22 +25158,22 @@ define('davinci-eight/materials/GraphicsProgramBuilder',["require", "exports", '
                 for (var i = 0, iLength = keys.length; i < iLength; i++) {
                     var key = keys[i];
                     var attribute = attributes[key];
-                    this.attribute(key, attribute.chunkSize);
+                    this.attribute(key, attribute.size);
                 }
             }
         }
         /**
-         * Declares that the material should have an `attribute` with the specified name and chunkSize.
+         * Declares that the material should have an `attribute` with the specified name and size.
          * @method attribute
          * @param name {string}
-         * @param chunkSize {number}
+         * @param size {number}
          * @return {GraphicsProgramBuilder}
          * @chainable
          */
-        GraphicsProgramBuilder.prototype.attribute = function (name, chunkSize) {
+        GraphicsProgramBuilder.prototype.attribute = function (name, size) {
             mustBeString('name', name);
-            mustBeInteger('chunkSize', chunkSize);
-            this.aMeta[name] = { chunkSize: chunkSize };
+            mustBeInteger('size', size);
+            this.aMeta[name] = { size: size };
             return this;
         };
         /**
@@ -25195,7 +25200,7 @@ define('davinci-eight/materials/GraphicsProgramBuilder',["require", "exports", '
          */
         GraphicsProgramBuilder.prototype.build = function (contexts) {
             // FIXME: Push this calculation down into the functions.
-            // Then the data structures are based on chunkSize.
+            // Then the data structures are based on size.
             // uniforms based on numeric type?
             var aParams = computeAttribParams(this.aMeta);
             var vColor = vColorRequired(aParams, this.uParams);
@@ -25229,11 +25234,11 @@ define('davinci-eight/materials/LineMaterial',["require", "exports", '../checks/
             if (monitors === void 0) { monitors = []; }
             if (parameters === void 0) { parameters = {}; }
             _super.call(this, monitors, 'LineMaterial');
-            if (isDefined(parameters.chunkSize)) {
-                this.chunkSize = mustBeInteger('parameters.chunkSize', parameters.chunkSize);
+            if (isDefined(parameters.size)) {
+                this.size = mustBeInteger('parameters.size', parameters.size);
             }
             else {
-                this.chunkSize = 3;
+                this.size = 3;
             }
         }
         /**
@@ -25243,7 +25248,7 @@ define('davinci-eight/materials/LineMaterial',["require", "exports", '../checks/
          */
         LineMaterial.prototype.createGraphicsProgram = function () {
             var smb = new GraphicsProgramBuilder();
-            smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.chunkSize);
+            smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.size);
             smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
             smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
             smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');

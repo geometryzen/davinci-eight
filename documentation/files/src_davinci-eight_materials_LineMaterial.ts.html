@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.168.0</em>
+            <em>API Docs for: 2.169.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
@@ -145,6 +146,7 @@
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -260,10 +262,10 @@ import GraphicsProgramSymbols = require(&#x27;../core/GraphicsProgramSymbols&#x2
  */
 class LineMaterial extends GraphicsProgram {
     /**
-     * @property chunkSize
+     * @property size
      * @type {number}
      */
-    public chunkSize: number;
+    public size: number;
 
     /**
      * @class LineMaterial
@@ -273,11 +275,11 @@ class LineMaterial extends GraphicsProgram {
      */
     constructor(monitors: IContextMonitor[] = [], parameters: LineMaterialParameters = {}) {
         super(monitors, &#x27;LineMaterial&#x27;)
-        if (isDefined(parameters.chunkSize)) {
-            this.chunkSize = mustBeInteger(&#x27;parameters.chunkSize&#x27;, parameters.chunkSize)
+        if (isDefined(parameters.size)) {
+            this.size = mustBeInteger(&#x27;parameters.size&#x27;, parameters.size)
         }
         else {
-            this.chunkSize = 3;
+            this.size = 3;
         }
     }
 
@@ -289,7 +291,7 @@ class LineMaterial extends GraphicsProgram {
     protected createGraphicsProgram(): IGraphicsProgram {
         let smb = new GraphicsProgramBuilder();
 
-        smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.chunkSize);
+        smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.size);
 
         smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, &#x27;vec3&#x27;);
 

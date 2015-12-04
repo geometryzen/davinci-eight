@@ -1,4 +1,4 @@
-define(["require", "exports", '../collections/copyToArray', '../geometries/dataFromVectorN', '../core/DrawMode', '../geometries/simplicesToGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/DrawPrimitive', '../geometries/DrawAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, copyToArray, dataFromVectorN, DrawMode, simplicesToGeometryMeta, computeUniqueVertices, DrawPrimitive, DrawAttribute, expectArg, Simplex, VectorN) {
+define(["require", "exports", '../collections/copyToArray', '../geometries/dataFromVectorN', '../geometries/DrawAttribute', '../core/DrawMode', '../geometries/DrawPrimitive', '../geometries/simplicesToGeometryMeta', '../geometries/computeUniqueVertices', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, copyToArray, dataFromVectorN, DrawAttribute, DrawMode, DrawPrimitive, simplicesToGeometryMeta, computeUniqueVertices, expectArg, Simplex, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {

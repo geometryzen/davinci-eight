@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../math/SpinG3', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GridTopology, SpinG3, GraphicsProgramSymbols, R2, R3) {
+define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GraphicsProgramSymbols, GridTopology, SpinG3, R2, R3) {
     /**
      * @class CylinderGeometry
      */

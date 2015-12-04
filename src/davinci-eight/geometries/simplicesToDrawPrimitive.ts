@@ -1,12 +1,14 @@
+import Attribute = require('../geometries/Attribute');
 import copyToArray = require('../collections/copyToArray')
 import dataFromVectorN = require('../geometries/dataFromVectorN')
+import DrawAttribute = require('../geometries/DrawAttribute');
 import DrawMode = require('../core/DrawMode')
+import DrawPrimitive = require('../geometries/DrawPrimitive');
 import simplicesToGeometryMeta = require('../geometries/simplicesToGeometryMeta');
 import computeUniqueVertices = require('../geometries/computeUniqueVertices');
-import DrawPrimitive = require('../geometries/DrawPrimitive');
-import DrawAttribute = require('../geometries/DrawAttribute');
 import expectArg = require('../checks/expectArg');
 import GeometryMeta = require('../geometries/GeometryMeta');
+import Primitive = require('../geometries/Primitive');
 import Simplex = require('../geometries/Simplex');
 import VectorN = require('../math/VectorN');
 import Vertex = require('../geometries/Vertex');
@@ -49,7 +51,7 @@ function concat(a: number[], b: number[]): number[] {
     return a.concat(b);
 }
 
-function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): DrawPrimitive {
+function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): Primitive {
     expectArg('simplices', simplices).toBeObject()
 
     var actuals: GeometryMeta = simplicesToGeometryMeta(simplices);
@@ -107,7 +109,7 @@ function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryM
     }
 
     // Copy accumulated attribute arrays to output data structure.
-    var attributes: { [name: string]: DrawAttribute } = {};
+    var attributes: { [name: string]: Attribute } = {};
     for (k = 0; k < keysLen; k++) {
         let output = outputs[k]
         let data = output.data

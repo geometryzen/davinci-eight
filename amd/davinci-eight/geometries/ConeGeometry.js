@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialGeometry', '../topologies/GridTopology', '../core/GraphicsProgramSymbols', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GridTopology, GraphicsProgramSymbols, R2, R3) {
+define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GraphicsProgramSymbols, GridTopology, R2, R3) {
     /**
      * @class ConeGeometry
      */
@@ -55,7 +55,7 @@ define(["require", "exports", '../geometries/AxialGeometry', '../topologies/Grid
         };
         /**
          * @method tPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         ConeGeometry.prototype.toPrimitives = function () {
             var topo = new GridTopology(this.thetaSegments, 1);

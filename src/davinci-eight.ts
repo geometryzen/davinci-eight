@@ -49,7 +49,9 @@ import Curve = require('davinci-eight/curves/Curve')
 // devices
 import Keyboard = require('davinci-eight/devices/Keyboard')
 // geometries
+import Attribute = require('davinci-eight/geometries/Attribute')
 import DrawAttribute = require('davinci-eight/geometries/DrawAttribute')
+import Primitive = require('davinci-eight/geometries/Primitive')
 import DrawPrimitive = require('davinci-eight/geometries/DrawPrimitive')
 import Simplex = require('davinci-eight/geometries/Simplex')
 import Vertex = require('davinci-eight/geometries/Vertex')

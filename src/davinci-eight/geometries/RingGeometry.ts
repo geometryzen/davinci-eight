@@ -1,13 +1,13 @@
-import VectorE3 = require('../math/VectorE3')
-import DrawPrimitive = require('../geometries/DrawPrimitive')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import GridTopology = require('../topologies/GridTopology')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import AxialGeometry = require('../geometries/AxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
+import Primitive = require('../geometries/Primitive')
 import R1 = require('../math/R1')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import R2 = require('../math/R2')
 import G3 = require('../math/G3')
+import VectorE3 = require('../math/VectorE3')
 
 /**
  * @class RingGeometry
@@ -59,9 +59,9 @@ class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry>
     }
     /**
      * @method toPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    toPrimitives(): DrawPrimitive[] {
+    toPrimitives(): Primitive[] {
         let uSegments = this.thetaSegments
         let vSegments = 1
         let topo = new GridTopology(uSegments, vSegments)

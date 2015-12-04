@@ -16,10 +16,10 @@ import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
  */
 class LineMaterial extends GraphicsProgram {
     /**
-     * @property chunkSize
+     * @property size
      * @type {number}
      */
-    public chunkSize: number;
+    public size: number;
 
     /**
      * @class LineMaterial
@@ -29,11 +29,11 @@ class LineMaterial extends GraphicsProgram {
      */
     constructor(monitors: IContextMonitor[] = [], parameters: LineMaterialParameters = {}) {
         super(monitors, 'LineMaterial')
-        if (isDefined(parameters.chunkSize)) {
-            this.chunkSize = mustBeInteger('parameters.chunkSize', parameters.chunkSize)
+        if (isDefined(parameters.size)) {
+            this.size = mustBeInteger('parameters.size', parameters.size)
         }
         else {
-            this.chunkSize = 3;
+            this.size = 3;
         }
     }
 
@@ -45,7 +45,7 @@ class LineMaterial extends GraphicsProgram {
     protected createGraphicsProgram(): IGraphicsProgram {
         let smb = new GraphicsProgramBuilder();
 
-        smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.chunkSize);
+        smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.size);
 
         smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
 

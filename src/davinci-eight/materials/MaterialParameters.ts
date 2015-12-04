@@ -3,12 +3,12 @@
  */
 interface MaterialParameters {
     /**
-     * @property chunkSize
+     * @property size
      * @type {number}
      * @optional
      * @default 3
      */
-    chunkSize?: number;
+    size?: number;
 }
 
 export = MaterialParameters

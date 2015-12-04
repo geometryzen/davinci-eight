@@ -60,7 +60,7 @@ define(["require", "exports", '../geometries/ConeGeometry', '../geometries/Cylin
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         ArrowGeometry.prototype.toPrimitives = function () {
             var heightShaft = 1 - this.heightCone;

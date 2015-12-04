@@ -1,10 +1,10 @@
 import AxialGeometry = require('../geometries/AxialGeometry')
 import VectorE3 = require('../math/VectorE3')
-import DrawPrimitive = require('../geometries/DrawPrimitive')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import GridTopology = require('../topologies/GridTopology')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
+import Primitive = require('../geometries/Primitive')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
 
@@ -58,9 +58,9 @@ class ConeGeometry extends AxialGeometry implements IAxialGeometry<ConeGeometry>
     }
     /**
      * @method tPrimitives
-     * @return {DrawPrimitive[]}
+     * @return {Primitive[]}
      */
-    public toPrimitives(): DrawPrimitive[] {
+    public toPrimitives(): Primitive[] {
         var topo = new GridTopology(this.thetaSegments, 1)
         var uLength = topo.uLength
         var uSegments = uLength - 1

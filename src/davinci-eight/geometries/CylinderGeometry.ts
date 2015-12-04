@@ -1,13 +1,13 @@
 import AxialGeometry = require('../geometries/AxialGeometry')
 import VectorE3 = require('../math/VectorE3')
-import DrawPrimitive = require('../geometries/DrawPrimitive')
+import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
 import GridTopology = require('../topologies/GridTopology')
 import IAxialGeometry = require('../geometries/IAxialGeometry')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustBeNumber = require('../checks/mustBeNumber')
 import R1 = require('../math/R1')
 import SpinG3 = require('../math/SpinG3')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
+import Primitive = require('../geometries/Primitive')
 import R2 = require('../math/R2')
 import R3 = require('../math/R3')
 
@@ -50,7 +50,7 @@ class CylinderGeometry extends AxialGeometry implements IAxialGeometry<CylinderG
         super.setPosition(position)
         return this
     }
-    toPrimitives(): DrawPrimitive[] {
+    toPrimitives(): Primitive[] {
         let uSegments = this.thetaSegments
         let vSegments = 1
         let topo = new GridTopology(uSegments, vSegments)

@@ -1,3 +1,4 @@
+import Attribute = require('../geometries/Attribute')
 import mustBeArray = require('../checks/mustBeArray')
 import mustBeInteger = require('../checks/mustBeInteger')
 
@@ -16,46 +17,49 @@ function isExactMultipleOf(numer: number, denom: number): boolean {
     return numer % denom === 0
 }
 
-function checkSize(chunkSize: number, values: number[]): number {
-    if (typeof chunkSize === 'number') {
-        if (!isExactMultipleOf(values.length, chunkSize)) {
-            throw new Error("values.length must be an exact multiple of chunkSize")
+function checkSize(size: number, values: number[]): number {
+    if (typeof size === 'number') {
+        if (!isExactMultipleOf(values.length, size)) {
+            throw new Error("values.length must be an exact multiple of size")
         }
     }
     else {
-        throw new Error("chunkSize must be a number")
+        throw new Error("size must be a number")
     }
-    return chunkSize
+    return size
 }
 
 /**
  * @class DrawAttribute
  */
-class DrawAttribute {
+class DrawAttribute implements Attribute {
     /**
      * The values of the attribute.
      * @property values
      * @type {number[]}
      */
     public values: number[];
+
     /**
-     * The chunking chunkSize of the attribute.
-     * The chunking chunkSize is invariant given the values and is used to describe the vertex attribute pointer.
-     * @property chunkSize
+     * The chunking size of the attribute.
+     * The chunking size is invariant given the values and is used to describe the vertex attribute pointer.
+     * @property size
      * @type {number}
      */
-    public chunkSize: number;
+    public size: number;
+
     /**
+     * A convenience class for constructing and validating attribute values used for drawing.
      * @class DrawAttribute
      * @constructor
      * @param values {number[]}
-     * @param chunkSize {number}
+     * @param size {number}
      */
-    constructor(values: number[], chunkSize: number) {
+    constructor(values: number[], size: number) {
         // mustBeArray('values', values)
-        // mustBeInteger('chunkSize', chunkSize)
+        // mustBeInteger('size', size)
         this.values = checkValues(values)
-        this.chunkSize = checkSize(chunkSize, values)
+        this.size = checkSize(size, values)
     }
 }
 export = DrawAttribute;

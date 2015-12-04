@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../checks/mustBeNumber', '../math/R3', '../core/GraphicsProgramSymbols', '../math/R2'], function (require, exports, Euclidean3, GridTopology, Geometry, mustBeNumber, R3, GraphicsProgramSymbols, R2) {
+define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology', '../geometries/Geometry', '../core/GraphicsProgramSymbols', '../checks/mustBeNumber', '../math/R3', '../math/R2'], function (require, exports, Euclidean3, GridTopology, Geometry, GraphicsProgramSymbols, mustBeNumber, R3, R2) {
     function side(basis, uSegments, vSegments) {
         var normal = R3.copy(basis[0]).cross(basis[1]).direction();
         var aNeg = R3.copy(basis[0]).scale(-0.5);
@@ -116,7 +116,7 @@ define(["require", "exports", '../math/Euclidean3', '../topologies/GridTopology'
         };
         /**
          * @method toPrimitives
-         * @return {DrawPrimitive[]}
+         * @return {Primitive[]}
          */
         CuboidGeometry.prototype.toPrimitives = function () {
             this.regenerate();

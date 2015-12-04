@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.168.0</em>
+            <em>API Docs for: 2.169.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/Attribute.html">Attribute</a></li>
                                 <li><a href="../classes/AxialGeometry.html">AxialGeometry</a></li>
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
@@ -145,6 +146,7 @@
                                 <li><a href="../classes/PointSizeFacet.html">PointSizeFacet</a></li>
                                 <li><a href="../classes/PointTopology.html">PointTopology</a></li>
                                 <li><a href="../classes/PolyhedronSimplexGeometry.html">PolyhedronSimplexGeometry</a></li>
+                                <li><a href="../classes/Primitive.html">Primitive</a></li>
                                 <li><a href="../classes/Pseudo.html">Pseudo</a></li>
                                 <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/R1.html">R1</a></li>
@@ -246,7 +248,6 @@ import simplicesToGeometryMeta = require(&#x27;../geometries/simplicesToGeometry
 import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
 import IContextMonitor = require(&#x27;../core/IContextMonitor&#x27;)
 import core = require(&#x27;../core&#x27;);
-import DrawPrimitive = require(&#x27;../geometries/DrawPrimitive&#x27;)
 import GeometryMeta = require(&#x27;../geometries/GeometryMeta&#x27;)
 import IDrawable = require(&#x27;../core/IDrawable&#x27;)
 import IBufferGeometry = require(&#x27;../geometries/IBufferGeometry&#x27;)
@@ -256,6 +257,7 @@ import IUnknownArray = require(&#x27;../collections/IUnknownArray&#x27;)
 import GraphicsProgram = require(&#x27;../materials/GraphicsProgram&#x27;)
 import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
 import NumberIUnknownMap = require(&#x27;../collections/NumberIUnknownMap&#x27;)
+import Primitive = require(&#x27;../geometries/Primitive&#x27;)
 import readOnly = require(&#x27;../i18n/readOnly&#x27;)
 import refChange = require(&#x27;../utils/refChange&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
@@ -282,9 +284,9 @@ class Drawable extends Shareable implements IDrawable {
 
     /**
      * @property primitives
-     * @type {DrawPrimitive[]}
+     * @type {Primitive[]}
      */
-    public primitives: DrawPrimitive[];
+    public primitives: Primitive[];
 
     /**
      * @property graphicsProgram
@@ -317,10 +319,10 @@ class Drawable extends Shareable implements IDrawable {
     /**
      * @class Drawable
      * @constructor
-     * @param primitives {DrawPrimitive[]}
+     * @param primitives {Primitive[]}
      * @param material {IGraphicsProgram}
      */
-    constructor(primitives: DrawPrimitive[], material: IGraphicsProgram) {
+    constructor(primitives: Primitive[], material: IGraphicsProgram) {
         super(LOGGING_NAME)
         this.primitives = primitives
 

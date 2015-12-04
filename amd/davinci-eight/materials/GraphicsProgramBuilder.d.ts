@@ -1,6 +1,6 @@
-import DrawPrimitive = require('../geometries/DrawPrimitive');
 import GraphicsProgram = require('../materials/GraphicsProgram');
 import IContextMonitor = require('../core/IContextMonitor');
+import Primitive = require('../geometries/Primitive');
 /**
  * @class GraphicsProgramBuilder
  */
@@ -26,18 +26,18 @@ declare class GraphicsProgramBuilder {
      * The same builder instance may be reused to create other programs.
      * @class GraphicsProgramBuilder
      * @constructor
-     * @param [primitive] {DrawPrimitive}
+     * @param [primitive] {Primitive}
      */
-    constructor(primitive?: DrawPrimitive);
+    constructor(primitive?: Primitive);
     /**
-     * Declares that the material should have an `attribute` with the specified name and chunkSize.
+     * Declares that the material should have an `attribute` with the specified name and size.
      * @method attribute
      * @param name {string}
-     * @param chunkSize {number}
+     * @param size {number}
      * @return {GraphicsProgramBuilder}
      * @chainable
      */
-    attribute(name: string, chunkSize: number): GraphicsProgramBuilder;
+    attribute(name: string, size: number): GraphicsProgramBuilder;
     /**
      * Declares that the material should have a `uniform` with the specified name and type.
      * @method uniform
