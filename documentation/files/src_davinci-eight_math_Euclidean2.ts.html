@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.169.0</em>
+            <em>API Docs for: 2.170.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -1017,18 +1017,22 @@ class Euclidean2 implements ImmutableMeasure&lt;Euclidean2&gt;, GeometricE2, Geo
     /**
      * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
      * @method magnitude
-     * @return {number}
+     * @return {Euclidean2}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm())
+    magnitude(): Euclidean2 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits())
     }
 
     norm(): Euclidean2 {
-        return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
+        return new Euclidean2(this.magnitudeSansUnits(), 0, 0, 0, this.uom);
     }
 
     quad(): Euclidean2 {
-        return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+        return this.squaredNorm();
     }
 
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
@@ -1037,8 +1041,19 @@ class Euclidean2 implements ImmutableMeasure&lt;Euclidean2&gt;, GeometricE2, Geo
         return new Euclidean2(0, x, y, 0, this.uom);
     }
 
-    squaredNorm(): number {
-        return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
+    public squaredNorm(): Euclidean2 {
+        return new Euclidean2(this.squaredNormSansUnits(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+    }
+
+    /**
+     * Intentionally undocumented.
+     */
+    public squaredNormSansUnits(): number {
+        const α = this.α;
+        const x = this.x;
+        const y = this.y;
+        const β = this.β;
+        return α * α + x * x + y * y + β * β;
     }
 
     /**

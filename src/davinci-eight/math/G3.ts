@@ -731,10 +731,14 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {G3}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm());
+    magnitude(): G3 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits());
     }
 
     /**
@@ -793,7 +797,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     */
     norm(): G3 {
         // FIXME: TODO
-        this.α = this.magnitude()
+        this.α = this.magnitudeSansUnits()
         this.yz = 0
         this.zx = 0
         this.xy = 0
@@ -810,7 +814,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      */
     direction(): G3 {
         // The squaredNorm is the squared norm.
-        let norm = this.magnitude()
+        let norm = this.magnitudeSansUnits()
         this.α = this.α / norm
         this.x = this.x / norm
         this.y = this.y / norm
@@ -849,22 +853,27 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     * @chainable
     */
     quad(): G3 {
+        return this.squaredNorm();
+    }
+
+    /**
+     * Computes the <em>squared norm</em> of this multivector.
+     * @method squaredNorm
+     * @return {G3} <code>this * conj(this)</code>
+     */
+    squaredNorm(): G3 {
         // FIXME: TODO
-        this.α = this.squaredNorm()
+        this.α = this.squaredNormSansUnits()
         this.yz = 0
         this.zx = 0
         this.xy = 0
         return this
     }
 
-    /**
-     * Computes the <em>squared norm</em> of this multivector.
-     * @method squaredNorm
-     * @return {number} <code>this * conj(this)</code>
-     */
-    squaredNorm(): number {
+    squaredNormSansUnits(): number {
         return squaredNormG3(this)
     }
+
     /**
      * <p>
      * <code>this ⟼ - n * this * n</code>

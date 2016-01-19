@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.169.0</em>
+            <em>API Docs for: 2.170.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -1487,7 +1487,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      */
     inv(): Euclidean3 {
         // FIXME: This is not the definition above.
-        return this.rev().divByScalar(this.squaredNorm())
+        return this.rev().divByScalar(this.squaredNormSansUnits())
     }
 
     /**
@@ -1502,10 +1502,14 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
     /**
      * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
      * @method magnitude
-     * @return {number}
+     * @return {Euclidean3}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm())
+    magnitude(): Euclidean3 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits())
     }
 
     /**
@@ -1514,7 +1518,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @return {Euclidean3}
      */
     norm(): Euclidean3 {
-        return new Euclidean3(this.magnitude(), 0, 0, 0, 0, 0, 0, 0, this.uom)
+        return new Euclidean3(this.magnitudeSansUnits(), 0, 0, 0, 0, 0, 0, 0, this.uom)
     }
 
     /**
@@ -1523,7 +1527,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @return {Euclidean3}
      */
     quad(): Euclidean3 {
-        return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        return this.squaredNorm();
     }
 
     /**
@@ -1542,9 +1546,13 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
 
     /**
      * @method squaredNorm
-     * @return {number}
+     * @return {Euclidean3}
      */
-    squaredNorm(): number {
+    squaredNorm(): Euclidean3 {
+        return new Euclidean3(this.squaredNormSansUnits(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+    }
+
+    squaredNormSansUnits(): number {
         return squaredNormG3(this)
     }
 

@@ -430,8 +430,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * @chainable
      */
     direction(): G2 {
-        // The squaredNorm is the squared norm.
-        let norm = sqrt(this.squaredNorm())
+        const norm = sqrt(this.squaredNormSansUnits())
         this.α = this.α / norm
         this.x = this.x / norm
         this.y = this.y / norm
@@ -699,10 +698,14 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {G2}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm());
+    magnitude(): G2 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits());
     }
 
     /**
@@ -769,7 +772,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
     * @chainable
     */
     norm(): G2 {
-        this.α = this.magnitude()
+        this.α = this.magnitudeSansUnits()
         this.x = 0
         this.y = 0
         this.β = 0
@@ -806,7 +809,7 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * @chainable
      */
     quad(): G2 {
-        this.α = this.squaredNorm()
+        this.α = this.squaredNormSansUnits()
         this.x = 0
         this.y = 0
         this.β = 0
@@ -1082,7 +1085,15 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
      * @method squaredNorm
      * @return {number} <code>this | ~this</code>
      */
-    squaredNorm(): number {
+    squaredNorm(): G2 {
+        this.α = this.squaredNormSansUnits()
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    squaredNormSansUnits(): number {
         let w = this.α
         let x = this.x
         let y = this.y

@@ -56,11 +56,13 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
      */
     log(): M;
     /**
-     * Computes the <em>square root</em> of the <em>squared norm</em>.
-     * @method magnitude
-     * @return {number}
+     * Computes the square root of the squared norm.
      */
-    magnitude(): number;
+    magnitude(): M;
+    /**
+     * The magnitude without the units.
+     */
+    magnitudeSansUnits(): number;
     /**
      * Multiplication.
      */
@@ -82,9 +84,13 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
      */
     rev(): M;
     /**
-     * squared norm, as a number
+     * squared norm, scp(x, rev(x))
      */
-    squaredNorm(): number;
+    squaredNorm(): M;
+    /**
+     * The squared norm without the units.
+     */
+    squaredNormSansUnits(): number;
     /**
      * Scalar Product
      */

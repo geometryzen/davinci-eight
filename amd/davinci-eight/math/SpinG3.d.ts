@@ -219,9 +219,10 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {SpinG3}
      */
-    magnitude(): number;
+    magnitude(): SpinG3;
+    magnitudeSansUnits(): number;
     /**
      * <p>
      * <code>this ⟼ this * s</code>
@@ -274,19 +275,24 @@ declare class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number
      */
     one(): SpinG3;
     /**
-    * <p>
-    * <code>this ⟼ this * conj(this)</code>
-    * </p>
-    * @method quad
-    * @return {SpinG3} <code>this</code>
-    * @chainable
-    */
+     * <p>
+     * <code>this ⟼ this * conj(this)</code>
+     * </p>
+     * @method quad
+     * @return {SpinG3} <code>this</code>
+     * @chainable
+     */
     quad(): SpinG3;
     /**
      * @method squaredNorm
-     * @return {number} <code>this * conj(this)</code>
+     * @return {SpinG3} <code>this * conj(this)</code>
+     * @chainable
      */
-    squaredNorm(): number;
+    squaredNorm(): SpinG3;
+    /**
+     * Intentionally undocumented.
+     */
+    squaredNormSansUnits(): number;
     rco(rhs: SpinorE3): SpinG3;
     rco2(a: SpinorE3, b: SpinorE3): SpinG3;
     /**

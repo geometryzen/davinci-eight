@@ -341,9 +341,10 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {G2}
      */
-    magnitude(): number;
+    magnitude(): G2;
+    magnitudeSansUnits(): number;
     /**
      * <p>
      * <code>this ⟼ this * s</code>
@@ -528,7 +529,8 @@ declare class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, Mu
      * @method squaredNorm
      * @return {number} <code>this | ~this</code>
      */
-    squaredNorm(): number;
+    squaredNorm(): G2;
+    squaredNormSansUnits(): number;
     /**
      * <p>
      * <code>this ⟼ this - M * α</code>

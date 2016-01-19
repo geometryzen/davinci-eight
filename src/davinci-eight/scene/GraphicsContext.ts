@@ -57,7 +57,6 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
      * @beta
      */
-    // FIXME: Move attributes to start()
     constructor(attributes?: WebGLContextAttributes) {
         super('GraphicsContext')
         this._kahuna = contextProxy(attributes)

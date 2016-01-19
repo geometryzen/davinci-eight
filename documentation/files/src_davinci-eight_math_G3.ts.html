@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.169.0</em>
+            <em>API Docs for: 2.170.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -977,10 +977,14 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     /**
      * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
      * @method magnitude
-     * @return {number}
+     * @return {G3}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm());
+    magnitude(): G3 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits());
     }
 
     /**
@@ -1039,7 +1043,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     */
     norm(): G3 {
         // FIXME: TODO
-        this.α = this.magnitude()
+        this.α = this.magnitudeSansUnits()
         this.yz = 0
         this.zx = 0
         this.xy = 0
@@ -1056,7 +1060,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
      */
     direction(): G3 {
         // The squaredNorm is the squared norm.
-        let norm = this.magnitude()
+        let norm = this.magnitudeSansUnits()
         this.α = this.α / norm
         this.x = this.x / norm
         this.y = this.y / norm
@@ -1095,22 +1099,27 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     * @chainable
     */
     quad(): G3 {
+        return this.squaredNorm();
+    }
+
+    /**
+     * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this multivector.
+     * @method squaredNorm
+     * @return {G3} &lt;code&gt;this * conj(this)&lt;/code&gt;
+     */
+    squaredNorm(): G3 {
         // FIXME: TODO
-        this.α = this.squaredNorm()
+        this.α = this.squaredNormSansUnits()
         this.yz = 0
         this.zx = 0
         this.xy = 0
         return this
     }
 
-    /**
-     * Computes the &lt;em&gt;squared norm&lt;/em&gt; of this multivector.
-     * @method squaredNorm
-     * @return {number} &lt;code&gt;this * conj(this)&lt;/code&gt;
-     */
-    squaredNorm(): number {
+    squaredNormSansUnits(): number {
         return squaredNormG3(this)
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ - n * this * n&lt;/code&gt;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.169.0</em>
+            <em>API Docs for: 2.170.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -303,7 +303,6 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
      * @beta
      */
-    // FIXME: Move attributes to start()
     constructor(attributes?: WebGLContextAttributes) {
         super(&#x27;GraphicsContext&#x27;)
         this._kahuna = contextProxy(attributes)

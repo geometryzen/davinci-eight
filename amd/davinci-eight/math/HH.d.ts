@@ -41,7 +41,8 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     lerp(target: HH, α: number): HH;
     lerp2(a: HH, b: HH, α: number): HH;
     log(): HH;
-    magnitude(): number;
+    magnitude(): HH;
+    magnitudeSansUnits(): number;
     mul(q: HH): HH;
     mul2(a: HH, b: HH): HH;
     norm(): HH;
@@ -52,7 +53,8 @@ declare class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, Tri
     direction(): HH;
     one(): HH;
     quad(): HH;
-    squaredNorm(): number;
+    squaredNorm(): HH;
+    squaredNormSansUnits(): number;
     reflect(n: VectorE3): HH;
     rev(): HH;
     rotate(rotor: HH): HH;

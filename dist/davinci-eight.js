@@ -688,6 +688,9 @@ define('davinci-eight/utils/uuid4',["require", "exports"], function (require, ex
 });
 
 define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, readOnly, refChange, uuid4) {
+    /**
+     * @class Shareable
+     */
     var Shareable = (function () {
         /**
          * <p>
@@ -712,7 +715,7 @@ define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeS
          * @method addRef
          * @return {number} The new value of the reference count.
          */
-        Shareable.prototype.addRef = function (client) {
+        Shareable.prototype.addRef = function () {
             this._refCount++;
             refChange(this._uuid, this._type, +1);
             return this._refCount;
@@ -725,7 +728,7 @@ define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeS
          * @method release
          * @return {number} The new value of the reference count.
          */
-        Shareable.prototype.release = function (client) {
+        Shareable.prototype.release = function () {
             this._refCount--;
             refChange(this._uuid, this._type, -1);
             var refCount = this._refCount;
@@ -6116,7 +6119,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          */
         Euclidean3.prototype.inv = function () {
             // FIXME: This is not the definition above.
-            return this.rev().divByScalar(this.squaredNorm());
+            return this.rev().divByScalar(this.squaredNormSansUnits());
         };
         /**
          * @method log
@@ -6129,10 +6132,13 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {Euclidean3}
          */
         Euclidean3.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        Euclidean3.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
@@ -6140,7 +6146,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          * @return {Euclidean3}
          */
         Euclidean3.prototype.norm = function () {
-            return new Euclidean3(this.magnitude(), 0, 0, 0, 0, 0, 0, 0, this.uom);
+            return new Euclidean3(this.magnitudeSansUnits(), 0, 0, 0, 0, 0, 0, 0, this.uom);
         };
         /**
          * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
@@ -6148,7 +6154,7 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
          * @return {Euclidean3}
          */
         Euclidean3.prototype.quad = function () {
-            return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+            return this.squaredNorm();
         };
         /**
          * @method quadraticBezier
@@ -6165,9 +6171,12 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/addE3', '
         };
         /**
          * @method squaredNorm
-         * @return {number}
+         * @return {Euclidean3}
          */
         Euclidean3.prototype.squaredNorm = function () {
+            return new Euclidean3(this.squaredNormSansUnits(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        Euclidean3.prototype.squaredNormSansUnits = function () {
             return squaredNormG3(this);
         };
         /**
@@ -8921,7 +8930,7 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
          */
         SpinG2.prototype.inv = function () {
             this.conj();
-            this.divByScalar(this.squaredNorm());
+            this.divByScalar(this.squaredNormSansUnits());
             return this;
         };
         SpinG2.prototype.lco = function (rhs) {
@@ -8993,10 +9002,13 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {SpinG2}
          */
         SpinG2.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        SpinG2.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * <p>
@@ -9048,7 +9060,7 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
         * @chainable
         */
         SpinG2.prototype.norm = function () {
-            var norm = this.magnitude();
+            var norm = this.magnitudeSansUnits();
             return this.zero().addScalar(norm);
         };
         /**
@@ -9060,7 +9072,7 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
          * @chainable
          */
         SpinG2.prototype.direction = function () {
-            var modulus = this.magnitude();
+            var modulus = this.magnitudeSansUnits();
             this.xy = this.xy / modulus;
             this.α = this.α / modulus;
             return this;
@@ -9087,8 +9099,7 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
         * @chainable
         */
         SpinG2.prototype.quad = function () {
-            var squaredNorm = this.squaredNorm();
-            return this.zero().addScalar(squaredNorm);
+            return this.squaredNorm();
         };
         SpinG2.prototype.sin = function () {
             throw new Error("SpinG2.sin");
@@ -9098,9 +9109,16 @@ define('davinci-eight/math/SpinG2',["require", "exports", '../math/dotVectorCart
         };
         /**
          * @method squaredNorm
-         * @return {number} <code>this * conj(this)</code>
+         * @return {SpinH2} <code>this * conj(this)</code>
          */
         SpinG2.prototype.squaredNorm = function () {
+            var squaredNorm = this.squaredNormSansUnits();
+            return this.zero().addScalar(squaredNorm);
+        };
+        /**
+         * Intentionally undocumented.
+         */
+        SpinG2.prototype.squaredNormSansUnits = function () {
             return quadSpinor(this);
         };
         SpinG2.prototype.rco = function (rhs) {
@@ -9849,7 +9867,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/dotVectorCart
          */
         SpinG3.prototype.inv = function () {
             this.conj();
-            this.divByScalar(this.squaredNorm());
+            this.divByScalar(this.squaredNormSansUnits());
             return this;
         };
         SpinG3.prototype.lco = function (rhs) {
@@ -9926,10 +9944,13 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/dotVectorCart
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {SpinG3}
          */
         SpinG3.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        SpinG3.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * <p>
@@ -9992,7 +10013,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/dotVectorCart
         * @chainable
         */
         SpinG3.prototype.norm = function () {
-            var norm = this.magnitude();
+            var norm = this.magnitudeSansUnits();
             return this.zero().addScalar(norm);
         };
         /**
@@ -10004,7 +10025,7 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/dotVectorCart
          * @chainable
          */
         SpinG3.prototype.direction = function () {
-            var modulus = this.magnitude();
+            var modulus = this.magnitudeSansUnits();
             this.yz = this.yz / modulus;
             this.zx = this.zx / modulus;
             this.xy = this.xy / modulus;
@@ -10024,22 +10045,29 @@ define('davinci-eight/math/SpinG3',["require", "exports", '../math/dotVectorCart
             return this;
         };
         /**
-        * <p>
-        * <code>this ⟼ this * conj(this)</code>
-        * </p>
-        * @method quad
-        * @return {SpinG3} <code>this</code>
-        * @chainable
-        */
+         * <p>
+         * <code>this ⟼ this * conj(this)</code>
+         * </p>
+         * @method quad
+         * @return {SpinG3} <code>this</code>
+         * @chainable
+         */
         SpinG3.prototype.quad = function () {
-            var squaredNorm = this.squaredNorm();
-            return this.zero().addScalar(squaredNorm);
+            return this.squaredNorm();
         };
         /**
          * @method squaredNorm
-         * @return {number} <code>this * conj(this)</code>
+         * @return {SpinG3} <code>this * conj(this)</code>
+         * @chainable
          */
         SpinG3.prototype.squaredNorm = function () {
+            var squaredNorm = this.squaredNormSansUnits();
+            return this.zero().addScalar(squaredNorm);
+        };
+        /**
+         * Intentionally undocumented.
+         */
+        SpinG3.prototype.squaredNormSansUnits = function () {
             return quadSpinor(this);
         };
         SpinG3.prototype.rco = function (rhs) {
@@ -12220,10 +12248,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-12-03',
+        LAST_MODIFIED: '2016-01-18',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.169.0'
+        VERSION: '2.170.0'
     };
     return core;
 });
@@ -13947,16 +13975,19 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {Euclidean2}
          */
         Euclidean2.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        Euclidean2.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         Euclidean2.prototype.norm = function () {
-            return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
+            return new Euclidean2(this.magnitudeSansUnits(), 0, 0, 0, this.uom);
         };
         Euclidean2.prototype.quad = function () {
-            return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+            return this.squaredNorm();
         };
         Euclidean2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
             var x = b2(t, this.x, controlPoint.x, endPoint.x);
@@ -13964,7 +13995,17 @@ define('davinci-eight/math/Euclidean2',["require", "exports", '../geometries/b2'
             return new Euclidean2(0, x, y, 0, this.uom);
         };
         Euclidean2.prototype.squaredNorm = function () {
-            return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
+            return new Euclidean2(this.squaredNormSansUnits(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        /**
+         * Intentionally undocumented.
+         */
+        Euclidean2.prototype.squaredNormSansUnits = function () {
+            var α = this.α;
+            var x = this.x;
+            var y = this.y;
+            var β = this.β;
+            return α * α + x * x + y * y + β * β;
         };
         /**
          * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
@@ -14459,8 +14500,7 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
          * @chainable
          */
         G2.prototype.direction = function () {
-            // The squaredNorm is the squared norm.
-            var norm = sqrt(this.squaredNorm());
+            var norm = sqrt(this.squaredNormSansUnits());
             this.α = this.α / norm;
             this.x = this.x / norm;
             this.y = this.y / norm;
@@ -14710,10 +14750,13 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {G2}
          */
         G2.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        G2.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * <p>
@@ -14776,7 +14819,7 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
         * @chainable
         */
         G2.prototype.norm = function () {
-            this.α = this.magnitude();
+            this.α = this.magnitudeSansUnits();
             this.x = 0;
             this.y = 0;
             this.β = 0;
@@ -14810,7 +14853,7 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
          * @chainable
          */
         G2.prototype.quad = function () {
-            this.α = this.squaredNorm();
+            this.α = this.squaredNormSansUnits();
             this.x = 0;
             this.y = 0;
             this.β = 0;
@@ -15065,6 +15108,13 @@ define('davinci-eight/math/G2',["require", "exports", '../geometries/b2', '../ge
          * @return {number} <code>this | ~this</code>
          */
         G2.prototype.squaredNorm = function () {
+            this.α = this.squaredNormSansUnits();
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
+            return this;
+        };
+        G2.prototype.squaredNormSansUnits = function () {
             var w = this.α;
             var x = this.x;
             var y = this.y;
@@ -16383,10 +16433,13 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {G3}
          */
         G3.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        G3.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * <p>
@@ -16442,7 +16495,7 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
         */
         G3.prototype.norm = function () {
             // FIXME: TODO
-            this.α = this.magnitude();
+            this.α = this.magnitudeSansUnits();
             this.yz = 0;
             this.zx = 0;
             this.xy = 0;
@@ -16458,7 +16511,7 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
          */
         G3.prototype.direction = function () {
             // The squaredNorm is the squared norm.
-            var norm = this.magnitude();
+            var norm = this.magnitudeSansUnits();
             this.α = this.α / norm;
             this.x = this.x / norm;
             this.y = this.y / norm;
@@ -16495,19 +16548,22 @@ define('davinci-eight/math/G3',["require", "exports", '../math/dotVectorE3', '..
         * @chainable
         */
         G3.prototype.quad = function () {
+            return this.squaredNorm();
+        };
+        /**
+         * Computes the <em>squared norm</em> of this multivector.
+         * @method squaredNorm
+         * @return {G3} <code>this * conj(this)</code>
+         */
+        G3.prototype.squaredNorm = function () {
             // FIXME: TODO
-            this.α = this.squaredNorm();
+            this.α = this.squaredNormSansUnits();
             this.yz = 0;
             this.zx = 0;
             this.xy = 0;
             return this;
         };
-        /**
-         * Computes the <em>squared norm</em> of this multivector.
-         * @method squaredNorm
-         * @return {number} <code>this * conj(this)</code>
-         */
-        G3.prototype.squaredNorm = function () {
+        G3.prototype.squaredNormSansUnits = function () {
             return squaredNormG3(this);
         };
         /**
@@ -19864,7 +19920,6 @@ define('davinci-eight/scene/GraphicsContext',["require", "exports", '../renderer
          * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
          * @beta
          */
-        // FIXME: Move attributes to start()
         function GraphicsContext(attributes) {
             _super.call(this, 'GraphicsContext');
             this._kahuna = contextProxy(attributes);

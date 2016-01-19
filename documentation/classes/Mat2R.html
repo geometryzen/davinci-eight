@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.169.0</em>
+            <em>API Docs for: 2.170.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -367,10 +367,6 @@ The elements are stored in column-major order:
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_magnitude">magnitude</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_mul">mul</a>
 
                             </li>
@@ -394,11 +390,11 @@ The elements are stored in column-major order:
                             <li class="index-item method">
                                 <a href="#method_reflection">reflection</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_reflection">reflection</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
                                 <a href="#method_row">row</a>
@@ -849,47 +845,6 @@ The elements are stored in column-major order:
 
 
 </div>
-<div id="method_magnitude" class="method item">
-    <h3 class="name"><code>magnitude</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_GeometricElement.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;GeometricElement.ts:71</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Computes the <em>square root</em> of the <em>squared norm</em>.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-            </div>
-        </div>
-
-
-</div>
 <div id="method_mul" class="method item">
     <h3 class="name"><code>mul</code></h3>
 
@@ -1174,6 +1129,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
 
 
 
+        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -1181,7 +1137,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:173</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l418"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:418</code></a>
         </p>
 
 
@@ -1189,11 +1145,7 @@ Creates a new matrix with all elements zero except those along the main diagonal
     </div>
 
     <div class="description">
-        <p>Sets this matrix to the transformation for a
-reflection in the line normal to the unit vector <code>n</code>.</p>
-<p>
-this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
-</p>
+        
     </div>
 
         <div class="params">
@@ -1241,7 +1193,6 @@ this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
 
 
 
-        <span class="flag static">static</span>
 
         <span class="flag chainable">chainable</span>
 
@@ -1249,7 +1200,7 @@ this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l418"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:418</code></a>
+        <a href="../files/src_davinci-eight_math_Mat2R.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Mat2R.ts:173</code></a>
         </p>
 
 
@@ -1257,7 +1208,11 @@ this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
     </div>
 
     <div class="description">
-        
+        <p>Sets this matrix to the transformation for a
+reflection in the line normal to the unit vector <code>n</code>.</p>
+<p>
+this ⟼ reflection(<b>n</b>) = I - 2 * <b>n</b><sup>T</sup> * <b>n</b>
+</p>
     </div>
 
         <div class="params">

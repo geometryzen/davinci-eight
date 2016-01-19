@@ -771,18 +771,22 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {Euclidean2}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm())
+    magnitude(): Euclidean2 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits())
     }
 
     norm(): Euclidean2 {
-        return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
+        return new Euclidean2(this.magnitudeSansUnits(), 0, 0, 0, this.uom);
     }
 
     quad(): Euclidean2 {
-        return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+        return this.squaredNorm();
     }
 
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2) {
@@ -791,8 +795,19 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         return new Euclidean2(0, x, y, 0, this.uom);
     }
 
-    squaredNorm(): number {
-        return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
+    public squaredNorm(): Euclidean2 {
+        return new Euclidean2(this.squaredNormSansUnits(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+    }
+
+    /**
+     * Intentionally undocumented.
+     */
+    public squaredNormSansUnits(): number {
+        const α = this.α;
+        const x = this.x;
+        const y = this.y;
+        const β = this.β;
+        return α * α + x * x + y * y + β * β;
     }
 
     /**

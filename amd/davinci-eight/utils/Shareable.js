@@ -1,4 +1,7 @@
 define(["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, readOnly, refChange, uuid4) {
+    /**
+     * @class Shareable
+     */
     var Shareable = (function () {
         /**
          * <p>
@@ -23,7 +26,7 @@ define(["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../
          * @method addRef
          * @return {number} The new value of the reference count.
          */
-        Shareable.prototype.addRef = function (client) {
+        Shareable.prototype.addRef = function () {
             this._refCount++;
             refChange(this._uuid, this._type, +1);
             return this._refCount;
@@ -36,7 +39,7 @@ define(["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../
          * @method release
          * @return {number} The new value of the reference count.
          */
-        Shareable.prototype.release = function (client) {
+        Shareable.prototype.release = function () {
             this._refCount--;
             refChange(this._uuid, this._type, -1);
             var refCount = this._refCount;

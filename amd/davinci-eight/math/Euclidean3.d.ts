@@ -554,9 +554,10 @@ declare class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, G
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {Euclidean3}
      */
-    magnitude(): number;
+    magnitude(): Euclidean3;
+    magnitudeSansUnits(): number;
     /**
      * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
      * @method norm
@@ -579,9 +580,10 @@ declare class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, G
     quadraticBezier(t: number, controlPoint: GeometricE3, endPoint: GeometricE3): Euclidean3;
     /**
      * @method squaredNorm
-     * @return {number}
+     * @return {Euclidean3}
      */
-    squaredNorm(): number;
+    squaredNorm(): Euclidean3;
+    squaredNormSansUnits(): number;
     /**
      * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
      * @method reflect

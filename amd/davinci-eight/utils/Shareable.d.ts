@@ -1,4 +1,7 @@
 import IUnknown = require('../core/IUnknown');
+/**
+ * @class Shareable
+ */
 declare class Shareable implements IUnknown {
     private _refCount;
     protected _type: string;
@@ -21,7 +24,7 @@ declare class Shareable implements IUnknown {
      * @method addRef
      * @return {number} The new value of the reference count.
      */
-    addRef(client?: string): number;
+    addRef(): number;
     /**
      * <p>
      * Notifies this instance that something is dereferencing it.
@@ -30,7 +33,7 @@ declare class Shareable implements IUnknown {
      * @method release
      * @return {number} The new value of the reference count.
      */
-    release(client?: string): number;
+    release(): number;
     /**
      * <p>
      * Outputs a warning to the console that this method should be implemented by the derived class.

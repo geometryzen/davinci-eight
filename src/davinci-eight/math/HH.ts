@@ -180,9 +180,15 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
     log(): HH {
         return this
     }
-    magnitude(): number {
-        return Math.sqrt(this.squaredNorm());
+
+    magnitude(): HH {
+        return this.norm();
     }
+
+    magnitudeSansUnits(): number {
+        return Math.sqrt(this.squaredNormSansUnits());
+    }
+
     mul(q: HH): HH {
         return this.mul2(this, q);
     }
@@ -196,7 +202,7 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         return this;
     }
     norm(): HH {
-        this.t = this.squaredNorm()
+        this.t = this.squaredNormSansUnits()
         this.x = 0
         this.y = 0
         this.z = 0
@@ -224,12 +230,12 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         return this;
     }
     direction(): HH {
-        let modulus = this.magnitude()
-        this.x = this.x / modulus
-        this.y = this.y / modulus
-        this.z = this.z / modulus
-        this.t = this.t / modulus
-        return this
+        let modulus = this.magnitudeSansUnits();
+        this.x = this.x / modulus;
+        this.y = this.y / modulus;
+        this.z = this.z / modulus;
+        this.t = this.t / modulus;
+        return this;
     }
 
     one(): HH {
@@ -241,16 +247,21 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
     }
 
     quad(): HH {
-        this.t = this.squaredNorm()
+        return this.squaredNorm();
+    }
+
+    squaredNorm(): HH {
+        this.t = this.squaredNormSansUnits()
         this.x = 0
         this.y = 0
         this.z = 0
         return this
     }
 
-    squaredNorm(): number {
+    squaredNormSansUnits(): number {
         return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
     }
+
     reflect(n: VectorE3): HH {
         throw new Error("TODO: HH.reflect");
     }

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.169.0</em>
+            <em>API Docs for: 2.170.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -676,8 +676,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, Measure&lt;G2&gt;
      * @chainable
      */
     direction(): G2 {
-        // The squaredNorm is the squared norm.
-        let norm = sqrt(this.squaredNorm())
+        const norm = sqrt(this.squaredNormSansUnits())
         this.α = this.α / norm
         this.x = this.x / norm
         this.y = this.y / norm
@@ -945,10 +944,14 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, Measure&lt;G2&gt;
     /**
      * Computes the &lt;em&gt;square root&lt;/em&gt; of the &lt;em&gt;squared norm&lt;/em&gt;.
      * @method magnitude
-     * @return {number}
+     * @return {G2}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm());
+    magnitude(): G2 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits());
     }
 
     /**
@@ -1015,7 +1018,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, Measure&lt;G2&gt;
     * @chainable
     */
     norm(): G2 {
-        this.α = this.magnitude()
+        this.α = this.magnitudeSansUnits()
         this.x = 0
         this.y = 0
         this.β = 0
@@ -1052,7 +1055,7 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, Measure&lt;G2&gt;
      * @chainable
      */
     quad(): G2 {
-        this.α = this.squaredNorm()
+        this.α = this.squaredNormSansUnits()
         this.x = 0
         this.y = 0
         this.β = 0
@@ -1328,7 +1331,15 @@ class G2 extends VectorN&lt;number&gt; implements GeometricE2, Measure&lt;G2&gt;
      * @method squaredNorm
      * @return {number} &lt;code&gt;this | ~this&lt;/code&gt;
      */
-    squaredNorm(): number {
+    squaredNorm(): G2 {
+        this.α = this.squaredNormSansUnits()
+        this.x = 0
+        this.y = 0
+        this.β = 0
+        return this
+    }
+
+    squaredNormSansUnits(): number {
         let w = this.α
         let x = this.x
         let y = this.y

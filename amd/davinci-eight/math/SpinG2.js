@@ -282,7 +282,7 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
          */
         SpinG2.prototype.inv = function () {
             this.conj();
-            this.divByScalar(this.squaredNorm());
+            this.divByScalar(this.squaredNormSansUnits());
             return this;
         };
         SpinG2.prototype.lco = function (rhs) {
@@ -354,10 +354,13 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {SpinG2}
          */
         SpinG2.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        SpinG2.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * <p>
@@ -409,7 +412,7 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         * @chainable
         */
         SpinG2.prototype.norm = function () {
-            var norm = this.magnitude();
+            var norm = this.magnitudeSansUnits();
             return this.zero().addScalar(norm);
         };
         /**
@@ -421,7 +424,7 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
          * @chainable
          */
         SpinG2.prototype.direction = function () {
-            var modulus = this.magnitude();
+            var modulus = this.magnitudeSansUnits();
             this.xy = this.xy / modulus;
             this.α = this.α / modulus;
             return this;
@@ -448,8 +451,7 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         * @chainable
         */
         SpinG2.prototype.quad = function () {
-            var squaredNorm = this.squaredNorm();
-            return this.zero().addScalar(squaredNorm);
+            return this.squaredNorm();
         };
         SpinG2.prototype.sin = function () {
             throw new Error("SpinG2.sin");
@@ -459,9 +461,16 @@ define(["require", "exports", '../math/dotVectorCartesianE2', '../math/dotVector
         };
         /**
          * @method squaredNorm
-         * @return {number} <code>this * conj(this)</code>
+         * @return {SpinH2} <code>this * conj(this)</code>
          */
         SpinG2.prototype.squaredNorm = function () {
+            var squaredNorm = this.squaredNormSansUnits();
+            return this.zero().addScalar(squaredNorm);
+        };
+        /**
+         * Intentionally undocumented.
+         */
+        SpinG2.prototype.squaredNormSansUnits = function () {
             return quadSpinor(this);
         };
         SpinG2.prototype.rco = function (rhs) {

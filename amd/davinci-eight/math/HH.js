@@ -166,7 +166,10 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.magnitude = function () {
-            return Math.sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        HH.prototype.magnitudeSansUnits = function () {
+            return Math.sqrt(this.squaredNormSansUnits());
         };
         HH.prototype.mul = function (q) {
             return this.mul2(this, q);
@@ -181,7 +184,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.norm = function () {
-            this.t = this.squaredNorm();
+            this.t = this.squaredNormSansUnits();
             this.x = 0;
             this.y = 0;
             this.z = 0;
@@ -209,7 +212,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.direction = function () {
-            var modulus = this.magnitude();
+            var modulus = this.magnitudeSansUnits();
             this.x = this.x / modulus;
             this.y = this.y / modulus;
             this.z = this.z / modulus;
@@ -224,13 +227,16 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.quad = function () {
-            this.t = this.squaredNorm();
+            return this.squaredNorm();
+        };
+        HH.prototype.squaredNorm = function () {
+            this.t = this.squaredNormSansUnits();
             this.x = 0;
             this.y = 0;
             this.z = 0;
             return this;
         };
-        HH.prototype.squaredNorm = function () {
+        HH.prototype.squaredNormSansUnits = function () {
             return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
         };
         HH.prototype.reflect = function (n) {

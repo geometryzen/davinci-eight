@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.169.0</em>
+            <em>API Docs for: 2.170.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -250,87 +250,90 @@ import refChange = require(&#x27;../utils/refChange&#x27;)
 import IUnknown = require(&#x27;../core/IUnknown&#x27;)
 import uuid4 = require(&#x27;../utils/uuid4&#x27;)
 
+/**
+ * @class Shareable
+ */
 class Shareable implements IUnknown {
-  private _refCount: number = 1
-  protected _type: string
-  private _uuid = uuid4().generate()
-  /**
-   * &lt;p&gt;
-   * Convenient base class for derived classes implementing &lt;code&gt;IUnknown&lt;/code&gt;.
-   * &lt;/p&gt;
-   * @class Shareable
-   * @extends IUnknown
-   * @constructor
-   * @param type {string} The human-readable name of the derived type.
-   */
-  constructor(type: string) {
-    this._type = mustBeString(&#x27;type&#x27;, type)
-    refChange(this._uuid, type, +1)
-  }
-  /**
-   * &lt;p&gt;
-   * Notifies this instance that something is dereferencing it.
-   * &lt;/p&gt;
-   *
-   * @method addRef
-   * @return {number} The new value of the reference count.
-   */
-  addRef(client?: string): number {
-    this._refCount++
-    refChange(this._uuid, this._type, +1)
-    return this._refCount
-  }
-  /**
-   * &lt;p&gt;
-   * Notifies this instance that something is dereferencing it.
-   * &lt;/p&gt;
-   *
-   * @method release
-   * @return {number} The new value of the reference count.
-   */
-  release(client?: string): number {
-    this._refCount--
-    refChange(this._uuid, this._type, -1)
-    let refCount = this._refCount
-    if (refCount === 0) {
-      // destructor called with &#x60;true&#x60; means grumble if the method has not been overridden.
-      this.destructor(true)
-      this._refCount = void 0
-      this._type = void 0
-      this._uuid = void 0
+    private _refCount: number = 1
+    protected _type: string
+    private _uuid = uuid4().generate()
+    /**
+     * &lt;p&gt;
+     * Convenient base class for derived classes implementing &lt;code&gt;IUnknown&lt;/code&gt;.
+     * &lt;/p&gt;
+     * @class Shareable
+     * @extends IUnknown
+     * @constructor
+     * @param type {string} The human-readable name of the derived type.
+     */
+    constructor(type: string) {
+        this._type = mustBeString(&#x27;type&#x27;, type)
+        refChange(this._uuid, type, +1)
     }
-    return refCount;
-  }
-  /**
-   * &lt;p&gt;
-   * Outputs a warning to the console that this method should be implemented by the derived class.
-   * &lt;/p&gt;
-   * &lt;p&gt;
-   * &lt;em&gt;This method should be implemented by derived classes.&lt;/em&gt;
-   * &lt;/p&gt;
-   * &lt;p&gt;
-   * &lt;em&gt;Not implementing this method in a derived class risks leaking resources allocated by the derived class.&lt;/em&gt;
-   * &lt;/p&gt;
-   * @method destructor
-   * @return {void}
-   * @protected
-   */
-  protected destructor(grumble: boolean = false): void {
-    if (grumble) {
-      console.warn(&quot;&#x60;protected destructor(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
+    /**
+     * &lt;p&gt;
+     * Notifies this instance that something is dereferencing it.
+     * &lt;/p&gt;
+     *
+     * @method addRef
+     * @return {number} The new value of the reference count.
+     */
+    addRef(): number {
+        this._refCount++
+        refChange(this._uuid, this._type, +1)
+        return this._refCount
     }
-  }
-  /**
-   * @property uuid
-   * @type {string}
-   * @readOnly
-   */
-  get uuid(): string {
-    return this._uuid
-  }
-  set uuid(unused: string) {
-    throw new Error(readOnly(&#x27;uuid&#x27;).message)
-  }
+    /**
+     * &lt;p&gt;
+     * Notifies this instance that something is dereferencing it.
+     * &lt;/p&gt;
+     *
+     * @method release
+     * @return {number} The new value of the reference count.
+     */
+    release(): number {
+        this._refCount--
+        refChange(this._uuid, this._type, -1)
+        let refCount = this._refCount
+        if (refCount === 0) {
+            // destructor called with &#x60;true&#x60; means grumble if the method has not been overridden.
+            this.destructor(true)
+            this._refCount = void 0
+            this._type = void 0
+            this._uuid = void 0
+        }
+        return refCount;
+    }
+    /**
+     * &lt;p&gt;
+     * Outputs a warning to the console that this method should be implemented by the derived class.
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * &lt;em&gt;This method should be implemented by derived classes.&lt;/em&gt;
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * &lt;em&gt;Not implementing this method in a derived class risks leaking resources allocated by the derived class.&lt;/em&gt;
+     * &lt;/p&gt;
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(grumble: boolean = false): void {
+        if (grumble) {
+            console.warn(&quot;&#x60;protected destructor(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
+        }
+    }
+    /**
+     * @property uuid
+     * @type {string}
+     * @readOnly
+     */
+    get uuid(): string {
+        return this._uuid
+    }
+    set uuid(unused: string) {
+        throw new Error(readOnly(&#x27;uuid&#x27;).message)
+    }
 }
 
 export = Shareable;

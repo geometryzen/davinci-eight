@@ -1241,7 +1241,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      */
     inv(): Euclidean3 {
         // FIXME: This is not the definition above.
-        return this.rev().divByScalar(this.squaredNorm())
+        return this.rev().divByScalar(this.squaredNormSansUnits())
     }
 
     /**
@@ -1256,10 +1256,14 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {Euclidean3}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm())
+    magnitude(): Euclidean3 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits())
     }
 
     /**
@@ -1268,7 +1272,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @return {Euclidean3}
      */
     norm(): Euclidean3 {
-        return new Euclidean3(this.magnitude(), 0, 0, 0, 0, 0, 0, 0, this.uom)
+        return new Euclidean3(this.magnitudeSansUnits(), 0, 0, 0, 0, 0, 0, 0, this.uom)
     }
 
     /**
@@ -1277,7 +1281,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @return {Euclidean3}
      */
     quad(): Euclidean3 {
-        return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        return this.squaredNorm();
     }
 
     /**
@@ -1296,9 +1300,13 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
 
     /**
      * @method squaredNorm
-     * @return {number}
+     * @return {Euclidean3}
      */
-    squaredNorm(): number {
+    squaredNorm(): Euclidean3 {
+        return new Euclidean3(this.squaredNormSansUnits(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+    }
+
+    squaredNormSansUnits(): number {
         return squaredNormG3(this)
     }
 

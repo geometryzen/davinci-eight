@@ -316,9 +316,9 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
      * @return {SpinG2} <code>this</code>
      * @chainable
      */
-    inv() {
+    inv(): SpinG2 {
         this.conj()
-        this.divByScalar(this.squaredNorm());
+        this.divByScalar(this.squaredNormSansUnits());
         return this
     }
 
@@ -394,10 +394,14 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {SpinG2}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm())
+    magnitude(): SpinG2 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits());
     }
 
     /**
@@ -453,8 +457,8 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
     * @chainable
     */
     norm(): SpinG2 {
-        let norm = this.magnitude()
-        return this.zero().addScalar(norm)
+        const norm = this.magnitudeSansUnits();
+        return this.zero().addScalar(norm);
     }
     /**
      * <p>
@@ -465,10 +469,10 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
      * @chainable
      */
     direction(): SpinG2 {
-        let modulus = this.magnitude()
-        this.xy = this.xy / modulus
-        this.α = this.α / modulus
-        return this
+        const modulus = this.magnitudeSansUnits();
+        this.xy = this.xy / modulus;
+        this.α = this.α / modulus;
+        return this;
     }
 
 
@@ -478,9 +482,9 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
      * @chainable
      */
     one() {
-        this.α = 1
-        this.xy = 0
-        return this
+        this.α = 1;
+        this.xy = 0;
+        return this;
     }
 
     pow(): SpinG2 {
@@ -496,8 +500,7 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
     * @chainable
     */
     quad(): SpinG2 {
-        let squaredNorm = this.squaredNorm()
-        return this.zero().addScalar(squaredNorm)
+        return this.squaredNorm();
     }
 
     sin(): SpinG2 {
@@ -510,9 +513,17 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
 
     /**
      * @method squaredNorm
-     * @return {number} <code>this * conj(this)</code>
+     * @return {SpinH2} <code>this * conj(this)</code>
      */
-    squaredNorm(): number {
+    squaredNorm(): SpinG2 {
+        const squaredNorm = this.squaredNormSansUnits()
+        return this.zero().addScalar(squaredNorm)
+    }
+
+    /**
+     * Intentionally undocumented.
+     */
+    squaredNormSansUnits(): number {
         return quadSpinor(this)
     }
 

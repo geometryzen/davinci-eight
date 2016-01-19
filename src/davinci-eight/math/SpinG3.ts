@@ -356,9 +356,9 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
      * @return {SpinG3} <code>this</code>
      * @chainable
      */
-    inv() {
+    inv(): SpinG3 {
         this.conj()
-        this.divByScalar(this.squaredNorm());
+        this.divByScalar(this.squaredNormSansUnits());
         return this
     }
 
@@ -439,10 +439,14 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {SpinG3}
      */
-    magnitude(): number {
-        return sqrt(this.squaredNorm());
+    magnitude(): SpinG3 {
+        return this.norm();
+    }
+
+    magnitudeSansUnits(): number {
+        return sqrt(this.squaredNormSansUnits());
     }
 
     /**
@@ -507,8 +511,8 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
     * @chainable
     */
     norm(): SpinG3 {
-        let norm = this.magnitude()
-        return this.zero().addScalar(norm)
+        let norm = this.magnitudeSansUnits();
+        return this.zero().addScalar(norm);
     }
 
     /**
@@ -520,12 +524,12 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
      * @chainable
      */
     direction(): SpinG3 {
-        let modulus = this.magnitude()
-        this.yz = this.yz / modulus
-        this.zx = this.zx / modulus
-        this.xy = this.xy / modulus
-        this.α = this.α / modulus
-        return this
+        let modulus = this.magnitudeSansUnits();
+        this.yz = this.yz / modulus;
+        this.zx = this.zx / modulus;
+        this.xy = this.xy / modulus;
+        this.α = this.α / modulus;
+        return this;
     }
 
 
@@ -543,22 +547,31 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
     }
 
     /**
-    * <p>
-    * <code>this ⟼ this * conj(this)</code>
-    * </p>
-    * @method quad
-    * @return {SpinG3} <code>this</code>
-    * @chainable
-    */
+     * <p>
+     * <code>this ⟼ this * conj(this)</code>
+     * </p>
+     * @method quad
+     * @return {SpinG3} <code>this</code>
+     * @chainable
+     */
     quad(): SpinG3 {
-        let squaredNorm = this.squaredNorm()
-        return this.zero().addScalar(squaredNorm)
+        return this.squaredNorm();
     }
+
     /**
      * @method squaredNorm
-     * @return {number} <code>this * conj(this)</code>
+     * @return {SpinG3} <code>this * conj(this)</code>
+     * @chainable
      */
-    squaredNorm(): number {
+    squaredNorm(): SpinG3 {
+        let squaredNorm = this.squaredNormSansUnits()
+        return this.zero().addScalar(squaredNorm)
+    }
+
+    /**
+     * Intentionally undocumented.
+     */
+    squaredNormSansUnits(): number {
         return quadSpinor(this)
     }
 

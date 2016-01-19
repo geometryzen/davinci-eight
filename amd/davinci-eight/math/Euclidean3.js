@@ -1001,7 +1001,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
          */
         Euclidean3.prototype.inv = function () {
             // FIXME: This is not the definition above.
-            return this.rev().divByScalar(this.squaredNorm());
+            return this.rev().divByScalar(this.squaredNormSansUnits());
         };
         /**
          * @method log
@@ -1014,10 +1014,13 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {Euclidean3}
          */
         Euclidean3.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        Euclidean3.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
@@ -1025,7 +1028,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
          * @return {Euclidean3}
          */
         Euclidean3.prototype.norm = function () {
-            return new Euclidean3(this.magnitude(), 0, 0, 0, 0, 0, 0, 0, this.uom);
+            return new Euclidean3(this.magnitudeSansUnits(), 0, 0, 0, 0, 0, 0, 0, this.uom);
         };
         /**
          * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
@@ -1033,7 +1036,7 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
          * @return {Euclidean3}
          */
         Euclidean3.prototype.quad = function () {
-            return new Euclidean3(this.squaredNorm(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+            return this.squaredNorm();
         };
         /**
          * @method quadraticBezier
@@ -1050,9 +1053,12 @@ define(["require", "exports", '../math/addE3', '../geometries/b2', '../geometrie
         };
         /**
          * @method squaredNorm
-         * @return {number}
+         * @return {Euclidean3}
          */
         Euclidean3.prototype.squaredNorm = function () {
+            return new Euclidean3(this.squaredNormSansUnits(), 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        Euclidean3.prototype.squaredNormSansUnits = function () {
             return squaredNormG3(this);
         };
         /**

@@ -108,13 +108,18 @@ declare class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, G
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {Euclidean2}
      */
-    magnitude(): number;
+    magnitude(): Euclidean2;
+    magnitudeSansUnits(): number;
     norm(): Euclidean2;
     quad(): Euclidean2;
     quadraticBezier(t: number, controlPoint: GeometricE2, endPoint: GeometricE2): Euclidean2;
-    squaredNorm(): number;
+    squaredNorm(): Euclidean2;
+    /**
+     * Intentionally undocumented.
+     */
+    squaredNormSansUnits(): number;
     /**
      * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.
      * @method reflect

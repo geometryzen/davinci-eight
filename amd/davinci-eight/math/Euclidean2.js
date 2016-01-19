@@ -683,16 +683,19 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/e
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {Euclidean2}
          */
         Euclidean2.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        Euclidean2.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         Euclidean2.prototype.norm = function () {
-            return new Euclidean2(this.magnitude(), 0, 0, 0, this.uom);
+            return new Euclidean2(this.magnitudeSansUnits(), 0, 0, 0, this.uom);
         };
         Euclidean2.prototype.quad = function () {
-            return new Euclidean2(this.squaredNorm(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+            return this.squaredNorm();
         };
         Euclidean2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
             var x = b2(t, this.x, controlPoint.x, endPoint.x);
@@ -700,7 +703,17 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/e
             return new Euclidean2(0, x, y, 0, this.uom);
         };
         Euclidean2.prototype.squaredNorm = function () {
-            return this.w * this.w + this.x * this.x + this.y * this.y + this.xy * this.xy;
+            return new Euclidean2(this.squaredNormSansUnits(), 0, 0, 0, Unit.mul(this.uom, this.uom));
+        };
+        /**
+         * Intentionally undocumented.
+         */
+        Euclidean2.prototype.squaredNormSansUnits = function () {
+            var α = this.α;
+            var x = this.x;
+            var y = this.y;
+            var β = this.β;
+            return α * α + x * x + y * y + β * β;
         };
         /**
          * Computes the <em>reflection</em> of this multivector in the plane with normal <code>n</code>.

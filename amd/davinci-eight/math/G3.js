@@ -714,10 +714,13 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {G3}
          */
         G3.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        G3.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * <p>
@@ -773,7 +776,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         */
         G3.prototype.norm = function () {
             // FIXME: TODO
-            this.α = this.magnitude();
+            this.α = this.magnitudeSansUnits();
             this.yz = 0;
             this.zx = 0;
             this.xy = 0;
@@ -789,7 +792,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
          */
         G3.prototype.direction = function () {
             // The squaredNorm is the squared norm.
-            var norm = this.magnitude();
+            var norm = this.magnitudeSansUnits();
             this.α = this.α / norm;
             this.x = this.x / norm;
             this.y = this.y / norm;
@@ -826,19 +829,22 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         * @chainable
         */
         G3.prototype.quad = function () {
+            return this.squaredNorm();
+        };
+        /**
+         * Computes the <em>squared norm</em> of this multivector.
+         * @method squaredNorm
+         * @return {G3} <code>this * conj(this)</code>
+         */
+        G3.prototype.squaredNorm = function () {
             // FIXME: TODO
-            this.α = this.squaredNorm();
+            this.α = this.squaredNormSansUnits();
             this.yz = 0;
             this.zx = 0;
             this.xy = 0;
             return this;
         };
-        /**
-         * Computes the <em>squared norm</em> of this multivector.
-         * @method squaredNorm
-         * @return {number} <code>this * conj(this)</code>
-         */
-        G3.prototype.squaredNorm = function () {
+        G3.prototype.squaredNormSansUnits = function () {
             return squaredNormG3(this);
         };
         /**

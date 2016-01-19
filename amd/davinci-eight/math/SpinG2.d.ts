@@ -212,9 +212,10 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {SpinG2}
      */
-    magnitude(): number;
+    magnitude(): SpinG2;
+    magnitudeSansUnits(): number;
     /**
      * <p>
      * <code>this ⟼ this * s</code>
@@ -280,9 +281,13 @@ declare class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2
     sinh(): SpinG2;
     /**
      * @method squaredNorm
-     * @return {number} <code>this * conj(this)</code>
+     * @return {SpinH2} <code>this * conj(this)</code>
      */
-    squaredNorm(): number;
+    squaredNorm(): SpinG2;
+    /**
+     * Intentionally undocumented.
+     */
+    squaredNormSansUnits(): number;
     rco(rhs: SpinorE2): SpinG2;
     rco2(a: SpinorE2, b: SpinorE2): SpinG2;
     /**

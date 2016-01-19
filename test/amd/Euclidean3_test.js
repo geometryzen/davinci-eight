@@ -784,31 +784,31 @@ define([
         expect(typeof zero.quad()).toBe('object');
       });
       it("squaredNorm(0)", function() {
-        expect(zero.scale(2).squaredNorm()).toBe(0);
+        expect(zero.scale(2).squaredNorm().α).toBe(0);
       });
       it("squaredNorm(2)", function() {
-        expect(one.scale(2).squaredNorm()).toBe(4);
+        expect(one.scale(2).squaredNorm().α).toBe(4);
       });
       it("squaredNorm(2*e1)", function() {
-        expect(i.scale(2).squaredNorm()).toBe(4);
+        expect(i.scale(2).squaredNorm().α).toBe(4);
       });
       it("squaredNorm(2*e2)", function() {
-        expect(j.scale(2).squaredNorm()).toBe(4);
+        expect(j.scale(2).squaredNorm().α).toBe(4);
       });
       it("squaredNorm(2*e3)", function() {
-        expect(k.scale(2).squaredNorm()).toBe(4);
+        expect(k.scale(2).squaredNorm().α).toBe(4);
       });
       it("squaredNorm(2*e1e2)", function() {
-        expect(ij.scale(2).squaredNorm()).toBe(4);
+        expect(ij.scale(2).squaredNorm().α).toBe(4);
       });
       it("squaredNorm(2*e2e3)", function() {
-        expect(jk.scale(2).squaredNorm()).toBe(4);
+        expect(jk.scale(2).squaredNorm().α).toBe(4);
       });
       it("squaredNorm(2*e3e1)", function() {
-        expect(ki.scale(2).squaredNorm()).toBe(4);
+        expect(ki.scale(2).squaredNorm().α).toBe(4);
       });
       it("squaredNorm(2*I)", function() {
-        expect(I.scale(2).squaredNorm()).toBe(4);
+        expect(I.scale(2).squaredNorm().α).toBe(4);
       });
     });
   });

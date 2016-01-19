@@ -20,7 +20,6 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
          * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
          * @beta
          */
-        // FIXME: Move attributes to start()
         function GraphicsContext(attributes) {
             _super.call(this, 'GraphicsContext');
             this._kahuna = contextProxy(attributes);

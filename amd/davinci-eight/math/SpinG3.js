@@ -342,7 +342,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
          */
         SpinG3.prototype.inv = function () {
             this.conj();
-            this.divByScalar(this.squaredNorm());
+            this.divByScalar(this.squaredNormSansUnits());
             return this;
         };
         SpinG3.prototype.lco = function (rhs) {
@@ -419,10 +419,13 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {SpinG3}
          */
         SpinG3.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        SpinG3.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * <p>
@@ -485,7 +488,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
         * @chainable
         */
         SpinG3.prototype.norm = function () {
-            var norm = this.magnitude();
+            var norm = this.magnitudeSansUnits();
             return this.zero().addScalar(norm);
         };
         /**
@@ -497,7 +500,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
          * @chainable
          */
         SpinG3.prototype.direction = function () {
-            var modulus = this.magnitude();
+            var modulus = this.magnitudeSansUnits();
             this.yz = this.yz / modulus;
             this.zx = this.zx / modulus;
             this.xy = this.xy / modulus;
@@ -517,22 +520,29 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/dotVector
             return this;
         };
         /**
-        * <p>
-        * <code>this ⟼ this * conj(this)</code>
-        * </p>
-        * @method quad
-        * @return {SpinG3} <code>this</code>
-        * @chainable
-        */
+         * <p>
+         * <code>this ⟼ this * conj(this)</code>
+         * </p>
+         * @method quad
+         * @return {SpinG3} <code>this</code>
+         * @chainable
+         */
         SpinG3.prototype.quad = function () {
-            var squaredNorm = this.squaredNorm();
-            return this.zero().addScalar(squaredNorm);
+            return this.squaredNorm();
         };
         /**
          * @method squaredNorm
-         * @return {number} <code>this * conj(this)</code>
+         * @return {SpinG3} <code>this * conj(this)</code>
+         * @chainable
          */
         SpinG3.prototype.squaredNorm = function () {
+            var squaredNorm = this.squaredNormSansUnits();
+            return this.zero().addScalar(squaredNorm);
+        };
+        /**
+         * Intentionally undocumented.
+         */
+        SpinG3.prototype.squaredNormSansUnits = function () {
             return quadSpinor(this);
         };
         SpinG3.prototype.rco = function (rhs) {

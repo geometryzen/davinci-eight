@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.169.0</em>
+            <em>API Docs for: 2.170.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -426,9 +426,15 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3&gt;, TrigM
     log(): HH {
         return this
     }
-    magnitude(): number {
-        return Math.sqrt(this.squaredNorm());
+
+    magnitude(): HH {
+        return this.norm();
     }
+
+    magnitudeSansUnits(): number {
+        return Math.sqrt(this.squaredNormSansUnits());
+    }
+
     mul(q: HH): HH {
         return this.mul2(this, q);
     }
@@ -442,7 +448,7 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3&gt;, TrigM
         return this;
     }
     norm(): HH {
-        this.t = this.squaredNorm()
+        this.t = this.squaredNormSansUnits()
         this.x = 0
         this.y = 0
         this.z = 0
@@ -470,12 +476,12 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3&gt;, TrigM
         return this;
     }
     direction(): HH {
-        let modulus = this.magnitude()
-        this.x = this.x / modulus
-        this.y = this.y / modulus
-        this.z = this.z / modulus
-        this.t = this.t / modulus
-        return this
+        let modulus = this.magnitudeSansUnits();
+        this.x = this.x / modulus;
+        this.y = this.y / modulus;
+        this.z = this.z / modulus;
+        this.t = this.t / modulus;
+        return this;
     }
 
     one(): HH {
@@ -487,16 +493,21 @@ class HH implements MutableGeometricElement3D&lt;HH, HH, HH, VectorE3&gt;, TrigM
     }
 
     quad(): HH {
-        this.t = this.squaredNorm()
+        return this.squaredNorm();
+    }
+
+    squaredNorm(): HH {
+        this.t = this.squaredNormSansUnits()
         this.x = 0
         this.y = 0
         this.z = 0
         return this
     }
 
-    squaredNorm(): number {
+    squaredNormSansUnits(): number {
         return this.x * this.x + this.y * this.y + this.z * this.z + this.t * this.t;
     }
+
     reflect(n: VectorE3): HH {
         throw new Error(&quot;TODO: HH.reflect&quot;);
     }

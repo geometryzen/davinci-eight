@@ -323,9 +323,10 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     /**
      * Computes the <em>square root</em> of the <em>squared norm</em>.
      * @method magnitude
-     * @return {number}
+     * @return {G3}
      */
-    magnitude(): number;
+    magnitude(): G3;
+    magnitudeSansUnits(): number;
     /**
      * <p>
      * <code>this ⟼ this * s</code>
@@ -393,9 +394,10 @@ declare class G3 extends VectorN<number> implements GeometricE3, MutableGeometri
     /**
      * Computes the <em>squared norm</em> of this multivector.
      * @method squaredNorm
-     * @return {number} <code>this * conj(this)</code>
+     * @return {G3} <code>this * conj(this)</code>
      */
-    squaredNorm(): number;
+    squaredNorm(): G3;
+    squaredNormSansUnits(): number;
     /**
      * <p>
      * <code>this ⟼ - n * this * n</code>

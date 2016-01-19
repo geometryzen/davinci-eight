@@ -381,8 +381,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * @chainable
          */
         G2.prototype.direction = function () {
-            // The squaredNorm is the squared norm.
-            var norm = sqrt(this.squaredNorm());
+            var norm = sqrt(this.squaredNormSansUnits());
             this.α = this.α / norm;
             this.x = this.x / norm;
             this.y = this.y / norm;
@@ -632,10 +631,13 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         /**
          * Computes the <em>square root</em> of the <em>squared norm</em>.
          * @method magnitude
-         * @return {number}
+         * @return {G2}
          */
         G2.prototype.magnitude = function () {
-            return sqrt(this.squaredNorm());
+            return this.norm();
+        };
+        G2.prototype.magnitudeSansUnits = function () {
+            return sqrt(this.squaredNormSansUnits());
         };
         /**
          * <p>
@@ -698,7 +700,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
         * @chainable
         */
         G2.prototype.norm = function () {
-            this.α = this.magnitude();
+            this.α = this.magnitudeSansUnits();
             this.x = 0;
             this.y = 0;
             this.β = 0;
@@ -732,7 +734,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * @chainable
          */
         G2.prototype.quad = function () {
-            this.α = this.squaredNorm();
+            this.α = this.squaredNormSansUnits();
             this.x = 0;
             this.y = 0;
             this.β = 0;
@@ -987,6 +989,13 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/d
          * @return {number} <code>this | ~this</code>
          */
         G2.prototype.squaredNorm = function () {
+            this.α = this.squaredNormSansUnits();
+            this.x = 0;
+            this.y = 0;
+            this.β = 0;
+            return this;
+        };
+        G2.prototype.squaredNormSansUnits = function () {
             var w = this.α;
             var x = this.x;
             var y = this.y;
