@@ -1,16 +1,14 @@
 /**
  * Converts the angle specified into one in the closed interval [0, Math.PI]
  */
-function principalAngle(angle: number): number {
-  if (angle > 2 * Math.PI) {
-    return principalAngle(angle - 2 * Math.PI)
-  }
-  else if (angle < 0) {
-    return principalAngle(angle + 2 * Math.PI)
-  }
-  else {
-    return angle
-  }
+export default function principalAngle(angle: number): number {
+    if (angle > 2 * Math.PI) {
+        return principalAngle(angle - 2 * Math.PI)
+    }
+    else if (angle < 0) {
+        return principalAngle(angle + 2 * Math.PI)
+    }
+    else {
+        return angle
+    }
 }
-
-export = principalAngle

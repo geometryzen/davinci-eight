@@ -1,33 +1,26 @@
-import IContextProvider = require('../core/IContextProvider')
-import IContextMonitor = require('../core/IContextMonitor')
-import createDrawList = require('../scene/createDrawList')
-import IDrawable = require('../core/IDrawable')
-import IDrawList = require('../scene/IDrawList')
-import IUnknownArray = require('../collections/IUnknownArray')
-import IGraphicsProgram = require('../core/IGraphicsProgram')
-import R1 = require('../math/R1')
-import Mat2R = require('../math/Mat2R')
-import Mat3R = require('../math/Mat3R')
-import Mat4R = require('../math/Mat4R')
-import MonitorList = require('../scene/MonitorList')
-import mustSatisfy = require('../checks/mustSatisfy')
-import Shareable = require('../utils/Shareable')
-import IFacet = require('../core/IFacet')
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import core from '../core';
+import createDrawList from '../scene/createDrawList';
+import IDrawable from '../core/IDrawable';
+import IDrawList from '../scene/IDrawList';
+import IUnknownArray from '../collections/IUnknownArray';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import MonitorList from '../scene/MonitorList';
+import Shareable from '../utils/Shareable';
+import Facet from '../core/Facet';
 
-import refChange = require('../utils/refChange')
-import uuid4 = require('../utils/uuid4')
-
-let LOGGING_NAME = 'Scene'
+const LOGGING_NAME = 'Scene';
 
 function ctorContext(): string {
-    return LOGGING_NAME + " constructor"
+    return LOGGING_NAME + " constructor";
 }
 
 /**
  * @class Scene
  * @extends Shareable
  */
-class Scene extends Shareable implements IDrawList {
+export default class Scene extends Shareable implements IDrawList {
 
     /**
      * @property drawList
@@ -55,13 +48,13 @@ class Scene extends Shareable implements IDrawList {
      * @param [monitors = []] {Array&lt;IContextMonitor&gt;}
      */
     constructor(monitors: IContextMonitor[] = []) {
-        super(LOGGING_NAME)
-        MonitorList.verify('monitors', monitors, ctorContext)
+        super(LOGGING_NAME);
+        MonitorList.verify('monitors', monitors, ctorContext);
 
         this.drawList = createDrawList();
-        this.monitors = new MonitorList(monitors)
-        this.monitors.addContextListener(this)
-        this.monitors.synchronize(this)
+        this.monitors = new MonitorList(monitors);
+        this.monitors.addContextListener(this);
+        this.monitors.synchronize(this);
     }
 
     /**
@@ -70,12 +63,12 @@ class Scene extends Shareable implements IDrawList {
      * @protected
      */
     protected destructor(): void {
-        this.monitors.removeContextListener(this)
+        this.monitors.removeContextListener(this);
         this.monitors.release();
-        this.monitors = void 0
+        this.monitors = void 0;
 
-        this.drawList.release()
-        this.drawList = void 0
+        this.drawList.release();
+        this.drawList = void 0;
     }
 
     /**
@@ -90,25 +83,26 @@ class Scene extends Shareable implements IDrawList {
      * </p>
      */
     add(drawable: IDrawable): void {
-        return this.drawList.add(drawable)
+        return this.drawList.add(drawable);
     }
 
 
     containsDrawable(drawable: IDrawable): boolean {
-        return this.drawList.containsDrawable(drawable)
+        return this.drawList.containsDrawable(drawable);
     }
+
     /**
      * <p>
      * Traverses the collection of drawables, drawing each one.
      * </p>
      * @method draw
-     * @param ambients {IFacet[]}
+     * @param ambients {Facet[]}
      * @param [canvasId] {number}
      * @return {void}
      * @beta
      */
-    draw(ambients: IFacet[], canvasId?: number): void {
-        return this.drawList.draw(ambients, canvasId)
+    draw(ambients: Facet[], canvasId?: number): void {
+        return this.drawList.draw(ambients, canvasId);
     }
 
     /**
@@ -117,8 +111,9 @@ class Scene extends Shareable implements IDrawList {
      * @param name {string}
      */
     getDrawablesByName(name: string): IUnknownArray<IDrawable> {
-        return this.drawList.getDrawablesByName(name)
+        return this.drawList.getDrawablesByName(name);
     }
+
     /**
      * <p>
      * Removes the <code>drawable</code> from this <code>Scene</code>.
@@ -131,8 +126,9 @@ class Scene extends Shareable implements IDrawList {
      * </p>
      */
     remove(drawable: IDrawable): void {
-        return this.drawList.remove(drawable)
+        return this.drawList.remove(drawable);
     }
+
     /**
      * <p>
      * Traverses the collection of drawables, calling the specified callback arguments.
@@ -144,17 +140,42 @@ class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (material: IGraphicsProgram) => void): void {
-        this.drawList.traverse(callback, canvasId, prolog)
+        this.drawList.traverse(callback, canvasId, prolog);
     }
+
+    /**
+     * @method contextFree
+     * @param canvasId {number}
+     * @return {void}
+     */
     contextFree(canvasId: number): void {
-        this.drawList.contextFree(canvasId)
+        if (core.verbose) {
+            console.log(`${this._type} contextFree(canvasId=${canvasId})`);
+        }
+        this.drawList.contextFree(canvasId);
     }
+
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextGain(manager: IContextProvider): void {
-        this.drawList.contextGain(manager)
+        if (core.verbose) {
+            console.log(`${this._type} contextGain(canvasId=${manager.canvasId})`);
+        }
+        this.drawList.contextGain(manager);
     }
+
+    /**
+     * @method contextLost
+     * @param canvasId {number}
+     * @return {void}
+     */
     contextLost(canvasId: number): void {
-        this.drawList.contextLost(canvasId)
+        if (core.verbose) {
+            console.log(`${this._type} contextLost(canvasId=${canvasId})`);
+        }
+        this.drawList.contextLost(canvasId);
     }
 }
-
-export = Scene

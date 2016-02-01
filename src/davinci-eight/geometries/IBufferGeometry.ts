@@ -1,5 +1,5 @@
-import IGraphicsProgram = require('../core/IGraphicsProgram');
-import IUnknown = require('../core/IUnknown');
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import IUnknown from '../core/IUnknown';
 
 // FIXME: Move this to core?
 /**
@@ -8,28 +8,32 @@ import IUnknown = require('../core/IUnknown');
  * @extends IUnkown
  */
 interface IBufferGeometry extends IUnknown {
-  /**
-   * @property uuid
-   * @type {string}
-   */
-  uuid: string;
-  /**
-   * @method bind
-   * @param program {IGraphicsProgram}
-   * @param aNameToKeyName
-   * @return {void}
-   */
-  bind(program: IGraphicsProgram, aNameToKeyName?: {[name: string]: string}): void;
-  /**
-   * @method draw
-   * @return {void}
-   */
-  draw(): void;
-  /**
-   * @method unbind
-   * @return {void}
-   */
-  unbind(): void;
+
+    /**
+     * @property uuid
+     * @type {string}
+     */
+    uuid: string;
+
+    /**
+     * @method bind
+     * @param program {IGraphicsProgram}
+     * @param aNameToKeyName
+     * @return {void}
+     */
+    bind(program: IGraphicsProgram, aNameToKeyName?: { [name: string]: string }): void;
+
+    /**
+     * @method draw
+     * @return {void}
+     */
+    draw(): void;
+
+    /**
+     * @method unbind
+     * @return {void}
+     */
+    unbind(): void;
 }
 
-export = IBufferGeometry;
+export default IBufferGeometry;

@@ -1,5 +1,5 @@
-import IUnknown = require('../core/IUnknown')
-import Shareable = require('../utils/Shareable')
+import IUnknown from '../core/IUnknown';
+import Shareable from '../utils/Shareable';
 
 // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
 
@@ -9,7 +9,7 @@ let LOGGING_NAME = 'NumberIUnknownMap';
  * @class NumberIUnknownMap&lt;V extends IUnknown&gt;
  * @extends Shareable
  */
-class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
+export default class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
 
     /**
      * @property _elements
@@ -31,7 +31,6 @@ class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknow
      * @protected
      */
     protected destructor(): void {
-        let self = this;
         this.forEach(function(key, value) {
             if (value) {
                 value.release()
@@ -134,5 +133,3 @@ class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknow
         delete this._elements[key]
     }
 }
-
-export = NumberIUnknownMap;

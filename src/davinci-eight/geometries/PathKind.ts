@@ -1,7 +1,7 @@
 /**
  * @class PathKind
  */
-class PathKind {
+export default class PathKind {
     /**
      * @property MOVE_TO
      * @type {string}
@@ -48,4 +48,3 @@ class PathKind {
      */
     static ELLIPSE = 'ellipse';
 }
-export = PathKind

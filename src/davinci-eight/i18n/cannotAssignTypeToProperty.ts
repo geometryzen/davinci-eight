@@ -1,17 +1,15 @@
-import LocalizableMessage = require('../i18n/LocalizableMessage');
-import mustBeString = require('../checks/mustBeString');
+import LocalizableMessage from '../i18n/LocalizableMessage';
+import mustBeString from '../checks/mustBeString';
 /**
  *
  */
-function cannotAssignTypeToProperty(type: string, name: string): LocalizableMessage {
-  mustBeString('type', type);
-  mustBeString('name', name);
-  let message: LocalizableMessage = {
-    get message(): string {
-      return "Cannot assign type `" + type + "` to property `" + name + "`."
+export default function cannotAssignTypeToProperty(type: string, name: string): LocalizableMessage {
+    mustBeString('type', type);
+    mustBeString('name', name);
+    let message: LocalizableMessage = {
+        get message(): string {
+            return "Cannot assign type `" + type + "` to property `" + name + "`."
+        }
     }
-  }
-  return message
+    return message
 }
-
-export = cannotAssignTypeToProperty

@@ -17,5 +17,6 @@ define(["require", "exports"], function (require, exports) {
                 throw new Error("index => " + index);
         }
     }
-    return compG2Set;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = compG2Set;
 });

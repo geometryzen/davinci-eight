@@ -1,11 +1,8 @@
-define(["require", "exports", '../checks/mustBeString', '../checks/mustBeObject'], function (require, exports, mustBeString, mustBeObject) {
-    /**
-     * Convenience function for &lt;HTMLCanvasElement&gt;document.getElementById(elementId).
-     */
+define(["require", "exports", '../checks/mustBeString', '../checks/mustBeObject'], function (require, exports, mustBeString_1, mustBeObject_1) {
     function getCanvasElementById(elementId, dom) {
         if (dom === void 0) { dom = window.document; }
-        mustBeString('elementId', elementId);
-        mustBeObject('document', dom);
+        mustBeString_1.default('elementId', elementId);
+        mustBeObject_1.default('document', dom);
         var element = dom.getElementById(elementId);
         if (element instanceof HTMLCanvasElement) {
             return element;
@@ -14,5 +11,6 @@ define(["require", "exports", '../checks/mustBeString', '../checks/mustBeObject'
             throw new Error(elementId + " is not an HTMLCanvasElement.");
         }
     }
-    return getCanvasElementById;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = getCanvasElementById;
 });

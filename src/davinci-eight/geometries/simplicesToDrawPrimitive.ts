@@ -1,17 +1,17 @@
-import Attribute = require('../geometries/Attribute');
-import copyToArray = require('../collections/copyToArray')
-import dataFromVectorN = require('../geometries/dataFromVectorN')
-import DrawAttribute = require('../geometries/DrawAttribute');
-import DrawMode = require('../core/DrawMode')
-import DrawPrimitive = require('../geometries/DrawPrimitive');
-import simplicesToGeometryMeta = require('../geometries/simplicesToGeometryMeta');
-import computeUniqueVertices = require('../geometries/computeUniqueVertices');
-import expectArg = require('../checks/expectArg');
-import GeometryMeta = require('../geometries/GeometryMeta');
-import Primitive = require('../geometries/Primitive');
-import Simplex = require('../geometries/Simplex');
-import VectorN = require('../math/VectorN');
-import Vertex = require('../geometries/Vertex');
+import Attribute from '../geometries/Attribute';
+import copyToArray from '../collections/copyToArray';
+import dataFromVectorN from '../geometries/dataFromVectorN';
+import DrawAttribute from '../geometries/DrawAttribute';
+import DrawMode from '../core/DrawMode';
+import DrawPrimitive from '../geometries/DrawPrimitive';
+import simplicesToGeometryMeta from '../geometries/simplicesToGeometryMeta';
+import computeUniqueVertices from '../geometries/computeUniqueVertices';
+import expectArg from '../checks/expectArg';
+import GeometryMeta from '../geometries/GeometryMeta';
+import Primitive from '../geometries/Primitive';
+import Simplex from '../geometries/Simplex';
+import VectorN from '../math/VectorN';
+import Vertex from '../geometries/Vertex';
 
 function numberList(size: number, value: number): number[] {
     let data: number[] = [];
@@ -51,7 +51,7 @@ function concat(a: number[], b: number[]): number[] {
     return a.concat(b);
 }
 
-function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): Primitive {
+export default function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryMeta): Primitive {
     expectArg('simplices', simplices).toBeObject()
 
     var actuals: GeometryMeta = simplicesToGeometryMeta(simplices);
@@ -134,5 +134,3 @@ function simplicesToDrawPrimitive(simplices: Simplex[], geometryMeta?: GeometryM
         }
     }
 }
-
-export = simplicesToDrawPrimitive

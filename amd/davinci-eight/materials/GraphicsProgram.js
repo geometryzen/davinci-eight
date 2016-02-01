@@ -3,39 +3,22 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUndefined', '../scene/MonitorList', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core, isDefined, isUndefined, MonitorList, mustBeString, Shareable) {
+define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUndefined', '../scene/MonitorList', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, isDefined_1, isUndefined_1, MonitorList_1, mustBeString_1, Shareable_1) {
     function consoleWarnDroppedUniform(clazz, suffix, name, canvasId) {
         console.warn(clazz + " dropped uniform" + suffix + " " + name);
         console.warn("`typeof canvasId` is " + typeof canvasId);
     }
-    /**
-     * @class GraphicsProgram
-     * @extends Shareable
-     */
     var GraphicsProgram = (function (_super) {
         __extends(GraphicsProgram, _super);
-        /**
-         * A GraphicsProgram instance contains one WebGLProgram for each context/canvas that it is associated with.
-         * @class GraphicsProgram
-         * @constructor
-         * @param contexts {IContextMonitor[]} An array of context monitors, one for each HTML canvas you are using.
-         * The GraphicsProgram will lazily register itself (call addContextListener) with each context in order to be notified of context loss events.
-         * The GraphicsProgram will automatically unregister itself (call removeContextListener) prior to destruction.
-         * @param type {string} The class name, used for logging.
-         */
-        function GraphicsProgram(contexts, type) {
+        function GraphicsProgram(type, monitors) {
+            if (monitors === void 0) { monitors = []; }
             _super.call(this, 'GraphicsProgram');
             this.readyPending = false;
-            MonitorList.verify('contexts', contexts);
-            mustBeString('type', type);
-            this._monitors = MonitorList.copy(contexts);
+            MonitorList_1.default.verify('monitors', monitors);
+            mustBeString_1.default('type', type);
+            this._monitors = MonitorList_1.default.copy(monitors);
             this.type = type;
         }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
         GraphicsProgram.prototype.destructor = function () {
             this._monitors.removeContextListener(this);
             this._monitors.release();
@@ -45,13 +28,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 this.inner = void 0;
             }
         };
-        /**
-         * Registers this GraphicsProgram with the context monitors and synchronizes the WebGL contexts.
-         * This causes this GraphicsProgram instance to receive a contextGain call allowing WebGLProgram initialization.
-         * @method makeReady
-         * @param async {boolean} Reserved for future use.
-         * @protected
-         */
         GraphicsProgram.prototype.makeReady = function (async) {
             if (!this.readyPending) {
                 this.readyPending = true;
@@ -60,11 +36,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             }
         };
         Object.defineProperty(GraphicsProgram.prototype, "monitors", {
-            /**
-             * Returns the context monitors this GraphicsProgram is associated with.
-             * @property monitors
-             * @type {IContextMonitor[]}
-             */
             get: function () {
                 return this._monitors.toArray();
             },
@@ -72,11 +43,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             configurable: true
         });
         Object.defineProperty(GraphicsProgram.prototype, "fragmentShader", {
-            /**
-             * Returns the generated fragment shader code as a string.
-             * @property fragmentShader
-             * @type {string}
-             */
             get: function () {
                 if (this.inner) {
                     return this.inner.fragmentShader;
@@ -95,12 +61,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             enumerable: true,
             configurable: true
         });
-        /**
-         * Makes the WebGLProgram associated with the specified canvas the current program for WebGL.
-         * @method use
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.use = function (canvasId) {
             if (this.inner) {
                 return this.inner.use(canvasId);
@@ -112,22 +72,13 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                     return this.inner.use(canvasId);
                 }
                 else {
-                    if (core.verbose) {
+                    if (core_1.default.verbose) {
                         console.warn(this.type + " is not ready for use. Maybe did not receive contextGain?");
                     }
                 }
             }
         };
-        /**
-         * Returns a map of GLSL attribute name to <code>AttribLocation</code>.
-         * @method attributes
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {{[name: string]: AttribLocation}}
-         */
         GraphicsProgram.prototype.attributes = function (canvasId) {
-            // FIXME: Why is this called?
-            // FIXME: The map should be protected but that is slow
-            // FIXME Clear need for performant solution.
             if (this.inner) {
                 return this.inner.attributes(canvasId);
             }
@@ -142,11 +93,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method uniforms
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {{[name: string]: UniformLocation}}
-         */
         GraphicsProgram.prototype.uniforms = function (canvasId) {
             if (this.inner) {
                 return this.inner.uniforms(canvasId);
@@ -162,12 +108,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method enableAttrib
-         * @param name {string}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.enableAttrib = function (name, canvasId) {
             if (this.inner) {
                 return this.inner.enableAttrib(name, canvasId);
@@ -183,12 +123,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method disableAttrib
-         * @param name {string}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.disableAttrib = function (name, canvasId) {
             if (this.inner) {
                 return this.inner.disableAttrib(name, canvasId);
@@ -204,55 +138,27 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method contextFree
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.contextFree = function (canvasId) {
             if (this.inner) {
                 this.inner.contextFree(canvasId);
             }
         };
-        /**
-         * @method contextGain
-         * @param manager {IContextProvider}
-         * @return {void}
-         */
         GraphicsProgram.prototype.contextGain = function (manager) {
-            if (isUndefined(this.inner)) {
+            if (isUndefined_1.default(this.inner)) {
                 this.inner = this.createGraphicsProgram();
             }
-            if (isDefined(this.inner)) {
+            if (isDefined_1.default(this.inner)) {
                 this.inner.contextGain(manager);
             }
         };
-        /**
-         * @method contextLost
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.contextLost = function (canvasId) {
             if (this.inner) {
                 this.inner.contextLost(canvasId);
             }
         };
-        /**
-         * @method createGraphicsProgram
-         * @return {IGraphicsProgram}
-         * @protected
-         */
         GraphicsProgram.prototype.createGraphicsProgram = function () {
-            // FIXME Since we get contextGain by canvas, expect canvasId to be an argument?
             throw new Error("GraphicsProgram createGraphicsProgram method is virtual and should be implemented by " + this.type);
         };
-        /**
-         * @method uniform1f
-         * @param name {string}
-         * @param x {number}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.uniform1f = function (name, x, canvasId) {
             if (this.inner) {
                 this.inner.uniform1f(name, x, canvasId);
@@ -271,14 +177,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method uniform2f
-         * @param name {string}
-         * @param x {number}
-         * @param y {number}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.uniform2f = function (name, x, y, canvasId) {
             if (this.inner) {
                 this.inner.uniform2f(name, x, y, canvasId);
@@ -297,15 +195,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method uniform3f
-         * @param name {string}
-         * @param x {number}
-         * @param y {number}
-         * @param z {number}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.uniform3f = function (name, x, y, z, canvasId) {
             if (this.inner) {
                 this.inner.uniform3f(name, x, y, z, canvasId);
@@ -324,16 +213,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method uniform4f
-         * @param name {string}
-         * @param x {number}
-         * @param y {number}
-         * @param z {number}
-         * @param w {number}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.uniform4f = function (name, x, y, z, w, canvasId) {
             if (this.inner) {
                 this.inner.uniform4f(name, x, y, z, w, canvasId);
@@ -352,14 +231,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method mat2
-         * @param name {string}
-         * @param matrix {Mat2R}
-         * @param [transpose] {boolean}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.mat2 = function (name, matrix, transpose, canvasId) {
             if (this.inner) {
                 this.inner.mat2(name, matrix, transpose, canvasId);
@@ -378,14 +249,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method mat3
-         * @param name {string}
-         * @param matrix {Mat3R}
-         * @param [transpose] {boolean}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.mat3 = function (name, matrix, transpose, canvasId) {
             if (this.inner) {
                 this.inner.mat3(name, matrix, transpose, canvasId);
@@ -404,14 +267,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method mat4
-         * @param name {string}
-         * @param matrix {Mat4R}
-         * @param [transpose] {boolean}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.mat4 = function (name, matrix, transpose, canvasId) {
             if (this.inner) {
                 this.inner.mat4(name, matrix, transpose, canvasId);
@@ -425,20 +280,13 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
                 else {
                     if (!readyPending) {
-                        if (core.verbose) {
+                        if (core_1.default.verbose) {
                             consoleWarnDroppedUniform(this.type, 'Mat4R', name, canvasId);
                         }
                     }
                 }
             }
         };
-        /**
-         * @method vec2
-         * @param name {string}
-         * @param vector {VectorE2}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.vec2 = function (name, vector, canvasId) {
             if (this.inner) {
                 this.inner.vec2(name, vector, canvasId);
@@ -457,13 +305,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method vec3
-         * @param name {string}
-         * @param vector {VectorE3}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.vec3 = function (name, vector, canvasId) {
             if (this.inner) {
                 this.inner.vec3(name, vector, canvasId);
@@ -482,13 +323,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method vec4
-         * @param name {string}
-         * @param vector {VectorE4}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.vec4 = function (name, vector, canvasId) {
             if (this.inner) {
                 this.inner.vec4(name, vector, canvasId);
@@ -507,13 +341,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method vector2
-         * @param name {string}
-         * @param data {number[]}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.vector2 = function (name, data, canvasId) {
             if (this.inner) {
                 this.inner.vector2(name, data, canvasId);
@@ -532,13 +359,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method vector3
-         * @param name {string}
-         * @param data {number[]}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.vector3 = function (name, data, canvasId) {
             if (this.inner) {
                 this.inner.vector3(name, data, canvasId);
@@ -557,13 +377,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
                 }
             }
         };
-        /**
-         * @method vector4
-         * @param name {string}
-         * @param data {number[]}
-         * @param [canvasId] {number} Determines which WebGLProgram to use.
-         * @return {void}
-         */
         GraphicsProgram.prototype.vector4 = function (name, data, canvasId) {
             if (this.inner) {
                 this.inner.vector4(name, data, canvasId);
@@ -583,11 +396,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             }
         };
         Object.defineProperty(GraphicsProgram.prototype, "vertexShader", {
-            /**
-             * Returns the generated shader vertex code as a string.
-             * @property vertexShader
-             * @type {string}
-             */
             get: function () {
                 if (this.inner) {
                     return this.inner.vertexShader;
@@ -607,6 +415,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             configurable: true
         });
         return GraphicsProgram;
-    })(Shareable);
-    return GraphicsProgram;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = GraphicsProgram;
 });

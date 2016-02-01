@@ -3,26 +3,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareable', '../slideshow/SlideCommands', '../collections/StringIUnknownMap'], function (require, exports, IUnknownArray, Shareable, SlideCommands, StringIUnknownMap) {
-    /**
-     * @class Slide
-     */
+define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareable', '../slideshow/SlideCommands', '../collections/StringIUnknownMap'], function (require, exports, IUnknownArray_1, Shareable_1, SlideCommands_1, StringIUnknownMap_1) {
     var Slide = (function (_super) {
         __extends(Slide, _super);
-        /**
-         * @class Slide
-         * @constructor
-         */
         function Slide() {
             _super.call(this, 'Slide');
-            /**
-             * The time standard for this Slide.
-             */
             this.now = 0;
-            this.prolog = new SlideCommands();
-            this.epilog = new SlideCommands();
+            this.prolog = new SlideCommands_1.default();
+            this.epilog = new SlideCommands_1.default();
             this.targets = [];
-            this.mirrors = new StringIUnknownMap();
+            this.mirrors = new StringIUnknownMap_1.default();
         }
         Slide.prototype.destructor = function () {
             this.prolog.release();
@@ -57,22 +47,10 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             var animationLane = mirror.animationLanes.getWeakRef(propName);
             return animationLane.pop();
         };
-        /**
-         * Update all currently running animations.
-         * Essentially calls `apply` on each IAnimation in the queues of active objects.
-         * @method advance
-         * @param interval {number} Advances the static Slide.now property.
-         */
         Slide.prototype.advance = function (interval) {
             this.now += interval;
             for (var i = 0, iLength = this.targets.length; i < iLength; i++) {
                 var target = this.targets[i];
-                /**
-                 * `offset` is variable used to keep things running on schedule.
-                 * If an animation finishes before the interval, it reports the
-                 * duration `extra` that brings the tome to `now`. Subsequent animations
-                 * get a head start by considering their start time to be now - offset.
-                 */
                 var offset = 0;
                 var mirror = this.mirrors.getWeakRef(target.uuid);
                 var names = mirror.animationLanes.keys;
@@ -112,13 +90,15 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             }
         };
         return Slide;
-    })(Shareable);
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Slide;
     var AnimationLane = (function (_super) {
         __extends(AnimationLane, _super);
         function AnimationLane() {
             _super.call(this, 'AnimationLane');
-            this.completed = new IUnknownArray();
-            this.remaining = new IUnknownArray();
+            this.completed = new IUnknownArray_1.default();
+            this.remaining = new IUnknownArray_1.default();
         }
         AnimationLane.prototype.destructor = function () {
             this.completed.release();
@@ -171,15 +151,12 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             }
         };
         return AnimationLane;
-    })(Shareable);
-    /**
-     * The companion to a target: IAnimationTarget containing animation state.
-     */
+    })(Shareable_1.default);
     var Mirror = (function (_super) {
         __extends(Mirror, _super);
         function Mirror() {
             _super.call(this, 'Mirror');
-            this.animationLanes = new StringIUnknownMap();
+            this.animationLanes = new StringIUnknownMap_1.default();
         }
         Mirror.prototype.destructor = function () {
             this.animationLanes.release();
@@ -192,6 +169,5 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             }
         };
         return Mirror;
-    })(Shareable);
-    return Slide;
+    })(Shareable_1.default);
 });

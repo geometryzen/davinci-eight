@@ -1,12 +1,12 @@
-import DivisionRingOperators = require('../math/DivisionRingOperators')
-import isInteger = require('../checks/isInteger')
-import mustBeInteger = require('../checks/mustBeInteger')
-import readOnly = require('../i18n/readOnly')
+import DivisionRingOperators from '../math/DivisionRingOperators';
+import isInteger from '../checks/isInteger';
+import mustBeInteger from '../checks/mustBeInteger';
+import readOnly from '../i18n/readOnly';
 
 /**
  * @class QQ
  */
-class QQ implements DivisionRingOperators<QQ> {
+export default class QQ implements DivisionRingOperators<QQ> {
     /**
      * @property _numer
      * @type {number}
@@ -368,5 +368,3 @@ class QQ implements DivisionRingOperators<QQ> {
      */
     static ZERO: QQ = new QQ(0, 1)
 }
-
-export = QQ;

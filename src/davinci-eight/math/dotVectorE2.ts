@@ -1,7 +1,7 @@
-import VectorE2 = require('../math/VectorE2')
-import isDefined = require('../checks/isDefined')
+import VectorE2 from '../math/VectorE2';
+import isDefined from '../checks/isDefined';
 
-function dotVectorE2(a: VectorE2, b: VectorE2): number {
+export default function dotVectorE2(a: VectorE2, b: VectorE2): number {
     if (isDefined(a) && isDefined(b)) {
         return a.x * b.x + a.y * b.y
     }
@@ -9,5 +9,3 @@ function dotVectorE2(a: VectorE2, b: VectorE2): number {
         return void 0
     }
 }
-
-export = dotVectorE2

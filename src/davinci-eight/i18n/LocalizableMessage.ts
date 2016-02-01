@@ -2,11 +2,11 @@
  * @class LocalizableMessage
  */
 interface LocalizableMessage {
-  /**
-   * @property message
-   * @type {string}
-   */
-  message: string;
+    /**
+     * @property message
+     * @type {string}
+     */
+    message: string;
 }
 
-export = LocalizableMessage;
+export default LocalizableMessage;

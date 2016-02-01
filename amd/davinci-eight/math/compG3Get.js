@@ -1,7 +1,4 @@
 define(["require", "exports"], function (require, exports) {
-    // GraphicsProgramSymbols constants for the coordinate indices into the data array.
-    // These are chosen to match those used by Euclidean3.
-    // TODO: The goal should be to protect the user from changes in ordering.
     var COORD_W = 0;
     var COORD_X = 1;
     var COORD_Y = 2;
@@ -41,5 +38,6 @@ define(["require", "exports"], function (require, exports) {
             }
         }
     }
-    return gcompE3;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = gcompE3;
 });

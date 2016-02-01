@@ -3,21 +3,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R3'], function (require, exports, SimplexGeometry, Simplex, GraphicsProgramSymbols, R3) {
-    //import VectorN = require('../math/VectorN')
-    /**
-     * @class Simplex1Geometry
-     */
+define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Simplex', '../core/GraphicsProgramSymbols', '../math/R3'], function (require, exports, SimplexGeometry_1, Simplex_1, GraphicsProgramSymbols_1, R3_1) {
     var Simplex1Geometry = (function (_super) {
         __extends(Simplex1Geometry, _super);
-        /**
-         * @class Simplex1Geometry
-         * @constructor
-         */
         function Simplex1Geometry() {
             _super.call(this);
-            this.head = new R3([1, 0, 0]);
-            this.tail = new R3([0, 1, 0]);
+            this.head = new R3_1.default([1, 0, 0]);
+            this.tail = new R3_1.default([0, 1, 0]);
             this.calculate();
         }
         Simplex1Geometry.prototype.calculate = function () {
@@ -25,17 +17,17 @@ define(["require", "exports", '../geometries/SimplexGeometry', '../geometries/Si
             pos[0] = this.tail;
             pos[1] = this.head;
             function simplex(indices) {
-                var simplex = new Simplex(indices.length - 1);
+                var simplex = new Simplex_1.default(indices.length - 1);
                 for (var i = 0; i < indices.length; i++) {
-                    simplex.vertices[i].attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = pos[indices[i]];
+                    simplex.vertices[i].attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = pos[indices[i]];
                 }
                 return simplex;
             }
             this.data = [[0, 1]].map(function (line) { return simplex(line); });
-            // Compute the meta data.
             this.check();
         };
         return Simplex1Geometry;
-    })(SimplexGeometry);
-    return Simplex1Geometry;
+    })(SimplexGeometry_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Simplex1Geometry;
 });

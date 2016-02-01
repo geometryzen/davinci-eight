@@ -1,5 +1,3 @@
-function isFunction(x: any): boolean {
-  return (typeof x === 'function');
+export default function isFunction(x: any): boolean {
+    return (typeof x === 'function');
 }
-
-export = isFunction;

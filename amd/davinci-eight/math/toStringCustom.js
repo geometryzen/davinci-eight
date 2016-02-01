@@ -1,6 +1,6 @@
-define(["require", "exports", '../math/stringFromCoordinates'], function (require, exports, stringFromCoordinates) {
+define(["require", "exports", '../math/stringFromCoordinates'], function (require, exports, stringFromCoordinates_1) {
     function toStringCustom(coordinates, uom, coordToString, labels) {
-        var quantityString = stringFromCoordinates(coordinates, coordToString, labels);
+        var quantityString = stringFromCoordinates_1.default(coordinates, coordToString, labels);
         if (uom) {
             var unitString = uom.toString().trim();
             if (unitString) {
@@ -14,5 +14,6 @@ define(["require", "exports", '../math/stringFromCoordinates'], function (requir
             return quantityString;
         }
     }
-    return toStringCustom;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = toStringCustom;
 });

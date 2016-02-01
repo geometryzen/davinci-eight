@@ -1,9 +1,9 @@
-import AxialSimplexGeometry = require('../geometries/AxialSimplexGeometry')
-import VectorE3 = require('../math/VectorE3')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
-import isDefined = require('../checks/isDefined')
-import mustBeNumber = require('../checks/mustBeNumber')
-import R3 = require('../math/R3')
+import AxialSimplexGeometry from '../geometries/AxialSimplexGeometry';
+import VectorE3 from '../math/VectorE3';
+import SimplexGeometry from '../geometries/SimplexGeometry';
+import isDefined from '../checks/isDefined';
+import mustBeNumber from '../checks/mustBeNumber';
+import R3 from '../math/R3';
 
 function perpendicular(axis: VectorE3) {
     return R3.random().cross(axis).direction()
@@ -13,7 +13,7 @@ function perpendicular(axis: VectorE3) {
  * @class SliceSimplexGeometry
  * @extends AxialSimplexGeometry
  */
-class SliceSimplexGeometry extends AxialSimplexGeometry {
+export default class SliceSimplexGeometry extends AxialSimplexGeometry {
     /**
      * <p>
      * The angle of the slice, measured in radians.
@@ -58,5 +58,3 @@ class SliceSimplexGeometry extends AxialSimplexGeometry {
         this.sliceAngle = mustBeNumber('sliceAngle', sliceAngle)
     }
 }
-
-export = SliceSimplexGeometry

@@ -1,18 +1,17 @@
-import Curve = require('../curves/Curve')
-import Path = require('../geometries/Path')
+import Curve from '../curves/Curve';
+import Path from '../geometries/Path';
 
 /**
  * @class Shape
  */
-class Shape extends Path {
-  holes: Path[]
-  /**
-   * @class Shape
-   * @constructor
-   */
-  constructor() {
-    super()
-    this.holes = []
-  }
+export default class Shape extends Path {
+    holes: Path[]
+    /**
+     * @class Shape
+     * @constructor
+     */
+    constructor() {
+        super()
+        this.holes = []
+    }
 }
-export = Shape;

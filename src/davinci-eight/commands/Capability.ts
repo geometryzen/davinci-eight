@@ -39,4 +39,4 @@ enum Capability {
     SCISSOR_TEST
 }
 
-export = Capability;
+export default Capability;

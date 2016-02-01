@@ -1,8 +1,8 @@
 
 interface IContextProgramConsumer {
-  contextFree(): void;
-  contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
-  contextLost(): void;
+    contextFree(): void;
+    contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
+    contextLost(): void;
 }
 
-export = IContextProgramConsumer;
+export default IContextProgramConsumer;

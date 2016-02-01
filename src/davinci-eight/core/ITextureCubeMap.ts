@@ -1,7 +1,7 @@
-import ITexture = require('../core/ITexture');
+import ITexture from '../core/ITexture';
 
 interface ITextureCubeMap extends ITexture {
 
 }
 
-export = ITextureCubeMap;
+export default ITextureCubeMap;

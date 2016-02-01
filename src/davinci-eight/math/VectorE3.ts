@@ -1,4 +1,4 @@
-import Vector = require('../math/Vector')
+import Vector from '../math/Vector';
 
 /**
  * @class VectorE3
@@ -26,4 +26,4 @@ interface VectorE3 {
     z: number;
 }
 
-export = VectorE3;
+export default VectorE3;

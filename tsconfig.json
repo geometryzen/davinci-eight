@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "system",
+    "target": "es5",
+    "moduleResolution": "classic",
+    "noImplicitAny": false,
+    "noLib": false,
+    "outDir": "system",
+    "removeComments": true,
+    "rootDir": ".",
+    "sourceMap": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "inlineSourceMap": false,
+    "inlineSources": false
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "files": [
+    "src/davinci-eight.ts",
+    "src/davinci-eight/math/Euclidean3.spec.ts",
+    "typings/jasmine/jasmine.d.ts"
+  ]
+}

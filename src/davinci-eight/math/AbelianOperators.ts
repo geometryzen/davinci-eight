@@ -37,12 +37,12 @@ interface AbelianOperators<T> {
     /**
      * The additive inverse is denoted by neg.
      */
-     neg(): T
+    neg(): T
 
-     /**
-      * Determines whether this element is the additive identity, <b>0</b>.
-      */
-     isZero(): boolean
+    /**
+     * Determines whether this element is the additive identity, <b>0</b>.
+     */
+    isZero(): boolean
 }
 
-export = AbelianOperators
+export default AbelianOperators;

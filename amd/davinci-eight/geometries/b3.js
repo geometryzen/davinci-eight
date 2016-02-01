@@ -1,4 +1,3 @@
-// Cubic Bezier Functions
 define(["require", "exports"], function (require, exports) {
     function b3p0(t, p) {
         var k = 1 - t;
@@ -18,5 +17,6 @@ define(["require", "exports"], function (require, exports) {
     function b3(t, p0, p1, p2, p3) {
         return b3p0(t, p0) + b3p1(t, p1) + b3p2(t, p2) + b3p3(t, p3);
     }
-    return b3;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = b3;
 });

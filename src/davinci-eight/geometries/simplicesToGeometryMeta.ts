@@ -1,11 +1,11 @@
-import dataLength = require('../geometries/dataLength')
-import expectArg = require('../checks/expectArg');
-import isDefined = require('../checks/isDefined');
-//import isInteger = require('../checks/isInteger');
-import GeometryMeta = require('../geometries/GeometryMeta');
-import Simplex = require('../geometries/Simplex');
-import Vertex = require('../geometries/Vertex');
-import VectorN = require('../math/VectorN');
+import dataLength from '../geometries/dataLength';
+import expectArg from '../checks/expectArg';
+import isDefined from '../checks/isDefined';
+//import isInteger from '../checks/isInteger');
+import GeometryMeta from '../geometries/GeometryMeta';
+import Simplex from '../geometries/Simplex';
+import Vertex from '../geometries/Vertex';
+import VectorN from '../math/VectorN';
 
 function stringify(thing: any, space: any): string {
     let cache: any[] = [];
@@ -26,7 +26,7 @@ function stringify(thing: any, space: any): string {
 /**
  * Returns undefined (void 0) for an empty geometry.
  */
-function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
+export default function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
     let kValueOfSimplex: number = void 0;
     let knowns: { [key: string]: { size: number } } = {};
     let geometryLen = geometry.length;
@@ -75,5 +75,3 @@ function simplicesToGeometryMeta(geometry: Simplex[]): GeometryMeta {
         return void 0;
     }
 }
-
-export = simplicesToGeometryMeta;

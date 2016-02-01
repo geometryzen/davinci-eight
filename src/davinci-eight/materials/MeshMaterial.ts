@@ -1,12 +1,12 @@
-import IContextProvider = require('../core/IContextProvider');
-import IContextMonitor = require('../core/IContextMonitor');
-import IGraphicsProgram = require('../core/IGraphicsProgram');
-import MeshMaterialParameters = require('../materials/MeshMaterialParameters');
-import GraphicsProgram = require('../materials/GraphicsProgram');
-import MonitorList = require('../scene/MonitorList');
-import createGraphicsProgram = require('../programs/createGraphicsProgram');
-import GraphicsProgramBuilder = require('../materials/GraphicsProgramBuilder')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import MeshMaterialParameters from '../materials/MeshMaterialParameters';
+import GraphicsProgram from '../materials/GraphicsProgram';
+import MonitorList from '../scene/MonitorList';
+import createGraphicsProgram from '../programs/createGraphicsProgram';
+import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 /**
  * Name used for reference count monitoring and logging.
  */
@@ -20,15 +20,15 @@ function nameBuilder(): string {
  * @class MeshMaterial
  * @extends GraphicsProgram
  */
-class MeshMaterial extends GraphicsProgram {
+export default class MeshMaterial extends GraphicsProgram {
     /**
      * @class MeshMaterial
      * @constructor
-     * @param monitors [IContextMonitor[]=[]]
-     * @parameters [MeshNormalParameters]
+     * @param [parameters] {MeshNormalParameters}
+     * @param [monitors] {IContextMonitor[]}
      */
-    constructor(monitors: IContextMonitor[] = [], parameters?: MeshMaterialParameters) {
-        super(monitors, LOGGING_NAME);
+    constructor(parameters?: MeshMaterialParameters, monitors?: IContextMonitor[]) {
+        super(LOGGING_NAME, monitors);
     }
     /**
      * @method destructor
@@ -63,5 +63,3 @@ class MeshMaterial extends GraphicsProgram {
         return smb.build(this.monitors);
     }
 }
-
-export = MeshMaterial;

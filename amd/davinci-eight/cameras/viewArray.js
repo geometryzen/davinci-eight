@@ -1,18 +1,17 @@
-define(["require", "exports", '../math/R3', '../checks/expectArg', '../checks/isDefined'], function (require, exports, R3, expectArg, isDefined) {
+define(["require", "exports", '../math/R3', '../checks/expectArg', '../checks/isDefined'], function (require, exports, R3_1, expectArg_1, isDefined_1) {
     function viewArray(eye, look, up, matrix) {
-        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        expectArg('matrix', m).toSatisfy(m.length === 16, 'matrix must have length 16');
-        var n = new R3().sub2(eye, look);
+        var m = isDefined_1.default(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        expectArg_1.default('matrix', m).toSatisfy(m.length === 16, 'matrix must have length 16');
+        var n = new R3_1.default().sub2(eye, look);
         if (n.x === 0 && n.y === 0 && n.z === 0) {
-            // View direction is ambiguous.
             n.z = 1;
         }
         else {
             n.direction();
         }
-        var u = new R3().cross2(up, n);
-        var v = new R3().cross2(n, u);
-        var d = new R3([R3.dot(eye, u), R3.dot(eye, v), R3.dot(eye, n)]).scale(-1);
+        var u = new R3_1.default().cross2(up, n);
+        var v = new R3_1.default().cross2(n, u);
+        var d = new R3_1.default([R3_1.default.dot(eye, u), R3_1.default.dot(eye, v), R3_1.default.dot(eye, n)]).scale(-1);
         m[0] = u.x;
         m[4] = u.y;
         m[8] = u.z;
@@ -31,5 +30,6 @@ define(["require", "exports", '../math/R3', '../checks/expectArg', '../checks/is
         m[15] = 1;
         return m;
     }
-    return viewArray;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = viewArray;
 });

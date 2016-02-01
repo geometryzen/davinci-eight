@@ -1,21 +1,15 @@
-import IContextProvider = require('../core/IContextProvider')
-import expectArg = require('../checks/expectArg')
-import isDefined = require('../checks/isDefined')
-import R1 = require('../math/R1')
-import Mat2R = require('../math/Mat2R')
-import Mat3R = require('../math/Mat3R')
-import Mat4R = require('../math/Mat4R')
-import IDrawable = require('../core/IDrawable')
-import IDrawList = require('../scene/IDrawList')
-import IGraphicsProgram = require('../core/IGraphicsProgram')
-import IUnknown = require('../core/IUnknown')
-import IUnknownArray = require('../collections/IUnknownArray')
-import NumberIUnknownMap = require('../collections/NumberIUnknownMap')
-import refChange = require('../utils/refChange')
-import Shareable = require('../utils/Shareable')
-import StringIUnknownMap = require('../collections/StringIUnknownMap')
-import uuid4 = require('../utils/uuid4')
-import IFacet = require('../core/IFacet')
+import IContextProvider from '../core/IContextProvider';
+import IDrawable from '../core/IDrawable';
+import IDrawList from '../scene/IDrawList';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import IUnknown from '../core/IUnknown';
+import IUnknownArray from '../collections/IUnknownArray';
+import NumberIUnknownMap from '../collections/NumberIUnknownMap';
+import refChange from '../utils/refChange';
+import Shareable from '../utils/Shareable';
+import StringIUnknownMap from '../collections/StringIUnknownMap';
+import uuid4 from '../utils/uuid4';
+import Facet from '../core/Facet';
 
 let CLASS_NAME_DRAWLIST = "createDrawList"
 let CLASS_NAME_GROUP = "DrawableGroup"
@@ -88,7 +82,7 @@ class DrawableGroup implements IUnknown {
             drawables.splice(index, 1).release()
         }
     }
-    draw(ambients: IFacet[], canvasId?: number): void {
+    draw(ambients: Facet[], canvasId?: number): void {
 
         var i: number
         var length: number
@@ -195,7 +189,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
                     }
                 }
                 else {
-
+                    // Do nothing.
                 }
             }
             finally {
@@ -203,7 +197,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
             }
         }
     }
-    draw(ambients: IFacet[], canvasId?: number) {
+    draw(ambients: Facet[], canvasId?: number) {
         // Manually hoisted variable declarations.
         var drawGroups: StringIUnknownMap<DrawableGroup>
         var materialKey: string;
@@ -236,10 +230,10 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
     }
 }
 
-let createDrawList = function(): IDrawList {
+export default function createDrawList(): IDrawList {
     let drawableGroups = new DrawableGroups();
     let canvasIdToManager = new NumberIUnknownMap<IContextProvider>();
-    let refCount: number = 1;
+    let refCount = 1;
     let uuid = uuid4().generate();
 
     let self: IDrawList = {
@@ -317,7 +311,7 @@ let createDrawList = function(): IDrawList {
         containsDrawable(drawable: IDrawable): boolean {
             return drawableGroups.containsDrawable(drawable)
         },
-        draw(ambients: IFacet[], canvasId?: number): void {
+        draw(ambients: Facet[], canvasId?: number): void {
             drawableGroups.draw(ambients, canvasId)
         },
         getDrawablesByName(name: string): IUnknownArray<IDrawable> {
@@ -329,6 +323,7 @@ let createDrawList = function(): IDrawList {
                     }
                 },
                 function(program: IGraphicsProgram) {
+                    // Do nothing.
                 }
             )
             return result;
@@ -344,6 +339,4 @@ let createDrawList = function(): IDrawList {
     }
     refChange(uuid, CLASS_NAME_DRAWLIST, +1);
     return self;
-};
-
-export = createDrawList;
+}

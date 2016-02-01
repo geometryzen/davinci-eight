@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../utils/Shareable', '../../core/Color'], function (require, exports, Shareable, Color) {
+define(["require", "exports", '../../utils/Shareable', '../../core/Color'], function (require, exports, Shareable_1, Color_1) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -15,7 +15,7 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
             if (duration === void 0) { duration = 300; }
             _super.call(this, 'ColorAnimation');
             this.from = void 0;
-            this.to = Color.fromColor(color);
+            this.to = Color_1.default.fromColor(color);
             this.duration = duration;
             this.start = 0;
             this.fraction = 0;
@@ -31,14 +31,13 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
                 if (this.from === void 0) {
                     var data = target.getProperty(propName);
                     if (data) {
-                        this.from = Color.fromCoords(data);
+                        this.from = Color_1.default.fromCoords(data);
                     }
                 }
             }
             var from = this.from;
             var to = this.to;
             var ease = this.ease;
-            // Calculate animation progress / fraction.
             var fraction;
             if (this.duration > 0) {
                 fraction = Math.min(1, (now - this.start) / (this.duration || 1));
@@ -47,7 +46,6 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
                 fraction = 1;
             }
             this.fraction = fraction;
-            // Simple easing support.
             var rolloff;
             switch (ease) {
                 case 'in':
@@ -63,7 +61,7 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
                     rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
                     break;
             }
-            target.setProperty(propName, Color.interpolate(from, to, rolloff).coords);
+            target.setProperty(propName, Color_1.default.interpolate(from, to, rolloff).coords);
         };
         ColorAnimation.prototype.hurry = function (factor) {
             this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
@@ -78,7 +76,6 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
         };
         ColorAnimation.prototype.done = function (target, propName) {
             if (this.fraction === 1) {
-                // Set final value.
                 target.setProperty(propName, this.to.coords);
                 this.callback && this.callback();
                 this.callback = void 0;
@@ -97,6 +94,7 @@ define(["require", "exports", '../../utils/Shareable', '../../core/Color'], func
             }
         };
         return ColorAnimation;
-    })(Shareable);
-    return ColorAnimation;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ColorAnimation;
 });

@@ -1,20 +1,20 @@
-import CubicBezierCurve = require('../curves/CubicBezierCurve')
-import Curve = require('../curves/Curve')
-import CurvePath = require('../curves/CurvePath')
-import Euclidean3 = require('../math/Euclidean3')
-import isClockWise = require('../geometries/isClockWise')
-import LineCurve = require('../curves/LineCurve')
-import PathAction = require('../geometries/PathAction')
-import PathArgs = require('../geometries/PathArgs')
-import PathKind = require('../geometries/PathKind')
-import QuadraticBezierCurve = require('../curves/QuadraticBezierCurve')
-import Shape = require('../geometries/Shape')
-import SplineCurve = require('../curves/SplineCurve')
+import CubicBezierCurve from '../curves/CubicBezierCurve';
+import Curve from '../curves/Curve';
+import CurvePath from '../curves/CurvePath';
+import Euclidean3 from '../math/Euclidean3';
+import isClockWise from '../geometries/isClockWise';
+import LineCurve from '../curves/LineCurve';
+import PathAction from '../geometries/PathAction';
+import PathArgs from '../geometries/PathArgs';
+import PathKind from '../geometries/PathKind';
+import QuadraticBezierCurve from '../curves/QuadraticBezierCurve';
+import Shape from '../geometries/Shape';
+import SplineCurve from '../curves/SplineCurve';
 
 /**
  * @class Path
  */
-class Path extends CurvePath {
+export default class Path extends CurvePath {
 
     public actions: PathAction[];
     private useSpacedPoints: boolean;
@@ -530,4 +530,3 @@ class Path extends CurvePath {
         return shapes;
     }
 }
-export = Path

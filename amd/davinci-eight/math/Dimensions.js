@@ -1,7 +1,7 @@
-define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
-    var R0 = QQ.ZERO;
-    var R1 = QQ.ONE;
-    var M1 = QQ.MINUS_ONE;
+define(["require", "exports", '../math/QQ'], function (require, exports, QQ_1) {
+    var R0 = QQ_1.default.ZERO;
+    var R1 = QQ_1.default.ONE;
+    var M1 = QQ_1.default.MINUS_ONE;
     function assertArgDimensions(name, arg) {
         if (arg instanceof Dimensions) {
             return arg;
@@ -11,30 +11,14 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
         }
     }
     function assertArgRational(name, arg) {
-        if (arg instanceof QQ) {
+        if (arg instanceof QQ_1.default) {
             return arg;
         }
         else {
             throw new Error("Argument '" + arg + "' must be a QQ");
         }
     }
-    /**
-     * @class Dimensions
-     */
     var Dimensions = (function () {
-        /**
-         * The Dimensions class captures the physical dimensions associated with a unit of measure.
-         *
-         * @class Dimensions
-         * @constructor
-         * @param {QQ} M The mass component of the dimensions object.
-         * @param {QQ} L The length component of the dimensions object.
-         * @param {QQ} T The time component of the dimensions object.
-         * @param {QQ} Q The charge component of the dimensions object.
-         * @param {QQ} temperature The temperature component of the dimensions object.
-         * @param {QQ} amount The amount component of the dimensions object.
-         * @param {QQ} intensity The intensity component of the dimensions object.
-         */
         function Dimensions(M, L, T, Q, temperature, amount, intensity) {
             this.M = M;
             this.L = L;
@@ -54,12 +38,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 throw new Error("Expecting 7 arguments");
             }
         }
-        /**
-         * Returns the dimensions if they are all equal, otherwise throws an <code>Error</code>
-         * @method compatible
-         * @param rhs {Dimensions}
-         * @return {Dimensions} <code>this</code>
-         */
         Dimensions.prototype.compatible = function (rhs) {
             if (this.M.equals(rhs.M) && this.L.equals(rhs.L) && this.T.equals(rhs.T) && this.Q.equals(rhs.Q) && this.temperature.equals(rhs.temperature) && this.amount.equals(rhs.amount) && this.intensity.equals(rhs.intensity)) {
                 return this;
@@ -68,70 +46,30 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 throw new Error("Dimensions must be equal (" + this + ", " + rhs + ")");
             }
         };
-        /**
-         * Multiplies dimensions by adding rational exponents.
-         * @method mul
-         * @param rhs {Dimensions}
-         * @return {Dimensions} <code>this * rhs</code>
-         */
         Dimensions.prototype.mul = function (rhs) {
             return new Dimensions(this.M.add(rhs.M), this.L.add(rhs.L), this.T.add(rhs.T), this.Q.add(rhs.Q), this.temperature.add(rhs.temperature), this.amount.add(rhs.amount), this.intensity.add(rhs.intensity));
         };
-        /**
-         * Divides dimensions by subtracting rational exponents.
-         * @method div
-         * @param rhs {Dimensions}
-         * @return {Dimensions} <code>this / rhs</code>
-         */
         Dimensions.prototype.div = function (rhs) {
             return new Dimensions(this.M.sub(rhs.M), this.L.sub(rhs.L), this.T.sub(rhs.T), this.Q.sub(rhs.Q), this.temperature.sub(rhs.temperature), this.amount.sub(rhs.amount), this.intensity.sub(rhs.intensity));
         };
-        /**
-         * Computes the power function by multiplying rational exponents.
-         * @method div
-         * @param rhs {Dimensions}
-         * @return {Dimensions} <code>pow(this, rhs)</code>
-         */
         Dimensions.prototype.pow = function (exponent) {
             return new Dimensions(this.M.mul(exponent), this.L.mul(exponent), this.T.mul(exponent), this.Q.mul(exponent), this.temperature.mul(exponent), this.amount.mul(exponent), this.intensity.mul(exponent));
         };
-        /**
-         * Computes the square root by dividing each rational component by two.
-         * @method sqrt
-         * @return {Dimensions}
-         */
         Dimensions.prototype.sqrt = function () {
-            return new Dimensions(this.M.div(QQ.TWO), this.L.div(QQ.TWO), this.T.div(QQ.TWO), this.Q.div(QQ.TWO), this.temperature.div(QQ.TWO), this.amount.div(QQ.TWO), this.intensity.div(QQ.TWO));
+            return new Dimensions(this.M.div(QQ_1.default.TWO), this.L.div(QQ_1.default.TWO), this.T.div(QQ_1.default.TWO), this.Q.div(QQ_1.default.TWO), this.temperature.div(QQ_1.default.TWO), this.amount.div(QQ_1.default.TWO), this.intensity.div(QQ_1.default.TWO));
         };
-        /**
-         * Determines whether all the exponents of this dimensions number are zero.
-         *
-         * @method isOne
-         * @return {boolean} <code>true</code> if all the components are zero, otherwise <code>false</code>.
-         */
         Dimensions.prototype.isOne = function () {
             return this.M.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
         };
         Dimensions.prototype.isZero = function () {
             return false;
         };
-        /**
-         * Computes the multiplicative inverse of this dimensions number.
-         * This is achived by changing the signs of all the exponent quantities.
-         * @method inv
-         * @return {Dimensions}
-         */
         Dimensions.prototype.inv = function () {
             return new Dimensions(this.M.neg(), this.L.neg(), this.T.neg(), this.Q.neg(), this.temperature.neg(), this.amount.neg(), this.intensity.neg());
         };
         Dimensions.prototype.neg = function () {
             return this;
         };
-        /**
-         * Creates a representation of this <code>Dimensions</code> instance.
-         * @method toString
-         * @return {string}
-         */
         Dimensions.prototype.toString = function () {
             var stringify = function (rational, label) {
                 if (rational.numer === 0) {
@@ -151,11 +89,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return typeof x === 'string';
             }).join(" * ");
         };
-        /**
-         * @method __add__
-         * @param rhs {any}
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__add__ = function (rhs) {
             if (rhs instanceof Dimensions) {
                 return this.compatible(rhs);
@@ -164,11 +97,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return void 0;
             }
         };
-        /**
-         * @method __radd__
-         * @param lhs {any}
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__radd__ = function (lhs) {
             if (lhs instanceof Dimensions) {
                 return lhs.compatible(this);
@@ -177,11 +105,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return void 0;
             }
         };
-        /**
-         * @method __sub__
-         * @param rhs {any}
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__sub__ = function (rhs) {
             if (rhs instanceof Dimensions) {
                 return this.compatible(rhs);
@@ -190,11 +113,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return void 0;
             }
         };
-        /**
-         * @method __rsub__
-         * @param lhs {any}
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__rsub__ = function (lhs) {
             if (lhs instanceof Dimensions) {
                 return lhs.compatible(this);
@@ -203,11 +121,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return void 0;
             }
         };
-        /**
-         * @method __mul__
-         * @param rhs {any}
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__mul__ = function (rhs) {
             if (rhs instanceof Dimensions) {
                 return this.mul(rhs);
@@ -216,11 +129,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return void 0;
             }
         };
-        /**
-         * @method __rmul__
-         * @param lhs {any}
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__rmul__ = function (lhs) {
             if (lhs instanceof Dimensions) {
                 return lhs.mul(this);
@@ -229,11 +137,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return void 0;
             }
         };
-        /**
-         * @method __div__
-         * @param rhs {any}
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__div__ = function (rhs) {
             if (rhs instanceof Dimensions) {
                 return this.div(rhs);
@@ -242,11 +145,6 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return void 0;
             }
         };
-        /**
-         * @method __rdiv__
-         * @param lhs {any}
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__rdiv__ = function (lhs) {
             if (lhs instanceof Dimensions) {
                 return lhs.div(this);
@@ -255,75 +153,23 @@ define(["require", "exports", '../math/QQ'], function (require, exports, QQ) {
                 return void 0;
             }
         };
-        /**
-         * @method __pos__
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__pos__ = function () {
             return this;
         };
-        /**
-         * @method __neg__
-         * @return {Dimensions}
-         */
         Dimensions.prototype.__neg__ = function () {
             return this;
         };
-        /**
-         * @property ONE
-         * @type {Dimensions}
-         * @static
-         */
         Dimensions.ONE = new Dimensions(R0, R0, R0, R0, R0, R0, R0);
-        /**
-         * @property MASS
-         * @type {Dimensions}
-         * @static
-         */
         Dimensions.MASS = new Dimensions(R1, R0, R0, R0, R0, R0, R0);
-        /**
-         * @property LENGTH
-         * @type {Dimensions}
-         * @static
-         */
         Dimensions.LENGTH = new Dimensions(R0, R1, R0, R0, R0, R0, R0);
-        /**
-         * @property TIME
-         * @type {Dimensions}
-         * @static
-         */
         Dimensions.TIME = new Dimensions(R0, R0, R1, R0, R0, R0, R0);
-        /**
-         * @property CHARGE
-         * @type {Dimensions}
-         * @static
-         */
         Dimensions.CHARGE = new Dimensions(R0, R0, R0, R1, R0, R0, R0);
-        /**
-         * @property CURRENT
-         * @type {Dimensions}
-         * @static
-         */
         Dimensions.CURRENT = new Dimensions(R0, R0, M1, R1, R0, R0, R0);
-        /**
-         * @property TEMPERATURE
-         * @type {Dimensions}
-         * @static
-         */
         Dimensions.TEMPERATURE = new Dimensions(R0, R0, R0, R0, R1, R0, R0);
-        /**
-         * @property AMOUNT
-         * @type {Dimensions}
-         * @static
-         */
         Dimensions.AMOUNT = new Dimensions(R0, R0, R0, R0, R0, R1, R0);
-        /**
-         * @property INTENSITY
-         * @type {Dimensions}
-         * @static
-         */
         Dimensions.INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, R1);
         return Dimensions;
     })();
-    return Dimensions;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Dimensions;
 });

@@ -61,13 +61,12 @@ define(["require", "exports"], function (require, exports) {
             generate: function () {
                 return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
             },
-            // addition by Ka-Jan to test for validity
-            // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
             validate: function (uuid) {
                 var testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
                 return testPattern.test(uuid);
             }
         };
     }
-    return uuid4;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = uuid4;
 });

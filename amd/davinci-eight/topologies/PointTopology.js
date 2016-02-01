@@ -3,22 +3,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/DrawMode', '../topologies/Topology'], function (require, exports, DrawMode, Topology) {
-    /**
-     * @class PointTopology
-     */
+define(["require", "exports", '../core/DrawMode', '../topologies/Topology'], function (require, exports, DrawMode_1, Topology_1) {
     var PointTopology = (function (_super) {
         __extends(PointTopology, _super);
-        /**
-         * Abstract base class for geometric primitives POINTS.
-         * @class PointTopology
-         * @constructor
-         * @param numVertices {number}
-         */
         function PointTopology(numVertices) {
-            _super.call(this, DrawMode.POINTS, numVertices);
+            _super.call(this, DrawMode_1.default.POINTS, numVertices);
         }
         return PointTopology;
-    })(Topology);
-    return PointTopology;
+    })(Topology_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = PointTopology;
 });

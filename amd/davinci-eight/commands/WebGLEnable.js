@@ -3,61 +3,26 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, glCapability, mustBeNumber, Shareable) {
-    /**
-     * <p>
-     * enable(capability: Capability): void
-     * <p>
-     * @class WebGLEnable
-     * @extends Shareable
-     * @implements IContextCommand
-     * @implements IContextConsumer
-     */
+define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, glCapability_1, mustBeNumber_1, Shareable_1) {
     var WebGLEnable = (function (_super) {
         __extends(WebGLEnable, _super);
-        /**
-         * @class WebGLEnable
-         * @constructor
-         * @param capability {Capability} The capability to be enabled.
-         */
         function WebGLEnable(capability) {
             _super.call(this, 'WebGLEnable');
-            this._capability = mustBeNumber('capability', capability);
+            this._capability = mustBeNumber_1.default('capability', capability);
         }
-        /**
-         * @method contextFree
-         * @param [canvasId] {number}
-         * @return {void}
-         */
         WebGLEnable.prototype.contextFree = function (canvasId) {
-            // do nothing
         };
-        /**
-         * @method contextGain
-         * @param manager {IContextProvider}
-         * @return {void}
-         */
         WebGLEnable.prototype.contextGain = function (manager) {
-            manager.gl.enable(glCapability(this._capability, manager.gl));
+            manager.gl.enable(glCapability_1.default(this._capability, manager.gl));
         };
-        /**
-         * @method contextLost
-         * @param [canvasId] {number}
-         * @return {void}
-         */
         WebGLEnable.prototype.contextLost = function (canvasId) {
-            // do nothing
         };
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
         WebGLEnable.prototype.destructor = function () {
             this._capability = void 0;
             _super.prototype.destructor.call(this);
         };
         return WebGLEnable;
-    })(Shareable);
-    return WebGLEnable;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = WebGLEnable;
 });

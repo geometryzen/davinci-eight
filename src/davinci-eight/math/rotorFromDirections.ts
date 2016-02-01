@@ -1,4 +1,4 @@
-import Geometric = require('../math/MutableGeometricElement')
+import Geometric from '../math/MutableGeometricElement';
 
 let sqrt = Math.sqrt
 
@@ -7,7 +7,7 @@ let sqrt = Math.sqrt
  * R = (|b||a| + b * a) / sqrt(2 * |b||a|(|b||a| + b << a))
  * Returns undefined (void 0) if the vectors are anti-parallel.
  */
-function rotorFromDirections<V, M extends Geometric<any, any, any, any>>(a: V, b: V, quad: (v: V) => number, dot: (a: V, b: V) => number, m: M): M {
+export default function rotorFromDirections<V, M extends Geometric<any, any, any, any>>(a: V, b: V, quad: (v: V) => number, dot: (a: V, b: V) => number, m: M): M {
     let quadA = quad(a)
     let absA = sqrt(quadA)
     let quadB = quad(b)
@@ -28,5 +28,3 @@ function rotorFromDirections<V, M extends Geometric<any, any, any, any>>(a: V, b
         return void 0
     }
 }
-
-export = rotorFromDirections

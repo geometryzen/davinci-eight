@@ -1,21 +1,21 @@
-import IAnimation = require('../slideshow/IAnimation')
-import IDirector = require('../slideshow/IDirector')
-import ISlide = require('../slideshow/ISlide')
+import IAnimation from '../slideshow/IAnimation';
+import IDirector from '../slideshow/IDirector';
+import ISlide from '../slideshow/ISlide';
 
-import ISlideCommand = require('../slideshow/ISlideCommand')
-import IUnknownArray = require('../collections/IUnknownArray')
-import Shareable = require('../utils/Shareable')
+import ISlideCommand from '../slideshow/ISlideCommand';
+import IUnknownArray from '../collections/IUnknownArray';
+import Shareable from '../utils/Shareable';
 
-import ColorRGB = require('../core/ColorRGB')
-import ColorAnimation = require('../slideshow/animations/ColorAnimation')
+import ColorRGB from '../core/ColorRGB';
+import ColorAnimation from '../slideshow/animations/ColorAnimation';
 
-import VectorE3 = require('../math/VectorE3')
-import Vector3Animation = require('../slideshow/animations/Vector3Animation')
+import VectorE3 from '../math/VectorE3';
+import Vector3Animation from '../slideshow/animations/Vector3Animation';
 
-import SpinorE3 = require('../math/SpinorE3')
-import Spinor3Animation = require('../slideshow/animations/Spinor3Animation')
+import SpinorE3 from '../math/SpinorE3';
+import Spinor3Animation from '../slideshow/animations/Spinor3Animation';
 
-class SlideCommands extends Shareable implements ISlideCommand {
+export default class SlideCommands extends Shareable implements ISlideCommand {
     private commands: IUnknownArray<ISlideCommand>;
     constructor() {
         super('SlideCommands')
@@ -41,5 +41,3 @@ class SlideCommands extends Shareable implements ISlideCommand {
         }
     }
 }
-
-export = SlideCommands

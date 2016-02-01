@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/expectArg', '../geometries/triangle', '../math/VectorN'], function (require, exports, expectArg, triangle, VectorN) {
+define(["require", "exports", '../checks/expectArg', '../geometries/triangle', '../math/VectorN'], function (require, exports, expectArg_1, triangle_1, VectorN_1) {
     function setAttributes(which, source, target) {
         var names = Object.keys(source);
         var namesLength = names.length;
@@ -11,31 +11,20 @@ define(["require", "exports", '../checks/expectArg', '../geometries/triangle', '
             target[name] = which.map(function (index) { return values[index]; });
         }
     }
-    /**
-     * quadrilateral
-     *
-     *  b-------a
-     *  |       |
-     *  |       |
-     *  |       |
-     *  c-------d
-     *
-     * The quadrilateral is split into two triangles: b-c-a and d-a-c, like a "Z".
-     * The zeroth vertex for each triangle is opposite the other triangle.
-     */
     function quadrilateral(a, b, c, d, attributes, triangles) {
         if (attributes === void 0) { attributes = {}; }
         if (triangles === void 0) { triangles = []; }
-        expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-        expectArg('b', b).toSatisfy(b instanceof VectorN, "b must be a VectorN");
-        expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
-        expectArg('d', d).toSatisfy(d instanceof VectorN, "d must be a VectorN");
+        expectArg_1.default('a', a).toSatisfy(a instanceof VectorN_1.default, "a must be a VectorN");
+        expectArg_1.default('b', b).toSatisfy(b instanceof VectorN_1.default, "b must be a VectorN");
+        expectArg_1.default('c', c).toSatisfy(c instanceof VectorN_1.default, "c must be a VectorN");
+        expectArg_1.default('d', d).toSatisfy(d instanceof VectorN_1.default, "d must be a VectorN");
         var triatts = {};
         setAttributes([1, 2, 0], attributes, triatts);
-        triangle(b, c, a, triatts, triangles);
+        triangle_1.default(b, c, a, triatts, triangles);
         setAttributes([3, 0, 2], attributes, triatts);
-        triangle(d, a, c, triatts, triangles);
+        triangle_1.default(d, a, c, triatts, triangles);
         return triangles;
     }
-    return quadrilateral;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = quadrilateral;
 });

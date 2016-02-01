@@ -1,31 +1,31 @@
-import AttribMetaInfo = require('../core/AttribMetaInfo');
-import IContextProvider = require('../core/IContextProvider');
-import IContextMonitor = require('../core/IContextMonitor');
-import MonitorList = require('../scene/MonitorList');
-import expectArg = require('../checks/expectArg');
-import fragmentShader = require('../programs/fragmentShader');
-import isDefined = require('../checks/isDefined');
-import R1 = require('../math/R1');
-import Mat2R = require('../math/Mat2R');
-import Mat3R = require('../math/Mat3R');
-import Mat4R = require('../math/Mat4R');
-import mergeStringMapList = require('../utils/mergeStringMapList');
-import mustBeDefined = require('../checks/mustBeDefined');
-import createGraphicsProgram = require('./createGraphicsProgram');
-import IGraphicsProgram = require('../core/IGraphicsProgram');
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
-import UniformMetaInfo = require('../core/UniformMetaInfo');
-import vColorRequired = require('../programs/vColorRequired');
-import VectorE2 = require('../math/VectorE2');
-import VectorE3 = require('../math/VectorE3');
-import VectorE4 = require('../math/VectorE4');
-import vertexShader = require('../programs/vertexShader');
-import vLightRequired = require('../programs/vLightRequired');
+import AttribMetaInfo from '../core/AttribMetaInfo';
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import MonitorList from '../scene/MonitorList';
+import expectArg from '../checks/expectArg';
+import fragmentShader from '../programs/fragmentShader';
+import isDefined from '../checks/isDefined';
+import R1 from '../math/R1';
+import Mat2R from '../math/Mat2R';
+import Mat3R from '../math/Mat3R';
+import Mat4R from '../math/Mat4R';
+import mergeStringMapList from '../utils/mergeStringMapList';
+import mustBeDefined from '../checks/mustBeDefined';
+import createGraphicsProgram from './createGraphicsProgram';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import UniformMetaInfo from '../core/UniformMetaInfo';
+import vColorRequired from '../programs/vColorRequired';
+import VectorE2 from '../math/VectorE2';
+import VectorE3 from '../math/VectorE3';
+import VectorE4 from '../math/VectorE4';
+import vertexShader from '../programs/vertexShader';
+import vLightRequired from '../programs/vLightRequired';
 
 /**
  *
  */
-var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IGraphicsProgram {
+export default function smartProgram(monitors: IContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IGraphicsProgram {
     MonitorList.verify('monitors', monitors, () => { return "smartProgram"; });
     mustBeDefined('attributes', attributes);
     mustBeDefined('uniformsList', uniformsList);
@@ -120,5 +120,3 @@ var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: st
 
     return self;
 }
-
-export = smartProgram;

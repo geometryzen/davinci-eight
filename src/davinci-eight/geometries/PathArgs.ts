@@ -1,4 +1,4 @@
-import Euclidean3 = require('../math/Euclidean3');
+import Euclidean3 from '../math/Euclidean3';
 
 /**
  * @class PathArgs
@@ -25,6 +25,7 @@ interface PathArgs {
      * @optional
      */
     endPoint?: Euclidean3;
+
     /**
      * @property radius
      * @type {number}
@@ -33,4 +34,4 @@ interface PathArgs {
     radius?: number;
 }
 
-export = PathArgs
+export default PathArgs;

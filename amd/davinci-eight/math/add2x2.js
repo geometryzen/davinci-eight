@@ -1,5 +1,5 @@
 define(["require", "exports"], function (require, exports) {
-    function add3x3(a, b, c) {
+    function default_1(a, b, c) {
         var a11 = a[0x0], a12 = a[0x2];
         var a21 = a[0x1], a22 = a[0x3];
         var b11 = b[0x0], b12 = b[0x2];
@@ -10,5 +10,6 @@ define(["require", "exports"], function (require, exports) {
         c[0x3] = a22 + b22;
         return c;
     }
-    return add3x3;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = default_1;
 });

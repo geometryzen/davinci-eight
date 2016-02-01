@@ -1,13 +1,11 @@
-import mustSatisfy = require('../checks/mustSatisfy')
-import isArray = require('../checks/isArray')
+import mustSatisfy from '../checks/mustSatisfy';
+import isArray from '../checks/isArray';
 
 function beAnArray() {
-  return "be an array"
+    return "be an array"
 }
 
-function mustBeArray<T>(name: string, value: T[], contextBuilder?: () => string): T[] {
-  mustSatisfy(name, isArray(value), beAnArray, contextBuilder)
-  return value
+export default function mustBeArray<T>(name: string, value: T[], contextBuilder?: () => string): T[] {
+    mustSatisfy(name, isArray(value), beAnArray, contextBuilder)
+    return value
 }
-
-export = mustBeArray

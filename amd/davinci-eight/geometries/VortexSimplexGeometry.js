@@ -3,21 +3,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3, SimplexGeometry, mustBeInteger, SpinG3, R2, R3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeometry', '../checks/mustBeInteger', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, Euclidean3_1, SimplexGeometry_1, mustBeInteger_1, SpinG3_1, R2_1, R3_1) {
     function perpendicular(to) {
-        var random = new R3([Math.random(), Math.random(), Math.random()]);
+        var random = new R3_1.default([Math.random(), Math.random(), Math.random()]);
         random.cross(to).direction();
-        return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0);
+        return new Euclidean3_1.default(0, random.x, random.y, random.z, 0, 0, 0, 0);
     }
-    /**
-     * @class VortexSimplexGeometry
-     */
     var VortexSimplexGeometry = (function (_super) {
         __extends(VortexSimplexGeometry, _super);
-        /**
-         * @class VortexSimplexGeometry
-         * @constructor
-         */
         function VortexSimplexGeometry() {
             _super.call(this);
             this.radius = 1;
@@ -27,42 +20,31 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
             this.lengthShaft = 0.8;
             this.arrowSegments = 8;
             this.radialSegments = 12;
-            this.generator = SpinG3.dual(R3.e3);
+            this.generator = SpinG3_1.default.dual(R3_1.default.e3);
             this.setModified(true);
         }
         VortexSimplexGeometry.prototype.isModified = function () {
             return this.generator.modified;
         };
-        /**
-         * @method setModified
-         * @param modified {boolean}
-         * @return {VortexSimplexGeometry}
-         */
         VortexSimplexGeometry.prototype.setModified = function (modified) {
             this.generator.modified = modified;
             return this;
         };
-        /**
-         * @method regenerate
-         * @return {void}
-         */
         VortexSimplexGeometry.prototype.regenerate = function () {
             this.data = [];
             var radius = this.radius;
             var radiusCone = this.radiusCone;
             var radiusShaft = this.radiusShaft;
             var radialSegments = this.radialSegments;
-            var axis = new Euclidean3(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0);
+            var axis = new Euclidean3_1.default(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0);
             var radial = perpendicular(axis);
-            // FIXME: Change to scale
             var R0 = radial.scale(this.radius);
-            // FIXME: More elegant way to construct a Euclidean3 from a SpinorE3.
-            var generator = new Euclidean3(this.generator.α, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0);
+            var generator = new Euclidean3_1.default(this.generator.α, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0);
             var Rminor0 = axis.ext(radial);
             var n = 9;
             var circleSegments = this.arrowSegments * n;
             var tau = Math.PI * 2;
-            var center = new R3([0, 0, 0]);
+            var center = new R3_1.default([0, 0, 0]);
             var normals = [];
             var points = [];
             var uvs = [];
@@ -70,7 +52,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
             var factor = tau / this.arrowSegments;
             var theta = alpha / (n - 2);
             function computeAngle(index) {
-                mustBeInteger('index', index);
+                mustBeInteger_1.default('index', index);
                 var m = index % n;
                 if (m === n - 1) {
                     return computeAngle(index - 1);
@@ -81,7 +63,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
                 }
             }
             function computeRadius(index) {
-                mustBeInteger('index', index);
+                mustBeInteger_1.default('index', index);
                 var m = index % n;
                 if (m === n - 1) {
                     return radiusCone;
@@ -91,22 +73,19 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
                 }
             }
             for (var j = 0; j <= radialSegments; j++) {
-                // v is the angle inside the vortex tube.
                 var v = tau * j / radialSegments;
                 for (var i = 0; i <= circleSegments; i++) {
-                    // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
                     var u = computeAngle(i);
                     var Rmajor = generator.scale(-u / 2).exp();
                     center.copy(R0).rotate(Rmajor);
-                    var vertex = R3.copy(center);
+                    var vertex = R3_1.default.copy(center);
                     var r0 = axis.scale(computeRadius(i));
                     var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scale(-v / 2).exp();
-                    // var Rminor = Rminor0.clone().rotate(Rmajor).scale(-v/2).exp()
                     var r = Rminor.mul(r0).mul(Rminor.__tilde__());
                     vertex.add2(center, r);
                     points.push(vertex);
-                    uvs.push(new R2([i / circleSegments, j / radialSegments]));
-                    normals.push(R3.copy(r).direction());
+                    uvs.push(new R2_1.default([i / circleSegments, j / radialSegments]));
+                    normals.push(R3_1.default.copy(r).direction());
                 }
             }
             for (var j = 1; j <= radialSegments; j++) {
@@ -122,6 +101,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/SimplexGeomet
             this.setModified(false);
         };
         return VortexSimplexGeometry;
-    })(SimplexGeometry);
-    return VortexSimplexGeometry;
+    })(SimplexGeometry_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = VortexSimplexGeometry;
 });

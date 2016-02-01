@@ -1,20 +1,14 @@
-define(["require", "exports", '../programs/makeWebGLShader'], function (require, exports, makeWebGLShader) {
+define(["require", "exports", '../programs/makeWebGLShader'], function (require, exports, makeWebGLShader_1) {
     function makeWebGLProgram(ctx, vertexShader, fragmentShader, attribs) {
-        // create our shaders
-        var vs = makeWebGLShader(ctx, vertexShader, ctx.VERTEX_SHADER);
-        var fs = makeWebGLShader(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
-        // Create the program object.
+        var vs = makeWebGLShader_1.default(ctx, vertexShader, ctx.VERTEX_SHADER);
+        var fs = makeWebGLShader_1.default(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
         var program = ctx.createProgram();
-        // Attach our two shaders to the program.
         ctx.attachShader(program, vs);
         ctx.attachShader(program, fs);
-        // Bind attributes allows us to specify the index that an attribute should be bound to.
         for (var index = 0; index < attribs.length; ++index) {
             ctx.bindAttribLocation(program, index, attribs[index]);
         }
-        // Link the program.
         ctx.linkProgram(program);
-        // Check the link status
         var linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
         if (linked || ctx.isContextLost()) {
             return program;
@@ -29,5 +23,6 @@ define(["require", "exports", '../programs/makeWebGLShader'], function (require,
             throw new Error("Error linking program: " + message);
         }
     }
-    return makeWebGLProgram;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = makeWebGLProgram;
 });

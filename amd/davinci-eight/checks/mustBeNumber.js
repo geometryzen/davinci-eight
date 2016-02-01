@@ -1,10 +1,11 @@
-define(["require", "exports", '../checks/mustSatisfy', '../checks/isNumber'], function (require, exports, mustSatisfy, isNumber) {
+define(["require", "exports", '../checks/mustSatisfy', '../checks/isNumber'], function (require, exports, mustSatisfy_1, isNumber_1) {
     function beANumber() {
         return "be a `number`";
     }
     function mustBeInteger(name, value, contextBuilder) {
-        mustSatisfy(name, isNumber(value), beANumber, contextBuilder);
+        mustSatisfy_1.default(name, isNumber_1.default(value), beANumber, contextBuilder);
         return value;
     }
-    return mustBeInteger;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mustBeInteger;
 });

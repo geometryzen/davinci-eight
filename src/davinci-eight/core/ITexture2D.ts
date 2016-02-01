@@ -1,4 +1,4 @@
-import ITexture = require('../core/ITexture');
+import ITexture from '../core/ITexture';
 
 /**
  * @interface ITexture2D
@@ -7,4 +7,4 @@ interface ITexture2D extends ITexture {
 
 }
 
-export = ITexture2D;
+export default ITexture2D;

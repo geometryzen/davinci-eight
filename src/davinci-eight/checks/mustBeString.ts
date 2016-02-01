@@ -1,13 +1,11 @@
-import mustSatisfy = require('../checks/mustSatisfy');
-import isString = require('../checks/isString');
+import mustSatisfy from '../checks/mustSatisfy';
+import isString from '../checks/isString';
 
 function beAString() {
-  return "be a string"
+    return "be a string"
 }
 
-function mustBeString(name: string, value: string, contextBuilder?: () => string): string {
-  mustSatisfy(name, isString(value), beAString, contextBuilder);
-  return value;
+export default function mustBeString(name: string, value: string, contextBuilder?: () => string): string {
+    mustSatisfy(name, isString(value), beAString, contextBuilder);
+    return value;
 }
-
-export = mustBeString;

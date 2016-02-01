@@ -1,35 +1,35 @@
-import b2 = require('../geometries/b2')
-import b3 = require('../geometries/b3')
-import dotVector = require('../math/dotVectorE2')
-import Euclidean2 = require('../math/Euclidean2')
-import extE2 = require('../math/extE2')
-import GeometricE2 = require('../math/GeometricE2')
-import isDefined = require('../checks/isDefined')
-import isNumber = require('../checks/isNumber')
-import isObject = require('../checks/isObject')
-import lcoE2 = require('../math/lcoE2')
-import GeometricOperators = require('../math/GeometricOperators')
-import Measure = require('../math/Measure')
-import mulE2 = require('../math/mulE2')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import mustBeString = require('../checks/mustBeString')
-import MutableGeometricElement = require('../math/MutableGeometricElement')
-import quadSpinor = require('../math/quadSpinorE2')
-import quadVector = require('../math/quadVectorE2')
-import readOnly = require('../i18n/readOnly')
-import rcoE2 = require('../math/rcoE2')
-import rotorFromDirections = require('../math/rotorFromDirections')
-import scpE2 = require('../math/scpE2')
-import SpinorE2 = require('../math/SpinorE2')
-import stringFromCoordinates = require('../math/stringFromCoordinates')
-import Unit = require('../math/Unit')
-import VectorE2 = require('../math/VectorE2')
-import VectorN = require('../math/VectorN')
-import wedgeXY = require('../math/wedgeXY')
-import wedgeYZ = require('../math/wedgeYZ')
-import wedgeZX = require('../math/wedgeZX')
+import b2 from '../geometries/b2';
+import b3 from '../geometries/b3';
+import dotVector from '../math/dotVectorE2';
+import Euclidean2 from '../math/Euclidean2';
+import extE2 from '../math/extE2';
+import GeometricE2 from '../math/GeometricE2';
+import isDefined from '../checks/isDefined';
+import isNumber from '../checks/isNumber';
+import isObject from '../checks/isObject';
+import lcoE2 from '../math/lcoE2';
+import GeometricOperators from '../math/GeometricOperators';
+import Measure from '../math/Measure';
+import mulE2 from '../math/mulE2';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
+import MutableGeometricElement from '../math/MutableGeometricElement';
+import quadSpinor from '../math/quadSpinorE2';
+import quadVector from '../math/quadVectorE2';
+import readOnly from '../i18n/readOnly';
+import rcoE2 from '../math/rcoE2';
+import rotorFromDirections from '../math/rotorFromDirections';
+import scpE2 from '../math/scpE2';
+import SpinorE2 from '../math/SpinorE2';
+import stringFromCoordinates from '../math/stringFromCoordinates';
+import Unit from '../math/Unit';
+import VectorE2 from '../math/VectorE2';
+import VectorN from '../math/VectorN';
+import wedgeXY from '../math/wedgeXY';
+import wedgeYZ from '../math/wedgeYZ';
+import wedgeZX from '../math/wedgeZX';
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
 let COORD_W = 0
@@ -104,7 +104,7 @@ function duckCopy(value: any): G2 {
  * @extends VectorN
  * @beta
  */
-class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeometricElement<GeometricE2, G2, SpinorE2, VectorE2>, GeometricOperators<G2> {
+export default class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeometricElement<GeometricE2, G2, SpinorE2, VectorE2>, GeometricOperators<G2> {
     /**
      * @property BASIS_LABELS
      * @type {(string | string[])[]}
@@ -1722,5 +1722,3 @@ class G2 extends VectorN<number> implements GeometricE2, Measure<G2>, MutableGeo
         return new G2().rotorFromDirections(a, b)
     }
 }
-
-export = G2

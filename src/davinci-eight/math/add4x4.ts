@@ -1,4 +1,4 @@
-function add4x4(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array {
+export default function add4x4(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array {
 
     let a11 = a[0x0], a12 = a[0x4], a13 = a[0x8], a14 = a[0xC];
     let a21 = a[0x1], a22 = a[0x5], a23 = a[0x9], a24 = a[0xD];
@@ -32,5 +32,3 @@ function add4x4(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array
 
     return c;
 }
-
-export = add4x4;

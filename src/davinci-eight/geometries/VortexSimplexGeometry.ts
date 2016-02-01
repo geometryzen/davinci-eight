@@ -1,13 +1,13 @@
-import VectorE3 = require('../math/VectorE3')
-import Euclidean3 = require('../math/Euclidean3')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeString = require('../checks/mustBeString')
-import Simplex = require('../geometries/Simplex')
-import SpinG3 = require('../math/SpinG3')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import R2 = require('../math/R2')
-import R3 = require('../math/R3')
+import VectorE3 from '../math/VectorE3';
+import Euclidean3 from '../math/Euclidean3';
+import SimplexGeometry from '../geometries/SimplexGeometry';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeString from '../checks/mustBeString';
+import Simplex from '../geometries/Simplex';
+import SpinG3 from '../math/SpinG3';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import R2 from '../math/R2';
+import R3 from '../math/R3';
 
 function perpendicular(to: VectorE3): Euclidean3 {
     var random = new R3([Math.random(), Math.random(), Math.random()])
@@ -18,7 +18,7 @@ function perpendicular(to: VectorE3): Euclidean3 {
 /**
  * @class VortexSimplexGeometry
  */
-class VortexSimplexGeometry extends SimplexGeometry {
+export default class VortexSimplexGeometry extends SimplexGeometry {
 
     public radius: number = 1;
     public radiusCone: number = 0.08;
@@ -155,4 +155,3 @@ class VortexSimplexGeometry extends SimplexGeometry {
     }
 }
 
-export = VortexSimplexGeometry;

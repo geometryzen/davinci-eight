@@ -3,33 +3,20 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/VectorN'], function (require, exports, b2, b3, VectorN) {
+define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/VectorN'], function (require, exports, b2_1, b3_1, VectorN_1) {
     var exp = Math.exp;
     var log = Math.log;
     var sqrt = Math.sqrt;
     var COORD_X = 0;
     var COORD_Y = 1;
-    /**
-     * @class R2
-     */
     var R2 = (function (_super) {
         __extends(R2, _super);
-        /**
-         * @class R2
-         * @constructor
-         * @param data {number[]} Default is [0, 0].
-         * @param modified {boolean} Default is false.
-         */
         function R2(data, modified) {
             if (data === void 0) { data = [0, 0]; }
             if (modified === void 0) { modified = false; }
             _super.call(this, data, modified, 2);
         }
         Object.defineProperty(R2.prototype, "x", {
-            /**
-             * @property x
-             * @type Number
-             */
             get: function () {
                 return this.coords[COORD_X];
             },
@@ -41,10 +28,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             configurable: true
         });
         Object.defineProperty(R2.prototype, "y", {
-            /**
-             * @property y
-             * @type Number
-             */
             get: function () {
                 return this.coords[COORD_Y];
             },
@@ -55,19 +38,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             enumerable: true,
             configurable: true
         });
-        /**
-        set(x: number, y: number): R2 {
-            this.x = x;
-            this.y = y;
-            return this;
-        }
-        */
-        /**
-         * @method copy
-         * @param v {{x: number; y: number}}
-         * @return {R2}
-         * @chainable
-         */
         R2.prototype.copy = function (v) {
             this.x = v.x;
             this.y = v.y;
@@ -84,15 +54,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             this.y = a.y + b.y;
             return this;
         };
-        /**
-         * <p>
-         * <code>this ⟼ m * this<sup>T</sup></code>
-         * </p>
-         * @method applyMatrix
-         * @param m {Mat2R}
-         * @return {R2} <code>this</code>
-         * @chainable
-         */
         R2.prototype.applyMatrix = function (m) {
             var x = this.x;
             var y = this.y;
@@ -101,16 +62,9 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             this.y = e[0x1] * x + e[0x3] * y;
             return this;
         };
-        /**
-         * @method cubicBezier
-         * @param t {number}
-         * @param controlBegin {VectorE2}
-         * @param endPoint {VectorE2}
-         * @return {R2}
-         */
         R2.prototype.cubicBezier = function (t, controlBegin, controlEnd, endPoint) {
-            var x = b3(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
-            var y = b3(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
+            var x = b3_1.default(t, this.x, controlBegin.x, controlEnd.x, endPoint.x);
+            var y = b3_1.default(t, this.y, controlBegin.y, controlEnd.y, endPoint.y);
             this.x = x;
             this.y = y;
             return this;
@@ -185,32 +139,17 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             this.y = (this.y < 0) ? Math.ceil(this.y) : Math.floor(this.y);
             return this;
         };
-        /**
-         * @method neg
-         * @return {R2} <code>this</code>
-         * @chainable
-         */
         R2.prototype.neg = function () {
             this.x = -this.x;
             this.y = -this.y;
             return this;
         };
-        /**
-         * @method distanceTo
-         * @param point {VectorE2}
-         * @return {number}
-         */
         R2.prototype.distanceTo = function (position) {
             return sqrt(this.quadranceTo(position));
         };
         R2.prototype.dot = function (v) {
             return this.x * v.x + this.y * v.y;
         };
-        /**
-         * Computes the <em>square root</em> of the <em>squared norm</em>.
-         * @method magnitude
-         * @return {number}
-         */
         R2.prototype.magnitude = function () {
             return sqrt(this.squaredNorm());
         };
@@ -225,51 +164,24 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
             var dy = this.y - position.y;
             return dx * dx + dy * dy;
         };
-        /**
-         * @method quadraticBezier
-         * @param t {number}
-         * @param controlPoint {VectorE2}
-         * @param endPoint {VectorE2}
-         * @return {R2}
-         */
         R2.prototype.quadraticBezier = function (t, controlPoint, endPoint) {
-            var x = b2(t, this.x, controlPoint.x, endPoint.x);
-            var y = b2(t, this.y, controlPoint.y, endPoint.y);
+            var x = b2_1.default(t, this.x, controlPoint.x, endPoint.x);
+            var y = b2_1.default(t, this.y, controlPoint.y, endPoint.y);
             this.x = x;
             this.y = y;
             return this;
         };
         R2.prototype.reflect = function (n) {
-            // FIXME: TODO
             return this;
         };
         R2.prototype.rotate = function (rotor) {
             return this;
         };
-        /**
-         * this ⟼ this + (v - this) * α
-         * @method lerp
-         * @param v {VectorE2}
-         * @param α {number}
-         * @return {R2}
-         * @chainable
-         */
         R2.prototype.lerp = function (v, α) {
             this.x += (v.x - this.x) * α;
             this.y += (v.y - this.y) * α;
             return this;
         };
-        /**
-         * <p>
-         * <code>this ⟼ a + α * (b - a)</code>
-         * </p>
-         * @method lerp2
-         * @param a {VectorE2}
-         * @param b {VectorE2}
-         * @param α {number}
-         * @return {R2} <code>this</code>
-         * @chainable
-         */
         R2.prototype.lerp2 = function (a, b, α) {
             this.copy(a).lerp(b, α);
             return this;
@@ -302,46 +214,22 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/V
         R2.prototype.clone = function () {
             return new R2([this.x, this.y]);
         };
-        /**
-         * Sets this vector to the identity element for addition, <b>0</b>.
-         * @method zero
-         * @return {R2}
-         * @chainable
-         */
         R2.prototype.zero = function () {
             this.x = 0;
             this.y = 0;
             return this;
         };
-        /**
-         * @method copy
-         * @param vector {{x: number; y: number}}
-         * @return {R2}
-         * @static
-         */
         R2.copy = function (vector) {
             return new R2([vector.x, vector.y]);
         };
-        /**
-         * @method lerp
-         * @param a {VectorE2}
-         * @param b {VectorE2}
-         * @param α {number}
-         * @return {R2} <code>a + α * (b - a)</code>
-         * @static
-         */
         R2.lerp = function (a, b, α) {
             return R2.copy(b).sub(a).scale(α).add(a);
         };
-        /**
-         * @method random
-         * @return {R2}
-         * @static
-         */
         R2.random = function () {
             return new R2([Math.random(), Math.random()]);
         };
         return R2;
-    })(VectorN);
-    return R2;
+    })(VectorN_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = R2;
 });

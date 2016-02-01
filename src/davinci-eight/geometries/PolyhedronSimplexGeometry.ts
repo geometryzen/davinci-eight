@@ -1,11 +1,11 @@
-import VectorE2 = require('../math/VectorE2')
-import Euclidean3 = require('../math/Euclidean3')
-import VectorE3 = require('../math/VectorE3')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
-import Simplex = require('../geometries/Simplex')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import R2 = require('../math/R2')
-import R3 = require('../math/R3')
+import VectorE2 from '../math/VectorE2';
+import Euclidean3 from '../math/Euclidean3';
+import VectorE3 from '../math/VectorE3';
+import SimplexGeometry from '../geometries/SimplexGeometry';
+import Simplex from '../geometries/Simplex';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import R2 from '../math/R2';
+import R3 from '../math/R3';
 
 // Angle around the Y axis, counter-clockwise when looking from above.
 function azimuth(vector: VectorE3): number {
@@ -46,7 +46,7 @@ function correctUV(uv: R2, vector: VectorE3, azimuth: number): R2 {
  * @class PolyhedronSimplexGeometry
  * @extends SimplexGeometry
  */
-class PolyhedronSimplexGeometry extends SimplexGeometry {
+export default class PolyhedronSimplexGeometry extends SimplexGeometry {
     /**
      * @class PolyhedronSimplexGeometry
      * @constructor
@@ -212,5 +212,3 @@ class PolyhedronSimplexGeometry extends SimplexGeometry {
         }
     }
 }
-
-export = PolyhedronSimplexGeometry;

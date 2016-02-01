@@ -1,4 +1,4 @@
-import IAnimationTarget = require('../slideshow/IAnimationTarget')
+import IAnimationTarget from '../slideshow/IAnimationTarget';
 
 interface IDirector {
     addFacet(facet: IAnimationTarget, facetName: string): void
@@ -6,4 +6,4 @@ interface IDirector {
     removeFacet(facetName: string): IAnimationTarget
 }
 
-export = IDirector
+export default IDirector

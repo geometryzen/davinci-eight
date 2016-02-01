@@ -3,19 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../curves/Curve'], function (require, exports, Curve) {
-    // Catmull-Rom
-    /*
-    function interpolate(p0, p1, p2, p3, t) {
-    
-        var v0 = (p2 - p0) * 0.5;
-        var v1 = (p3 - p1) * 0.5;
-        var t2 = t * t;
-        var t3 = t * t2;
-        return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (- 3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
-    
-    }
-    */
+define(["require", "exports", '../curves/Curve'], function (require, exports, Curve_1) {
     function interpolate(p0, p1, p2, p3, t) {
         var v20 = p2.sub(p0);
         var v12 = p1.sub(p2);
@@ -31,25 +19,13 @@ define(["require", "exports", '../curves/Curve'], function (require, exports, Cu
         var b1 = hv20.scale(t);
         return b3.add(b2).add(b1).add(p1);
     }
-    /**
-     * @class SplineCurve
-     */
     var SplineCurve = (function (_super) {
         __extends(SplineCurve, _super);
-        /**
-         * @class SplineCurve
-         * @constructor
-         */
         function SplineCurve(points) {
             if (points === void 0) { points = []; }
             _super.call(this);
             this.points = points;
         }
-        /**
-         * @method getPoint
-         * @param t {number}
-         * @return {Euclidean3}
-         */
         SplineCurve.prototype.getPoint = function (t) {
             var points = this.points;
             var point = (points.length - 1) * t;
@@ -62,6 +38,7 @@ define(["require", "exports", '../curves/Curve'], function (require, exports, Cu
             return interpolate(point0, point1, point2, point3, weight);
         };
         return SplineCurve;
-    })(Curve);
-    return SplineCurve;
+    })(Curve_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = SplineCurve;
 });

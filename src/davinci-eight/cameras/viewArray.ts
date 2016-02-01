@@ -1,9 +1,9 @@
-import VectorE3 = require('../math/VectorE3');
-import R3 = require('../math/R3');
-import expectArg = require('../checks/expectArg');
-import isDefined = require('../checks/isDefined');
+import VectorE3 from '../math/VectorE3';
+import R3 from '../math/R3';
+import expectArg from '../checks/expectArg';
+import isDefined from '../checks/isDefined';
 
-function viewArray(eye: VectorE3, look: VectorE3, up: VectorE3, matrix?: Float32Array): Float32Array {
+export default function viewArray(eye: VectorE3, look: VectorE3, up: VectorE3, matrix?: Float32Array): Float32Array {
 
     let m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
@@ -27,5 +27,3 @@ function viewArray(eye: VectorE3, look: VectorE3, up: VectorE3, matrix?: Float32
 
     return m;
 }
-
-export = viewArray;

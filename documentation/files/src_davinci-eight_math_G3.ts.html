@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.170.0</em>
+            <em>API Docs for: 2.171.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -67,7 +67,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -84,6 +84,8 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/ExtrudeSimplexGeometry.html">ExtrudeSimplexGeometry</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
+                                <li><a href="../classes/Facet.html">Facet</a></li>
+                                <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/FontFace.html">FontFace</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
@@ -110,8 +112,6 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet.html">IFacet</a></li>
-                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
@@ -130,7 +130,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
-                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
@@ -153,6 +153,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/RefCount.html">RefCount</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
@@ -170,7 +171,7 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
-                                <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
@@ -196,6 +197,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexSimplexGeometry.html">VortexSimplexGeometry</a></li>
+                                <li><a href="../classes/WaitAnimation.html">WaitAnimation</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -244,34 +246,31 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import dotVectorCartesianE3 = require(&#x27;../math/dotVectorCartesianE3&#x27;)
-import dotVector = require(&#x27;../math/dotVectorE3&#x27;)
-import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
-import extG3 = require(&#x27;../math/extG3&#x27;)
-import GeometricE3 = require(&#x27;../math/GeometricE3&#x27;)
-import isNumber = require(&#x27;../checks/isNumber&#x27;)
-import lcoG3 = require(&#x27;../math/lcoG3&#x27;)
-import GeometricOperators = require(&#x27;../math/GeometricOperators&#x27;)
-import mulG3 = require(&#x27;../math/mulG3&#x27;)
-import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
-import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
-import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
-import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
-import MutableGeometricElement3D = require(&#x27;../math/MutableGeometricElement3D&#x27;)
-import quadSpinor = require(&#x27;../math/quadSpinorE3&#x27;)
-import quadVector = require(&#x27;../math/quadVectorE3&#x27;)
-import rcoG3 = require(&#x27;../math/rcoG3&#x27;)
-import readOnly = require(&#x27;../i18n/readOnly&#x27;)
-import rotorFromDirections = require(&#x27;../math/rotorFromDirections&#x27;)
-import scpG3 = require(&#x27;../math/scpG3&#x27;)
-import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
-import squaredNormG3 = require(&#x27;../math/squaredNormG3&#x27;)
-import stringFromCoordinates = require(&#x27;../math/stringFromCoordinates&#x27;)
-import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
-import VectorN = require(&#x27;../math/VectorN&#x27;)
-import wedgeXY = require(&#x27;../math/wedgeXY&#x27;)
-import wedgeYZ = require(&#x27;../math/wedgeYZ&#x27;)
-import wedgeZX = require(&#x27;../math/wedgeZX&#x27;)
+import dotVector from &#x27;../math/dotVectorE3&#x27;;
+import Euclidean3 from &#x27;../math/Euclidean3&#x27;;
+import extG3 from &#x27;../math/extG3&#x27;;
+import GeometricE3 from &#x27;../math/GeometricE3&#x27;;
+import lcoG3 from &#x27;../math/lcoG3&#x27;;
+import GeometricOperators from &#x27;../math/GeometricOperators&#x27;;
+import mulG3 from &#x27;../math/mulG3&#x27;;
+import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import mustBeString from &#x27;../checks/mustBeString&#x27;;
+import MutableGeometricElement3D from &#x27;../math/MutableGeometricElement3D&#x27;;
+import quadVector from &#x27;../math/quadVectorE3&#x27;;
+import rcoG3 from &#x27;../math/rcoG3&#x27;;
+import readOnly from &#x27;../i18n/readOnly&#x27;;
+import rotorFromDirections from &#x27;../math/rotorFromDirections&#x27;;
+import scpG3 from &#x27;../math/scpG3&#x27;;
+import SpinorE3 from &#x27;../math/SpinorE3&#x27;;
+import squaredNormG3 from &#x27;../math/squaredNormG3&#x27;;
+import stringFromCoordinates from &#x27;../math/stringFromCoordinates&#x27;;
+import VectorE3 from &#x27;../math/VectorE3&#x27;;
+import VectorN from &#x27;../math/VectorN&#x27;;
+import wedgeXY from &#x27;../math/wedgeXY&#x27;;
+import wedgeYZ from &#x27;../math/wedgeYZ&#x27;;
+import wedgeZX from &#x27;../math/wedgeZX&#x27;;
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
 let COORD_W = 0
@@ -283,7 +282,6 @@ let COORD_YZ = 5
 let COORD_ZX = 6
 let COORD_XYZ = 7
 
-let abs = Math.abs
 let atan2 = Math.atan2
 let exp = Math.exp
 let cos = Math.cos
@@ -378,7 +376,7 @@ let I = makeConstantE3(&#x27;I&#x27;, 0, 0, 0, 0, 0, 0, 0, 1);
  * @extends GeometricE3
  * @beta
  */
-class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricElement3D&lt;GeometricE3, G3, SpinorE3, VectorE3&gt;, GeometricOperators&lt;G3&gt; {
+export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricElement3D&lt;GeometricE3, G3, SpinorE3, VectorE3&gt;, GeometricOperators&lt;G3&gt; {
     /**
      * Constructs a &lt;code&gt;G3&lt;/code&gt;.
      * The multivector is initialized to zero.
@@ -504,7 +502,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
      * @return {G3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    add(M: GeometricE3, α: number = 1): G3 {
+    add(M: GeometricE3, α = 1): G3 {
         mustBeObject(&#x27;M&#x27;, M)
         mustBeNumber(&#x27;α&#x27;, α)
         this.α += M.α * α
@@ -558,7 +556,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
      * @return {G3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    addVector(v: VectorE3, α: number = 1): G3 {
+    addVector(v: VectorE3, α = 1): G3 {
         mustBeObject(&#x27;v&#x27;, v)
         mustBeNumber(&#x27;α&#x27;, α)
         this.x += v.x * α
@@ -855,8 +853,8 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
 
         // In G3 we have the special case that the pseudoscalar also commutes.
         // And since it squares to -1, we get a exp(Iβ) = cos(β) + I * sin(β) factor.
-        let cosβ = cos(this.β)
-        let sinβ = sin(this.β)
+        // let cosβ = cos(this.β)
+        // let sinβ = sin(this.β)
 
         // We are left with the vector and bivector components.
         // For a bivector (usual case), let B = I * φ, where φ is a vector.
@@ -1034,13 +1032,13 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 
     /**
-    * &lt;p&gt;
-    * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
-    * &lt;/p&gt;
-    * @method norm
-    * @return {G3} &lt;code&gt;this&lt;/code&gt;
-    * @chainable
-    */
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ sqrt(this * conj(this))&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method norm
+     * @return {G3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
     norm(): G3 {
         // FIXME: TODO
         this.α = this.magnitudeSansUnits()
@@ -1091,13 +1089,13 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 
     /**
-    * &lt;p&gt;
-    * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
-    * &lt;/p&gt;
-    * @method quad
-    * @return {G3} &lt;code&gt;this&lt;/code&gt;
-    * @chainable
-    */
+     * &lt;p&gt;
+     * &lt;code&gt;this ⟼ scp(this, rev(this)) = this | ~this&lt;/code&gt;
+     * &lt;/p&gt;
+     * @method quad
+     * @return {G3} &lt;code&gt;this&lt;/code&gt;
+     * @chainable
+     */
     quad(): G3 {
         return this.squaredNorm();
     }
@@ -1344,7 +1342,7 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
      * @return {G3} &lt;code&gt;this&lt;/code&gt;
      * @chainable
      */
-    sub(M: GeometricE3, α: number = 1): G3 {
+    sub(M: GeometricE3, α = 1): G3 {
         mustBeObject(&#x27;M&#x27;, M)
         mustBeNumber(&#x27;α&#x27;, α)
         this.α -= M.α * α
@@ -1943,14 +1941,14 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 
     /**
-    * @method lerp
-    * @param A {GeometricE3}
-    * @param B {GeometricE3}
-    * @param α {number}
-    * @return {G3} &lt;code&gt;A + α * (B - A)&lt;/code&gt;
-    * @static
-    * @chainable
-    */
+     * @method lerp
+     * @param A {GeometricE3}
+     * @param B {GeometricE3}
+     * @param α {number}
+     * @return {G3} &lt;code&gt;A + α * (B - A)&lt;/code&gt;
+     * @static
+     * @chainable
+     */
     static lerp(A: GeometricE3, B: GeometricE3, α: number): G3 {
         return G3.copy(A).lerp(B, α)
     }
@@ -1968,7 +1966,6 @@ class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricE
     }
 }
 
-export = G3
     </pre>
 </div>
                     </div>

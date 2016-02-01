@@ -1,21 +1,21 @@
-import getAttribVarName = require('../core/getAttribVarName')
-import getUniformVarName = require('../core/getUniformVarName')
-import glslAttribType = require('../programs/glslAttribType')
-import GraphicsProgram = require('../materials/GraphicsProgram')
-import IContextMonitor = require('../core/IContextMonitor')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeString = require('../checks/mustBeString')
-import Primitive = require('../geometries/Primitive')
-import SmartGraphicsProgram = require('../materials/SmartGraphicsProgram')
-import UniformMetaInfo = require('../core/UniformMetaInfo')
-import vColorRequired = require('../programs/vColorRequired')
-import vLightRequired = require('../programs/vLightRequired')
+import getAttribVarName from '../core/getAttribVarName';
+import getUniformVarName from '../core/getUniformVarName';
+import glslAttribType from '../programs/glslAttribType';
+import GraphicsProgram from '../materials/GraphicsProgram';
+import IContextMonitor from '../core/IContextMonitor';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeString from '../checks/mustBeString';
+import Primitive from '../geometries/Primitive';
+import SmartGraphicsProgram from '../materials/SmartGraphicsProgram';
+import UniformMetaInfo from '../core/UniformMetaInfo';
+import vColorRequired from '../programs/vColorRequired';
+import vLightRequired from '../programs/vLightRequired';
 
 function computeAttribParams(values: { [key: string]: { size: number, name?: string } }) {
-    var result: { [key: string]: { glslType: string, name?: string } } = {}
+    const result: { [key: string]: { glslType: string, name?: string } } = {}
     let keys = Object.keys(values)
     let keysLength = keys.length
-    for (var i = 0; i < keysLength; i++) {
+    for (let i = 0; i < keysLength; i++) {
         let key = keys[i]
         let attribute = values[key]
         let size = mustBeInteger('size', attribute.size)
@@ -41,7 +41,7 @@ function updateUniformMeta(uniforms: { [key: string]: UniformMetaInfo }[]) {
 /**
  * @class GraphicsProgramBuilder
  */
-class GraphicsProgramBuilder {
+export default class GraphicsProgramBuilder {
 
     /**
      * @property aMeta
@@ -70,11 +70,11 @@ class GraphicsProgramBuilder {
      */
     constructor(primitive?: Primitive) {
         if (primitive) {
-            let attributes = primitive.attributes
-            let keys = Object.keys(attributes)
+            const attributes = primitive.attributes
+            const keys = Object.keys(attributes)
             for (var i = 0, iLength = keys.length; i < iLength; i++) {
-                let key = keys[i]
-                let attribute = attributes[key]
+                const key = keys[i]
+                const attribute = attributes[key]
                 this.attribute(key, attribute.size)
             }
         }
@@ -115,18 +115,16 @@ class GraphicsProgramBuilder {
      * one for each context supplied. The generated program is compiled and linked
      * for each context in response to context gain and loss events.
      * @method build
-     * @param contexts {IContextMonitor[]}
+     * @param [monitors] {IContextMonitor[]}
      * @return {GraphicsProgram}
      */
-    public build(contexts: IContextMonitor[]): GraphicsProgram {
+    public build(monitors?: IContextMonitor[]): GraphicsProgram {
         // FIXME: Push this calculation down into the functions.
         // Then the data structures are based on size.
         // uniforms based on numeric type?
-        let aParams = computeAttribParams(this.aMeta)
-        let vColor = vColorRequired(aParams, this.uParams)
-        let vLight = vLightRequired(aParams, this.uParams)
-        return new SmartGraphicsProgram(contexts, aParams, this.uParams, vColor, vLight)
+        const aParams = computeAttribParams(this.aMeta)
+        const vColor = vColorRequired(aParams, this.uParams)
+        const vLight = vLightRequired(aParams, this.uParams)
+        return new SmartGraphicsProgram(aParams, this.uParams, vColor, vLight, monitors)
     }
 }
-
-export = GraphicsProgramBuilder;

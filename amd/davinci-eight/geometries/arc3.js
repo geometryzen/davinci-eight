@@ -1,28 +1,12 @@
-define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/SpinG3', '../math/R3'], function (require, exports, mustBeDefined, mustBeInteger, mustBeNumber, SpinG3, R3) {
-    /**
-     * Computes a list of points corresponding to an arc centered on the origin.
-     * param begin {VectorE3} The begin position.
-     * param angle: {number} The angle of the rotation.
-     * param generator {SpinorE3} The generator of the rotation.
-     * param segments {number} The number of segments.
-     */
+define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/SpinG3', '../math/R3'], function (require, exports, mustBeDefined_1, mustBeInteger_1, mustBeNumber_1, SpinG3_1, R3_1) {
     function arc3(begin, angle, generator, segments) {
-        mustBeDefined('begin', begin);
-        mustBeNumber('angle', angle);
-        mustBeDefined('generator', generator);
-        mustBeInteger('segments', segments);
-        /**
-         * The return value is an array of points with length => segments + 1.
-         */
+        mustBeDefined_1.default('begin', begin);
+        mustBeNumber_1.default('angle', angle);
+        mustBeDefined_1.default('generator', generator);
+        mustBeInteger_1.default('segments', segments);
         var points = [];
-        /**
-         * Temporary point that we will advance for each segment.
-         */
-        var point = R3.copy(begin);
-        /**
-         * The rotor that advances us through one segment.
-         */
-        var rotor = SpinG3.copy(generator).scale((-angle / 2) / segments).exp();
+        var point = R3_1.default.copy(begin);
+        var rotor = SpinG3_1.default.copy(generator).scale((-angle / 2) / segments).exp();
         points.push(point.clone());
         for (var i = 0; i < segments; i++) {
             point.rotate(rotor);
@@ -30,5 +14,6 @@ define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeIntege
         }
         return points;
     }
-    return arc3;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = arc3;
 });

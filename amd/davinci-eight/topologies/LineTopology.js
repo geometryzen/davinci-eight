@@ -3,23 +3,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../topologies/Topology'], function (require, exports, Topology) {
-    /**
-     * @class LineTopology
-     */
+define(["require", "exports", '../topologies/Topology'], function (require, exports, Topology_1) {
     var LineTopology = (function (_super) {
         __extends(LineTopology, _super);
-        /**
-         * Abstract base class for geometric primitives LINES, LINE_STRIP and LINE_LOOP.
-         * @class LineTopology
-         * @constructor
-         * @param mode {DrawMode}
-         * @param numVertices {number}
-         */
         function LineTopology(mode, numVertices) {
             _super.call(this, mode, numVertices);
         }
         return LineTopology;
-    })(Topology);
-    return LineTopology;
+    })(Topology_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = LineTopology;
 });

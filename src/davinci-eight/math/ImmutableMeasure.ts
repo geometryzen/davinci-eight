@@ -1,7 +1,8 @@
-import Measure = require('../math/Measure')
-import Pseudo = require('../math/Pseudo')
+import Measure from '../math/Measure';
+import Pseudo from '../math/Pseudo';
 
 interface ImmutableMeasure<T> extends Measure<T>, Pseudo {
     direction(): T;
 }
-export = ImmutableMeasure
+
+export default ImmutableMeasure;

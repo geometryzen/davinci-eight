@@ -1,32 +1,10 @@
 define(["require", "exports"], function (require, exports) {
-    /**
-     * @author zz85 / http://www.lab4games.net/zz85/blog
-     * Extensible curve object
-     *
-     * This following classes subclasses Curve:
-     *
-     * LineCurve
-     * QuadraticBezierCurve
-     * CubicBezierCurve
-     * SplineCurve
-     * ArcCurve
-     * EllipseCurve
-     * ClosedSplineCurve
-     *
-     */
     var Curve = (function () {
         function Curve() {
         }
-        /**
-         * Virtual base class method to overwrite and implement in subclasses
-         * t belongs to [0, 1]
-         */
         Curve.prototype.getPoint = function (t) {
             throw new Error("Curve.getPoint() not implemented!");
         };
-        /**
-         * Get point at relative position in curve according to arc length
-         */
         Curve.prototype.getPointAt = function (u) {
             var t = this.getUtoTmapping(u);
             return this.getPoint(t);
@@ -79,32 +57,27 @@ define(["require", "exports"], function (require, exports) {
                 last = current;
             }
             this.cacheArcLengths = cache;
-            return cache; // { sums: cache, sum:sum }; Sum is in the last element.
+            return cache;
         };
         Curve.prototype.updateArcLengths = function () {
             this.needsUpdate = true;
             this.getLengths();
         };
-        /**
-         * Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance
-         */
         Curve.prototype.getUtoTmapping = function (u, distance) {
             var arcLengths = this.getLengths();
             var i = 0, il = arcLengths.length;
-            var targetArcLength; // The targeted u distance value to get
+            var targetArcLength;
             if (distance) {
                 targetArcLength = distance;
             }
             else {
                 targetArcLength = u * arcLengths[il - 1];
             }
-            //var time = Date.now();
-            // binary search for the index with largest value smaller than target u distance
             var low = 0;
             var high = il - 1;
             var comparison;
             while (low <= high) {
-                i = Math.floor(low + (high - low) / 2); // less likely to overflow, though probably not issue here, JS doesn't really have integers, all numbers are floats
+                i = Math.floor(low + (high - low) / 2);
                 comparison = arcLengths[i] - targetArcLength;
                 if (comparison < 0) {
                     low = i + 1;
@@ -122,22 +95,13 @@ define(["require", "exports"], function (require, exports) {
                 var t = i / (il - 1);
                 return t;
             }
-            // we could get finer grain at lengths, or use simple interpolatation between two points
             var lengthBefore = arcLengths[i];
             var lengthAfter = arcLengths[i + 1];
             var segmentLength = lengthAfter - lengthBefore;
-            // determine where we are between the 'before' and 'after' points
             var segmentFraction = (targetArcLength - lengthBefore) / segmentLength;
-            // add that fractional amount to t
             var t = (i + segmentFraction) / (il - 1);
             return t;
         };
-        /**
-         * Returns a unit vector tangent at t
-         * In case any sub curve does not implement its tangent derivation,
-         * 2 points a small delta apart will be used to find its gradient
-         * which seems to give a reasonable approximation
-         */
         Curve.prototype.getTangent = function (t) {
             var delta = 0.0001;
             var t1 = t - delta;
@@ -157,5 +121,6 @@ define(["require", "exports"], function (require, exports) {
         };
         return Curve;
     })();
-    return Curve;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Curve;
 });

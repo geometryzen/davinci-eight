@@ -1,8 +1,8 @@
-import DivisionRingOperators = require('../math/DivisionRingOperators')
-import Dimensions = require('../math/Dimensions');
-import LinearElement = require('../math/LinearElement')
-import QQ = require('../math/QQ');
-import UnitError = require('../math/UnitError');
+import DivisionRingOperators from '../math/DivisionRingOperators';
+import Dimensions from '../math/Dimensions';
+import LinearElement from '../math/LinearElement';
+import QQ from '../math/QQ';
+import UnitError from '../math/UnitError';
 
 var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
 
@@ -193,7 +193,7 @@ function div(lhs: Unit, rhs: Unit): Unit {
 /**
  * @class Unit
  */
-class Unit implements DivisionRingOperators<Unit>, LinearElement<Unit, Unit, Unit, Unit> {
+export default class Unit implements DivisionRingOperators<Unit>, LinearElement<Unit, Unit, Unit, Unit> {
     public static ONE = new Unit(1.0, Dimensions.ONE, LABELS_SI);
     public static KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
     public static METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
@@ -627,4 +627,3 @@ class Unit implements DivisionRingOperators<Unit>, LinearElement<Unit, Unit, Uni
         }
     }
 }
-export = Unit;

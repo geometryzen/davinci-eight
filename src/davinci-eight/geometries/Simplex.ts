@@ -1,9 +1,9 @@
-import expectArg = require('../checks/expectArg');
-import isInteger = require('../checks/isInteger');
-import isNumber = require('../checks/isNumber');
-import Vertex = require('../geometries/Vertex');
-import VertexAttributeMap = require('../geometries/VertexAttributeMap');
-import VectorN = require('../math/VectorN');
+import expectArg from '../checks/expectArg';
+import isInteger from '../checks/isInteger';
+import isNumber from '../checks/isNumber';
+import Vertex from '../geometries/Vertex';
+import VertexAttributeMap from '../geometries/VertexAttributeMap';
+import VectorN from '../math/VectorN';
 
 function checkIntegerArg(name: string, n: number, min: number, max: number): number {
     if (isInteger(n) && n >= min && n <= max) {
@@ -58,7 +58,7 @@ function lerpVectorN(a: VectorN<number>, b: VectorN<number>, alpha: number): Vec
 /**
  * @class Simplex
  */
-class Simplex {
+export default class Simplex {
     /**
      * The vertices of the simplex.
      * @property
@@ -298,5 +298,3 @@ class Simplex {
         }
     }
 }
-
-export = Simplex;

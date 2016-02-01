@@ -1,9 +1,6 @@
-define(["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString) {
-    /**
-     *
-     */
+define(["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString_1) {
     function readOnly(name) {
-        mustBeString('name', name);
+        mustBeString_1.default('name', name);
         var message = {
             get message() {
                 return "Property `" + name + "` is readonly.";
@@ -11,5 +8,6 @@ define(["require", "exports", '../checks/mustBeString'], function (require, expo
         };
         return message;
     }
-    return readOnly;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = readOnly;
 });

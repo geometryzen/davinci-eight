@@ -1,4 +1,4 @@
-import ColorRGB = require('../core/ColorRGB')
+import ColorRGB from '../core/ColorRGB';
 /**
  * @class ColorRGBA
  * @extends ColorRGB
@@ -12,4 +12,4 @@ interface ColorRGBA extends ColorRGB {
     α: number;
 }
 
-export = ColorRGBA;
+export default ColorRGBA;

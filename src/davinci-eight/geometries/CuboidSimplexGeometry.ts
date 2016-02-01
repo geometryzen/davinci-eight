@@ -1,28 +1,28 @@
-import cannotAssignTypeToProperty = require('../i18n/cannotAssignTypeToProperty')
-import CartesianE3 = require('../math/CartesianE3')
-import computeFaceNormals = require('../geometries/computeFaceNormals')
-import Euclidean3 = require('../math/Euclidean3')
-import feedback = require('../feedback/feedback')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
-import isObject = require('../checks/isObject')
-import isUndefined = require('../checks/isUndefined')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeString = require('../checks/mustBeString')
-import quad = require('../geometries/quadrilateral')
-import readOnly = require('../i18n/readOnly')
-import Simplex = require('../geometries/Simplex')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import triangle = require('../geometries/triangle')
-import R1 = require('../math/R1')
-import R3 = require('../math/R3')
-import VectorE3 = require('../math/VectorE3')
-import VectorN = require('../math/VectorN')
+import cannotAssignTypeToProperty from '../i18n/cannotAssignTypeToProperty';
+import CartesianE3 from '../math/CartesianE3';
+import computeFaceNormals from '../geometries/computeFaceNormals';
+import Euclidean3 from '../math/Euclidean3';
+import feedback from '../feedback/feedback';
+import SimplexGeometry from '../geometries/SimplexGeometry';
+import isObject from '../checks/isObject';
+import isUndefined from '../checks/isUndefined';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeString from '../checks/mustBeString';
+import quad from '../geometries/quadrilateral';
+import readOnly from '../i18n/readOnly';
+import Simplex from '../geometries/Simplex';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import triangle from '../geometries/triangle';
+import R1 from '../math/R1';
+import R3 from '../math/R3';
+import VectorE3 from '../math/VectorE3';
+import VectorN from '../math/VectorN';
 
 /**
  * @class CuboidSimplexGeometry
  * @extends SimplexGeometry
  */
-class CuboidSimplexGeometry extends SimplexGeometry {
+export default class CuboidSimplexGeometry extends SimplexGeometry {
     /**
      * Parameter is private so that we can detect assignments.
      * @property _a
@@ -205,5 +205,3 @@ class CuboidSimplexGeometry extends SimplexGeometry {
         this.check()
     }
 }
-
-export = CuboidSimplexGeometry;

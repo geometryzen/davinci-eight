@@ -3,12 +3,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/GridSimplexGeometry', '../math/R3'], function (require, exports, GridSimplexGeometry, R3) {
+define(["require", "exports", '../geometries/GridSimplexGeometry', '../math/R3'], function (require, exports, GridSimplexGeometry_1, R3_1) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
     function klein(u, v) {
-        var point = new R3();
+        var point = new R3_1.default();
         u = u * 2 * pi;
         v = v * 2 * pi;
         if (u < pi) {
@@ -22,24 +22,13 @@ define(["require", "exports", '../geometries/GridSimplexGeometry', '../math/R3']
         point.y = -2 * (1 - cos(u) / 2) * sin(v);
         return point.scale(0.1);
     }
-    /**
-     * By connecting the edge of a Mobius Strip we get a Klein Bottle.
-     * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
-     * @class KleinBottleSimplexGeometry
-     * @extends GridSimplexGeometry
-     */
     var KleinBottleSimplexGeometry = (function (_super) {
         __extends(KleinBottleSimplexGeometry, _super);
-        /**
-         * @class KleinBottleSimplexGeometry
-         * @constructor
-         * @param uSegments {number}
-         * @param vSegments {number}
-         */
         function KleinBottleSimplexGeometry(uSegments, vSegments) {
             _super.call(this, klein, uSegments, vSegments);
         }
         return KleinBottleSimplexGeometry;
-    })(GridSimplexGeometry);
-    return KleinBottleSimplexGeometry;
+    })(GridSimplexGeometry_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = KleinBottleSimplexGeometry;
 });

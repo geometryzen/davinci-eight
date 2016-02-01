@@ -9,9 +9,6 @@ define(["require", "exports"], function (require, exports) {
     var sin = Math.sin;
     var sqrt = Math.sqrt;
     var tan = Math.tan;
-    /**
-     * Determines whether a property name is callable on an object.
-     */
     function isCallableMethod(x, name) {
         return (x !== null) && (typeof x === 'object') && (typeof x[name] === 'function');
     }
@@ -58,11 +55,11 @@ define(["require", "exports"], function (require, exports) {
         sqrt: makeUnaryUniversalFunction('sqrt', sqrt),
         tan: makeUnaryUniversalFunction('tan', tan),
         tanh: makeUnaryUniversalFunction('tanh', tanh),
-        // unit: makeUnaryUniversalFunction('unit', function(x: number) {return x / Math.abs(x);}),
         Math: {
             cosh: cosh,
             sinh: sinh
         }
     };
-    return mathcore;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mathcore;
 });

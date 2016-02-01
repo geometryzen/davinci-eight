@@ -1,10 +1,10 @@
-import DrawMode = require('../core/DrawMode')
-import Topology = require('../topologies/Topology')
+import DrawMode from '../core/DrawMode';
+import Topology from '../topologies/Topology';
 
 /**
  * @class PointTopology
  */
-class PointTopology extends Topology {
+export default class PointTopology extends Topology {
     /**
      * Abstract base class for geometric primitives POINTS.
      * @class PointTopology
@@ -15,5 +15,3 @@ class PointTopology extends Topology {
         super(DrawMode.POINTS, numVertices)
     }
 }
-
-export = PointTopology

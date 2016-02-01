@@ -1,9 +1,9 @@
-import Unit = require('../math/Unit')
+import Unit from '../math/Unit';
 
 interface Euclidean1Coords {
-  w: number;
-  x: number;
-  uom: Unit;
+    w: number;
+    x: number;
+    uom: Unit;
 }
 
-export = Euclidean1Coords;
+export default Euclidean1Coords;

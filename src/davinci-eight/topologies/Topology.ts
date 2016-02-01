@@ -1,14 +1,14 @@
-import Attribute = require('../geometries/Attribute')
-import DrawMode = require('../core/DrawMode')
-import DrawAttribute = require('../geometries/DrawAttribute')
-import DrawPrimitive = require('../geometries/DrawPrimitive')
-import G3 = require('../math/G3')
-import mustBeInteger = require('../checks/mustBeInteger')
-import Primitive = require('../geometries/Primitive')
-import Simplex = require('../geometries/Simplex')
-import VectorN = require('../math/VectorN')
-import Vertex = require('../geometries/Vertex')
-import dataFromVectorN = require('../geometries/dataFromVectorN')
+import Attribute from '../geometries/Attribute';
+import DrawMode from '../core/DrawMode';
+import DrawAttribute from '../geometries/DrawAttribute';
+import DrawPrimitive from '../geometries/DrawPrimitive';
+import G3 from '../math/G3';
+import mustBeInteger from '../checks/mustBeInteger';
+import Primitive from '../geometries/Primitive';
+import Simplex from '../geometries/Simplex';
+import VectorN from '../math/VectorN';
+import Vertex from '../geometries/Vertex';
+import dataFromVectorN from '../geometries/dataFromVectorN';
 
 function attributes(elements: number[], vertices: Vertex[]): { [name: string]: Attribute } {
     let attribs: { [name: string]: Attribute } = {}
@@ -37,7 +37,7 @@ function attributes(elements: number[], vertices: Vertex[]): { [name: string]: A
 /**
  * @class Topology
  */
-class Topology {
+export default class Topology {
     /**
      * @property mode
      * @type {DrawMode}
@@ -82,5 +82,3 @@ class Topology {
         return new DrawPrimitive(this.mode, this.elements, attributes(this.elements, this.vertices))
     }
 }
-
-export = Topology

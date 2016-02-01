@@ -2,4 +2,4 @@ interface MeshMaterialParameters {
 
 }
 
-export = MeshMaterialParameters;
+export default MeshMaterialParameters;

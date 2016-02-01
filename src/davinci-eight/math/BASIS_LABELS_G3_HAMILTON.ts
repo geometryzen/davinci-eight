@@ -1,13 +1,13 @@
-let SCALAR_SYMBOL = "1"
-let E1_SYMBOL = "i"
-let E2_SYMBOL = "j"
-let E3_SYMBOL = "k"
-let E12_SYMBOL = "ij"
-let E23_SYMBOL = "jk"
-let E31_SYMBOL = "ki"
-let PSEUDO_SYMBOL = "ijk"
+const SCALAR_SYMBOL = "1"
+const E1_SYMBOL = "i"
+const E2_SYMBOL = "j"
+const E3_SYMBOL = "k"
+const E12_SYMBOL = "ij"
+const E23_SYMBOL = "jk"
+const E31_SYMBOL = "ki"
+const PSEUDO_SYMBOL = "ijk"
 
-let BASIS_LABELS_G3_HAMILTON: string[][] = [
+const BASIS_LABELS_G3_HAMILTON: string[][] = [
     [SCALAR_SYMBOL],
     [E1_SYMBOL],
     [E2_SYMBOL],
@@ -18,4 +18,4 @@ let BASIS_LABELS_G3_HAMILTON: string[][] = [
     [PSEUDO_SYMBOL]
 ]
 
-export = BASIS_LABELS_G3_HAMILTON
+export default BASIS_LABELS_G3_HAMILTON;

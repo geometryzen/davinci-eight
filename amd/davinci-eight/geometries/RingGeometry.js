@@ -3,69 +3,32 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../geometries/AxialGeometry', '../math/R2', '../math/G3'], function (require, exports, GraphicsProgramSymbols, GridTopology, AxialGeometry, R2, G3) {
-    /**
-     * @class RingGeometry
-     */
+define(["require", "exports", '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../geometries/AxialGeometry', '../math/R2', '../math/G3'], function (require, exports, GraphicsProgramSymbols_1, GridTopology_1, AxialGeometry_1, R2_1, G3_1) {
     var RingGeometry = (function (_super) {
         __extends(RingGeometry, _super);
-        /**
-         * @class RingGeometry
-         * @constructor
-         * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity.
-         * @param sliceStart {VectorE3} A direction, orthogonal to <code>axis</code>.
-         */
         function RingGeometry(axis, sliceStart) {
             _super.call(this, axis, sliceStart);
-            /**
-             * @property innerRadius
-             * @type {number}
-             */
             this.innerRadius = 0;
-            /**
-             * @property outerRadius
-             * @type {number}
-             */
             this.outerRadius = 1;
-            /**
-             * @property thetaSegments
-             * @type {number}
-             */
             this.thetaSegments = 16;
         }
-        /**
-         * @method setAxis
-         * @param axis
-         * @return {RingGeometry}
-         * @chainable
-         */
         RingGeometry.prototype.setAxis = function (axis) {
             _super.prototype.setAxis.call(this, axis);
             return this;
         };
-        /**
-         * @method setPosition
-         * @param position {VectorE3}
-         * @return {RingGeometry}
-         * @chainable
-         */
         RingGeometry.prototype.setPosition = function (position) {
             _super.prototype.setPosition.call(this, position);
             return this;
         };
-        /**
-         * @method toPrimitives
-         * @return {Primitive[]}
-         */
         RingGeometry.prototype.toPrimitives = function () {
             var uSegments = this.thetaSegments;
             var vSegments = 1;
-            var topo = new GridTopology(uSegments, vSegments);
+            var topo = new GridTopology_1.default(uSegments, vSegments);
             var a = this.outerRadius;
             var b = this.innerRadius;
-            var axis = G3.fromVector(this.axis);
-            var start = G3.fromVector(this.sliceStart);
-            var generator = new G3().dual(axis);
+            var axis = G3_1.default.fromVector(this.axis);
+            var start = G3_1.default.fromVector(this.sliceStart);
+            var generator = new G3_1.default().dual(axis);
             for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
                 var u = uIndex / uSegments;
                 var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();
@@ -73,26 +36,21 @@ define(["require", "exports", '../core/GraphicsProgramSymbols', '../topologies/G
                     var v = vIndex / vSegments;
                     var position = start.clone().rotate(rotor).scale(b + (a - b) * v);
                     var vertex = topo.vertex(uIndex, vIndex);
-                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.addVector(this.position);
-                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = axis;
+                    vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = position.addVector(this.position);
+                    vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = axis;
                     if (this.useTextureCoords) {
-                        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v]);
+                        vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_TEXTURE_COORDS] = new R2_1.default([u, v]);
                     }
                 }
             }
             return [topo.toDrawPrimitive()];
         };
-        /**
-         * @method enableTextureCoords
-         * @param enable {boolean}
-         * @return {RingGeometry}
-         * @chainable
-         */
         RingGeometry.prototype.enableTextureCoords = function (enable) {
             _super.prototype.enableTextureCoords.call(this, enable);
             return this;
         };
         return RingGeometry;
-    })(AxialGeometry);
-    return RingGeometry;
+    })(AxialGeometry_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = RingGeometry;
 });

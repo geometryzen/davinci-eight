@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '../math/Unit'], function (require, exports, mustBeInteger, readOnly, Unit) {
+define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '../math/Unit'], function (require, exports, mustBeInteger_1, readOnly_1, Unit_1) {
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
@@ -16,26 +16,14 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
         }
     }
     function assertArgUnitOrUndefined(name, uom) {
-        if (typeof uom === 'undefined' || uom instanceof Unit) {
+        if (typeof uom === 'undefined' || uom instanceof Unit_1.default) {
             return uom;
         }
         else {
             throw new Error("Argument '" + uom + "' must be a Unit or undefined");
         }
     }
-    /**
-     * @class Euclidean1
-     */
     var Euclidean1 = (function () {
-        /**
-         * The Euclidean1 class represents a multivector for a 1-dimensional linear space with a Euclidean metric.
-         *
-         * @class Euclidean1
-         * @constructor
-         * @param {number} α The grade zero part of the multivector.
-         * @param {number} β The vector component of the multivector.
-         * @param uom The optional unit of measure.
-         */
         function Euclidean1(α, β, uom) {
             this.w = assertArgNumber('α', α);
             this.x = assertArgNumber('β', β);
@@ -44,35 +32,25 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
                 var multiplier = this.uom.multiplier;
                 this.w *= multiplier;
                 this.x *= multiplier;
-                this.uom = new Unit(1, uom.dimensions, uom.labels);
+                this.uom = new Unit_1.default(1, uom.dimensions, uom.labels);
             }
         }
         Object.defineProperty(Euclidean1.prototype, "α", {
-            /**
-             * The scalar part of this multivector.
-             * @property α
-             * @return {number}
-             */
             get: function () {
                 return this.w;
             },
             set: function (unused) {
-                throw new Error(readOnly('α').message);
+                throw new Error(readOnly_1.default('α').message);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(Euclidean1.prototype, "β", {
-            /**
-             * The pseudoscalar part of this multivector.
-             * @property β
-             * @return {number}
-             */
             get: function () {
                 return this.x;
             },
             set: function (unused) {
-                throw new Error(readOnly('β').message);
+                throw new Error(readOnly_1.default('β').message);
             },
             enumerable: true,
             configurable: true
@@ -93,31 +71,24 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
         Euclidean1.prototype.difference = function (a, b) {
             this.w = a.w - b.w;
             this.x = a.x - b.x;
-            this.uom = Unit.compatible(a.uom, b.uom);
-            // FIXME this.uom.difference(a.uom, b.uom)
+            this.uom = Unit_1.default.compatible(a.uom, b.uom);
             return this;
         };
         Euclidean1.prototype.add = function (rhs) {
             assertArgEuclidean1('rhs', rhs);
-            return new Euclidean1(this.w + rhs.w, this.x + rhs.x, Unit.compatible(this.uom, rhs.uom));
+            return new Euclidean1(this.w + rhs.w, this.x + rhs.x, Unit_1.default.compatible(this.uom, rhs.uom));
         };
-        /**
-         * @method angle
-         * @return {Euclidean1}
-         */
         Euclidean1.prototype.angle = function () {
             return this.log().grade(2);
         };
         Euclidean1.prototype.sub = function (rhs) {
             assertArgEuclidean1('rhs', rhs);
-            return new Euclidean1(this.w - rhs.w, this.x - rhs.x, Unit.compatible(this.uom, rhs.uom));
+            return new Euclidean1(this.w - rhs.w, this.x - rhs.x, Unit_1.default.compatible(this.uom, rhs.uom));
         };
         Euclidean1.prototype.mul = function (rhs) {
-            // assertArgEuclidean1('rhs', rhs)
             throw new Error('mul');
         };
         Euclidean1.prototype.div = function (rhs) {
-            // assertArgEuclidean1('rhs', rhs)
             throw new Error('div');
         };
         Euclidean1.prototype.divByScalar = function (α) {
@@ -130,23 +101,18 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
             throw new Error('wedge');
         };
         Euclidean1.prototype.lco = function (rhs) {
-            // assertArgEuclidean1('rhs', rhs)
             throw new Error('lshift');
         };
         Euclidean1.prototype.lerp = function (target, α) {
-            // FIXME: TODO
             return this;
         };
         Euclidean1.prototype.log = function () {
-            // assertArgEuclidean1('rhs', rhs)
             throw new Error('log');
         };
         Euclidean1.prototype.rco = function (rhs) {
-            // assertArgEuclidean1('rhs', rhs)
             throw new Error('rshift');
         };
         Euclidean1.prototype.pow = function (exponent) {
-            // assertArgEuclidean1('rhs', rhs)
             throw new Error('pow');
         };
         Euclidean1.prototype.cos = function () {
@@ -162,7 +128,7 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
             return new Euclidean1(Math.sqrt(this.w * this.w + this.x * this.x), 0, this.uom);
         };
         Euclidean1.prototype.quad = function () {
-            return new Euclidean1(this.w * this.w + this.x * this.x, 0, Unit.mul(this.uom, this.uom));
+            return new Euclidean1(this.w * this.w + this.x * this.x, 0, Unit_1.default.mul(this.uom, this.uom));
         };
         Euclidean1.prototype.scale = function (α) {
             return new Euclidean1(α * this.w, α * this.x, this.uom);
@@ -174,14 +140,13 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
             throw new Error('sinh');
         };
         Euclidean1.prototype.slerp = function (target, α) {
-            // FIXME: TODO
             return this;
         };
         Euclidean1.prototype.direction = function () {
             throw new Error('direction');
         };
         Euclidean1.prototype.grade = function (grade) {
-            mustBeInteger('grade', grade);
+            mustBeInteger_1.default('grade', grade);
             switch (grade) {
                 case 0: return new Euclidean1(this.w, 0, this.uom);
                 case 1: return new Euclidean1(0, this.x, this.uom);
@@ -199,5 +164,6 @@ define(["require", "exports", '../checks/mustBeInteger', '../i18n/readOnly', '..
         };
         return Euclidean1;
     })();
-    return Euclidean1;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Euclidean1;
 });

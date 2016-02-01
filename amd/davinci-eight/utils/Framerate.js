@@ -1,11 +1,4 @@
 define(["require", "exports"], function (require, exports) {
-    //
-    // Framerate object
-    //
-    // This object keeps track of framerate and displays it as the innerHTML text of the
-    // HTML element with the passed id. Once created you call snapshot at the end
-    // of every rendering cycle. Every 500ms the framerate is updated in the HTML element.
-    //
     var Framerate = (function () {
         function Framerate(id) {
             this.renderTime = -1;
@@ -46,5 +39,6 @@ define(["require", "exports"], function (require, exports) {
         };
         return Framerate;
     })();
-    return Framerate;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Framerate;
 });

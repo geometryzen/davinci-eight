@@ -3,65 +3,31 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
-    /**
-     * <p>
-     * clearColor(red: number, green: number, blue: number, alpha: number): void
-     * <p>
-     * @class WebGLClearColor
-     * @extends Shareable
-     * @implements IContextCommand
-     * @implements IContextConsumer
-     */
+define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber_1, Shareable_1) {
     var WebGLClearColor = (function (_super) {
         __extends(WebGLClearColor, _super);
-        /**
-         * @class WebGLClearColor
-         * @constructor
-         */
         function WebGLClearColor(red, green, blue, alpha) {
             if (red === void 0) { red = 0; }
             if (green === void 0) { green = 0; }
             if (blue === void 0) { blue = 0; }
             if (alpha === void 0) { alpha = 1; }
             _super.call(this, 'WebGLClearColor');
-            this.red = mustBeNumber('red', red);
-            this.green = mustBeNumber('green', green);
-            this.blue = mustBeNumber('blue', blue);
-            this.alpha = mustBeNumber('alpha', alpha);
+            this.red = mustBeNumber_1.default('red', red);
+            this.green = mustBeNumber_1.default('green', green);
+            this.blue = mustBeNumber_1.default('blue', blue);
+            this.alpha = mustBeNumber_1.default('alpha', alpha);
         }
-        /**
-         * @method contextFree
-         * @param [canvasId] {number}
-         * @return {void}
-         */
         WebGLClearColor.prototype.contextFree = function (canvasId) {
-            // do nothing
         };
-        /**
-         * @method contextGain
-         * @param manager {IContextProvider}
-         * @return {void}
-         */
         WebGLClearColor.prototype.contextGain = function (manager) {
-            mustBeNumber('red', this.red);
-            mustBeNumber('green', this.green);
-            mustBeNumber('blue', this.blue);
-            mustBeNumber('alpha', this.alpha);
+            mustBeNumber_1.default('red', this.red);
+            mustBeNumber_1.default('green', this.green);
+            mustBeNumber_1.default('blue', this.blue);
+            mustBeNumber_1.default('alpha', this.alpha);
             manager.gl.clearColor(this.red, this.green, this.blue, this.alpha);
         };
-        /**
-         * @method contextLost
-         * @param [canvasId] {number}
-         * @return {void}
-         */
         WebGLClearColor.prototype.contextLost = function (canvasId) {
-            // do nothing
         };
-        /**
-         * @method destructor
-         * @return {void}
-         */
         WebGLClearColor.prototype.destructor = function () {
             this.red = void 0;
             this.green = void 0;
@@ -70,6 +36,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             _super.prototype.destructor.call(this);
         };
         return WebGLClearColor;
-    })(Shareable);
-    return WebGLClearColor;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = WebGLClearColor;
 });

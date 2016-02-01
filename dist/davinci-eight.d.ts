@@ -2537,7 +2537,7 @@ declare module EIGHT {
     /**
      *
      */
-    interface IFacetVisitor {
+    interface FacetVisitor {
         uniform1f(name: string, x: number, canvasId?: number): void;
         uniform2f(name: string, x: number, y: number, canvasId?: number): void;
         uniform3f(name: string, x: number, y: number, z: number, canvasId?: number): void;
@@ -2556,14 +2556,14 @@ declare module EIGHT {
     /**
      *
      */
-    interface IFacet extends IAnimationTarget {
-        setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
+    interface Facet extends IAnimationTarget {
+        setUniforms(visitor: FacetVisitor, canvasId?: number): void;
     }
 
     /**
      * Provides the uniform for the model to view coordinates transformation.
      */
-    interface View extends IFacet {
+    interface View extends Facet {
         /**
          * The position of the view reference point, VRP.
          */
@@ -2796,7 +2796,7 @@ declare module EIGHT {
     /**
      * A collection of WebGLProgram(s), one for each canvas in which the program is used.
      */
-    interface IGraphicsProgram extends IResource, IFacetVisitor {
+    interface IGraphicsProgram extends IResource, FacetVisitor {
         programId: string;
         vertexShader: string;
         fragmentShader: string;
@@ -2971,7 +2971,7 @@ declare module EIGHT {
     /**
      * A collection of properties governing GLSL uniforms for Computer Graphics Modeling.
      */
-    class ModelFacetE3 extends Shareable implements IFacet, IAnimationTarget, IUnknownExt<ModelFacetE3> {
+    class ModelFacet extends Shareable implements Facet, IAnimationTarget, IUnknownExt<ModelFacet> {
         /**
          * The position, a vector.
          */
@@ -2985,14 +2985,14 @@ declare module EIGHT {
          */
         scaleXYZ: R3;
         /**
-         * Constructs a ModelFacetE3 at the origin and with unity attitude.
+         * Constructs a ModelFacet at the origin and with unity attitude.
          */
         constructor();
-        incRef(): ModelFacetE3;
-        decRef(): ModelFacetE3;
+        incRef(): ModelFacet;
+        decRef(): ModelFacet;
         getProperty(name: string): number[];
         setProperty(name: string, value: number[]): void;
-        setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
+        setUniforms(visitor: FacetVisitor, canvasId?: number): void;
     }
 
     /**
@@ -3007,12 +3007,19 @@ declare module EIGHT {
     var strict: boolean;
 
     /**
+     * Determines whether the library provides verbose logging comments.
+     * These can be useful for understanding how the library works and for debugging.
+     */
+    var verbose: boolean;
+
+    /**
      * The version string of the davinci-eight module.
      */
     var VERSION: string;
 
     /**
-     * Convenience function for &lt;HTMLCanvasElement&gt;document.getElementById(elementId).
+     * Convenience function for document.getElementById(elementId), followed
+     * be casting to HTMLCanvasElement.
      */
     function getCanvasElementById(elementId: string, document?: Document): HTMLCanvasElement;
 
@@ -3090,6 +3097,7 @@ declare module EIGHT {
         static VARYING_COLOR: string;
         static VARYING_LIGHT: string;
     }
+  
     ////////////////////////////////////////////////////////
     // scene
     ///////////////////////////////////////////////////////
@@ -3147,12 +3155,12 @@ declare module EIGHT {
         /**
          *
          */
-        getFacet(name: string): IFacet;
+        getFacet(name: string): Facet;
 
         /**
          *
          */
-        setFacet(name: string, facet: IFacet): void;
+        setFacet(name: string, facet: Facet): void;
     }
 
     /**
@@ -3160,7 +3168,7 @@ declare module EIGHT {
      */
     interface IDrawList extends IContextConsumer, IUnknown {
         add(drawable: IDrawable): void;
-        draw(ambients: IFacet[], canvasId?: number): void;
+        draw(ambients: Facet[], canvasId?: number): void;
         /**
          * Gets a collection of drawable elements by name.
          * @param name {string}
@@ -3180,7 +3188,7 @@ declare module EIGHT {
         contextFree(canvasId?: number): void
         contextGain(manager: IContextProvider): void
         contextLost(canvasId?: number): void
-        draw(ambients: IFacet[], canvasId?: number): void
+        draw(ambients: Facet[], canvasId?: number): void
         getDrawablesByName(name: string): IUnknownArray<IDrawable>
         release(): number
         remove(drawable: IDrawable): void
@@ -3260,7 +3268,7 @@ declare module EIGHT {
          * visitor.: The visitor which is receiving the uniform values.
          * canvasId: The identifier of the canvas.
          */
-        setUniforms(visitor: IFacetVisitor, canvasId?: number): void
+        setUniforms(visitor: FacetVisitor, canvasId?: number): void
         release(): number
     }
 
@@ -3643,7 +3651,7 @@ declare module EIGHT {
     /**
      *
      */
-    class SphericalPolarSimplexGeometry extends SliceSimplexGeometry implements IAxialGeometry<SphericalPolarSimplexGeometry> {
+    class SphereGeometry extends SliceSimplexGeometry implements IAxialGeometry<SphereGeometry> {
         radius: number;
         phiLength: number;
         phiStart: R3;
@@ -3656,8 +3664,8 @@ declare module EIGHT {
             phiLength?: number,
             thetaStart?: number,
             thetaLength?: number);
-        setAxis(axis: VectorE3): SphericalPolarSimplexGeometry;
-        setPosition(position: VectorE3): SphericalPolarSimplexGeometry;
+        setAxis(axis: VectorE3): SphereGeometry;
+        setPosition(position: VectorE3): SphereGeometry;
     }
 
     /**
@@ -3692,7 +3700,7 @@ declare module EIGHT {
         contextFree(canvasId?: number): void;
         contextGain(manager: IContextProvider): void;
         contextLost(canvasId?: number): void;
-        constructor(monitors: IContextMonitor[], name: string);
+        constructor(name: string, monitors?: IContextMonitor[]);
         disableAttrib(name: string, canvasId?: number): void;
         enableAttrib(name: string, canvasId?: number): void;
         release(): number;
@@ -3749,13 +3757,13 @@ declare module EIGHT {
          * Gets a facet of this drawable object by name.
          * Facets provide uniform arguments to the graphics program.
          */
-        getFacet(name: string): IFacet;
+        getFacet(name: string): Facet;
 
         /**
          * Sets a facet of this drawable object by name.
          * Facets provide uniform arguments to the graphics program.
          */
-        setFacet(name: string, facet: IFacet): void;
+        setFacet(name: string, facet: Facet): void;
     }
 
     /**
@@ -3764,11 +3772,11 @@ declare module EIGHT {
     class HTMLScriptsGraphicsProgram extends GraphicsProgram {
         /**
          * Constructs a <code>GraphicsProgram</code> using scripts in a Document Object Model (DOM).
-         * contexts:  The contexts that this material must support.
          * scriptIds: The id properties of the script elements. Defaults to [].
          * dom:       The document object model. Defaults to document.
+         * [monitors]:  The contexts that this material must support.
          */
-        constructor(contexts: IContextMonitor[], scriptIds?: string[], dom?: Document);
+        constructor(scriptIds?: string[], dom?: Document, monitors?: IContextMonitor[]);
     }
 
     /**
@@ -3782,7 +3790,7 @@ declare module EIGHT {
      *
      */
     class PointMaterial extends GraphicsProgram {
-        constructor(contexts?: IContextMonitor[], parameters?: PointMaterialParameters);
+        constructor(parameters?: PointMaterialParameters, monitors?: IContextMonitor[]);
     }
 
     /**
@@ -3796,7 +3804,7 @@ declare module EIGHT {
      *
      */
     class LineMaterial extends GraphicsProgram {
-        constructor(contexts?: IContextMonitor[], parameters?: LineMaterialParameters);
+        constructor(parameters?: LineMaterialParameters, monitors?: IContextMonitor[]);
     }
 
     /**
@@ -3810,7 +3818,7 @@ declare module EIGHT {
      *
      */
     class MeshMaterial extends GraphicsProgram {
-        constructor(contexts?: IContextMonitor[], parameters?: MeshMaterialParameters);
+        constructor(parameters?: MeshMaterialParameters, monitors?: IContextMonitor[]);
     }
 
     /**
@@ -3854,13 +3862,13 @@ declare module EIGHT {
          * one for each context supplied. The generated program is compiled and linked
          * for each context in response to context gain and loss events.
          */
-        build(contexts: IContextMonitor[]): GraphicsProgram;
+        build(contexts?: IContextMonitor[]): GraphicsProgram;
     }
 
-    class AbstractFacet extends Shareable implements IFacet {
+    class AbstractFacet extends Shareable implements Facet {
         getProperty(name: string): number[];
         setProperty(name: string, value: number[]): void;
-        setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
+        setUniforms(visitor: FacetVisitor, canvasId?: number): void;
     }
 
     class AmbientLight extends AbstractFacet {
@@ -3889,11 +3897,11 @@ declare module EIGHT {
     }
 
     /**
-     * <code>DirectionalLightE3</code> provides two uniform values.
+     * <code>DirectionalLight</code> provides two uniform values.
      * GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
      * GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR
      */
-    class DirectionalLightE3 extends AbstractFacet {
+    class DirectionalLight extends AbstractFacet {
         /**
          * The <em>direction</em> (unit vector) in which the light is travelling.
          */
@@ -3903,7 +3911,7 @@ declare module EIGHT {
          */
         color: Color;
         /**
-         * Constructs a <code>DirectionalLightE3</code>.
+         * Constructs a <code>DirectionalLight</code>.
          * @param direction The initial direction.
          * @param color The initial color. Defaults to white.
          */
@@ -3913,7 +3921,7 @@ declare module EIGHT {
          * The direction is normalized to be a unit vector.
          * @param direction
          */
-        setDirection(direction: VectorE3): DirectionalLightE3;
+        setDirection(direction: VectorE3): DirectionalLight;
     }
 
 
@@ -3937,7 +3945,7 @@ declare module EIGHT {
     /**
      *
      */
-    class ReflectionFacetE2 extends Shareable implements IFacet {
+    class ReflectionFacetE2 extends Shareable implements Facet {
         /**
          * The vector perpendicular to the (hyper-)plane of reflection.
          */
@@ -3963,13 +3971,13 @@ declare module EIGHT {
          * @param visitor
          * @param canvasId
          */
-        setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
+        setUniforms(visitor: FacetVisitor, canvasId?: number): void;
     }
 
     /**
      *
      */
-    class ReflectionFacetE3 extends Shareable implements IFacet {
+    class ReflectionFacetE3 extends Shareable implements Facet {
         /**
          * The vector perpendicular to the (hyper-)plane of reflection.
          *
@@ -3996,7 +4004,7 @@ declare module EIGHT {
          * @param visitor
          * @param canvasId
          */
-        setUniforms(visitor: IFacetVisitor, canvasId?: number): void;
+        setUniforms(visitor: FacetVisitor, canvasId?: number): void;
     }
 
     // commands
@@ -4363,6 +4371,9 @@ declare module EIGHT {
         attach(handler: IKeyboardHandler, document?: Document, useCapture?: boolean): void;
         detach(): void;
     }
+    ///////////////////////////////////////////////////////////////////////////////
+    function vector(x: number, y: number, z: number): G3;
+    function arrow(axis: VectorE3): IDrawable;
     ///////////////////////////////////////////////////////////////////////////////
     function cos<T>(x: T): T;
     function cosh<T>(x: T): T;

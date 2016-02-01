@@ -1,24 +1,24 @@
-import dotVectorCartesian = require('../math/dotVectorCartesianE2')
-import copyToArray = require('../collections/copyToArray')
-import dotVector = require('../math/dotVectorE2')
-import isDefined = require('../checks/isDefined')
-import Measure = require('../math/Measure')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import Mutable = require('../math/Mutable')
-import MutableGeometricElement = require('../math/MutableGeometricElement')
-import quadSpinor = require('../math/quadSpinorE2')
-import quadVector = require('../math/quadVectorE2')
-import rotorFromDirections = require('../math/rotorFromDirections')
-import SpinorE2 = require('../math/SpinorE2')
-import TrigMethods = require('../math/TrigMethods')
-import Unit = require('../math/Unit')
-import VectorE2 = require('../math/VectorE2')
-import VectorN = require('../math/VectorN')
-import wedgeXY = require('../math/wedgeXY')
-import wedgeYZ = require('../math/wedgeYZ')
-import wedgeZX = require('../math/wedgeZX')
+import dotVectorCartesian from '../math/dotVectorCartesianE2';
+import copyToArray from '../collections/copyToArray';
+import dotVector from '../math/dotVectorE2';
+import isDefined from '../checks/isDefined';
+import Measure from '../math/Measure';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import Mutable from '../math/Mutable';
+import MutableGeometricElement from '../math/MutableGeometricElement';
+import quadSpinor from '../math/quadSpinorE2';
+import quadVector from '../math/quadVectorE2';
+import rotorFromDirections from '../math/rotorFromDirections';
+import SpinorE2 from '../math/SpinorE2';
+import TrigMethods from '../math/TrigMethods';
+import Unit from '../math/Unit';
+import VectorE2 from '../math/VectorE2';
+import VectorN from '../math/VectorN';
+import wedgeXY from '../math/wedgeXY';
+import wedgeYZ from '../math/wedgeYZ';
+import wedgeZX from '../math/wedgeZX';
 
 // GraphicsProgramSymbols constants for the coordinate indices into the coords array.
 let COORD_XY = 0
@@ -44,7 +44,7 @@ let sqrt = Math.sqrt
  * @class SpinG2
  * @extends VectorN<number>
  */
-class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, SpinG2, SpinG2, VectorE2>
+export default class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutable<number[]>, MutableGeometricElement<SpinorE2, SpinG2, SpinG2, VectorE2>
 {
     /**
      * The optional unit of measure.
@@ -797,5 +797,3 @@ class SpinG2 extends VectorN<number> implements SpinorE2, Measure<SpinG2>, Mutab
         return new SpinG2().rotorFromDirections(a, b)
     }
 }
-
-export = SpinG2;

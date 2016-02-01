@@ -1,24 +1,24 @@
-import b2 = require('../geometries/b2')
-import b3 = require('../geometries/b3')
-import extE2 = require('../math/extE2')
-import GeometricElement = require('../math/GeometricElement')
-import GeometricOperators = require('../math/GeometricOperators')
-import GeometricE2 = require('../math/GeometricE2')
-import isDefined = require('../checks/isDefined')
-import lcoE2 = require('../math/lcoE2')
-import rcoE2 = require('../math/rcoE2')
-import ImmutableMeasure = require('../math/ImmutableMeasure')
-import mulE2 = require('../math/mulE2')
-import mulG2 = require('../math/mulG2')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import readOnly = require('../i18n/readOnly')
-import scpE2 = require('../math/scpE2')
-import SpinorE2 = require('../math/SpinorE2')
-import stringFromCoordinates = require('../math/stringFromCoordinates')
-import TrigMethods = require('../math/TrigMethods')
-import Unit = require('../math/Unit')
-import VectorE2 = require('../math/VectorE2')
+import b2 from '../geometries/b2';
+import b3 from '../geometries/b3';
+import extE2 from '../math/extE2';
+import GeometricElement from '../math/GeometricElement';
+import GeometricOperators from '../math/GeometricOperators';
+import GeometricE2 from '../math/GeometricE2';
+import isDefined from '../checks/isDefined';
+import lcoE2 from '../math/lcoE2';
+import rcoE2 from '../math/rcoE2';
+import ImmutableMeasure from '../math/ImmutableMeasure';
+import mulE2 from '../math/mulE2';
+import mulG2 from '../math/mulG2';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import readOnly from '../i18n/readOnly';
+import scpE2 from '../math/scpE2';
+import SpinorE2 from '../math/SpinorE2';
+import stringFromCoordinates from '../math/stringFromCoordinates';
+import TrigMethods from '../math/TrigMethods';
+import Unit from '../math/Unit';
+import VectorE2 from '../math/VectorE2';
 
 let exp = Math.exp
 let cos = Math.cos
@@ -228,7 +228,7 @@ var divide = function(
 /**
  * @class Euclidean2
  */
-class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, GeometricElement<Euclidean2, Euclidean2, SpinorE2, VectorE2>, GeometricOperators<Euclidean2>, TrigMethods<Euclidean2> {
+export default class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, GeometricElement<Euclidean2, Euclidean2, SpinorE2, VectorE2>, GeometricOperators<Euclidean2>, TrigMethods<Euclidean2> {
     private w: number;
     public x: number;
     public y: number;
@@ -933,5 +933,3 @@ class Euclidean2 implements ImmutableMeasure<Euclidean2>, GeometricE2, Geometric
         }
     }
 }
-
-export = Euclidean2;

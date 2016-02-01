@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], function (require, exports, Shareable, SpinG3) {
+define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], function (require, exports, Shareable_1, SpinG3_1) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -15,7 +15,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
             if (duration === void 0) { duration = 300; }
             _super.call(this, 'Spinor3Animation');
             this.from = void 0;
-            this.to = SpinG3.copy(value);
+            this.to = SpinG3_1.default.copy(value);
             this.duration = duration;
             this.start = 0;
             this.fraction = 0;
@@ -30,7 +30,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
                 if (this.from === void 0) {
                     var data = target.getProperty(propName);
                     if (data) {
-                        this.from = new SpinG3();
+                        this.from = new SpinG3_1.default();
                         this.from.coords = data;
                     }
                 }
@@ -38,7 +38,6 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
             var from = this.from;
             var to = this.to;
             var ease = this.ease;
-            // Calculate animation progress / fraction.
             var fraction;
             if (this.duration > 0) {
                 fraction = Math.min(1, (now - this.start) / (this.duration || 1));
@@ -47,7 +46,6 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
                 fraction = 1;
             }
             this.fraction = fraction;
-            // Simple easing support.
             var rolloff;
             switch (ease) {
                 case 'in':
@@ -63,7 +61,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
                     rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
                     break;
             }
-            var lerp = SpinG3.lerp(from, to, fraction);
+            var lerp = SpinG3_1.default.lerp(from, to, fraction);
             target.setProperty(propName, lerp.coords);
         };
         Spinor3Animation.prototype.hurry = function (factor) {
@@ -97,6 +95,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/SpinG3'], fun
             }
         };
         return Spinor3Animation;
-    })(Shareable);
-    return Spinor3Animation;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Spinor3Animation;
 });

@@ -1,25 +1,25 @@
-import Euclidean3 = require('../math/Euclidean3')
-import GeometryMeta = require('../geometries/GeometryMeta')
-import IGeometry = require('../geometries/IGeometry')
-import mustBeBoolean = require('../checks/mustBeBoolean')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeString = require('../checks/mustBeString')
-import Geometry = require('../geometries/Geometry')
-import Simplex = require('../geometries/Simplex')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import simplicesToDrawPrimitive = require('../geometries/simplicesToDrawPrimitive')
-import simplicesToGeometryMeta = require('../geometries/simplicesToGeometryMeta')
-import Primitive = require('../geometries/Primitive')
-import R1 = require('../math/R1')
-import R3 = require('../math/R3')
-import R2 = require('../math/R2')
-import VectorE3 = require('../math/VectorE3')
+import Euclidean3 from '../math/Euclidean3';
+import GeometryMeta from '../geometries/GeometryMeta';
+import IGeometry from '../geometries/IGeometry';
+import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeString from '../checks/mustBeString';
+import Geometry from '../geometries/Geometry';
+import Simplex from '../geometries/Simplex';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import simplicesToDrawPrimitive from '../geometries/simplicesToDrawPrimitive';
+import simplicesToGeometryMeta from '../geometries/simplicesToGeometryMeta';
+import Primitive from '../geometries/Primitive';
+import R1 from '../math/R1';
+import R3 from '../math/R3';
+import R2 from '../math/R2';
+import VectorE3 from '../math/VectorE3';
 
 /**
  * @class SimplexGeometry
  * @extends Geometry
  */
-class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
+export default class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
     /**
      * The geometry as a list of simplices.
      * A simplex, in the context of WebGL, will usually represent a triangle, line or point.
@@ -327,5 +327,3 @@ class SimplexGeometry extends Geometry implements IGeometry<SimplexGeometry> {
         return this
     }
 }
-
-export = SimplexGeometry;

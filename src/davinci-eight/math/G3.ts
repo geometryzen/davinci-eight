@@ -1,31 +1,28 @@
-import dotVectorCartesianE3 = require('../math/dotVectorCartesianE3')
-import dotVector = require('../math/dotVectorE3')
-import Euclidean3 = require('../math/Euclidean3')
-import extG3 = require('../math/extG3')
-import GeometricE3 = require('../math/GeometricE3')
-import isNumber = require('../checks/isNumber')
-import lcoG3 = require('../math/lcoG3')
-import GeometricOperators = require('../math/GeometricOperators')
-import mulG3 = require('../math/mulG3')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import mustBeString = require('../checks/mustBeString')
-import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
-import quadSpinor = require('../math/quadSpinorE3')
-import quadVector = require('../math/quadVectorE3')
-import rcoG3 = require('../math/rcoG3')
-import readOnly = require('../i18n/readOnly')
-import rotorFromDirections = require('../math/rotorFromDirections')
-import scpG3 = require('../math/scpG3')
-import SpinorE3 = require('../math/SpinorE3')
-import squaredNormG3 = require('../math/squaredNormG3')
-import stringFromCoordinates = require('../math/stringFromCoordinates')
-import VectorE3 = require('../math/VectorE3')
-import VectorN = require('../math/VectorN')
-import wedgeXY = require('../math/wedgeXY')
-import wedgeYZ = require('../math/wedgeYZ')
-import wedgeZX = require('../math/wedgeZX')
+import dotVector from '../math/dotVectorE3';
+import Euclidean3 from '../math/Euclidean3';
+import extG3 from '../math/extG3';
+import GeometricE3 from '../math/GeometricE3';
+import lcoG3 from '../math/lcoG3';
+import GeometricOperators from '../math/GeometricOperators';
+import mulG3 from '../math/mulG3';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
+import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
+import quadVector from '../math/quadVectorE3';
+import rcoG3 from '../math/rcoG3';
+import readOnly from '../i18n/readOnly';
+import rotorFromDirections from '../math/rotorFromDirections';
+import scpG3 from '../math/scpG3';
+import SpinorE3 from '../math/SpinorE3';
+import squaredNormG3 from '../math/squaredNormG3';
+import stringFromCoordinates from '../math/stringFromCoordinates';
+import VectorE3 from '../math/VectorE3';
+import VectorN from '../math/VectorN';
+import wedgeXY from '../math/wedgeXY';
+import wedgeYZ from '../math/wedgeYZ';
+import wedgeZX from '../math/wedgeZX';
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
 let COORD_W = 0
@@ -37,7 +34,6 @@ let COORD_YZ = 5
 let COORD_ZX = 6
 let COORD_XYZ = 7
 
-let abs = Math.abs
 let atan2 = Math.atan2
 let exp = Math.exp
 let cos = Math.cos
@@ -132,7 +128,7 @@ let I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
  * @extends GeometricE3
  * @beta
  */
-class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement3D<GeometricE3, G3, SpinorE3, VectorE3>, GeometricOperators<G3> {
+export default class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement3D<GeometricE3, G3, SpinorE3, VectorE3>, GeometricOperators<G3> {
     /**
      * Constructs a <code>G3</code>.
      * The multivector is initialized to zero.
@@ -258,7 +254,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @return {G3} <code>this</code>
      * @chainable
      */
-    add(M: GeometricE3, α: number = 1): G3 {
+    add(M: GeometricE3, α = 1): G3 {
         mustBeObject('M', M)
         mustBeNumber('α', α)
         this.α += M.α * α
@@ -312,7 +308,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @return {G3} <code>this</code>
      * @chainable
      */
-    addVector(v: VectorE3, α: number = 1): G3 {
+    addVector(v: VectorE3, α = 1): G3 {
         mustBeObject('v', v)
         mustBeNumber('α', α)
         this.x += v.x * α
@@ -609,8 +605,8 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
 
         // In G3 we have the special case that the pseudoscalar also commutes.
         // And since it squares to -1, we get a exp(Iβ) = cos(β) + I * sin(β) factor.
-        let cosβ = cos(this.β)
-        let sinβ = sin(this.β)
+        // let cosβ = cos(this.β)
+        // let sinβ = sin(this.β)
 
         // We are left with the vector and bivector components.
         // For a bivector (usual case), let B = I * φ, where φ is a vector.
@@ -788,13 +784,13 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
-    * <p>
-    * <code>this ⟼ sqrt(this * conj(this))</code>
-    * </p>
-    * @method norm
-    * @return {G3} <code>this</code>
-    * @chainable
-    */
+     * <p>
+     * <code>this ⟼ sqrt(this * conj(this))</code>
+     * </p>
+     * @method norm
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
     norm(): G3 {
         // FIXME: TODO
         this.α = this.magnitudeSansUnits()
@@ -845,13 +841,13 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
-    * <p>
-    * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
-    * </p>
-    * @method quad
-    * @return {G3} <code>this</code>
-    * @chainable
-    */
+     * <p>
+     * <code>this ⟼ scp(this, rev(this)) = this | ~this</code>
+     * </p>
+     * @method quad
+     * @return {G3} <code>this</code>
+     * @chainable
+     */
     quad(): G3 {
         return this.squaredNorm();
     }
@@ -1098,7 +1094,7 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
      * @return {G3} <code>this</code>
      * @chainable
      */
-    sub(M: GeometricE3, α: number = 1): G3 {
+    sub(M: GeometricE3, α = 1): G3 {
         mustBeObject('M', M)
         mustBeNumber('α', α)
         this.α -= M.α * α
@@ -1697,14 +1693,14 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
     }
 
     /**
-    * @method lerp
-    * @param A {GeometricE3}
-    * @param B {GeometricE3}
-    * @param α {number}
-    * @return {G3} <code>A + α * (B - A)</code>
-    * @static
-    * @chainable
-    */
+     * @method lerp
+     * @param A {GeometricE3}
+     * @param B {GeometricE3}
+     * @param α {number}
+     * @return {G3} <code>A + α * (B - A)</code>
+     * @static
+     * @chainable
+     */
     static lerp(A: GeometricE3, B: GeometricE3, α: number): G3 {
         return G3.copy(A).lerp(B, α)
     }
@@ -1721,5 +1717,3 @@ class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement
         return new G3().rotorFromDirections(a, b)
     }
 }
-
-export = G3

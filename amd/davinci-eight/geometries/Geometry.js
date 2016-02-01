@@ -1,33 +1,10 @@
-define(["require", "exports", '../math/CartesianE3', '../checks/mustBeBoolean', '../checks/mustBeObject'], function (require, exports, CartesianE3, mustBeBoolean, mustBeObject) {
-    /**
-     * @class Geometry
-     */
+define(["require", "exports", '../math/CartesianE3', '../checks/mustBeBoolean', '../checks/mustBeObject'], function (require, exports, CartesianE3_1, mustBeBoolean_1, mustBeObject_1) {
     var Geometry = (function () {
-        /**
-         * @class Geometry
-         * @constructor
-         */
         function Geometry() {
-            /**
-             * @property _position
-             * @type {CartesianE3}
-             * @private
-             */
-            this._position = CartesianE3.zero;
-            /**
-             * @property useTextureCoords
-             * @type {boolean}
-             */
+            this._position = CartesianE3_1.default.zero;
             this.useTextureCoords = false;
         }
         Object.defineProperty(Geometry.prototype, "position", {
-            /**
-             * <p>
-             * The local `position` property used for geometry generation.
-             * </p>
-             * @property position
-             * @type {CartesianE3}
-             */
             get: function () {
                 return this._position;
             },
@@ -37,37 +14,22 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeBoolean', 
             enumerable: true,
             configurable: true
         });
-        /**
-         * @method enableTextureCoords
-         * @param enable {boolean}
-         * @return {Geometry}
-         * @chainable
-         */
         Geometry.prototype.enableTextureCoords = function (enable) {
-            mustBeBoolean('enable', enable);
+            mustBeBoolean_1.default('enable', enable);
             this.useTextureCoords = enable;
             return this;
         };
-        /**
-         * @method setPosition
-         * @param position {VectorE3}
-         * @return Geometry
-         * @chainable
-         */
         Geometry.prototype.setPosition = function (position) {
-            mustBeObject('position', position);
-            this._position = CartesianE3.fromVectorE3(position);
+            mustBeObject_1.default('position', position);
+            this._position = CartesianE3_1.default.fromVectorE3(position);
             return this;
         };
-        /**
-         * @method toPrimitives
-         * @return {Primitive[]}
-         */
         Geometry.prototype.toPrimitives = function () {
             console.warn("Geometry.toPrimitives() must be implemented by derived classes.");
             return [];
         };
         return Geometry;
     })();
-    return Geometry;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Geometry;
 });

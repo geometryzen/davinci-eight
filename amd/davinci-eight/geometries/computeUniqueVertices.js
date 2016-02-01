@@ -1,5 +1,4 @@
 define(["require", "exports"], function (require, exports) {
-    // This function has the important side-effect of setting the vertex index property.
     function computeUniqueVertices(geometry) {
         var map = {};
         var vertices = [];
@@ -22,5 +21,6 @@ define(["require", "exports"], function (require, exports) {
         });
         return vertices;
     }
-    return computeUniqueVertices;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = computeUniqueVertices;
 });

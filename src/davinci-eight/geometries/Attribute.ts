@@ -36,4 +36,4 @@ interface Attribute {
     offset?: number;
 }
 
-export = Attribute;
+export default Attribute;

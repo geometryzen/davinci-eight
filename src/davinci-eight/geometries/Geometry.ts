@@ -1,14 +1,14 @@
-import CartesianE3 = require('../math/CartesianE3')
-import IGeometry = require('../geometries/IGeometry')
-import mustBeBoolean = require('../checks/mustBeBoolean')
-import mustBeObject = require('../checks/mustBeObject')
-import Primitive = require('../geometries/Primitive')
-import VectorE3 = require('../math/VectorE3')
+import CartesianE3 from '../math/CartesianE3';
+import IGeometry from '../geometries/IGeometry';
+import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeObject from '../checks/mustBeObject';
+import Primitive from '../geometries/Primitive';
+import VectorE3 from '../math/VectorE3';
 
 /**
  * @class Geometry
  */
-class Geometry implements IGeometry<Geometry> {
+export default class Geometry implements IGeometry<Geometry> {
     /**
      * @property _position
      * @type {CartesianE3}
@@ -72,5 +72,3 @@ class Geometry implements IGeometry<Geometry> {
         return []
     }
 }
-
-export = Geometry

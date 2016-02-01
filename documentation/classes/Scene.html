@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.170.0</em>
+            <em>API Docs for: 2.171.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -67,7 +67,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -84,6 +84,8 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/ExtrudeSimplexGeometry.html">ExtrudeSimplexGeometry</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
+                                <li><a href="../classes/Facet.html">Facet</a></li>
+                                <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/FontFace.html">FontFace</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
@@ -110,8 +112,6 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet.html">IFacet</a></li>
-                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
@@ -130,7 +130,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
-                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
@@ -153,6 +153,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/RefCount.html">RefCount</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
@@ -170,7 +171,7 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
-                                <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
@@ -196,6 +197,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexSimplexGeometry.html">VortexSimplexGeometry</a></li>
+                                <li><a href="../classes/WaitAnimation.html">WaitAnimation</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -248,7 +250,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_scene_Scene.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:47</code></a>
+            Defined in: <a href="../files/src_davinci-eight_scene_Scene.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:40</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -287,7 +289,7 @@ The collection may be traversed for general processing using callback/visitor fu
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:47</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:40</code></a>
         </p>
 
 
@@ -343,6 +345,18 @@ The collection may be traversed for general processing using callback/visitor fu
                             </li>
                             <li class="index-item method inherited inherited">
                                 <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextFree">contextFree</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextGain">contextGain</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextLost">contextLost</a>
 
                             </li>
                             <li class="index-item method protected inherited">
@@ -421,7 +435,7 @@ The collection may be traversed for general processing using callback/visitor fu
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:81</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:74</code></a>
         </p>
 
 
@@ -510,6 +524,192 @@ Notifies this instance that something is dereferencing it.
 
 
 </div>
+<div id="method_contextFree" class="method item">
+    <h3 class="name"><code>contextFree</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>canvasId</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l146"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:146</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">canvasId</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextGain" class="method item">
+    <h3 class="name"><code>contextGain</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>manager</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l158"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:158</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">manager</code>
+                        <span class="type"><a href="../classes/IContextProvider.html" class="crosslink">IContextProvider</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_contextLost" class="method item">
+    <h3 class="name"><code>contextLost</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>canvasId</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l170"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:170</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">canvasId</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_destructor" class="method item protected">
     <h3 class="name"><code>destructor</code></h3>
 
@@ -532,7 +732,7 @@ Notifies this instance that something is dereferencing it.
                 Shareable
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:67</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:60</code></a>
         </p>
 
 
@@ -581,7 +781,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l100"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:100</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l94"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:94</code></a>
         </p>
 
 
@@ -600,7 +800,7 @@ Traverses the collection of drawables, drawing each one.
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">ambients</code>
-                        <span class="type"><a href="../classes/IFacet.html" class="crosslink">IFacet[]</a></span>
+                        <span class="type"><a href="../classes/Facet.html" class="crosslink">Facet[]</a></span>
 
 
                     <div class="param-description">
@@ -653,7 +853,7 @@ Traverses the collection of drawables, drawing each one.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l114"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:114</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:108</code></a>
         </p>
 
 
@@ -755,7 +955,7 @@ Notifies this instance that something is dereferencing it.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:122</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l117"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:117</code></a>
         </p>
 
 
@@ -828,7 +1028,7 @@ This method returns <code>undefined</code>.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l136"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:136</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:132</code></a>
         </p>
 
 
@@ -908,7 +1108,7 @@ Traverses the collection of drawables, calling the specified callback arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:32</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:25</code></a>
         </p>
 
 
@@ -933,7 +1133,7 @@ Traverses the collection of drawables, calling the specified callback arguments.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:39</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:32</code></a>
         </p>
 
 

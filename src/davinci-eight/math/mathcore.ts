@@ -72,4 +72,4 @@ var mathcore =
         }
     };
 
-export = mathcore;
+export default mathcore;

@@ -1,14 +1,14 @@
-import Euclidean3 = require('../math/Euclidean3')
-import GridTopology = require('../topologies/GridTopology')
-import Geometry = require('../geometries/Geometry')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import IGeometry = require('../geometries/IGeometry')
-import mustBeBoolean = require('../checks/mustBeBoolean')
-import mustBeNumber = require('../checks/mustBeNumber')
-import Primitive = require('../geometries/Primitive')
-import R3 = require('../math/R3')
-import R2 = require('../math/R2')
-import VectorE3 = require('../math/VectorE3')
+import Euclidean3 from '../math/Euclidean3';
+import GridTopology from '../topologies/GridTopology';
+import Geometry from '../geometries/Geometry';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import IGeometry from '../geometries/IGeometry';
+import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeNumber from '../checks/mustBeNumber';
+import Primitive from '../geometries/Primitive';
+import R3 from '../math/R3';
+import R2 from '../math/R2';
+import VectorE3 from '../math/VectorE3';
 
 function side(basis: R3[], uSegments: number, vSegments: number): GridTopology {
     var normal = R3.copy(basis[0]).cross(basis[1]).direction()
@@ -36,7 +36,7 @@ function side(basis: R3[], uSegments: number, vSegments: number): GridTopology {
 /**
  * @class CuboidGeometry
  */
-class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
+export default class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
     public iSegments: number = 1;
     public jSegments: number = 1;
     public kSegments: number = 1;
@@ -122,4 +122,3 @@ class CuboidGeometry extends Geometry implements IGeometry<CuboidGeometry> {
         return this
     }
 }
-export = CuboidGeometry

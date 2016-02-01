@@ -3,32 +3,27 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, uuid4) {
+define(["require", "exports", '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray_1, NumberIUnknownMap_1, refChange_1, Shareable_1, StringIUnknownMap_1, uuid4_1) {
     var CLASS_NAME_DRAWLIST = "createDrawList";
     var CLASS_NAME_GROUP = "DrawableGroup";
     var CLASS_NAME_ALL = "DrawableGroups";
-    // FIXME; Probably good to have another collection of DrawableGroup
-    /**
-     * A grouping of IDrawable, by IGraphicsProgram.
-     */
-    // FIXME: extends Shareable
     var DrawableGroup = (function () {
         function DrawableGroup(program) {
-            this._drawables = new IUnknownArray();
+            this._drawables = new IUnknownArray_1.default();
             this._refCount = 1;
-            this._uuid = uuid4().generate();
+            this._uuid = uuid4_1.default().generate();
             this._program = program;
             this._program.addRef();
-            refChange(this._uuid, CLASS_NAME_GROUP, +1);
+            refChange_1.default(this._uuid, CLASS_NAME_GROUP, +1);
         }
         DrawableGroup.prototype.addRef = function () {
             this._refCount++;
-            refChange(this._uuid, CLASS_NAME_GROUP, +1);
+            refChange_1.default(this._uuid, CLASS_NAME_GROUP, +1);
             return this._refCount;
         };
         DrawableGroup.prototype.release = function () {
             this._refCount--;
-            refChange(this._uuid, CLASS_NAME_GROUP, -1);
+            refChange_1.default(this._uuid, CLASS_NAME_GROUP, -1);
             if (this._refCount === 0) {
                 this._program.release();
                 this._program = void 0;
@@ -50,9 +45,6 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             enumerable: true,
             configurable: true
         });
-        /**
-         * accept provides a way to push out the IGraphicsProgram without bumping the reference count.
-         */
         DrawableGroup.prototype.acceptProgram = function (visitor) {
             visitor(this._program);
         };
@@ -73,7 +65,6 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             var drawables = this._drawables;
             var index = drawables.indexOf(drawable);
             if (index >= 0) {
-                // We don't actually need the returned element so release it.
                 drawables.splice(index, 1).release();
             }
         };
@@ -100,17 +91,11 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
         };
         return DrawableGroup;
     })();
-    /**
-     * Should look like a set of IDrawable Groups. Maybe like a Scene!
-     */
     var DrawableGroups = (function (_super) {
         __extends(DrawableGroups, _super);
         function DrawableGroups() {
             _super.call(this, CLASS_NAME_ALL);
-            /**
-             * Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])
-             */
-            this._groups = new StringIUnknownMap();
+            this._groups = new StringIUnknownMap_1.default();
         }
         DrawableGroups.prototype.destructor = function () {
             this._groups.release();
@@ -118,7 +103,6 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             _super.prototype.destructor.call(this);
         };
         DrawableGroups.prototype.add = function (drawable) {
-            // Now let's see if we can get a program...
             var program = drawable.material;
             if (program) {
                 try {
@@ -186,7 +170,6 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             }
         };
         DrawableGroups.prototype.draw = function (ambients, canvasId) {
-            // Manually hoisted variable declarations.
             var drawGroups;
             var materialKey;
             var materialKeys;
@@ -203,7 +186,6 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
                 drawGroup.release();
             }
         };
-        // FIXME: Rename to traverse
         DrawableGroups.prototype.traverseDrawables = function (callback, callback2) {
             this._groups.forEach(function (groupId, group) {
                 group.acceptProgram(callback2);
@@ -216,21 +198,21 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             });
         };
         return DrawableGroups;
-    })(Shareable);
-    var createDrawList = function () {
+    })(Shareable_1.default);
+    function createDrawList() {
         var drawableGroups = new DrawableGroups();
-        var canvasIdToManager = new NumberIUnknownMap();
+        var canvasIdToManager = new NumberIUnknownMap_1.default();
         var refCount = 1;
-        var uuid = uuid4().generate();
+        var uuid = uuid4_1.default().generate();
         var self = {
             addRef: function () {
                 refCount++;
-                refChange(uuid, CLASS_NAME_DRAWLIST, +1);
+                refChange_1.default(uuid, CLASS_NAME_DRAWLIST, +1);
                 return refCount;
             },
             release: function () {
                 refCount--;
-                refChange(uuid, CLASS_NAME_DRAWLIST, -1);
+                refChange_1.default(uuid, CLASS_NAME_DRAWLIST, -1);
                 if (refCount === 0) {
                     drawableGroups.release();
                     drawableGroups = void 0;
@@ -252,14 +234,9 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
                 });
                 canvasIdToManager.remove(canvasId);
             },
-            /**
-             * method contextGain
-             */
             contextGain: function (manager) {
                 if (!canvasIdToManager.exists(manager.canvasId)) {
-                    // Cache the manager.
                     canvasIdToManager.put(manager.canvasId, manager);
-                    // Broadcast to drawables and materials.
                     drawableGroups.traverseDrawables(function (drawable) {
                         drawable.contextGain(manager);
                     }, function (material) {
@@ -278,8 +255,6 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
                 }
             },
             add: function (drawable) {
-                // If we have canvasIdToManager povide them to the drawable before asking for the program.
-                // FIXME: Do we have to be careful about whether the manager has a context?
                 canvasIdToManager.forEach(function (id, manager) {
                     drawable.contextGain(manager);
                 });
@@ -292,7 +267,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
                 drawableGroups.draw(ambients, canvasId);
             },
             getDrawablesByName: function (name) {
-                var result = new IUnknownArray();
+                var result = new IUnknownArray_1.default();
                 drawableGroups.traverseDrawables(function (candidate) {
                     if (candidate.name === name) {
                         result.push(candidate);
@@ -304,14 +279,13 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             remove: function (drawable) {
                 drawableGroups.remove(drawable);
             },
-            // FIXME: canvasId not being used?
-            // FIXME: canvasId must be last parameter to be optional.
             traverse: function (callback, canvasId, prolog) {
                 drawableGroups.traverseDrawables(callback, prolog);
             }
         };
-        refChange(uuid, CLASS_NAME_DRAWLIST, +1);
+        refChange_1.default(uuid, CLASS_NAME_DRAWLIST, +1);
         return self;
-    };
-    return createDrawList;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = createDrawList;
 });

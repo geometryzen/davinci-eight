@@ -1,11 +1,9 @@
-import clamp = require('../math/clamp')
-import mustBeArray = require('../checks/mustBeArray')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import principalAngle = require('../core/principalAngle')
-import ColorRGB = require('../core/ColorRGB')
-import Mutable = require('../math/Mutable')
-import VectorN = require('../math/VectorN')
+import clamp from '../math/clamp';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeNumber from '../checks/mustBeNumber';
+import principalAngle from '../core/principalAngle';
+import ColorRGB from '../core/ColorRGB';
+import VectorN from '../math/VectorN';
 
 let pow = Math.pow
 
@@ -28,7 +26,7 @@ let COORD_B = 2
  * @extends VectorN
  * @implements ColorRGB
  */
-class Color extends VectorN<number> implements ColorRGB {
+export default class Color extends VectorN<number> implements ColorRGB {
     /**
      * @property black
      * @type {Color}
@@ -235,7 +233,7 @@ class Color extends VectorN<number> implements ColorRGB {
          * This function captures C and L
          */
         function matchLightness(R: number, G: number, B: number): Color {
-            var x = Color.luminance(R, G, B)
+            // var x = Color.luminance(R, G, B)
             var m = L - 0.5 * C
             return new Color(R + m, G + m, B + m)
         }
@@ -293,5 +291,3 @@ class Color extends VectorN<number> implements ColorRGB {
         return Color.fromColor(a).interpolate(b, α)
     }
 }
-
-export = Color;

@@ -1,7 +1,7 @@
-import ContextController = require('../core/ContextController');
-import IContextProvider = require('../core/IContextProvider');
-import IContextMonitor = require('../core/IContextMonitor');
-import ContextUnique = require('../core/ContextUnique');
+import ContextController from '../core/ContextController';
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import ContextUnique from '../core/ContextUnique';
 /**
  * @interface ContextKahuna
  * @extends ContextController
@@ -13,4 +13,4 @@ interface ContextKahuna extends ContextController, IContextProvider, IContextMon
 
 }
 
-export = ContextKahuna;
+export default ContextKahuna;

@@ -65,5 +65,6 @@ define(["require", "exports"], function (require, exports) {
         }
         return +x;
     }
-    return rcoE3;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = rcoE3;
 });

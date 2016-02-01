@@ -1,8 +1,8 @@
-import ColorRGBA = require('../../core/ColorRGBA')
-import IAnimation = require('../../slideshow/IAnimation')
-import IAnimationTarget = require('../../slideshow/IAnimationTarget')
-import Shareable = require('../../utils/Shareable')
-import Color = require('../../core/Color')
+import ColorRGBA from '../../core/ColorRGBA';
+import IAnimation from '../../slideshow/IAnimation';
+import IAnimationTarget from '../../slideshow/IAnimationTarget';
+import Shareable from '../../utils/Shareable';
+import Color from '../../core/Color';
 
 function loop(n: number, callback: (i: number) => void) {
     for (var i = 0; i < n; ++i) {
@@ -10,7 +10,7 @@ function loop(n: number, callback: (i: number) => void) {
     }
 }
 
-class ColorAnimation extends Shareable implements IAnimation {
+export default class ColorAnimation extends Shareable implements IAnimation {
     private from: Color;
     private to: Color;
     private duration: number;
@@ -107,5 +107,3 @@ class ColorAnimation extends Shareable implements IAnimation {
         }
     }
 }
-
-export = ColorAnimation

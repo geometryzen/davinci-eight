@@ -3,61 +3,26 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, glCapability, mustBeNumber, Shareable) {
-    /**
-     * <p>
-     * disable(capability: Capability): void
-     * <p>
-     * @class WebGLDisable
-     * @extends Shareable
-     * @implements IContextCommand
-     * @implements IContextConsumer
-     */
+define(["require", "exports", '../commands/glCapability', '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, glCapability_1, mustBeNumber_1, Shareable_1) {
     var WebGLDisable = (function (_super) {
         __extends(WebGLDisable, _super);
-        /**
-         * @class WebGLDisable
-         * @constructor
-         * @param capability {string} The name of the WebGLRenderingContext property to be disabled.
-         */
         function WebGLDisable(capability) {
             _super.call(this, 'WebGLDisable');
-            this._capability = mustBeNumber('capability', capability);
+            this._capability = mustBeNumber_1.default('capability', capability);
         }
-        /**
-         * @method contextFree
-         * @param [canvasId] {number}
-         * @return {void}
-         */
         WebGLDisable.prototype.contextFree = function (canvasId) {
-            // do nothing
         };
-        /**
-         * @method contextGain
-         * @param manager {IContextProvider}
-         * @return {void}
-         */
         WebGLDisable.prototype.contextGain = function (manager) {
-            manager.gl.disable(glCapability(this._capability, manager.gl));
+            manager.gl.disable(glCapability_1.default(this._capability, manager.gl));
         };
-        /**
-         * @method contextLost
-         * @param [canvasId] {number}
-         * @return {void}
-         */
         WebGLDisable.prototype.contextLost = function (canvasId) {
-            // do nothing
         };
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
         WebGLDisable.prototype.destructor = function () {
             this._capability = void 0;
             _super.prototype.destructor.call(this);
         };
         return WebGLDisable;
-    })(Shareable);
-    return WebGLDisable;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = WebGLDisable;
 });

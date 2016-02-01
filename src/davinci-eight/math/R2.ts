@@ -1,12 +1,12 @@
-import ColumnVector = require('../math/ColumnVector')
-import b2 = require('../geometries/b2')
-import b3 = require('../geometries/b3')
-import Mat2R = require('../math/Mat2R');
-import MutableLinearElement = require('../math/MutableLinearElement');
-import SpinorE2 = require('../math/SpinorE2');
-import VectorN = require('../math/VectorN');
-import VectorE2 = require('../math/VectorE2');
-import expectArg = require('../checks/expectArg');
+import ColumnVector from '../math/ColumnVector';
+import b2 from '../geometries/b2';
+import b3 from '../geometries/b3';
+import Mat2R from '../math/Mat2R';
+import MutableLinearElement from '../math/MutableLinearElement';
+import SpinorE2 from '../math/SpinorE2';
+import VectorN from '../math/VectorN';
+import VectorE2 from '../math/VectorE2';
+import expectArg from '../checks/expectArg';
 
 let exp = Math.exp
 let log = Math.log
@@ -17,7 +17,7 @@ let COORD_Y = 1
 /**
  * @class R2
  */
-class R2 extends VectorN<number> implements ColumnVector<Mat2R, R2>, VectorE2, MutableLinearElement<VectorE2, R2, SpinorE2, VectorE2> {
+export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R2>, VectorE2, MutableLinearElement<VectorE2, R2, SpinorE2, VectorE2> {
     /**
      * @class R2
      * @constructor
@@ -356,5 +356,3 @@ class R2 extends VectorN<number> implements ColumnVector<Mat2R, R2>, VectorE2, M
     }
 
 }
-
-export = R2;

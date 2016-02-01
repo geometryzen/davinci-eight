@@ -1,10 +1,10 @@
-define(["require", "exports", '../checks/isDefined', '../checks/mustBeArray'], function (require, exports, isDefined, mustBeArray) {
+define(["require", "exports", '../checks/isDefined', '../checks/mustBeArray'], function (require, exports, isDefined_1, mustBeArray_1) {
     function isLabelOne(label) {
         if (typeof label === 'string') {
             return label === "1";
         }
         else {
-            var labels = mustBeArray('label', label);
+            var labels = mustBeArray_1.default('label', label);
             if (labels.length === 2) {
                 return isLabelOne(labels[0]) && isLabelOne(labels[1]);
             }
@@ -21,7 +21,7 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeArray'], f
             sb.push(label);
         }
         else {
-            var labels = mustBeArray('label', label);
+            var labels = mustBeArray_1.default('label', label);
             if (labels.length === 2) {
                 sb.push(coord > 0 ? labels[1] : labels[0]);
             }
@@ -43,13 +43,11 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeArray'], f
                 }
             }
             else {
-                // The coordinate is negative.
                 if (typeof label === 'string') {
-                    // There's only one label, we must use minus signs.
                     sb.push("-");
                 }
                 else {
-                    var labels = mustBeArray('label', label);
+                    var labels = mustBeArray_1.default('label', label);
                     if (labels.length === 2) {
                         if (labels[0] !== labels[1]) {
                             if (sb.length > 0) {
@@ -64,14 +62,12 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeArray'], f
                         sb.push("-");
                     }
                     else {
-                        // This could be considered an error, but we'll let appendLabel deal with it!
                         sb.push("-");
                     }
                 }
             }
             var n = Math.abs(coord);
             if (n === 1) {
-                // 1 times something is just 1, so we only need the label.
                 appendLabel(coord, label, sb);
             }
             else {
@@ -91,15 +87,15 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeArray'], f
         var sb = [];
         for (var i = 0, iLength = coordinates.length; i < iLength; i++) {
             var coord = coordinates[i];
-            if (isDefined(coord)) {
+            if (isDefined_1.default(coord)) {
                 appendCoord(coord, numberToString, labels[i], sb);
             }
             else {
-                // We'll just say that the whole thing is undefined.
                 return void 0;
             }
         }
         return sb.length > 0 ? sb.join("") : "0";
     }
-    return stringFromCoordinates;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = stringFromCoordinates;
 });

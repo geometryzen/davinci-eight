@@ -1,5 +1,5 @@
-import MutableGeometricElement = require('../math/MutableGeometricElement');
-import MutableLinearElement = require('../math/MutableLinearElement');
+import MutableGeometricElement from '../math/MutableGeometricElement';
+import MutableLinearElement from '../math/MutableLinearElement';
 
 /**
  * This interface is provided to ensure consistency.
@@ -12,4 +12,4 @@ interface MutableGeometricElement3D<I, M, S, V> extends MutableGeometricElement<
     rotorFromAxisAngle(axis: V, θ: number): M;
 }
 
-export = MutableGeometricElement3D;
+export default MutableGeometricElement3D;

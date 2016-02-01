@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.170.0</em>
+            <em>API Docs for: 2.171.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -67,7 +67,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -84,6 +84,8 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/ExtrudeSimplexGeometry.html">ExtrudeSimplexGeometry</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
+                                <li><a href="../classes/Facet.html">Facet</a></li>
+                                <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/FontFace.html">FontFace</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
@@ -110,8 +112,6 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet.html">IFacet</a></li>
-                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
@@ -130,7 +130,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
-                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
@@ -153,6 +153,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/RefCount.html">RefCount</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
@@ -170,7 +171,7 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
-                                <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
@@ -196,6 +197,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexSimplexGeometry.html">VortexSimplexGeometry</a></li>
+                                <li><a href="../classes/WaitAnimation.html">WaitAnimation</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -244,44 +246,38 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import addE3 = require(&#x27;../math/addE3&#x27;)
-import b2 = require(&#x27;../geometries/b2&#x27;)
-import b3 = require(&#x27;../geometries/b3&#x27;)
-import Dimensions = require(&#x27;../math/Dimensions&#x27;)
-import extG3 = require(&#x27;../math/extG3&#x27;)
-import GeometricE3 = require(&#x27;../math/GeometricE3&#x27;)
-import isDefined = require(&#x27;../checks/isDefined&#x27;)
-import isNumber = require(&#x27;../checks/isNumber&#x27;)
-import lcoG3 = require(&#x27;../math/lcoG3&#x27;)
-import GeometricOperators = require(&#x27;../math/GeometricOperators&#x27;)
-import mathcore = require(&#x27;../math/mathcore&#x27;);
-import ImmutableMeasure = require(&#x27;../math/ImmutableMeasure&#x27;);
-import mulE3 = require(&#x27;../math/mulE3&#x27;)
-import mulG3 = require(&#x27;../math/mulG3&#x27;)
-import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
-import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
-import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
-import NotImplementedError = require(&#x27;../math/NotImplementedError&#x27;);
-import rcoG3 = require(&#x27;../math/rcoG3&#x27;)
-import readOnly = require(&#x27;../i18n/readOnly&#x27;)
-import scpG3 = require(&#x27;../math/scpG3&#x27;)
-import SpinorE3 = require(&#x27;../math/SpinorE3&#x27;)
-import squaredNormG3 = require(&#x27;../math/squaredNormG3&#x27;)
-import stringFromCoordinates = require(&#x27;../math/stringFromCoordinates&#x27;)
-import subE3 = require(&#x27;../math/subE3&#x27;)
-import TrigMethods = require(&#x27;../math/TrigMethods&#x27;)
-import Unit = require(&#x27;../math/Unit&#x27;);
-import VectorE3 = require(&#x27;../math/VectorE3&#x27;)
-import BASIS_LABELS_G3_GEOMETRIC = require(&#x27;../math/BASIS_LABELS_G3_GEOMETRIC&#x27;)
-import BASIS_LABELS_G3_HAMILTON = require(&#x27;../math/BASIS_LABELS_G3_HAMILTON&#x27;)
-import BASIS_LABELS_G3_STANDARD = require(&#x27;../math/BASIS_LABELS_G3_STANDARD&#x27;)
-import BASIS_LABELS_G3_STANDARD_HTML = require(&#x27;../math/BASIS_LABELS_G3_STANDARD_HTML&#x27;)
+import addE3 from &#x27;../math/addE3&#x27;;
+import b2 from &#x27;../geometries/b2&#x27;;
+import b3 from &#x27;../geometries/b3&#x27;;
+import extG3 from &#x27;../math/extG3&#x27;;
+import GeometricE3 from &#x27;../math/GeometricE3&#x27;;
+import isDefined from &#x27;../checks/isDefined&#x27;;
+import lcoG3 from &#x27;../math/lcoG3&#x27;;
+import GeometricOperators from &#x27;../math/GeometricOperators&#x27;;
+import ImmutableMeasure from &#x27;../math/ImmutableMeasure&#x27;;
+import mulE3 from &#x27;../math/mulE3&#x27;;
+import mulG3 from &#x27;../math/mulG3&#x27;;
+import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import GeometricElement from &#x27;../math/GeometricElement&#x27;;
+import NotImplementedError from &#x27;../math/NotImplementedError&#x27;;
+import rcoG3 from &#x27;../math/rcoG3&#x27;;
+import readOnly from &#x27;../i18n/readOnly&#x27;;
+import scpG3 from &#x27;../math/scpG3&#x27;;
+import SpinorE3 from &#x27;../math/SpinorE3&#x27;;
+import squaredNormG3 from &#x27;../math/squaredNormG3&#x27;;
+import stringFromCoordinates from &#x27;../math/stringFromCoordinates&#x27;;
+import subE3 from &#x27;../math/subE3&#x27;;
+import TrigMethods from &#x27;../math/TrigMethods&#x27;;
+import Unit from &#x27;../math/Unit&#x27;;
+import VectorE3 from &#x27;../math/VectorE3&#x27;;
+import BASIS_LABELS_G3_GEOMETRIC from &#x27;../math/BASIS_LABELS_G3_GEOMETRIC&#x27;;
+import BASIS_LABELS_G3_HAMILTON from &#x27;../math/BASIS_LABELS_G3_HAMILTON&#x27;;
+import BASIS_LABELS_G3_STANDARD from &#x27;../math/BASIS_LABELS_G3_STANDARD&#x27;;
+import BASIS_LABELS_G3_STANDARD_HTML from &#x27;../math/BASIS_LABELS_G3_STANDARD_HTML&#x27;;
 
 let cos = Math.cos;
-let cosh = mathcore.Math.cosh;
-let exp = Math.exp;
 let sin = Math.sin;
-let sinh = mathcore.Math.sinh;
 let sqrt = Math.sqrt;
 
 function assertArgEuclidean3(name: string, arg: Euclidean3): Euclidean3 {
@@ -506,7 +502,7 @@ var divide = function(
 /**
  * @class Euclidean3
  */
-class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, GeometricElement&lt;Euclidean3, Euclidean3, SpinorE3, VectorE3&gt;, GeometricOperators&lt;Euclidean3&gt;, TrigMethods&lt;Euclidean3&gt; {
+export default class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, GeometricElement&lt;Euclidean3, Euclidean3, SpinorE3, VectorE3&gt;, GeometricOperators&lt;Euclidean3&gt;, TrigMethods&lt;Euclidean3&gt; {
     static get BASIS_LABELS_GEOMETRIC(): string[][] { return BASIS_LABELS_G3_GEOMETRIC };
     static get BASIS_LABELS_HAMILTON(): string[][] { return BASIS_LABELS_G3_HAMILTON };
     static get BASIS_LABELS_STANDARD(): string[][] { return BASIS_LABELS_G3_STANDARD };
@@ -614,7 +610,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @type {number}
      * @private
      */
-    private w: number;
+    public w: number;
 
     /**
      * The &#x60;x&#x60; property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.
@@ -663,7 +659,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @type {number}
      * @private
      */
-    private xyz: number;
+    public xyz: number;
 
     /**
      * The optional unit of measure.
@@ -990,10 +986,9 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @param rhs {Euclidean3}
      */
     mul(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
-        mulG3(this, rhs, Euclidean3.mutator(out))
-        return out
+        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+        mulG3(this, rhs, Euclidean3.mutator(out));
+        return out;
     }
 
     /**
@@ -1004,10 +999,10 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      */
     __mul__(rhs: any): any {
         if (rhs instanceof Euclidean3) {
-            return this.mul(rhs)
+            return this.mul(rhs);
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            return this.scale(rhs)
+            return this.scale(rhs);
         }
     }
 
@@ -1019,10 +1014,10 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      */
     __rmul__(lhs: any): any {
         if (lhs instanceof Euclidean3) {
-            return lhs.mul(this)
+            return lhs.mul(this);
         }
         else if (typeof lhs === &#x27;number&#x27;) {
-            return this.scale(lhs)
+            return this.scale(lhs);
         }
     }
 
@@ -1062,10 +1057,10 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      */
     __div__(rhs: any): Euclidean3 {
         if (rhs instanceof Euclidean3) {
-            return this.div(rhs)
+            return this.div(rhs);
         }
         else if (typeof rhs === &#x27;number&#x27;) {
-            return this.divByScalar(rhs)
+            return this.divByScalar(rhs);
         }
     }
 
@@ -1077,7 +1072,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      */
     __rdiv__(lhs: any): Euclidean3 {
         if (lhs instanceof Euclidean3) {
-            return lhs.div(this)
+            return lhs.div(this);
         }
         else if (typeof lhs === &#x27;number&#x27;) {
             return new Euclidean3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).div(this);
@@ -1091,7 +1086,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      */
     dual(): Euclidean3 {
         // FIXME: TODO
-        return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom)
+        return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
     }
 
     /**
@@ -1100,10 +1095,9 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @return {Euclidean3}
      */
     scp(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
-        scpG3(this, rhs, Euclidean3.mutator(out))
-        return out
+        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+        scpG3(this, rhs, Euclidean3.mutator(out));
+        return out;
     }
 
     /**
@@ -1112,10 +1106,9 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @return {Euclidean3}
      */
     ext(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
-        extG3(this, rhs, Euclidean3.mutator(out))
-        return out
+        const out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+        extG3(this, rhs, Euclidean3.mutator(out));
+        return out;
     }
 
     /**
@@ -1184,8 +1177,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @return {Euclidean3}
      */
     lco(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
+        const out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         lcoG3(this, rhs, Euclidean3.mutator(out))
         return out
     }
@@ -1226,8 +1218,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @return {Euclidean3}
      */
     rco(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
+        const out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         rcoG3(this, rhs, Euclidean3.mutator(out))
         return out
     }
@@ -1324,7 +1315,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @private
      */
     __tilde__(): Euclidean3 {
-        return this.rev()
+        return this.rev();
     }
 
     /**
@@ -1415,7 +1406,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      */
     lerp(target: Euclidean3, α: number): Euclidean3 {
         // FIXME: TODO
-        return this
+        return this;
     }
 
     /**
@@ -1425,7 +1416,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
     cos(): Euclidean3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
-        var cosW = cos(this.w);
+        const cosW = cos(this.w);
         return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0, void 0);
     }
 
@@ -1434,7 +1425,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @return {Euclidean3}
      */
     cosh(): Euclidean3 {
-        //Unit.assertDimensionless(this.uom);
+        // Unit.assertDimensionless(this.uom);
         throw new NotImplementedError(&#x27;cosh(Euclidean3)&#x27;);
     }
 
@@ -1444,10 +1435,10 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @return {number}
      */
     distanceTo(point: Euclidean3): number {
-        let dx = this.x - point.x
-        let dy = this.y - point.y
-        let dz = this.z - point.z
-        return sqrt(dx * dx + dy * dy + dz * dz)
+        const dx = this.x - point.x;
+        const dy = this.y - point.y;
+        const dz = this.z - point.z;
+        return sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -1553,7 +1544,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
     }
 
     squaredNormSansUnits(): number {
-        return squaredNormG3(this)
+        return squaredNormG3(this);
     }
 
     /**
@@ -1575,7 +1566,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      */
     rotate(s: SpinorE3): Euclidean3 {
         // TODO
-        return this
+        return this;
     }
 
     /**
@@ -1585,7 +1576,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
     sin(): Euclidean3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
-        var sinW = sin(this.w);
+        const sinW = sin(this.w);
         return new Euclidean3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
     }
 
@@ -1594,7 +1585,7 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
      * @return {Euclidean3}
      */
     sinh(): Euclidean3 {
-        //Unit.assertDimensionless(this.uom);
+        // Unit.assertDimensionless(this.uom);
         throw new Error(&#x27;sinh&#x27;);
     }
 
@@ -1757,7 +1748,6 @@ class Euclidean3 implements ImmutableMeasure&lt;Euclidean3&gt;, GeometricE3, Geo
     }
 }
 
-export = Euclidean3;
     </pre>
 </div>
                     </div>

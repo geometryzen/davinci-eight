@@ -14,4 +14,4 @@ interface Mutable<T> {
     callback: () => T;
 }
 
-export = Mutable;
+export default Mutable;

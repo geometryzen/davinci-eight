@@ -1,7 +1,7 @@
 /**
  * Computes the inverse of a 4x4 (square) matrix where the elements are assumed to be in column-major order.
  */
-function inv4x4(me: Float32Array, te: Float32Array): void {
+export default function inv4x4(me: Float32Array, te: Float32Array): void {
 
     var n11 = me[0x0], n12 = me[0x4], n13 = me[0x8], n14 = me[0xC];
     var n21 = me[0x1], n22 = me[0x5], n23 = me[0x9], n24 = me[0xD];
@@ -41,4 +41,3 @@ function inv4x4(me: Float32Array, te: Float32Array): void {
     te[0x2] = o31 * α; te[0x6] = o32 * α; te[0xA] = o33 * α; te[0xE] = o34 * α;
     te[0x3] = o41 * α; te[0x7] = o42 * α; te[0xB] = o43 * α; te[0xF] = o44 * α;
 }
-export = inv4x4

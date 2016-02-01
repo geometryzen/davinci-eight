@@ -1,18 +1,18 @@
-import IFacet = require('../core/IFacet')
-import IFacetVisitor = require('../core/IFacetVisitor')
-import mustBeArray = require('../checks/mustBeArray')
-import mustBeString = require('../checks/mustBeString')
-import R2 = require('../math/R2')
-import Mat2R = require('../math/Mat2R')
-import readOnly = require('../i18n/readOnly');
-import Shareable = require('../utils/Shareable')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeString from '../checks/mustBeString';
+import R2 from '../math/R2';
+import Mat2R from '../math/Mat2R';
+import readOnly from '../i18n/readOnly';
+import Shareable from '../utils/Shareable';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 /**
  * @class ReflectionFacetE2
  * @extends Shareable
  */
-class ReflectionFacetE2 extends Shareable implements IFacet {
+export default class ReflectionFacetE2 extends Shareable implements Facet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      * @property _normal
@@ -87,11 +87,11 @@ class ReflectionFacetE2 extends Shareable implements IFacet {
 
     /**
      * @method setUniforms
-     * @param visitor {IFacetVisitor}
+     * @param visitor {FacetVisitor}
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
+    setUniforms(visitor: FacetVisitor, canvasId?: number): void {
         if (this._normal.modified) {
             this.matrix.reflection(this._normal)
             this._normal.modified = false
@@ -99,5 +99,3 @@ class ReflectionFacetE2 extends Shareable implements IFacet {
         visitor.mat2(this.name, this.matrix, false, canvasId)
     }
 }
-
-export = ReflectionFacetE2

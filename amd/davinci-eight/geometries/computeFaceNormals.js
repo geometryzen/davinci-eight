@@ -1,7 +1,7 @@
-define(["require", "exports", '../core/GraphicsProgramSymbols', '../math/R3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, GraphicsProgramSymbols, R3, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../core/GraphicsProgramSymbols', '../math/R3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, GraphicsProgramSymbols_1, R3_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     function computeFaceNormals(simplex, positionName, normalName) {
-        if (positionName === void 0) { positionName = GraphicsProgramSymbols.ATTRIBUTE_POSITION; }
-        if (normalName === void 0) { normalName = GraphicsProgramSymbols.ATTRIBUTE_NORMAL; }
+        if (positionName === void 0) { positionName = GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION; }
+        if (normalName === void 0) { normalName = GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL; }
         var vertex0 = simplex.vertices[0].attributes;
         var vertex1 = simplex.vertices[1].attributes;
         var vertex2 = simplex.vertices[2].attributes;
@@ -23,13 +23,14 @@ define(["require", "exports", '../core/GraphicsProgramSymbols', '../math/R3', '.
         var bx = x0 - x1;
         var by = y0 - y1;
         var bz = z0 - z1;
-        var x = wedgeYZ(ax, ay, az, bx, by, bz);
-        var y = wedgeZX(ax, ay, az, bx, by, bz);
-        var z = wedgeXY(ax, ay, az, bx, by, bz);
-        var normal = new R3([x, y, z]).direction();
+        var x = wedgeYZ_1.default(ax, ay, az, bx, by, bz);
+        var y = wedgeZX_1.default(ax, ay, az, bx, by, bz);
+        var z = wedgeXY_1.default(ax, ay, az, bx, by, bz);
+        var normal = new R3_1.default([x, y, z]).direction();
         vertex0[normalName] = normal;
         vertex1[normalName] = normal;
         vertex2[normalName] = normal;
     }
-    return computeFaceNormals;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = computeFaceNormals;
 });

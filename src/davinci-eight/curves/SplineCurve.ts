@@ -1,5 +1,5 @@
-import Curve = require('../curves/Curve')
-import Euclidean3 = require('../math/Euclidean3')
+import Curve from '../curves/Curve';
+import Euclidean3 from '../math/Euclidean3';
 
 // Catmull-Rom
 /*
@@ -34,7 +34,7 @@ function interpolate(p0: Euclidean3, p1: Euclidean3, p2: Euclidean3, p3: Euclide
 /**
  * @class SplineCurve
  */
-class SplineCurve extends Curve {
+export default class SplineCurve extends Curve {
     points: Euclidean3[]
     /**
      * @class SplineCurve
@@ -66,5 +66,3 @@ class SplineCurve extends Curve {
     }
 
 }
-
-export = SplineCurve

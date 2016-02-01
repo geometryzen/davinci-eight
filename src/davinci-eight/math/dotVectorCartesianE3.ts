@@ -1,8 +1,6 @@
 /**
  * Computes the dot product of the Cartesian components in a Euclidean metric
  */
-function dotVectorCartesianE3(ax: number, ay: number, az: number, bx: number, by: number, bz: number): number {
+export default function dotVectorCartesianE3(ax: number, ay: number, az: number, bx: number, by: number, bz: number): number {
     return ax * bx + ay * by + az * bz
 }
-
-export = dotVectorCartesianE3

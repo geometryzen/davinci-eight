@@ -1,11 +1,11 @@
-import IResource = require('../core/IResource');
+import IResource from '../core/IResource';
 
 /**
  * @interface IBuffer
  */
 interface IBuffer extends IResource {
-  bind(): void;
-  unbind(): void;
+    bind(): void;
+    unbind(): void;
 }
 
-export = IBuffer;
+export default IBuffer;

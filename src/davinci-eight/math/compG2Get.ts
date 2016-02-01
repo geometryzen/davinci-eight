@@ -1,6 +1,6 @@
-import GeometricE2 = require('../math/GeometricE2')
+import GeometricE2 from '../math/GeometricE2';
 
-function compG2Get(m: GeometricE2, index: number): number {
+export default function compG2Get(m: GeometricE2, index: number): number {
     switch (index) {
         case 0: {
             return m.α
@@ -19,5 +19,3 @@ function compG2Get(m: GeometricE2, index: number): number {
         }
     }
 }
-
-export = compG2Get

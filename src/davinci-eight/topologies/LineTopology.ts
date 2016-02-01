@@ -1,10 +1,10 @@
-import DrawMode = require('../core/DrawMode')
-import Topology = require('../topologies/Topology')
+import DrawMode from '../core/DrawMode';
+import Topology from '../topologies/Topology';
 
 /**
  * @class LineTopology
  */
-class LineTopology extends Topology {
+export default class LineTopology extends Topology {
     /**
      * Abstract base class for geometric primitives LINES, LINE_STRIP and LINE_LOOP.
      * @class LineTopology
@@ -16,5 +16,3 @@ class LineTopology extends Topology {
         super(mode, numVertices)
     }
 }
-
-export = LineTopology

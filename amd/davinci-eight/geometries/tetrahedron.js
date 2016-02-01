@@ -1,28 +1,24 @@
-define(["require", "exports", '../checks/expectArg', '../geometries/triangle', '../math/VectorN'], function (require, exports, expectArg, triangle, VectorN) {
-    /**
-     * terahedron
-     *
-     * The tetrahedron is composed of four triangles: abc, bdc, cda, dba.
-     */
+define(["require", "exports", '../checks/expectArg', '../geometries/triangle', '../math/VectorN'], function (require, exports, expectArg_1, triangle_1, VectorN_1) {
     function tetrahedron(a, b, c, d, attributes, triangles) {
         if (attributes === void 0) { attributes = {}; }
         if (triangles === void 0) { triangles = []; }
-        expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-        expectArg('b', b).toSatisfy(b instanceof VectorN, "b must be a VectorN");
-        expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
-        expectArg('d', d).toSatisfy(d instanceof VectorN, "d must be a VectorN");
+        expectArg_1.default('a', a).toSatisfy(a instanceof VectorN_1.default, "a must be a VectorN");
+        expectArg_1.default('b', b).toSatisfy(b instanceof VectorN_1.default, "b must be a VectorN");
+        expectArg_1.default('c', c).toSatisfy(c instanceof VectorN_1.default, "c must be a VectorN");
+        expectArg_1.default('d', d).toSatisfy(d instanceof VectorN_1.default, "d must be a VectorN");
         var triatts = {};
         var points = [a, b, c, d];
         var faces = [];
-        triangle(points[0], points[1], points[2], triatts, triangles);
+        triangle_1.default(points[0], points[1], points[2], triatts, triangles);
         faces.push(triangles[triangles.length - 1]);
-        triangle(points[1], points[3], points[2], triatts, triangles);
+        triangle_1.default(points[1], points[3], points[2], triatts, triangles);
         faces.push(triangles[triangles.length - 1]);
-        triangle(points[2], points[3], points[0], triatts, triangles);
+        triangle_1.default(points[2], points[3], points[0], triatts, triangles);
         faces.push(triangles[triangles.length - 1]);
-        triangle(points[3], points[1], points[0], triatts, triangles);
+        triangle_1.default(points[3], points[1], points[0], triatts, triangles);
         faces.push(triangles[triangles.length - 1]);
         return triangles;
     }
-    return tetrahedron;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = tetrahedron;
 });

@@ -1,8 +1,8 @@
-import VectorE4 = require('../math/VectorE4');
-import MutableLinearElement = require('../math/MutableLinearElement');
-import expectArg = require('../checks/expectArg');
-import SpinorE4 = require('../math/SpinorE4');
-import VectorN = require('../math/VectorN');
+import VectorE4 from '../math/VectorE4';
+import MutableLinearElement from '../math/MutableLinearElement';
+import expectArg from '../checks/expectArg';
+import SpinorE4 from '../math/SpinorE4';
+import VectorN from '../math/VectorN';
 
 let exp = Math.exp
 let log = Math.log
@@ -11,7 +11,7 @@ let sqrt = Math.sqrt
 /**
  * @class R4
  */
-class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<VectorE4, R4, SpinorE4, VectorE4> {
+export default class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<VectorE4, R4, SpinorE4, VectorE4> {
     /**
      * @class R4
      * @constructor
@@ -172,5 +172,3 @@ class R4 extends VectorN<number> implements VectorE4, MutableLinearElement<Vecto
         return this
     }
 }
-
-export = R4;

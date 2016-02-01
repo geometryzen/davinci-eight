@@ -1,33 +1,20 @@
-define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/expectArg', '../i18n/readOnly'], function (require, exports, mustBeDefined, mustBeInteger, expectArg, readOnly) {
-    /**
-     * @class AbstractMatrix
-     */
+define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeInteger', '../checks/expectArg', '../i18n/readOnly'], function (require, exports, mustBeDefined_1, mustBeInteger_1, expectArg_1, readOnly_1) {
     var AbstractMatrix = (function () {
-        /**
-         * @class AbstractMatrix
-         * @constructor
-         * @param elements {Float32Array}
-         * @param dimensions {number}
-         */
         function AbstractMatrix(elements, dimensions) {
-            this._elements = mustBeDefined('elements', elements);
-            this._dimensions = mustBeInteger('dimensions', dimensions);
+            this._elements = mustBeDefined_1.default('elements', elements);
+            this._dimensions = mustBeInteger_1.default('dimensions', dimensions);
             this._length = dimensions * dimensions;
-            expectArg('elements', elements).toSatisfy(elements.length === this._length, 'elements must have length ' + this._length);
+            expectArg_1.default('elements', elements).toSatisfy(elements.length === this._length, 'elements must have length ' + this._length);
             this.modified = false;
         }
         Object.defineProperty(AbstractMatrix.prototype, "elements", {
-            /**
-             * @property elements
-             * @type {Float32Array}
-             */
             get: function () {
                 if (this._elements) {
                     return this._elements;
                 }
                 else if (this._callback) {
                     var elements = this._callback();
-                    expectArg('callback()', elements).toSatisfy(elements.length === this._length, "callback() length must be " + this._length);
+                    expectArg_1.default('callback()', elements).toSatisfy(elements.length === this._length, "callback() length must be " + this._length);
                     return this._callback();
                 }
                 else {
@@ -35,7 +22,7 @@ define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeIntege
                 }
             },
             set: function (elements) {
-                expectArg('elements', elements).toSatisfy(elements.length === this._length, "elements length must be " + this._length);
+                expectArg_1.default('elements', elements).toSatisfy(elements.length === this._length, "elements length must be " + this._length);
                 this._elements = elements;
                 this._callback = void 0;
             },
@@ -43,10 +30,6 @@ define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeIntege
             configurable: true
         });
         Object.defineProperty(AbstractMatrix.prototype, "callback", {
-            /**
-             * @property callback
-             * @type {() => Float32Array}
-             */
             get: function () {
                 return this._callback;
             },
@@ -57,32 +40,22 @@ define(["require", "exports", '../checks/mustBeDefined', '../checks/mustBeIntege
             enumerable: true,
             configurable: true
         });
-        /**
-         * @method copy
-         * @param m {T}
-         * @return {T}
-         * @chainable
-         */
         AbstractMatrix.prototype.copy = function (m) {
             this.elements.set(m.elements);
             return this;
         };
         Object.defineProperty(AbstractMatrix.prototype, "dimensions", {
-            /**
-             * @property dimensions
-             * @type {number}
-             * @readOnly
-             */
             get: function () {
                 return this._dimensions;
             },
             set: function (unused) {
-                throw new Error(readOnly('dimensions').message);
+                throw new Error(readOnly_1.default('dimensions').message);
             },
             enumerable: true,
             configurable: true
         });
         return AbstractMatrix;
     })();
-    return AbstractMatrix;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = AbstractMatrix;
 });

@@ -1,8 +1,8 @@
-import VectorE3 = require('../../math/VectorE3')
-import IAnimation = require('../../slideshow/IAnimation')
-import IAnimationTarget = require('../../slideshow/IAnimationTarget')
-import Shareable = require('../../utils/Shareable')
-import R3 = require('../../math/R3')
+import VectorE3 from '../../math/VectorE3';
+import IAnimation from '../../slideshow/IAnimation';
+import IAnimationTarget from '../../slideshow/IAnimationTarget';
+import Shareable from '../../utils/Shareable';
+import R3 from '../../math/R3';
 
 function loop(n: number, callback: (i: number) => void) {
     for (var i = 0; i < n; ++i) {
@@ -10,7 +10,7 @@ function loop(n: number, callback: (i: number) => void) {
     }
 }
 
-class Vector3Animation extends Shareable implements IAnimation {
+export default class Vector3Animation extends Shareable implements IAnimation {
     private from: R3;
     private to: R3;
     private duration: number;
@@ -108,5 +108,3 @@ class Vector3Animation extends Shareable implements IAnimation {
         }
     }
 }
-
-export = Vector3Animation

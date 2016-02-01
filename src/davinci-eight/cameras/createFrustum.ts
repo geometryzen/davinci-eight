@@ -1,20 +1,20 @@
-import IFacetVisitor = require('../core/IFacetVisitor');
-import Frustum = require('davinci-eight/cameras/Frustum');
-import View = require('davinci-eight/cameras/View');
-import createView = require('davinci-eight/cameras/createView');
-import Mat4R = require('davinci-eight/math/Mat4R');
-import SpinG3 = require('davinci-eight/math/SpinG3');
-import GraphicsProgramSymbols = require('davinci-eight/core/GraphicsProgramSymbols');
-import VectorE3 = require('davinci-eight/math/VectorE3');
-import R1 = require('../math/R1');
-import R3 = require('../math/R3');
+import FacetVisitor from '../core/FacetVisitor';
+import Frustum from 'davinci-eight/cameras/Frustum';
+import View from 'davinci-eight/cameras/View';
+import createView from 'davinci-eight/cameras/createView';
+import Mat4R from 'davinci-eight/math/Mat4R';
+import SpinG3 from 'davinci-eight/math/SpinG3';
+import GraphicsProgramSymbols from 'davinci-eight/core/GraphicsProgramSymbols';
+import VectorE3 from 'davinci-eight/math/VectorE3';
+import R1 from '../math/R1';
+import R3 from '../math/R3';
 
 /**
  * @function createFrustum
  * @constructor
  * @return {Frustum}
  */
-let createFrustum = function(viewMatrixName: string, projectionMatrixName: string): Frustum {
+export default function createFrustum(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
     let refCount = 1;
     let base: View = createView(viewMatrixName);
@@ -123,13 +123,11 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
             far.x = value;
             updateProjectionMatrix();
         },
-        setUniforms(visitor: IFacetVisitor, canvasId?: number) {
+        setUniforms(visitor: FacetVisitor, canvasId?: number) {
             visitor.mat4(projectionMatrixName, projectionMatrix, false, canvasId);
             base.setUniforms(visitor, canvasId);
         }
     };
 
     return self;
-};
-
-export =  createFrustum;
+}

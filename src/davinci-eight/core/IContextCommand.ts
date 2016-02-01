@@ -1,6 +1,6 @@
-import IContextConsumer = require('../core/IContextConsumer');
+import IContextConsumer from '../core/IContextConsumer';
 
 interface IContextCommand extends IContextConsumer {
 }
 
-export = IContextCommand;
+export default IContextCommand;

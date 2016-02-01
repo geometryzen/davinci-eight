@@ -4,5 +4,6 @@ define(["require", "exports"], function (require, exports) {
         }
         return Euler;
     })();
-    return Euler;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Euler;
 });

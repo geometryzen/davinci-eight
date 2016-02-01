@@ -1,50 +1,47 @@
-import IContextProvider = require('../core/IContextProvider');
-import IContextMonitor = require('../core/IContextMonitor');
-import IGraphicsProgram = require('../core/IGraphicsProgram');
-import LineMaterialParameters = require('../materials/LineMaterialParameters');
-import GraphicsProgram = require('../materials/GraphicsProgram');
-import MonitorList = require('../scene/MonitorList');
-import createGraphicsProgram = require('../programs/createGraphicsProgram');
-import GraphicsProgramBuilder = require('../materials/GraphicsProgramBuilder')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import LineMaterialParameters from '../materials/LineMaterialParameters';
+import GraphicsProgram from '../materials/GraphicsProgram';
+import MonitorList from '../scene/MonitorList';
+import createGraphicsProgram from '../programs/createGraphicsProgram';
+import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME = 'PointMaterial';
+const LOGGING_NAME = 'PointMaterial';
 
 function nameBuilder(): string {
-  return LOGGING_NAME;
+    return LOGGING_NAME;
 }
 
 /**
  * @class PointMaterial
  * @extends GraphicsProgram
  */
-class PointMaterial extends GraphicsProgram {
-  // A super call must be the first statement in the constructor when a class
-  // contains initialized propertied or has parameter properties (TS2376).
-  /**
-   * @class PointMaterial
-   * @constructor
-   * @param monitors [IContextMonitor[]=[]]
-   * @parameters [MeshNormalParameters]
-   */
-  constructor(monitors: IContextMonitor[] = [], parameters?: LineMaterialParameters) {
-    super(monitors, LOGGING_NAME);
-  }
-  protected createGraphicsProgram(): IGraphicsProgram {
-    let smb = new GraphicsProgramBuilder();
+export default class PointMaterial extends GraphicsProgram {
+    /**
+     * @class PointMaterial
+     * @constructor
+     * @param [parameters] {MeshNormalParameters}
+     * @param [monitors] {IContextMonitor[]}
+     */
+    constructor(parameters?: LineMaterialParameters, monitors?: IContextMonitor[]) {
+        super(LOGGING_NAME, monitors);
+    }
+    protected createGraphicsProgram(): IGraphicsProgram {
+        const gpb = new GraphicsProgramBuilder();
 
-    smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3);
+        gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3);
 
-    smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
-    smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
-    smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
-    smb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
-    smb.uniform(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, 'float');
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, 'float');
 
-    return smb.build(this.monitors);
-  }
+        return gpb.build(this.monitors);
+    }
 }
-
-export = PointMaterial;

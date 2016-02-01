@@ -6,7 +6,7 @@
  *
  * @class GraphicsProgramSymbols
  */
-class GraphicsProgramSymbols {
+export default class GraphicsProgramSymbols {
 
     /**
      * 'aColor'
@@ -73,20 +73,20 @@ class GraphicsProgramSymbols {
     public static UNIFORM_COLOR: string = 'uColor';
 
     /**
-     * 'uDirectionalLightE3Color'
+     * 'uDirectionalLightColor'
      * @property UNIFORM_DIRECTIONAL_LIGHT_COLOR
      * @type {string}
      * @static
      */
-    public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string = 'uDirectionalLightE3Color';
+    public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string = 'uDirectionalLightColor';
 
     /**
-     * 'uDirectionalLightE3Direction'
+     * 'uDirectionalLightDirection'
      * @property UNIFORM_DIRECTIONAL_LIGHT_DIRECTION
      * @type {string}
      * @static
      */
-    public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightE3Direction';
+    public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightDirection';
 
     /**
      * 'uPointLightColor'
@@ -176,5 +176,3 @@ class GraphicsProgramSymbols {
      */
     public static VARYING_LIGHT: string = 'vLight';
 }
-
-export = GraphicsProgramSymbols;

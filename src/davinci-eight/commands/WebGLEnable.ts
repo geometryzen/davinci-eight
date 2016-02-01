@@ -1,11 +1,10 @@
-import Capability = require('../commands/Capability')
-import glCapability = require('../commands/glCapability')
-import IContextConsumer = require('../core/IContextConsumer');
-import IContextProvider = require('../core/IContextProvider');
-import IContextCommand = require('../core/IContextCommand');
-import mustBeNumber = require('../checks/mustBeNumber');
-import mustBeString = require('../checks/mustBeString');
-import Shareable = require('../utils/Shareable');
+import Capability from '../commands/Capability';
+import glCapability from '../commands/glCapability';
+import IContextConsumer from '../core/IContextConsumer';
+import IContextProvider from '../core/IContextProvider';
+import IContextCommand from '../core/IContextCommand';
+import mustBeNumber from '../checks/mustBeNumber';
+import Shareable from '../utils/Shareable';
 
 /**
  * <p>
@@ -16,7 +15,7 @@ import Shareable = require('../utils/Shareable');
  * @implements IContextCommand
  * @implements IContextConsumer
  */
-class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer {
+export default class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer {
     private _capability: Capability;
     /**
      * @class WebGLEnable
@@ -63,5 +62,3 @@ class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer
         super.destructor()
     }
 }
-
-export = WebGLEnable

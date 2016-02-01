@@ -37,5 +37,6 @@ define(["require", "exports"], function (require, exports) {
         }
         return +x;
     }
-    return mulE2;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mulE2;
 });

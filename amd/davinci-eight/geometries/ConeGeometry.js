@@ -3,69 +3,32 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GraphicsProgramSymbols, GridTopology, R2, R3) {
-    /**
-     * @class ConeGeometry
-     */
+define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry_1, GraphicsProgramSymbols_1, GridTopology_1, R2_1, R3_1) {
     var ConeGeometry = (function (_super) {
         __extends(ConeGeometry, _super);
-        /**
-         * @class ConeGeometry
-         * @constructor
-         * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity.
-         * @param sliceStart {VectorE3} A direction, orthogonal to <code>axis</code>.
-         */
         function ConeGeometry(axis, sliceStart) {
             _super.call(this, axis, sliceStart);
-            /**
-             * @property radius
-             * @type {number}
-             */
             this.radius = 1;
-            /**
-             * @property height
-             * @type {number}
-             */
             this.height = 1;
-            /**
-             * @property thetaSegments
-             * @type {number}
-             */
             this.thetaSegments = 16;
         }
-        /**
-         * @method setAxis
-         * @param axis {VectorE3}
-         * @return {ConeGeometry}
-         * @chainable
-         */
         ConeGeometry.prototype.setAxis = function (axis) {
             _super.prototype.setAxis.call(this, axis);
             return this;
         };
-        /**
-         * @method setPosition
-         * @param position {VectorE3}
-         * @return {ConeGeometry}
-         * @chainable
-         */
         ConeGeometry.prototype.setPosition = function (position) {
             _super.prototype.setPosition.call(this, position);
             return this;
         };
-        /**
-         * @method tPrimitives
-         * @return {Primitive[]}
-         */
         ConeGeometry.prototype.toPrimitives = function () {
-            var topo = new GridTopology(this.thetaSegments, 1);
+            var topo = new GridTopology_1.default(this.thetaSegments, 1);
             var uLength = topo.uLength;
             var uSegments = uLength - 1;
             var vLength = topo.vLength;
             var vSegments = vLength - 1;
-            var a = R3.copy(this.sliceStart).direction().scale(this.radius);
-            var b = new R3().cross2(a, this.axis).direction().scale(this.radius);
-            var h = R3.copy(this.axis).scale(this.height);
+            var a = R3_1.default.copy(this.sliceStart).direction().scale(this.radius);
+            var b = new R3_1.default().cross2(a, this.axis).direction().scale(this.radius);
+            var h = R3_1.default.copy(this.axis).scale(this.height);
             for (var uIndex = 0; uIndex < uLength; uIndex++) {
                 var u = uIndex / uSegments;
                 var theta = this.sliceAngle * u;
@@ -73,14 +36,14 @@ define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsPr
                 var sinTheta = Math.sin(theta);
                 for (var vIndex = 0; vIndex < vLength; vIndex++) {
                     var v = vIndex / vSegments;
-                    var position = new R3().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
-                    var peak = R3.copy(h).sub(position);
-                    var normal = new R3().cross2(peak, position).cross(peak).direction();
+                    var position = new R3_1.default().add(a, cosTheta * (1 - v)).add(b, sinTheta * (1 - v)).add(h, v);
+                    var peak = R3_1.default.copy(h).sub(position);
+                    var normal = new R3_1.default().cross2(peak, position).cross(peak).direction();
                     var vertex = topo.vertex(uIndex, vIndex);
-                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.add(this.position);
-                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
+                    vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = position.add(this.position);
+                    vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = normal;
                     if (this.useTextureCoords) {
-                        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v]);
+                        vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_TEXTURE_COORDS] = new R2_1.default([u, v]);
                     }
                 }
             }
@@ -91,6 +54,7 @@ define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsPr
             return this;
         };
         return ConeGeometry;
-    })(AxialGeometry);
-    return ConeGeometry;
+    })(AxialGeometry_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ConeGeometry;
 });

@@ -1,19 +1,19 @@
-import CartesianE3 = require('../math/CartesianE3')
-import IFacet = require('../core/IFacet')
-import IFacetVisitor = require('../core/IFacetVisitor')
-import mustBeArray = require('../checks/mustBeArray')
-import mustBeString = require('../checks/mustBeString')
-import R3 = require('../math/R3')
-import Mat4R = require('../math/Mat4R')
-import readOnly = require('../i18n/readOnly');
-import Shareable = require('../utils/Shareable')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
+import CartesianE3 from '../math/CartesianE3';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeString from '../checks/mustBeString';
+import R3 from '../math/R3';
+import Mat4R from '../math/Mat4R';
+import readOnly from '../i18n/readOnly';
+import Shareable from '../utils/Shareable';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 /**
  * @class ReflectionFacetE3
  * @extends Shareable
  */
-class ReflectionFacetE3 extends Shareable implements IFacet {
+export default class ReflectionFacetE3 extends Shareable implements Facet {
     /**
      * The vector perpendicular to the (hyper-)plane of reflection.
      * @property _normal
@@ -88,11 +88,11 @@ class ReflectionFacetE3 extends Shareable implements IFacet {
 
     /**
      * @method setUniforms
-     * @param visitor {IFacetVisitor}
+     * @param visitor {FacetVisitor}
      * @param canvasId {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId: number): void {
+    setUniforms(visitor: FacetVisitor, canvasId: number): void {
         if (this._normal.modified) {
             this.matrix.reflection(this._normal)
             this._normal.modified = false
@@ -100,5 +100,3 @@ class ReflectionFacetE3 extends Shareable implements IFacet {
         visitor.mat4(this.name, this.matrix, false, canvasId)
     }
 }
-
-export = ReflectionFacetE3

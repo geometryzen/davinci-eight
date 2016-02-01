@@ -3,37 +3,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry, GraphicsProgramSymbols, GridTopology, SpinG3, R2, R3) {
-    /**
-     * @class CylinderGeometry
-     */
+define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsProgramSymbols', '../topologies/GridTopology', '../math/SpinG3', '../math/R2', '../math/R3'], function (require, exports, AxialGeometry_1, GraphicsProgramSymbols_1, GridTopology_1, SpinG3_1, R2_1, R3_1) {
     var CylinderGeometry = (function (_super) {
         __extends(CylinderGeometry, _super);
-        /**
-         * @class CylinderGeometry
-         * @constructor
-         * @param axis {VectorE3} The <code>axis</code> property. This will be normalized to unity.
-         * @param sliceStart {VectorE3} A direction, orthogonal to <code>axis</code>.
-         */
         function CylinderGeometry(axis, sliceStart) {
             _super.call(this, axis, sliceStart);
-            /**
-             * @property radius
-             * @type {number}
-             * @default 1
-             */
             this.radius = 1;
-            /**
-             * @property height
-             * @type {number}
-             * @default 1
-             */
             this.height = 1;
-            /**
-             * @property thetaSegments
-             * @type {number}
-             * @default 16
-             */
             this.thetaSegments = 16;
         }
         CylinderGeometry.prototype.setAxis = function (axis) {
@@ -47,21 +23,21 @@ define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsPr
         CylinderGeometry.prototype.toPrimitives = function () {
             var uSegments = this.thetaSegments;
             var vSegments = 1;
-            var topo = new GridTopology(uSegments, vSegments);
+            var topo = new GridTopology_1.default(uSegments, vSegments);
             var axis = this.axis;
-            var generator = SpinG3.dual(axis);
+            var generator = SpinG3_1.default.dual(axis);
             for (var uIndex = 0; uIndex < topo.uLength; uIndex++) {
                 var u = uIndex / uSegments;
                 var rotor = generator.clone().scale(this.sliceAngle * u / 2).exp();
                 for (var vIndex = 0; vIndex < topo.vLength; vIndex++) {
                     var v = vIndex / vSegments;
-                    var normal = R3.copy(this.sliceStart).rotate(rotor);
+                    var normal = R3_1.default.copy(this.sliceStart).rotate(rotor);
                     var position = normal.clone().scale(this.radius).add(this.axis, v * this.height);
                     var vertex = topo.vertex(uIndex, vIndex);
-                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_POSITION] = position.add(this.position);
-                    vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_NORMAL] = normal;
+                    vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_POSITION] = position.add(this.position);
+                    vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_NORMAL] = normal;
                     if (this.useTextureCoords) {
-                        vertex.attributes[GraphicsProgramSymbols.ATTRIBUTE_TEXTURE_COORDS] = new R2([u, v]);
+                        vertex.attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_TEXTURE_COORDS] = new R2_1.default([u, v]);
                     }
                 }
             }
@@ -72,6 +48,7 @@ define(["require", "exports", '../geometries/AxialGeometry', '../core/GraphicsPr
             return this;
         };
         return CylinderGeometry;
-    })(AxialGeometry);
-    return CylinderGeometry;
+    })(AxialGeometry_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = CylinderGeometry;
 });

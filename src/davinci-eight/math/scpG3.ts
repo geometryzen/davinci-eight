@@ -1,9 +1,9 @@
-import GeometricE3 = require('../math/GeometricE3')
-import get = require('../math/compG3Get')
-import mulE3 = require('../math/mulE3')
-import set = require('../math/compG3Set')
+import GeometricE3 from '../math/GeometricE3';
+import get from '../math/compG3Get';
+import mulE3 from '../math/mulE3';
+import set from '../math/compG3Set';
 
-function scpG3<T extends GeometricE3>(a: GeometricE3, b: GeometricE3, out: T): T {
+export default function scpG3<T extends GeometricE3>(a: GeometricE3, b: GeometricE3, out: T): T {
 
     let a0 = get(a, 0)
     let a1 = get(a, 1)
@@ -34,5 +34,3 @@ function scpG3<T extends GeometricE3>(a: GeometricE3, b: GeometricE3, out: T): T
 
     return out;
 }
-
-export = scpG3

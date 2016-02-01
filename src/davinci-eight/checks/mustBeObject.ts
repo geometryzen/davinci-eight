@@ -1,13 +1,11 @@
-import mustSatisfy = require('../checks/mustSatisfy');
-import isObject = require('../checks/isObject');
+import mustSatisfy from '../checks/mustSatisfy';
+import isObject from '../checks/isObject';
 
 function beObject() {
-  return "be an `object`";
+    return "be an `object`";
 }
 
-function mustBeObject<T>(name: string, value: T, contextBuilder?: () => string): T {
-  mustSatisfy(name, isObject(value), beObject, contextBuilder);
-  return value;
+export default function mustBeObject<T>(name: string, value: T, contextBuilder?: () => string): T {
+    mustSatisfy(name, isObject(value), beObject, contextBuilder);
+    return value;
 }
-
-export = mustBeObject;

@@ -1,22 +1,22 @@
-import dotVectorCartesianE3 = require('../math/dotVectorCartesianE3')
-import copyToArray = require('../collections/copyToArray')
-import dotVector = require('../math/dotVectorE3')
-import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import Mutable = require('../math/Mutable')
-import quadSpinor = require('../math/quadSpinorE3')
-import quadVector = require('../math/quadVectorE3')
-import rotorFromDirections = require('../math/rotorFromDirections')
-import scpG3 = require('../math/scpG3')
-import SpinorE3 = require('../math/SpinorE3')
-import TrigMethods = require('../math/TrigMethods')
-import VectorE3 = require('../math/VectorE3')
-import VectorN = require('../math/VectorN')
-import wedgeXY = require('../math/wedgeXY')
-import wedgeYZ = require('../math/wedgeYZ')
-import wedgeZX = require('../math/wedgeZX')
+import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
+import copyToArray from '../collections/copyToArray';
+import dotVector from '../math/dotVectorE3';
+import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import Mutable from '../math/Mutable';
+import quadSpinor from '../math/quadSpinorE3';
+import quadVector from '../math/quadVectorE3';
+import rotorFromDirections from '../math/rotorFromDirections';
+import scpG3 from '../math/scpG3';
+import SpinorE3 from '../math/SpinorE3';
+import TrigMethods from '../math/TrigMethods';
+import VectorE3 from '../math/VectorE3';
+import VectorN from '../math/VectorN';
+import wedgeXY from '../math/wedgeXY';
+import wedgeYZ from '../math/wedgeYZ';
+import wedgeZX from '../math/wedgeZX';
 
 // GraphicsProgramSymbols constants for the coordinate indices into the coords array.
 let COORD_YZ = 0
@@ -39,7 +39,7 @@ let sqrt = Math.sqrt
  * @class SpinG3
  * @extends VectorN<number>
  */
-class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3>
+export default class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, MutableGeometricElement3D<SpinorE3, SpinG3, SpinG3, VectorE3>
 {
     /**
      * Constructs a <code>SpinG3</code> from a <code>number[]</code>.
@@ -892,5 +892,3 @@ class SpinG3 extends VectorN<number> implements SpinorE3, Mutable<number[]>, Mut
         return new SpinG3().rotorFromDirections(a, b)
     }
 }
-
-export = SpinG3;

@@ -1,12 +1,12 @@
-import Curve = require('../curves/Curve')
-import Euclidean3 = require('../math/Euclidean3')
-import LineCurve = require('../curves/LineCurve')
+import Curve from '../curves/Curve';
+import Euclidean3 from '../math/Euclidean3';
+import LineCurve from '../curves/LineCurve';
 
 /**
  * @class CurvePath
  * @extends Curve
  */
-class CurvePath extends Curve {
+export default class CurvePath extends Curve {
     public curves: Curve[];
     // bends;
     autoClose: boolean;
@@ -121,5 +121,3 @@ class CurvePath extends Curve {
         return lengths
     }
 }
-
-export = CurvePath

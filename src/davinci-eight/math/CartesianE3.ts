@@ -1,6 +1,6 @@
-import mustBeNumber = require('../checks/mustBeNumber')
-import readOnly = require('../i18n/readOnly')
-import VectorE3 = require('../math/VectorE3')
+import mustBeNumber from '../checks/mustBeNumber';
+import readOnly from '../i18n/readOnly';
+import VectorE3 from '../math/VectorE3';
 
 var zero: CartesianE3;
 var e1: CartesianE3;
@@ -10,7 +10,7 @@ var e3: CartesianE3;
 /**
  * @class CartesianE3
  */
-class CartesianE3 implements VectorE3 {
+export default class CartesianE3 implements VectorE3 {
     private coordinates: number[];
     /**
      * A lightweight immutable type representing Cartesian coordinates (in Euclidean space).
@@ -113,5 +113,3 @@ zero = new CartesianE3(0, 0, 0, true)
 e1 = new CartesianE3(1, 0, 0, true)
 e2 = new CartesianE3(0, 1, 0, true)
 e3 = new CartesianE3(0, 0, 1, true)
-
-export = CartesianE3;

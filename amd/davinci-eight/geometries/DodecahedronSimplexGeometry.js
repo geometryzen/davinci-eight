@@ -3,22 +3,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], function (require, exports, PolyhedronSimplexGeometry) {
+define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], function (require, exports, PolyhedronSimplexGeometry_1) {
     var t = (1 + Math.sqrt(5)) / 2;
     var r = 1 / t;
     var vertices = [
-        // (±1, ±1, ±1)
         -1, -1, -1, -1, -1, 1,
         -1, 1, -1, -1, 1, 1,
         1, -1, -1, 1, -1, 1,
         1, 1, -1, 1, 1, 1,
-        // (0, ±1/φ, ±φ)
         0, -r, -t, 0, -r, t,
         0, r, -t, 0, r, t,
-        // (±1/φ, ±φ, 0)
         -r, -t, 0, -r, t, 0,
         r, -t, 0, r, t, 0,
-        // (±φ, 0, ±1/φ)
         -t, 0, -r, t, 0, -r,
         -t, 0, r, t, 0, r
     ];
@@ -36,22 +32,13 @@ define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], functi
         19, 5, 14, 19, 14, 4, 19, 4, 17,
         1, 12, 14, 1, 14, 5, 1, 5, 9
     ];
-    /**
-     * @class DodecahedronSimplexGeometry
-     * @extends PolyhedronSimplexGeometry
-     */
     var DodecahedronSimplexGeometry = (function (_super) {
         __extends(DodecahedronSimplexGeometry, _super);
-        /**
-         * @class DodecahedronSimplexGeometry
-         * @constructor
-         * @param [radius] {number}
-         * @param [detail] {number}
-         */
         function DodecahedronSimplexGeometry(radius, detail) {
             _super.call(this, vertices, indices, radius, detail);
         }
         return DodecahedronSimplexGeometry;
-    })(PolyhedronSimplexGeometry);
-    return DodecahedronSimplexGeometry;
+    })(PolyhedronSimplexGeometry_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = DodecahedronSimplexGeometry;
 });

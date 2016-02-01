@@ -6,5 +6,6 @@ define(["require", "exports"], function (require, exports) {
             throw new Error(name + " must " + message + context + ".");
         }
     }
-    return mustSatisfy;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mustSatisfy;
 });

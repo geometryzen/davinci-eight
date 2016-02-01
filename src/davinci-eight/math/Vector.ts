@@ -10,4 +10,5 @@ interface Vector {
      */
     sub(rhs: Vector, α?: number): Vector;
 }
-export = Vector
+
+export default Vector;

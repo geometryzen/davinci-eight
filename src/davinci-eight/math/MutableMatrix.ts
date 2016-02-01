@@ -14,4 +14,4 @@ interface MutableMatrix<T> {
     callback: () => T;
 }
 
-export = MutableMatrix
+export default MutableMatrix;

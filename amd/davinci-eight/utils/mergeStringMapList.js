@@ -12,5 +12,6 @@ define(["require", "exports"], function (require, exports) {
         });
         return result;
     }
-    return mergeStringMapList;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mergeStringMapList;
 });

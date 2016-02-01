@@ -1,4 +1,4 @@
-define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/Euclidean3', '../geometries/Path'], function (require, exports, b2, b3, Euclidean3, Path) {
+define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/Euclidean3', '../geometries/Path'], function (require, exports, b2_1, b3_1, Euclidean3_1, Path_1) {
     function drawText(text, face, size, divs) {
         var scale = size / face.resolution;
         var offset = 0;
@@ -6,7 +6,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/E
         var length = chars.length;
         var fontPaths = [];
         for (var i = 0; i < length; i++) {
-            var path = new Path();
+            var path = new Path_1.default();
             var char = chars[i];
             var ret = extractGlyphPoints(chars[i], face, scale, offset, path, divs);
             offset += ret.offset;
@@ -15,9 +15,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/E
         var width = offset / 2;
         return { paths: fontPaths, offset: width };
     }
-    /**
-     * c: The character. FIXME
-     */
     function extractGlyphPoints(c, face, scale, offset, path, divs) {
         var pts = [];
         var divisions;
@@ -47,28 +44,24 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/E
             scaleY = scale;
             for (var i = 0; i < length;) {
                 action = outline[i++];
-                //console.log( action );
                 switch (action) {
                     case 'm':
-                        // Move To
                         x = outline[i++] * scaleX + offset;
                         y = outline[i++] * scaleY;
-                        path.moveTo(Euclidean3.fromCartesian(0, x, y, 0, 0, 0, 0, 0, void 0));
+                        path.moveTo(Euclidean3_1.default.fromCartesian(0, x, y, 0, 0, 0, 0, 0, void 0));
                         break;
                     case 'l':
-                        // Line To
                         x = outline[i++] * scaleX + offset;
                         y = outline[i++] * scaleY;
-                        path.lineTo(Euclidean3.fromCartesian(0, x, y, 0, 0, 0, 0, 0, void 0));
+                        path.lineTo(Euclidean3_1.default.fromCartesian(0, x, y, 0, 0, 0, 0, 0, void 0));
                         break;
                     case 'q':
-                        // QuadraticCurveTo
                         cpx = outline[i++] * scaleX + offset;
                         cpy = outline[i++] * scaleY;
                         cpx1 = outline[i++] * scaleX + offset;
                         cpy1 = outline[i++] * scaleY;
-                        var controlPoint = Euclidean3.fromCartesian(0, cpx1, cpy1, 0, 0, 0, 0, 0, void 0);
-                        var point = Euclidean3.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0);
+                        var controlPoint = Euclidean3_1.default.fromCartesian(0, cpx1, cpy1, 0, 0, 0, 0, 0, void 0);
+                        var point = Euclidean3_1.default.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0);
                         path.quadraticCurveTo(controlPoint, point);
                         laste = pts[pts.length - 1];
                         if (laste) {
@@ -76,22 +69,21 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/E
                             cpy0 = laste.y;
                             for (var i2 = 1, divisions = divs; i2 <= divisions; i2++) {
                                 var t = i2 / divisions;
-                                b2(t, cpx0, cpx1, cpx);
-                                b2(t, cpy0, cpy1, cpy);
+                                b2_1.default(t, cpx0, cpx1, cpx);
+                                b2_1.default(t, cpy0, cpy1, cpy);
                             }
                         }
                         break;
                     case 'b':
-                        // Cubic Bezier Curve
                         cpx = outline[i++] * scaleX + offset;
                         cpy = outline[i++] * scaleY;
-                        var point = Euclidean3.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0);
+                        var point = Euclidean3_1.default.fromCartesian(0, cpx, cpy, 0, 0, 0, 0, 0, void 0);
                         cpx1 = outline[i++] * scaleX + offset;
                         cpy1 = outline[i++] * scaleY;
-                        var controlBegin = Euclidean3.fromCartesian(0, cpx1, cpy1, 0, 0, 0, 0, 0, void 0);
+                        var controlBegin = Euclidean3_1.default.fromCartesian(0, cpx1, cpy1, 0, 0, 0, 0, 0, void 0);
                         cpx2 = outline[i++] * scaleX + offset;
                         cpy2 = outline[i++] * scaleY;
-                        var controlEnd = Euclidean3.fromCartesian(0, cpx2, cpy2, 0, 0, 0, 0, 0, void 0);
+                        var controlEnd = Euclidean3_1.default.fromCartesian(0, cpx2, cpy2, 0, 0, 0, 0, 0, void 0);
                         path.bezierCurveTo(controlBegin, controlEnd, point);
                         laste = pts[pts.length - 1];
                         if (laste) {
@@ -99,8 +91,8 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/E
                             cpy0 = laste.y;
                             for (var i2 = 1, divisions = divs; i2 <= divisions; i2++) {
                                 var t = i2 / divisions;
-                                b3(t, cpx0, cpx1, cpx2, cpx);
-                                b3(t, cpy0, cpy1, cpy2, cpy);
+                                b3_1.default(t, cpx0, cpx1, cpx2, cpx);
+                                b3_1.default(t, cpy0, cpy1, cpy2, cpy);
                             }
                         }
                         break;
@@ -116,12 +108,7 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/E
         var font = parameters.font !== undefined ? parameters.font : 'helvetiker';
         var weight = parameters.weight !== undefined ? parameters.weight : 'normal';
         var style = parameters.style !== undefined ? parameters.style : 'normal';
-        // TODO: What are these not being used?
-        //FontUtils.face = font;
-        //FontUtils.weight = weight;
-        //FontUtils.style = style;
-        // Get a Font data json object
-        var data /*: { paths: Path<R2>[]; offset: number }*/ = drawText(text, face, size, curveSegments);
+        var data = drawText(text, face, size, curveSegments);
         var paths = data.paths;
         var shapes = [];
         for (var p = 0, pl = paths.length; p < pl; p++) {
@@ -129,5 +116,6 @@ define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/E
         }
         return shapes;
     }
-    return generateTextShapes;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = generateTextShapes;
 });

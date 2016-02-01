@@ -1,21 +1,21 @@
-import computeFaceNormals = require('../geometries/computeFaceNormals')
-import Euclidean3 = require('../math/Euclidean3')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
-import mustBeInteger = require('../checks/mustBeInteger');
-import quad = require('../geometries/quadrilateral')
-import Simplex = require('../geometries/Simplex')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import triangle = require('../geometries/triangle')
-import R1 = require('../math/R1')
-import G3 = require('../math/G3')
-import VectorN = require('../math/VectorN')
+import computeFaceNormals from '../geometries/computeFaceNormals';
+import Euclidean3 from '../math/Euclidean3';
+import SimplexGeometry from '../geometries/SimplexGeometry';
+import mustBeInteger from '../checks/mustBeInteger';
+import quad from '../geometries/quadrilateral';
+import Simplex from '../geometries/Simplex';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import triangle from '../geometries/triangle';
+import R1 from '../math/R1';
+import G3 from '../math/G3';
+import VectorN from '../math/VectorN';
 
 /**
  * @module EIGHT
  * @submodule geometries
  * @class BarnSimplexGeometry
  */
-class BarnSimplexGeometry extends SimplexGeometry {
+export default class BarnSimplexGeometry extends SimplexGeometry {
     // FIXME: decouple from Euclidean3
     public a: G3 = G3.fromVector(Euclidean3.e1);
     public b: G3 = G3.fromVector(Euclidean3.e2);
@@ -116,5 +116,3 @@ class BarnSimplexGeometry extends SimplexGeometry {
         this.check()
     }
 }
-
-export = BarnSimplexGeometry;

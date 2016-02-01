@@ -1,4 +1,4 @@
-function add3x3(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array {
+export default function(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array {
 
     let a11 = a[0x0], a12 = a[0x2]
     let a21 = a[0x1], a22 = a[0x3]
@@ -14,5 +14,3 @@ function add3x3(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array
 
     return c;
 }
-
-export = add3x3;

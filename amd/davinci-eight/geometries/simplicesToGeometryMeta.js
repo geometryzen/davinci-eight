@@ -1,33 +1,27 @@
-define(["require", "exports", '../geometries/dataLength', '../checks/expectArg', '../checks/isDefined', '../geometries/Simplex'], function (require, exports, dataLength, expectArg, isDefined, Simplex) {
+define(["require", "exports", '../geometries/dataLength', '../checks/expectArg', '../checks/isDefined', '../geometries/Simplex'], function (require, exports, dataLength_1, expectArg_1, isDefined_1, Simplex_1) {
     function stringify(thing, space) {
         var cache = [];
         return JSON.stringify(thing, function (key, value) {
             if (typeof value === 'object' && value !== null) {
                 if (cache.indexOf(value) !== -1) {
-                    // Circular reference found, discard key
                     return;
                 }
-                // Store value in our collection
                 cache.push(value);
             }
             return value;
         }, space);
-        cache = null; // Enable garbage collection  
+        cache = null;
     }
-    /**
-     * Returns undefined (void 0) for an empty geometry.
-     */
     function simplicesToGeometryMeta(geometry) {
         var kValueOfSimplex = void 0;
         var knowns = {};
         var geometryLen = geometry.length;
         for (var i = 0; i < geometryLen; i++) {
             var simplex = geometry[i];
-            if (!(simplex instanceof Simplex)) {
-                expectArg('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ simplicesToGeometryMeta(). Found " + stringify(simplex, 2));
+            if (!(simplex instanceof Simplex_1.default)) {
+                expectArg_1.default('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ simplicesToGeometryMeta(). Found " + stringify(simplex, 2));
             }
             var vertices = simplex.vertices;
-            // TODO: Check consistency of k-values.
             kValueOfSimplex = simplex.k;
             for (var j = 0, vsLen = vertices.length; j < vsLen; j++) {
                 var vertex = vertices[j];
@@ -37,7 +31,7 @@ define(["require", "exports", '../geometries/dataLength', '../checks/expectArg',
                 for (var k = 0; k < keysLen; k++) {
                     var key = keys[k];
                     var value = attributes[key];
-                    var dLength = dataLength(value);
+                    var dLength = dataLength_1.default(value);
                     var known = knowns[key];
                     if (known) {
                         if (known.size !== dLength) {
@@ -50,8 +44,7 @@ define(["require", "exports", '../geometries/dataLength', '../checks/expectArg',
                 }
             }
         }
-        // isDefined is necessary because k = -1, 0, 1, 2, 3, ... are legal and 0 is falsey.
-        if (isDefined(kValueOfSimplex)) {
+        if (isDefined_1.default(kValueOfSimplex)) {
             var info = {
                 get attributes() {
                     return knowns;
@@ -66,5 +59,6 @@ define(["require", "exports", '../geometries/dataLength', '../checks/expectArg',
             return void 0;
         }
     }
-    return simplicesToGeometryMeta;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = simplicesToGeometryMeta;
 });

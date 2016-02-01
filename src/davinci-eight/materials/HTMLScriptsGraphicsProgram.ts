@@ -1,16 +1,16 @@
-import IContextProvider = require('../core/IContextProvider');
-import IContextMonitor = require('../core/IContextMonitor');
-import IGraphicsProgram = require('../core/IGraphicsProgram');
-import GraphicsProgram = require('../materials/GraphicsProgram');
-import MonitorList = require('../scene/MonitorList');
-import mustSatisfy = require('../checks/mustSatisfy');
-import programFromScripts = require('../programs/programFromScripts');
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import GraphicsProgram from '../materials/GraphicsProgram';
+import MonitorList from '../scene/MonitorList';
+import mustSatisfy from '../checks/mustSatisfy';
+import programFromScripts from '../programs/programFromScripts';
 
 /**
  * @class HTMLScriptsGraphicsProgram
  * @extends GraphicsProgram
  */
-class HTMLScriptsGraphicsProgram extends GraphicsProgram {
+export default class HTMLScriptsGraphicsProgram extends GraphicsProgram {
 
     /**
      * The identifiers of the HTML &lt;script&gt; tags containing the shader code.
@@ -39,8 +39,8 @@ class HTMLScriptsGraphicsProgram extends GraphicsProgram {
      * @param scriptIds {string[]}
      * @param dom {Document}
      */
-    constructor(contexts: IContextMonitor[], scriptIds: string[] = [], dom: Document = document) {
-        super(contexts, 'HTMLScriptsGraphicsProgram');
+    constructor(scriptIds: string[] = [], dom: Document = document, monitors?: IContextMonitor[]) {
+        super('HTMLScriptsGraphicsProgram', monitors);
         // For now, we limit the implementation to only a vertex shader and a fragment shader.
         mustSatisfy('scriptIds', scriptIds.length === 2, () => { return "scriptIds must be [vsId, fsId]"; });
         this.scriptIds = scriptIds.map(function(scriptId) { return scriptId });
@@ -58,5 +58,3 @@ class HTMLScriptsGraphicsProgram extends GraphicsProgram {
         return programFromScripts(this.monitors, vsId, fsId, this.dom, this.attributeBindings)
     }
 }
-
-export = HTMLScriptsGraphicsProgram;

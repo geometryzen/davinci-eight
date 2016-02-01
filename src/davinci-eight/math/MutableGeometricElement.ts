@@ -1,6 +1,6 @@
-import GeometricElement = require('../math/GeometricElement');
-import MutableLinearElement = require('../math/MutableLinearElement');
-import MutableRingElement = require('../math/MutableRingElement');
+import GeometricElement from '../math/GeometricElement';
+import MutableLinearElement from '../math/MutableLinearElement';
+import MutableRingElement from '../math/MutableRingElement';
 
 /**
  * This interface is provided to ensure consistency.
@@ -74,4 +74,4 @@ interface MutableGeometricElement<I, M, S, V> extends GeometricElement<I, M, S, 
     ext2(a: I, b: I): M;
 }
 
-export = MutableGeometricElement;
+export default MutableGeometricElement;

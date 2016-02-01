@@ -26,5 +26,6 @@ define(["require", "exports"], function (require, exports) {
         c[0xF] = a44 + b44;
         return c;
     }
-    return add4x4;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = add4x4;
 });

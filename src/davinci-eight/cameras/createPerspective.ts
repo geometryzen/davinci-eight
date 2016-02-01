@@ -1,20 +1,18 @@
 //
 // createPerspective.ts
 //
-import IFacetVisitor = require('../core/IFacetVisitor');
-import Perspective = require('../cameras/Perspective');
-import View = require('../cameras/View');
-import createView = require('../cameras/createView');
-import Mat4R = require('../math/Mat4R');
-import SpinG3 = require('../math/SpinG3');
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
-import VectorE3 = require('../math/VectorE3');
-import R1 = require('../math/R1');
-import R3 = require('../math/R3');
-import isDefined = require('../checks/isDefined');
-import isUndefined = require('../checks/isUndefined');
-import expectArg = require('../checks/expectArg');
-import computePerspectiveMatrix = require('../cameras/perspectiveMatrix');
+import FacetVisitor from '../core/FacetVisitor';
+import Perspective from '../cameras/Perspective';
+import View from '../cameras/View';
+import createView from '../cameras/createView';
+import Mat4R from '../math/Mat4R';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import VectorE3 from '../math/VectorE3';
+import R1 from '../math/R1';
+import R3 from '../math/R3';
+import isUndefined from '../checks/isUndefined';
+import expectArg from '../checks/expectArg';
+import computePerspectiveMatrix from '../cameras/perspectiveMatrix';
 
 /**
  * @function createPerspective
@@ -25,7 +23,7 @@ import computePerspectiveMatrix = require('../cameras/perspectiveMatrix');
  * @param far {number}
  * @return {Perspective}
  */
-let createPerspective = function(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string; }): Perspective {
+export default function createPerspective(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string; }): Perspective {
 
     options = options || {};
     let fov: R1 = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
@@ -55,6 +53,7 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
             return void 0
         },
         setProperty(name: string, value: number[]): void {
+            // Do nothing.
         },
         // Delegate to the base camera.
         get eye(): R3 {
@@ -135,7 +134,7 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
             far.x = value;
             return self;
         },
-        setUniforms(visitor: IFacetVisitor, canvasId?: number) {
+        setUniforms(visitor: FacetVisitor, canvasId?: number) {
             if (matrixNeedsUpdate) {
                 computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
                 matrixNeedsUpdate = false;
@@ -146,6 +145,4 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
     };
 
     return self;
-};
-
-export =  createPerspective;
+}

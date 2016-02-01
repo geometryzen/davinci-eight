@@ -3,73 +3,45 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/DrawMode', '../checks/isDefined', '../topologies/MeshTopology', '../checks/mustBeArray', '../checks/mustBeInteger', '../i18n/readOnly'], function (require, exports, DrawMode, isDefined, MeshTopology, mustBeArray, mustBeInteger, readOnly) {
+define(["require", "exports", '../core/DrawMode', '../checks/isDefined', '../topologies/MeshTopology', '../checks/mustBeArray', '../checks/mustBeInteger', '../i18n/readOnly'], function (require, exports, DrawMode_1, isDefined_1, MeshTopology_1, mustBeArray_1, mustBeInteger_1, readOnly_1) {
     function numPostsForFence(segmentCount) {
-        mustBeInteger('segmentCount', segmentCount);
+        mustBeInteger_1.default('segmentCount', segmentCount);
         return segmentCount + 1;
     }
     function dimensionsForGrid(segmentCounts) {
-        mustBeArray('segmentCounts', segmentCounts);
+        mustBeArray_1.default('segmentCounts', segmentCounts);
         return segmentCounts.map(numPostsForFence);
     }
     function numVerticesForGrid(uSegments, vSegments) {
-        mustBeInteger('uSegments', uSegments);
-        mustBeInteger('vSegments', vSegments);
+        mustBeInteger_1.default('uSegments', uSegments);
+        mustBeInteger_1.default('vSegments', vSegments);
         return dimensionsForGrid([uSegments, vSegments]).reduce(function (a, b) { return a * b; }, 1);
     }
     function triangleStripForGrid(uSegments, vSegments, elements) {
-        // Make sure that we have somewhere valid to store the result.
-        elements = isDefined(elements) ? mustBeArray('elements', elements) : [];
+        elements = isDefined_1.default(elements) ? mustBeArray_1.default('elements', elements) : [];
         var uLength = numPostsForFence(uSegments);
         var lastVertex = uSegments + uLength * vSegments;
-        /**
-         * The number of elements needed if we executed a strip per row.
-         * Remark Notice the asymmetry. Could be a performance impact.
-         */
         var eSimple = 2 * uLength * vSegments;
-        /**
-         * Index for triangle strip array.
-         */
         var j = 0;
-        // FIXME: Loop 0 <= i < eSimple (Edsger W. Dijksta)
-        // For this algorithm, imagine a little vertical loop containing two dots.
-        // The uppermost dot we shall call the `top` and the lowermost the `bottom`.
-        // Advancing i by two each time corresponds to advancing this loop one place to the right.
         for (var i = 1; i <= eSimple; i += 2) {
-            var k = (i - 1) / 2; // etc
-            // top element
+            var k = (i - 1) / 2;
             elements[j] = (i - 1) / 2;
-            // bottom element
             elements[j + 1] = elements[j] + uLength;
-            // check for end of column
             if (elements[j + 1] % uLength === uSegments) {
-                // Don't add degenerate triangles if we are on either
-                // 1. the last vertex of the first row
-                // 2. the last vertex of the last row.
                 if (elements[j + 1] !== uSegments && elements[j + 1] !== lastVertex) {
-                    // additional vertex degenerate triangle
-                    // The next point is the same as the one before
                     elements[j + 2] = elements[j + 1];
-                    // additional vertex degenerate triangle
-                    // 
                     elements[j + 3] = (1 + i) / 2;
-                    // Increment j for the two duplicate vertices
                     j += 2;
                 }
             }
-            // Increment j for this step.
             j += 2;
         }
         return elements;
     }
-    /**
-     * @class GridTopology
-     * @extends MeshTopology
-     */
     var GridTopology = (function (_super) {
         __extends(GridTopology, _super);
         function GridTopology(uSegments, vSegments) {
-            _super.call(this, DrawMode.TRIANGLE_STRIP, numVerticesForGrid(uSegments, vSegments));
+            _super.call(this, DrawMode_1.default.TRIANGLE_STRIP, numVerticesForGrid(uSegments, vSegments));
             this.elements = triangleStripForGrid(uSegments, vSegments);
             this._uSegments = uSegments;
             this._vSegments = vSegments;
@@ -79,7 +51,7 @@ define(["require", "exports", '../core/DrawMode', '../checks/isDefined', '../top
                 return this._uSegments;
             },
             set: function (unused) {
-                throw new Error(readOnly('uSegments').message);
+                throw new Error(readOnly_1.default('uSegments').message);
             },
             enumerable: true,
             configurable: true
@@ -89,7 +61,7 @@ define(["require", "exports", '../core/DrawMode', '../checks/isDefined', '../top
                 return numPostsForFence(this._uSegments);
             },
             set: function (unused) {
-                throw new Error(readOnly('uLength').message);
+                throw new Error(readOnly_1.default('uLength').message);
             },
             enumerable: true,
             configurable: true
@@ -99,7 +71,7 @@ define(["require", "exports", '../core/DrawMode', '../checks/isDefined', '../top
                 return this._vSegments;
             },
             set: function (unused) {
-                throw new Error(readOnly('vSegments').message);
+                throw new Error(readOnly_1.default('vSegments').message);
             },
             enumerable: true,
             configurable: true
@@ -109,30 +81,18 @@ define(["require", "exports", '../core/DrawMode', '../checks/isDefined', '../top
                 return numPostsForFence(this._vSegments);
             },
             set: function (unused) {
-                throw new Error(readOnly('vLength').message);
+                throw new Error(readOnly_1.default('vLength').message);
             },
             enumerable: true,
             configurable: true
         });
-        /**
-         * <p>
-         * Provides access to each vertex so that attributes may be set.
-         * The indices
-         * </p>
-         * @method vertex
-         * @param uIndex {number} The zero-based `horizontal` index.
-         * @param vIndex {number} The zero-based 'vertical` index.
-         * @return {Vertex} The vertex corresponding to the specified coordinates.
-         * @example
-             var topo = new EIGHT.GridTopology(1, 1)
-             topo.vertex(uIndex, vIndex).attributes('aPosition') = new R3([i - 0.5, j - 0.5, 0])
-         */
         GridTopology.prototype.vertex = function (uIndex, vIndex) {
-            mustBeInteger('uIndex', uIndex);
-            mustBeInteger('vIndex', vIndex);
+            mustBeInteger_1.default('uIndex', uIndex);
+            mustBeInteger_1.default('vIndex', vIndex);
             return this.vertices[(this._vSegments - vIndex) * this.uLength + uIndex];
         };
         return GridTopology;
-    })(MeshTopology);
-    return GridTopology;
+    })(MeshTopology_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = GridTopology;
 });

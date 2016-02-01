@@ -1,15 +1,15 @@
-import IAnimationTarget = require('../slideshow/IAnimationTarget')
-import mustBeString = require('../checks/mustBeString')
-import G3 = require('../math/G3')
-import R3 = require('../math/R3')
-import SpinG3 = require('../math/SpinG3')
-import readOnly = require('../i18n/readOnly');
-import Shareable = require('../utils/Shareable')
+import IAnimationTarget from '../slideshow/IAnimationTarget';
+import mustBeString from '../checks/mustBeString';
+import G3 from '../math/G3';
+import R3 from '../math/R3';
+import SpinG3 from '../math/SpinG3';
+import readOnly from '../i18n/readOnly';
+import Shareable from '../utils/Shareable';
 
 /**
  * @class ModelE3
  */
-class ModelE3 extends Shareable implements IAnimationTarget {
+export default class ModelE3 extends Shareable implements IAnimationTarget {
     /**
      * The name of the property that designates the attitude.
      * @property PROP_ATTITUDE
@@ -62,7 +62,7 @@ class ModelE3 extends Shareable implements IAnimationTarget {
      * A collection of properties for Rigid Body Modeling.
      * </p>
      * <p>
-     * ModelE3 implements IFacet required for manipulating a drawable object.
+     * ModelE3 implements Facet required for manipulating a drawable object.
      * </p>
      * <p>
      * Constructs a ModelE3 at the origin and with unity attitude.
@@ -162,5 +162,3 @@ class ModelE3 extends Shareable implements IAnimationTarget {
         }
     }
 }
-
-export = ModelE3

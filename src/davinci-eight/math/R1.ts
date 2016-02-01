@@ -1,10 +1,10 @@
-import expectArg = require('../checks/expectArg')
-import MutableLinearElement = require('../math/MutableLinearElement')
-import Matrix = require('../math/Matrix')
-import SpinorE1 = require('../math/SpinorE1')
-import VectorE0 = require('../math/VectorE0')
-import VectorE1 = require('../math/VectorE1')
-import VectorN = require('../math/VectorN')
+import expectArg from '../checks/expectArg';
+import MutableLinearElement from '../math/MutableLinearElement';
+import Matrix from '../math/Matrix';
+import SpinorE1 from '../math/SpinorE1';
+import VectorE0 from '../math/VectorE0';
+import VectorE1 from '../math/VectorE1';
+import VectorN from '../math/VectorN';
 
 let exp = Math.exp
 let log = Math.log
@@ -15,7 +15,7 @@ let COORD_X = 0
 /**
  * @class R1
  */
-class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, R1, SpinorE1, VectorE1>, Matrix<R1, VectorE1, VectorE0> {
+export default class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<VectorE1, R1, SpinorE1, VectorE1>, Matrix<R1, VectorE1, VectorE0> {
     /**
      * @class R1
      * @constructor
@@ -296,5 +296,3 @@ class R1 extends VectorN<number> implements VectorE1, MutableLinearElement<Vecto
         return this
     }
 }
-
-export = R1;

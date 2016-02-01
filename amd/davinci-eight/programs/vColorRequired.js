@@ -1,6 +1,7 @@
-define(["require", "exports", '../core/GraphicsProgramSymbols'], function (require, exports, GraphicsProgramSymbols) {
+define(["require", "exports", '../core/GraphicsProgramSymbols'], function (require, exports, GraphicsProgramSymbols_1) {
     function vColorRequired(attributes, uniforms) {
-        return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols.UNIFORM_COLOR];
+        return !!attributes[GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols_1.default.UNIFORM_COLOR];
     }
-    return vColorRequired;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = vColorRequired;
 });

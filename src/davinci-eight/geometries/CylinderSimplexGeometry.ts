@@ -1,13 +1,13 @@
-import arc3 = require('../geometries/arc3')
-import VectorE3 = require('../math/VectorE3')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
-import Simplex = require('../geometries/Simplex')
-import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry');
-import SpinG3 = require('../math/SpinG3')
-import SpinorE3 = require('../math/SpinorE3')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import R2 = require('../math/R2')
-import R3 = require('../math/R3')
+import arc3 from '../geometries/arc3';
+import VectorE3 from '../math/VectorE3';
+import SimplexGeometry from '../geometries/SimplexGeometry';
+import Simplex from '../geometries/Simplex';
+import SliceSimplexGeometry from '../geometries/SliceSimplexGeometry';
+import SpinG3 from '../math/SpinG3';
+import SpinorE3 from '../math/SpinorE3';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import R2 from '../math/R2';
+import R3 from '../math/R3';
 
 // TODO: The caps don't have radial segments!
 
@@ -60,7 +60,7 @@ function computeVertices(radius: number, height: number, axis: VectorE3, start: 
  * @class CylinderSimplexGeometry
  * @extends SliceSimplexGeometry
  */
-class CylinderSimplexGeometry extends SliceSimplexGeometry {
+export default class CylinderSimplexGeometry extends SliceSimplexGeometry {
     public radius: number;
     public height: number;
     public openTop: boolean;
@@ -196,5 +196,3 @@ class CylinderSimplexGeometry extends SliceSimplexGeometry {
         this.setModified(false)
     }
 }
-
-export = CylinderSimplexGeometry;

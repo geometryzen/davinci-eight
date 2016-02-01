@@ -1,7 +1,7 @@
-import MaterialParameters = require('../materials/MaterialParameters')
+import MaterialParameters from '../materials/MaterialParameters';
 
 interface LineMaterialParameters extends MaterialParameters {
 
 }
 
-export = LineMaterialParameters;
+export default LineMaterialParameters;

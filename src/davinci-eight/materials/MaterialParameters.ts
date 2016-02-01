@@ -11,4 +11,4 @@ interface MaterialParameters {
     size?: number;
 }
 
-export = MaterialParameters
+export default MaterialParameters;

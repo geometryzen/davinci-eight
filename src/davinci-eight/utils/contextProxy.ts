@@ -1,40 +1,40 @@
-import BufferResource = require('../core/BufferResource')
-import ContextKahuna = require('../core/ContextKahuna')
-import DrawMode = require('../core/DrawMode')
-import IContextProvider = require('../core/IContextProvider')
-import IContextConsumer = require('../core/IContextConsumer')
-import core = require('../core')
-import expectArg = require('../checks/expectArg')
-import initWebGL = require('../renderers/initWebGL')
-import IBuffer = require('../core/IBuffer')
-import IBufferGeometry = require('../geometries/IBufferGeometry')
-import isDefined = require('../checks/isDefined')
-import isNumber = require('../checks/isNumber')
-import isUndefined = require('../checks/isUndefined')
-import ITexture = require('../core/ITexture')
-import IUnknown = require('../core/IUnknown')
-import IGraphicsProgram = require('../core/IGraphicsProgram')
-import mustBeArray = require('../checks/mustBeArray')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import mustBeString = require('../checks/mustBeString')
-import randumbInteger = require('../utils/randumbInteger');
-import Primitive = require('../geometries/Primitive')
-import RefCount = require('../utils/RefCount')
-import refChange = require('../utils/refChange')
-import Shareable = require('../utils/Shareable')
-import Simplex = require('../geometries/Simplex')
-import StringIUnknownMap = require('../collections/StringIUnknownMap')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import TextureResource = require('../resources/TextureResource')
-import uuid4 = require('../utils/uuid4')
-import VectorN = require('../math/VectorN')
+import BufferResource from '../core/BufferResource';
+import ContextKahuna from '../core/ContextKahuna';
+import DrawMode from '../core/DrawMode';
+import IContextProvider from '../core/IContextProvider';
+import IContextConsumer from '../core/IContextConsumer';
+import core from '../core';
+import expectArg from '../checks/expectArg';
+import initWebGL from '../renderers/initWebGL';
+import IBuffer from '../core/IBuffer';
+import IBufferGeometry from '../geometries/IBufferGeometry';
+import isDefined from '../checks/isDefined';
+import isNumber from '../checks/isNumber';
+import isUndefined from '../checks/isUndefined';
+import ITexture from '../core/ITexture';
+import IUnknown from '../core/IUnknown';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
+import randumbInteger from '../utils/randumbInteger';
+import Primitive from '../geometries/Primitive';
+import RefCount from '../utils/RefCount';
+import refChange from '../utils/refChange';
+import Shareable from '../utils/Shareable';
+import Simplex from '../geometries/Simplex';
+import StringIUnknownMap from '../collections/StringIUnknownMap';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import TextureResource from '../resources/TextureResource';
+import uuid4 from '../utils/uuid4';
+import VectorN from '../math/VectorN';
 
-let LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib'
-let LOGGING_NAME_MESH = 'Drawable'
+const LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib'
+const LOGGING_NAME_MESH = 'Drawable'
 
-let LOGGING_NAME_KAHUNA = 'ContextKahuna'
+const LOGGING_NAME_KERNEL = 'GraphicsContext (Kernel)'
 
 function mustBeContext(gl: WebGLRenderingContext, method: string): WebGLRenderingContext {
     if (gl) {
@@ -370,7 +370,7 @@ class BufferGeometry extends Shareable implements IBufferGeometry {
     }
 }
 
-function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
+export default function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     let uuid: string = uuid4().generate();
     let _blocks = new StringIUnknownMap<ElementsBlock>();
     // Remark: We only hold weak references to users so that the lifetime of resource
@@ -523,6 +523,9 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
             return mesh
         },
         start(canvas: HTMLCanvasElement, canvasId: number = 0): void {
+            if (core.verbose) {
+                console.log(`${LOGGING_NAME_KERNEL} start(canvasId=${canvasId})`);
+            }
             let alreadyStarted = isDefined(_canvas);
             if (!alreadyStarted) {
                 // cache the arguments
@@ -535,7 +538,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
                 // We'll just be idempotent and ignore the call because we've already been started.
                 // To use the canvas might conflict with one we have dynamically created.
                 if (core.verbose) {
-                    console.warn("Ignoring `start()` because already started.")
+                    console.warn(`${LOGGING_NAME_KERNEL} Ignoring start() because already started.`)
                 }
                 return
             }
@@ -578,8 +581,9 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         },
         get canvas(): HTMLCanvasElement {
             if (!_canvas) {
-                // Interesting little side-effect!
-                // Love the way kahuna talks in the third person.
+                if (core.verbose) {
+                    console.log(`${LOGGING_NAME_KERNEL} creating HTMLCanvasElement`);
+                }
                 kahuna.start(document.createElement('canvas'), randumbInteger());
             }
             return _canvas;
@@ -595,12 +599,12 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         },
         addRef(): number {
             refCount++;
-            refChange(uuid, LOGGING_NAME_KAHUNA, +1);
+            refChange(uuid, LOGGING_NAME_KERNEL, +1);
             return refCount;
         },
         release(): number {
             refCount--;
-            refChange(uuid, LOGGING_NAME_KAHUNA, -1);
+            refChange(uuid, LOGGING_NAME_KERNEL, -1);
             if (refCount === 0) {
                 _blocks.release();
                 while (users.length > 0) {
@@ -635,5 +639,3 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     kahuna.addRef()
     return kahuna;
 }
-
-export = webgl;

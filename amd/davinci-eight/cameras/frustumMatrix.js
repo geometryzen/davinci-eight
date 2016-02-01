@@ -1,13 +1,13 @@
-define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg, isDefined) {
+define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg_1, isDefined_1) {
     function frustumMatrix(left, right, bottom, top, near, far, matrix) {
-        expectArg('left', left).toBeNumber();
-        expectArg('right', right).toBeNumber();
-        expectArg('bottom', bottom).toBeNumber();
-        expectArg('top', top).toBeNumber();
-        expectArg('near', near).toBeNumber();
-        expectArg('far', far).toBeNumber();
-        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        expectArg('m', m).toSatisfy(m.length === 16, 'elements must have length 16');
+        expectArg_1.default('left', left).toBeNumber();
+        expectArg_1.default('right', right).toBeNumber();
+        expectArg_1.default('bottom', bottom).toBeNumber();
+        expectArg_1.default('top', top).toBeNumber();
+        expectArg_1.default('near', near).toBeNumber();
+        expectArg_1.default('far', far).toBeNumber();
+        var m = isDefined_1.default(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        expectArg_1.default('m', m).toSatisfy(m.length === 16, 'elements must have length 16');
         var x = 2 * near / (right - left);
         var y = 2 * near / (top - bottom);
         var a = (right + left) / (right - left);
@@ -32,5 +32,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
         m[0xF] = 0;
         return m;
     }
-    return frustumMatrix;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = frustumMatrix;
 });

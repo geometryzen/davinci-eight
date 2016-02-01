@@ -1,7 +1,7 @@
-define(["require", "exports", '../core'], function (require, exports, core) {
+define(["require", "exports", '../core'], function (require, exports, core_1) {
     var feedback = {
         warn: function (message) {
-            if (core.strict) {
+            if (core_1.default.strict) {
                 throw new Error(message.message);
             }
             else {
@@ -9,5 +9,6 @@ define(["require", "exports", '../core'], function (require, exports, core) {
             }
         }
     };
-    return feedback;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = feedback;
 });

@@ -1,198 +1,201 @@
 // slideshow
-import Slide = require('davinci-eight/slideshow/Slide')
-import Director = require('davinci-eight/slideshow/Director')
-import DirectorKeyboardHandler = require('davinci-eight/slideshow/DirectorKeyboardHandler')
-import WaitAnimation = require('davinci-eight/slideshow/animations/WaitAnimation')
-import ColorAnimation = require('davinci-eight/slideshow/animations/ColorAnimation')
-import Vector2Animation = require('davinci-eight/slideshow/animations/Vector2Animation')
-import Vector3Animation = require('davinci-eight/slideshow/animations/Vector3Animation')
-import Spinor2Animation = require('davinci-eight/slideshow/animations/Spinor2Animation')
-import Spinor3Animation = require('davinci-eight/slideshow/animations/Spinor3Animation')
+import Slide from 'davinci-eight/slideshow/Slide';
+import Director from 'davinci-eight/slideshow/Director';
+import DirectorKeyboardHandler from 'davinci-eight/slideshow/DirectorKeyboardHandler';
+import WaitAnimation from 'davinci-eight/slideshow/animations/WaitAnimation';
+import ColorAnimation from 'davinci-eight/slideshow/animations/ColorAnimation';
+import Vector2Animation from 'davinci-eight/slideshow/animations/Vector2Animation';
+import Vector3Animation from 'davinci-eight/slideshow/animations/Vector3Animation';
+import Spinor2Animation from 'davinci-eight/slideshow/animations/Spinor2Animation';
+import Spinor3Animation from 'davinci-eight/slideshow/animations/Spinor3Animation';
 
 // cameras
-import createFrustum = require('davinci-eight/cameras/createFrustum')
-import createPerspective = require('davinci-eight/cameras/createPerspective')
-import createView = require('davinci-eight/cameras/createView')
-import Frustum = require('davinci-eight/cameras/Frustum')
-import Perspective = require('davinci-eight/cameras/Perspective')
-import View = require('davinci-eight/cameras/View')
-import frustumMatrix = require('davinci-eight/cameras/frustumMatrix')
-import PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera')
-import perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix')
-import viewMatrix = require('davinci-eight/cameras/viewMatrix')
+import createFrustum from 'davinci-eight/cameras/createFrustum';
+import createPerspective from 'davinci-eight/cameras/createPerspective';
+import createView from 'davinci-eight/cameras/createView';
+import Frustum from 'davinci-eight/cameras/Frustum';
+import Perspective from 'davinci-eight/cameras/Perspective';
+import View from 'davinci-eight/cameras/View';
+import frustumMatrix from 'davinci-eight/cameras/frustumMatrix';
+import PerspectiveCamera from 'davinci-eight/cameras/PerspectiveCamera';
+import perspectiveMatrix from 'davinci-eight/cameras/perspectiveMatrix';
+import viewMatrix from 'davinci-eight/cameras/viewMatrix';
 // commands
-import BlendFactor = require('davinci-eight/commands/BlendFactor')
-import WebGLBlendFunc = require('davinci-eight/commands/WebGLBlendFunc')
-import WebGLClearColor = require('davinci-eight/commands/WebGLClearColor')
-import Capability = require('davinci-eight/commands/Capability')
-import WebGLDisable = require('davinci-eight/commands/WebGLDisable')
-import WebGLEnable = require('davinci-eight/commands/WebGLEnable')
+import BlendFactor from 'davinci-eight/commands/BlendFactor';
+import WebGLBlendFunc from 'davinci-eight/commands/WebGLBlendFunc';
+import WebGLClearColor from 'davinci-eight/commands/WebGLClearColor';
+import Capability from 'davinci-eight/commands/Capability';
+import WebGLDisable from 'davinci-eight/commands/WebGLDisable';
+import WebGLEnable from 'davinci-eight/commands/WebGLEnable';
 // core
-import AttribLocation = require('davinci-eight/core/AttribLocation')
-import AttribMetaInfo = require('davinci-eight/core/AttribMetaInfo')
-import Color = require('davinci-eight/core/Color')
-import core = require('davinci-eight/core')
-import DrawMode = require('davinci-eight/core/DrawMode')
-import ContextController = require('davinci-eight/core/ContextController')
-import ContextKahuna = require('davinci-eight/core/ContextKahuna')
-import IContextConsumer = require('davinci-eight/core/IContextConsumer')
-import IContextProgramConsumer = require('davinci-eight/core/IContextProgramConsumer')
-import IContextProvider = require('davinci-eight/core/IContextProvider')
-import IContextMonitor = require('davinci-eight/core/IContextMonitor')
-import GraphicsProgramSymbols = require('davinci-eight/core/GraphicsProgramSymbols')
-import IFacet = require('davinci-eight/core/IFacet')
-import IFacetVisitor = require('davinci-eight/core/IFacetVisitor')
-import UniformLocation = require('davinci-eight/core/UniformLocation')
-import UniformMetaInfo = require('davinci-eight/core/UniformMetaInfo')
+import AttribLocation from 'davinci-eight/core/AttribLocation';
+import AttribMetaInfo from 'davinci-eight/core/AttribMetaInfo';
+import Color from 'davinci-eight/core/Color';
+import core from 'davinci-eight/core';
+import DrawMode from 'davinci-eight/core/DrawMode';
+import ContextController from 'davinci-eight/core/ContextController';
+import ContextKahuna from 'davinci-eight/core/ContextKahuna';
+import IContextConsumer from 'davinci-eight/core/IContextConsumer';
+import IContextProgramConsumer from 'davinci-eight/core/IContextProgramConsumer';
+import IContextProvider from 'davinci-eight/core/IContextProvider';
+import IContextMonitor from 'davinci-eight/core/IContextMonitor';
+import GraphicsProgramSymbols from 'davinci-eight/core/GraphicsProgramSymbols';
+import Facet from 'davinci-eight/core/Facet';
+import FacetVisitor from 'davinci-eight/core/FacetVisitor';
+import UniformLocation from 'davinci-eight/core/UniformLocation';
+import UniformMetaInfo from 'davinci-eight/core/UniformMetaInfo';
 // curves
-import Curve = require('davinci-eight/curves/Curve')
+import Curve from 'davinci-eight/curves/Curve';
 // devices
-import Keyboard = require('davinci-eight/devices/Keyboard')
+import Keyboard from 'davinci-eight/devices/Keyboard';
 // geometries
-import Attribute = require('davinci-eight/geometries/Attribute')
-import DrawAttribute = require('davinci-eight/geometries/DrawAttribute')
-import Primitive = require('davinci-eight/geometries/Primitive')
-import DrawPrimitive = require('davinci-eight/geometries/DrawPrimitive')
-import Simplex = require('davinci-eight/geometries/Simplex')
-import Vertex = require('davinci-eight/geometries/Vertex')
-import simplicesToGeometryMeta = require('davinci-eight/geometries/simplicesToGeometryMeta')
-import GeometryMeta = require('davinci-eight/geometries/GeometryMeta')
-import computeFaceNormals = require('davinci-eight/geometries/computeFaceNormals')
-import cube = require('davinci-eight/geometries/cube')
-import quadrilateral = require('davinci-eight/geometries/quadrilateral')
-import square = require('davinci-eight/geometries/square')
-import tetrahedron = require('davinci-eight/geometries/tetrahedron')
-import simplicesToDrawPrimitive = require('davinci-eight/geometries/simplicesToDrawPrimitive')
-import triangle = require('davinci-eight/geometries/triangle')
+import Attribute from 'davinci-eight/geometries/Attribute';
+import DrawAttribute from 'davinci-eight/geometries/DrawAttribute';
+import Primitive from 'davinci-eight/geometries/Primitive';
+import DrawPrimitive from 'davinci-eight/geometries/DrawPrimitive';
+import Simplex from 'davinci-eight/geometries/Simplex';
+import Vertex from 'davinci-eight/geometries/Vertex';
+import simplicesToGeometryMeta from 'davinci-eight/geometries/simplicesToGeometryMeta';
+import GeometryMeta from 'davinci-eight/geometries/GeometryMeta';
+import computeFaceNormals from 'davinci-eight/geometries/computeFaceNormals';
+import cube from 'davinci-eight/geometries/cube';
+import quadrilateral from 'davinci-eight/geometries/quadrilateral';
+import square from 'davinci-eight/geometries/square';
+import tetrahedron from 'davinci-eight/geometries/tetrahedron';
+import simplicesToDrawPrimitive from 'davinci-eight/geometries/simplicesToDrawPrimitive';
+import triangle from 'davinci-eight/geometries/triangle';
 // topologies
-import Topology = require('davinci-eight/topologies/Topology')
-import PointTopology = require('davinci-eight/topologies/PointTopology')
-import LineTopology = require('davinci-eight/topologies/LineTopology')
-import MeshTopology = require('davinci-eight/topologies/MeshTopology')
-import GridTopology = require('davinci-eight/topologies/GridTopology')
+import Topology from 'davinci-eight/topologies/Topology';
+import PointTopology from 'davinci-eight/topologies/PointTopology';
+import LineTopology from 'davinci-eight/topologies/LineTopology';
+import MeshTopology from 'davinci-eight/topologies/MeshTopology';
+import GridTopology from 'davinci-eight/topologies/GridTopology';
 // scene
-import createDrawList = require('davinci-eight/scene/createDrawList')
-import IDrawList = require('davinci-eight/scene/IDrawList')
-import Drawable = require('davinci-eight/scene/Drawable')
-import Scene = require('davinci-eight/scene/Scene')
-import GraphicsContext = require('davinci-eight/scene/GraphicsContext')
+import createDrawList from 'davinci-eight/scene/createDrawList';
+import IDrawList from 'davinci-eight/scene/IDrawList';
+import Drawable from 'davinci-eight/scene/Drawable';
+import Scene from 'davinci-eight/scene/Scene';
+import GraphicsContext from 'davinci-eight/scene/GraphicsContext';
 // geometries
-import AxialSimplexGeometry = require('davinci-eight/geometries/AxialSimplexGeometry')
-import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
-import ArrowSimplexGeometry = require('davinci-eight/geometries/ArrowSimplexGeometry')
-import BarnSimplexGeometry = require('davinci-eight/geometries/BarnSimplexGeometry')
-import ConeGeometry = require('davinci-eight/geometries/ConeGeometry')
-import ConeSimplexGeometry = require('davinci-eight/geometries/ConeSimplexGeometry')
-import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry')
-import CuboidSimplexGeometry = require('davinci-eight/geometries/CuboidSimplexGeometry')
-import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry')
-import CylinderSimplexGeometry = require('davinci-eight/geometries/CylinderSimplexGeometry')
-import DodecahedronSimplexGeometry = require('davinci-eight/geometries/DodecahedronSimplexGeometry')
-import IcosahedronSimplexGeometry = require('davinci-eight/geometries/IcosahedronSimplexGeometry')
-import KleinBottleSimplexGeometry = require('davinci-eight/geometries/KleinBottleSimplexGeometry')
-import Simplex1Geometry = require('davinci-eight/geometries/Simplex1Geometry')
-import MobiusStripSimplexGeometry = require('davinci-eight/geometries/MobiusStripSimplexGeometry')
-import OctahedronSimplexGeometry = require('davinci-eight/geometries/OctahedronSimplexGeometry')
-import SliceSimplexGeometry = require('davinci-eight/geometries/SliceSimplexGeometry')
-import GridSimplexGeometry = require('davinci-eight/geometries/GridSimplexGeometry')
-import PolyhedronSimplexGeometry = require('davinci-eight/geometries/PolyhedronSimplexGeometry')
-import RevolutionSimplexGeometry = require('davinci-eight/geometries/RevolutionSimplexGeometry')
-import RingGeometry = require('davinci-eight/geometries/RingGeometry')
-import RingSimplexGeometry = require('davinci-eight/geometries/RingSimplexGeometry')
-import SphericalPolarSimplexGeometry = require('davinci-eight/geometries/SphericalPolarSimplexGeometry')
-import TetrahedronSimplexGeometry = require('davinci-eight/geometries/TetrahedronSimplexGeometry')
-import TextSimplexGeometry = require('davinci-eight/geometries/TextSimplexGeometry')
-//import TubeSimplexGeometry          = require('davinci-eight/geometries/TubeSimplexGeometry')
-import VortexSimplexGeometry = require('davinci-eight/geometries/VortexSimplexGeometry')
-import arc3 = require('davinci-eight/geometries/arc3')
+import AxialSimplexGeometry from 'davinci-eight/geometries/AxialSimplexGeometry';
+import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
+import ArrowSimplexGeometry from 'davinci-eight/geometries/ArrowSimplexGeometry';
+import BarnSimplexGeometry from 'davinci-eight/geometries/BarnSimplexGeometry';
+import ConeGeometry from 'davinci-eight/geometries/ConeGeometry';
+import ConeSimplexGeometry from 'davinci-eight/geometries/ConeSimplexGeometry';
+import CuboidGeometry from 'davinci-eight/geometries/CuboidGeometry';
+import CuboidSimplexGeometry from 'davinci-eight/geometries/CuboidSimplexGeometry';
+import CylinderGeometry from 'davinci-eight/geometries/CylinderGeometry';
+import CylinderSimplexGeometry from 'davinci-eight/geometries/CylinderSimplexGeometry';
+import DodecahedronSimplexGeometry from 'davinci-eight/geometries/DodecahedronSimplexGeometry';
+import IcosahedronSimplexGeometry from 'davinci-eight/geometries/IcosahedronSimplexGeometry';
+import KleinBottleSimplexGeometry from 'davinci-eight/geometries/KleinBottleSimplexGeometry';
+import Simplex1Geometry from 'davinci-eight/geometries/Simplex1Geometry';
+import MobiusStripSimplexGeometry from 'davinci-eight/geometries/MobiusStripSimplexGeometry';
+import OctahedronSimplexGeometry from 'davinci-eight/geometries/OctahedronSimplexGeometry';
+import SliceSimplexGeometry from 'davinci-eight/geometries/SliceSimplexGeometry';
+import GridSimplexGeometry from 'davinci-eight/geometries/GridSimplexGeometry';
+import PolyhedronSimplexGeometry from 'davinci-eight/geometries/PolyhedronSimplexGeometry';
+import RevolutionSimplexGeometry from 'davinci-eight/geometries/RevolutionSimplexGeometry';
+import RingGeometry from 'davinci-eight/geometries/RingGeometry';
+import RingSimplexGeometry from 'davinci-eight/geometries/RingSimplexGeometry';
+import SphereGeometry from 'davinci-eight/geometries/SphereGeometry';
+import TetrahedronSimplexGeometry from 'davinci-eight/geometries/TetrahedronSimplexGeometry';
+import TextSimplexGeometry from 'davinci-eight/geometries/TextSimplexGeometry';
+//import TubeSimplexGeometry          from 'davinci-eight/geometries/TubeSimplexGeometry';
+import VortexSimplexGeometry from 'davinci-eight/geometries/VortexSimplexGeometry';
+import arc3 from 'davinci-eight/geometries/arc3';
 // programs
-import createGraphicsProgram = require('davinci-eight/programs/createGraphicsProgram')
-import smartProgram = require('davinci-eight/programs/smartProgram')
-import programFromScripts = require('davinci-eight/programs/programFromScripts')
+import createGraphicsProgram from 'davinci-eight/programs/createGraphicsProgram';
+import smartProgram from 'davinci-eight/programs/smartProgram';
+import programFromScripts from 'davinci-eight/programs/programFromScripts';
 
 // materials
-import GraphicsProgram = require('davinci-eight/materials/GraphicsProgram')
-import HTMLScriptsGraphicsProgram = require('davinci-eight/materials/HTMLScriptsGraphicsProgram')
-import LineMaterial = require('davinci-eight/materials/LineMaterial')
-import MeshMaterial = require('davinci-eight/materials/MeshMaterial')
-import MeshLambertMaterial = require('davinci-eight/materials/MeshLambertMaterial')
-import PointMaterial = require('davinci-eight/materials/PointMaterial')
-import GraphicsProgramBuilder = require('davinci-eight/materials/GraphicsProgramBuilder')
+import GraphicsProgram from 'davinci-eight/materials/GraphicsProgram';
+import HTMLScriptsGraphicsProgram from 'davinci-eight/materials/HTMLScriptsGraphicsProgram';
+import LineMaterial from 'davinci-eight/materials/LineMaterial';
+import MeshMaterial from 'davinci-eight/materials/MeshMaterial';
+import MeshLambertMaterial from 'davinci-eight/materials/MeshLambertMaterial';
+import PointMaterial from 'davinci-eight/materials/PointMaterial';
+import GraphicsProgramBuilder from 'davinci-eight/materials/GraphicsProgramBuilder';
 // math
-import AbstractMatrix = require('davinci-eight/math/AbstractMatrix')
-import CartesianE3 = require('davinci-eight/math/CartesianE3')
-import VectorE1 = require('davinci-eight/math/VectorE1')
-import VectorE2 = require('davinci-eight/math/VectorE2')
-import VectorE3 = require('davinci-eight/math/VectorE3')
-import VectorE4 = require('davinci-eight/math/VectorE4')
-import CC = require('davinci-eight/math/CC')
-import Dimensions = require('davinci-eight/math/Dimensions')
-import Euclidean1 = require('davinci-eight/math/Euclidean1')
-import Euclidean1Coords = require('davinci-eight/math/Euclidean1Coords')
-import Euclidean2 = require('davinci-eight/math/Euclidean2')
-import Euclidean3 = require('davinci-eight/math/Euclidean3')
-import Euler = require('davinci-eight/math/Euler')
-import GeometricElement = require('davinci-eight/math/GeometricElement')
-import LinearElement = require('davinci-eight/math/LinearElement')
-import mathcore = require('davinci-eight/math/mathcore')
-import R1 = require('davinci-eight/math/R1')
-import Mat2R = require('davinci-eight/math/Mat2R')
-import Mat3R = require('davinci-eight/math/Mat3R')
-import Mat4R = require('davinci-eight/math/Mat4R')
-import Measure = require('davinci-eight/math/Measure')
-import Mutable = require('davinci-eight/math/Mutable')
-import QQ = require('davinci-eight/math/QQ')
-import SpinorE1 = require('davinci-eight/math/SpinorE1')
-import SpinorE2 = require('davinci-eight/math/SpinorE2')
-import SpinorE3 = require('davinci-eight/math/SpinorE3')
-import Unit = require('davinci-eight/math/Unit')
-import UnitError = require('davinci-eight/math/UnitError')
-import G2 = require('davinci-eight/math/G2')
-import G3 = require('davinci-eight/math/G3')
-import SpinG2 = require('davinci-eight/math/SpinG2')
-import SpinG3 = require('davinci-eight/math/SpinG3')
-import R2 = require('davinci-eight/math/R2')
-import R3 = require('davinci-eight/math/R3')
-import R4 = require('davinci-eight/math/R4')
-import VectorN = require('davinci-eight/math/VectorN')
-import HH = require('davinci-eight/math/HH')
+import AbstractMatrix from 'davinci-eight/math/AbstractMatrix';
+import CartesianE3 from 'davinci-eight/math/CartesianE3';
+import VectorE1 from 'davinci-eight/math/VectorE1';
+import VectorE2 from 'davinci-eight/math/VectorE2';
+import VectorE3 from 'davinci-eight/math/VectorE3';
+import VectorE4 from 'davinci-eight/math/VectorE4';
+import CC from 'davinci-eight/math/CC';
+import Dimensions from 'davinci-eight/math/Dimensions';
+import Euclidean1 from 'davinci-eight/math/Euclidean1';
+import Euclidean1Coords from 'davinci-eight/math/Euclidean1Coords';
+import Euclidean2 from 'davinci-eight/math/Euclidean2';
+import Euclidean3 from 'davinci-eight/math/Euclidean3';
+import Euler from 'davinci-eight/math/Euler';
+import GeometricElement from 'davinci-eight/math/GeometricElement';
+import LinearElement from 'davinci-eight/math/LinearElement';
+import mathcore from 'davinci-eight/math/mathcore';
+import R1 from 'davinci-eight/math/R1';
+import Mat2R from 'davinci-eight/math/Mat2R';
+import Mat3R from 'davinci-eight/math/Mat3R';
+import Mat4R from 'davinci-eight/math/Mat4R';
+import Measure from 'davinci-eight/math/Measure';
+import Mutable from 'davinci-eight/math/Mutable';
+import QQ from 'davinci-eight/math/QQ';
+import SpinorE1 from 'davinci-eight/math/SpinorE1';
+import SpinorE2 from 'davinci-eight/math/SpinorE2';
+import SpinorE3 from 'davinci-eight/math/SpinorE3';
+import Unit from 'davinci-eight/math/Unit';
+import UnitError from 'davinci-eight/math/UnitError';
+import G2 from 'davinci-eight/math/G2';
+import G3 from 'davinci-eight/math/G3';
+import SpinG2 from 'davinci-eight/math/SpinG2';
+import SpinG3 from 'davinci-eight/math/SpinG3';
+import R2 from 'davinci-eight/math/R2';
+import R3 from 'davinci-eight/math/R3';
+import R4 from 'davinci-eight/math/R4';
+import VectorN from 'davinci-eight/math/VectorN';
+import HH from 'davinci-eight/math/HH';
 
 // facets and animation targets
-import AmbientLight = require('davinci-eight/facets/AmbientLight')
-import ColorFacet = require('davinci-eight/facets/ColorFacet')
-import DirectionalLightE3 = require('davinci-eight/facets/DirectionalLightE3')
-import EulerFacet = require('davinci-eight/facets/EulerFacet')
-import ModelFacetE3 = require('davinci-eight/facets/ModelFacetE3')
-import PointSizeFacet = require('davinci-eight/facets/PointSizeFacet')
-import ReflectionFacetE2 = require('davinci-eight/facets/ReflectionFacetE2')
-import ReflectionFacetE3 = require('davinci-eight/facets/ReflectionFacetE3')
-import Vector3Facet = require('davinci-eight/facets/Vector3Facet')
+import AmbientLight from 'davinci-eight/facets/AmbientLight';
+import ColorFacet from 'davinci-eight/facets/ColorFacet';
+import DirectionalLight from 'davinci-eight/facets/DirectionalLight';
+import EulerFacet from 'davinci-eight/facets/EulerFacet';
+import ModelFacet from 'davinci-eight/facets/ModelFacet';
+import PointSizeFacet from 'davinci-eight/facets/PointSizeFacet';
+import ReflectionFacetE2 from 'davinci-eight/facets/ReflectionFacetE2';
+import ReflectionFacetE3 from 'davinci-eight/facets/ReflectionFacetE3';
+import Vector3Facet from 'davinci-eight/facets/Vector3Facet';
 
 // models
-import ModelE2 = require('davinci-eight/models/ModelE2')
-import ModelE3 = require('davinci-eight/models/ModelE3')
+import ModelE2 from 'davinci-eight/models/ModelE2';
+import ModelE3 from 'davinci-eight/models/ModelE3';
 
 // programs
-import IGraphicsProgram = require('davinci-eight/core/IGraphicsProgram')
+import IGraphicsProgram from 'davinci-eight/core/IGraphicsProgram';
 
 // renderers
-import IContextRenderer = require('davinci-eight/renderers/IContextRenderer')
-import initWebGL = require('davinci-eight/renderers/initWebGL')
-import renderer = require('davinci-eight/renderers/renderer')
-
+import IContextRenderer from 'davinci-eight/renderers/IContextRenderer';
+import initWebGL from 'davinci-eight/renderers/initWebGL';
+import renderer from 'davinci-eight/renderers/renderer';
 
 // utils
-import contextProxy = require('davinci-eight/utils/contextProxy')
-import Framerate = require('davinci-eight/utils/Framerate')
-import getCanvasElementById = require('davinci-eight/utils/getCanvasElementById')
-import IUnknownArray = require('davinci-eight/collections/IUnknownArray')
-import loadImageTexture = require('davinci-eight/utils/loadImageTexture')
-import NumberIUnknownMap = require('davinci-eight/collections/NumberIUnknownMap')
-import refChange = require('davinci-eight/utils/refChange')
-import Shareable = require('davinci-eight/utils/Shareable')
-import StringIUnknownMap = require('davinci-eight/collections/StringIUnknownMap')
-import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner')
-import animation = require('davinci-eight/utils/animation')
+import contextProxy from 'davinci-eight/utils/contextProxy';
+import Framerate from 'davinci-eight/utils/Framerate';
+import getCanvasElementById from 'davinci-eight/utils/getCanvasElementById';
+import IUnknownArray from 'davinci-eight/collections/IUnknownArray';
+import loadImageTexture from 'davinci-eight/utils/loadImageTexture';
+import NumberIUnknownMap from 'davinci-eight/collections/NumberIUnknownMap';
+import refChange from 'davinci-eight/utils/refChange';
+import Shareable from 'davinci-eight/utils/Shareable';
+import StringIUnknownMap from 'davinci-eight/collections/StringIUnknownMap';
+import WindowAnimationRunner from 'davinci-eight/utils/WindowAnimationRunner';
+import animation from 'davinci-eight/utils/animation';
+
+// visual
+import arrow from 'davinci-eight/visual/createArrow';
+import vector from 'davinci-eight/visual/vector';
 
 /**
  * @module EIGHT
@@ -211,6 +214,18 @@ var eight = {
     },
     set strict(value: boolean) {
         core.strict = value
+    },
+    get verbose(): boolean {
+        ;
+        return core.verbose
+    },
+    set verbose(value: boolean) {
+        if (typeof value === 'boolean') {
+            core.verbose = value;
+        }
+        else {
+            throw new TypeError('verbose must be a boolean');
+        }
     },
     /**
      * The semantic version of the library.
@@ -258,7 +273,7 @@ var eight = {
     get ModelE2() { return ModelE2 },
     get ModelE3() { return ModelE3 },
     get EulerFacet() { return EulerFacet },
-    get ModelFacetE3() { return ModelFacetE3 },
+    get ModelFacet() { return ModelFacet },
 
     get Simplex() { return Simplex },
     get Vertex() { return Vertex },
@@ -305,7 +320,7 @@ var eight = {
     get RingGeometry() { return RingGeometry },
     get RingSimplexGeometry() { return RingSimplexGeometry },
     get SliceSimplexGeometry() { return SliceSimplexGeometry },
-    get SphericalPolarSimplexGeometry() { return SphericalPolarSimplexGeometry },
+    get SphereGeometry() { return SphereGeometry },
     get TetrahedronSimplexGeometry() { return TetrahedronSimplexGeometry },
     // get TextSimplexGeometry() { return TextSimplexGeometry },
     get VortexSimplexGeometry() { return VortexSimplexGeometry },
@@ -351,7 +366,7 @@ var eight = {
     // facets
     get AmbientLight() { return AmbientLight },
     get ColorFacet() { return ColorFacet },
-    get DirectionalLightE3() { return DirectionalLightE3 },
+    get DirectionalLight() { return DirectionalLight },
     get PointSizeFacet() { return PointSizeFacet },
     get ReflectionFacetE2() { return ReflectionFacetE2 },
     get ReflectionFacetE3() { return ReflectionFacetE3 },
@@ -371,6 +386,9 @@ var eight = {
     get quad() { return mathcore.quad },
     get sin() { return mathcore.sin },
     get sinh() { return mathcore.sinh },
-    get sqrt() { return mathcore.sqrt }
+    get sqrt() { return mathcore.sqrt },
+    // visual
+    get arrow() { return arrow },
+    get vector() { return vector }
 }
-export = eight
+export default eight;

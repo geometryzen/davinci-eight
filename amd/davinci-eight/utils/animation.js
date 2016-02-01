@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg_1) {
     function defaultSetUp() {
     }
     function defaultTearDown(animateException) {
@@ -8,32 +8,18 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         }
     }
     function defaultTerminate(time) {
-        // Never ending, because whenever asked we say nee.
         return false;
     }
-    /**
-     * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
-     * class WindowAnimationRunner
-     * constructor
-     * param animate The `animate` function is called for each animation frame.
-     * param options.setUp The `setUp` function is called synchronously each time the start() method is called.
-     * param options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
-     * param options.terminate The `terminate` function is called to determine whether the animation should stop.
-     * param options.window {Window} The window in which the animation will run. Defaults to the global window.
-     */
-    var animation = function (animate, options) {
-        // TODO: Use enum when TypeScript compiler version is appropriate.
+    function animation(animate, options) {
         var STATE_INITIAL = 1;
         var STATE_RUNNING = 2;
         var STATE_PAUSED = 3;
         options = options || {};
-        var $window = expectArg('options.window', options.window || window).toNotBeNull().value;
-        var setUp = expectArg('options.setUp', options.setUp || defaultSetUp).value;
-        var tearDown = expectArg('options.tearDown', options.tearDown || defaultTearDown).value;
-        var terminate = expectArg('options.terminate', options.terminate || defaultTerminate).toNotBeNull().value;
-        var stopSignal = false; // 27 is Esc
-        //  var pauseKeyPressed = false;  // 19
-        //  var enterKeyPressed = false;  // 13
+        var $window = expectArg_1.default('options.window', options.window || window).toNotBeNull().value;
+        var setUp = expectArg_1.default('options.setUp', options.setUp || defaultSetUp).value;
+        var tearDown = expectArg_1.default('options.tearDown', options.tearDown || defaultTearDown).value;
+        var terminate = expectArg_1.default('options.terminate', options.terminate || defaultTerminate).toNotBeNull().value;
+        var stopSignal = false;
         var startTime;
         var elapsed = 0;
         var MILLIS_PER_SECOND = 1000;
@@ -46,7 +32,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             }
             startTime = timestamp;
             if (stopSignal || terminate(elapsed / MILLIS_PER_SECOND)) {
-                // Clear the stopSignal.
                 stopSignal = false;
                 $window.cancelAnimationFrame(requestID);
                 if (publicAPI.isRunning) {
@@ -54,7 +39,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
                     startTime = void 0;
                 }
                 else {
-                    // TODO: Can we recover?
                     console.error("stopSignal received while not running.");
                 }
                 $window.document.removeEventListener('keydown', onDocumentKeyDown, false);
@@ -67,7 +51,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             }
             else {
                 requestID = $window.requestAnimationFrame(frameRequestCallback);
-                // If an exception happens, cache it to be reported later and simulate a stopSignal.
                 try {
                     animate(elapsed / MILLIS_PER_SECOND);
                 }
@@ -78,25 +61,11 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             }
         };
         var onDocumentKeyDown = function (event) {
-            // TODO: It would be nice for all key responses to be soft-defined.
-            // In other words, a mapping of event (keyCode) to action (start, stop, reset)
             if (event.keyCode === 27) {
                 stopSignal = true;
                 event.preventDefault();
             }
-            /*
-            else if (event.keyCode === 19) {
-              pauseKeyPressed = true;
-              event.preventDefault();
-            }
-            else if (event.keyCode === 13) {
-              enterKeyPressed = true;
-              event.preventDefault();
-            }
-            */
         };
-        // The public API is a classic stopwatch.
-        // The states are INITIAL, RUNNING, PAUSED.
         var publicAPI = {
             start: function () {
                 if (!publicAPI.isRunning) {
@@ -145,6 +114,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             }
         };
         return publicAPI;
-    };
-    return animation;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = animation;
 });

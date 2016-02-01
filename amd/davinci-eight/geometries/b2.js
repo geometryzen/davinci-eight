@@ -1,4 +1,3 @@
-// Quadratic Bezier
 define(["require", "exports"], function (require, exports) {
     function b2p0(t, p) {
         var k = 1 - t;
@@ -13,5 +12,6 @@ define(["require", "exports"], function (require, exports) {
     function b2(t, begin, control, end) {
         return b2p0(t, begin) + b2p1(t, control) + b2p2(t, end);
     }
-    return b2;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = b2;
 });

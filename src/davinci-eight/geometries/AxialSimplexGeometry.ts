@@ -1,14 +1,14 @@
-import CartesianE3 = require('../math/CartesianE3')
-import VectorE3 = require('../math/VectorE3')
-import IAxialGeometry = require('../geometries/IAxialGeometry')
-import mustBeObject = require('../checks/mustBeObject')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
+import CartesianE3 from '../math/CartesianE3';
+import VectorE3 from '../math/VectorE3';
+import IAxialGeometry from '../geometries/IAxialGeometry';
+import mustBeObject from '../checks/mustBeObject';
+import SimplexGeometry from '../geometries/SimplexGeometry';
 
 /**
  * @class AxialSimplexGeometry
  * @extends SimplexGeometry
  */
-class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<AxialSimplexGeometry> {
+export default class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<AxialSimplexGeometry> {
     /**
      * The symmetry axis used for geometry generation.
      * @property axis
@@ -68,5 +68,3 @@ class AxialSimplexGeometry extends SimplexGeometry implements IAxialGeometry<Axi
         return this
     }
 }
-
-export = AxialSimplexGeometry

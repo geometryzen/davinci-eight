@@ -10,4 +10,4 @@ interface Scalar {
     α: number;
 }
 
-export = Scalar;
+export default Scalar;

@@ -1,7 +1,7 @@
-import isArray = require('../checks/isArray')
-import isDefined = require('../checks/isDefined')
-import mustBeArray = require('../checks/mustBeArray')
-import mustBeNumber = require('../checks/mustBeNumber')
+import isArray from '../checks/isArray';
+import isDefined from '../checks/isDefined';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeNumber from '../checks/mustBeNumber';
 
 function isLabelOne(label: (string | string[])): boolean {
     if (typeof label === 'string') {
@@ -97,7 +97,7 @@ function appendCoord(coord: number, numberToString: (x: number) => string, label
     }
 }
 
-function stringFromCoordinates(coordinates: number[], numberToString: (x: number) => string, labels: (string | string[])[]): string {
+export default function stringFromCoordinates(coordinates: number[], numberToString: (x: number) => string, labels: (string | string[])[]): string {
     var sb: string[] = [];
     for (var i = 0, iLength = coordinates.length; i < iLength; i++) {
         var coord = coordinates[i]
@@ -111,5 +111,3 @@ function stringFromCoordinates(coordinates: number[], numberToString: (x: number
     }
     return sb.length > 0 ? sb.join("") : "0";
 }
-
-export = stringFromCoordinates

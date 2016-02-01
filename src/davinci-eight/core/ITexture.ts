@@ -1,11 +1,11 @@
-import IResource = require('../core/IResource');
+import IResource from '../core/IResource';
 
 /**
  * @interface ITexture
  */
 interface ITexture extends IResource {
-  bind(): void;
-  unbind(): void;
+    bind(): void;
+    unbind(): void;
 }
 
-export = ITexture;
+export default ITexture;

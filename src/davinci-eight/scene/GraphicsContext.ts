@@ -1,42 +1,29 @@
-import Capability = require('../commands/Capability')
-import createRenderer = require('../renderers/renderer')
-import ContextController = require('../core/ContextController')
-import ContextKahuna = require('../core/ContextKahuna')
-import IContextProvider = require('../core/IContextProvider')
-import IContextMonitor = require('../core/IContextMonitor')
-import IContextConsumer = require('../core/IContextConsumer')
-import contextProxy = require('../utils/contextProxy')
-import IContextRenderer = require('../renderers/IContextRenderer')
-import core = require('../core')
-import IBuffer = require('../core/IBuffer')
-import IContextCommand = require('../core/IContextCommand')
-import IDrawList = require('../scene/IDrawList')
-import IBufferGeometry = require('../geometries/IBufferGeometry')
-import ITexture2D = require('../core/ITexture2D')
-import ITextureCubeMap = require('../core/ITextureCubeMap')
-import IUnknown = require('../core/IUnknown')
-import IUnknownArray = require('../collections/IUnknownArray')
-import mustBeDefined = require('../checks/mustBeDefined')
-import mustBeFunction = require('../checks/mustBeFunction')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustSatisfy = require('../checks/mustSatisfy')
-import Primitive = require('../geometries/Primitive')
-import readOnly = require('../i18n/readOnly')
-import Scene = require('../scene/Scene')
-import Shareable = require('../utils/Shareable')
-import IFacet = require('../core/IFacet')
-
-function beHTMLCanvasElement(): string {
-    return "be an HTMLCanvasElement"
-}
-
-let defaultCanvasBuilder = () => { return document.createElement('canvas') }
+import Capability from '../commands/Capability';
+import core from '../core';
+import createRenderer from '../renderers/renderer';
+import ContextController from '../core/ContextController';
+import ContextKahuna from '../core/ContextKahuna';
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import IContextConsumer from '../core/IContextConsumer';
+import contextProxy from '../utils/contextProxy';
+import IContextRenderer from '../renderers/IContextRenderer';
+import IBuffer from '../core/IBuffer';
+import IContextCommand from '../core/IContextCommand';
+import IBufferGeometry from '../geometries/IBufferGeometry';
+import ITexture2D from '../core/ITexture2D';
+import ITextureCubeMap from '../core/ITextureCubeMap';
+import IUnknownArray from '../collections/IUnknownArray';
+import mustBeDefined from '../checks/mustBeDefined';
+import Primitive from '../geometries/Primitive';
+import readOnly from '../i18n/readOnly';
+import Shareable from '../utils/Shareable';
 
 /**
  * @class GraphicsContext
  * @extends Shareable
  */
-class GraphicsContext extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
+export default class GraphicsContext extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
     /**
      * @property _kahuna
      * @type {ContextKahuna}
@@ -282,12 +269,13 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
     start(canvas: HTMLCanvasElement, canvasId?: number): GraphicsContext {
         // FIXME: DRY delegate to kahuna.
         if (!(canvas instanceof HTMLCanvasElement)) {
-            if (core.verbose) {
-                console.warn("canvas must be an HTMLCanvasElement to start the context.")
-            }
+            console.warn("canvas must be an HTMLCanvasElement to start the context.")
             return this
         }
         mustBeDefined('canvas', canvas)
+        if (core.verbose) {
+            console.log(`${this._type} start(canvas, canvasId=${canvasId})`)
+        }
         this._kahuna.start(canvas, canvasId)
         return this
     }
@@ -298,18 +286,22 @@ class GraphicsContext extends Shareable implements ContextController, IContextPr
      * @chainable
      */
     stop(): GraphicsContext {
+        if (core.verbose) {
+            console.log(`${this._type} stop()`)
+        }
         this._kahuna.stop()
         return this
     }
 
     /**
      * @method synchronize
-     * @param user {IContextConsumer}
+     * @param consumer {IContextConsumer}
      * @return {void}
      */
-    synchronize(user: IContextConsumer): void {
-        return this._kahuna.synchronize(user)
+    synchronize(consumer: IContextConsumer): void {
+        if (core.verbose) {
+            console.log(`${this._type} synchronize(consumer)`)
+        }
+        return this._kahuna.synchronize(consumer)
     }
 }
-
-export = GraphicsContext

@@ -1,10 +1,10 @@
-import Euclidean3 = require('../math/Euclidean3')
-import mustBeNumber = require('../checks/mustBeNumber');
-import RevolutionSimplexGeometry = require('../geometries/RevolutionSimplexGeometry');
-import SpinG3 = require('../math/SpinG3');
-import R1 = require('../math/R1');
-import R3 = require('../math/R3');
-import VectorE3 = require('../math/VectorE3');
+import Euclidean3 from '../math/Euclidean3';
+import mustBeNumber from '../checks/mustBeNumber';
+import RevolutionSimplexGeometry from '../geometries/RevolutionSimplexGeometry';
+import SpinG3 from '../math/SpinG3';
+import R1 from '../math/R1';
+import R3 from '../math/R3';
+import VectorE3 from '../math/VectorE3';
 
 function signum(x: number): number {
     return x >= 0 ? +1 : -1;
@@ -47,7 +47,7 @@ function nearest(direction: R3): R3 {
  * This doesn't work because of the difficulty of constructing normals.
  * With more information, RevolutionSimplexGeometry might do the job.
  */
-class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
+export default class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
     public lengthCone: number = 0.20;
     public radiusCone: number = 0.08;
     public radiusShaft: number = 0.01;
@@ -100,5 +100,3 @@ class ArrowSimplexGeometry extends RevolutionSimplexGeometry {
         this.setModified(false)
     }
 }
-
-export = ArrowSimplexGeometry;

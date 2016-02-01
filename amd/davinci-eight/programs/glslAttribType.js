@@ -1,6 +1,6 @@
-define(["require", "exports", '../core/GraphicsProgramSymbols', '../checks/mustBeInteger', '../checks/mustBeString'], function (require, exports, GraphicsProgramSymbols, mustBeInteger, mustBeString) {
+define(["require", "exports", '../core/GraphicsProgramSymbols', '../checks/mustBeInteger', '../checks/mustBeString'], function (require, exports, GraphicsProgramSymbols_1, mustBeInteger_1, mustBeString_1) {
     function sizeType(size) {
-        mustBeInteger('size', size);
+        mustBeInteger_1.default('size', size);
         switch (size) {
             case 1: {
                 return 'float';
@@ -20,10 +20,10 @@ define(["require", "exports", '../core/GraphicsProgramSymbols', '../checks/mustB
         }
     }
     function glslAttribType(key, size) {
-        mustBeString('key', key);
-        mustBeInteger('size', size);
+        mustBeString_1.default('key', key);
+        mustBeInteger_1.default('size', size);
         switch (key) {
-            case GraphicsProgramSymbols.ATTRIBUTE_COLOR: {
+            case GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR: {
                 return 'vec3';
             }
             default: {
@@ -31,5 +31,6 @@ define(["require", "exports", '../core/GraphicsProgramSymbols', '../checks/mustB
             }
         }
     }
-    return glslAttribType;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = glslAttribType;
 });

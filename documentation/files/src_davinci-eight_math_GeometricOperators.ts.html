@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.170.0</em>
+            <em>API Docs for: 2.171.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -67,7 +67,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -84,6 +84,8 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/ExtrudeSimplexGeometry.html">ExtrudeSimplexGeometry</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
+                                <li><a href="../classes/Facet.html">Facet</a></li>
+                                <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/FontFace.html">FontFace</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
@@ -110,8 +112,6 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet.html">IFacet</a></li>
-                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
@@ -130,7 +130,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
-                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
@@ -153,6 +153,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/RefCount.html">RefCount</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
@@ -170,7 +171,7 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
-                                <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
@@ -196,6 +197,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexSimplexGeometry.html">VortexSimplexGeometry</a></li>
+                                <li><a href="../classes/WaitAnimation.html">WaitAnimation</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -244,8 +246,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import LinearOperators = require(&#x27;../math/LinearOperators&#x27;)
-import RingOperators = require(&#x27;../math/RingOperators&#x27;)
+import LinearOperators from &#x27;../math/LinearOperators&#x27;;
+import RingOperators from &#x27;../math/RingOperators&#x27;;
 
 /**
  * Special methods for operators on elements of geometric spaces.
@@ -277,7 +279,7 @@ interface GeometricOperators&lt;T&gt; extends LinearOperators&lt;T&gt;, RingOper
     inv(): T;
 }
 
-export = GeometricOperators
+export default GeometricOperators
     </pre>
 </div>
                     </div>

@@ -24,4 +24,4 @@ interface LinearElement<I, M, S, V> {
     toString(): string;
 }
 
-export = LinearElement;
+export default LinearElement;

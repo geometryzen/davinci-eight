@@ -1,5 +1,5 @@
 
-function mulE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
+export default function mulE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: number, b2: number, b3: number, index: number): number {
     a0 = +a0;
     a1 = +a1;
     a2 = +a2;
@@ -33,4 +33,3 @@ function mulE2(a0: number, a1: number, a2: number, a3: number, b0: number, b1: n
     }
     return +x;
 }
-export = mulE2

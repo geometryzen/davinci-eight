@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../curves/Curve'], function (require, exports, Curve) {
+define(["require", "exports", '../curves/Curve'], function (require, exports, Curve_1) {
     var CubicBezierCurve = (function (_super) {
         __extends(CubicBezierCurve, _super);
         function CubicBezierCurve(beginPoint, controlBegin, controlEnd, endPoint) {
@@ -17,6 +17,7 @@ define(["require", "exports", '../curves/Curve'], function (require, exports, Cu
             return this.beginPoint.cubicBezier(t, this.controlBegin, this.controlEnd, this.endPoint);
         };
         return CubicBezierCurve;
-    })(Curve);
-    return CubicBezierCurve;
+    })(Curve_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = CubicBezierCurve;
 });

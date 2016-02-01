@@ -1,4 +1,4 @@
-import VectorN = require('../math/VectorN');
+import VectorN from '../math/VectorN';
 /**
  * Defined for implementation convenience.
  * All attributes of a vertex are defined through this map.
@@ -7,7 +7,7 @@ import VectorN = require('../math/VectorN');
  * @class VertexAttributeMap
  */
 interface VertexAttributeMap {
-  [name: string]: VectorN<number>;
+    [name: string]: VectorN<number>;
 }
 
-export = VertexAttributeMap;
+export default VertexAttributeMap;

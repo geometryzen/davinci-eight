@@ -1,9 +1,9 @@
-import Euclidean1Coords = require('../math/Euclidean1Coords')
-import LinearElement = require('../math/LinearElement')
-import ImmutableMeasure = require('../math/ImmutableMeasure')
-import mustBeInteger = require('../checks/mustBeInteger')
-import readOnly = require('../i18n/readOnly')
-import Unit = require('../math/Unit')
+import Euclidean1Coords from '../math/Euclidean1Coords';
+import LinearElement from '../math/LinearElement';
+import ImmutableMeasure from '../math/ImmutableMeasure';
+import mustBeInteger from '../checks/mustBeInteger';
+import readOnly from '../i18n/readOnly';
+import Unit from '../math/Unit';
 
 function assertArgNumber(name: string, x: number): number {
     if (typeof x === 'number') {
@@ -35,7 +35,7 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
 /**
  * @class Euclidean1
  */
-class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclidean1Coords>,*/ ImmutableMeasure<Euclidean1> {
+export default class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclidean1Coords>,*/ ImmutableMeasure<Euclidean1> {
     private w: number;
     private x: number;
     public uom: Unit;
@@ -229,5 +229,3 @@ class Euclidean1 implements /*LinearElement<Euclidean1Coords, Euclidean1, Euclid
         return "Euclidean1"
     }
 }
-
-export = Euclidean1

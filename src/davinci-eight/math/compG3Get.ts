@@ -1,4 +1,4 @@
-import GeometricE3 = require('../math/GeometricE3')
+import GeometricE3 from '../math/GeometricE3';
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
 // These are chosen to match those used by Euclidean3.
@@ -12,7 +12,7 @@ let COORD_YZ = 5
 let COORD_ZX = 6
 let COORD_XYZ = 7
 
-function gcompE3(m: GeometricE3, index: number): number {
+export default function gcompE3(m: GeometricE3, index: number): number {
     switch (index) {
         case COORD_W: {
             return m.α
@@ -43,5 +43,3 @@ function gcompE3(m: GeometricE3, index: number): number {
         }
     }
 }
-
-export = gcompE3

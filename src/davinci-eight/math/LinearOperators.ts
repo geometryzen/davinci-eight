@@ -1,4 +1,4 @@
-import AbelianOperators = require('../math/AbelianOperators')
+import AbelianOperators from '../math/AbelianOperators';
 /**
  * Special methods for operators on elements of linear spaces.
  * This is provided for interface consistency.
@@ -11,4 +11,4 @@ interface LinearOperators<T> extends AbelianOperators<T> {
     __tilde__(): T
 }
 
-export = LinearOperators
+export default LinearOperators;

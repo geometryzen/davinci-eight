@@ -1,12 +1,12 @@
-import Curve = require('../curves/Curve')
-import Euclidean3 = require('../math/Euclidean3')
+import Curve from '../curves/Curve';
+import Euclidean3 from '../math/Euclidean3';
 
 /**
  * @class LineCurve
  * @extends Curve
  */
 // FIXME: Probably should call this a line segment.
-class LineCurve extends Curve {
+export default class LineCurve extends Curve {
     /**
      * @property v1
      * @type {Euclidean3}
@@ -40,4 +40,3 @@ class LineCurve extends Curve {
         return this.v1.lerp(this.v2, t)
     }
 }
-export = LineCurve

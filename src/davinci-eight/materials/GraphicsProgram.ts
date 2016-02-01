@@ -1,24 +1,24 @@
-import AttribLocation = require('../core/AttribLocation')
-import IContextProvider = require('../core/IContextProvider')
-import IContextMonitor = require('../core/IContextMonitor')
-import core = require('../core')
-import isDefined = require('../checks/isDefined')
-import isUndefined = require('../checks/isUndefined')
-import MonitorList = require('../scene/MonitorList')
-import IGraphicsProgram = require('../core/IGraphicsProgram')
-import R1 = require('../math/R1')
-import Mat2R = require('../math/Mat2R')
-import Mat3R = require('../math/Mat3R')
-import Mat4R = require('../math/Mat4R')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeString = require('../checks/mustBeString')
-import refChange = require('../utils/refChange')
-import Shareable = require('../utils/Shareable')
-import UniformLocation = require('../core/UniformLocation')
-import uuid4 = require('../utils/uuid4')
-import VectorE2 = require('../math/VectorE2')
-import VectorE3 = require('../math/VectorE3')
-import VectorE4 = require('../math/VectorE4')
+import AttribLocation from '../core/AttribLocation';
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import core from '../core';
+import isDefined from '../checks/isDefined';
+import isUndefined from '../checks/isUndefined';
+import MonitorList from '../scene/MonitorList';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import R1 from '../math/R1';
+import Mat2R from '../math/Mat2R';
+import Mat3R from '../math/Mat3R';
+import Mat4R from '../math/Mat4R';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeString from '../checks/mustBeString';
+import refChange from '../utils/refChange';
+import Shareable from '../utils/Shareable';
+import UniformLocation from '../core/UniformLocation';
+import uuid4 from '../utils/uuid4';
+import VectorE2 from '../math/VectorE2';
+import VectorE3 from '../math/VectorE3';
+import VectorE4 from '../math/VectorE4';
 
 function consoleWarnDroppedUniform(clazz: string, suffix: string, name: string, canvasId: number) {
     console.warn(clazz + " dropped uniform" + suffix + " " + name)
@@ -29,7 +29,7 @@ function consoleWarnDroppedUniform(clazz: string, suffix: string, name: string, 
  * @class GraphicsProgram
  * @extends Shareable
  */
-class GraphicsProgram extends Shareable implements IGraphicsProgram {
+export default class GraphicsProgram extends Shareable implements IGraphicsProgram {
     /**
      * @property inner
      * @type {IGraphicsProgram}
@@ -50,16 +50,16 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
      * A GraphicsProgram instance contains one WebGLProgram for each context/canvas that it is associated with.
      * @class GraphicsProgram
      * @constructor
-     * @param contexts {IContextMonitor[]} An array of context monitors, one for each HTML canvas you are using.
+     * @param type {string} The class name, used for logging.
+     * @param [monitors=[]] {IContextMonitor[]} An array of context monitors, one for each HTML canvas you are using.
      * The GraphicsProgram will lazily register itself (call addContextListener) with each context in order to be notified of context loss events.
      * The GraphicsProgram will automatically unregister itself (call removeContextListener) prior to destruction.
-     * @param type {string} The class name, used for logging.
      */
-    constructor(contexts: IContextMonitor[], type: string) {
+    constructor(type: string, monitors: IContextMonitor[] = []) {
         super('GraphicsProgram')
-        MonitorList.verify('contexts', contexts)
+        MonitorList.verify('monitors', monitors)
         mustBeString('type', type)
-        this._monitors = MonitorList.copy(contexts)
+        this._monitors = MonitorList.copy(monitors)
         this.type = type
     }
 
@@ -653,5 +653,3 @@ class GraphicsProgram extends Shareable implements IGraphicsProgram {
         }
     }
 }
-
-export = GraphicsProgram

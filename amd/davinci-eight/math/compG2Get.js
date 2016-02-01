@@ -18,5 +18,6 @@ define(["require", "exports"], function (require, exports) {
             }
         }
     }
-    return compG2Get;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = compG2Get;
 });

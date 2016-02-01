@@ -17,5 +17,6 @@ define(["require", "exports"], function (require, exports) {
         [E31_SYMBOL],
         [PSEUDO_SYMBOL]
     ];
-    return BASIS_LABELS_G3_STANDARD;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = BASIS_LABELS_G3_STANDARD;
 });

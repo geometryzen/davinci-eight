@@ -1,12 +1,12 @@
-import IUnknown = require('../core/IUnknown')
-import mustBeString = require('../checks/mustBeString')
-import Shareable = require('../utils/Shareable')
+import IUnknown from '../core/IUnknown';
+import mustBeString from '../checks/mustBeString';
+import Shareable from '../utils/Shareable';
 
 /**
  * @class StringIUnknownMap
  * @extends Shareable
  */
-class StringIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
+export default class StringIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
     /**
      * @property elements
      * @type {{[key: string]: V}}
@@ -137,5 +137,3 @@ class StringIUnknownMap<V extends IUnknown> extends Shareable implements IUnknow
         return value
     }
 }
-
-export = StringIUnknownMap;

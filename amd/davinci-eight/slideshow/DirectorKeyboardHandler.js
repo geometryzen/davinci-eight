@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
+define(["require", "exports", '../utils/Shareable'], function (require, exports, Shareable_1) {
     var DirectorKeyboardHandler = (function (_super) {
         __extends(DirectorKeyboardHandler, _super);
         function DirectorKeyboardHandler(director) {
@@ -33,6 +33,7 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             }
         };
         return DirectorKeyboardHandler;
-    })(Shareable);
-    return DirectorKeyboardHandler;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = DirectorKeyboardHandler;
 });

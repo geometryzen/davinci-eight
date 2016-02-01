@@ -1,4 +1,4 @@
-import Euclidean3 = require('../math/Euclidean3');
+import Euclidean3 from '../math/Euclidean3';
 /**
  * @author zz85 / http://www.lab4games.net/zz85/blog
  * Extensible curve object
@@ -14,7 +14,7 @@ import Euclidean3 = require('../math/Euclidean3');
  * ClosedSplineCurve
  *
  */
-class Curve {
+export default class Curve {
     private cacheArcLengths: number[];
     private needsUpdate: boolean;
     private __arcLengthDivisions: number;
@@ -211,5 +211,3 @@ class Curve {
         return this.getTangent(t);
     }
 }
-
-export = Curve;

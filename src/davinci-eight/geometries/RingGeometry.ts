@@ -1,18 +1,18 @@
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import GridTopology = require('../topologies/GridTopology')
-import IAxialGeometry = require('../geometries/IAxialGeometry')
-import AxialGeometry = require('../geometries/AxialGeometry')
-import mustBeBoolean = require('../checks/mustBeBoolean')
-import Primitive = require('../geometries/Primitive')
-import R1 = require('../math/R1')
-import R2 = require('../math/R2')
-import G3 = require('../math/G3')
-import VectorE3 = require('../math/VectorE3')
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import GridTopology from '../topologies/GridTopology';
+import IAxialGeometry from '../geometries/IAxialGeometry';
+import AxialGeometry from '../geometries/AxialGeometry';
+import mustBeBoolean from '../checks/mustBeBoolean';
+import Primitive from '../geometries/Primitive';
+import R1 from '../math/R1';
+import R2 from '../math/R2';
+import G3 from '../math/G3';
+import VectorE3 from '../math/VectorE3';
 
 /**
  * @class RingGeometry
  */
-class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry> {
+export default class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry> {
     /**
      * @property innerRadius
      * @type {number}
@@ -98,4 +98,3 @@ class RingGeometry extends AxialGeometry implements IAxialGeometry<RingGeometry>
         return this
     }
 }
-export = RingGeometry

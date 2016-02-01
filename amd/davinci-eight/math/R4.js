@@ -3,31 +3,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+define(["require", "exports", '../math/VectorN'], function (require, exports, VectorN_1) {
     var exp = Math.exp;
     var log = Math.log;
     var sqrt = Math.sqrt;
-    /**
-     * @class R4
-     */
     var R4 = (function (_super) {
         __extends(R4, _super);
-        /**
-         * @class R4
-         * @constructor
-         * @param data {number[]} Default is [0, 0, 0, 0].
-         * @param modified {boolean} Default is false.
-         */
         function R4(data, modified) {
             if (data === void 0) { data = [0, 0, 0, 0]; }
             if (modified === void 0) { modified = false; }
             _super.call(this, data, modified, 4);
         }
         Object.defineProperty(R4.prototype, "x", {
-            /**
-             * @property x
-             * @type Number
-             */
             get: function () {
                 return this.coords[0];
             },
@@ -39,10 +26,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             configurable: true
         });
         Object.defineProperty(R4.prototype, "y", {
-            /**
-             * @property y
-             * @type Number
-             */
             get: function () {
                 return this.coords[1];
             },
@@ -54,10 +37,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             configurable: true
         });
         Object.defineProperty(R4.prototype, "z", {
-            /**
-             * @property z
-             * @type Number
-             */
             get: function () {
                 return this.coords[2];
             },
@@ -69,10 +48,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             configurable: true
         });
         Object.defineProperty(R4.prototype, "w", {
-            /**
-             * @property w
-             * @type Number
-             */
             get: function () {
                 return this.coords[3];
             },
@@ -145,11 +120,9 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return this;
         };
         R4.prototype.reflect = function (n) {
-            // TODO
             return this;
         };
         R4.prototype.rotate = function (rotor) {
-            // TODO
             return this;
         };
         R4.prototype.slerp = function (target, α) {
@@ -189,6 +162,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return this;
         };
         return R4;
-    })(VectorN);
-    return R4;
+    })(VectorN_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = R4;
 });

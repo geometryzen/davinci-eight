@@ -1,20 +1,20 @@
-import AxialGeometry = require('../geometries/AxialGeometry')
-import VectorE3 = require('../math/VectorE3')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import GridTopology = require('../topologies/GridTopology')
-import IAxialGeometry = require('../geometries/IAxialGeometry')
-import mustBeBoolean = require('../checks/mustBeBoolean')
-import mustBeNumber = require('../checks/mustBeNumber')
-import R1 = require('../math/R1')
-import SpinG3 = require('../math/SpinG3')
-import Primitive = require('../geometries/Primitive')
-import R2 = require('../math/R2')
-import R3 = require('../math/R3')
+import AxialGeometry from '../geometries/AxialGeometry';
+import VectorE3 from '../math/VectorE3';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import GridTopology from '../topologies/GridTopology';
+import IAxialGeometry from '../geometries/IAxialGeometry';
+import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeNumber from '../checks/mustBeNumber';
+import R1 from '../math/R1';
+import SpinG3 from '../math/SpinG3';
+import Primitive from '../geometries/Primitive';
+import R2 from '../math/R2';
+import R3 from '../math/R3';
 
 /**
  * @class CylinderGeometry
  */
-class CylinderGeometry extends AxialGeometry implements IAxialGeometry<CylinderGeometry> {
+export default class CylinderGeometry extends AxialGeometry implements IAxialGeometry<CylinderGeometry> {
     /**
      * @property radius
      * @type {number}
@@ -79,4 +79,3 @@ class CylinderGeometry extends AxialGeometry implements IAxialGeometry<CylinderG
         return this
     }
 }
-export = CylinderGeometry

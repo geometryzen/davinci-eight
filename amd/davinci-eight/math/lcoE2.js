@@ -37,5 +37,6 @@ define(["require", "exports"], function (require, exports) {
         }
         return +x;
     }
-    return lcoE2;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = lcoE2;
 });

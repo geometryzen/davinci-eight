@@ -1,16 +1,16 @@
-import CartesianE3 = require('../math/CartesianE3')
-import Euclidean3 = require('../math/Euclidean3')
-import Geometry = require('../geometries/Geometry')
-import IAxialGeometry = require('../geometries/IAxialGeometry')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import R3 = require('../math/R3')
-import VectorE3 = require('../math/VectorE3')
+import CartesianE3 from '../math/CartesianE3';
+import Euclidean3 from '../math/Euclidean3';
+import Geometry from '../geometries/Geometry';
+import IAxialGeometry from '../geometries/IAxialGeometry';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import R3 from '../math/R3';
+import VectorE3 from '../math/VectorE3';
 
 /**
  * @class AxialGeometry
  */
-class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
+export default class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
     /**
      * @property _axis
      * @type {CartesianE3}
@@ -114,4 +114,3 @@ class AxialGeometry extends Geometry implements IAxialGeometry<AxialGeometry> {
         return this
     }
 }
-export = AxialGeometry

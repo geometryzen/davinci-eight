@@ -1,8 +1,8 @@
-import IAnimation = require('../../slideshow/IAnimation')
-import IAnimationTarget = require('../../slideshow/IAnimationTarget')
-import Shareable = require('../../utils/Shareable')
-import SpinG3 = require('../../math/SpinG3')
-import SpinorE3 = require('../../math/SpinorE3')
+import IAnimation from '../../slideshow/IAnimation';
+import IAnimationTarget from '../../slideshow/IAnimationTarget';
+import Shareable from '../../utils/Shareable';
+import SpinG3 from '../../math/SpinG3';
+import SpinorE3 from '../../math/SpinorE3';
 
 function loop(n: number, callback: (i: number) => void) {
     for (var i = 0; i < n; ++i) {
@@ -10,7 +10,7 @@ function loop(n: number, callback: (i: number) => void) {
     }
 }
 
-class Spinor3Animation extends Shareable implements IAnimation {
+export default class Spinor3Animation extends Shareable implements IAnimation {
     private from: SpinG3;
     private to: SpinG3;
     private duration: number;
@@ -108,5 +108,3 @@ class Spinor3Animation extends Shareable implements IAnimation {
         }
     }
 }
-
-export = Spinor3Animation

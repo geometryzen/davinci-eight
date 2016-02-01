@@ -1,7 +1,7 @@
-import Curve = require('../curves/Curve')
-import Euclidean3 = require('../math/Euclidean3')
+import Curve from '../curves/Curve';
+import Euclidean3 from '../math/Euclidean3';
 
-class CubicBezierCurve extends Curve {
+export default class CubicBezierCurve extends Curve {
     beginPoint: Euclidean3;
     controlBegin: Euclidean3;
     controlEnd: Euclidean3;
@@ -17,4 +17,3 @@ class CubicBezierCurve extends Curve {
         return this.beginPoint.cubicBezier(t, this.controlBegin, this.controlEnd, this.endPoint)
     }
 }
-export = CubicBezierCurve

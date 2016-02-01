@@ -1,10 +1,10 @@
-import ISlide = require('../slideshow/ISlide')
-import IDirector = require('../slideshow/IDirector')
-import IUnknown = require('../core/IUnknown')
+import ISlide from '../slideshow/ISlide';
+import IDirector from '../slideshow/IDirector';
+import IUnknown from '../core/IUnknown';
 
 interface ISlideCommand extends IUnknown {
-  redo(slide: ISlide, director: IDirector): void;
-  undo(slide: ISlide, director: IDirector): void;
+    redo(slide: ISlide, director: IDirector): void;
+    undo(slide: ISlide, director: IDirector): void;
 }
 
-export = ISlideCommand
+export default ISlideCommand;

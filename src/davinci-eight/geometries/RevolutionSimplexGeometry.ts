@@ -1,14 +1,14 @@
-import SimplexGeometry = require('../geometries/SimplexGeometry');
-import Simplex = require('../geometries/Simplex');
-import SpinG3 = require('../math/SpinG3');
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
-import R2 = require('../math/R2');
-import R3 = require('../math/R3');
+import SimplexGeometry from '../geometries/SimplexGeometry';
+import Simplex from '../geometries/Simplex';
+import SpinG3 from '../math/SpinG3';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import R2 from '../math/R2';
+import R3 from '../math/R3';
 
 /**
  * @class RevolutionSimplexGeometry
  */
-class RevolutionSimplexGeometry extends SimplexGeometry {
+export default class RevolutionSimplexGeometry extends SimplexGeometry {
     /**
      * @class RevolutionSimplexGeometry
      * @constructor
@@ -103,5 +103,3 @@ class RevolutionSimplexGeometry extends SimplexGeometry {
         //    this.computeVertexNormals();
     }
 }
-
-export = RevolutionSimplexGeometry;

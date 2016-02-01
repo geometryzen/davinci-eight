@@ -1,5 +1,5 @@
-import Attribute = require('../geometries/Attribute');
-import DrawMode = require('../core/DrawMode');
+import Attribute from '../geometries/Attribute';
+import DrawMode from '../core/DrawMode';
 
 /**
  * @class Primitive
@@ -24,4 +24,4 @@ interface Primitive {
     attributes: { [name: string]: Attribute };
 }
 
-export = Primitive;
+export default Primitive;

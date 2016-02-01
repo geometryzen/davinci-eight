@@ -1,12 +1,12 @@
-import GeometricOperators = require('../math/GeometricOperators')
-import mathcore = require('../math/mathcore')
-import Measure = require('../math/Measure')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import readOnly = require('../i18n/readOnly')
-import SpinorE2 = require('../math/SpinorE2')
-import TrigMethods = require('../math/TrigMethods')
-import Unit = require('../math/Unit')
+import GeometricOperators from '../math/GeometricOperators';
+import mathcore from '../math/mathcore';
+import Measure from '../math/Measure';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import readOnly from '../i18n/readOnly';
+import SpinorE2 from '../math/SpinorE2';
+import TrigMethods from '../math/TrigMethods';
+import Unit from '../math/Unit';
 
 let atan2 = Math.atan2
 let cos = Math.cos
@@ -37,7 +37,7 @@ function norm(x: number, y: number): number {
 /**
  * @class CC
  */
-class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, SpinorE2 {
+export default class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, SpinorE2 {
     /**
      * The <em>real</em> part of the complex number.
      * @property x
@@ -498,7 +498,7 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
      * @return {CC}
      */
     tan(): CC {
-      return this.sin().div(this.cos())
+        return this.sin().div(this.cos())
     }
 
     toStringCustom(coordToString: (x: number) => string): string {
@@ -593,5 +593,3 @@ class CC implements Measure<CC>, GeometricOperators<CC>, TrigMethods<CC>, Spinor
         return new CC(this.x, -this.y)
     }
 }
-
-export = CC;

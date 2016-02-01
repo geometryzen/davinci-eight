@@ -1,15 +1,14 @@
-define(["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber'], function (require, exports, isUndefined, mustBeNumber) {
+define(["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber'], function (require, exports, isUndefined_1, mustBeNumber_1) {
     function message(standard, override) {
-        return isUndefined(override) ? standard : override();
+        return isUndefined_1.default(override) ? standard : override();
     }
-    // FIXME: This plays havok with the TypeScript compiler stack and encourages temporary object creation.
     function expectArg(name, value) {
         var arg = {
             toSatisfy: function (condition, message) {
-                if (isUndefined(condition)) {
+                if (isUndefined_1.default(condition)) {
                     throw new Error("condition must be specified");
                 }
-                if (isUndefined(message)) {
+                if (isUndefined_1.default(message)) {
                     throw new Error("message must be specified");
                 }
                 if (!condition) {
@@ -35,7 +34,7 @@ define(["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber']
             toBeInClosedInterval: function (lower, upper) {
                 var something = value;
                 var x = something;
-                mustBeNumber('x', x);
+                mustBeNumber_1.default('x', x);
                 if (x >= lower && x <= upper) {
                     return arg;
                 }
@@ -97,5 +96,6 @@ define(["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber']
         };
         return arg;
     }
-    return expectArg;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = expectArg;
 });

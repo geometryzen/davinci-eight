@@ -2,7 +2,7 @@
  * Multiplication of G3.
  * This was originally written for asm.
  */
-function mulE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
+export default function mulE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
     a0 = +a0;
     a1 = +a1;
     a2 = +a2;
@@ -60,5 +60,3 @@ function mulE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: n
     }
     return +x;
 }
-
-export = mulE3

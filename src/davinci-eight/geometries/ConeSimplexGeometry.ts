@@ -1,17 +1,17 @@
-import Euclidean3 = require('../math/Euclidean3')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
-import Simplex = require('../geometries/Simplex')
-import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import R2 = require('../math/R2')
-import VectorE3 = require('../math/VectorE3')
-import R3 = require('../math/R3')
+import Euclidean3 from '../math/Euclidean3';
+import SimplexGeometry from '../geometries/SimplexGeometry';
+import Simplex from '../geometries/Simplex';
+import SliceSimplexGeometry from '../geometries/SliceSimplexGeometry';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import R2 from '../math/R2';
+import VectorE3 from '../math/VectorE3';
+import R3 from '../math/R3';
 
 /**
  * @class ConeSimplexGeometry
  * @extends SliceSimplexGeometry
  */
-class ConeSimplexGeometry extends SliceSimplexGeometry {
+export default class ConeSimplexGeometry extends SliceSimplexGeometry {
     public radiusTop: number;
     public radius: number;
     public height: number;
@@ -152,5 +152,3 @@ class ConeSimplexGeometry extends SliceSimplexGeometry {
         //    this.computeVertexNormals();
     }
 }
-
-export = ConeSimplexGeometry;

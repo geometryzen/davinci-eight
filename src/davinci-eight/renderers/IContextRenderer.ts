@@ -1,10 +1,8 @@
-import Capability = require('../commands/Capability')
-import IContextConsumer = require('../core/IContextConsumer')
-import IContextCommand = require('../core/IContextCommand')
-import IDrawList = require('../scene/IDrawList')
-import IUnknown = require('../core/IUnknown')
-import IUnknownArray = require('../collections/IUnknownArray')
-import IFacet = require('../core/IFacet') 
+import Capability from '../commands/Capability';
+import IContextConsumer from '../core/IContextConsumer';
+import IContextCommand from '../core/IContextCommand';
+import IUnknownArray from '../collections/IUnknownArray';
+
 /**
  * This interface is to be implemented by classes associated with a single context.
  * This means that the commands are not shared.
@@ -75,4 +73,4 @@ interface IContextRenderer extends IContextConsumer {
     viewport(x: number, y: number, width: number, height: number): void;
 }
 
-export = IContextRenderer;
+export default IContextRenderer;

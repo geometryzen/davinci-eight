@@ -10,4 +10,4 @@ interface VectorE1 {
     x: number;
 }
 
-export = VectorE1;
+export default VectorE1;

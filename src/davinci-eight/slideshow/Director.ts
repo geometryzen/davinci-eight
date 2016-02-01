@@ -1,18 +1,18 @@
-import Slide = require('../slideshow/Slide')
-import IAnimationTarget = require('../slideshow/IAnimationTarget')
-import isDefined = require('../checks/isDefined')
-import IDirector = require('../slideshow/IDirector')
-import IUnknownArray = require('../collections/IUnknownArray')
-import mustBeDefined = require('../checks/mustBeDefined')
-import mustBeString = require('../checks/mustBeString')
-import NumberIUnknownMap = require('../collections/NumberIUnknownMap')
-import Shareable = require('../utils/Shareable')
-import StringIUnknownMap = require('../collections/StringIUnknownMap')
+import Slide from '../slideshow/Slide';
+import IAnimationTarget from '../slideshow/IAnimationTarget';
+import isDefined from '../checks/isDefined';
+import IDirector from '../slideshow/IDirector';
+import IUnknownArray from '../collections/IUnknownArray';
+import mustBeDefined from '../checks/mustBeDefined';
+import mustBeString from '../checks/mustBeString';
+import NumberIUnknownMap from '../collections/NumberIUnknownMap';
+import Shareable from '../utils/Shareable';
+import StringIUnknownMap from '../collections/StringIUnknownMap';
 
 /**
  * @class Director
  */
-class Director extends Shareable implements IDirector {
+export default class Director extends Shareable implements IDirector {
     /**
      * [0, slides.length] represents on a slide
      * A value equal to -1 represents just before the first slide.
@@ -148,5 +148,3 @@ class Director extends Shareable implements IDirector {
         }
     }
 }
-
-export = Director

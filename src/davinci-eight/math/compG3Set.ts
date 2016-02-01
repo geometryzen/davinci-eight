@@ -1,4 +1,4 @@
-import GeometricE3 = require('../math/GeometricE3')
+import GeometricE3 from '../math/GeometricE3';
 
 let COORD_W = 0
 let COORD_X = 1
@@ -9,7 +9,7 @@ let COORD_YZ = 5
 let COORD_ZX = 6
 let COORD_XYZ = 7
 
-function compG3Set(m: GeometricE3, index: number, value: number): void {
+export default function compG3Set(m: GeometricE3, index: number, value: number): void {
     switch (index) {
         case COORD_W:
             m.α = value
@@ -39,5 +39,3 @@ function compG3Set(m: GeometricE3, index: number, value: number): void {
             throw new Error("index => " + index)
     }
 }
-
-export = compG3Set

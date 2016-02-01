@@ -1,14 +1,14 @@
-import Attribute = require('../geometries/Attribute')
-import DrawMode = require('../core/DrawMode')
-import mustBeArray = require('../checks/mustBeArray')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeObject = require('../checks/mustBeObject')
-import Primitive = require('../geometries/Primitive')
+import Attribute from '../geometries/Attribute';
+import DrawMode from '../core/DrawMode';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeObject from '../checks/mustBeObject';
+import Primitive from '../geometries/Primitive';
 
 /**
  * @class DrawPrimitive
  */
-class DrawPrimitive implements Primitive {
+export default class DrawPrimitive implements Primitive {
 
     /**
      * @property mode
@@ -45,5 +45,3 @@ class DrawPrimitive implements Primitive {
         this.attributes = mustBeObject('attributes', attributes)
     }
 }
-
-export = DrawPrimitive;

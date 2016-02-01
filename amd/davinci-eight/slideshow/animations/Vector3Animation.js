@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../utils/Shareable', '../../math/R3'], function (require, exports, Shareable, R3) {
+define(["require", "exports", '../../utils/Shareable', '../../math/R3'], function (require, exports, Shareable_1, R3_1) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -14,7 +14,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
         function Vector3Animation(value, duration, callback, ease) {
             if (duration === void 0) { duration = 300; }
             _super.call(this, 'Vector3Animation');
-            this.to = R3.copy(value);
+            this.to = R3_1.default.copy(value);
             this.duration = duration;
             this.fraction = 0;
             this.callback = callback;
@@ -29,14 +29,11 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
                 if (this.from === void 0) {
                     var data = target.getProperty(propName);
                     if (data) {
-                        // Make sure to copy the coordinates so that we aren't
-                        // holding onto a reference to a mutable number array.
-                        this.from = new R3().copyCoordinates(data);
+                        this.from = new R3_1.default().copyCoordinates(data);
                     }
                 }
             }
             var ease = this.ease;
-            // Calculate animation progress / fraction.
             var fraction;
             if (this.duration > 0) {
                 fraction = Math.min(1, (now - this.start) / (this.duration || 1));
@@ -45,7 +42,6 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
                 fraction = 1;
             }
             this.fraction = fraction;
-            // Simple easing support.
             var rolloff;
             switch (ease) {
                 case 'in':
@@ -61,7 +57,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
                     rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
                     break;
             }
-            var lerp = R3.lerp(this.from, this.to, rolloff);
+            var lerp = R3_1.default.lerp(this.from, this.to, rolloff);
             target.setProperty(propName, lerp.coords);
         };
         Vector3Animation.prototype.hurry = function (factor) {
@@ -77,7 +73,6 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
         };
         Vector3Animation.prototype.done = function (target, propName) {
             if (this.fraction === 1) {
-                // Set final value.
                 target.setProperty(propName, this.to.coords);
                 this.callback && this.callback();
                 this.callback = void 0;
@@ -96,6 +91,7 @@ define(["require", "exports", '../../utils/Shareable', '../../math/R3'], functio
             }
         };
         return Vector3Animation;
-    })(Shareable);
-    return Vector3Animation;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Vector3Animation;
 });

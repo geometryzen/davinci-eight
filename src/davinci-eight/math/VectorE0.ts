@@ -4,4 +4,4 @@
 interface VectorE0 {
 }
 
-export = VectorE0;
+export default VectorE0;

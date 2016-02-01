@@ -1,6 +1,6 @@
-import ContextUnique = require('../core/ContextUnique');
-import IContextConsumer = require('../core/IContextConsumer');
-import IUnknown = require('../core/IUnknown');
+import ContextUnique from '../core/ContextUnique';
+import IContextConsumer from '../core/IContextConsumer';
+import IUnknown from '../core/IUnknown';
 
 // FIXME: Merge into IContextProvider
 /**
@@ -9,24 +9,24 @@ import IUnknown = require('../core/IUnknown');
  * @extends IUnknown
  */
 interface IContextMonitor extends ContextUnique, IUnknown {
-  /**
-   *
-   */
-  addContextListener(user: IContextConsumer): void;
+    /**
+     *
+     */
+    addContextListener(user: IContextConsumer): void;
 
-  /**
-   * @method removeContextListener
-   * @param user {IContextConsumer}
-   * @return {void}
-   */
-  removeContextListener(user: IContextConsumer): void;
+    /**
+     * @method removeContextListener
+     * @param user {IContextConsumer}
+     * @return {void}
+     */
+    removeContextListener(user: IContextConsumer): void;
 
-  /**
-   * @method synchronize
-   * @param user {IContextConsumer}
-   * @return {void}
-   */
-  synchronize(user: IContextConsumer): void;
+    /**
+     * @method synchronize
+     * @param user {IContextConsumer}
+     * @return {void}
+     */
+    synchronize(user: IContextConsumer): void;
 }
 
-export = IContextMonitor;
+export default IContextMonitor;

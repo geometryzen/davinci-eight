@@ -13,8 +13,6 @@ function b2p2(t: number, p: number): number {
     return t * t * p
 }
 
-function b2(t: number, begin: number, control: number, end: number): number {
+export default function b2(t: number, begin: number, control: number, end: number): number {
     return b2p0(t, begin) + b2p1(t, control) + b2p2(t, end);
 }
-
-export = b2

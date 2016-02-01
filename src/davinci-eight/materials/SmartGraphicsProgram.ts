@@ -1,24 +1,24 @@
-import AttribMetaInfo = require('../core/AttribMetaInfo');
-import createGraphicsProgram = require('../programs/createGraphicsProgram');
-import fragmentShader = require('../programs/fragmentShader');
-import getAttribVarName = require('../core/getAttribVarName');
-import getUniformVarName = require('../core/getUniformVarName');
-import GeometryMeta = require('../geometries/GeometryMeta');
-import glslAttribType = require('../programs/glslAttribType');
-import IContextProvider = require('../core/IContextProvider');
-import IContextMonitor = require('../core/IContextMonitor');
-import IGraphicsProgram = require('../core/IGraphicsProgram');
-import GraphicsProgram = require('../materials/GraphicsProgram');
-import mergeStringMapList = require('../utils/mergeStringMapList');
-import MeshMaterialParameters = require('../materials/MeshMaterialParameters');
-import MonitorList = require('../scene/MonitorList');
-import mustBeDefined = require('../checks/mustBeDefined');
-import mustBeInteger = require('../checks/mustBeInteger');
-import readOnly = require('../i18n/readOnly')
-import UniformMetaInfo = require('../core/UniformMetaInfo');
-import vColorRequired = require('../programs/vColorRequired');
-import vertexShader = require('../programs/vertexShader');
-import vLightRequired = require('../programs/vLightRequired');
+import AttribMetaInfo from '../core/AttribMetaInfo';
+import createGraphicsProgram from '../programs/createGraphicsProgram';
+import fragmentShader from '../programs/fragmentShader';
+import getAttribVarName from '../core/getAttribVarName';
+import getUniformVarName from '../core/getUniformVarName';
+import GeometryMeta from '../geometries/GeometryMeta';
+import glslAttribType from '../programs/glslAttribType';
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import GraphicsProgram from '../materials/GraphicsProgram';
+import mergeStringMapList from '../utils/mergeStringMapList';
+import MeshMaterialParameters from '../materials/MeshMaterialParameters';
+import MonitorList from '../scene/MonitorList';
+import mustBeDefined from '../checks/mustBeDefined';
+import mustBeInteger from '../checks/mustBeInteger';
+import readOnly from '../i18n/readOnly';
+import UniformMetaInfo from '../core/UniformMetaInfo';
+import vColorRequired from '../programs/vColorRequired';
+import vertexShader from '../programs/vertexShader';
+import vLightRequired from '../programs/vLightRequired';
 
 /**
  * <p>
@@ -29,7 +29,7 @@ import vLightRequired = require('../programs/vLightRequired');
  * @class SmartGraphicsProgram
  * @extends GraphicsProgram
  */
-class SmartGraphicsProgram extends GraphicsProgram {
+export default class SmartGraphicsProgram extends GraphicsProgram {
     public aParams: { [name: string]: { glslType: string } } = {};
     public uParams: { [name: string]: { glslType: string } } = {};
     private vColor: boolean = false;
@@ -37,19 +37,20 @@ class SmartGraphicsProgram extends GraphicsProgram {
     /**
      * @class SmartGraphicsProgram
      * @constructor
-     * @param contexts {IContextMonitor[]}
      * @param aParams
      * @param uParams
      * @param vColor {boolean}
      * @param vLight {boolean}
+     * @param [contexts] {IContextMonitor[]}
      */
-    constructor(contexts: IContextMonitor[],
+    constructor(
         aParams: { [name: string]: { glslType: string } },
         uParams: { [name: string]: { glslType: string } },
         vColor: boolean,
-        vLight: boolean
+        vLight: boolean,
+        contexts?: IContextMonitor[]
     ) {
-        super(contexts, 'SmartGraphicsProgram');
+        super('SmartGraphicsProgram', contexts);
         this.aParams = aParams;
         this.uParams = uParams;
         this.vColor = vColor;
@@ -94,5 +95,3 @@ class SmartGraphicsProgram extends GraphicsProgram {
         throw new Error(readOnly('fragmentShader').message)
     }
 }
-
-export = SmartGraphicsProgram;

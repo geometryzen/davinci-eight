@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSimplexGeometry', '../math/SpinG3', '../math/R3'], function (require, exports, Euclidean3, RevolutionSimplexGeometry, SpinG3, R3) {
+define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSimplexGeometry', '../math/SpinG3', '../math/R3'], function (require, exports, Euclidean3_1, RevolutionSimplexGeometry_1, SpinG3_1, R3_1) {
     function signum(x) {
         return x >= 0 ? +1 : -1;
     }
@@ -23,23 +23,17 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSim
         var cardinalIndex = permutation(direction);
         switch (cardinalIndex) {
             case 0: {
-                return new R3([orientation(cardinalIndex, direction), 0, 0]);
+                return new R3_1.default([orientation(cardinalIndex, direction), 0, 0]);
             }
             case 1: {
-                return new R3([0, orientation(cardinalIndex, direction), 0]);
+                return new R3_1.default([0, orientation(cardinalIndex, direction), 0]);
             }
             case 2: {
-                return new R3([0, 0, orientation(cardinalIndex, direction)]);
+                return new R3_1.default([0, 0, orientation(cardinalIndex, direction)]);
             }
         }
-        return R3.copy(direction);
+        return R3_1.default.copy(direction);
     }
-    /**
-     * Intentionally undocumented.
-     *
-     * This doesn't work because of the difficulty of constructing normals.
-     * With more information, RevolutionSimplexGeometry might do the job.
-     */
     var ArrowSimplexGeometry = (function (_super) {
         __extends(ArrowSimplexGeometry, _super);
         function ArrowSimplexGeometry() {
@@ -47,7 +41,7 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSim
             this.lengthCone = 0.20;
             this.radiusCone = 0.08;
             this.radiusShaft = 0.01;
-            this.vector = R3.copy(Euclidean3.e1);
+            this.vector = R3_1.default.copy(Euclidean3_1.default.e1);
             this.segments = 12;
             this.setModified(true);
         }
@@ -72,28 +66,28 @@ define(["require", "exports", '../math/Euclidean3', '../geometries/RevolutionSim
                 var k = (cycle + 1) % 3;
                 var a = halfLength * sign;
                 var b = lengthShaft * sign;
-                // data is for an arrow pointing in the e1 direction in the xy-plane.
                 var data = [
                     [a, 0, 0],
                     [b - a, radiusCone, 0],
                     [b - a, radiusShaft, 0],
                     [-a, radiusShaft, 0],
-                    [-a, 0, 0] // tail end
+                    [-a, 0, 0]
                 ];
                 var points = data.map(function (point) {
-                    return new R3([point[i], point[j], point[k]]);
+                    return new R3_1.default([point[i], point[j], point[k]]);
                 });
-                var generator = SpinG3.dual(nearest(direction));
+                var generator = SpinG3_1.default.dual(nearest(direction));
                 return { "points": points, "generator": generator };
             };
-            var direction = R3.copy(this.vector).direction();
+            var direction = R3_1.default.copy(this.vector).direction();
             var arrow = computeArrow(direction);
-            var R = SpinG3.rotorFromDirections(nearest(direction), direction);
+            var R = SpinG3_1.default.rotorFromDirections(nearest(direction), direction);
             this.data = [];
             _super.prototype.revolve.call(this, arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R);
             this.setModified(false);
         };
         return ArrowSimplexGeometry;
-    })(RevolutionSimplexGeometry);
-    return ArrowSimplexGeometry;
+    })(RevolutionSimplexGeometry_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ArrowSimplexGeometry;
 });

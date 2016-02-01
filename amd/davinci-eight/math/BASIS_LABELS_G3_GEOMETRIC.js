@@ -24,5 +24,6 @@ define(["require", "exports"], function (require, exports) {
         [E31_NEG_SYMBOL, E31_POS_SYMBOL],
         [PSEUDO_NEG_SYMBOL, PSEUDO_POS_SYMBOL]
     ];
-    return BASIS_LABELS_G3_GEOMETRIC;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = BASIS_LABELS_G3_GEOMETRIC;
 });

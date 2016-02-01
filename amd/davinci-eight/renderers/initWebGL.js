@@ -1,17 +1,8 @@
-define(["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
-    /**
-     * Returns the WebGLRenderingContext given a canvas.
-     * canvas
-     * attributes
-     * If the canvas is undefined then an undefined value is returned for the context.
-     */
+define(["require", "exports", '../checks/isDefined'], function (require, exports, isDefined_1) {
     function initWebGL(canvas, attributes) {
-        // We'll be hyper-functional. An undefined canvas begets and undefined context.
-        // Clients must check their context output or canvas input.
-        if (isDefined(canvas)) {
+        if (isDefined_1.default(canvas)) {
             var context;
             try {
-                // Try to grab the standard context. If it fails, fallback to experimental.
                 context = (canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));
             }
             catch (e) {
@@ -24,9 +15,9 @@ define(["require", "exports", '../checks/isDefined'], function (require, exports
             }
         }
         else {
-            // An undefined canvas results in an undefined context.
             return void 0;
         }
     }
-    return initWebGL;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = initWebGL;
 });

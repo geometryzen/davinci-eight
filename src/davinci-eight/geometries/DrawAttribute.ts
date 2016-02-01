@@ -1,6 +1,6 @@
-import Attribute = require('../geometries/Attribute')
-import mustBeArray = require('../checks/mustBeArray')
-import mustBeInteger = require('../checks/mustBeInteger')
+import Attribute from '../geometries/Attribute';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeInteger from '../checks/mustBeInteger';
 
 function isVectorN(values: number[]): boolean {
     return true
@@ -32,7 +32,7 @@ function checkSize(size: number, values: number[]): number {
 /**
  * @class DrawAttribute
  */
-class DrawAttribute implements Attribute {
+export default class DrawAttribute implements Attribute {
     /**
      * The values of the attribute.
      * @property values
@@ -62,4 +62,3 @@ class DrawAttribute implements Attribute {
         this.size = checkSize(size, values)
     }
 }
-export = DrawAttribute;

@@ -1,4 +1,4 @@
-import LinearElement = require('../math/LinearElement')
+import LinearElement from '../math/LinearElement';
 
 /**
  * This interface is provided to ensure consistency.
@@ -36,4 +36,4 @@ interface MutableLinearElement<I, M, S, V> extends LinearElement<I, M, S, V> {
     zero(): M;
 }
 
-export = MutableLinearElement;
+export default MutableLinearElement;

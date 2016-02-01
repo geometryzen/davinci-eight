@@ -1,9 +1,9 @@
-import GeometricE3 = require('../math/GeometricE3')
-import get = require('../math/compG3Get')
-import rcoE3 = require('../math/rcoE3')
-import set = require('../math/compG3Set')
+import GeometricE3 from '../math/GeometricE3';
+import get from '../math/compG3Get';
+import rcoE3 from '../math/rcoE3';
+import set from '../math/compG3Set';
 
-function rcoG3<T extends GeometricE3>(a: GeometricE3, b: GeometricE3, out: T): T {
+export default function rcoG3<T extends GeometricE3>(a: GeometricE3, b: GeometricE3, out: T): T {
 
     let a0 = get(a, 0)
     let a1 = get(a, 1)
@@ -29,5 +29,3 @@ function rcoG3<T extends GeometricE3>(a: GeometricE3, b: GeometricE3, out: T): T
 
     return out;
 }
-
-export = rcoG3

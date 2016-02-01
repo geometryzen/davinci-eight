@@ -1,8 +1,8 @@
-define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg_1) {
     var RefCount = (function () {
         function RefCount(callback) {
             this._refCount = 1;
-            expectArg('callback', callback).toBeFunction();
+            expectArg_1.default('callback', callback).toBeFunction();
             this._callback = callback;
         }
         RefCount.prototype.addRef = function () {
@@ -25,5 +25,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         };
         return RefCount;
     })();
-    return RefCount;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = RefCount;
 });

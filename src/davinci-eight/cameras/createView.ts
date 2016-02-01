@@ -1,22 +1,20 @@
-import Euclidean3 = require('../math/Euclidean3')
-import IFacetVisitor = require('../core/IFacetVisitor')
-import R3 = require('../math/R3')
-import VectorE3 = require('../math/VectorE3')
-import SpinG3 = require('../math/SpinG3')
-import Mat4R = require('../math/Mat4R')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import View = require('../cameras/View')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import isUndefined = require('../checks/isUndefined')
-import isVariableName = require('../checks/isVariableName')
-import computeViewMatrix = require('../cameras/viewMatrix')
+import Euclidean3 from '../math/Euclidean3';
+import FacetVisitor from '../core/FacetVisitor';
+import R3 from '../math/R3';
+import VectorE3 from '../math/VectorE3';
+import Mat4R from '../math/Mat4R';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import View from '../cameras/View';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import isUndefined from '../checks/isUndefined';
+import computeViewMatrix from '../cameras/viewMatrix';
 
 /**
  * @class createView
  * @constructor
  */
-let createView = function(options?: { viewMatrixName?: string }): View {
+export default function createView(options?: { viewMatrixName?: string }): View {
 
     let refCount = 1
     let eye: R3 = new R3()
@@ -46,6 +44,7 @@ let createView = function(options?: { viewMatrixName?: string }): View {
             return void 0
         },
         setProperty(name: string, value: number[]): void {
+            // Do nothing.
         },
         get eye(): R3 {
             return eye
@@ -92,7 +91,7 @@ let createView = function(options?: { viewMatrixName?: string }): View {
             up.direction()
             return self
         },
-        setUniforms(visitor: IFacetVisitor, canvasId?: number) {
+        setUniforms(visitor: FacetVisitor, canvasId?: number) {
             if (eye.modified || look.modified || up.modified) {
                 // TODO: view matrix would be better.
                 computeViewMatrix(eye, look, up, viewMatrix)
@@ -106,5 +105,3 @@ let createView = function(options?: { viewMatrixName?: string }): View {
 
     return self
 }
-
-export = createView

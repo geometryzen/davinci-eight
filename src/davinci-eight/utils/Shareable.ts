@@ -1,13 +1,13 @@
-import mustBeString = require('../checks/mustBeString')
-import readOnly = require('../i18n/readOnly')
-import refChange = require('../utils/refChange')
-import IUnknown = require('../core/IUnknown')
-import uuid4 = require('../utils/uuid4')
+import mustBeString from '../checks/mustBeString';
+import readOnly from '../i18n/readOnly';
+import refChange from '../utils/refChange';
+import IUnknown from '../core/IUnknown';
+import uuid4 from '../utils/uuid4';
 
 /**
  * @class Shareable
  */
-class Shareable implements IUnknown {
+export default class Shareable implements IUnknown {
     private _refCount: number = 1
     protected _type: string
     private _uuid = uuid4().generate()
@@ -89,5 +89,3 @@ class Shareable implements IUnknown {
         throw new Error(readOnly('uuid').message)
     }
 }
-
-export = Shareable;

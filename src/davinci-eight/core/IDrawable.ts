@@ -1,6 +1,6 @@
-import IFacet = require('../core/IFacet')
-import IGraphicsProgram = require('../core/IGraphicsProgram')
-import IResource = require('../core/IResource')
+import Facet from '../core/Facet';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import IResource from '../core/IResource';
 
 /**
  * <p>
@@ -39,17 +39,17 @@ interface IDrawable extends IResource {
     /**
      * @method getFacet
      * @param name {string}
-     * @return {IFacet}
+     * @return {Facet}
      */
-    getFacet(name: string): IFacet;
+    getFacet(name: string): Facet;
 
     /**
      * @method setFacet
      * @param name {string}
-     * @param facet {IFacet}
+     * @param facet {Facet}
      * @return {void}
      */
-    setFacet(name: string, facet: IFacet): void;
+    setFacet(name: string, facet: Facet): void;
 }
 
-export = IDrawable;
+export default IDrawable;

@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, Shareable, mustSatisfy, isInteger) {
+define(["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, Shareable_1, mustSatisfy_1, isInteger_1) {
     function beInstanceOfContextMonitors() {
         return "be an instance of MonitorList";
     }
@@ -13,11 +13,6 @@ define(["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '..
     function identity(monitor) {
         return monitor;
     }
-    var METHOD_ADD = 'addContextListener';
-    var METHOD_REMOVE = 'removeContextListener';
-    /**
-     * Implementation Only.
-     */
     var MonitorList = (function (_super) {
         __extends(MonitorList, _super);
         function MonitorList(monitors) {
@@ -65,12 +60,12 @@ define(["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '..
                 return candidate;
             }
             else {
-                mustSatisfy(name, false, beInstanceOfContextMonitors, contextBuilder);
+                mustSatisfy_1.default(name, false, beInstanceOfContextMonitors, contextBuilder);
                 throw new Error();
             }
         };
         MonitorList.verify = function (name, monitors, contextBuilder) {
-            mustSatisfy(name, isInteger(monitors['length']), beContextMonitorArray, contextBuilder);
+            mustSatisfy_1.default(name, isInteger_1.default(monitors['length']), beContextMonitorArray, contextBuilder);
             var monitorsLength = monitors.length;
             for (var i = 0; i < monitorsLength; i++) {
             }
@@ -95,6 +90,7 @@ define(["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '..
             });
         };
         return MonitorList;
-    })(Shareable);
-    return MonitorList;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = MonitorList;
 });

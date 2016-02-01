@@ -3,20 +3,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../slideshow/Slide', '../collections/IUnknownArray', '../utils/Shareable'], function (require, exports, Slide, IUnknownArray, Shareable) {
-    /**
-     * @class Director
-     */
+define(["require", "exports", '../slideshow/Slide', '../collections/IUnknownArray', '../utils/Shareable'], function (require, exports, Slide_1, IUnknownArray_1, Shareable_1) {
     var Director = (function (_super) {
         __extends(Director, _super);
-        /**
-         * @class Director
-         * @constructor
-         */
         function Director() {
             _super.call(this, 'Director');
-            this.step = -1; // Position before the first slide.
-            this.slides = new IUnknownArray([]);
+            this.step = -1;
+            this.slides = new IUnknownArray_1.default([]);
             this.facets = {};
         }
         Director.prototype.destructor = function () {
@@ -35,13 +28,8 @@ define(["require", "exports", '../slideshow/Slide', '../collections/IUnknownArra
             delete this.facets[facetName];
             return facet;
         };
-        /**
-         * Creates a new Slide.
-         * @method createSlide
-         * @return {Slide}
-         */
         Director.prototype.createSlide = function () {
-            return new Slide();
+            return new Slide_1.default();
         };
         Director.prototype.go = function (step, instant) {
             if (instant === void 0) { instant = false; }
@@ -127,12 +115,12 @@ define(["require", "exports", '../slideshow/Slide', '../collections/IUnknownArra
                     }
                 }
                 else {
-                    // This should never happen if we manage the index properly.
                     console.warn("No slide found at index " + this.step);
                 }
             }
         };
         return Director;
-    })(Shareable);
-    return Director;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Director;
 });

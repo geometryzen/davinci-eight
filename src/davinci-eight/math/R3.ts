@@ -1,21 +1,21 @@
-import ColumnVector = require('../math/ColumnVector');
-import VectorE3 = require('../math/VectorE3');
-import dotVectorE3 = require('../math/dotVectorE3')
-import Euclidean3 = require('../math/Euclidean3')
-import expectArg = require('../checks/expectArg')
-import MutableLinearElement = require('../math/MutableLinearElement')
-import Mat3R = require('../math/Mat3R')
-import Mat4R = require('../math/Mat4R')
-import isDefined = require('../checks/isDefined')
-import isNumber = require('../checks/isNumber')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import SpinorE3 = require('../math/SpinorE3')
-import toStringCustom = require('../math/toStringCustom')
-import VectorN = require('../math/VectorN')
-import wedgeXY = require('../math/wedgeXY')
-import wedgeYZ = require('../math/wedgeYZ')
-import wedgeZX = require('../math/wedgeZX')
+import ColumnVector from '../math/ColumnVector';
+import VectorE3 from '../math/VectorE3';
+import dotVectorE3 from '../math/dotVectorE3';
+import Euclidean3 from '../math/Euclidean3';
+import expectArg from '../checks/expectArg';
+import MutableLinearElement from '../math/MutableLinearElement';
+import Mat3R from '../math/Mat3R';
+import Mat4R from '../math/Mat4R';
+import isDefined from '../checks/isDefined';
+import isNumber from '../checks/isNumber';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import SpinorE3 from '../math/SpinorE3';
+import toStringCustom from '../math/toStringCustom';
+import VectorN from '../math/VectorN';
+import wedgeXY from '../math/wedgeXY';
+import wedgeYZ from '../math/wedgeYZ';
+import wedgeZX from '../math/wedgeZX';
 
 let exp = Math.exp
 let log = Math.log
@@ -37,7 +37,7 @@ function coordinates(m: VectorE3): number[] {
  * @class R3
  * @extends VectorN<number>
  */
-class R3 extends VectorN<number> implements ColumnVector<Mat3R, R3>, VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
+export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R3>, VectorE3, MutableLinearElement<VectorE3, R3, SpinorE3, VectorE3> {
     /**
      * @property e1
      * @type {Euclidean3}
@@ -676,5 +676,3 @@ class R3 extends VectorN<number> implements ColumnVector<Mat3R, R3>, VectorE3, M
         return new R3([Math.random(), Math.random(), Math.random()])
     }
 }
-
-export = R3;

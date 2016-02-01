@@ -1,20 +1,20 @@
-import createGraphicsProgram = require('../programs/createGraphicsProgram')
-import IContextProvider = require('../core/IContextProvider')
-import IContextMonitor = require('../core/IContextMonitor')
-import IGraphicsProgram = require('../core/IGraphicsProgram')
-import isDefined = require('../checks/isDefined')
-import LineMaterialParameters = require('../materials/LineMaterialParameters')
-import GraphicsProgram = require('../materials/GraphicsProgram')
-import MonitorList = require('../scene/MonitorList')
-import mustBeInteger = require('../checks/mustBeInteger')
-import GraphicsProgramBuilder = require('../materials/GraphicsProgramBuilder')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
+import createGraphicsProgram from '../programs/createGraphicsProgram';
+import IContextProvider from '../core/IContextProvider';
+import IContextMonitor from '../core/IContextMonitor';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import isDefined from '../checks/isDefined';
+import LineMaterialParameters from '../materials/LineMaterialParameters';
+import GraphicsProgram from '../materials/GraphicsProgram';
+import MonitorList from '../scene/MonitorList';
+import mustBeInteger from '../checks/mustBeInteger';
+import GraphicsProgramBuilder from '../materials/GraphicsProgramBuilder';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 /**
  * @class LineMaterial
  * @extends GraphicsProgram
  */
-class LineMaterial extends GraphicsProgram {
+export default class LineMaterial extends GraphicsProgram {
     /**
      * @property size
      * @type {number}
@@ -24,11 +24,11 @@ class LineMaterial extends GraphicsProgram {
     /**
      * @class LineMaterial
      * @constructor
-     * @param [monitors = []] {IContextMonitor[]}
      * @param [parameters = {}] {LineMaterialParameters}
+     * @param [monitors = []] {IContextMonitor[]}
      */
-    constructor(monitors: IContextMonitor[] = [], parameters: LineMaterialParameters = {}) {
-        super(monitors, 'LineMaterial')
+    constructor(parameters: LineMaterialParameters = {}, monitors?: IContextMonitor[]) {
+        super('LineMaterial', monitors)
         if (isDefined(parameters.size)) {
             this.size = mustBeInteger('parameters.size', parameters.size)
         }
@@ -43,18 +43,16 @@ class LineMaterial extends GraphicsProgram {
      * @protected
      */
     protected createGraphicsProgram(): IGraphicsProgram {
-        let smb = new GraphicsProgramBuilder();
+        const gpb = new GraphicsProgramBuilder();
 
-        smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.size);
+        gpb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, this.size);
 
-        smb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_COLOR, 'vec3');
 
-        smb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
-        smb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
-        smb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, 'mat4');
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX, 'mat4');
+        gpb.uniform(GraphicsProgramSymbols.UNIFORM_VIEW_MATRIX, 'mat4');
 
-        return smb.build(this.monitors);
+        return gpb.build(this.monitors);
     }
 }
-
-export = LineMaterial;

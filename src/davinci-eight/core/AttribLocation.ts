@@ -1,13 +1,13 @@
-import IContextProgramConsumer = require('../core/IContextProgramConsumer')
-import IContextProvider = require('../core/IContextProvider')
-import mustBeObject = require('../checks/mustBeObject')
-import mustBeString = require('../checks/mustBeString')
-import readOnly = require('../i18n/readOnly')
+import IContextProgramConsumer from  '../core/IContextProgramConsumer';
+import IContextProvider from  '../core/IContextProvider';
+import mustBeObject from  '../checks/mustBeObject';
+import mustBeString from  '../checks/mustBeString';
+import readOnly from  '../i18n/readOnly';
 
 /**
  * @class AttribLocation
  */
-class AttribLocation implements IContextProgramConsumer {
+export default class AttribLocation implements IContextProgramConsumer {
 
     /**
      * The name of the attribute in the GLSL program.
@@ -117,7 +117,7 @@ class AttribLocation implements IContextProgramConsumer {
      * @param [offset = 0] {number} Used for WebGL rendering context vertexAttribPointer method.
      * @return {void}
      */
-    vertexPointer(size: number, normalized: boolean = false, stride: number = 0, offset: number = 0): void {
+    vertexPointer(size: number, normalized = false, stride = 0, offset = 0): void {
         this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
     }
 
@@ -152,5 +152,3 @@ class AttribLocation implements IContextProgramConsumer {
         return ['attribute', this._name].join(' ');
     }
 }
-
-export = AttribLocation;

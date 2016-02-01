@@ -1,12 +1,12 @@
-import Color = require('../core/Color')
-import ColorRGB = require('../core/ColorRGB')
-import IFacet = require('../core/IFacet')
-import IFacetVisitor = require('../core/IFacetVisitor')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import mustBeString = require('../checks/mustBeString')
-import Shareable = require('../utils/Shareable')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
+import Color from '../core/Color';
+import ColorRGB from '../core/ColorRGB';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
+import Shareable from '../utils/Shareable';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 var LOGGING_NAME = 'AmbientLight'
 
@@ -18,7 +18,7 @@ function contextBuilder() {
  * @class AmbientLight
  * @extends Shareable
  */
-class AmbientLight extends Shareable implements IFacet {
+export default class AmbientLight extends Shareable implements Facet {
     /**
      * @property color
      * @type {Color}
@@ -53,14 +53,12 @@ class AmbientLight extends Shareable implements IFacet {
     }
     /**
      * @method setUniforms
-     * @param visitor {IFacetVisitor}
+     * @param visitor {FacetVisitor}
      * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
+    setUniforms(visitor: FacetVisitor, canvasId?: number): void {
         var coords = [this.color.r, this.color.g, this.color.b]
         visitor.vector3(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, coords, canvasId)
     }
 }
-
-export = AmbientLight

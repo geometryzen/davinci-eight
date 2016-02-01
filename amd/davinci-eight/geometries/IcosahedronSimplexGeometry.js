@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], function (require, exports, PolyhedronSimplexGeometry) {
+define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], function (require, exports, PolyhedronSimplexGeometry_1) {
     var t = (1 + Math.sqrt(5)) / 2;
     var vertices = [
         -1, t, 0, 1, t, 0, -1, -t, 0, 1, -t, 0,
@@ -16,22 +16,13 @@ define(["require", "exports", '../geometries/PolyhedronSimplexGeometry'], functi
         3, 9, 4, 3, 4, 2, 3, 2, 6, 3, 6, 8, 3, 8, 9,
         4, 9, 5, 2, 4, 11, 6, 2, 10, 8, 6, 7, 9, 8, 1
     ];
-    /**
-     * @class IcosahedronSimplexGeometry
-     * @extends PolyhedronSimplexGeometry
-     */
     var IcosahedronSimplexGeometry = (function (_super) {
         __extends(IcosahedronSimplexGeometry, _super);
-        /**
-         * @class OcosahedronGeometry
-         * @constructor
-         * @param [radius] {number}
-         * @param [detail] {number}
-         */
         function IcosahedronSimplexGeometry(radius, detail) {
             _super.call(this, vertices, indices, radius, detail);
         }
         return IcosahedronSimplexGeometry;
-    })(PolyhedronSimplexGeometry);
-    return IcosahedronSimplexGeometry;
+    })(PolyhedronSimplexGeometry_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = IcosahedronSimplexGeometry;
 });

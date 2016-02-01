@@ -3,12 +3,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareable'], function (require, exports, IUnknownArray, Shareable) {
+define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareable'], function (require, exports, IUnknownArray_1, Shareable_1) {
     var SlideCommands = (function (_super) {
         __extends(SlideCommands, _super);
         function SlideCommands() {
             _super.call(this, 'SlideCommands');
-            this.commands = new IUnknownArray();
+            this.commands = new IUnknownArray_1.default();
         }
         SlideCommands.prototype.destructor = function () {
             this.commands.release();
@@ -29,6 +29,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/Shareabl
             }
         };
         return SlideCommands;
-    })(Shareable);
-    return SlideCommands;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = SlideCommands;
 });

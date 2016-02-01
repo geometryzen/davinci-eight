@@ -56,7 +56,7 @@ class ElementBuffer {
       this._context.bindBuffer(this._context.ELEMENT_ARRAY_BUFFER, this._buffer);
     }
     else {
-      console.warn("ElementBuffer.bind() missing WebGLRenderingContext");
+      console.warn("ElementBuffer.bind() missing WebGLRenderingContext.");
     }
   }
   /**
@@ -70,7 +70,7 @@ class ElementBuffer {
       this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, data, usage);
     }
     else {
-      console.warn("ElementBuffer.data() missing WebGLRenderingContext");
+      console.warn("ElementBuffer.data() missing WebGLRenderingContext.");
     }
   }
 }

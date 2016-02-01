@@ -1,41 +1,35 @@
-import addE3 = require('../math/addE3')
-import b2 = require('../geometries/b2')
-import b3 = require('../geometries/b3')
-import Dimensions = require('../math/Dimensions')
-import extG3 = require('../math/extG3')
-import GeometricE3 = require('../math/GeometricE3')
-import isDefined = require('../checks/isDefined')
-import isNumber = require('../checks/isNumber')
-import lcoG3 = require('../math/lcoG3')
-import GeometricOperators = require('../math/GeometricOperators')
-import mathcore = require('../math/mathcore');
-import ImmutableMeasure = require('../math/ImmutableMeasure');
-import mulE3 = require('../math/mulE3')
-import mulG3 = require('../math/mulG3')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import GeometricElement = require('../math/GeometricElement')
-import NotImplementedError = require('../math/NotImplementedError');
-import rcoG3 = require('../math/rcoG3')
-import readOnly = require('../i18n/readOnly')
-import scpG3 = require('../math/scpG3')
-import SpinorE3 = require('../math/SpinorE3')
-import squaredNormG3 = require('../math/squaredNormG3')
-import stringFromCoordinates = require('../math/stringFromCoordinates')
-import subE3 = require('../math/subE3')
-import TrigMethods = require('../math/TrigMethods')
-import Unit = require('../math/Unit');
-import VectorE3 = require('../math/VectorE3')
-import BASIS_LABELS_G3_GEOMETRIC = require('../math/BASIS_LABELS_G3_GEOMETRIC')
-import BASIS_LABELS_G3_HAMILTON = require('../math/BASIS_LABELS_G3_HAMILTON')
-import BASIS_LABELS_G3_STANDARD = require('../math/BASIS_LABELS_G3_STANDARD')
-import BASIS_LABELS_G3_STANDARD_HTML = require('../math/BASIS_LABELS_G3_STANDARD_HTML')
+import addE3 from '../math/addE3';
+import b2 from '../geometries/b2';
+import b3 from '../geometries/b3';
+import extG3 from '../math/extG3';
+import GeometricE3 from '../math/GeometricE3';
+import isDefined from '../checks/isDefined';
+import lcoG3 from '../math/lcoG3';
+import GeometricOperators from '../math/GeometricOperators';
+import ImmutableMeasure from '../math/ImmutableMeasure';
+import mulE3 from '../math/mulE3';
+import mulG3 from '../math/mulG3';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import GeometricElement from '../math/GeometricElement';
+import NotImplementedError from '../math/NotImplementedError';
+import rcoG3 from '../math/rcoG3';
+import readOnly from '../i18n/readOnly';
+import scpG3 from '../math/scpG3';
+import SpinorE3 from '../math/SpinorE3';
+import squaredNormG3 from '../math/squaredNormG3';
+import stringFromCoordinates from '../math/stringFromCoordinates';
+import subE3 from '../math/subE3';
+import TrigMethods from '../math/TrigMethods';
+import Unit from '../math/Unit';
+import VectorE3 from '../math/VectorE3';
+import BASIS_LABELS_G3_GEOMETRIC from '../math/BASIS_LABELS_G3_GEOMETRIC';
+import BASIS_LABELS_G3_HAMILTON from '../math/BASIS_LABELS_G3_HAMILTON';
+import BASIS_LABELS_G3_STANDARD from '../math/BASIS_LABELS_G3_STANDARD';
+import BASIS_LABELS_G3_STANDARD_HTML from '../math/BASIS_LABELS_G3_STANDARD_HTML';
 
 let cos = Math.cos;
-let cosh = mathcore.Math.cosh;
-let exp = Math.exp;
 let sin = Math.sin;
-let sinh = mathcore.Math.sinh;
 let sqrt = Math.sqrt;
 
 function assertArgEuclidean3(name: string, arg: Euclidean3): Euclidean3 {
@@ -260,7 +254,7 @@ var divide = function(
 /**
  * @class Euclidean3
  */
-class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
+export default class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, GeometricElement<Euclidean3, Euclidean3, SpinorE3, VectorE3>, GeometricOperators<Euclidean3>, TrigMethods<Euclidean3> {
     static get BASIS_LABELS_GEOMETRIC(): string[][] { return BASIS_LABELS_G3_GEOMETRIC };
     static get BASIS_LABELS_HAMILTON(): string[][] { return BASIS_LABELS_G3_HAMILTON };
     static get BASIS_LABELS_STANDARD(): string[][] { return BASIS_LABELS_G3_STANDARD };
@@ -368,7 +362,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @type {number}
      * @private
      */
-    private w: number;
+    public w: number;
 
     /**
      * The `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.
@@ -417,7 +411,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @type {number}
      * @private
      */
-    private xyz: number;
+    public xyz: number;
 
     /**
      * The optional unit of measure.
@@ -744,10 +738,9 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @param rhs {Euclidean3}
      */
     mul(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
-        mulG3(this, rhs, Euclidean3.mutator(out))
-        return out
+        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+        mulG3(this, rhs, Euclidean3.mutator(out));
+        return out;
     }
 
     /**
@@ -758,10 +751,10 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      */
     __mul__(rhs: any): any {
         if (rhs instanceof Euclidean3) {
-            return this.mul(rhs)
+            return this.mul(rhs);
         }
         else if (typeof rhs === 'number') {
-            return this.scale(rhs)
+            return this.scale(rhs);
         }
     }
 
@@ -773,10 +766,10 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      */
     __rmul__(lhs: any): any {
         if (lhs instanceof Euclidean3) {
-            return lhs.mul(this)
+            return lhs.mul(this);
         }
         else if (typeof lhs === 'number') {
-            return this.scale(lhs)
+            return this.scale(lhs);
         }
     }
 
@@ -816,10 +809,10 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      */
     __div__(rhs: any): Euclidean3 {
         if (rhs instanceof Euclidean3) {
-            return this.div(rhs)
+            return this.div(rhs);
         }
         else if (typeof rhs === 'number') {
-            return this.divByScalar(rhs)
+            return this.divByScalar(rhs);
         }
     }
 
@@ -831,7 +824,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      */
     __rdiv__(lhs: any): Euclidean3 {
         if (lhs instanceof Euclidean3) {
-            return lhs.div(this)
+            return lhs.div(this);
         }
         else if (typeof lhs === 'number') {
             return new Euclidean3(lhs, 0, 0, 0, 0, 0, 0, 0, void 0).div(this);
@@ -845,7 +838,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      */
     dual(): Euclidean3 {
         // FIXME: TODO
-        return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom)
+        return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
     }
 
     /**
@@ -854,10 +847,9 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @return {Euclidean3}
      */
     scp(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
-        scpG3(this, rhs, Euclidean3.mutator(out))
-        return out
+        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+        scpG3(this, rhs, Euclidean3.mutator(out));
+        return out;
     }
 
     /**
@@ -866,10 +858,9 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @return {Euclidean3}
      */
     ext(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
-        extG3(this, rhs, Euclidean3.mutator(out))
-        return out
+        const out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom));
+        extG3(this, rhs, Euclidean3.mutator(out));
+        return out;
     }
 
     /**
@@ -938,8 +929,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @return {Euclidean3}
      */
     lco(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
+        const out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         lcoG3(this, rhs, Euclidean3.mutator(out))
         return out
     }
@@ -980,8 +970,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @return {Euclidean3}
      */
     rco(rhs: Euclidean3): Euclidean3 {
-        var out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
-        var w = out.w
+        const out = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, rhs.uom))
         rcoG3(this, rhs, Euclidean3.mutator(out))
         return out
     }
@@ -1078,7 +1067,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @private
      */
     __tilde__(): Euclidean3 {
-        return this.rev()
+        return this.rev();
     }
 
     /**
@@ -1169,7 +1158,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      */
     lerp(target: Euclidean3, α: number): Euclidean3 {
         // FIXME: TODO
-        return this
+        return this;
     }
 
     /**
@@ -1179,7 +1168,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
     cos(): Euclidean3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
-        var cosW = cos(this.w);
+        const cosW = cos(this.w);
         return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0, void 0);
     }
 
@@ -1188,7 +1177,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @return {Euclidean3}
      */
     cosh(): Euclidean3 {
-        //Unit.assertDimensionless(this.uom);
+        // Unit.assertDimensionless(this.uom);
         throw new NotImplementedError('cosh(Euclidean3)');
     }
 
@@ -1198,10 +1187,10 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @return {number}
      */
     distanceTo(point: Euclidean3): number {
-        let dx = this.x - point.x
-        let dy = this.y - point.y
-        let dz = this.z - point.z
-        return sqrt(dx * dx + dy * dy + dz * dz)
+        const dx = this.x - point.x;
+        const dy = this.y - point.y;
+        const dz = this.z - point.z;
+        return sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -1307,7 +1296,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
     }
 
     squaredNormSansUnits(): number {
-        return squaredNormG3(this)
+        return squaredNormG3(this);
     }
 
     /**
@@ -1329,7 +1318,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      */
     rotate(s: SpinorE3): Euclidean3 {
         // TODO
-        return this
+        return this;
     }
 
     /**
@@ -1339,7 +1328,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
     sin(): Euclidean3 {
         // TODO: Generalize to full multivector.
         Unit.assertDimensionless(this.uom);
-        var sinW = sin(this.w);
+        const sinW = sin(this.w);
         return new Euclidean3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
     }
 
@@ -1348,7 +1337,7 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
      * @return {Euclidean3}
      */
     sinh(): Euclidean3 {
-        //Unit.assertDimensionless(this.uom);
+        // Unit.assertDimensionless(this.uom);
         throw new Error('sinh');
     }
 
@@ -1510,5 +1499,3 @@ class Euclidean3 implements ImmutableMeasure<Euclidean3>, GeometricE3, Geometric
         }
     }
 }
-
-export = Euclidean3;

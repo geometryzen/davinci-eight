@@ -1,4 +1,4 @@
-import LinearElement = require('../math/LinearElement');
+import LinearElement from '../math/LinearElement';
 /**
  * This interface is provided to ensure consistency.
  * It is not part of the documented API.
@@ -119,4 +119,4 @@ interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
     scp(rhs: I): M;
 }
 
-export = GeometricElement;
+export default GeometricElement;

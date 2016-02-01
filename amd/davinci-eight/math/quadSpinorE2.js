@@ -1,9 +1,9 @@
-define(["require", "exports", '../checks/isDefined', '../checks/isNumber'], function (require, exports, isDefined, isNumber) {
+define(["require", "exports", '../checks/isDefined', '../checks/isNumber'], function (require, exports, isDefined_1, isNumber_1) {
     function quadSpinorE2(s) {
-        if (isDefined(s)) {
+        if (isDefined_1.default(s)) {
             var α = s.α;
             var xy = s.xy;
-            if (isNumber(α) && isNumber(xy)) {
+            if (isNumber_1.default(α) && isNumber_1.default(xy)) {
                 return α * α + xy * xy;
             }
             else {
@@ -14,5 +14,6 @@ define(["require", "exports", '../checks/isDefined', '../checks/isNumber'], func
             return void 0;
         }
     }
-    return quadSpinorE2;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = quadSpinorE2;
 });

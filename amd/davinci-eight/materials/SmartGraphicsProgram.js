@@ -3,29 +3,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../programs/createGraphicsProgram', '../programs/fragmentShader', '../materials/GraphicsProgram', '../i18n/readOnly', '../programs/vertexShader'], function (require, exports, createGraphicsProgram, fragmentShader, GraphicsProgram, readOnly, vertexShader) {
-    /**
-     * <p>
-     * SmartGraphicsProgram constructs a vertex shader and a fragment shader.
-     * The shader codes are configured by specifying attributes, uniforms and varyings.
-     * The default configuration is produces minimal shaders.
-     * <p>
-     * @class SmartGraphicsProgram
-     * @extends GraphicsProgram
-     */
+define(["require", "exports", '../programs/createGraphicsProgram', '../programs/fragmentShader', '../materials/GraphicsProgram', '../i18n/readOnly', '../programs/vertexShader'], function (require, exports, createGraphicsProgram_1, fragmentShader_1, GraphicsProgram_1, readOnly_1, vertexShader_1) {
     var SmartGraphicsProgram = (function (_super) {
         __extends(SmartGraphicsProgram, _super);
-        /**
-         * @class SmartGraphicsProgram
-         * @constructor
-         * @param contexts {IContextMonitor[]}
-         * @param aParams
-         * @param uParams
-         * @param vColor {boolean}
-         * @param vLight {boolean}
-         */
-        function SmartGraphicsProgram(contexts, aParams, uParams, vColor, vLight) {
-            _super.call(this, contexts, 'SmartGraphicsProgram');
+        function SmartGraphicsProgram(aParams, uParams, vColor, vLight, contexts) {
+            _super.call(this, 'SmartGraphicsProgram', contexts);
             this.aParams = {};
             this.uParams = {};
             this.vColor = false;
@@ -34,51 +16,36 @@ define(["require", "exports", '../programs/createGraphicsProgram', '../programs/
             this.uParams = uParams;
             this.vColor = vColor;
             this.vLight = vLight;
-            // We can start eagerly or omit this call entirely and wait till we are used.
             this.makeReady(false);
         }
-        /**
-         * @method createGraphicsProgram
-         * @return {IGraphicsProgram}
-         */
         SmartGraphicsProgram.prototype.createGraphicsProgram = function () {
-            // FIXME: Make the bindings work.
             var bindings = [];
             var vs = this.vertexShader;
             var fs = this.fragmentShader;
-            return createGraphicsProgram(this.monitors, vs, fs, bindings);
+            return createGraphicsProgram_1.default(this.monitors, vs, fs, bindings);
         };
         Object.defineProperty(SmartGraphicsProgram.prototype, "vertexShader", {
-            /**
-             * @property vertexShader
-             * @type {string}
-             * @readOnly
-             */
             get: function () {
-                return vertexShader(this.aParams, this.uParams, this.vColor, this.vLight);
+                return vertexShader_1.default(this.aParams, this.uParams, this.vColor, this.vLight);
             },
             set: function (unused) {
-                throw new Error(readOnly('vertexShader').message);
+                throw new Error(readOnly_1.default('vertexShader').message);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(SmartGraphicsProgram.prototype, "fragmentShader", {
-            /**
-             * @property fragmentShader
-             * @type {string}
-             * @readOnly
-             */
             get: function () {
-                return fragmentShader(this.aParams, this.uParams, this.vColor, this.vLight);
+                return fragmentShader_1.default(this.aParams, this.uParams, this.vColor, this.vLight);
             },
             set: function (unused) {
-                throw new Error(readOnly('fragmentShader').message);
+                throw new Error(readOnly_1.default('fragmentShader').message);
             },
             enumerable: true,
             configurable: true
         });
         return SmartGraphicsProgram;
-    })(GraphicsProgram);
-    return SmartGraphicsProgram;
+    })(GraphicsProgram_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = SmartGraphicsProgram;
 });

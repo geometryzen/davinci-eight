@@ -1,10 +1,10 @@
-import AttribMetaInfo = require('../core/AttribMetaInfo')
-import getAttribVarName = require('../core/getAttribVarName')
-import getUniformVarName = require('../core/getUniformVarName')
-import mustBeBoolean = require('../checks/mustBeBoolean')
-import mustBeDefined = require('../checks/mustBeDefined')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import UniformMetaInfo = require('../core/UniformMetaInfo')
+import AttribMetaInfo from '../core/AttribMetaInfo';
+import getAttribVarName from '../core/getAttribVarName';
+import getUniformVarName from '../core/getUniformVarName';
+import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeDefined from '../checks/mustBeDefined';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import UniformMetaInfo from '../core/UniformMetaInfo';
 
 function getUniformCodeName(uniforms: { [name: string]: UniformMetaInfo }, name: string) {
     return getUniformVarName(uniforms[name], name)
@@ -28,7 +28,7 @@ function indent(n: number): string {
 /**
  * Generates a vertex shader.
  */
-function vertexShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vLight: boolean): string {
+export default function vertexShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vLight: boolean): string {
 
     mustBeDefined('attributes', attributes)
     mustBeDefined('uniforms', uniforms)
@@ -205,5 +205,3 @@ function vertexShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: 
     let code = lines.join("\n")
     return code
 }
-
-export = vertexShader

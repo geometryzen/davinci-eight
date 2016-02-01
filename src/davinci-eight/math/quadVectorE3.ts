@@ -1,9 +1,9 @@
-import dotVectorCartesianE3 = require('../math/dotVectorCartesianE3')
-import VectorE3 = require('../math/VectorE3')
-import isDefined = require('../checks/isDefined')
-import isNumber = require('../checks/isNumber')
+import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
+import VectorE3 from '../math/VectorE3';
+import isDefined from '../checks/isDefined';
+import isNumber from '../checks/isNumber';
 
-function quadVectorE3(vector: VectorE3): number {
+export default function quadVectorE3(vector: VectorE3): number {
     if (isDefined(vector)) {
         var x = vector.x
         var y = vector.y
@@ -19,5 +19,3 @@ function quadVectorE3(vector: VectorE3): number {
         return void 0
     }
 }
-
-export = quadVectorE3

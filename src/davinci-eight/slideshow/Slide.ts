@@ -1,20 +1,20 @@
-import IAnimation = require('../slideshow/IAnimation')
-import IAnimationTarget = require('../slideshow/IAnimationTarget')
-import IDirector = require('../slideshow/IDirector')
-import ISlide = require('../slideshow/ISlide')
-import ISlideCommand = require('../slideshow/ISlideCommand')
-import IUnknown = require('../core/IUnknown')
-import IUnknownArray = require('../collections/IUnknownArray')
-import mustBeNumber = require('../checks/mustBeNumber')
-import Shareable = require('../utils/Shareable')
-import SlideCommands = require('../slideshow/SlideCommands')
-import StringIUnknownMap = require('../collections/StringIUnknownMap')
-import WaitAnimation = require('../slideshow/animations/WaitAnimation')
+import IAnimation from '../slideshow/IAnimation';
+import IAnimationTarget from '../slideshow/IAnimationTarget';
+import IDirector from '../slideshow/IDirector';
+import ISlide from '../slideshow/ISlide';
+import ISlideCommand from '../slideshow/ISlideCommand';
+import IUnknown from '../core/IUnknown';
+import IUnknownArray from '../collections/IUnknownArray';
+import mustBeNumber from '../checks/mustBeNumber';
+import Shareable from '../utils/Shareable';
+import SlideCommands from '../slideshow/SlideCommands';
+import StringIUnknownMap from '../collections/StringIUnknownMap';
+import WaitAnimation from '../slideshow/animations/WaitAnimation';
 
 /**
  * @class Slide
  */
-class Slide extends Shareable implements ISlide {
+export default class Slide extends Shareable implements ISlide {
     public prolog: SlideCommands;
     public epilog: SlideCommands;
     /**
@@ -138,8 +138,6 @@ class Slide extends Shareable implements ISlide {
         }
     }
 }
-
-export = Slide
 
 class AnimationLane extends Shareable {
     private completed: IUnknownArray<IAnimation>;

@@ -1,25 +1,22 @@
-define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../geometries/Vertex', '../math/VectorN'], function (require, exports, expectArg, isInteger, Vertex, VectorN) {
+define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../geometries/Vertex', '../math/VectorN'], function (require, exports, expectArg_1, isInteger_1, Vertex_1, VectorN_1) {
     function checkIntegerArg(name, n, min, max) {
-        if (isInteger(n) && n >= min && n <= max) {
+        if (isInteger_1.default(n) && n >= min && n <= max) {
             return n;
         }
-        // TODO: I don't suppose we can go backwards with a negative count? Hmmm...
-        // expectArg(name, n).toBeInClosedInterval(min, max);
-        expectArg(name, n).toSatisfy(false, name + " must be an integer in the range [" + min + "," + max + "]");
+        expectArg_1.default(name, n).toSatisfy(false, name + " must be an integer in the range [" + min + "," + max + "]");
     }
     function checkCountArg(count) {
-        // TODO: The count range should depend upon the k value of the simplex.
         return checkIntegerArg('count', count, 0, 7);
     }
     function concatReduce(a, b) {
         return a.concat(b);
     }
     function expectArgVectorN(name, vector) {
-        return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + ' must be a VectorN').value;
+        return expectArg_1.default(name, vector).toSatisfy(vector instanceof VectorN_1.default, name + ' must be a VectorN').value;
     }
     function lerp(a, b, alpha, data) {
         if (data === void 0) { data = []; }
-        expectArg('b', b).toSatisfy(a.length === b.length, "a must be the same length as b");
+        expectArg_1.default('b', b).toSatisfy(a.length === b.length, "a must be the same length as b");
         var dims = a.length;
         var i;
         var beta = 1 - alpha;
@@ -38,63 +35,30 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
         }
         return attribMap;
     }
-    // TODO: Looks like a static of VectorN or a common function.
     function lerpVectorN(a, b, alpha) {
-        return new VectorN(lerp(a.coords, b.coords, alpha));
+        return new VectorN_1.default(lerp(a.coords, b.coords, alpha));
     }
-    /**
-     * @class Simplex
-     */
     var Simplex = (function () {
-        /**
-         * A simplex is the generalization of a point, line, triangle or tetrahedron to arbitrary dimensions.
-         * A k-simplex is the convex hull of its k + 1 vertices.
-         * @class Simplex
-         * @constructor
-         * @param k {number} The initial number of vertices in the simplex is k + 1.
-         */
         function Simplex(k) {
-            /**
-             * The vertices of the simplex.
-             * @property
-             * @type {Vertex[]}
-             */
             this.vertices = [];
-            if (!isInteger(k)) {
-                expectArg('k', k).toBeNumber();
+            if (!isInteger_1.default(k)) {
+                expectArg_1.default('k', k).toBeNumber();
             }
             var numVertices = k + 1;
             for (var i = 0; i < numVertices; i++) {
-                this.vertices.push(new Vertex());
+                this.vertices.push(new Vertex_1.default());
             }
         }
         Object.defineProperty(Simplex.prototype, "k", {
-            /**
-             * The dimensionality of the simplex.
-             * @property k
-             * @type {number}
-             * @readonly
-             */
             get: function () {
                 return this.vertices.length - 1;
             },
             enumerable: true,
             configurable: true
         });
-        /**
-         * @deprecated
-         */
-        // FIXME: We don't need the index property on the vertex (needs some work).
         Simplex.indices = function (simplex) {
             return simplex.vertices.map(function (vertex) { return vertex.index; });
         };
-        /**
-         * Computes the boundary of the simplex.
-         * @method boundaryMap
-         * @param simplex {Simplex}
-         * @return {Simplex[]}
-         * @private
-         */
         Simplex.boundaryMap = function (simplex) {
             var vertices = simplex.vertices;
             var k = simplex.k;
@@ -118,19 +82,17 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
                 return [point0, point1];
             }
             else if (k === Simplex.POINT) {
-                // For consistency, we get one empty simplex rather than an empty list.
                 return [new Simplex(k - 1)];
             }
             else if (k === Simplex.EMPTY) {
                 return [];
             }
             else {
-                // TODO: Handle the TETRAHEDRON and general cases.
                 throw new Error("Unexpected k-simplex, k = " + simplex.k + " @ Simplex.boundaryMap()");
             }
         };
         Simplex.subdivideMap = function (simplex) {
-            expectArg('simplex', simplex).toBeObject();
+            expectArg_1.default('simplex', simplex).toBeObject();
             var divs = [];
             var vertices = simplex.vertices;
             var k = simplex.k;
@@ -185,13 +147,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             }
             return divs;
         };
-        /**
-         * Computes the result of the boundary operation performed `count` times.
-         * @method boundary
-         * @param simplices {Simplex[]}
-         * @param count {number}
-         * @return {Simplex[]}
-         */
         Simplex.boundary = function (simplices, count) {
             if (count === void 0) { count = 1; }
             checkCountArg(count);
@@ -200,13 +155,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             }
             return simplices;
         };
-        /**
-         * Computes the result of the subdivide operation performed `count` times.
-         * @method subdivide
-         * @param simplices {Simplex[]}
-         * @param count {number}
-         * @return {Simplex[]}
-         */
         Simplex.subdivide = function (simplices, count) {
             if (count === void 0) { count = 1; }
             checkCountArg(count);
@@ -215,8 +163,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             }
             return simplices;
         };
-        // TODO: This function destined to be part of Simplex constructor.
-        // FIXME still used from triangle.ts!
         Simplex.setAttributeValues = function (attributes, simplex) {
             var names = Object.keys(attributes);
             var attribsLength = names.length;
@@ -231,51 +177,14 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
                 }
             }
         };
-        // These symbolic constants represent the correct k values for various low-dimesional simplices. 
-        // The number of vertices in a k-simplex is k + 1.
-        /**
-         * An empty set can be consired to be a -1 simplex (algebraic topology).
-         * @property EMPTY
-         * @type {number}
-         * @static
-         */
         Simplex.EMPTY = -1;
-        /**
-         * A single point may be considered a 0-simplex.
-         * @property POINT
-         * @type {number}
-         * @static
-         */
         Simplex.POINT = 0;
-        /**
-         * A line segment may be considered a 1-simplex.
-         * @property LINE
-         * @type {number}
-         * @static
-         */
         Simplex.LINE = 1;
-        /**
-         * A 2-simplex is a triangle.
-         * @property TRIANGLE
-         * @type {number}
-         * @static
-         */
         Simplex.TRIANGLE = 2;
-        /**
-         * A 3-simplex is a tetrahedron.
-         * @property TETRAHEDRON
-         * @type {number}
-         * @static
-         */
         Simplex.TETRAHEDRON = 3;
-        /**
-         * A 4-simplex is a 5-cell.
-         * @property FIVE_CELL
-         * @type {number}
-         * @static
-         */
         Simplex.FIVE_CELL = 4;
         return Simplex;
     })();
-    return Simplex;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Simplex;
 });

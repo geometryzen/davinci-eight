@@ -3,36 +3,21 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/Color', '../checks/mustBeNumber', '../checks/mustBeObject', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, Color, mustBeNumber, mustBeObject, Shareable, GraphicsProgramSymbols) {
+define(["require", "exports", '../core/Color', '../checks/mustBeNumber', '../checks/mustBeObject', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, mustBeNumber_1, mustBeObject_1, Shareable_1, GraphicsProgramSymbols_1) {
     var LOGGING_NAME = 'AmbientLight';
     function contextBuilder() {
         return LOGGING_NAME;
     }
-    /**
-     * @class AmbientLight
-     * @extends Shareable
-     */
     var AmbientLight = (function (_super) {
         __extends(AmbientLight, _super);
-        /**
-         * Constructs a white light in the -e3 direction.
-         * @class AmbientLight
-         * @constructor
-         */
         function AmbientLight(color) {
             _super.call(this, 'AmbientLight');
-            mustBeObject('color', color);
-            // FIXME: Need some kind of locking for constants
-            this.color = Color.white.clone();
-            this.color.r = mustBeNumber('color.r', color.r);
-            this.color.g = mustBeNumber('color.g', color.g);
-            this.color.b = mustBeNumber('color.b', color.b);
+            mustBeObject_1.default('color', color);
+            this.color = Color_1.default.white.clone();
+            this.color.r = mustBeNumber_1.default('color.r', color.r);
+            this.color.g = mustBeNumber_1.default('color.g', color.g);
+            this.color.b = mustBeNumber_1.default('color.b', color.b);
         }
-        /**
-         * @method destructor
-         * @type {void}
-         * @protected
-         */
         AmbientLight.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
@@ -41,17 +26,12 @@ define(["require", "exports", '../core/Color', '../checks/mustBeNumber', '../che
         };
         AmbientLight.prototype.setProperty = function (name, value) {
         };
-        /**
-         * @method setUniforms
-         * @param visitor {IFacetVisitor}
-         * @param [canvasId] {number}
-         * @return {void}
-         */
         AmbientLight.prototype.setUniforms = function (visitor, canvasId) {
             var coords = [this.color.r, this.color.g, this.color.b];
-            visitor.vector3(GraphicsProgramSymbols.UNIFORM_AMBIENT_LIGHT, coords, canvasId);
+            visitor.vector3(GraphicsProgramSymbols_1.default.UNIFORM_AMBIENT_LIGHT, coords, canvasId);
         };
         return AmbientLight;
-    })(Shareable);
-    return AmbientLight;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = AmbientLight;
 });

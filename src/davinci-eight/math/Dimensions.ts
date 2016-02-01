@@ -1,6 +1,6 @@
-import DivisionRingOperators = require('../math/DivisionRingOperators')
-import mustBeObject = require('../checks/mustBeObject')
-import QQ = require('../math/QQ')
+import DivisionRingOperators from '../math/DivisionRingOperators';
+import mustBeObject from '../checks/mustBeObject';
+import QQ from '../math/QQ';
 
 var R0 = QQ.ZERO;
 var R1 = QQ.ONE;
@@ -27,7 +27,7 @@ function assertArgRational(name: string, arg: QQ): QQ {
 /**
  * @class Dimensions
  */
-class Dimensions implements DivisionRingOperators<Dimensions> {
+export default class Dimensions implements DivisionRingOperators<Dimensions> {
 
     /**
      * @property ONE
@@ -352,5 +352,3 @@ class Dimensions implements DivisionRingOperators<Dimensions> {
         return this
     }
 }
-
-export = Dimensions;

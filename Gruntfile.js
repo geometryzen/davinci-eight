@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   var path = require('path');
   var cp = require('child_process');
   var Q = require('q');
+  var Builder = require('systemjs-builder');
 
   // Project configuration.
   grunt.initConfig({
@@ -12,7 +13,7 @@ module.exports = function(grunt) {
 
     // Task configuration.
     clean: {
-      src: ['dist', 'amd', 'cjs', 'documentation']
+      src: ['amd', 'dist', 'documentation', 'system', '.tscache']
     },
 
     exec: {
@@ -26,35 +27,36 @@ module.exports = function(grunt) {
     requirejs: {
       compile: {
         options: {
-          mainConfigFile: "build.js",
+          mainConfigFile: "requirejs.config.js",
           paths: {
-              'davinci-blade': './../vendor/davinci-blade/amd/davinci-blade',
-              'gl-matrix':     './../vendor/gl-matrix/dist/gl-matrix-min'
           }
         }
       }
     },
 
     uglify: {
-      dist: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+      },
+      amd: {
         src: 'dist/davinci-eight.js',
         dest: 'dist/davinci-eight.min.js'
+      },
+      system: {
+        src: 'dist/davinci-eight-system-es5.js',
+        dest: 'dist/davinci-eight-system-es5.min.js'
       }
     },
+
     copy: {
       main: {
         expand: true,
         cwd: 'src/modules/',
         src: ['davinci-eight.d.ts'],
         dest: 'dist/'
-      }//,
-      //blade: {
-      //  expand: true,
-      //  cwd: 'vendor/davinci-blade/src',
-      //  src: ['davinci-blade.ts', 'davinci-blade/**/*.ts'],
-      //  dest: 'src/'
-      //}
+      }
     },
+
     connect: {
         test: {
             options: {
@@ -73,14 +75,123 @@ module.exports = function(grunt) {
                     requireConfig: {
                       baseUrl: 'amd/',
                       paths: {
-                        'gl-matrix': '../vendor/gl-matrix/dist/gl-matrix-min',
-                        'davinci-blade': '../vendor/davinci-blade/amd/davinci-blade'
                       }
                     }
                 }
             }
         }
     },
+
+    ts: {
+      amdES5 : {
+        tsconfig: {
+          tsconfig: './tsconfig.amd.json',
+          ignoreFiles: true,
+          ignoreSettings: true
+        },
+        options: {
+          fast: 'never',
+          module: 'amd',
+          target: 'ES5',
+          moduleResolution: "classic",
+          noImplicitAny: false,
+          outDir: 'amd',
+          sourceMap: false,
+          verbose: false
+        }
+      },
+      systemES5 : {
+        tsconfig: {
+          tsconfig: './tsconfig.system.json',
+          ignoreFiles: true,
+          ignoreSettings: true
+        },
+        options: {
+          fast: 'never',
+          module: 'system',
+          target: 'ES5',
+          noImplicitAny: false,
+          outDir: 'system',
+          sourceMap: false,
+          verbose: false
+        }
+      }
+    },
+
+    tslint: {
+      src: [
+        "src/davinci-eight/cameras/Perspective.ts",
+        "src/davinci-eight/cameras/PerspectiveCamera.ts",
+        "src/davinci-eight/cameras/View.ts",
+        "src/davinci-eight/cameras/createPerspective.ts",
+        "src/davinci-eight/cameras/createView.ts",
+        "src/davinci-eight/cameras/frustumMatrix.ts",
+        "src/davinci-eight/cameras/perspectiveArray.ts",
+        "src/davinci-eight/cameras/perspectiveMatrix.ts",
+        "src/davinci-eight/cameras/viewArray.ts",
+        "src/davinci-eight/cameras/viewMatrix.ts",
+        "src/davinci-eight/collections/NumberIUnknownMap.ts",
+        "src/davinci-eight/collections/StringIUnknownMap.ts",
+        "src/davinci-eight/collections/copyToArray.ts",
+        "src/davinci-eight/commands/BlendFactor.ts",
+        "src/davinci-eight/commands/Capability.ts",
+        "src/davinci-eight/commands/ContextAttributesLogger.ts",
+        "src/davinci-eight/commands/EIGHTLogger.ts",
+        "src/davinci-eight/commands/VersionLogger.ts",
+        "src/davinci-eight/commands/WebGLBlendFunc.ts",
+        "src/davinci-eight/commands/WebGLClearColor.ts",
+        "src/davinci-eight/commands/WebGLDisable.ts",
+        "src/davinci-eight/commands/WebGLEnable.ts",
+        "src/davinci-eight/commands/glCapability.ts",
+        "src/davinci-eight/core/AttribLocation.ts",
+        "src/davinci-eight/core/AttribMetaInfo.ts",
+        "src/davinci-eight/core/BufferResource.ts",
+        "src/davinci-eight/core/Color.ts",
+        "src/davinci-eight/core/ColorRGB.ts",
+        "src/davinci-eight/core/ColorRGBA.ts",
+        "src/davinci-eight/core/ContextController.ts",
+        "src/davinci-eight/core/ContextKahuna.ts",
+        "src/davinci-eight/core/ContextUnique.ts",
+        "src/davinci-eight/core/DrawMode.ts",
+        "src/davinci-eight/core/Facet.ts",
+        "src/davinci-eight/core/FacetVisitor.ts",
+        "src/davinci-eight/core/UniformLocation.ts",
+        "src/davinci-eight/core/principalAngle.ts",
+        "src/davinci-eight/programs/SimpleWebGLProgram.ts",
+        "src/davinci-eight/programs/createGraphicsProgram.ts",
+        "src/davinci-eight/programs/makeWebGLProgram.ts",
+        "src/davinci-eight/programs/makeWebGLShader.ts",
+        "src/davinci-eight/programs/programFromScripts.ts",
+        "src/davinci-eight/renderers/IContextRenderer.ts",
+        "src/davinci-eight/renderers/initWebGL.ts",
+        "src/davinci-eight/renderers/renderer.ts",
+        "src/davinci-eight/scene/Drawable.ts",
+        "src/davinci-eight/scene/GraphicsContext.ts",
+        "src/davinci-eight/scene/MonitorList.ts",
+        "src/davinci-eight/scene/Scene.ts",
+        "src/davinci-eight/scene/createDrawList.ts",
+        "src/davinci-eight/math/Euclidean3.ts",
+        "src/davinci-eight/math/G3.ts",
+        "src/davinci-eight/math/VectorN.ts",
+        "src/davinci-eight/visual/Arrow.ts",
+        "src/davinci-eight/visual/arrow.ts",
+        "src/davinci-eight/visual/vector.ts"
+      ],
+      options: {
+        configuration: 'tslint.json'
+      }
+    },
+
+    watch: {
+      scripts: {
+        files: ['src/davinci-eight/**/*.ts'],
+        tasks: ['ts:systemES5'],
+        options: {
+          spawn: false
+        }
+      }
+    },
+
     // Check JavaScript files for errors/warnings
     jshint: {
         src: [
@@ -160,9 +271,38 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-yuidoc'); // enable the YUIDocs task.
   grunt.loadNpmTasks('grunt-complexity');
   grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks('grunt-ts');
+  grunt.loadNpmTasks('grunt-tslint');
+
+  function bundle() {
+    // Set the baseURL and load the configuration file.
+    var builder = new Builder('./system', './config.js');
+
+    var options = {
+      minify: false,
+      mangle: true,
+      sourceMaps: true,
+      lowResSourceMaps: true
+    };
+
+    return builder.bundle('davinci-eight.js', 'dist/davinci-eight-system-es5.js', options);
+  }
+
+  grunt.registerTask('bundle', "Bundle into system modules", function() {
+    var done = this.async();
+    bundle()
+    .then(function(){
+      done(true);
+    })
+    .catch(function(err){
+      console.log(err);
+      done(false);
+    });
+  });
 
   var compilerSources = [
       "src/davinci-eight.ts"
@@ -215,12 +355,15 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', ['connect:test', 'jasmine']);
 
-  // Register 'docs' so that we can do `grunt docs` from the command line. 
-  grunt.registerTask('docs', ['yuidoc']);
-
   grunt.registerTask('testAll', ['exec:test', 'test']);
 
-  grunt.registerTask('style', ['clean', 'buildAMD', 'jshint', 'docs', 'copy', 'requirejs', 'uglify']);
+  grunt.registerTask('docs', ['clean', 'compile', 'copy', 'yuidoc']);
 
-  grunt.registerTask('default', ['clean', 'buildAMD', 'docs', 'copy', 'requirejs', 'uglify']);
+  grunt.registerTask('system', ['ts:systemES5', 'bundle']);
+
+  grunt.registerTask('amd', ['ts:amdES5', 'requirejs']);
+
+  grunt.registerTask('dev', ['clean', 'tslint', 'amd', 'copy']);
+
+  grunt.registerTask('default', ['clean', 'tslint', 'system', 'amd', 'uglify', 'copy', 'yuidoc']);
 };

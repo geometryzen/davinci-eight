@@ -1,9 +1,9 @@
-import b2 = require('../geometries/b2')
-import b3 = require('../geometries/b3')
-import Euclidean3 = require('../math/Euclidean3')
-import FontFace = require('../geometries/FontFace')
-import Path = require('../geometries/Path')
-import Shape = require('../geometries/Shape')
+import b2 from '../geometries/b2';
+import b3 from '../geometries/b3';
+import Euclidean3 from '../math/Euclidean3';
+import FontFace from '../geometries/FontFace';
+import Path from '../geometries/Path';
+import Shape from '../geometries/Shape';
 
 function drawText(text: string, face: FontFace, size: number, divs: number): { paths: Path[]; offset: number } {
 
@@ -161,7 +161,7 @@ function extractGlyphPoints(c: string, face: FontFace, scale: number, offset: nu
 }
 
 
-function generateTextShapes(text: string, face: FontFace, parameters: { curveSegments?: number; font?: string; size?: number; style?: string; weight?: string }) {
+export default function generateTextShapes(text: string, face: FontFace, parameters: { curveSegments?: number; font?: string; size?: number; style?: string; weight?: string }) {
     parameters = parameters || {};
 
     var size = parameters.size !== undefined ? parameters.size : 100;
@@ -191,4 +191,3 @@ function generateTextShapes(text: string, face: FontFace, parameters: { curveSeg
 
     return shapes;
 }
-export = generateTextShapes

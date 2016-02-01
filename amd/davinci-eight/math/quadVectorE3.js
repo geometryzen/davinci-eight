@@ -1,11 +1,11 @@
-define(["require", "exports", '../math/dotVectorCartesianE3', '../checks/isDefined', '../checks/isNumber'], function (require, exports, dotVectorCartesianE3, isDefined, isNumber) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../checks/isDefined', '../checks/isNumber'], function (require, exports, dotVectorCartesianE3_1, isDefined_1, isNumber_1) {
     function quadVectorE3(vector) {
-        if (isDefined(vector)) {
+        if (isDefined_1.default(vector)) {
             var x = vector.x;
             var y = vector.y;
             var z = vector.z;
-            if (isNumber(x) && isNumber(y) && isNumber(z)) {
-                return dotVectorCartesianE3(x, y, z, x, y, z);
+            if (isNumber_1.default(x) && isNumber_1.default(y) && isNumber_1.default(z)) {
+                return dotVectorCartesianE3_1.default(x, y, z, x, y, z);
             }
             else {
                 return void 0;
@@ -15,5 +15,6 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../checks/isDefin
             return void 0;
         }
     }
-    return quadVectorE3;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = quadVectorE3;
 });

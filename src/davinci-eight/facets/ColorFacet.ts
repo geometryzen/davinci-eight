@@ -1,25 +1,48 @@
-import Color = require('../core/Color')
-import Mat3R = require('../math/Mat3R')
-import Mat4R = require('../math/Mat4R')
-import mustBeNumber = require('../checks/mustBeNumber')
-import Shareable = require('../utils/Shareable')
-import SpinG3 = require('../math/SpinG3')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import IFacet = require('../core/IFacet')
-import ColorRGB = require('../core/ColorRGB')
-import ColorRGBA = require('../core/ColorRGBA')
-import IFacetVisitor = require('../core/IFacetVisitor')
-import IAnimationTarget = require('../slideshow/IAnimationTarget')
-import IUnknownExt = require('../core/IUnknownExt')
+import Color from '../core/Color';
+import core from '../core';
+import Mat3R from '../math/Mat3R';
+import Mat4R from '../math/Mat4R';
+import mustBeNumber from '../checks/mustBeNumber';
+import Shareable from '../utils/Shareable';
+import SpinG3 from '../math/SpinG3';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import Facet from '../core/Facet';
+import FacetVisitor from '../core/FacetVisitor';
+import IAnimationTarget from '../slideshow/IAnimationTarget';
+import IUnknownExt from '../core/IUnknownExt';
 
-let COORD_R = 0
-let COORD_G = 1
-let COORD_B = 2
+const COORD_R = 0
+const COORD_G = 1
+const COORD_B = 2
+
+function checkPropertyName(name: string): void {
+    if (typeof name !== 'string') {
+        const msg = "ColorFacet property 'name' must be a string.";
+        if (core.strict) {
+            throw new TypeError(msg);
+        }
+        else {
+            console.warn(msg);
+        }
+    }
+    switch (name) {
+        case ColorFacet.PROP_RGB: return;
+        default: {
+            const msg = `ColorFacet property 'name' must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RGBA, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE, ColorFacet.PROP_ALPHA]}.`;
+            if (core.strict) {
+                throw new Error(msg);
+            }
+            else {
+                console.warn(msg);
+            }
+        }
+    }
+}
 
 /**
  * @class ColorFacet
  */
-class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarget, IUnknownExt<ColorFacet> {
+export default class ColorFacet extends Shareable implements Facet, IAnimationTarget, IUnknownExt<ColorFacet> {
     /**
      * property PROP_RGB
      * @type {string}
@@ -39,28 +62,28 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
      * @type {string}
      * @static
      */
-    public static PROP_RED = 'red';
+    public static PROP_RED = 'r';
 
     /**
      * property PROP_GREEN
      * @type {string}
      * @static
      */
-    public static PROP_GREEN = 'green';
+    public static PROP_GREEN = 'g';
 
     /**
      * property PROP_BLUE
      * @type {string}
      * @static
      */
-    public static PROP_BLUE = 'blue';
+    public static PROP_BLUE = 'b';
 
     /**
      * property PROP_ALPHA
      * @type {string}
      * @static
      */
-    public static PROP_ALPHA = 'alpha';
+    public static PROP_ALPHA = 'a';
 
     /**
      * @property xyz
@@ -198,34 +221,6 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
     }
 
     /**
-     * @method setColorRGB
-     * @param color {ColorRGB}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    setColorRGB(color: ColorRGB): ColorFacet {
-        this.r = color.r
-        this.g = color.g
-        this.b = color.b
-        return this
-    }
-
-
-    /**
-     * @method setColorRGBA
-     * @param color {ColorRGBA}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    setColorRGBA(color: ColorRGBA): ColorFacet {
-        this.r = color.r
-        this.g = color.g
-        this.b = color.b
-        this.α = color.α
-        return this
-    }
-
-    /**
      * @method setRGB
      * @param red {number}
      * @param green {number}
@@ -264,6 +259,7 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
      * @return {number[]}
      */
     getProperty(name: string): number[] {
+        checkPropertyName(name);
         switch (name) {
             case ColorFacet.PROP_RGB: {
                 return [this.r, this.g, this.b]
@@ -275,7 +271,6 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
                 return [this.g]
             }
             default: {
-                console.warn("ColorFacet.getProperty " + name)
                 return void 0
             }
         }
@@ -288,6 +283,7 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
      * @return {void}
      */
     setProperty(name: string, data: number[]): void {
+        checkPropertyName(name);
         switch (name) {
             case ColorFacet.PROP_RGB: {
                 this.r = data[COORD_R]
@@ -300,18 +296,17 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
                 break
             }
             default: {
-                console.warn("ColorFacet.setProperty " + name)
             }
         }
     }
 
     /**
      * @method setUniforms
-     * @param visitor {IFacetVisitor}
+     * @param visitor {FacetVisitor}
      * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
+    setUniforms(visitor: FacetVisitor, canvasId?: number): void {
         if (this.uColorName) {
             visitor.vector3(this.uColorName, this.xyz, canvasId)
         }
@@ -320,5 +315,3 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
         }
     }
 }
-
-export = ColorFacet

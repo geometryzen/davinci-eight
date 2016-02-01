@@ -1,25 +1,15 @@
-import Capability = require('../commands/Capability')
-import Color = require('../core/Color')
-import core = require('../core')
-import expectArg = require('../checks/expectArg')
-import ContextAttributesLogger = require('../commands/ContextAttributesLogger')
-import IContextProvider = require('../core/IContextProvider')
-import IContextRenderer = require('../renderers/IContextRenderer')
-import IContextCommand = require('../core/IContextCommand')
-import IBufferGeometry = require('../geometries/IBufferGeometry')
-import IGraphicsProgram = require('../core/IGraphicsProgram')
-import IUnknownArray = require('../collections/IUnknownArray')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeBoolean = require('../checks/mustBeBoolean')
-import mustSatisfy = require('../checks/mustSatisfy')
-import IFacet = require('../core/IFacet')
-import refChange = require('../utils/refChange')
-import uuid4 = require('../utils/uuid4')
-import WebGLClearColor = require('../commands/WebGLClearColor')
-import WebGLEnable = require('../commands/WebGLEnable')
-import WebGLDisable = require('../commands/WebGLDisable')
+import Capability from '../commands/Capability';
+import IContextProvider from '../core/IContextProvider';
+import IContextRenderer from '../renderers/IContextRenderer';
+import IContextCommand from '../core/IContextCommand';
+import IUnknownArray from '../collections/IUnknownArray';
+import refChange from '../utils/refChange';
+import uuid4 from '../utils/uuid4';
+import WebGLClearColor from '../commands/WebGLClearColor';
+import WebGLEnable from '../commands/WebGLEnable';
+import WebGLDisable from '../commands/WebGLDisable';
 
-let CLASS_NAME = "CanonicalIContextRenderer"
+const CLASS_NAME = "CanonicalIContextRenderer"
 
 /**
  * We need to know the canvasId so that we can tell drawables where to draw.
@@ -28,13 +18,13 @@ let CLASS_NAME = "CanonicalIContextRenderer"
  *
  * Part of the role of this class is to manage the commands that are executed at startup/prolog.
  */
-let renderer = function(): IContextRenderer {
-    var _manager: IContextProvider;
-    let uuid = uuid4().generate()
+export default function renderer(): IContextRenderer {
+    let _manager: IContextProvider;
+    const uuid = uuid4().generate()
     let refCount = 1
     let commands = new IUnknownArray<IContextCommand>([])
 
-    let self: IContextRenderer = {
+    const self: IContextRenderer = {
         addRef(): number {
             refCount++
             refChange(uuid, CLASS_NAME, +1)
@@ -96,5 +86,3 @@ let renderer = function(): IContextRenderer {
     refChange(uuid, CLASS_NAME, +1)
     return self
 }
-
-export = renderer

@@ -1,8 +1,8 @@
-import IUnknown = require('../core/IUnknown');
-import IContextConsumer = require('../core/IContextConsumer');
+import IUnknown from '../core/IUnknown';
+import IContextConsumer from '../core/IContextConsumer';
 
 interface IResource extends IUnknown, IContextConsumer {
 
 }
 
-export = IResource;
+export default IResource;

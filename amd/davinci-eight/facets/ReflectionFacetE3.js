@@ -3,81 +3,39 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '../checks/mustBeString', '../math/R3', '../math/Mat4R', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, CartesianE3, mustBeArray, mustBeString, R3, Mat4R, readOnly, Shareable) {
-    /**
-     * @class ReflectionFacetE3
-     * @extends Shareable
-     */
+define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '../checks/mustBeString', '../math/R3', '../math/Mat4R', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, CartesianE3_1, mustBeArray_1, mustBeString_1, R3_1, Mat4R_1, readOnly_1, Shareable_1) {
     var ReflectionFacetE3 = (function (_super) {
         __extends(ReflectionFacetE3, _super);
-        /**
-         * @class ReflectionFacetE3
-         * @constructor
-         * @param name {string} The name of the uniform variable.
-         */
         function ReflectionFacetE3(name) {
             _super.call(this, 'ReflectionFacetE3');
-            /**
-             * @property matrix
-             * @type {Mat4R}
-             * @private
-             */
-            this.matrix = Mat4R.one();
-            this.name = mustBeString('name', name);
-            // The mathematics of the reflection causes a zero vector to be the identity transformation.
-            this._normal = new R3().copy(CartesianE3.zero);
+            this.matrix = Mat4R_1.default.one();
+            this.name = mustBeString_1.default('name', name);
+            this._normal = new R3_1.default().copy(CartesianE3_1.default.zero);
             this._normal.modified = true;
         }
         Object.defineProperty(ReflectionFacetE3.prototype, "normal", {
-            /**
-             * @property normal
-             * @type R3
-             * @readOnly
-             */
             get: function () {
                 return this._normal;
             },
             set: function (unused) {
-                throw new Error(readOnly('normal').message);
+                throw new Error(readOnly_1.default('normal').message);
             },
             enumerable: true,
             configurable: true
         });
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
         ReflectionFacetE3.prototype.destructor = function () {
             this._normal = void 0;
             this.matrix = void 0;
             _super.prototype.destructor.call(this);
         };
-        /**
-         * @method getProperty
-         * @param name {string}
-         * @return {Array<number>}
-         */
         ReflectionFacetE3.prototype.getProperty = function (name) {
-            mustBeString('name', name);
+            mustBeString_1.default('name', name);
             return void 0;
         };
-        /**
-         * @method setProperty
-         * @param name {string}
-         * @param value {Array<number>}
-         * @return {void}
-         */
         ReflectionFacetE3.prototype.setProperty = function (name, value) {
-            mustBeString('name', name);
-            mustBeArray('value', value);
+            mustBeString_1.default('name', name);
+            mustBeArray_1.default('value', value);
         };
-        /**
-         * @method setUniforms
-         * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
-         * @return {void}
-         */
         ReflectionFacetE3.prototype.setUniforms = function (visitor, canvasId) {
             if (this._normal.modified) {
                 this.matrix.reflection(this._normal);
@@ -86,6 +44,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
             visitor.mat4(this.name, this.matrix, false, canvasId);
         };
         return ReflectionFacetE3;
-    })(Shareable);
-    return ReflectionFacetE3;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ReflectionFacetE3;
 });

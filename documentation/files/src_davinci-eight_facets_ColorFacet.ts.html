@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.170.0</em>
+            <em>API Docs for: 2.171.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -67,7 +67,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -84,6 +84,8 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/ExtrudeSimplexGeometry.html">ExtrudeSimplexGeometry</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
+                                <li><a href="../classes/Facet.html">Facet</a></li>
+                                <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/FontFace.html">FontFace</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
@@ -110,8 +112,6 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet.html">IFacet</a></li>
-                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
@@ -130,7 +130,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
-                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
@@ -153,6 +153,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/RefCount.html">RefCount</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
@@ -170,7 +171,7 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
-                                <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
@@ -196,6 +197,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexSimplexGeometry.html">VortexSimplexGeometry</a></li>
+                                <li><a href="../classes/WaitAnimation.html">WaitAnimation</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -244,28 +246,51 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Color = require(&#x27;../core/Color&#x27;)
-import Mat3R = require(&#x27;../math/Mat3R&#x27;)
-import Mat4R = require(&#x27;../math/Mat4R&#x27;)
-import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
-import Shareable = require(&#x27;../utils/Shareable&#x27;)
-import SpinG3 = require(&#x27;../math/SpinG3&#x27;)
-import GraphicsProgramSymbols = require(&#x27;../core/GraphicsProgramSymbols&#x27;)
-import IFacet = require(&#x27;../core/IFacet&#x27;)
-import ColorRGB = require(&#x27;../core/ColorRGB&#x27;)
-import ColorRGBA = require(&#x27;../core/ColorRGBA&#x27;)
-import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
-import IAnimationTarget = require(&#x27;../slideshow/IAnimationTarget&#x27;)
-import IUnknownExt = require(&#x27;../core/IUnknownExt&#x27;)
+import Color from &#x27;../core/Color&#x27;;
+import core from &#x27;../core&#x27;;
+import Mat3R from &#x27;../math/Mat3R&#x27;;
+import Mat4R from &#x27;../math/Mat4R&#x27;;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import Shareable from &#x27;../utils/Shareable&#x27;;
+import SpinG3 from &#x27;../math/SpinG3&#x27;;
+import GraphicsProgramSymbols from &#x27;../core/GraphicsProgramSymbols&#x27;;
+import Facet from &#x27;../core/Facet&#x27;;
+import FacetVisitor from &#x27;../core/FacetVisitor&#x27;;
+import IAnimationTarget from &#x27;../slideshow/IAnimationTarget&#x27;;
+import IUnknownExt from &#x27;../core/IUnknownExt&#x27;;
 
-let COORD_R = 0
-let COORD_G = 1
-let COORD_B = 2
+const COORD_R = 0
+const COORD_G = 1
+const COORD_B = 2
+
+function checkPropertyName(name: string): void {
+    if (typeof name !== &#x27;string&#x27;) {
+        const msg = &quot;ColorFacet property &#x27;name&#x27; must be a string.&quot;;
+        if (core.strict) {
+            throw new TypeError(msg);
+        }
+        else {
+            console.warn(msg);
+        }
+    }
+    switch (name) {
+        case ColorFacet.PROP_RGB: return;
+        default: {
+            const msg = &#x60;ColorFacet property &#x27;name&#x27; must be one of ${[ColorFacet.PROP_RGB, ColorFacet.PROP_RGBA, ColorFacet.PROP_RED, ColorFacet.PROP_GREEN, ColorFacet.PROP_BLUE, ColorFacet.PROP_ALPHA]}.&#x60;;
+            if (core.strict) {
+                throw new Error(msg);
+            }
+            else {
+                console.warn(msg);
+            }
+        }
+    }
+}
 
 /**
  * @class ColorFacet
  */
-class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarget, IUnknownExt&lt;ColorFacet&gt; {
+export default class ColorFacet extends Shareable implements Facet, IAnimationTarget, IUnknownExt&lt;ColorFacet&gt; {
     /**
      * property PROP_RGB
      * @type {string}
@@ -285,28 +310,28 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
      * @type {string}
      * @static
      */
-    public static PROP_RED = &#x27;red&#x27;;
+    public static PROP_RED = &#x27;r&#x27;;
 
     /**
      * property PROP_GREEN
      * @type {string}
      * @static
      */
-    public static PROP_GREEN = &#x27;green&#x27;;
+    public static PROP_GREEN = &#x27;g&#x27;;
 
     /**
      * property PROP_BLUE
      * @type {string}
      * @static
      */
-    public static PROP_BLUE = &#x27;blue&#x27;;
+    public static PROP_BLUE = &#x27;b&#x27;;
 
     /**
      * property PROP_ALPHA
      * @type {string}
      * @static
      */
-    public static PROP_ALPHA = &#x27;alpha&#x27;;
+    public static PROP_ALPHA = &#x27;a&#x27;;
 
     /**
      * @property xyz
@@ -444,34 +469,6 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
     }
 
     /**
-     * @method setColorRGB
-     * @param color {ColorRGB}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    setColorRGB(color: ColorRGB): ColorFacet {
-        this.r = color.r
-        this.g = color.g
-        this.b = color.b
-        return this
-    }
-
-
-    /**
-     * @method setColorRGBA
-     * @param color {ColorRGBA}
-     * @return {ColorFacet}
-     * @chainable
-     */
-    setColorRGBA(color: ColorRGBA): ColorFacet {
-        this.r = color.r
-        this.g = color.g
-        this.b = color.b
-        this.α = color.α
-        return this
-    }
-
-    /**
      * @method setRGB
      * @param red {number}
      * @param green {number}
@@ -510,6 +507,7 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
      * @return {number[]}
      */
     getProperty(name: string): number[] {
+        checkPropertyName(name);
         switch (name) {
             case ColorFacet.PROP_RGB: {
                 return [this.r, this.g, this.b]
@@ -521,7 +519,6 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
                 return [this.g]
             }
             default: {
-                console.warn(&quot;ColorFacet.getProperty &quot; + name)
                 return void 0
             }
         }
@@ -534,6 +531,7 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
      * @return {void}
      */
     setProperty(name: string, data: number[]): void {
+        checkPropertyName(name);
         switch (name) {
             case ColorFacet.PROP_RGB: {
                 this.r = data[COORD_R]
@@ -546,18 +544,17 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
                 break
             }
             default: {
-                console.warn(&quot;ColorFacet.setProperty &quot; + name)
             }
         }
     }
 
     /**
      * @method setUniforms
-     * @param visitor {IFacetVisitor}
+     * @param visitor {FacetVisitor}
      * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: IFacetVisitor, canvasId?: number): void {
+    setUniforms(visitor: FacetVisitor, canvasId?: number): void {
         if (this.uColorName) {
             visitor.vector3(this.uColorName, this.xyz, canvasId)
         }
@@ -566,8 +563,6 @@ class ColorFacet extends Shareable implements ColorRGBA, IFacet, IAnimationTarge
         }
     }
 }
-
-export = ColorFacet
 
     </pre>
 </div>

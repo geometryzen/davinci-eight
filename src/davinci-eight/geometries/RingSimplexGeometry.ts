@@ -1,15 +1,15 @@
-import arc3 = require('../geometries/arc3')
-import CartesianE3 = require('../math/CartesianE3')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
-import mustBeNumber = require('../checks/mustBeNumber')
-import Simplex = require('../geometries/Simplex')
-import SliceSimplexGeometry = require('../geometries/SliceSimplexGeometry')
-import SpinG3 = require('../math/SpinG3')
-import SpinorE3 = require('../math/SpinorE3')
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols')
-import R2 = require('../math/R2')
-import R3 = require('../math/R3')
-import VectorE3 = require('../math/VectorE3')
+import arc3 from '../geometries/arc3';
+import CartesianE3 from '../math/CartesianE3';
+import SimplexGeometry from '../geometries/SimplexGeometry';
+import mustBeNumber from '../checks/mustBeNumber';
+import Simplex from '../geometries/Simplex';
+import SliceSimplexGeometry from '../geometries/SliceSimplexGeometry';
+import SpinG3 from '../math/SpinG3';
+import SpinorE3 from '../math/SpinorE3';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import R2 from '../math/R2';
+import R3 from '../math/R3';
+import VectorE3 from '../math/VectorE3';
 
 // TODO: If the Ring is closed (angle = 2 * PI) then we get some redundancy at the join.
 // TODO: If the innerRadius is zero then the quadrilaterals have degenerate triangles.
@@ -134,7 +134,7 @@ function makeEmpty(vertices: R3[], radialSegments: number, thetaSegments: number
  * @class RingSimplexGeometry
  * @extends SliceSimplexGeometry
  */
-class RingSimplexGeometry extends SliceSimplexGeometry {
+export default class RingSimplexGeometry extends SliceSimplexGeometry {
     /**
      * The outer radius.
      * @property a
@@ -225,5 +225,3 @@ class RingSimplexGeometry extends SliceSimplexGeometry {
         return this;
     }
 }
-
-export = RingSimplexGeometry

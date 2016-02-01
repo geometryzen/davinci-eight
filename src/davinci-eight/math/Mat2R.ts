@@ -1,22 +1,22 @@
-import AbstractMatrix = require('../math/AbstractMatrix')
-import add2x2 = require('../math/add2x2')
-import det2x2 = require('../math/det2x2')
-import GeometricElement = require('../math/GeometricElement')
-import isDefined = require('../checks/isDefined')
-import Matrix = require('../math/Matrix')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import Ring = require('../math/MutableRingElement')
-import RingOperators = require('../math/RingOperators')
-import SpinorE2 = require('../math/SpinorE2')
-import VectorE1 = require('../math/VectorE1')
-import VectorE2 = require('../math/VectorE2')
+import AbstractMatrix from '../math/AbstractMatrix';
+import add2x2 from '../math/add2x2';
+import det2x2 from '../math/det2x2';
+import GeometricElement from '../math/GeometricElement';
+import isDefined from '../checks/isDefined';
+import Matrix from '../math/Matrix';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import Ring from '../math/MutableRingElement';
+import RingOperators from '../math/RingOperators';
+import SpinorE2 from '../math/SpinorE2';
+import VectorE1 from '../math/VectorE1';
+import VectorE2 from '../math/VectorE2';
 
 /**
  * @class Mat2R
  * @extends AbstractMatrix
  */
-class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, VectorE2, VectorE1>, Ring<Mat2R>, RingOperators<Mat2R> {
+export default class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, VectorE2, VectorE1>, Ring<Mat2R>, RingOperators<Mat2R> {
 
     /**
      * 2x2 (square) matrix of numbers.
@@ -439,5 +439,3 @@ class Mat2R extends AbstractMatrix<Mat2R> implements Matrix<Mat2R, VectorE2, Vec
         return new Mat2R(new Float32Array([0, 0, 0, 0]))
     }
 }
-
-export = Mat2R;

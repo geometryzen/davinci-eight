@@ -2,5 +2,6 @@ define(["require", "exports"], function (require, exports) {
     function isBoolean(x) {
         return (typeof x === 'boolean');
     }
-    return isBoolean;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = isBoolean;
 });

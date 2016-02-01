@@ -1,7 +1,7 @@
-import stringFromCoordinates = require('../math/stringFromCoordinates')
-import Unit = require('../math/Unit')
+import stringFromCoordinates from '../math/stringFromCoordinates';
+import Unit from '../math/Unit';
 
-function toStringCustom(coordinates: number[], uom: Unit, coordToString: (x: number) => string, labels: string[]): string {
+export default function toStringCustom(coordinates: number[], uom: Unit, coordToString: (x: number) => string, labels: string[]): string {
     var quantityString: string = stringFromCoordinates(coordinates, coordToString, labels);
     if (uom) {
         var unitString = uom.toString().trim();
@@ -16,5 +16,3 @@ function toStringCustom(coordinates: number[], uom: Unit, coordToString: (x: num
         return quantityString;
     }
 }
-
-export = toStringCustom

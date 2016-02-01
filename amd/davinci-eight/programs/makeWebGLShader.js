@@ -1,7 +1,4 @@
 define(["require", "exports"], function (require, exports) {
-    /**
-     *
-     */
     function makeWebGLShader(gl, source, type) {
         var shader = gl.createShader(type);
         gl.shaderSource(shader, source);
@@ -21,5 +18,6 @@ define(["require", "exports"], function (require, exports) {
             }
         }
     }
-    return makeWebGLShader;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = makeWebGLShader;
 });

@@ -3,150 +3,53 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../math/mul4x4', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix, add4x4, expectArg, inv4x4, isDefined, mul4x4, mustBeNumber) {
-    /**
-     * @class Mat4R
-     * @extends AbstractMatrix
-     */
+define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../math/mul4x4', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix_1, add4x4_1, expectArg_1, inv4x4_1, isDefined_1, mul4x4_1, mustBeNumber_1) {
     var Mat4R = (function (_super) {
         __extends(Mat4R, _super);
-        // The correspondence between the elements property index and the matrix entries is...
-        //
-        //  0  4  8 12
-        //  1  5  9 13
-        //  2  6 10 14
-        //  3  7 11 15
-        /**
-         * 4x4 (square) matrix of numbers.
-         * Constructs a Mat4R by wrapping a Float32Array.
-         * @class Mat4R
-         * @constructor
-         */
         function Mat4R(elements) {
             _super.call(this, elements, 4);
         }
-        /**
-         * <p>
-         * Creates a new matrix with all elements zero except those along the main diagonal which have the value unity.
-         * </p>
-         * @method one
-         * @return {Mat4R}
-         * @chainable
-         * @static
-         */
         Mat4R.one = function () {
             return new Mat4R(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
         };
-        /**
-         * <p>
-         * Creates a new matrix with all elements zero.
-         * </p>
-         * @method zero
-         * @return {Mat4R}
-         * @chainable
-         * @static
-         */
         Mat4R.zero = function () {
             return new Mat4R(new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
         };
-        /**
-         * @method scaling
-         * @param scale {VectorE3}
-         * @return {Mat4R}
-         * @chainable
-         * @static
-         */
         Mat4R.scaling = function (scale) {
             return Mat4R.one().scaling(scale);
         };
-        /**
-         * @method translation
-         * @param vector {VectorE3}
-         * @return {Mat4R}
-         * @chainable
-         * @static
-         */
         Mat4R.translation = function (vector) {
             return Mat4R.one().translation(vector);
         };
-        /**
-         * @method rotation
-         * @param spinor {SpinorE3}
-         * @return {Mat4R}
-         * @chainable
-         * @static
-         */
         Mat4R.rotation = function (spinor) {
             return Mat4R.one().rotation(spinor);
         };
-        /**
-         * @method add
-         * @param rhs {Mat4R}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.add = function (rhs) {
             return this.add2(this, rhs);
         };
-        /**
-         * @method add2
-         * @param a {Mat4R}
-         * @param b {Mat4R}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.add2 = function (a, b) {
-            add4x4(a.elements, b.elements, this.elements);
+            add4x4_1.default(a.elements, b.elements, this.elements);
             return this;
         };
-        /**
-         * Returns a copy of this Mat4R instance.
-         * @method clone
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.clone = function () {
             return Mat4R.zero().copy(this);
         };
-        /**
-         * @method compose
-         * @param scale {VectorE3}
-         * @param attitude {SpinorE3}
-         * @param position {VectorE3}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.compose = function (scale, attitude, position) {
-            // We 
-            // this.one();
-            // this.scale(scale);
             this.scaling(scale);
             this.rotate(attitude);
             this.translate(position);
             return this;
         };
-        /**
-         * @method copy
-         * @param m {Mat4R}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.copy = function (m) {
             this.elements.set(m.elements);
             return this;
         };
-        /**
-         * Computes the determinant.
-         * @method det
-         * @return {number}
-         */
         Mat4R.prototype.det = function () {
             var te = this.elements;
             var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
             var n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
             var n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
             var n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
-            //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
             var n1122 = n11 * n22;
             var n1123 = n11 * n23;
             var n1124 = n11 * n24;
@@ -164,40 +67,17 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
                 n43 * ((n1422 - n1224) * n31 + (n1124 - n1421) * n32 + (n1221 - n1122) * n34) +
                 n44 * ((n1223 - n1322) * n31 + (n1321 - n1123) * n32 + (n1122 - n1221) * n33);
         };
-        /**
-         * @method inv
-         * @return {Mat4R}
-         */
         Mat4R.prototype.inv = function () {
-            inv4x4(this.elements, this.elements);
+            inv4x4_1.default(this.elements, this.elements);
             return this;
         };
-        /**
-         * @method invert
-         * @param m {Mat4R}
-         * @return {Mat4R}
-         * @deprecated
-         * @private
-         */
         Mat4R.prototype.invert = function (m) {
-            inv4x4(m.elements, this.elements);
+            inv4x4_1.default(m.elements, this.elements);
             return this;
         };
-        /**
-         * Sets this matrix to the identity element for multiplication, <b>1</b>.
-         * @method one
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.one = function () {
             return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
         };
-        /**
-         * @method scale
-         * @param s {number}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.scale = function (s) {
             var te = this.elements;
             te[0] *= s;
@@ -218,11 +98,6 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             te[15] *= s;
             return this;
         };
-        /**
-         * @method transpose
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.transpose = function () {
             var te = this.elements;
             var tmp;
@@ -246,17 +121,6 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             te[14] = tmp;
             return this;
         };
-        /**
-         * @method frustum
-         * @param left {number}
-         * @param right {number}
-         * @param bottom {number}
-         * @param top {number}
-         * @param near {number}
-         * @param far {number}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.frustum = function (left, right, bottom, top, near, far) {
             var te = this.elements;
             var x = 2 * near / (right - left);
@@ -283,16 +147,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             te[15] = 0;
             return this;
         };
-        /**
-         * @method rotationAxis
-         * @param axis {VectorE3}
-         * @param angle {number}
-         * @return {Mat4R}
-         * @chainable
-         * @beta
-         */
         Mat4R.prototype.rotationAxis = function (axis, angle) {
-            // Based on http://www.gamedev.net/reference/articles/article1199.asp
             var c = Math.cos(angle);
             var s = Math.sin(angle);
             var t = 1 - c;
@@ -300,50 +155,20 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             var tx = t * x, ty = t * y;
             return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
         };
-        /**
-         * @method mul
-         * @param rhs {Mat4R}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.mul = function (rhs) {
             return this.mul2(this, rhs);
         };
-        /**
-         * @method mul2
-         * @param a {Mat4R}
-         * @param b {Mat4R}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.mul2 = function (a, b) {
-            mul4x4(a.elements, b.elements, this.elements);
+            mul4x4_1.default(a.elements, b.elements, this.elements);
             return this;
         };
-        /**
-         * @method rmul
-         * @param lhs {Mat4R}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.rmul = function (lhs) {
             return this.mul2(lhs, this);
         };
-        /**
-         * Sets this matrix to the transformation for a
-         * reflection in the plane normal to the unit vector <code>n</code>.
-         * <p>
-         * <code>this ⟼ reflection(n)</code>
-         * </p>
-         * @method reflection
-         * @param n {VectorE3}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.reflection = function (n) {
-            var nx = mustBeNumber('n.x', n.x);
-            var ny = mustBeNumber('n.y', n.y);
-            var nz = mustBeNumber('n.z', n.z);
+            var nx = mustBeNumber_1.default('n.x', n.x);
+            var ny = mustBeNumber_1.default('n.y', n.y);
+            var nz = mustBeNumber_1.default('n.z', n.z);
             var aa = -2 * nx * ny;
             var cc = -2 * ny * nz;
             var bb = -2 * nz * nx;
@@ -353,34 +178,14 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             this.set(xx, aa, bb, 0, aa, yy, cc, 0, bb, cc, zz, 0, 0, 0, 0, 1);
             return this;
         };
-        /**
-         * <p>
-         * <code>this ⟼ rotation(spinor) * this</code>
-         * </p>
-         * @method rotate
-         * @param spinor {SpinorE3}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.rotate = function (spinor) {
             return this.rmul(Mat4R.rotation(spinor));
         };
-        /**
-         * <p>
-         * <code>this ⟼ rotation(spinor)</code>
-         * </p>
-         * @method rotation
-         * @param attitude  The spinor from which the rotation will be computed.
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.rotation = function (spinor) {
-            // The correspondence between quaternions and spinors is
-            // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
-            var x = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
-            var y = -expectArg('spinor.zx', spinor.zx).toBeNumber().value;
-            var z = -expectArg('spinor.xy', spinor.xy).toBeNumber().value;
-            var α = expectArg('spinor.α', spinor.α).toBeNumber().value;
+            var x = -expectArg_1.default('spinor.yz', spinor.yz).toBeNumber().value;
+            var y = -expectArg_1.default('spinor.zx', spinor.zx).toBeNumber().value;
+            var z = -expectArg_1.default('spinor.xy', spinor.xy).toBeNumber().value;
+            var α = expectArg_1.default('spinor.α', spinor.α).toBeNumber().value;
             var x2 = x + x, y2 = y + y, z2 = z + z;
             var xx = x * x2, xy = x * y2, xz = x * z2;
             var yy = y * y2, yz = y * z2, zz = z * z2;
@@ -388,49 +193,16 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             this.set(1 - yy - zz, xy - wz, xz + wy, 0, xy + wz, 1 - xx - zz, yz - wx, 0, xz - wy, yz + wx, 1 - xx - yy, 0, 0, 0, 0, 1);
             return this;
         };
-        /**
-         * @method row
-         * @param i {number} the zero-based index of the row.
-         * @return {Array<number>}
-         */
         Mat4R.prototype.row = function (i) {
             var te = this.elements;
             return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
         };
-        /**
-         * @method scaleXYZ
-         * @param scale {VectorE3}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.scaleXYZ = function (scale) {
-            // We treat the scale operation as pre-multiplication: 
-            // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
-            // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
-            // |0 0 z 0|   |m[2] m[6] m[A] m[E]|   |z * m[2] z * m[6] z * m[A] z * m[E]|
-            // |0 0 0 1|   |m[3] m[7] m[B] m[F]|   |    m[3]     m[7]     m[B]     m[F]|
-            // The following would be post-multiplication:
-            // |m[0] m[4] m[8] m[C]|   |x 0 0 0|   |x * m[0] y * m[4] z * m[8]     m[C]|
-            // |m[1] m[5] m[9] m[D]| * |0 y 0 0| = |x * m[1] y * m[5] z * m[9]     m[D]|
-            // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
-            // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
             return this.rmul(Mat4R.scaling(scale));
         };
-        /**
-         * @method scaling
-         * @param scale {VectorE3}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.scaling = function (scale) {
             return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
         };
-        /**
-         * @method set
-         * @return {Mat4R}
-         * @chainable
-         * @private
-         */
         Mat4R.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
             var te = this.elements;
             te[0x0] = n11;
@@ -451,14 +223,9 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             te[0xF] = n44;
             return this;
         };
-        /**
-         * @method toFixed
-         * @param [digits] {number}
-         * @return {string}
-         */
         Mat4R.prototype.toFixed = function (digits) {
-            if (isDefined(digits)) {
-                expectArg('digits', digits).toBeNumber();
+            if (isDefined_1.default(digits)) {
+                expectArg_1.default('digits', digits).toBeNumber();
             }
             var text = [];
             for (var i = 0; i < this.dimensions; i++) {
@@ -466,10 +233,6 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             }
             return text.join('\n');
         };
-        /**
-         * @method toString
-         * @return {string}
-         */
         Mat4R.prototype.toString = function () {
             var text = [];
             for (var i = 0; i < this.dimensions; i++) {
@@ -477,46 +240,18 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             }
             return text.join('\n');
         };
-        /**
-         * <p>
-         * <code>this ⟼ translation(spinor) * this</code>
-         * </p>
-         * @method translate
-         * @param d {VectorE3}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.translate = function (d) {
             return this.rmul(Mat4R.translation(d));
         };
-        /**
-         * @method translation
-         * @param d {VectorE3}
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.translation = function (d) {
             var x = d.x;
             var y = d.y;
             var z = d.z;
             return this.set(1, 0, 0, x, 0, 1, 0, y, 0, 0, 1, z, 0, 0, 0, 1);
         };
-        /**
-         * Sets this matrix to the identity element for addition, <b>0</b>.
-         * @method zero
-         * @return {Mat4R}
-         * @chainable
-         */
         Mat4R.prototype.zero = function () {
             return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         };
-        /**
-         * @method __mul__
-         * @param rhs {Mat4R|number}
-         * @return {Mat4R}
-         * @chainable
-         * @private
-         */
         Mat4R.prototype.__mul__ = function (rhs) {
             if (rhs instanceof Mat4R) {
                 return Mat4R.one().mul2(this, rhs);
@@ -528,13 +263,6 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
                 return void 0;
             }
         };
-        /**
-         * @method __rmul__
-         * @param lhs {Mat4R|number}
-         * @return {Mat4R}
-         * @chainable
-         * @private
-         */
         Mat4R.prototype.__rmul__ = function (lhs) {
             if (lhs instanceof Mat4R) {
                 return Mat4R.one().mul2(lhs, this);
@@ -547,6 +275,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             }
         };
         return Mat4R;
-    })(AbstractMatrix);
-    return Mat4R;
+    })(AbstractMatrix_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = Mat4R;
 });

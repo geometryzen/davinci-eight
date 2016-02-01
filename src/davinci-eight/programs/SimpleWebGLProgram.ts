@@ -1,18 +1,18 @@
-import AttribLocation = require('../core/AttribLocation')
-import IContextConsumer = require('../core/IContextConsumer')
-import IContextProvider = require('../core/IContextProvider')
-import makeWebGLProgram = require('../programs/makeWebGLProgram')
-import mustBeArray = require('../checks/mustBeArray')
-import mustBeObject = require('../checks/mustBeObject')
-import mustBeString = require('../checks/mustBeString')
-import UniformLocation = require('../core/UniformLocation')
-import Shareable = require('../utils/Shareable')
+import AttribLocation from '../core/AttribLocation';
+import IContextConsumer from '../core/IContextConsumer';
+import IContextProvider from '../core/IContextProvider';
+import makeWebGLProgram from '../programs/makeWebGLProgram';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
+import UniformLocation from '../core/UniformLocation';
+import Shareable from '../utils/Shareable';
 
 /**
  * @class SimpleWebGLProgram
  * @extends Shareable
  */
-class SimpleWebGLProgram extends Shareable implements IContextConsumer {
+export default class SimpleWebGLProgram extends Shareable implements IContextConsumer {
 
     /**
      * @property context
@@ -143,10 +143,14 @@ class SimpleWebGLProgram extends Shareable implements IContextConsumer {
                 }
             }
             for (var aName in attributes) {
-                attributes[aName].contextGain(gl, program)
+                if (attributes.hasOwnProperty(aName)) {
+                    attributes[aName].contextGain(gl, program);
+                }
             }
             for (var uName in uniforms) {
-                uniforms[uName].contextGain(gl, program)
+                if (uniforms.hasOwnProperty(uName)) {
+                    uniforms[uName].contextGain(gl, program);
+                }
             }
         }
     }
@@ -159,10 +163,14 @@ class SimpleWebGLProgram extends Shareable implements IContextConsumer {
     contextLost(unused?: number): void {
         this.program = void 0
         for (var aName in this.attributes) {
-            this.attributes[aName].contextLost()
+            if (this.attributes.hasOwnProperty(aName)) {
+                this.attributes[aName].contextLost();
+            }
         }
         for (var uName in this.uniforms) {
-            this.uniforms[uName].contextLost()
+            if (this.uniforms.hasOwnProperty(uName)) {
+                this.uniforms[uName].contextLost();
+            }
         }
     }
 
@@ -188,10 +196,14 @@ class SimpleWebGLProgram extends Shareable implements IContextConsumer {
             this.program = void 0
         }
         for (var aName in this.attributes) {
-            this.attributes[aName].contextFree()
+            if (this.attributes.hasOwnProperty(aName)) {
+                this.attributes[aName].contextFree();
+            }
         }
         for (var uName in this.uniforms) {
-            this.uniforms[uName].contextFree()
+            if (this.uniforms.hasOwnProperty(uName)) {
+                this.uniforms[uName].contextFree();
+            }
         }
     }
 
@@ -203,5 +215,3 @@ class SimpleWebGLProgram extends Shareable implements IContextConsumer {
         this.context.gl.useProgram(this.program)
     }
 }
-
-export = SimpleWebGLProgram

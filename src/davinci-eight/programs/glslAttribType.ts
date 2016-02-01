@@ -1,7 +1,7 @@
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
-import mustBeInteger = require('../checks/mustBeInteger');
-import mustBeString = require('../checks/mustBeString');
-import mustSatisy = require('../checks/mustSatisfy');
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeString from '../checks/mustBeString';
+import mustSatisy from '../checks/mustSatisfy';
 
 function sizeType(size: number): string {
     mustBeInteger('size', size);
@@ -24,7 +24,7 @@ function sizeType(size: number): string {
     }
 }
 
-function glslAttribType(key: string, size: number): string {
+export default function glslAttribType(key: string, size: number): string {
     mustBeString('key', key);
     mustBeInteger('size', size);
     switch (key) {
@@ -36,5 +36,3 @@ function glslAttribType(key: string, size: number): string {
         }
     }
 }
-
-export = glslAttribType;

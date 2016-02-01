@@ -1,20 +1,14 @@
-define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Mat4R', '../math/R1'], function (require, exports, createView, Mat4R, R1) {
-    /**
-     * @function createFrustum
-     * @constructor
-     * @return {Frustum}
-     */
-    var createFrustum = function (viewMatrixName, projectionMatrixName) {
+define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Mat4R', '../math/R1'], function (require, exports, createView_1, Mat4R_1, R1_1) {
+    function createFrustum(viewMatrixName, projectionMatrixName) {
         var refCount = 1;
-        var base = createView(viewMatrixName);
-        var left = new R1();
-        var right = new R1();
-        var bottom = new R1();
-        var top = new R1();
-        var near = new R1();
-        var far = new R1();
-        // TODO: We should immediately create with a frustum static constructor?
-        var projectionMatrix = Mat4R.one();
+        var base = createView_1.default(viewMatrixName);
+        var left = new R1_1.default();
+        var right = new R1_1.default();
+        var bottom = new R1_1.default();
+        var top = new R1_1.default();
+        var near = new R1_1.default();
+        var far = new R1_1.default();
+        var projectionMatrix = Mat4R_1.default.one();
         function updateProjectionMatrix() {
             projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
         }
@@ -36,7 +30,6 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
             },
             setProperty: function (name, value) {
             },
-            // Delegate to the base camera.
             get eye() {
                 return base.eye;
             },
@@ -115,6 +108,7 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
             }
         };
         return self;
-    };
-    return createFrustum;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = createFrustum;
 });

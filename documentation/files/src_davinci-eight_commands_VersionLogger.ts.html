@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.170.0</em>
+            <em>API Docs for: 2.171.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -67,7 +67,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -84,6 +84,8 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/ExtrudeSimplexGeometry.html">ExtrudeSimplexGeometry</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
+                                <li><a href="../classes/Facet.html">Facet</a></li>
+                                <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/FontFace.html">FontFace</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
@@ -110,8 +112,6 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet.html">IFacet</a></li>
-                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
@@ -130,7 +130,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
-                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
@@ -153,6 +153,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/RefCount.html">RefCount</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
@@ -170,7 +171,7 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
-                                <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
@@ -196,6 +197,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexSimplexGeometry.html">VortexSimplexGeometry</a></li>
+                                <li><a href="../classes/WaitAnimation.html">WaitAnimation</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -244,10 +246,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextCommand = require(&#x27;../core/IContextCommand&#x27;);
-import IContextProvider = require(&#x27;../core/IContextProvider&#x27;);
-import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;);
-import Shareable = require(&#x27;../utils/Shareable&#x27;);
+import IContextCommand from &#x27;../core/IContextCommand&#x27;;
+import IContextProvider from &#x27;../core/IContextProvider&#x27;;
+import Shareable from &#x27;../utils/Shareable&#x27;;
 
 let QUALIFIED_NAME = &#x27;EIGHT.VersionLogger&#x27;
 
@@ -256,49 +257,51 @@ let QUALIFIED_NAME = &#x27;EIGHT.VersionLogger&#x27;
  * @extends Shareable
  * @implements IContextCommand
  */
-class VersionLogger extends Shareable implements IContextCommand {
-  /**
-   * &lt;p&gt;
-   * Displays details about the WegGL version to the console.
-   * &lt;/p&gt; 
-   * &lt;p&gt;
-   * Initializes the &lt;code&gt;type&lt;/code&gt; property to &lt;code&gt;&#x27;VersionLogger&#x27;&lt;/code&gt; for reference count tracking.
-   * &lt;/p&gt;
-   * @class VersionLogger
-   * @constructor
-   */
-  constructor() {
-    super(QUALIFIED_NAME)
-  }
-  contextFree(canvasId?: number): void {
-  }
-  /**
-   * &lt;p&gt;
-   * Logs the WebGL &lt;code&gt;VERSION&lt;/code&gt; parameter to the console.
-   * &lt;/p&gt;
-   * @method contextGain
-   * @param manager {IContextProvider}
-   * @return {void}
-   */
-  contextGain(manager: IContextProvider): void {
-    var gl = manager.gl
-    console.log(gl.getParameter(gl.VERSION))
-  }
-  contextLost(canvasId?: number): void {
-  }
-  /**
-   * @method destructor
-   * @return {void}
-   * @protected
-   */
-  protected destructor(): void {
-  }
-  get name(): string {
-    return QUALIFIED_NAME
-  }
+export default class VersionLogger extends Shareable implements IContextCommand {
+    /**
+     * &lt;p&gt;
+     * Displays details about the WegGL version to the console.
+     * &lt;/p&gt; 
+     * &lt;p&gt;
+     * Initializes the &lt;code&gt;type&lt;/code&gt; property to &lt;code&gt;&#x27;VersionLogger&#x27;&lt;/code&gt; for reference count tracking.
+     * &lt;/p&gt;
+     * @class VersionLogger
+     * @constructor
+     */
+    constructor() {
+        super(QUALIFIED_NAME)
+    }
+    contextFree(canvasId?: number): void {
+        // Do nothing.
+    }
+    /**
+     * &lt;p&gt;
+     * Logs the WebGL &lt;code&gt;VERSION&lt;/code&gt; parameter to the console.
+     * &lt;/p&gt;
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
+    contextGain(manager: IContextProvider): void {
+        var gl = manager.gl
+        console.log(gl.getParameter(gl.VERSION))
+    }
+    contextLost(canvasId?: number): void {
+        // Do nothing.
+    }
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void {
+        // Do nothing.
+    }
+    get name(): string {
+        return QUALIFIED_NAME
+    }
 }
 
-export = VersionLogger;
     </pre>
 </div>
                     </div>

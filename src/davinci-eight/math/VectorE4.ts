@@ -31,4 +31,4 @@ interface VectorE4 {
     w: number;
 }
 
-export = VectorE4;
+export default VectorE4;

@@ -1,21 +1,19 @@
-import expectArg = require('../checks/expectArg')
-import feedback = require('../feedback/feedback')
-import R1 = require('../math/R1')
-import Mat2R = require('../math/Mat2R')
-import Mat3R = require('../math/Mat3R')
-import Mat4R = require('../math/Mat4R')
-import IContextProgramConsumer = require('../core/IContextProgramConsumer')
-import IContextProvider = require('../core/IContextProvider')
-import VectorE1 = require('../math/VectorE1')
-import VectorE2 = require('../math/VectorE2')
-import VectorE3 = require('../math/VectorE3')
-import VectorE4 = require('../math/VectorE4')
+import expectArg from '../checks/expectArg';
+import Mat2R from '../math/Mat2R';
+import Mat3R from '../math/Mat3R';
+import Mat4R from '../math/Mat4R';
+import IContextProgramConsumer from '../core/IContextProgramConsumer';
+import IContextProvider from '../core/IContextProvider';
+import VectorE1 from '../math/VectorE1';
+import VectorE2 from '../math/VectorE2';
+import VectorE3 from '../math/VectorE3';
+import VectorE4 from '../math/VectorE4';
 
 /**
  * Utility class for managing a shader uniform variable.
  * @class UniformLocation
  */
-class UniformLocation implements IContextProgramConsumer {
+export default class UniformLocation implements IContextProgramConsumer {
     private _context: WebGLRenderingContext;
     private _location: WebGLUniformLocation;
     private _name: string;
@@ -155,7 +153,7 @@ class UniformLocation implements IContextProgramConsumer {
      * @return {UniformLocation}
      * @chainable
      */
-    mat2(matrix: Mat2R, transpose: boolean = false): UniformLocation {
+    mat2(matrix: Mat2R, transpose = false): UniformLocation {
         this._context.uniformMatrix2fv(this._location, transpose, matrix.elements)
         return this
     }
@@ -168,7 +166,7 @@ class UniformLocation implements IContextProgramConsumer {
      * @return {UniformLocation}
      * @chainable
      */
-    mat3(matrix: Mat3R, transpose: boolean = false): UniformLocation {
+    mat3(matrix: Mat3R, transpose = false): UniformLocation {
         this._context.uniformMatrix3fv(this._location, transpose, matrix.elements)
         return this
     }
@@ -181,33 +179,33 @@ class UniformLocation implements IContextProgramConsumer {
      * @return {UniformLocation}
      * @chainable
      */
-    mat4(matrix: Mat4R, transpose: boolean = false): UniformLocation {
+    mat4(matrix: Mat4R, transpose = false): UniformLocation {
         this._context.uniformMatrix4fv(this._location, transpose, matrix.elements)
         return this
     }
 
     /**
      * @method vector2
-     * @param data {Array<number> | Float32Array}
+     * @param data {number[] | Float32Array}
      */
     vector2(data: number[] | Float32Array): void {
-        this._context.uniform2fv(this._location, data)
+        this._context.uniform2fv(this._location, <any>data)
     }
 
     /**
      * @method vector3
-     * @param data {number[]}
+     * @param data {number[] | Float32Array}
      */
-    vector3(data: number[]): void {
-        this._context.uniform3fv(this._location, data)
+    vector3(data: number[] | Float32Array): void {
+        this._context.uniform3fv(this._location, <any>data)
     }
 
     /**
      * @method vector4
-     * @param data {number[]}
+     * @param data {number[] | Float32Array}
      */
-    vector4(data: number[]): void {
-        this._context.uniform4fv(this._location, data)
+    vector4(data: number[] | Float32Array): void {
+        this._context.uniform4fv(this._location, <any>data)
     }
 
     /**
@@ -217,5 +215,3 @@ class UniformLocation implements IContextProgramConsumer {
         return ['uniform', this._name].join(' ');
     }
 }
-
-export = UniformLocation;

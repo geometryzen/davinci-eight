@@ -1,9 +1,9 @@
-import createGraphicsProgram = require('../programs/createGraphicsProgram')
-import IGraphicsProgram = require('../core/IGraphicsProgram')
-import IContextMonitor = require('../core/IContextMonitor')
-import MonitorList = require('../scene/MonitorList')
-import mustBeObject = require('../checks/mustBeObject')
-import mustBeString = require('../checks/mustBeString')
+import createGraphicsProgram from '../programs/createGraphicsProgram';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import IContextMonitor from '../core/IContextMonitor';
+import MonitorList from '../scene/MonitorList';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
 
 // FIXME: Lists of scripts, using the type to distinguish vertex/fragment?
 
@@ -16,7 +16,7 @@ import mustBeString = require('../checks/mustBeString')
  * domDocument The DOM document containing the script elements.
  * [attribs = []] The attribute indices (implied by order of the name in the array).
  */
-function programFromScripts(monitors: IContextMonitor[], vsId: string, fsId: string, domDocument: Document, attribs: string[] = []): IGraphicsProgram {
+export default function programFromScripts(monitors: IContextMonitor[], vsId: string, fsId: string, domDocument: Document, attribs: string[] = []): IGraphicsProgram {
     MonitorList.verify('monitors', monitors, () => { return "programFromScripts"; })
     mustBeString('vsId', vsId)
     mustBeString('fsId', fsId)
@@ -38,5 +38,3 @@ function programFromScripts(monitors: IContextMonitor[], vsId: string, fsId: str
     let fragmentShader: string = $(fsId).textContent;
     return createGraphicsProgram(monitors, vertexShader, fragmentShader, attribs);
 }
-
-export = programFromScripts;

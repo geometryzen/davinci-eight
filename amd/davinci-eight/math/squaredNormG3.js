@@ -10,5 +10,6 @@ define(["require", "exports"], function (require, exports) {
         var v = m.β;
         return w * w + x * x + y * y + z * z + yz * yz + zx * zx + xy * xy + v * v;
     }
-    return squaredNormG3;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = squaredNormG3;
 });

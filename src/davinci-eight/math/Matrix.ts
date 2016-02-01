@@ -19,4 +19,4 @@ interface Matrix<M, V, P> {
     translation(vector: P): M;
 }
 
-export = Matrix;
+export default Matrix;

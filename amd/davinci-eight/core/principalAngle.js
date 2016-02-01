@@ -1,7 +1,4 @@
 define(["require", "exports"], function (require, exports) {
-    /**
-     * Converts the angle specified into one in the closed interval [0, Math.PI]
-     */
     function principalAngle(angle) {
         if (angle > 2 * Math.PI) {
             return principalAngle(angle - 2 * Math.PI);
@@ -13,5 +10,6 @@ define(["require", "exports"], function (require, exports) {
             return angle;
         }
     }
-    return principalAngle;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = principalAngle;
 });

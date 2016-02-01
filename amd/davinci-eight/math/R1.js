@@ -3,32 +3,19 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+define(["require", "exports", '../math/VectorN'], function (require, exports, VectorN_1) {
     var exp = Math.exp;
     var log = Math.log;
     var sqrt = Math.sqrt;
     var COORD_X = 0;
-    /**
-     * @class R1
-     */
     var R1 = (function (_super) {
         __extends(R1, _super);
-        /**
-         * @class R1
-         * @constructor
-         * @param data {number[]} Default is [0].
-         * @param modified {boolean} Default is false.
-         */
         function R1(data, modified) {
             if (data === void 0) { data = [0]; }
             if (modified === void 0) { modified = false; }
             _super.call(this, data, modified, 1);
         }
         Object.defineProperty(R1.prototype, "x", {
-            /**
-             * @property x
-             * @type Number
-             */
             get: function () {
                 return this.coords[COORD_X];
             },
@@ -155,30 +142,16 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x = a.x - b.x;
             return this;
         };
-        /**
-         * @method neg
-         * @return {R1} <code>this</code>
-         */
         R1.prototype.neg = function () {
             this.x = -this.x;
             return this;
         };
-        /**
-         * @method distanceTo
-         * @param point {VectorE1}
-         * @return {number}
-         */
         R1.prototype.distanceTo = function (position) {
             return sqrt(this.quadranceTo(position));
         };
         R1.prototype.dot = function (v) {
             return this.x * v.x;
         };
-        /**
-         * Computes the <em>square root</em> of the <em>squared norm</em>.
-         * @method magnitude
-         * @return {number}
-         */
         R1.prototype.magnitude = function () {
             return sqrt(this.squaredNorm());
         };
@@ -201,39 +174,18 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return dx * dx;
         };
         R1.prototype.reflect = function (n) {
-            // FIXME: TODO
             return this;
         };
         R1.prototype.reflection = function (n) {
-            // FIXME: TODO
             return this;
         };
         R1.prototype.rotate = function (rotor) {
             return this;
         };
-        /**
-         * this ⟼ this + α * (v - this)</code>
-         * @method lerp
-         * @param v {VectorE1}
-         * @param α {number}
-         * @return {MutanbleNumber}
-         * @chainable
-         */
         R1.prototype.lerp = function (v, α) {
             this.x += (v.x - this.x) * α;
             return this;
         };
-        /**
-         * <p>
-         * <code>this ⟼ a + α * (b - a)</code>
-         * </p>
-         * @method lerp2
-         * @param a {R1}
-         * @param b {R1}
-         * @param α {number}
-         * @return {R1}
-         * @chainable
-         */
         R1.prototype.lerp2 = function (a, b, α) {
             this.sub2(b, a).scale(α).add(a);
             return this;
@@ -261,12 +213,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         R1.prototype.toFixed = function (digits) {
             return "TODO: R1.toFixed";
         };
-        /**
-         * @method translation
-         * @param d {VectorE0}
-         * @return {R1}
-         * @chainable
-         */
         R1.prototype.translation = function (d) {
             return this.one();
         };
@@ -282,17 +228,12 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         R1.prototype.ext = function (v) {
             return this;
         };
-        /**
-         * Sets this vector to the identity element for addition, <b>0</b>.
-         * @method zero
-         * @return {R1}
-         * @chainable
-         */
         R1.prototype.zero = function () {
             this.x = 0;
             return this;
         };
         return R1;
-    })(VectorN);
-    return R1;
+    })(VectorN_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = R1;
 });

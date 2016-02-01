@@ -1,14 +1,14 @@
-import G2 = require('../math/G2')
-import G3 = require('../math/G3')
-import R2 = require('../math/R2')
-import R3 = require('../math/R3')
-import VectorN = require('../math/VectorN')
+import G2 from '../math/G2';
+import G3 from '../math/G3';
+import R2 from '../math/R2';
+import R3 from '../math/R3';
+import VectorN from '../math/VectorN';
 
 /**
  * This seems a bit hacky. Maybe we need an abstraction that recognizes the existence of
  * geometric numbers for vertex attributes, but allows us to extract the vector (grade-1) part?
  */
-function dataFromVectorN(source: VectorN<number>): number[] {
+export default function dataFromVectorN(source: VectorN<number>): number[] {
     if (source instanceof G3) {
         let g3 = <G3>source
         return [g3.x, g3.y, g3.z]
@@ -30,5 +30,3 @@ function dataFromVectorN(source: VectorN<number>): number[] {
         return source.coords
     }
 }
-
-export = dataFromVectorN

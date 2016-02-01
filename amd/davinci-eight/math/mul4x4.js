@@ -26,5 +26,6 @@ define(["require", "exports"], function (require, exports) {
         c[0xF] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
         return c;
     }
-    return mul4x4;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mul4x4;
 });

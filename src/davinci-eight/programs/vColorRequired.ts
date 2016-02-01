@@ -1,8 +1,6 @@
-import mustBeDefined = require('../checks/mustBeDefined');
-import GraphicsProgramSymbols = require('../core/GraphicsProgramSymbols');
+import mustBeDefined from '../checks/mustBeDefined';
+import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
-function vColorRequired(attributes: { [name: string]: {} }, uniforms: { [name: string]: {} }): boolean {
-  return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols.UNIFORM_COLOR];
+export default function vColorRequired(attributes: { [name: string]: {} }, uniforms: { [name: string]: {} }): boolean {
+    return !!attributes[GraphicsProgramSymbols.ATTRIBUTE_COLOR] || !!uniforms[GraphicsProgramSymbols.UNIFORM_COLOR];
 }
-
-export = vColorRequired;

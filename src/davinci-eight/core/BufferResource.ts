@@ -1,10 +1,9 @@
-import IBuffer = require('../core/IBuffer')
-import IContextConsumer = require('../core/IContextConsumer')
-import IContextProvider = require('../core/IContextProvider')
-import isDefined = require('../checks/isDefined')
-import mustBeBoolean = require('../checks/mustBeBoolean')
-import mustBeObject = require('../checks/mustBeObject')
-import Shareable = require('../utils/Shareable')
+import IBuffer from '../core/IBuffer';
+import IContextProvider from '../core/IContextProvider';
+import isDefined from '../checks/isDefined';
+import mustBeBoolean from '../checks/mustBeBoolean';
+import mustBeObject from '../checks/mustBeObject';
+import Shareable from '../utils/Shareable';
 
 /**
  * Name used for reference count monitoring and logging.
@@ -15,7 +14,7 @@ let CLASS_NAME = 'BufferResource'
  * @class BufferResource
  * @extends Shareable
  */
-class BufferResource extends Shareable implements IBuffer {
+export default class BufferResource extends Shareable implements IBuffer {
     private _buffer: WebGLBuffer;
     private manager: IContextProvider;
     private _isElements: boolean;
@@ -123,5 +122,3 @@ class BufferResource extends Shareable implements IBuffer {
 
     }
 }
-
-export = BufferResource

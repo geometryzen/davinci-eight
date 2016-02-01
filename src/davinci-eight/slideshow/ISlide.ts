@@ -1,9 +1,9 @@
-import IAnimation = require('../slideshow/IAnimation')
-import IAnimationTarget = require('../slideshow/IAnimationTarget')
+import IAnimation from '../slideshow/IAnimation';
+import IAnimationTarget from '../slideshow/IAnimationTarget';
 
 interface ISlide {
-  pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation): void;
-  popAnimation(target: IAnimationTarget, propName: string): IAnimation;
+    pushAnimation(target: IAnimationTarget, propName: string, animation: IAnimation): void;
+    popAnimation(target: IAnimationTarget, propName: string): IAnimation;
 }
 
-export = ISlide
+export default ISlide;

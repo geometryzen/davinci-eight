@@ -83,4 +83,4 @@ enum BlendFactor {
     ZERO
 }
 
-export = BlendFactor;
+export default BlendFactor;

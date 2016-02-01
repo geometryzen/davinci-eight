@@ -17,5 +17,6 @@ define(["require", "exports"], function (require, exports) {
         c[0x8] = a31 * b13 + a32 * b23 + a33 * b33;
         return c;
     }
-    return mul3x3;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mul3x3;
 });

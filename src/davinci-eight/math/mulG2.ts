@@ -1,9 +1,9 @@
-import GeometricE2 = require('../math/GeometricE2')
-import get = require('../math/compG2Get')
-import mulE2 = require('../math/mulE2')
-import set = require('../math/compG2Set')
+import GeometricE2 from '../math/GeometricE2';
+import get from '../math/compG2Get';
+import mulE2 from '../math/mulE2';
+import set from '../math/compG2Set';
 
-function mulG3<T extends GeometricE2>(a: GeometricE2, b: GeometricE2, out: T): T {
+export default function mulG3<T extends GeometricE2>(a: GeometricE2, b: GeometricE2, out: T): T {
 
     let a0 = get(a, 0)
     let a1 = get(a, 1)
@@ -21,5 +21,3 @@ function mulG3<T extends GeometricE2>(a: GeometricE2, b: GeometricE2, out: T): T
 
     return out;
 }
-
-export = mulG3

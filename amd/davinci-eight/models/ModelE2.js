@@ -3,101 +3,43 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R2', '../math/SpinG2', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, mustBeString, G2, R2, SpinG2, readOnly, Shareable) {
-    /**
-     * @class ModelE2
-     */
+define(["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R2', '../math/SpinG2', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, mustBeString_1, G2_1, R2_1, SpinG2_1, readOnly_1, Shareable_1) {
     var ModelE2 = (function (_super) {
         __extends(ModelE2, _super);
-        /**
-         * <p>
-         * A collection of properties for Rigid Body Modeling.
-         * </p>
-         * <p>
-         * ModelE2 implements IFacet required for manipulating a drawable object.
-         * </p>
-         * <p>
-         * Constructs a ModelE2 at the origin and with unity attitude.
-         * </p>
-         * @class ModelE2
-         * @constructor
-         * @param type [string = 'ModelE2'] The name used for reference counting.
-         */
         function ModelE2(type) {
             if (type === void 0) { type = 'ModelE2'; }
-            _super.call(this, mustBeString('type', type));
-            this._position = new G2().zero();
-            this._attitude = new G2().zero().addScalar(1);
-            /**
-             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-             * @property _posCache
-             * @type {R2}
-             * @private
-             */
-            this._posCache = new R2();
-            /**
-             * Used for exchanging number[] data to achieve integrity and avoid lots of temporaries.
-             * @property _attCache
-             * @type {SpinG2}
-             * @private
-             */
-            this._attCache = new SpinG2();
+            _super.call(this, mustBeString_1.default('type', type));
+            this._position = new G2_1.default().zero();
+            this._attitude = new G2_1.default().zero().addScalar(1);
+            this._posCache = new R2_1.default();
+            this._attCache = new SpinG2_1.default();
             this._position.modified = true;
             this._attitude.modified = true;
         }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
         ModelE2.prototype.destructor = function () {
             this._position = void 0;
             this._attitude = void 0;
         };
         Object.defineProperty(ModelE2.prototype, "R", {
-            /**
-             * <p>
-             * The <em>attitude</em>, a unitary spinor.
-             * </p>
-             * @property R
-             * @type G2
-             * @readOnly
-             */
             get: function () {
                 return this._attitude;
             },
             set: function (unused) {
-                throw new Error(readOnly(ModelE2.PROP_ATTITUDE).message);
+                throw new Error(readOnly_1.default(ModelE2.PROP_ATTITUDE).message);
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(ModelE2.prototype, "X", {
-            /**
-             * <p>
-             * The <em>position</em>, a vector.
-             * The vector <b>X</b> designates the center of mass of the body (Physics).
-             * The vector <b>X</b> designates the displacement from the local origin (Computer Graphics).
-             * </p>
-             *
-             * @property X
-             * @type G2
-             * @readOnly
-             */
             get: function () {
                 return this._position;
             },
             set: function (unused) {
-                throw new Error(readOnly(ModelE2.PROP_POSITION).message);
+                throw new Error(readOnly_1.default(ModelE2.PROP_POSITION).message);
             },
             enumerable: true,
             configurable: true
         });
-        /**
-         * @method getProperty
-         * @param name {string}
-         * @return {number[]}
-         */
         ModelE2.prototype.getProperty = function (name) {
             switch (name) {
                 case ModelE2.PROP_ATTITUDE: {
@@ -112,12 +54,6 @@ define(["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R
                 }
             }
         };
-        /**
-         * @method setProperty
-         * @param name {string}
-         * @param data {number[]}
-         * @return {void}
-         */
         ModelE2.prototype.setProperty = function (name, data) {
             switch (name) {
                 case ModelE2.PROP_ATTITUDE:
@@ -137,25 +73,10 @@ define(["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R
                 }
             }
         };
-        /**
-         * The name of the property that designates the attitude.
-         * @property PROP_ATTITUDE
-         * @type {string}
-         * @default 'R'
-         * @static
-         * @readOnly
-         */
         ModelE2.PROP_ATTITUDE = 'R';
-        /**
-         * The name of the property that designates the position.
-         * @property PROP_POSITION
-         * @type {string}
-         * @default 'X'
-         * @static
-         * @readOnly
-         */
         ModelE2.PROP_POSITION = 'X';
         return ModelE2;
-    })(Shareable);
-    return ModelE2;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = ModelE2;
 });

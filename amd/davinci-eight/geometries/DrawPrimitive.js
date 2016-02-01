@@ -1,29 +1,13 @@
-define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeInteger', '../checks/mustBeObject'], function (require, exports, mustBeArray, mustBeInteger, mustBeObject) {
-    /**
-     * @class DrawPrimitive
-     */
+define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeInteger', '../checks/mustBeObject'], function (require, exports, mustBeArray_1, mustBeInteger_1, mustBeObject_1) {
     var DrawPrimitive = (function () {
-        /**
-         * A tuple representing the information required to describe a single WebGL primitive.
-         * @class DrawPrimitive
-         * @constructor
-         * @param mode {DrawMode} <p>The primitive type.</p>
-         * @param indices {number[]} <p>A list of index into the attributes</p>
-         * @param attributes {{[name:string]: Attribute}}
-         */
         function DrawPrimitive(mode, indices, attributes) {
-            // TODO: Looks like a DrawAttributeMap here (implementation only)
-            /**
-             * A map from attribute name to <code>Attribute</code>.
-             * @property attributes
-             * @type {{[name:string]: Attribute}}
-             */
             this.attributes = {};
-            this.mode = mustBeInteger('mode', mode);
-            this.indices = mustBeArray('indices', indices);
-            this.attributes = mustBeObject('attributes', attributes);
+            this.mode = mustBeInteger_1.default('mode', mode);
+            this.indices = mustBeArray_1.default('indices', indices);
+            this.attributes = mustBeObject_1.default('attributes', attributes);
         }
         return DrawPrimitive;
     })();
-    return DrawPrimitive;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = DrawPrimitive;
 });

@@ -1,15 +1,12 @@
-define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', '../utils/mergeStringMapList', '../checks/mustBeDefined', './createGraphicsProgram', '../programs/vColorRequired', '../programs/vertexShader', '../programs/vLightRequired'], function (require, exports, MonitorList, fragmentShader, mergeStringMapList, mustBeDefined, createGraphicsProgram, vColorRequired, vertexShader, vLightRequired) {
-    /**
-     *
-     */
-    var smartProgram = function (monitors, attributes, uniformsList, bindings) {
-        MonitorList.verify('monitors', monitors, function () { return "smartProgram"; });
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniformsList', uniformsList);
-        var uniforms = mergeStringMapList(uniformsList);
-        var vColor = vColorRequired(attributes, uniforms);
-        var vLight = vLightRequired(attributes, uniforms);
-        var innerProgram = createGraphicsProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
+define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', '../utils/mergeStringMapList', '../checks/mustBeDefined', './createGraphicsProgram', '../programs/vColorRequired', '../programs/vertexShader', '../programs/vLightRequired'], function (require, exports, MonitorList_1, fragmentShader_1, mergeStringMapList_1, mustBeDefined_1, createGraphicsProgram_1, vColorRequired_1, vertexShader_1, vLightRequired_1) {
+    function smartProgram(monitors, attributes, uniformsList, bindings) {
+        MonitorList_1.default.verify('monitors', monitors, function () { return "smartProgram"; });
+        mustBeDefined_1.default('attributes', attributes);
+        mustBeDefined_1.default('uniformsList', uniformsList);
+        var uniforms = mergeStringMapList_1.default(uniformsList);
+        var vColor = vColorRequired_1.default(attributes, uniforms);
+        var vLight = vLightRequired_1.default(attributes, uniforms);
+        var innerProgram = createGraphicsProgram_1.default(monitors, vertexShader_1.default(attributes, uniforms, vColor, vLight), fragmentShader_1.default(attributes, uniforms, vColor, vLight), bindings);
         var self = {
             get uuid() {
                 return innerProgram.uuid;
@@ -91,6 +88,7 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             }
         };
         return self;
-    };
-    return smartProgram;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = smartProgram;
 });

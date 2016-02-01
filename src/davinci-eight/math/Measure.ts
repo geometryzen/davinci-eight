@@ -1,4 +1,4 @@
-import Unit = require('../math/Unit')
+import Unit from '../math/Unit';
 //
 // Measure is used to make implementations consistent.
 // It is not part of the public API.
@@ -43,4 +43,5 @@ interface Measure<T> {
     slerp(target: T, α: number): T;
     sub(rhs: T): T;
 }
-export = Measure
+
+export default Measure;

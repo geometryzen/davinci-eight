@@ -8,5 +8,6 @@ define(["require", "exports"], function (require, exports) {
         }
         return destination;
     }
-    return copyToArray;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = copyToArray;
 });

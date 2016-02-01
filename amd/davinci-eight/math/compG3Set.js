@@ -37,5 +37,6 @@ define(["require", "exports"], function (require, exports) {
                 throw new Error("index => " + index);
         }
     }
-    return compG3Set;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = compG3Set;
 });

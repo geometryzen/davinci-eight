@@ -1,4 +1,4 @@
-import Euclidean3 = require('../math/Euclidean3')
+import Euclidean3 from '../math/Euclidean3';
 /*
 var area = function ( contour ) {
 
@@ -15,9 +15,8 @@ var area = function ( contour ) {
 
   };
 */
-function isClockWise(points: Euclidean3[]): boolean {
+export default function isClockWise(points: Euclidean3[]): boolean {
     // This needs to be relative to a bivector.
     // return area(pts) < 0
     throw new Error("isClockWise")
 }
-export = isClockWise

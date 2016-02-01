@@ -22,24 +22,13 @@ define(["require", "exports"], function (require, exports) {
         }
         return size;
     }
-    /**
-     * @class DrawAttribute
-     */
     var DrawAttribute = (function () {
-        /**
-         * A convenience class for constructing and validating attribute values used for drawing.
-         * @class DrawAttribute
-         * @constructor
-         * @param values {number[]}
-         * @param size {number}
-         */
         function DrawAttribute(values, size) {
-            // mustBeArray('values', values)
-            // mustBeInteger('size', size)
             this.values = checkValues(values);
             this.size = checkSize(size, values);
         }
         return DrawAttribute;
     })();
-    return DrawAttribute;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = DrawAttribute;
 });

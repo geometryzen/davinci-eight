@@ -1,16 +1,16 @@
-import dotVectorCartesianE3 = require('../math/dotVectorCartesianE3')
-import Euclidean3 = require('../math/Euclidean3')
-import dotVector = require('../math/dotVectorE3')
-import MutableGeometricElement3D = require('../math/MutableGeometricElement3D')
-import Mat4R = require('../math/Mat4R')
-import mustBeInteger = require('../checks/mustBeInteger')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeObject = require('../checks/mustBeObject')
-import quadVector = require('../math/quadVectorE3')
-import R3 = require('../math/R3')
-import rotorFromDirections = require('../math/rotorFromDirections')
-import TrigMethods = require('../math/TrigMethods')
-import VectorE3 = require('../math/VectorE3')
+import dotVectorCartesianE3 from '../math/dotVectorCartesianE3';
+import Euclidean3 from '../math/Euclidean3';
+import dotVector from '../math/dotVectorE3';
+import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
+import Mat4R from '../math/Mat4R';
+import mustBeInteger from '../checks/mustBeInteger';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import quadVector from '../math/quadVectorE3';
+import R3 from '../math/R3';
+import rotorFromDirections from '../math/rotorFromDirections';
+import TrigMethods from '../math/TrigMethods';
+import VectorE3 from '../math/VectorE3';
 
 let cos = Math.cos
 let sin = Math.sin
@@ -22,7 +22,7 @@ var EPS = 0.000001;
 // Notice that it is mutable, betraying a usage with animation loops.
 // But there we want to use the SpinG3 spinor, or the full multivector, G3.
 // For comparison QQ and CC are immutable.
-class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods<HH> {
+export default class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods<HH> {
     private x: number;
     private y: number;
     private z: number;
@@ -501,5 +501,3 @@ class HH implements MutableGeometricElement3D<HH, HH, HH, VectorE3>, TrigMethods
         return qm.copy(qa).slerp(qb, t);
     }
 }
-
-export = HH;

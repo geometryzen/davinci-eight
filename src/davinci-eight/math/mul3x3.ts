@@ -1,4 +1,4 @@
-function mul3x3(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array {
+export default function mul3x3(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array {
 
     let a11 = a[0x0], a12 = a[0x3], a13 = a[0x6];
     let a21 = a[0x1], a22 = a[0x4], a23 = a[0x7];
@@ -22,5 +22,3 @@ function mul3x3(a: Float32Array, b: Float32Array, c: Float32Array): Float32Array
 
     return c;
 }
-
-export = mul3x3;

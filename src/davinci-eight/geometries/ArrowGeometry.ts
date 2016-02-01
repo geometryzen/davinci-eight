@@ -1,17 +1,17 @@
-import VectorE3 = require('../math/VectorE3')
-import ConeGeometry = require('../geometries/ConeGeometry')
-import CylinderGeometry = require('../geometries/CylinderGeometry')
-import AxialGeometry = require('../geometries/AxialGeometry')
-import IAxialGeometry = require('../geometries/IAxialGeometry')
-import mustBeBoolean = require('../checks/mustBeBoolean')
-import Primitive = require('../geometries/Primitive')
-import RingGeometry = require('../geometries/RingGeometry')
-import R3 = require('../math/R3')
+import VectorE3 from '../math/VectorE3';
+import ConeGeometry from '../geometries/ConeGeometry';
+import CylinderGeometry from '../geometries/CylinderGeometry';
+import AxialGeometry from '../geometries/AxialGeometry';
+import IAxialGeometry from '../geometries/IAxialGeometry';
+import mustBeBoolean from '../checks/mustBeBoolean';
+import Primitive from '../geometries/Primitive';
+import RingGeometry from '../geometries/RingGeometry';
+import R3 from '../math/R3';
 
 /**
  * @class ArrowGeometry
  */
-class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometry> {
+export default class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometry> {
     /**
      * @property heightCone
      * @type {number}
@@ -126,4 +126,3 @@ class ArrowGeometry extends AxialGeometry implements IAxialGeometry<ArrowGeometr
         return this
     }
 }
-export = ArrowGeometry

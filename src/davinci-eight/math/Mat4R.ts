@@ -1,26 +1,26 @@
-import AbstractMatrix = require('../math/AbstractMatrix')
-import add4x4 = require('../math/add4x4')
-import expectArg = require('../checks/expectArg')
-import GeometricElement = require('../math/GeometricElement')
-import inv4x4 = require('../math/inv4x4')
-import isDefined = require('../checks/isDefined')
-import Matrix = require('../math/Matrix')
-import mul4x4 = require('../math/mul4x4')
-import mustBeNumber = require('../checks/mustBeNumber')
-import Ring = require('../math/MutableRingElement')
-import SpinorE3 = require('../math/SpinorE3')
-import VectorE3 = require('../math/VectorE3')
-import VectorE4 = require('../math/VectorE4')
+import AbstractMatrix from '../math/AbstractMatrix';
+import add4x4 from '../math/add4x4';
+import expectArg from '../checks/expectArg';
+import GeometricElement from '../math/GeometricElement';
+import inv4x4 from '../math/inv4x4';
+import isDefined from '../checks/isDefined';
+import Matrix from '../math/Matrix';
+import mul4x4 from '../math/mul4x4';
+import mustBeNumber from '../checks/mustBeNumber';
+import Ring from '../math/MutableRingElement';
+import SpinorE3 from '../math/SpinorE3';
+import VectorE3 from '../math/VectorE3';
+import VectorE4 from '../math/VectorE4';
 
 // TODO: Anything after this line hints of excessive coupling.
 // TODO: Probably better not to couple this way.
-import frustumMatrix = require('../cameras/frustumMatrix');
+import frustumMatrix from '../cameras/frustumMatrix';
 
 /**
  * @class Mat4R
  * @extends AbstractMatrix
  */
-class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4, VectorE3>, Ring<Mat4R> {
+export default class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4, VectorE3>, Ring<Mat4R> {
 
     // The correspondence between the elements property index and the matrix entries is...
     //
@@ -602,5 +602,3 @@ class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R, VectorE4, Vec
         }
     }
 }
-
-export = Mat4R;

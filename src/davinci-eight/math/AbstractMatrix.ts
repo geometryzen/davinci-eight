@@ -1,13 +1,13 @@
-import mustBeDefined = require('../checks/mustBeDefined')
-import mustBeInteger = require('../checks/mustBeInteger')
-import MutableMatrix = require('../math/MutableMatrix')
-import expectArg = require('../checks/expectArg')
-import readOnly = require('../i18n/readOnly')
+import mustBeDefined from '../checks/mustBeDefined';
+import mustBeInteger from '../checks/mustBeInteger';
+import MutableMatrix from '../math/MutableMatrix';
+import expectArg from '../checks/expectArg';
+import readOnly from '../i18n/readOnly';
 
 /**
  * @class AbstractMatrix
  */
-class AbstractMatrix<T extends { elements: Float32Array }> implements MutableMatrix<Float32Array> {
+export default class AbstractMatrix<T extends { elements: Float32Array }> implements MutableMatrix<Float32Array> {
     /**
      * @property _elements
      * @type {Float32Array}
@@ -108,5 +108,3 @@ class AbstractMatrix<T extends { elements: Float32Array }> implements MutableMat
         throw new Error(readOnly('dimensions').message)
     }
 }
-
-export = AbstractMatrix;

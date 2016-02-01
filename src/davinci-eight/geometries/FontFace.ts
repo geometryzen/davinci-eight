@@ -1,9 +1,9 @@
-import Glyph = require('../geometries/Glyph')
+import Glyph from '../geometries/Glyph';
 
 /**
  * @class FontFace
  */
-class FontFace {
+export default class FontFace {
     /**
      * @property resolution
      * @type {number}
@@ -21,5 +21,3 @@ class FontFace {
     constructor() {
     }
 }
-
-export = FontFace

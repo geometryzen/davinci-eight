@@ -1,4 +1,4 @@
-import Scalar = require('../math/Scalar')
+import Scalar from '../math/Scalar';
 
 /**
  * The even sub-algebra of the <em>Euclidean algebra 𝓖(3, 0)</em>.
@@ -20,4 +20,4 @@ interface SpinorE3 extends Scalar {
     xy: number;
 }
 
-export = SpinorE3;
+export default SpinorE3;

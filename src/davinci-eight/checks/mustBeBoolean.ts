@@ -1,13 +1,11 @@
-import mustSatisfy = require('../checks/mustSatisfy');
-import isBoolean = require('../checks/isBoolean');
+import mustSatisfy from '../checks/mustSatisfy';
+import isBoolean from '../checks/isBoolean';
 
 function beBoolean() {
-  return "be `boolean`";
+    return "be `boolean`";
 }
 
-function mustBeBoolean(name: string, value: boolean, contextBuilder?: () => string): boolean {
-  mustSatisfy(name, isBoolean(value), beBoolean, contextBuilder);
-  return value;
+export default function mustBeBoolean(name: string, value: boolean, contextBuilder?: () => string): boolean {
+    mustSatisfy(name, isBoolean(value), beBoolean, contextBuilder);
+    return value;
 }
-
-export = mustBeBoolean;

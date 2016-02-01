@@ -3,19 +3,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/R3'], function (require, exports, readOnly, Shareable, R3) {
-    /**
-     * @class EulerFacet
-     */
+define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/R3'], function (require, exports, readOnly_1, Shareable_1, R3_1) {
     var EulerFacet = (function (_super) {
         __extends(EulerFacet, _super);
-        /**
-         * @class EulerFacet
-         * @constructor
-         */
         function EulerFacet() {
             _super.call(this, 'EulerFacet');
-            this._rotation = new R3();
+            this._rotation = new R3_1.default();
         }
         EulerFacet.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
@@ -25,31 +18,21 @@ define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math
         };
         EulerFacet.prototype.setProperty = function (name, value) {
         };
-        /**
-         * @method setUniforms
-         * @param visitor {IFacetVisitor}
-         * @param [canvasId] {number}
-         * @return {void}
-         */
         EulerFacet.prototype.setUniforms = function (visitor, canvasId) {
             console.warn("EulerFacet.setUniforms");
         };
         Object.defineProperty(EulerFacet.prototype, "rotation", {
-            /**
-             * @property rotation
-             * @type {R3}
-             * @readOnly
-             */
             get: function () {
                 return this._rotation;
             },
             set: function (unused) {
-                throw new Error(readOnly('rotation').message);
+                throw new Error(readOnly_1.default('rotation').message);
             },
             enumerable: true,
             configurable: true
         });
         return EulerFacet;
-    })(Shareable);
-    return EulerFacet;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = EulerFacet;
 });

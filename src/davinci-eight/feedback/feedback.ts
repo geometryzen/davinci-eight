@@ -1,5 +1,5 @@
-import core = require('../core')
-import LocalizableMessage = require('../i18n/LocalizableMessage')
+import core from '../core';
+import LocalizableMessage from '../i18n/LocalizableMessage';
 
 var feedback = {
   warn(message: LocalizableMessage) {
@@ -12,4 +12,4 @@ var feedback = {
   }
 }
 
-export = feedback
+export default feedback

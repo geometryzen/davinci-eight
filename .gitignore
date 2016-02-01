@@ -1,6 +1,12 @@
-/node_modules
-/vendor
-/src/davinci-blade
-/src/davinci-blade.d.ts
+amd/
+jspm_packages/
+node_modules/
+system/
+typings/
+vendor/
+.baseDir.ts
+.baseDir.js
+.grunt/
+_SpecRunner.html
 
 .DS_Store

@@ -1,6 +1,6 @@
-import Simplex = require('../geometries/Simplex');
-import VectorN = require('../math/VectorN');
-import VertexAttributeMap = require('../geometries/VertexAttributeMap');
+import Simplex from '../geometries/Simplex';
+import VectorN from '../math/VectorN';
+import VertexAttributeMap from '../geometries/VertexAttributeMap';
 
 function stringVectorN(name: string, vector: VectorN<number>): string {
     if (vector) {
@@ -20,7 +20,7 @@ function stringifyVertex(vertex: Vertex): string {
     return attribsKey;
 }
 
-class Vertex {
+export default class Vertex {
     public attributes: VertexAttributeMap = {};
     /**
      * The index property is used when computing elements.
@@ -33,5 +33,3 @@ class Vertex {
         return stringifyVertex(this);
     }
 }
-
-export = Vertex;

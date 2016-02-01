@@ -1,54 +1,47 @@
-define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/R3', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3, Euclidean3, dotVector, mustBeInteger, mustBeNumber, mustBeObject, quadVector, R3, rotorFromDirections) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean3', '../math/dotVectorE3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/quadVectorE3', '../math/R3', '../math/rotorFromDirections'], function (require, exports, dotVectorCartesianE3_1, Euclidean3_1, dotVectorE3_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, quadVectorE3_1, R3_1, rotorFromDirections_1) {
     var cos = Math.cos;
     var sin = Math.sin;
     var exp = Math.exp;
     var EPS = 0.000001;
-    // This class is for reference only and will remain undocumented and internal.
-    // Notice that it is mutable, betraying a usage with animation loops.
-    // But there we want to use the SpinG3 spinor, or the full multivector, G3.
-    // For comparison QQ and CC are immutable.
     var HH = (function () {
         function HH(t, v) {
             if (t === void 0) { t = 1; }
-            if (v === void 0) { v = Euclidean3.zero; }
-            this.t = mustBeNumber('t', t);
-            mustBeObject('v', v);
-            this.x = mustBeNumber('v.x', v.x);
-            this.y = mustBeNumber('v.y', v.y);
-            this.z = mustBeNumber('v.z', v.z);
+            if (v === void 0) { v = Euclidean3_1.default.zero; }
+            this.t = mustBeNumber_1.default('t', t);
+            mustBeObject_1.default('v', v);
+            this.x = mustBeNumber_1.default('v.x', v.x);
+            this.y = mustBeNumber_1.default('v.y', v.y);
+            this.z = mustBeNumber_1.default('v.z', v.z);
         }
         Object.defineProperty(HH.prototype, "v", {
             get: function () {
-                return new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0);
+                return new Euclidean3_1.default(0, this.x, this.y, this.z, 0, 0, 0, 0);
             },
             enumerable: true,
             configurable: true
         });
         HH.prototype.add = function (q, α) {
             if (α === void 0) { α = 1; }
-            mustBeObject('q', q);
-            mustBeNumber('α', α);
+            mustBeObject_1.default('q', q);
+            mustBeNumber_1.default('α', α);
             this.t += q.t * α;
             this.x += q.x * α;
             this.y += q.y * α;
             this.z += q.z * α;
             return this;
         };
-        /**
-         * Intentionally undocumented.
-         */
         HH.prototype.addPseudo = function (β) {
-            mustBeNumber('β', β);
+            mustBeNumber_1.default('β', β);
             return this;
         };
         HH.prototype.addScalar = function (α) {
-            mustBeNumber('α', α);
+            mustBeNumber_1.default('α', α);
             this.t += α;
             return this;
         };
         HH.prototype.add2 = function (a, b) {
-            mustBeObject('a', a);
-            mustBeObject('b', b);
+            mustBeObject_1.default('a', a);
+            mustBeObject_1.default('b', b);
             this.t = a.t + b.t;
             this.x = a.x + b.x;
             this.y = a.y + b.y;
@@ -62,11 +55,10 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this.log().grade(2);
         };
         HH.prototype.dual = function (vector) {
-            // TODO
             return this;
         };
         HH.prototype.clone = function () {
-            return new HH(this.t, new Euclidean3(0, this.x, this.y, this.z, 0, 0, 0, 0));
+            return new HH(this.t, new Euclidean3_1.default(0, this.x, this.y, this.z, 0, 0, 0, 0));
         };
         HH.prototype.lco = function (rhs) {
             return this.lco2(this, rhs);
@@ -139,7 +131,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
         };
         HH.prototype.exp = function () {
             var expT = exp(this.t);
-            var m = dotVectorCartesianE3(this.x, this.y, this.z, this.x, this.y, this.z);
+            var m = dotVectorCartesianE3_1.default(this.x, this.y, this.z, this.x, this.y, this.z);
             var s = m !== 0 ? sin(m) / m : 1;
             this.t = expT * cos(m);
             this.x = expT * this.x * s;
@@ -191,7 +183,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.scale = function (α) {
-            mustBeNumber('α', α);
+            mustBeNumber_1.default('α', α);
             this.t *= α;
             this.x *= α;
             this.y *= α;
@@ -249,11 +241,10 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.rotate = function (rotor) {
-            // FIXME: This would require creating a temporary so we fall back to components.
             return this.mul2(rotor, this);
         };
         HH.prototype.rotorFromDirections = function (a, b) {
-            return rotorFromDirections(a, b, quadVector, dotVector, this);
+            return rotorFromDirections_1.default(a, b, quadVectorE3_1.default, dotVectorE3_1.default, this);
         };
         HH.prototype.rotorFromAxisAngle = function (axis, θ) {
             var φ = θ / 2;
@@ -274,8 +265,6 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.setFromRotationMatrix = function (m) {
-            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
-            // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
             var te = m.elements, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10], trace = m11 + m22 + m33, s;
             if (trace > 0) {
                 s = 0.5 / Math.sqrt(trace + 1.0);
@@ -308,9 +297,8 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.spinor = function (a, b) {
-            // TODO: Could create circularity problems.
-            var v1 = new R3();
-            var r = dotVector(a, b) + 1;
+            var v1 = new R3_1.default();
+            var r = dotVectorE3_1.default(a, b) + 1;
             if (r < EPS) {
                 r = 0;
                 if (Math.abs(a.x) > Math.abs(a.z)) {
@@ -336,7 +324,6 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             if (t === 1)
                 return this.copy(qb);
             var x = this.x, y = this.y, z = this.z, w = this.t;
-            // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
             var cosHHalfTheta = w * qb.t + x * qb.x + y * qb.y + z * qb.z;
             if (cosHHalfTheta < 0) {
                 this.t = -qb.t;
@@ -396,7 +383,7 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this.sin().div(this.cos());
         };
         HH.prototype.grade = function (grade) {
-            mustBeInteger('grade', grade);
+            mustBeInteger_1.default('grade', grade);
             switch (grade) {
                 case 0:
                     {
@@ -420,11 +407,9 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
             return this;
         };
         HH.prototype.toExponential = function () {
-            // FIXME
             return "TODO HH.toExponential";
         };
         HH.prototype.toFixed = function (digits) {
-            // FIXME
             return "TODO HH.toFixed";
         };
         HH.prototype.equals = function (quaternion) {
@@ -465,5 +450,6 @@ define(["require", "exports", '../math/dotVectorCartesianE3', '../math/Euclidean
         };
         return HH;
     })();
-    return HH;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = HH;
 });

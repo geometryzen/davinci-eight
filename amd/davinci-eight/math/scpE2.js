@@ -13,5 +13,6 @@ define(["require", "exports"], function (require, exports) {
                 throw new Error("index must be in the range [0..3]");
         }
     }
-    return scpE2;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = scpE2;
 });

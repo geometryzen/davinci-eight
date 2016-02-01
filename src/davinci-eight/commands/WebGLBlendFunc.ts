@@ -1,10 +1,7 @@
-import BlendFactor = require('../commands/BlendFactor')
-import IContextConsumer = require('../core/IContextConsumer')
-import IContextProvider = require('../core/IContextProvider')
-import IContextCommand = require('../core/IContextCommand')
-import mustBeNumber = require('../checks/mustBeNumber')
-import mustBeString = require('../checks/mustBeString')
-import Shareable = require('../utils/Shareable')
+import BlendFactor from '../commands/BlendFactor';
+import IContextProvider from '../core/IContextProvider';
+import IContextCommand from '../core/IContextCommand';
+import Shareable from '../utils/Shareable';
 
 var factors = [
     BlendFactor.DST_ALPHA,
@@ -45,7 +42,7 @@ function factor(factor: BlendFactor, gl: WebGLRenderingContext): number {
  * @implements IContextCommand
  * @implements IContextConsumer
  */
-class WebGLBlendFunc extends Shareable implements IContextCommand {
+export default class WebGLBlendFunc extends Shareable implements IContextCommand {
     public sfactor: BlendFactor;
     public dfactor: BlendFactor;
     /**
@@ -95,5 +92,3 @@ class WebGLBlendFunc extends Shareable implements IContextCommand {
         this.dfactor = void 0
     }
 }
-
-export = WebGLBlendFunc;

@@ -3,8 +3,6 @@ define(["require", "exports"], function (require, exports) {
     var skip = true;
     var trace = false;
     var traceName = void 0;
-    // TODO: Very first time refChange is called, check count is +1
-    // FIXME: Use a better sentinel for command mode.
     var LOGGING_NAME_REF_CHANGE = 'refChange';
     function prefix(message) {
         return LOGGING_NAME_REF_CHANGE + ": " + message;
@@ -74,7 +72,6 @@ define(["require", "exports"], function (require, exports) {
                 }
             }
             else {
-                // trace everything
                 log(change + " on " + uuid + " @ " + name);
             }
         }
@@ -130,5 +127,6 @@ define(["require", "exports"], function (require, exports) {
             throw new Error(prefix("change must be +1 or -1 for normal recording, or 0 for logging to the console."));
         }
     }
-    return refChange;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = refChange;
 });

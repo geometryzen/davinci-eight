@@ -1,7 +1,7 @@
 /**
  * @class Glyph
  */
-class Glyph {
+export default class Glyph {
     ha: number
     o: string
     /**
@@ -16,4 +16,3 @@ class Glyph {
     constructor() {
     }
 }
-export = Glyph

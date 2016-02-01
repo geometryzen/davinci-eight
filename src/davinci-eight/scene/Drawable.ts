@@ -1,40 +1,27 @@
-import simplicesToGeometryMeta = require('../geometries/simplicesToGeometryMeta')
-import IContextProvider = require('../core/IContextProvider')
-import IContextMonitor = require('../core/IContextMonitor')
-import core = require('../core');
-import GeometryMeta = require('../geometries/GeometryMeta')
-import IDrawable = require('../core/IDrawable')
-import IBufferGeometry = require('../geometries/IBufferGeometry')
-import isDefined = require('../checks/isDefined')
-import IGraphicsProgram = require('../core/IGraphicsProgram')
-import IUnknownArray = require('../collections/IUnknownArray')
-import GraphicsProgram = require('../materials/GraphicsProgram')
-import mustBeDefined = require('../checks/mustBeDefined')
-import NumberIUnknownMap = require('../collections/NumberIUnknownMap')
-import Primitive = require('../geometries/Primitive')
-import readOnly = require('../i18n/readOnly')
-import refChange = require('../utils/refChange')
-import Shareable = require('../utils/Shareable')
-import Simplex = require('../geometries/Simplex')
-import StringIUnknownMap = require('../collections/StringIUnknownMap')
-import simplicesToDrawPrimitive = require('../geometries/simplicesToDrawPrimitive')
-import IFacet = require('../core/IFacet')
-import uuid4 = require('../utils/uuid4')
+import IContextProvider from '../core/IContextProvider';
+import core from '../core';
+import IDrawable from '../core/IDrawable';
+import IBufferGeometry from '../geometries/IBufferGeometry';
+import isDefined from '../checks/isDefined';
+import IGraphicsProgram from '../core/IGraphicsProgram';
+import IUnknownArray from '../collections/IUnknownArray';
+import NumberIUnknownMap from '../collections/NumberIUnknownMap';
+import Primitive from '../geometries/Primitive';
+import readOnly from '../i18n/readOnly';
+import Shareable from '../utils/Shareable';
+import StringIUnknownMap from '../collections/StringIUnknownMap';
+import Facet from '../core/Facet';
 
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME = 'Drawable'
-
-function contextBuilder() {
-    return LOGGING_NAME
-}
+const LOGGING_NAME = 'Drawable'
 
 /**
  * @class Drawable
  * @extends Shareable
  */
-class Drawable extends Shareable implements IDrawable {
+export default class Drawable extends Shareable implements IDrawable {
 
     /**
      * @property primitives
@@ -65,10 +52,10 @@ class Drawable extends Shareable implements IDrawable {
 
     /**
      * @property facets
-     * @type {StringIUnknownMap&lt;IFacet&gt;}
+     * @type {StringIUnknownMap&lt;Facet&gt;}
      * @private
      */
-    private facets: StringIUnknownMap<IFacet>;
+    private facets: StringIUnknownMap<Facet>;
 
     /**
      * @class Drawable
@@ -85,7 +72,7 @@ class Drawable extends Shareable implements IDrawable {
 
         this.buffersByCanvasId = new NumberIUnknownMap<IUnknownArray<IBufferGeometry>>()
 
-        this.facets = new StringIUnknownMap<IFacet>();
+        this.facets = new StringIUnknownMap<Facet>();
     }
 
     /**
@@ -108,7 +95,7 @@ class Drawable extends Shareable implements IDrawable {
      * @param [canvasId = 0] {number}
      * @return {void}
      */
-    draw(canvasId: number = 0): void {
+    draw(canvasId = 0): void {
         // We know we are going to need a "good" canvasId to perform the buffers lookup.
         // So we may as well test that condition now.
         if (isDefined(canvasId)) {
@@ -139,6 +126,9 @@ class Drawable extends Shareable implements IDrawable {
      * @param [canvasId] {number}
      */
     contextFree(canvasId?: number): void {
+        if (core.verbose) {
+            console.log(`${this._type} contextFree(canvasId=${canvasId})`);
+        }
         this.graphicsProgram.contextFree(canvasId)
     }
 
@@ -148,6 +138,9 @@ class Drawable extends Shareable implements IDrawable {
      * @return {void}
      */
     contextGain(manager: IContextProvider): void {
+        if (core.verbose) {
+            console.log(`${this._type} contextGain(canvasId=${manager.canvasId})`);
+        }
         // 1. Replace the existing buffer geometry if we have geometry. 
         if (this.primitives) {
             for (var i = 0, iLength = this.primitives.length; i < iLength; i++) {
@@ -172,25 +165,28 @@ class Drawable extends Shareable implements IDrawable {
      * @return {void}
      */
     contextLost(canvasId?: number): void {
+        if (core.verbose) {
+            console.log(`${this._type} contextLost(canvasId=${canvasId})`);
+        }
         this.graphicsProgram.contextLost(canvasId)
     }
 
     /**
      * @method getFacet
      * @param name {string}
-     * @return {IFacet}
+     * @return {Facet}
      */
-    getFacet(name: string): IFacet {
+    getFacet(name: string): Facet {
         return this.facets.get(name)
     }
 
     /**
      * @method setFacet
      * @param name {string}
-     * @param facet {IFacet}
+     * @param facet {Facet}
      * @return {void}
      */
-    setFacet(name: string, facet: IFacet): void {
+    setFacet(name: string, facet: Facet): void {
         this.facets.put(name, facet)
     }
 
@@ -208,5 +204,3 @@ class Drawable extends Shareable implements IDrawable {
         throw new Error(readOnly('material').message)
     }
 }
-
-export = Drawable

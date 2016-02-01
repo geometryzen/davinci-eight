@@ -1,10 +1,10 @@
-import Capability = require('../commands/Capability')
-import isDefined = require('../checks/isDefined')
-import mustBeDefined = require('../checks/mustBeDefined')
-import mustBeInteger = require('../checks/mustBeInteger')
+import Capability from '../commands/Capability';
+import isDefined from '../checks/isDefined';
+import mustBeDefined from '../checks/mustBeDefined'
+import mustBeInteger from '../checks/mustBeInteger';
 
 // Converts the Capability enum to a WebGLRenderingContext symbolic constant.
-function glCapability(capability: Capability, gl: WebGLRenderingContext) {
+export default function glCapability(capability: Capability, gl: WebGLRenderingContext) {
     if (isDefined(capability)) {
         mustBeInteger('capability', capability)
         mustBeDefined('gl', gl)
@@ -23,4 +23,3 @@ function glCapability(capability: Capability, gl: WebGLRenderingContext) {
         return void 0
     }
 }
-export = glCapability

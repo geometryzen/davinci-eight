@@ -1,11 +1,11 @@
-import IFacet = require('../core/IFacet')
-import R3 = require('../math/R3')
-import VectorE3 = require('../math/VectorE3')
+import Facet from '../core/Facet';
+import R3 from '../math/R3';
+import VectorE3 from '../math/VectorE3';
 
 /**
  * @class View
  */
-interface View extends IFacet {
+interface View extends Facet {
 
     /**
      * @property eye
@@ -47,4 +47,4 @@ interface View extends IFacet {
     setUp(up: VectorE3): View;
 }
 
-export = View;
+export default View;

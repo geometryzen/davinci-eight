@@ -1,10 +1,7 @@
-define(["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString) {
-    /**
-     *
-     */
+define(["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString_1) {
     function cannotAssignTypeToProperty(type, name) {
-        mustBeString('type', type);
-        mustBeString('name', name);
+        mustBeString_1.default('type', type);
+        mustBeString_1.default('name', name);
         var message = {
             get message() {
                 return "Cannot assign type `" + type + "` to property `" + name + "`.";
@@ -12,5 +9,6 @@ define(["require", "exports", '../checks/mustBeString'], function (require, expo
         };
         return message;
     }
-    return cannotAssignTypeToProperty;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = cannotAssignTypeToProperty;
 });

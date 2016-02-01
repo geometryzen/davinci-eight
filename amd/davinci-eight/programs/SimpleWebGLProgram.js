@@ -3,56 +3,25 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLProgram', '../checks/mustBeArray', '../checks/mustBeObject', '../checks/mustBeString', '../core/UniformLocation', '../utils/Shareable'], function (require, exports, AttribLocation, makeWebGLProgram, mustBeArray, mustBeObject, mustBeString, UniformLocation, Shareable) {
-    /**
-     * @class SimpleWebGLProgram
-     * @extends Shareable
-     */
+define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLProgram', '../checks/mustBeArray', '../checks/mustBeObject', '../checks/mustBeString', '../core/UniformLocation', '../utils/Shareable'], function (require, exports, AttribLocation_1, makeWebGLProgram_1, mustBeArray_1, mustBeObject_1, mustBeString_1, UniformLocation_1, Shareable_1) {
     var SimpleWebGLProgram = (function (_super) {
         __extends(SimpleWebGLProgram, _super);
-        /**
-         * This class is <em>simple</em> because it assumes exactly
-         * one vertex shader and one fragment shader.
-         * This class assumes that it will only be supporting a single WebGL rendering context.
-         * The existence of the context in the constructor enables it to enforce this invariant.
-         * @class SimpleWebGLProgram
-         * @constructor
-         * @param context {IContextProvider} The context that this program will work with.
-         * @param vertexShader {string} The vertex shader source code.
-         * @param fragmentShader {string} The fragment shader source code.
-         * @param [attribs] {Array&lt;string&gt;} The attribute ordering.
-         */
         function SimpleWebGLProgram(context, vertexShader, fragmentShader, attribs) {
             if (attribs === void 0) { attribs = []; }
             _super.call(this, 'SimpleWebGLProgram');
-            /**
-             * @property attributes
-             * @type {{[name: string]: AttribLocation}}
-             */
             this.attributes = {};
-            /**
-             * @property uniforms
-             * @type {{[name: string]: UniformLocation}}
-             */
             this.uniforms = {};
-            this.context = mustBeObject('context', context);
+            this.context = mustBeObject_1.default('context', context);
             context.addRef();
-            this.vertexShader = mustBeString('vertexShader', vertexShader);
-            this.fragmentShader = mustBeString('fragmentShader', fragmentShader);
-            this.attribs = mustBeArray('attribs', attribs);
+            this.vertexShader = mustBeString_1.default('vertexShader', vertexShader);
+            this.fragmentShader = mustBeString_1.default('fragmentShader', fragmentShader);
+            this.attribs = mustBeArray_1.default('attribs', attribs);
             context.addContextListener(this);
             context.synchronize(this);
         }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
         SimpleWebGLProgram.prototype.destructor = function () {
             var context = this.context;
             var canvasId = context.canvasId;
-            // If the program has been allocated, find out what to do with it.
-            // (we may have been disconnected from listening)
             if (this.program) {
                 var gl = context.gl;
                 if (gl) {
@@ -71,16 +40,11 @@ define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLPr
             this.context.release();
             this.context = void 0;
         };
-        /**
-         * @method contextGain
-         * @param context {IContextProvider}
-         * @return {void}
-         */
         SimpleWebGLProgram.prototype.contextGain = function (unused) {
             var context = this.context;
             var gl = context.gl;
             if (!this.program) {
-                this.program = makeWebGLProgram(context.gl, this.vertexShader, this.fragmentShader, this.attribs);
+                this.program = makeWebGLProgram_1.default(context.gl, this.vertexShader, this.fragmentShader, this.attribs);
                 var program = this.program;
                 var attributes = this.attributes;
                 var uniforms = this.uniforms;
@@ -89,7 +53,7 @@ define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLPr
                     var activeAttribInfo = gl.getActiveAttrib(program, a);
                     var name_1 = activeAttribInfo.name;
                     if (!attributes[name_1]) {
-                        attributes[name_1] = new AttribLocation(context, name_1);
+                        attributes[name_1] = new AttribLocation_1.default(context, name_1);
                     }
                 }
                 var activeUniforms = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
@@ -97,36 +61,34 @@ define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLPr
                     var activeUniformInfo = gl.getActiveUniform(program, u);
                     var name_2 = activeUniformInfo.name;
                     if (!uniforms[name_2]) {
-                        uniforms[name_2] = new UniformLocation(context, name_2);
+                        uniforms[name_2] = new UniformLocation_1.default(context, name_2);
                     }
                 }
                 for (var aName in attributes) {
-                    attributes[aName].contextGain(gl, program);
+                    if (attributes.hasOwnProperty(aName)) {
+                        attributes[aName].contextGain(gl, program);
+                    }
                 }
                 for (var uName in uniforms) {
-                    uniforms[uName].contextGain(gl, program);
+                    if (uniforms.hasOwnProperty(uName)) {
+                        uniforms[uName].contextGain(gl, program);
+                    }
                 }
             }
         };
-        /**
-         * @method contextLost
-         * @param [canvasId] {number}
-         * @return {void}
-         */
         SimpleWebGLProgram.prototype.contextLost = function (unused) {
             this.program = void 0;
             for (var aName in this.attributes) {
-                this.attributes[aName].contextLost();
+                if (this.attributes.hasOwnProperty(aName)) {
+                    this.attributes[aName].contextLost();
+                }
             }
             for (var uName in this.uniforms) {
-                this.uniforms[uName].contextLost();
+                if (this.uniforms.hasOwnProperty(uName)) {
+                    this.uniforms[uName].contextLost();
+                }
             }
         };
-        /**
-         * @method contextFree
-         * @param [canvasId] number
-         * @return {void}
-         */
         SimpleWebGLProgram.prototype.contextFree = function (unused) {
             if (this.program) {
                 var gl = this.context.gl;
@@ -143,20 +105,21 @@ define(["require", "exports", '../core/AttribLocation', '../programs/makeWebGLPr
                 this.program = void 0;
             }
             for (var aName in this.attributes) {
-                this.attributes[aName].contextFree();
+                if (this.attributes.hasOwnProperty(aName)) {
+                    this.attributes[aName].contextFree();
+                }
             }
             for (var uName in this.uniforms) {
-                this.uniforms[uName].contextFree();
+                if (this.uniforms.hasOwnProperty(uName)) {
+                    this.uniforms[uName].contextFree();
+                }
             }
         };
-        /**
-         * @method use
-         * @return {void}
-         */
         SimpleWebGLProgram.prototype.use = function () {
             this.context.gl.useProgram(this.program);
         };
         return SimpleWebGLProgram;
-    })(Shareable);
-    return SimpleWebGLProgram;
+    })(Shareable_1.default);
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = SimpleWebGLProgram;
 });

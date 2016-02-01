@@ -17,4 +17,4 @@ interface VectorE2 {
     y: number;
 }
 
-export = VectorE2
+export default VectorE2

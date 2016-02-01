@@ -1,8 +1,7 @@
-import Mutable = require('../math/Mutable');
-import expectArg = require('../checks/expectArg');
-import isDefined = require('../checks/isDefined');
-import isUndefined = require('../checks/isUndefined');
-import MutableLinearElement = require('../math/MutableLinearElement');
+import Mutable from '../math/Mutable';
+import expectArg from '../checks/expectArg';
+import isDefined from '../checks/isDefined';
+import isUndefined from '../checks/isUndefined';
 
 function constructorString(T: string): string {
     return "new VectorN<" + T + ">(data: " + T + "[], modified: boolean = false, size?: number)";
@@ -31,7 +30,7 @@ function ctorDataKind(): string {
 function ctorDataLength(length: number): () => string {
     return function(): string {
         return contextNameLength(constructorString('T'), 'data', length);
-    }
+    };
 }
 
 function verboten(operation: string): string {
@@ -57,7 +56,7 @@ function ctorSizeKind(): string {
 /**
  * @class VectorN<T>
  */
-class VectorN<T> implements Mutable<T[]> {
+export default class VectorN<T> implements Mutable<T[]> {
     private _size: number;
     private _data: T[];
     private _callback: () => T[];
@@ -73,7 +72,7 @@ class VectorN<T> implements Mutable<T[]> {
      * @param modified [boolean = false]
      * @param [size]
      */
-    constructor(data: T[], modified: boolean = false, size?: number) {
+    constructor(data: T[], modified = false, size?: number) {
         let dataArg = expectArg('data', data).toBeObject(ctorDataKind);
         this.modified = expectArg('modified', modified).toBeBoolean(ctorModifiedKind).value;
         if (isDefined(size)) {
@@ -198,7 +197,7 @@ class VectorN<T> implements Mutable<T[]> {
      * @param [offset = 0] {number}
      * @return {T[]}
      */
-    toArray(array: T[] = [], offset: number = 0): T[] {
+    toArray(array: T[] = [], offset = 0): T[] {
         let data = this.coords;
         let length = data.length;
         for (var i = 0; i < length; i++) {
@@ -221,5 +220,3 @@ class VectorN<T> implements Mutable<T[]> {
         return this.coords.toString();
     }
 }
-
-export = VectorN;

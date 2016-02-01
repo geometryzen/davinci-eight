@@ -1,7 +1,7 @@
-import FontFace = require('../geometries/FontFace')
-import generateTextShapes = require('../geometries/generateTextShapes')
-// import ExtrudeSimplexGeometry = require('../geometries/ExtrudeSimplexGeometry')
-import SimplexGeometry = require('../geometries/SimplexGeometry')
+import FontFace from '../geometries/FontFace';
+import generateTextShapes from '../geometries/generateTextShapes';
+// import ExtrudeSimplexGeometry from '../geometries/ExtrudeSimplexGeometry')
+import SimplexGeometry from '../geometries/SimplexGeometry';
 
 function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, bevelSize?: number, bevelThickness?: number; height?: number }) {
 
@@ -19,12 +19,10 @@ function futzParameters(parameters: { amount?: number; bevelEnabled?: boolean, b
 /**
  * Intentionally undocumented
  */
-class TextSimplexGeometry extends /*Extrude*/SimplexGeometry {
+export default class TextSimplexGeometry extends /*Extrude*/SimplexGeometry {
     constructor(text: string, face: FontFace, parameters: { amount?: number; bevelEnabled?: boolean, bevelSize?: number, bevelThickness?: number; height?: number }) {
         super()
         var shapes = generateTextShapes(text, face, parameters)
         //    super(generateTextShapes(text, parameters), parameters, 'TextSimplexGeometry')
     }
 }
-
-export = TextSimplexGeometry

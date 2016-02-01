@@ -2,5 +2,6 @@ define(["require", "exports"], function (require, exports) {
     function isNumber(x) {
         return (typeof x === 'number');
     }
-    return isNumber;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = isNumber;
 });

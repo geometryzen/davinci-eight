@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.170.0</em>
+            <em>API Docs for: 2.171.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -67,7 +67,7 @@
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DirectionalLightE3.html">DirectionalLightE3</a></li>
+                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Director.html">Director</a></li>
                                 <li><a href="../classes/DodecahedronSimplexGeometry.html">DodecahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -84,6 +84,8 @@
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/ExtrudeSimplexGeometry.html">ExtrudeSimplexGeometry</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
+                                <li><a href="../classes/Facet.html">Facet</a></li>
+                                <li><a href="../classes/FacetVisitor.html">FacetVisitor</a></li>
                                 <li><a href="../classes/FontFace.html">FontFace</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/G2.html">G2</a></li>
@@ -110,8 +112,6 @@
                                 <li><a href="../classes/IcosahedronSimplexGeometry.html">IcosahedronSimplexGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
-                                <li><a href="../classes/IFacet.html">IFacet</a></li>
-                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IGraphicsProgram.html">IGraphicsProgram</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
@@ -130,7 +130,7 @@
                                 <li><a href="../classes/MeshTopology.html">MeshTopology</a></li>
                                 <li><a href="../classes/ModelE2.html">ModelE2</a></li>
                                 <li><a href="../classes/ModelE3.html">ModelE3</a></li>
-                                <li><a href="../classes/ModelFacetE3.html">ModelFacetE3</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/MutableVector.html">MutableVector</a></li>
                                 <li><a href="../classes/NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;.html">NumberIUnknownMap&amp;lt;V extends IUnknown&amp;gt;</a></li>
@@ -153,6 +153,7 @@
                                 <li><a href="../classes/R2.html">R2</a></li>
                                 <li><a href="../classes/R3.html">R3</a></li>
                                 <li><a href="../classes/R4.html">R4</a></li>
+                                <li><a href="../classes/RefCount.html">RefCount</a></li>
                                 <li><a href="../classes/ReflectionFacetE2.html">ReflectionFacetE2</a></li>
                                 <li><a href="../classes/ReflectionFacetE3.html">ReflectionFacetE3</a></li>
                                 <li><a href="../classes/RevolutionSimplexGeometry.html">RevolutionSimplexGeometry</a></li>
@@ -170,7 +171,7 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
-                                <li><a href="../classes/SphericalPolarSimplexGeometry.html">SphericalPolarSimplexGeometry</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
                                 <li><a href="../classes/SpinorE1.html">SpinorE1</a></li>
@@ -196,6 +197,7 @@
                                 <li><a href="../classes/VertexAttributeMap.html">VertexAttributeMap</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexSimplexGeometry.html">VortexSimplexGeometry</a></li>
+                                <li><a href="../classes/WaitAnimation.html">WaitAnimation</a></li>
                                 <li><a href="../classes/WebGLBlendFunc.html">WebGLBlendFunc</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
@@ -244,36 +246,29 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
-import IContextMonitor = require(&#x27;../core/IContextMonitor&#x27;)
-import createDrawList = require(&#x27;../scene/createDrawList&#x27;)
-import IDrawable = require(&#x27;../core/IDrawable&#x27;)
-import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
-import IUnknownArray = require(&#x27;../collections/IUnknownArray&#x27;)
-import IGraphicsProgram = require(&#x27;../core/IGraphicsProgram&#x27;)
-import R1 = require(&#x27;../math/R1&#x27;)
-import Mat2R = require(&#x27;../math/Mat2R&#x27;)
-import Mat3R = require(&#x27;../math/Mat3R&#x27;)
-import Mat4R = require(&#x27;../math/Mat4R&#x27;)
-import MonitorList = require(&#x27;../scene/MonitorList&#x27;)
-import mustSatisfy = require(&#x27;../checks/mustSatisfy&#x27;)
-import Shareable = require(&#x27;../utils/Shareable&#x27;)
-import IFacet = require(&#x27;../core/IFacet&#x27;)
+import IContextProvider from &#x27;../core/IContextProvider&#x27;;
+import IContextMonitor from &#x27;../core/IContextMonitor&#x27;;
+import core from &#x27;../core&#x27;;
+import createDrawList from &#x27;../scene/createDrawList&#x27;;
+import IDrawable from &#x27;../core/IDrawable&#x27;;
+import IDrawList from &#x27;../scene/IDrawList&#x27;;
+import IUnknownArray from &#x27;../collections/IUnknownArray&#x27;;
+import IGraphicsProgram from &#x27;../core/IGraphicsProgram&#x27;;
+import MonitorList from &#x27;../scene/MonitorList&#x27;;
+import Shareable from &#x27;../utils/Shareable&#x27;;
+import Facet from &#x27;../core/Facet&#x27;;
 
-import refChange = require(&#x27;../utils/refChange&#x27;)
-import uuid4 = require(&#x27;../utils/uuid4&#x27;)
-
-let LOGGING_NAME = &#x27;Scene&#x27;
+const LOGGING_NAME = &#x27;Scene&#x27;;
 
 function ctorContext(): string {
-    return LOGGING_NAME + &quot; constructor&quot;
+    return LOGGING_NAME + &quot; constructor&quot;;
 }
 
 /**
  * @class Scene
  * @extends Shareable
  */
-class Scene extends Shareable implements IDrawList {
+export default class Scene extends Shareable implements IDrawList {
 
     /**
      * @property drawList
@@ -301,13 +296,13 @@ class Scene extends Shareable implements IDrawList {
      * @param [monitors = []] {Array&amp;lt;IContextMonitor&amp;gt;}
      */
     constructor(monitors: IContextMonitor[] = []) {
-        super(LOGGING_NAME)
-        MonitorList.verify(&#x27;monitors&#x27;, monitors, ctorContext)
+        super(LOGGING_NAME);
+        MonitorList.verify(&#x27;monitors&#x27;, monitors, ctorContext);
 
         this.drawList = createDrawList();
-        this.monitors = new MonitorList(monitors)
-        this.monitors.addContextListener(this)
-        this.monitors.synchronize(this)
+        this.monitors = new MonitorList(monitors);
+        this.monitors.addContextListener(this);
+        this.monitors.synchronize(this);
     }
 
     /**
@@ -316,12 +311,12 @@ class Scene extends Shareable implements IDrawList {
      * @protected
      */
     protected destructor(): void {
-        this.monitors.removeContextListener(this)
+        this.monitors.removeContextListener(this);
         this.monitors.release();
-        this.monitors = void 0
+        this.monitors = void 0;
 
-        this.drawList.release()
-        this.drawList = void 0
+        this.drawList.release();
+        this.drawList = void 0;
     }
 
     /**
@@ -336,25 +331,26 @@ class Scene extends Shareable implements IDrawList {
      * &lt;/p&gt;
      */
     add(drawable: IDrawable): void {
-        return this.drawList.add(drawable)
+        return this.drawList.add(drawable);
     }
 
 
     containsDrawable(drawable: IDrawable): boolean {
-        return this.drawList.containsDrawable(drawable)
+        return this.drawList.containsDrawable(drawable);
     }
+
     /**
      * &lt;p&gt;
      * Traverses the collection of drawables, drawing each one.
      * &lt;/p&gt;
      * @method draw
-     * @param ambients {IFacet[]}
+     * @param ambients {Facet[]}
      * @param [canvasId] {number}
      * @return {void}
      * @beta
      */
-    draw(ambients: IFacet[], canvasId?: number): void {
-        return this.drawList.draw(ambients, canvasId)
+    draw(ambients: Facet[], canvasId?: number): void {
+        return this.drawList.draw(ambients, canvasId);
     }
 
     /**
@@ -363,8 +359,9 @@ class Scene extends Shareable implements IDrawList {
      * @param name {string}
      */
     getDrawablesByName(name: string): IUnknownArray&lt;IDrawable&gt; {
-        return this.drawList.getDrawablesByName(name)
+        return this.drawList.getDrawablesByName(name);
     }
+
     /**
      * &lt;p&gt;
      * Removes the &lt;code&gt;drawable&lt;/code&gt; from this &lt;code&gt;Scene&lt;/code&gt;.
@@ -377,8 +374,9 @@ class Scene extends Shareable implements IDrawList {
      * &lt;/p&gt;
      */
     remove(drawable: IDrawable): void {
-        return this.drawList.remove(drawable)
+        return this.drawList.remove(drawable);
     }
+
     /**
      * &lt;p&gt;
      * Traverses the collection of drawables, calling the specified callback arguments.
@@ -390,20 +388,45 @@ class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     traverse(callback: (drawable: IDrawable) =&gt; void, canvasId: number, prolog: (material: IGraphicsProgram) =&gt; void): void {
-        this.drawList.traverse(callback, canvasId, prolog)
+        this.drawList.traverse(callback, canvasId, prolog);
     }
+
+    /**
+     * @method contextFree
+     * @param canvasId {number}
+     * @return {void}
+     */
     contextFree(canvasId: number): void {
-        this.drawList.contextFree(canvasId)
+        if (core.verbose) {
+            console.log(&#x60;${this._type} contextFree(canvasId=${canvasId})&#x60;);
+        }
+        this.drawList.contextFree(canvasId);
     }
+
+    /**
+     * @method contextGain
+     * @param manager {IContextProvider}
+     * @return {void}
+     */
     contextGain(manager: IContextProvider): void {
-        this.drawList.contextGain(manager)
+        if (core.verbose) {
+            console.log(&#x60;${this._type} contextGain(canvasId=${manager.canvasId})&#x60;);
+        }
+        this.drawList.contextGain(manager);
     }
+
+    /**
+     * @method contextLost
+     * @param canvasId {number}
+     * @return {void}
+     */
     contextLost(canvasId: number): void {
-        this.drawList.contextLost(canvasId)
+        if (core.verbose) {
+            console.log(&#x60;${this._type} contextLost(canvasId=${canvasId})&#x60;);
+        }
+        this.drawList.contextLost(canvasId);
     }
 }
-
-export = Scene
 
     </pre>
 </div>

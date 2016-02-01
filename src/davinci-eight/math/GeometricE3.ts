@@ -1,7 +1,7 @@
-import Pseudo = require('../math/Pseudo')
-import Scalar = require('../math/Scalar')
-import SpinorE3 = require('../math/SpinorE3')
-import VectorE3 = require('../math/VectorE3')
+import Pseudo from '../math/Pseudo';
+import Scalar from '../math/Scalar';
+import SpinorE3 from '../math/SpinorE3';
+import VectorE3 from '../math/VectorE3';
 
 /**
  * @class GeometricE3
@@ -13,4 +13,4 @@ import VectorE3 = require('../math/VectorE3')
 interface GeometricE3 extends Pseudo, Scalar, SpinorE3, VectorE3 {
 }
 
-export = GeometricE3;
+export default GeometricE3;

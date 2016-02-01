@@ -1,11 +1,12 @@
-define(["require", "exports", '../math/dotVectorCartesianE3', '../checks/isDefined'], function (require, exports, dotVectorCartesianE3, isDefined) {
+define(["require", "exports", '../math/dotVectorCartesianE3', '../checks/isDefined'], function (require, exports, dotVectorCartesianE3_1, isDefined_1) {
     function dotVectorE3(a, b) {
-        if (isDefined(a) && isDefined(b)) {
-            return dotVectorCartesianE3(a.x, a.y, a.z, b.x, b.y, b.z);
+        if (isDefined_1.default(a) && isDefined_1.default(b)) {
+            return dotVectorCartesianE3_1.default(a.x, a.y, a.z, b.x, b.y, b.z);
         }
         else {
             return void 0;
         }
     }
-    return dotVectorE3;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = dotVectorE3;
 });

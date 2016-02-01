@@ -1,9 +1,9 @@
-import det3x3 = require('../math/det3x3')
+import det3x3 from '../math/det3x3';
 
 /**
  * Computes the inverse of a 2x2 (square) matrix where the elements are assumed to be in column-major order.
  */
-function inv3x3(m: Float32Array, te: Float32Array): void {
+export default function inv3x3(m: Float32Array, te: Float32Array): void {
 
     let det = det3x3(m)
 
@@ -32,4 +32,3 @@ function inv3x3(m: Float32Array, te: Float32Array): void {
     te[0x1] = o21 * α; te[0x4] = o22 * α; te[0x7] = o23 * α;
     te[0x2] = o31 * α; te[0x5] = o32 * α; te[0x8] = o33 * α;
 }
-export = inv3x3

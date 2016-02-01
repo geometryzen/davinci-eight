@@ -1,8 +1,8 @@
-import VectorE3 = require('../math/VectorE3')
-import IGeometry = require('../geometries/IGeometry')
+import VectorE3 from '../math/VectorE3';
+import IGeometry from '../geometries/IGeometry';
 
-interface IAxialGeometry<T> extends IGeometry<T>  {
-  setAxis(axis: VectorE3): T
+interface IAxialGeometry<T> extends IGeometry<T> {
+    setAxis(axis: VectorE3): T
 }
 
-export = IAxialGeometry
+export default IAxialGeometry

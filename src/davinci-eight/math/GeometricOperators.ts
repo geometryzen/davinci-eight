@@ -1,5 +1,5 @@
-import LinearOperators = require('../math/LinearOperators')
-import RingOperators = require('../math/RingOperators')
+import LinearOperators from '../math/LinearOperators';
+import RingOperators from '../math/RingOperators';
 
 /**
  * Special methods for operators on elements of geometric spaces.
@@ -31,4 +31,4 @@ interface GeometricOperators<T> extends LinearOperators<T>, RingOperators<T> {
     inv(): T;
 }
 
-export = GeometricOperators
+export default GeometricOperators

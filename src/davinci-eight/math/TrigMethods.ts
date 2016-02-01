@@ -9,4 +9,4 @@ interface TrigMethods<T> {
     tan(): T;
 }
 
-export = TrigMethods;
+export default TrigMethods;
