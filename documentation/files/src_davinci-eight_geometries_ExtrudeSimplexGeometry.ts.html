@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.171.0</em>
+            <em>API Docs for: 2.172.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -322,8 +322,6 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
 
             splineTube = options.frames !== undefined ? options.frames : new THREE.TubeGeometry.FrenetFrames(extrudePath, steps, false);
 
-            // console.log(splineTube, &#x27;splineTube&#x27;, splineTube.normals.length, &#x27;steps&#x27;, steps, &#x27;extrudePts&#x27;, extrudePts.length);
-
             binormal = new THREE.Vector3();
             normal = new THREE.Vector3();
             position2 = new THREE.Vector3();
@@ -481,12 +479,10 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
                 }
 
                 if (direction_eq) {
-                    // console.log(&quot;Warning: lines are a straight sequence&quot;);
                     v_trans_x = - v_prev_y;
                     v_trans_y = v_prev_x;
                     shrink_by = Math.sqrt(v_prev_lensq);
                 } else {
-                    // console.log(&quot;Warning: lines are a straight spike&quot;);
                     v_trans_x = v_prev_x;
                     v_trans_y = v_prev_y;
                     shrink_by = Math.sqrt(v_prev_lensq / 2);
@@ -505,9 +501,6 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
 
             if (j === il) j = 0;
             if (k === il) k = 0;
-
-            //  (j)---(i)---(k)
-            // console.log(&#x27;i,j,k&#x27;, i, j , k)
 
             contourMovements[i] = getBevelVec(contour[i], contour[j], contour[k]);
 
@@ -778,8 +771,6 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
                 j = i;
                 k = i - 1;
                 if (k &lt; 0) k = contour.length - 1;
-
-                //console.log(&#x27;b&#x27;, i,j, i-1, k,vertices.length);
 
                 var s = 0, sl = steps + bevelSegments * 2;
 

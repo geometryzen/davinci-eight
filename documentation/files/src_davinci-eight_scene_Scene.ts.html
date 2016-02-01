@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.171.0</em>
+            <em>API Docs for: 2.172.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -248,13 +248,17 @@
     <pre class="code prettyprint linenums">
 import IContextProvider from &#x27;../core/IContextProvider&#x27;;
 import IContextMonitor from &#x27;../core/IContextMonitor&#x27;;
-import core from &#x27;../core&#x27;;
 import createDrawList from &#x27;../scene/createDrawList&#x27;;
 import IDrawable from &#x27;../core/IDrawable&#x27;;
 import IDrawList from &#x27;../scene/IDrawList&#x27;;
 import IUnknownArray from &#x27;../collections/IUnknownArray&#x27;;
 import IGraphicsProgram from &#x27;../core/IGraphicsProgram&#x27;;
 import MonitorList from &#x27;../scene/MonitorList&#x27;;
+import mustBeArray from &#x27;../checks/mustBeArray&#x27;;
+import mustBeFunction from &#x27;../checks/mustBeFunction&#x27;;
+import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
+import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
+import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import Shareable from &#x27;../utils/Shareable&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 
@@ -297,6 +301,7 @@ export default class Scene extends Shareable implements IDrawList {
      */
     constructor(monitors: IContextMonitor[] = []) {
         super(LOGGING_NAME);
+        mustBeArray(&#x27;monitors&#x27;, monitors);
         MonitorList.verify(&#x27;monitors&#x27;, monitors, ctorContext);
 
         this.drawList = createDrawList();
@@ -331,11 +336,17 @@ export default class Scene extends Shareable implements IDrawList {
      * &lt;/p&gt;
      */
     add(drawable: IDrawable): void {
+        mustBeObject(&#x27;drawable&#x27;, drawable);
         return this.drawList.add(drawable);
     }
 
-
+    /**
+     * @method containsDrawable
+     * @param drawable {IDrawable}
+     * @return {boolean}
+     */
     containsDrawable(drawable: IDrawable): boolean {
+        mustBeObject(&#x27;drawable&#x27;, drawable);
         return this.drawList.containsDrawable(drawable);
     }
 
@@ -350,15 +361,40 @@ export default class Scene extends Shareable implements IDrawList {
      * @beta
      */
     draw(ambients: Facet[], canvasId?: number): void {
+        mustBeArray(&#x27;ambients&#x27;, ambients);
+        mustBeNumber(&#x27;canvasId&#x27;, canvasId);
         return this.drawList.draw(ambients, canvasId);
     }
 
     /**
+     * @method findOne
+     * @param match {(drawable: IDrawable) =&gt; boolean}
+     * @return {IDrawable}
+     */
+    findOne(match: (drawable: IDrawable) =&gt; boolean): IDrawable {
+        mustBeFunction(&#x27;match&#x27;, match);
+        return this.drawList.findOne(match);
+    }
+
+    /**
+     * @method getDrawableByName
+     * @param name {string}
+     * @return {IDrawable}
+     */
+    getDrawableByName(name: string): IDrawable {
+        mustBeString(&#x27;name&#x27;, name);
+        return this.drawList.getDrawableByName(name);
+    }
+
+    /**
      * Gets a collection of drawable elements by name.
+     *
      * @method getDrawablesByName
      * @param name {string}
+     * @rerurn {IUnknownArray}
      */
     getDrawablesByName(name: string): IUnknownArray&lt;IDrawable&gt; {
+        mustBeString(&#x27;name&#x27;, name);
         return this.drawList.getDrawablesByName(name);
     }
 
@@ -366,14 +402,16 @@ export default class Scene extends Shareable implements IDrawList {
      * &lt;p&gt;
      * Removes the &lt;code&gt;drawable&lt;/code&gt; from this &lt;code&gt;Scene&lt;/code&gt;.
      * &lt;/p&gt;
+     *
      * @method remove
      * @param drawable {IDrawable}
-     * @return {Void}
+     * @return {void}
      * &lt;p&gt;
      * This method returns &lt;code&gt;undefined&lt;/code&gt;.
      * &lt;/p&gt;
      */
     remove(drawable: IDrawable): void {
+        mustBeObject(&#x27;drawable&#x27;, drawable);
         return this.drawList.remove(drawable);
     }
 
@@ -381,6 +419,7 @@ export default class Scene extends Shareable implements IDrawList {
      * &lt;p&gt;
      * Traverses the collection of drawables, calling the specified callback arguments.
      * &lt;/p&gt;
+     *
      * @method traverse
      * @param callback {(drawable: IDrawable) =&gt; void} Callback function for each drawable.
      * @param canvasId {number} Identifies the canvas.
@@ -388,6 +427,8 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     traverse(callback: (drawable: IDrawable) =&gt; void, canvasId: number, prolog: (material: IGraphicsProgram) =&gt; void): void {
+        mustBeFunction(&#x27;callback&#x27;, callback);
+        mustBeNumber(&#x27;canvasId&#x27;, canvasId);
         this.drawList.traverse(callback, canvasId, prolog);
     }
 
@@ -397,9 +438,7 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     contextFree(canvasId: number): void {
-        if (core.verbose) {
-            console.log(&#x60;${this._type} contextFree(canvasId=${canvasId})&#x60;);
-        }
+        mustBeNumber(&#x27;canvasId&#x27;, canvasId);
         this.drawList.contextFree(canvasId);
     }
 
@@ -409,9 +448,7 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     contextGain(manager: IContextProvider): void {
-        if (core.verbose) {
-            console.log(&#x60;${this._type} contextGain(canvasId=${manager.canvasId})&#x60;);
-        }
+        mustBeObject(&#x27;manager&#x27;, manager);
         this.drawList.contextGain(manager);
     }
 
@@ -421,9 +458,7 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     contextLost(canvasId: number): void {
-        if (core.verbose) {
-            console.log(&#x60;${this._type} contextLost(canvasId=${canvasId})&#x60;);
-        }
+        mustBeNumber(&#x27;canvasId&#x27;, canvasId);
         this.drawList.contextLost(canvasId);
     }
 }

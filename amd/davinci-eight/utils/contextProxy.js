@@ -360,9 +360,6 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             },
             start: function (canvas, canvasId) {
                 if (canvasId === void 0) { canvasId = 0; }
-                if (core_1.default.verbose) {
-                    console.log(LOGGING_NAME_KERNEL + " start(canvasId=" + canvasId + ")");
-                }
                 var alreadyStarted = isDefined_1.default(_canvas);
                 if (!alreadyStarted) {
                     _canvas = canvas;
@@ -412,9 +409,6 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             },
             get canvas() {
                 if (!_canvas) {
-                    if (core_1.default.verbose) {
-                        console.log(LOGGING_NAME_KERNEL + " creating HTMLCanvasElement");
-                    }
                     kahuna.start(document.createElement('canvas'), randumbInteger_1.default());
                 }
                 return _canvas;

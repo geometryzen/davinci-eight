@@ -70,8 +70,6 @@ function extractGlyphPoints(c: string, face: FontFace, scale: number, offset: nu
 
             action = <string>outline[i++];
 
-            //console.log( action );
-
             switch (action) {
 
                 case 'm':

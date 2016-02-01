@@ -86,6 +86,19 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
                 drawable.release();
             }
         };
+        DrawableGroup.prototype.findOne = function (match) {
+            var drawables = this._drawables;
+            for (var i = 0, iLength = drawables.length; i < iLength; i++) {
+                var candidate = drawables.get(i);
+                if (match(candidate)) {
+                    return candidate;
+                }
+                else {
+                    candidate.release();
+                }
+            }
+            return void 0;
+        };
         DrawableGroup.prototype.traverseDrawables = function (callback) {
             this._drawables.forEach(callback);
         };
@@ -143,6 +156,18 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             else {
                 return false;
             }
+        };
+        DrawableGroups.prototype.findOne = function (match) {
+            var groupIds = this._groups.keys;
+            for (var i = 0, iLength = groupIds.length; i < iLength; i++) {
+                var groupId = groupIds[i];
+                var group = this._groups.getWeakRef(groupId);
+                var found = group.findOne(match);
+                if (found) {
+                    return found;
+                }
+            }
+            return void 0;
         };
         DrawableGroups.prototype.remove = function (drawable) {
             var material = drawable.material;
@@ -265,6 +290,12 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             },
             draw: function (ambients, canvasId) {
                 drawableGroups.draw(ambients, canvasId);
+            },
+            findOne: function (match) {
+                return drawableGroups.findOne(match);
+            },
+            getDrawableByName: function (name) {
+                return drawableGroups.findOne(function (drawable) { return drawable.name === name; });
             },
             getDrawablesByName: function (name) {
                 var result = new IUnknownArray_1.default();

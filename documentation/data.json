@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.171.0",
+        "version": "2.172.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -5363,7 +5363,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 60,
+            "line": 59,
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
@@ -5390,7 +5390,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 41,
+            "line": 40,
             "extends": "Shareable",
             "is_constructor": 1,
             "params": [
@@ -5428,7 +5428,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 40,
+            "line": 44,
             "extends": "Shareable",
             "description": "<p>\nA <code>Scene</code> is a collection of drawable instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
@@ -11648,7 +11648,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Path.ts",
-            "line": 259,
+            "line": 253,
             "itemtype": "method",
             "name": "moveTo",
             "params": [
@@ -11667,7 +11667,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Path.ts",
-            "line": 268,
+            "line": 262,
             "itemtype": "method",
             "name": "lineTo",
             "params": [
@@ -11686,7 +11686,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Path.ts",
-            "line": 281,
+            "line": 275,
             "itemtype": "method",
             "name": "quadraticCurveTo",
             "params": [
@@ -11710,7 +11710,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Path.ts",
-            "line": 295,
+            "line": 289,
             "itemtype": "method",
             "name": "bezierCurveTo",
             "params": [
@@ -27780,14 +27780,14 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 15,
+            "line": 14,
             "description": "Name used for reference count monitoring and logging.",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 26,
+            "line": 25,
             "itemtype": "property",
             "name": "primitives",
             "type": "{Primitive[]}",
@@ -27796,7 +27796,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 32,
+            "line": 31,
             "itemtype": "property",
             "name": "graphicsProgram",
             "type": "{IGraphicsProgram}",
@@ -27807,7 +27807,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 39,
+            "line": 38,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -27817,14 +27817,14 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 46,
+            "line": 45,
             "description": "FIXME This is a bad name because it is not just a collection of buffersByCanvasId.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lookup",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 53,
+            "line": 52,
             "itemtype": "property",
             "name": "facets",
             "type": "{StringIUnknownMap&lt;Facet&gt;}",
@@ -27835,7 +27835,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 78,
+            "line": 77,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -27849,7 +27849,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 93,
+            "line": 92,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -27870,7 +27870,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 124,
+            "line": 123,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -27886,7 +27886,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 135,
+            "line": 131,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -27905,7 +27905,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 162,
+            "line": 155,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
@@ -27925,7 +27925,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 174,
+            "line": 164,
             "itemtype": "method",
             "name": "getFacet",
             "params": [
@@ -27944,7 +27944,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 183,
+            "line": 173,
             "itemtype": "method",
             "name": "setFacet",
             "params": [
@@ -27968,7 +27968,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 193,
+            "line": 183,
             "description": "Provides a reference counted reference to the graphics program.",
             "itemtype": "property",
             "name": "material",
@@ -27979,7 +27979,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 27,
+            "line": 26,
             "itemtype": "property",
             "name": "_kahuna",
             "type": "{ContextKahuna}",
@@ -27990,7 +27990,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 34,
+            "line": 33,
             "itemtype": "property",
             "name": "_renderer",
             "type": "{IContextRenderer}",
@@ -28001,7 +28001,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 55,
+            "line": 54,
             "itemtype": "method",
             "name": "destructor!~YUIDOC_LINE~!return",
             "type": "Void",
@@ -28012,7 +28012,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 69,
+            "line": 68,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -28031,7 +28031,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 78,
+            "line": 77,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -28040,7 +28040,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 89,
+            "line": 88,
             "itemtype": "property",
             "name": "canvasId",
             "type": "{number}",
@@ -28050,7 +28050,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 102,
+            "line": 101,
             "itemtype": "property",
             "name": "commands",
             "type": "{IUnknownArray}",
@@ -28061,7 +28061,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 115,
+            "line": 114,
             "description": "<p>\nSpecifies color values to use by the <code>clear</code> method to clear the color buffer.\n<p>",
             "itemtype": "method",
             "name": "clearColor",
@@ -28097,7 +28097,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 132,
+            "line": 131,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -28117,7 +28117,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 141,
+            "line": 140,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -28136,7 +28136,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 150,
+            "line": 149,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
@@ -28156,7 +28156,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 159,
+            "line": 158,
             "itemtype": "method",
             "name": "createArrayBuffer",
             "return": {
@@ -28168,7 +28168,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 167,
+            "line": 166,
             "itemtype": "method",
             "name": "createBufferGeometry",
             "params": [
@@ -28193,7 +28193,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 177,
+            "line": 176,
             "itemtype": "method",
             "name": "createElementArrayBuffer",
             "return": {
@@ -28205,7 +28205,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 185,
+            "line": 184,
             "itemtype": "method",
             "name": "createTextureCubeMap",
             "return": {
@@ -28217,7 +28217,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 193,
+            "line": 192,
             "itemtype": "method",
             "name": "createTexture2D",
             "return": {
@@ -28229,7 +28229,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 201,
+            "line": 200,
             "description": "Turns off specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "disable",
@@ -28250,7 +28250,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 213,
+            "line": 212,
             "description": "Turns on specific WebGL capabilities for this context.",
             "itemtype": "method",
             "name": "enable",
@@ -28271,7 +28271,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 225,
+            "line": 224,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -28281,7 +28281,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 237,
+            "line": 236,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -28300,7 +28300,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 246,
+            "line": 245,
             "description": "Defines what part of the canvas will be used in rendering the drawing buffer.",
             "itemtype": "method",
             "name": "viewport",
@@ -28336,7 +28336,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 261,
+            "line": 260,
             "description": "Initializes the WebGL context for the specified <code>canvas</code>.",
             "itemtype": "method",
             "name": "start",
@@ -28363,7 +28363,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 283,
+            "line": 279,
             "itemtype": "method",
             "name": "stop",
             "return": {
@@ -28376,7 +28376,7 @@
         },
         {
             "file": "src/davinci-eight/scene/GraphicsContext.ts",
-            "line": 296,
+            "line": 289,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -28395,7 +28395,7 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 13,
+            "line": 14,
             "itemtype": "method",
             "name": "add",
             "params": [
@@ -28414,7 +28414,7 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 19,
+            "line": 21,
             "itemtype": "method",
             "name": "containsDrawable",
             "params": [
@@ -28433,7 +28433,7 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 25,
+            "line": 28,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -28458,7 +28458,47 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 32,
+            "line": 36,
+            "description": "Finds a drawable that matches the specified match test.",
+            "itemtype": "method",
+            "name": "findOne",
+            "params": [
+                {
+                    "name": "match",
+                    "description": "",
+                    "type": "(drawable: ID) => boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IDrawable"
+            },
+            "class": "IDrawList",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/IDrawList.ts",
+            "line": 45,
+            "description": "Gets any drawable that has the specified name.",
+            "itemtype": "method",
+            "name": "getDrawableByName",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IDrawable"
+            },
+            "class": "IDrawList",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/IDrawList.ts",
+            "line": 54,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -28478,7 +28518,7 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 39,
+            "line": 62,
             "itemtype": "method",
             "name": "remove",
             "params": [
@@ -28493,7 +28533,7 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 44,
+            "line": 68,
             "itemtype": "method",
             "name": "traverse",
             "params": [
@@ -28536,7 +28576,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 25,
+            "line": 29,
             "itemtype": "property",
             "name": "drawList",
             "type": "{IDrawList}",
@@ -28547,7 +28587,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 32,
+            "line": 36,
             "itemtype": "property",
             "name": "monitors",
             "type": "{MonitorList}",
@@ -28558,7 +28598,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 60,
+            "line": 65,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -28572,7 +28612,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 74,
+            "line": 79,
             "description": "<p>\nAdds the <code>drawable</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -28592,7 +28632,26 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 94,
+            "line": 95,
+            "itemtype": "method",
+            "name": "containsDrawable",
+            "params": [
+                {
+                    "name": "drawable",
+                    "description": "",
+                    "type": "IDrawable"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "Scene",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 105,
             "description": "<p>\nTraverses the collection of drawables, drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -28619,7 +28678,45 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 108,
+            "line": 121,
+            "itemtype": "method",
+            "name": "findOne",
+            "params": [
+                {
+                    "name": "match",
+                    "description": "",
+                    "type": "(drawable: IDrawable) => boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IDrawable"
+            },
+            "class": "Scene",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 131,
+            "itemtype": "method",
+            "name": "getDrawableByName",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IDrawable"
+            },
+            "class": "Scene",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 141,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -28630,12 +28727,13 @@
                     "type": "String"
                 }
             ],
+            "rerurn": "{IUnknownArray}",
             "class": "Scene",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 117,
+            "line": 153,
             "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -28655,7 +28753,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 132,
+            "line": 170,
             "description": "<p>\nTraverses the collection of drawables, calling the specified callback arguments.\n</p>",
             "itemtype": "method",
             "name": "traverse",
@@ -28685,7 +28783,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 146,
+            "line": 187,
             "itemtype": "method",
             "name": "contextFree",
             "params": [
@@ -28704,7 +28802,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 158,
+            "line": 197,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -28723,7 +28821,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 170,
+            "line": 207,
             "itemtype": "method",
             "name": "contextLost",
             "params": [
@@ -28763,21 +28861,21 @@
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 112,
+            "line": 125,
             "description": "Should look like a set of IDrawable Groups. Maybe like a Scene!",
             "class": "WaitAnimation",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 116,
+            "line": 129,
             "description": "Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])",
             "class": "WaitAnimation",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 272,
+            "line": 297,
             "description": "method contextGain",
             "class": "WaitAnimation",
             "module": "EIGHT"
@@ -29441,6 +29539,10 @@
         {
             "message": "param name missing: {number}",
             "line": " src/davinci-eight/math/R3.ts:486"
+        },
+        {
+            "message": "unknown tag: rerurn",
+            "line": " src/davinci-eight/scene/Scene.ts:141"
         },
         {
             "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
@@ -30304,11 +30406,11 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/scene/Drawable.ts:15"
+            "line": " src/davinci-eight/scene/Drawable.ts:14"
         },
         {
             "message": "Missing item type\nFIXME This is a bad name because it is not just a collection of buffersByCanvasId.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lookup",
-            "line": " src/davinci-eight/scene/Drawable.ts:46"
+            "line": " src/davinci-eight/scene/Drawable.ts:45"
         },
         {
             "message": "Missing item type\nImplementation Only.",
@@ -30332,15 +30434,15 @@
         },
         {
             "message": "Missing item type\nShould look like a set of IDrawable Groups. Maybe like a Scene!",
-            "line": " src/davinci-eight/scene/createDrawList.ts:112"
+            "line": " src/davinci-eight/scene/createDrawList.ts:125"
         },
         {
             "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])",
-            "line": " src/davinci-eight/scene/createDrawList.ts:116"
+            "line": " src/davinci-eight/scene/createDrawList.ts:129"
         },
         {
             "message": "Missing item type\nmethod contextGain",
-            "line": " src/davinci-eight/scene/createDrawList.ts:272"
+            "line": " src/davinci-eight/scene/createDrawList.ts:297"
         },
         {
             "message": "Missing item type\nUnder Construction\nIntentionally Undocumented",

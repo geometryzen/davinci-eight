@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.171.0</em>
+            <em>API Docs for: 2.172.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -258,18 +258,21 @@ import Facet from &#x27;../core/Facet&#x27;;
  * @extends IContextConsumer
  */
 interface IDrawList extends IContextConsumer {
+
     /**
      * @method add
      * @param drawable {IDrawable}
      * @return {void}
      */
     add(drawable: IDrawable): void;
+
     /**
      * @method containsDrawable
      * @param drawable {IDrawable}
      * @return {boolean}
      */
     containsDrawable(drawable: IDrawable): boolean;
+
     /**
      * @method draw
      * @param ambients {Facet[]}
@@ -277,6 +280,25 @@ interface IDrawList extends IContextConsumer {
      * @return {void}
      */
     draw(ambients: Facet[], canvasId?: number): void;
+
+    /**
+     * Finds a drawable that matches the specified match test.
+     *
+     * @method findOne
+     * @param match {(drawable: ID) =&gt; boolean}
+     * @return {IDrawable}
+     */
+    findOne(match: (drawable: IDrawable) =&gt; boolean): IDrawable;
+
+    /**
+     * Gets any drawable that has the specified name.
+     *
+     * @method getDrawableByName
+     * @param name {string}
+     * @return {IDrawable}
+     */
+    getDrawableByName(name: string): IDrawable;
+
     /**
      * Gets a collection of drawable elements by name.
      * @method getDrawablesByName
@@ -284,11 +306,13 @@ interface IDrawList extends IContextConsumer {
      * @return {IUnknownArray}
      */
     getDrawablesByName(name: string): IUnknownArray&lt;IDrawable&gt;;
+
     /**
      * @method remove
      * @param drawable {IDrawable}
      */
     remove(drawable: IDrawable): void;
+
     /**
      * @method traverse
      * @param callback {(drawable: IDrawable) =&gt; void}

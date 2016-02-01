@@ -1,5 +1,4 @@
 import IContextProvider from '../core/IContextProvider';
-import core from '../core';
 import IDrawable from '../core/IDrawable';
 import IBufferGeometry from '../geometries/IBufferGeometry';
 import isDefined from '../checks/isDefined';
@@ -126,9 +125,6 @@ export default class Drawable extends Shareable implements IDrawable {
      * @param [canvasId] {number}
      */
     contextFree(canvasId?: number): void {
-        if (core.verbose) {
-            console.log(`${this._type} contextFree(canvasId=${canvasId})`);
-        }
         this.graphicsProgram.contextFree(canvasId)
     }
 
@@ -138,9 +134,6 @@ export default class Drawable extends Shareable implements IDrawable {
      * @return {void}
      */
     contextGain(manager: IContextProvider): void {
-        if (core.verbose) {
-            console.log(`${this._type} contextGain(canvasId=${manager.canvasId})`);
-        }
         // 1. Replace the existing buffer geometry if we have geometry. 
         if (this.primitives) {
             for (var i = 0, iLength = this.primitives.length; i < iLength; i++) {
@@ -165,9 +158,6 @@ export default class Drawable extends Shareable implements IDrawable {
      * @return {void}
      */
     contextLost(canvasId?: number): void {
-        if (core.verbose) {
-            console.log(`${this._type} contextLost(canvasId=${canvasId})`);
-        }
         this.graphicsProgram.contextLost(canvasId)
     }
 

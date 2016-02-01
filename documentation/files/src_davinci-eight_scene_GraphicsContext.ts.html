@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.171.0</em>
+            <em>API Docs for: 2.172.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -247,7 +247,6 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Capability from &#x27;../commands/Capability&#x27;;
-import core from &#x27;../core&#x27;;
 import createRenderer from &#x27;../renderers/renderer&#x27;;
 import ContextController from &#x27;../core/ContextController&#x27;;
 import ContextKahuna from &#x27;../core/ContextKahuna&#x27;;
@@ -521,9 +520,6 @@ export default class GraphicsContext extends Shareable implements ContextControl
             return this
         }
         mustBeDefined(&#x27;canvas&#x27;, canvas)
-        if (core.verbose) {
-            console.log(&#x60;${this._type} start(canvas, canvasId=${canvasId})&#x60;)
-        }
         this._kahuna.start(canvas, canvasId)
         return this
     }
@@ -534,9 +530,6 @@ export default class GraphicsContext extends Shareable implements ContextControl
      * @chainable
      */
     stop(): GraphicsContext {
-        if (core.verbose) {
-            console.log(&#x60;${this._type} stop()&#x60;)
-        }
         this._kahuna.stop()
         return this
     }
@@ -547,9 +540,6 @@ export default class GraphicsContext extends Shareable implements ContextControl
      * @return {void}
      */
     synchronize(consumer: IContextConsumer): void {
-        if (core.verbose) {
-            console.log(&#x60;${this._type} synchronize(consumer)&#x60;)
-        }
         return this._kahuna.synchronize(consumer)
     }
 }

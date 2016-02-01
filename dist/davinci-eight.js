@@ -8417,11 +8417,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
     var core = {
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2016-01-31',
+        LAST_MODIFIED: '2016-02-01',
         NAMESPACE: 'EIGHT',
         verbose: false,
-        VERSION: '2.171.0'
+        VERSION: '2.172.0'
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = core;
@@ -12521,6 +12520,19 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../collectio
                 drawable.release();
             }
         };
+        DrawableGroup.prototype.findOne = function (match) {
+            var drawables = this._drawables;
+            for (var i = 0, iLength = drawables.length; i < iLength; i++) {
+                var candidate = drawables.get(i);
+                if (match(candidate)) {
+                    return candidate;
+                }
+                else {
+                    candidate.release();
+                }
+            }
+            return void 0;
+        };
         DrawableGroup.prototype.traverseDrawables = function (callback) {
             this._drawables.forEach(callback);
         };
@@ -12578,6 +12590,18 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../collectio
             else {
                 return false;
             }
+        };
+        DrawableGroups.prototype.findOne = function (match) {
+            var groupIds = this._groups.keys;
+            for (var i = 0, iLength = groupIds.length; i < iLength; i++) {
+                var groupId = groupIds[i];
+                var group = this._groups.getWeakRef(groupId);
+                var found = group.findOne(match);
+                if (found) {
+                    return found;
+                }
+            }
+            return void 0;
         };
         DrawableGroups.prototype.remove = function (drawable) {
             var material = drawable.material;
@@ -12701,6 +12725,12 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../collectio
             draw: function (ambients, canvasId) {
                 drawableGroups.draw(ambients, canvasId);
             },
+            findOne: function (match) {
+                return drawableGroups.findOne(match);
+            },
+            getDrawableByName: function (name) {
+                return drawableGroups.findOne(function (drawable) { return drawable.name === name; });
+            },
             getDrawablesByName: function (name) {
                 var result = new IUnknownArray_1.default();
                 drawableGroups.traverseDrawables(function (candidate) {
@@ -12730,7 +12760,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/scene/Drawable',["require", "exports", '../core', '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../i18n/readOnly', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, core_1, isDefined_1, IUnknownArray_1, NumberIUnknownMap_1, readOnly_1, Shareable_1, StringIUnknownMap_1) {
+define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../i18n/readOnly', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined_1, IUnknownArray_1, NumberIUnknownMap_1, readOnly_1, Shareable_1, StringIUnknownMap_1) {
     var LOGGING_NAME = 'Drawable';
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
@@ -12771,15 +12801,9 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../core', '../chec
             }
         };
         Drawable.prototype.contextFree = function (canvasId) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " contextFree(canvasId=" + canvasId + ")");
-            }
             this.graphicsProgram.contextFree(canvasId);
         };
         Drawable.prototype.contextGain = function (manager) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " contextGain(canvasId=" + manager.canvasId + ")");
-            }
             if (this.primitives) {
                 for (var i = 0, iLength = this.primitives.length; i < iLength; i++) {
                     var primitive = this.primitives[i];
@@ -12796,9 +12820,6 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../core', '../chec
             this.graphicsProgram.contextGain(manager);
         };
         Drawable.prototype.contextLost = function (canvasId) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " contextLost(canvasId=" + canvasId + ")");
-            }
             this.graphicsProgram.contextLost(canvasId);
         };
         Drawable.prototype.getFacet = function (name) {
@@ -12921,12 +12942,32 @@ define('davinci-eight/scene/MonitorList',["require", "exports", '../utils/Sharea
     exports.default = MonitorList;
 });
 
+define('davinci-eight/checks/isFunction',["require", "exports"], function (require, exports) {
+    function isFunction(x) {
+        return (typeof x === 'function');
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = isFunction;
+});
+
+define('davinci-eight/checks/mustBeFunction',["require", "exports", '../checks/mustSatisfy', '../checks/isFunction'], function (require, exports, mustSatisfy_1, isFunction_1) {
+    function beFunction() {
+        return "be a function";
+    }
+    function mustBeFunction(name, value, contextBuilder) {
+        mustSatisfy_1.default(name, isFunction_1.default(value), beFunction, contextBuilder);
+        return value;
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.default = mustBeFunction;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/scene/Scene',["require", "exports", '../core', '../scene/createDrawList', '../scene/MonitorList', '../utils/Shareable'], function (require, exports, core_1, createDrawList_1, MonitorList_1, Shareable_1) {
+define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawList', '../scene/MonitorList', '../checks/mustBeArray', '../checks/mustBeFunction', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, createDrawList_1, MonitorList_1, mustBeArray_1, mustBeFunction_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, Shareable_1) {
     var LOGGING_NAME = 'Scene';
     function ctorContext() {
         return LOGGING_NAME + " constructor";
@@ -12936,6 +12977,7 @@ define('davinci-eight/scene/Scene',["require", "exports", '../core', '../scene/c
         function Scene(monitors) {
             if (monitors === void 0) { monitors = []; }
             _super.call(this, LOGGING_NAME);
+            mustBeArray_1.default('monitors', monitors);
             MonitorList_1.default.verify('monitors', monitors, ctorContext);
             this.drawList = createDrawList_1.default();
             this.monitors = new MonitorList_1.default(monitors);
@@ -12950,39 +12992,49 @@ define('davinci-eight/scene/Scene',["require", "exports", '../core', '../scene/c
             this.drawList = void 0;
         };
         Scene.prototype.add = function (drawable) {
+            mustBeObject_1.default('drawable', drawable);
             return this.drawList.add(drawable);
         };
         Scene.prototype.containsDrawable = function (drawable) {
+            mustBeObject_1.default('drawable', drawable);
             return this.drawList.containsDrawable(drawable);
         };
         Scene.prototype.draw = function (ambients, canvasId) {
+            mustBeArray_1.default('ambients', ambients);
+            mustBeNumber_1.default('canvasId', canvasId);
             return this.drawList.draw(ambients, canvasId);
         };
+        Scene.prototype.findOne = function (match) {
+            mustBeFunction_1.default('match', match);
+            return this.drawList.findOne(match);
+        };
+        Scene.prototype.getDrawableByName = function (name) {
+            mustBeString_1.default('name', name);
+            return this.drawList.getDrawableByName(name);
+        };
         Scene.prototype.getDrawablesByName = function (name) {
+            mustBeString_1.default('name', name);
             return this.drawList.getDrawablesByName(name);
         };
         Scene.prototype.remove = function (drawable) {
+            mustBeObject_1.default('drawable', drawable);
             return this.drawList.remove(drawable);
         };
         Scene.prototype.traverse = function (callback, canvasId, prolog) {
+            mustBeFunction_1.default('callback', callback);
+            mustBeNumber_1.default('canvasId', canvasId);
             this.drawList.traverse(callback, canvasId, prolog);
         };
         Scene.prototype.contextFree = function (canvasId) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " contextFree(canvasId=" + canvasId + ")");
-            }
+            mustBeNumber_1.default('canvasId', canvasId);
             this.drawList.contextFree(canvasId);
         };
         Scene.prototype.contextGain = function (manager) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " contextGain(canvasId=" + manager.canvasId + ")");
-            }
+            mustBeObject_1.default('manager', manager);
             this.drawList.contextGain(manager);
         };
         Scene.prototype.contextLost = function (canvasId) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " contextLost(canvasId=" + canvasId + ")");
-            }
+            mustBeNumber_1.default('canvasId', canvasId);
             this.drawList.contextLost(canvasId);
         };
         return Scene;
@@ -13627,9 +13679,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             },
             start: function (canvas, canvasId) {
                 if (canvasId === void 0) { canvasId = 0; }
-                if (core_1.default.verbose) {
-                    console.log(LOGGING_NAME_KERNEL + " start(canvasId=" + canvasId + ")");
-                }
                 var alreadyStarted = isDefined_1.default(_canvas);
                 if (!alreadyStarted) {
                     _canvas = canvas;
@@ -13679,9 +13728,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             },
             get canvas() {
                 if (!_canvas) {
-                    if (core_1.default.verbose) {
-                        console.log(LOGGING_NAME_KERNEL + " creating HTMLCanvasElement");
-                    }
                     kahuna.start(document.createElement('canvas'), randumbInteger_1.default());
                 }
                 return _canvas;
@@ -13736,7 +13782,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/scene/GraphicsContext',["require", "exports", '../core', '../renderers/renderer', '../utils/contextProxy', '../checks/mustBeDefined', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, core_1, renderer_1, contextProxy_1, mustBeDefined_1, readOnly_1, Shareable_1) {
+define('davinci-eight/scene/GraphicsContext',["require", "exports", '../renderers/renderer', '../utils/contextProxy', '../checks/mustBeDefined', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, renderer_1, contextProxy_1, mustBeDefined_1, readOnly_1, Shareable_1) {
     var GraphicsContext = (function (_super) {
         __extends(GraphicsContext, _super);
         function GraphicsContext(attributes) {
@@ -13846,23 +13892,14 @@ define('davinci-eight/scene/GraphicsContext',["require", "exports", '../core', '
                 return this;
             }
             mustBeDefined_1.default('canvas', canvas);
-            if (core_1.default.verbose) {
-                console.log(this._type + " start(canvas, canvasId=" + canvasId + ")");
-            }
             this._kahuna.start(canvas, canvasId);
             return this;
         };
         GraphicsContext.prototype.stop = function () {
-            if (core_1.default.verbose) {
-                console.log(this._type + " stop()");
-            }
             this._kahuna.stop();
             return this;
         };
         GraphicsContext.prototype.synchronize = function (consumer) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " synchronize(consumer)");
-            }
             return this._kahuna.synchronize(consumer);
         };
         return GraphicsContext;
@@ -15291,26 +15328,6 @@ define('davinci-eight/geometries/IcosahedronSimplexGeometry',["require", "export
     })(PolyhedronSimplexGeometry_1.default);
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = IcosahedronSimplexGeometry;
-});
-
-define('davinci-eight/checks/isFunction',["require", "exports"], function (require, exports) {
-    function isFunction(x) {
-        return (typeof x === 'function');
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = isFunction;
-});
-
-define('davinci-eight/checks/mustBeFunction',["require", "exports", '../checks/mustSatisfy', '../checks/isFunction'], function (require, exports, mustSatisfy_1, isFunction_1) {
-    function beFunction() {
-        return "be a function";
-    }
-    function mustBeFunction(name, value, contextBuilder) {
-        mustSatisfy_1.default(name, isFunction_1.default(value), beFunction, contextBuilder);
-        return value;
-    }
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = mustBeFunction;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {

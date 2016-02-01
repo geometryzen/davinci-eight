@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.171.0</em>
+            <em>API Docs for: 2.172.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -247,7 +247,6 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import IContextProvider from &#x27;../core/IContextProvider&#x27;;
-import core from &#x27;../core&#x27;;
 import IDrawable from &#x27;../core/IDrawable&#x27;;
 import IBufferGeometry from &#x27;../geometries/IBufferGeometry&#x27;;
 import isDefined from &#x27;../checks/isDefined&#x27;;
@@ -374,9 +373,6 @@ export default class Drawable extends Shareable implements IDrawable {
      * @param [canvasId] {number}
      */
     contextFree(canvasId?: number): void {
-        if (core.verbose) {
-            console.log(&#x60;${this._type} contextFree(canvasId=${canvasId})&#x60;);
-        }
         this.graphicsProgram.contextFree(canvasId)
     }
 
@@ -386,9 +382,6 @@ export default class Drawable extends Shareable implements IDrawable {
      * @return {void}
      */
     contextGain(manager: IContextProvider): void {
-        if (core.verbose) {
-            console.log(&#x60;${this._type} contextGain(canvasId=${manager.canvasId})&#x60;);
-        }
         // 1. Replace the existing buffer geometry if we have geometry. 
         if (this.primitives) {
             for (var i = 0, iLength = this.primitives.length; i &lt; iLength; i++) {
@@ -413,9 +406,6 @@ export default class Drawable extends Shareable implements IDrawable {
      * @return {void}
      */
     contextLost(canvasId?: number): void {
-        if (core.verbose) {
-            console.log(&#x60;${this._type} contextLost(canvasId=${canvasId})&#x60;);
-        }
         this.graphicsProgram.contextLost(canvasId)
     }
 

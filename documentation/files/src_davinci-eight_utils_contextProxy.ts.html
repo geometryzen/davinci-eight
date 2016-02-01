@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.171.0</em>
+            <em>API Docs for: 2.172.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -771,9 +771,6 @@ export default function webgl(attributes?: WebGLContextAttributes): ContextKahun
             return mesh
         },
         start(canvas: HTMLCanvasElement, canvasId: number = 0): void {
-            if (core.verbose) {
-                console.log(&#x60;${LOGGING_NAME_KERNEL} start(canvasId=${canvasId})&#x60;);
-            }
             let alreadyStarted = isDefined(_canvas);
             if (!alreadyStarted) {
                 // cache the arguments
@@ -829,9 +826,6 @@ export default function webgl(attributes?: WebGLContextAttributes): ContextKahun
         },
         get canvas(): HTMLCanvasElement {
             if (!_canvas) {
-                if (core.verbose) {
-                    console.log(&#x60;${LOGGING_NAME_KERNEL} creating HTMLCanvasElement&#x60;);
-                }
                 kahuna.start(document.createElement(&#x27;canvas&#x27;), randumbInteger());
             }
             return _canvas;

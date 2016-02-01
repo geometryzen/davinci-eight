@@ -1,5 +1,4 @@
 import Capability from '../commands/Capability';
-import core from '../core';
 import createRenderer from '../renderers/renderer';
 import ContextController from '../core/ContextController';
 import ContextKahuna from '../core/ContextKahuna';
@@ -273,9 +272,6 @@ export default class GraphicsContext extends Shareable implements ContextControl
             return this
         }
         mustBeDefined('canvas', canvas)
-        if (core.verbose) {
-            console.log(`${this._type} start(canvas, canvasId=${canvasId})`)
-        }
         this._kahuna.start(canvas, canvasId)
         return this
     }
@@ -286,9 +282,6 @@ export default class GraphicsContext extends Shareable implements ContextControl
      * @chainable
      */
     stop(): GraphicsContext {
-        if (core.verbose) {
-            console.log(`${this._type} stop()`)
-        }
         this._kahuna.stop()
         return this
     }
@@ -299,9 +292,6 @@ export default class GraphicsContext extends Shareable implements ContextControl
      * @return {void}
      */
     synchronize(consumer: IContextConsumer): void {
-        if (core.verbose) {
-            console.log(`${this._type} synchronize(consumer)`)
-        }
         return this._kahuna.synchronize(consumer)
     }
 }

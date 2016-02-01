@@ -10,18 +10,21 @@ import Facet from '../core/Facet';
  * @extends IContextConsumer
  */
 interface IDrawList extends IContextConsumer {
+
     /**
      * @method add
      * @param drawable {IDrawable}
      * @return {void}
      */
     add(drawable: IDrawable): void;
+
     /**
      * @method containsDrawable
      * @param drawable {IDrawable}
      * @return {boolean}
      */
     containsDrawable(drawable: IDrawable): boolean;
+
     /**
      * @method draw
      * @param ambients {Facet[]}
@@ -29,6 +32,25 @@ interface IDrawList extends IContextConsumer {
      * @return {void}
      */
     draw(ambients: Facet[], canvasId?: number): void;
+
+    /**
+     * Finds a drawable that matches the specified match test.
+     *
+     * @method findOne
+     * @param match {(drawable: ID) => boolean}
+     * @return {IDrawable}
+     */
+    findOne(match: (drawable: IDrawable) => boolean): IDrawable;
+
+    /**
+     * Gets any drawable that has the specified name.
+     *
+     * @method getDrawableByName
+     * @param name {string}
+     * @return {IDrawable}
+     */
+    getDrawableByName(name: string): IDrawable;
+
     /**
      * Gets a collection of drawable elements by name.
      * @method getDrawablesByName
@@ -36,11 +58,13 @@ interface IDrawList extends IContextConsumer {
      * @return {IUnknownArray}
      */
     getDrawablesByName(name: string): IUnknownArray<IDrawable>;
+
     /**
      * @method remove
      * @param drawable {IDrawable}
      */
     remove(drawable: IDrawable): void;
+
     /**
      * @method traverse
      * @param callback {(drawable: IDrawable) => void}

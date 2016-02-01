@@ -1,12 +1,16 @@
 import IContextProvider from '../core/IContextProvider';
 import IContextMonitor from '../core/IContextMonitor';
-import core from '../core';
 import createDrawList from '../scene/createDrawList';
 import IDrawable from '../core/IDrawable';
 import IDrawList from '../scene/IDrawList';
 import IUnknownArray from '../collections/IUnknownArray';
 import IGraphicsProgram from '../core/IGraphicsProgram';
 import MonitorList from '../scene/MonitorList';
+import mustBeArray from '../checks/mustBeArray';
+import mustBeFunction from '../checks/mustBeFunction';
+import mustBeNumber from '../checks/mustBeNumber';
+import mustBeObject from '../checks/mustBeObject';
+import mustBeString from '../checks/mustBeString';
 import Shareable from '../utils/Shareable';
 import Facet from '../core/Facet';
 
@@ -49,6 +53,7 @@ export default class Scene extends Shareable implements IDrawList {
      */
     constructor(monitors: IContextMonitor[] = []) {
         super(LOGGING_NAME);
+        mustBeArray('monitors', monitors);
         MonitorList.verify('monitors', monitors, ctorContext);
 
         this.drawList = createDrawList();
@@ -83,11 +88,17 @@ export default class Scene extends Shareable implements IDrawList {
      * </p>
      */
     add(drawable: IDrawable): void {
+        mustBeObject('drawable', drawable);
         return this.drawList.add(drawable);
     }
 
-
+    /**
+     * @method containsDrawable
+     * @param drawable {IDrawable}
+     * @return {boolean}
+     */
     containsDrawable(drawable: IDrawable): boolean {
+        mustBeObject('drawable', drawable);
         return this.drawList.containsDrawable(drawable);
     }
 
@@ -102,15 +113,40 @@ export default class Scene extends Shareable implements IDrawList {
      * @beta
      */
     draw(ambients: Facet[], canvasId?: number): void {
+        mustBeArray('ambients', ambients);
+        mustBeNumber('canvasId', canvasId);
         return this.drawList.draw(ambients, canvasId);
     }
 
     /**
+     * @method findOne
+     * @param match {(drawable: IDrawable) => boolean}
+     * @return {IDrawable}
+     */
+    findOne(match: (drawable: IDrawable) => boolean): IDrawable {
+        mustBeFunction('match', match);
+        return this.drawList.findOne(match);
+    }
+
+    /**
+     * @method getDrawableByName
+     * @param name {string}
+     * @return {IDrawable}
+     */
+    getDrawableByName(name: string): IDrawable {
+        mustBeString('name', name);
+        return this.drawList.getDrawableByName(name);
+    }
+
+    /**
      * Gets a collection of drawable elements by name.
+     *
      * @method getDrawablesByName
      * @param name {string}
+     * @rerurn {IUnknownArray}
      */
     getDrawablesByName(name: string): IUnknownArray<IDrawable> {
+        mustBeString('name', name);
         return this.drawList.getDrawablesByName(name);
     }
 
@@ -118,14 +154,16 @@ export default class Scene extends Shareable implements IDrawList {
      * <p>
      * Removes the <code>drawable</code> from this <code>Scene</code>.
      * </p>
+     *
      * @method remove
      * @param drawable {IDrawable}
-     * @return {Void}
+     * @return {void}
      * <p>
      * This method returns <code>undefined</code>.
      * </p>
      */
     remove(drawable: IDrawable): void {
+        mustBeObject('drawable', drawable);
         return this.drawList.remove(drawable);
     }
 
@@ -133,6 +171,7 @@ export default class Scene extends Shareable implements IDrawList {
      * <p>
      * Traverses the collection of drawables, calling the specified callback arguments.
      * </p>
+     *
      * @method traverse
      * @param callback {(drawable: IDrawable) => void} Callback function for each drawable.
      * @param canvasId {number} Identifies the canvas.
@@ -140,6 +179,8 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (material: IGraphicsProgram) => void): void {
+        mustBeFunction('callback', callback);
+        mustBeNumber('canvasId', canvasId);
         this.drawList.traverse(callback, canvasId, prolog);
     }
 
@@ -149,9 +190,7 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     contextFree(canvasId: number): void {
-        if (core.verbose) {
-            console.log(`${this._type} contextFree(canvasId=${canvasId})`);
-        }
+        mustBeNumber('canvasId', canvasId);
         this.drawList.contextFree(canvasId);
     }
 
@@ -161,9 +200,7 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     contextGain(manager: IContextProvider): void {
-        if (core.verbose) {
-            console.log(`${this._type} contextGain(canvasId=${manager.canvasId})`);
-        }
+        mustBeObject('manager', manager);
         this.drawList.contextGain(manager);
     }
 
@@ -173,9 +210,7 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {void}
      */
     contextLost(canvasId: number): void {
-        if (core.verbose) {
-            console.log(`${this._type} contextLost(canvasId=${canvasId})`);
-        }
+        mustBeNumber('canvasId', canvasId);
         this.drawList.contextLost(canvasId);
     }
 }

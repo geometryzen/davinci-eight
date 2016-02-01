@@ -181,13 +181,10 @@ export default class Path extends CurvePath {
                         tx = aX + aRadius * Math.cos(angle);
                         ty = aY + aRadius * Math.sin(angle);
 
-                        //console.log('t', t, 'angle', angle, 'tx', tx, 'ty', ty);
-
                         points.push(new Vector2(tx, ty));
 
                     }
 
-                    //console.log(points);
                     */
                     break;
 
@@ -219,13 +216,10 @@ export default class Path extends CurvePath {
                         tx = aX + xRadius * Math.cos(angle);
                         ty = aY + yRadius * Math.sin(angle);
 
-                        //console.log('t', t, 'angle', angle, 'tx', tx, 'ty', ty);
-
                         points.push(new Vector2(tx, ty));
 
                     }
 
-                    //console.log(points);
                     */
                     break;
 
@@ -361,8 +355,6 @@ export default class Path extends CurvePath {
                 shapes.push(tmpShape);
             }
 
-            //console.log("shape", shapes);
-
             return shapes;
         };
 
@@ -437,8 +429,6 @@ export default class Path extends CurvePath {
         var holesFirst = !isClockWise(subPaths[0].getPoints());
         holesFirst = isCCW ? !holesFirst : holesFirst;
 
-        // console.log("Holes first", holesFirst);
-  
         var betterShapeHoles: { h: Path; p: Euclidean3 }[][] = [];
         var newShapes: { s: Shape; p: Euclidean3[] }[] = [];
         var newShapeHoles: { h: Path; p: Euclidean3 }[][] = [];
@@ -466,13 +456,9 @@ export default class Path extends CurvePath {
                 if (holesFirst) mainIdx++;
                 newShapeHoles[mainIdx] = [];
 
-                //console.log('cw', i);
-
             } else {
 
                 newShapeHoles[mainIdx].push({ h: tmpPath, p: tmpPoints[0] });
-
-                //console.log('ccw', i);
 
             }
 
@@ -508,9 +494,7 @@ export default class Path extends CurvePath {
                     if (hole_unassigned) { betterShapeHoles[sIdx].push(ho); }
                 }
             }
-            // console.log("ambigious: ", ambigious);
             if (toChange.length > 0) {
-                // console.log("to change: ", toChange);
                 if (!ambigious) newShapeHoles = betterShapeHoles;
             }
         }
@@ -524,8 +508,6 @@ export default class Path extends CurvePath {
                 tmpShape.holes.push(tmpHoles[j].h);
             }
         }
-
-        //console.log("shape", shapes);
 
         return shapes;
     }

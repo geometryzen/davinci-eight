@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core', '../renderers/renderer', '../utils/contextProxy', '../checks/mustBeDefined', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, core_1, renderer_1, contextProxy_1, mustBeDefined_1, readOnly_1, Shareable_1) {
+define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', '../checks/mustBeDefined', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, renderer_1, contextProxy_1, mustBeDefined_1, readOnly_1, Shareable_1) {
     var GraphicsContext = (function (_super) {
         __extends(GraphicsContext, _super);
         function GraphicsContext(attributes) {
@@ -113,23 +113,14 @@ define(["require", "exports", '../core', '../renderers/renderer', '../utils/cont
                 return this;
             }
             mustBeDefined_1.default('canvas', canvas);
-            if (core_1.default.verbose) {
-                console.log(this._type + " start(canvas, canvasId=" + canvasId + ")");
-            }
             this._kahuna.start(canvas, canvasId);
             return this;
         };
         GraphicsContext.prototype.stop = function () {
-            if (core_1.default.verbose) {
-                console.log(this._type + " stop()");
-            }
             this._kahuna.stop();
             return this;
         };
         GraphicsContext.prototype.synchronize = function (consumer) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " synchronize(consumer)");
-            }
             return this._kahuna.synchronize(consumer);
         };
         return GraphicsContext;

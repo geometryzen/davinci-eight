@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.171.0</em>
+            <em>API Docs for: 2.172.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -429,13 +429,10 @@ export default class Path extends CurvePath {
                         tx = aX + aRadius * Math.cos(angle);
                         ty = aY + aRadius * Math.sin(angle);
 
-                        //console.log(&#x27;t&#x27;, t, &#x27;angle&#x27;, angle, &#x27;tx&#x27;, tx, &#x27;ty&#x27;, ty);
-
                         points.push(new Vector2(tx, ty));
 
                     }
 
-                    //console.log(points);
                     */
                     break;
 
@@ -467,13 +464,10 @@ export default class Path extends CurvePath {
                         tx = aX + xRadius * Math.cos(angle);
                         ty = aY + yRadius * Math.sin(angle);
 
-                        //console.log(&#x27;t&#x27;, t, &#x27;angle&#x27;, angle, &#x27;tx&#x27;, tx, &#x27;ty&#x27;, ty);
-
                         points.push(new Vector2(tx, ty));
 
                     }
 
-                    //console.log(points);
                     */
                     break;
 
@@ -609,8 +603,6 @@ export default class Path extends CurvePath {
                 shapes.push(tmpShape);
             }
 
-            //console.log(&quot;shape&quot;, shapes);
-
             return shapes;
         };
 
@@ -685,8 +677,6 @@ export default class Path extends CurvePath {
         var holesFirst = !isClockWise(subPaths[0].getPoints());
         holesFirst = isCCW ? !holesFirst : holesFirst;
 
-        // console.log(&quot;Holes first&quot;, holesFirst);
-  
         var betterShapeHoles: { h: Path; p: Euclidean3 }[][] = [];
         var newShapes: { s: Shape; p: Euclidean3[] }[] = [];
         var newShapeHoles: { h: Path; p: Euclidean3 }[][] = [];
@@ -714,13 +704,9 @@ export default class Path extends CurvePath {
                 if (holesFirst) mainIdx++;
                 newShapeHoles[mainIdx] = [];
 
-                //console.log(&#x27;cw&#x27;, i);
-
             } else {
 
                 newShapeHoles[mainIdx].push({ h: tmpPath, p: tmpPoints[0] });
-
-                //console.log(&#x27;ccw&#x27;, i);
 
             }
 
@@ -756,9 +742,7 @@ export default class Path extends CurvePath {
                     if (hole_unassigned) { betterShapeHoles[sIdx].push(ho); }
                 }
             }
-            // console.log(&quot;ambigious: &quot;, ambigious);
             if (toChange.length &gt; 0) {
-                // console.log(&quot;to change: &quot;, toChange);
                 if (!ambigious) newShapeHoles = betterShapeHoles;
             }
         }
@@ -772,8 +756,6 @@ export default class Path extends CurvePath {
                 tmpShape.holes.push(tmpHoles[j].h);
             }
         }
-
-        //console.log(&quot;shape&quot;, shapes);
 
         return shapes;
     }

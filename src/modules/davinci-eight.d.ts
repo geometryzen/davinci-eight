@@ -3167,17 +3167,31 @@ declare module EIGHT {
      *
      */
     interface IDrawList extends IContextConsumer, IUnknown {
+
         add(drawable: IDrawable): void;
+
         draw(ambients: Facet[], canvasId?: number): void;
+
+        /**
+         * Gets a drawable that matches the specified test.
+         */
+        findOne(match: (drawable: IDrawable) => boolean): IDrawable;
+
+        /**
+         * Gets a drawable element with the specified name.
+         */
+        getDrawableByName(name: string): IDrawable;
+
         /**
          * Gets a collection of drawable elements by name.
-         * @param name {string}
          */
         getDrawablesByName(name: string): IUnknownArray<IDrawable>;
 
         remove(drawable: IDrawable): void;
+
         traverse(callback: (drawable: IDrawable) => void, canvasId?: number): void;
     }
+
     /**
      *
      */
@@ -3189,6 +3203,8 @@ declare module EIGHT {
         contextGain(manager: IContextProvider): void
         contextLost(canvasId?: number): void
         draw(ambients: Facet[], canvasId?: number): void
+        findOne(match: (drawable: IDrawable) => boolean): IDrawable
+        getDrawableByName(name: string): IDrawable
         getDrawablesByName(name: string): IUnknownArray<IDrawable>
         release(): number
         remove(drawable: IDrawable): void

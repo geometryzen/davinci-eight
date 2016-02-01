@@ -523,9 +523,6 @@ export default function webgl(attributes?: WebGLContextAttributes): ContextKahun
             return mesh
         },
         start(canvas: HTMLCanvasElement, canvasId: number = 0): void {
-            if (core.verbose) {
-                console.log(`${LOGGING_NAME_KERNEL} start(canvasId=${canvasId})`);
-            }
             let alreadyStarted = isDefined(_canvas);
             if (!alreadyStarted) {
                 // cache the arguments
@@ -581,9 +578,6 @@ export default function webgl(attributes?: WebGLContextAttributes): ContextKahun
         },
         get canvas(): HTMLCanvasElement {
             if (!_canvas) {
-                if (core.verbose) {
-                    console.log(`${LOGGING_NAME_KERNEL} creating HTMLCanvasElement`);
-                }
                 kahuna.start(document.createElement('canvas'), randumbInteger());
             }
             return _canvas;

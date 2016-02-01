@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.171.0</em>
+            <em>API Docs for: 2.172.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -352,6 +352,19 @@ class DrawableGroup implements IUnknown {
             drawable.release()
         }
     }
+    findOne(match: (drawable: IDrawable) =&gt; boolean): IDrawable {
+        const drawables = this._drawables;
+        for (let i = 0, iLength = drawables.length; i &lt; iLength; i++) {
+            const candidate = drawables.get(i);
+            if (match(candidate)) {
+                return candidate;
+            }
+            else {
+                candidate.release();
+            }
+        }
+        return void 0;
+    }
     traverseDrawables(callback: (drawable: IDrawable) =&gt; void) {
         this._drawables.forEach(callback);
     }
@@ -418,6 +431,18 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         else {
             return false
         }
+    }
+    findOne(match: (drawable: IDrawable) =&gt; boolean): IDrawable {
+        const groupIds = this._groups.keys;
+        for (let i = 0, iLength = groupIds.length; i &lt; iLength; i++) {
+            const groupId = groupIds[i];
+            const group = this._groups.getWeakRef(groupId);
+            const found = group.findOne(match);
+            if (found) {
+                return found;
+            }
+        }
+        return void 0;
     }
     remove(drawable: IDrawable) {
         let material: IGraphicsProgram = drawable.material
@@ -561,6 +586,12 @@ export default function createDrawList(): IDrawList {
         },
         draw(ambients: Facet[], canvasId?: number): void {
             drawableGroups.draw(ambients, canvasId)
+        },
+        findOne(match: (drawable: IDrawable) =&gt; boolean): IDrawable {
+            return drawableGroups.findOne(match);
+        },
+        getDrawableByName(name: string): IDrawable {
+            return drawableGroups.findOne(function(drawable) { return drawable.name === name; });
         },
         getDrawablesByName(name: string): IUnknownArray&lt;IDrawable&gt; {
             var result = new IUnknownArray&lt;IDrawable&gt;()

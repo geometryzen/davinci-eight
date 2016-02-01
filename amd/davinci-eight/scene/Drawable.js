@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core', '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../i18n/readOnly', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, core_1, isDefined_1, IUnknownArray_1, NumberIUnknownMap_1, readOnly_1, Shareable_1, StringIUnknownMap_1) {
+define(["require", "exports", '../checks/isDefined', '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../i18n/readOnly', '../utils/Shareable', '../collections/StringIUnknownMap'], function (require, exports, isDefined_1, IUnknownArray_1, NumberIUnknownMap_1, readOnly_1, Shareable_1, StringIUnknownMap_1) {
     var LOGGING_NAME = 'Drawable';
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
@@ -44,15 +44,9 @@ define(["require", "exports", '../core', '../checks/isDefined', '../collections/
             }
         };
         Drawable.prototype.contextFree = function (canvasId) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " contextFree(canvasId=" + canvasId + ")");
-            }
             this.graphicsProgram.contextFree(canvasId);
         };
         Drawable.prototype.contextGain = function (manager) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " contextGain(canvasId=" + manager.canvasId + ")");
-            }
             if (this.primitives) {
                 for (var i = 0, iLength = this.primitives.length; i < iLength; i++) {
                     var primitive = this.primitives[i];
@@ -69,9 +63,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../collections/
             this.graphicsProgram.contextGain(manager);
         };
         Drawable.prototype.contextLost = function (canvasId) {
-            if (core_1.default.verbose) {
-                console.log(this._type + " contextLost(canvasId=" + canvasId + ")");
-            }
             this.graphicsProgram.contextLost(canvasId);
         };
         Drawable.prototype.getFacet = function (name) {

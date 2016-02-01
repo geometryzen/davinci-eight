@@ -104,6 +104,19 @@ class DrawableGroup implements IUnknown {
             drawable.release()
         }
     }
+    findOne(match: (drawable: IDrawable) => boolean): IDrawable {
+        const drawables = this._drawables;
+        for (let i = 0, iLength = drawables.length; i < iLength; i++) {
+            const candidate = drawables.get(i);
+            if (match(candidate)) {
+                return candidate;
+            }
+            else {
+                candidate.release();
+            }
+        }
+        return void 0;
+    }
     traverseDrawables(callback: (drawable: IDrawable) => void) {
         this._drawables.forEach(callback);
     }
@@ -170,6 +183,18 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         else {
             return false
         }
+    }
+    findOne(match: (drawable: IDrawable) => boolean): IDrawable {
+        const groupIds = this._groups.keys;
+        for (let i = 0, iLength = groupIds.length; i < iLength; i++) {
+            const groupId = groupIds[i];
+            const group = this._groups.getWeakRef(groupId);
+            const found = group.findOne(match);
+            if (found) {
+                return found;
+            }
+        }
+        return void 0;
     }
     remove(drawable: IDrawable) {
         let material: IGraphicsProgram = drawable.material
@@ -313,6 +338,12 @@ export default function createDrawList(): IDrawList {
         },
         draw(ambients: Facet[], canvasId?: number): void {
             drawableGroups.draw(ambients, canvasId)
+        },
+        findOne(match: (drawable: IDrawable) => boolean): IDrawable {
+            return drawableGroups.findOne(match);
+        },
+        getDrawableByName(name: string): IDrawable {
+            return drawableGroups.findOne(function(drawable) { return drawable.name === name; });
         },
         getDrawablesByName(name: string): IUnknownArray<IDrawable> {
             var result = new IUnknownArray<IDrawable>()

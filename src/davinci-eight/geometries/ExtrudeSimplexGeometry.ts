@@ -74,8 +74,6 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
 
             splineTube = options.frames !== undefined ? options.frames : new THREE.TubeGeometry.FrenetFrames(extrudePath, steps, false);
 
-            // console.log(splineTube, 'splineTube', splineTube.normals.length, 'steps', steps, 'extrudePts', extrudePts.length);
-
             binormal = new THREE.Vector3();
             normal = new THREE.Vector3();
             position2 = new THREE.Vector3();
@@ -233,12 +231,10 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
                 }
 
                 if (direction_eq) {
-                    // console.log("Warning: lines are a straight sequence");
                     v_trans_x = - v_prev_y;
                     v_trans_y = v_prev_x;
                     shrink_by = Math.sqrt(v_prev_lensq);
                 } else {
-                    // console.log("Warning: lines are a straight spike");
                     v_trans_x = v_prev_x;
                     v_trans_y = v_prev_y;
                     shrink_by = Math.sqrt(v_prev_lensq / 2);
@@ -257,9 +253,6 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
 
             if (j === il) j = 0;
             if (k === il) k = 0;
-
-            //  (j)---(i)---(k)
-            // console.log('i,j,k', i, j , k)
 
             contourMovements[i] = getBevelVec(contour[i], contour[j], contour[k]);
 
@@ -530,8 +523,6 @@ class ExtrudeSimplexGeometry extends SimplexGeometry {
                 j = i;
                 k = i - 1;
                 if (k < 0) k = contour.length - 1;
-
-                //console.log('b', i,j, i-1, k,vertices.length);
 
                 var s = 0, sl = steps + bevelSegments * 2;
 

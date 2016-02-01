@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.171.0</em>
+            <em>API Docs for: 2.172.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -307,6 +307,14 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_findOne">findOne</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getDrawableByName">getDrawableByName</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_getDrawablesByName">getDrawablesByName</a>
 
                             </li>
@@ -356,7 +364,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:13</code></a>
+        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:14</code></a>
         </p>
 
 
@@ -463,7 +471,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:19</code></a>
+        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:21</code></a>
         </p>
 
 
@@ -703,7 +711,7 @@ that resources have been lost and cannot be freed by the application.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:25</code></a>
+        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:28</code></a>
         </p>
 
 
@@ -752,6 +760,132 @@ that resources have been lost and cannot be freed by the application.</p>
 
 
 </div>
+<div id="method_findOne" class="method item">
+    <h3 class="name"><code>findOne</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>match</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/IDrawable.html" class="crosslink">IDrawable</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:36</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Finds a drawable that matches the specified match test.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">match</code>
+                        <span class="type">(drawable: ID) => boolean</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/IDrawable.html" class="crosslink">IDrawable</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getDrawableByName" class="method item">
+    <h3 class="name"><code>getDrawableByName</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/IDrawable.html" class="crosslink">IDrawable</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:45</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Gets any drawable that has the specified name.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/IDrawable.html" class="crosslink">IDrawable</a></span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_getDrawablesByName" class="method item">
     <h3 class="name"><code>getDrawablesByName</code></h3>
 
@@ -776,7 +910,7 @@ that resources have been lost and cannot be freed by the application.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:32</code></a>
+        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:54</code></a>
         </p>
 
 
@@ -881,7 +1015,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l39"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:39</code></a>
+        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:62</code></a>
         </p>
 
 
@@ -942,7 +1076,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l44"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:44</code></a>
+        <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:68</code></a>
         </p>
 
 
