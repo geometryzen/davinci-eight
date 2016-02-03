@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/mustBeString', '../utils/Shareable'], function (require, exports, mustBeString_1, Shareable_1) {
+define(["require", "exports", '../utils/Shareable'], function (require, exports, Shareable_1) {
     var StringIUnknownMap = (function (_super) {
         __extends(StringIUnknownMap, _super);
         function StringIUnknownMap() {
@@ -11,9 +11,9 @@ define(["require", "exports", '../checks/mustBeString', '../utils/Shareable'], f
             this.elements = {};
         }
         StringIUnknownMap.prototype.destructor = function () {
-            var self = this;
+            var _this = this;
             this.forEach(function (key) {
-                self.putWeakRef(key, void 0);
+                _this.putWeakRef(key, void 0);
             });
             _super.prototype.destructor.call(this);
         };
@@ -41,7 +41,6 @@ define(["require", "exports", '../checks/mustBeString', '../utils/Shareable'], f
             this.putWeakRef(key, value);
         };
         StringIUnknownMap.prototype.putWeakRef = function (key, value) {
-            mustBeString_1.default('key', key);
             var elements = this.elements;
             var existing = elements[key];
             if (existing) {
@@ -77,7 +76,6 @@ define(["require", "exports", '../checks/mustBeString', '../utils/Shareable'], f
             configurable: true
         });
         StringIUnknownMap.prototype.remove = function (key) {
-            mustBeString_1.default('key', key);
             var value = this.elements[key];
             delete this.elements[key];
             return value;

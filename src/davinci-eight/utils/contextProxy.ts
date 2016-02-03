@@ -34,7 +34,7 @@ import VectorN from '../math/VectorN';
 const LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib'
 const LOGGING_NAME_MESH = 'Drawable'
 
-const LOGGING_NAME_KERNEL = 'GraphicsContext (Kernel)'
+const LOGGING_NAME_KERNEL = 'WebGLRenderer';
 
 function mustBeContext(gl: WebGLRenderingContext, method: string): WebGLRenderingContext {
     if (gl) {

@@ -1,26 +1,9 @@
-define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../checks/isUndefined'], function (require, exports, expectArg_1, isDefined_1, isUndefined_1) {
-    function constructorString(T) {
-        return "new VectorN<" + T + ">(data: " + T + "[], modified: boolean = false, size?: number)";
-    }
+define(["require", "exports", '../checks/isDefined', '../checks/isUndefined'], function (require, exports, isDefined_1, isUndefined_1) {
     function pushString(T) {
         return "push(value: " + T + "): number";
     }
     function popString(T) {
         return "pop(): " + T;
-    }
-    function contextNameKind(context, name, kind) {
-        return name + " must be a " + kind + " in " + context;
-    }
-    function contextNameLength(context, name, length) {
-        return name + " length must be " + length + " in " + context;
-    }
-    function ctorDataKind() {
-        return contextNameKind(constructorString('T'), 'data', 'T[]');
-    }
-    function ctorDataLength(length) {
-        return function () {
-            return contextNameLength(constructorString('T'), 'data', length);
-        };
     }
     function verboten(operation) {
         return operation + " is not allowed for a fixed size vector";
@@ -31,24 +14,17 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
     function verbotenPop() {
         return verboten(popString('T'));
     }
-    function ctorModifiedKind() {
-        return contextNameKind(constructorString('T'), 'modified', 'boolean');
-    }
-    function ctorSizeKind() {
-        return contextNameKind(constructorString('T'), 'size', 'number');
-    }
     var VectorN = (function () {
         function VectorN(data, modified, size) {
             if (modified === void 0) { modified = false; }
-            var dataArg = expectArg_1.default('data', data).toBeObject(ctorDataKind);
-            this.modified = expectArg_1.default('modified', modified).toBeBoolean(ctorModifiedKind).value;
+            this.modified = modified;
             if (isDefined_1.default(size)) {
-                this._size = expectArg_1.default('size', size).toBeNumber(ctorSizeKind).toSatisfy(size >= 0, "size must be positive").value;
-                this._data = dataArg.toSatisfy(data.length === size, ctorDataLength(size)()).value;
+                this._size = size;
+                this._data = data;
             }
             else {
                 this._size = void 0;
-                this._data = dataArg.value;
+                this._data = data;
             }
         }
         Object.defineProperty(VectorN.prototype, "coords", {
@@ -57,10 +33,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
                     return this._data;
                 }
                 else if (this._callback) {
-                    var data = this._callback();
-                    if (isDefined_1.default(this._size)) {
-                        expectArg_1.default('callback()', data).toSatisfy(data.length === this._size, "callback() length must be " + this._size);
-                    }
                     return this._callback();
                 }
                 else {
@@ -68,9 +40,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
                 }
             },
             set: function (data) {
-                if (isDefined_1.default(this._size)) {
-                    expectArg_1.default('data', data).toSatisfy(data.length === this._size, "data length must be " + this._size);
-                }
                 this._data = data;
                 this._callback = void 0;
                 this.modified = true;
@@ -123,11 +92,11 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
             }
         };
         VectorN.prototype.setComponent = function (index, value) {
-            var data = this.coords;
-            var existing = data[index];
-            if (value !== existing) {
-                data[index] = value;
-                this.coords = data;
+            var coords = this.coords;
+            var previous = coords[index];
+            if (value !== previous) {
+                coords[index] = value;
+                this.coords = coords;
                 this.modified = true;
             }
         };

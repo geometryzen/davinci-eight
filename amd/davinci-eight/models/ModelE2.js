@@ -42,12 +42,16 @@ define(["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R
         });
         ModelE2.prototype.getProperty = function (name) {
             switch (name) {
-                case ModelE2.PROP_ATTITUDE: {
-                    return this._attCache.copy(this._attitude).coords;
-                }
-                case ModelE2.PROP_POSITION: {
-                    return this._posCache.copy(this._position).coords;
-                }
+                case ModelE2.PROP_ATTITUDE:
+                    {
+                        return this._attCache.copy(this._attitude).coords;
+                    }
+                    break;
+                case ModelE2.PROP_POSITION:
+                    {
+                        return this._posCache.copy(this._position).coords;
+                    }
+                    break;
                 default: {
                     console.warn("ModelE2.getProperty " + name);
                     return void 0;
@@ -72,6 +76,7 @@ define(["require", "exports", '../checks/mustBeString', '../math/G2', '../math/R
                     console.warn("ModelE2.setProperty " + name);
                 }
             }
+            return this;
         };
         ModelE2.PROP_ATTITUDE = 'R';
         ModelE2.PROP_POSITION = 'X';

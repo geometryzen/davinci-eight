@@ -2,13 +2,14 @@ import Color from '../core/Color';
 import ColorRGB from '../core/ColorRGB';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
+import mustBeArray from '../checks/mustBeArray';
 import mustBeNumber from '../checks/mustBeNumber';
 import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import Shareable from '../utils/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
-var LOGGING_NAME = 'AmbientLight'
+const LOGGING_NAME = 'AmbientLight'
 
 function contextBuilder() {
     return LOGGING_NAME
@@ -49,8 +50,20 @@ export default class AmbientLight extends Shareable implements Facet {
     getProperty(name: string): number[] {
         return void 0;
     }
-    setProperty(name: string, value: number[]): void {
+
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param value {number[]}
+     * @return {AmbientLight}
+     * @chainable
+     */
+    setProperty(name: string, value: number[]): AmbientLight {
+        mustBeString('name', name, contextBuilder);
+        mustBeArray('value', value, contextBuilder);
+        return this;
     }
+
     /**
      * @method setUniforms
      * @param visitor {FacetVisitor}

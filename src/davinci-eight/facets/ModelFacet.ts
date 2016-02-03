@@ -1,17 +1,14 @@
-import Euclidean3 from '../math/Euclidean3';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
 import IAnimationTarget from '../slideshow/IAnimationTarget';
-import isUndefined from '../checks/isUndefined';
 import IUnknownExt from '../core/IUnknownExt';
 import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
 import ModelE3 from '../models/ModelE3';
+import mustBeArray from '../checks/mustBeArray';
 import mustBeString from '../checks/mustBeString';
-import G3 from '../math/G3';
 import R3 from '../math/R3';
 import readOnly from '../i18n/readOnly';
-import Shareable from '../utils/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 /**
@@ -46,7 +43,7 @@ export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarg
      * @constructor
      * @param [type = 'ModelFacet'] {string} The name used for reference counting.
      */
-    constructor(type: string = 'ModelFacet') {
+    constructor(type = 'ModelFacet') {
         super(mustBeString('type', type))
         this._scaleXYZ.modified = true
     }
@@ -102,6 +99,21 @@ export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarg
         visitor.mat4(GraphicsProgramSymbols.UNIFORM_MODEL_MATRIX, this.matM, false, canvasId)
         visitor.mat3(GraphicsProgramSymbols.UNIFORM_NORMAL_MATRIX, this.matN, false, canvasId)
     }
+
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param data {number[]}
+     * @return {ModelFacet}
+     * @chainable
+     */
+    setProperty(name: string, data: number[]): ModelFacet {
+        mustBeString('name', name);
+        mustBeArray('data', data);
+        super.setProperty(name, data);
+        return this;
+    }
+
     /**
      * @method incRef
      * @return {ModelFacet}
@@ -111,6 +123,7 @@ export default class ModelFacet extends ModelE3 implements Facet, IAnimationTarg
         this.addRef()
         return this
     }
+
     /**
      * @method decRef
      * @return {ModelFacet}

@@ -20,8 +20,10 @@ interface IAnimationTarget {
      * @method setProperty
      * @param name {string}
      * @param value {number[]}
+     * @return {IAnimationTarget}
+     * @chainable
      */
-    setProperty(name: string, value: number[]): void;
+    setProperty(name: string, value: number[]): IAnimationTarget;
 }
 
 export default IAnimationTarget;

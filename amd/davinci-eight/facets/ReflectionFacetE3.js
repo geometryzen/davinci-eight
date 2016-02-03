@@ -35,6 +35,7 @@ define(["require", "exports", '../math/CartesianE3', '../checks/mustBeArray', '.
         ReflectionFacetE3.prototype.setProperty = function (name, value) {
             mustBeString_1.default('name', name);
             mustBeArray_1.default('value', value);
+            return this;
         };
         ReflectionFacetE3.prototype.setUniforms = function (visitor, canvasId) {
             if (this._normal.modified) {

@@ -6,14 +6,12 @@ import MutableLinearElement from '../math/MutableLinearElement';
 import SpinorE2 from '../math/SpinorE2';
 import VectorN from '../math/VectorN';
 import VectorE2 from '../math/VectorE2';
-import expectArg from '../checks/expectArg';
 
-let exp = Math.exp
-let log = Math.log
-let sqrt = Math.sqrt
+const sqrt = Math.sqrt;
 
-let COORD_X = 0
-let COORD_Y = 1
+const COORD_X = 0;
+const COORD_Y = 1;
+
 /**
  * @class R2
  */
@@ -52,13 +50,7 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
         this.modified = this.modified || this.y !== value;
         this.coords[COORD_Y] = value;
     }
-    /**
-    set(x: number, y: number): R2 {
-        this.x = x;
-        this.y = y;
-        return this;
-    }
-    */
+
     /**
      * @method copy
      * @param v {{x: number; y: number}}
@@ -71,12 +63,12 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
         return this;
     }
 
-    
-    add(v: VectorE2, alpha: number = 1) {
+    add(v: VectorE2, alpha = 1) {
         this.x += v.x * alpha
         this.y += v.y * alpha
         return this
     }
+
     add2(a: VectorE2, b: VectorE2) {
         this.x = a.x + b.x;
         this.y = a.y + b.y;
@@ -298,12 +290,12 @@ export default class R2 extends VectorN<number> implements ColumnVector<Mat2R, R
     toFixed(digits?: number): string {
         return "TODO: R2.toString"
     }
-    fromArray(array: number[], offset: number = 0) {
+    fromArray(array: number[], offset = 0) {
         this.x = array[offset];
         this.y = array[offset + 1];
         return this;
     }
-    fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset: number = 0) {
+    fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset = 0) {
         index = index * attribute.itemSize + offset;
         this.x = attribute.array[index];
         this.y = attribute.array[index + 1];

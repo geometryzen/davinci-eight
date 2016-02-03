@@ -3,7 +3,6 @@ import GeometryMeta from '../geometries/GeometryMeta';
 import IGeometry from '../geometries/IGeometry';
 import mustBeBoolean from '../checks/mustBeBoolean';
 import mustBeInteger from '../checks/mustBeInteger';
-import mustBeString from '../checks/mustBeString';
 import Geometry from '../geometries/Geometry';
 import Simplex from '../geometries/Simplex';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
@@ -224,7 +223,7 @@ export default class SimplexGeometry extends Geometry implements IGeometry<Simpl
      * @protected
      * @beta
      */
-    protected mergeVertices(precisionPoints: number = 4): void {
+    protected mergeVertices(precisionPoints = 4): void {
         // console.warn("SimplexGeometry.mergeVertices not yet implemented");
     }
 

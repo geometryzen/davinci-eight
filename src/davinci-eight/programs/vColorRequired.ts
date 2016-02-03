@@ -1,4 +1,3 @@
-import mustBeDefined from '../checks/mustBeDefined';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 export default function vColorRequired(attributes: { [name: string]: {} }, uniforms: { [name: string]: {} }): boolean {

@@ -1,7 +1,9 @@
 import Capability from '../commands/Capability';
+import Facet from '../core/Facet';
 import IContextProvider from '../core/IContextProvider';
 import IContextRenderer from '../renderers/IContextRenderer';
 import IContextCommand from '../core/IContextCommand';
+import IDrawList from '../scene/IDrawList';
 import IUnknownArray from '../collections/IUnknownArray';
 import refChange from '../utils/refChange';
 import uuid4 from '../utils/uuid4';
@@ -66,6 +68,13 @@ export default function renderer(): IContextRenderer {
         },
         enable(capability: Capability): void {
             commands.pushWeakRef(new WebGLEnable(capability))
+        },
+        render(drawList: IDrawList, ambients: Facet[]): void {
+            const gl = _manager.gl;
+            if (gl) {
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                return drawList.draw(ambients, _manager.canvasId);
+            }
         },
         viewport(x: number, y: number, width: number, height: number): void {
             return self.gl.viewport(x, y, width, height)

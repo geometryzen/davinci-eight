@@ -1,4 +1,3 @@
-import expectArg from '../checks/expectArg';
 import MutableLinearElement from '../math/MutableLinearElement';
 import Matrix from '../math/Matrix';
 import SpinorE1 from '../math/SpinorE1';
@@ -40,7 +39,7 @@ export default class R1 extends VectorN<number> implements VectorE1, MutableLine
         this.x = x;
         return this;
     }
-    add(vector: VectorE1, alpha: number = 1) {
+    add(vector: VectorE1, alpha = 1) {
         this.x += vector.x * alpha
         return this
     }
@@ -245,14 +244,14 @@ export default class R1 extends VectorN<number> implements VectorE1, MutableLine
     equals(v: VectorE1) {
         return v.x === this.x;
     }
-    fromArray(array: number[], offset: number = 0) {
+    fromArray(array: number[], offset = 0) {
         this.x = array[offset];
         return this;
     }
     slerp(v: VectorE1, α: number) {
         return this;
     }
-    toArray(array: number[] = [], offset: number = 0) {
+    toArray(array: number[] = [], offset = 0) {
         array[offset] = this.x;
         return array;
     }
@@ -273,7 +272,7 @@ export default class R1 extends VectorN<number> implements VectorE1, MutableLine
         return this.one()
     }
 
-    fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset: number = 0) {
+    fromAttribute(attribute: { itemSize: number, array: number[] }, index: number, offset = 0) {
         index = index * attribute.itemSize + offset;
         this.x = attribute.array[index];
         return this;

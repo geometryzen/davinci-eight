@@ -6,6 +6,9 @@ define(["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../
             this._type = mustBeString_1.default('type', type);
             refChange_1.default(this._uuid, type, +1);
         }
+        Shareable.prototype.isZombie = function () {
+            return typeof this._refCount === 'undefined';
+        };
         Shareable.prototype.addRef = function () {
             this._refCount++;
             refChange_1.default(this._uuid, this._type, +1);

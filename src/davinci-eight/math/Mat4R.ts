@@ -1,20 +1,12 @@
 import AbstractMatrix from '../math/AbstractMatrix';
 import add4x4 from '../math/add4x4';
-import expectArg from '../checks/expectArg';
-import GeometricElement from '../math/GeometricElement';
 import inv4x4 from '../math/inv4x4';
-import isDefined from '../checks/isDefined';
 import Matrix from '../math/Matrix';
 import mul4x4 from '../math/mul4x4';
-import mustBeNumber from '../checks/mustBeNumber';
 import Ring from '../math/MutableRingElement';
 import SpinorE3 from '../math/SpinorE3';
 import VectorE3 from '../math/VectorE3';
 import VectorE4 from '../math/VectorE4';
-
-// TODO: Anything after this line hints of excessive coupling.
-// TODO: Probably better not to couple this way.
-import frustumMatrix from '../cameras/frustumMatrix';
 
 /**
  * @class Mat4R
@@ -170,8 +162,6 @@ export default class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R
         let n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
         let n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
         let n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
-
-        //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
 
         let n1122 = n11 * n22;
         let n1123 = n11 * n23;
@@ -357,17 +347,17 @@ export default class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R
      * @chainable
      */
     reflection(n: VectorE3): Mat4R {
-        let nx = mustBeNumber('n.x', n.x);
-        let ny = mustBeNumber('n.y', n.y);
-        let nz = mustBeNumber('n.z', n.z);
+        const nx = n.x;
+        const ny = n.y;
+        const nz = n.z;
 
-        let aa = -2 * nx * ny;
-        let cc = -2 * ny * nz;
-        let bb = -2 * nz * nx;
+        const aa = -2 * nx * ny;
+        const cc = -2 * ny * nz;
+        const bb = -2 * nz * nx;
 
-        let xx = 1 - 2 * nx * nx;
-        let yy = 1 - 2 * ny * ny;
-        let zz = 1 - 2 * nz * nz;
+        const xx = 1 - 2 * nx * nx;
+        const yy = 1 - 2 * ny * ny;
+        const zz = 1 - 2 * nz * nz;
 
         this.set(
             xx, aa, bb, 0,
@@ -403,15 +393,23 @@ export default class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R
     rotation(spinor: SpinorE3): Mat4R {
         // The correspondence between quaternions and spinors is
         // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
-        let x: number = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
-        let y: number = -expectArg('spinor.zx', spinor.zx).toBeNumber().value;
-        let z: number = -expectArg('spinor.xy', spinor.xy).toBeNumber().value;
-        let α: number = expectArg('spinor.α', spinor.α).toBeNumber().value;
+        const x: number = -spinor.yz;
+        const y: number = -spinor.zx;
+        const z: number = -spinor.xy;
+        const α: number = spinor.α;
 
-        let x2 = x + x, y2 = y + y, z2 = z + z;
-        let xx = x * x2, xy = x * y2, xz = x * z2;
-        let yy = y * y2, yz = y * z2, zz = z * z2;
-        let wx = α * x2, wy = α * y2, wz = α * z2;
+        const x2 = x + x;
+        const y2 = y + y;
+        const z2 = z + z;
+        const xx = x * x2;
+        const xy = x * y2;
+        const xz = x * z2;
+        const yy = y * y2;
+        const yz = y * z2;
+        const zz = z * z2;
+        const wx = α * x2;
+        const wy = α * y2;
+        const wz = α * z2;
 
         this.set(
             1 - yy - zz, xy - wz, xz + wy, 0,
@@ -504,9 +502,8 @@ export default class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R
      * @return {string}
      */
     toFixed(digits?: number): string {
-        if (isDefined(digits)) { expectArg('digits', digits).toBeNumber(); }
-        let text: string[] = [];
-        for (var i = 0; i < this.dimensions; i++) {
+        const text: string[] = [];
+        for (let i = 0; i < this.dimensions; i++) {
             text.push(this.row(i).map(function(element: number, index: number) { return element.toFixed(digits) }).join(' '));
         }
         return text.join('\n');
@@ -571,7 +568,7 @@ export default class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R
      * @chainable
      * @private
      */
-    private __mul__(rhs: Mat4R | number): Mat4R {
+    public __mul__(rhs: Mat4R | number): Mat4R {
         if (rhs instanceof Mat4R) {
             return Mat4R.one().mul2(this, rhs)
         }
@@ -590,7 +587,7 @@ export default class Mat4R extends AbstractMatrix<Mat4R> implements Matrix<Mat4R
      * @chainable
      * @private
      */
-    private __rmul__(lhs: Mat4R | number): Mat4R {
+    public __rmul__(lhs: Mat4R | number): Mat4R {
         if (lhs instanceof Mat4R) {
             return Mat4R.one().mul2(lhs, this)
         }

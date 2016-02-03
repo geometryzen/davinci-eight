@@ -43,10 +43,11 @@ define(["require", "exports", '../geometries/arc3', '../geometries/SliceSimplexG
         CylinderSimplexGeometry.prototype.regenerate = function () {
             this.data = [];
             var radius = this.radius;
+            var height = this.height;
             var heightSegments = this.flatSegments;
             var thetaSegments = this.curvedSegments;
             var generator = SpinG3_1.default.dual(this.axis);
-            var heightHalf = this.height / 2;
+            var heightHalf = height / 2;
             var points = [];
             var vertices = [];
             var uvs = [];

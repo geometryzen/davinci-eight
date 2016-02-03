@@ -29,6 +29,7 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
                 return void 0;
             },
             setProperty: function (name, value) {
+                return this;
             },
             get eye() {
                 return base.eye;

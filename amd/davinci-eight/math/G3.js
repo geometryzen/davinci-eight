@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3_1, Euclidean3_1, extG3_1, lcoG3_1, mulG3_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, quadVectorE3_1, rcoG3_1, readOnly_1, rotorFromDirections_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, VectorN_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
+define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../utils/EventEmitter', '../math/extG3', '../math/lcoG3', '../math/mulG3', '../checks/mustBeInteger', '../checks/mustBeString', '../math/quadVectorE3', '../math/rcoG3', '../i18n/readOnly', '../math/rotorFromDirections', '../math/scpG3', '../math/squaredNormG3', '../math/stringFromCoordinates', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3_1, Euclidean3_1, EventEmitter_1, extG3_1, lcoG3_1, mulG3_1, mustBeInteger_1, mustBeString_1, quadVectorE3_1, rcoG3_1, readOnly_1, rotorFromDirections_1, scpG3_1, squaredNormG3_1, stringFromCoordinates_1, VectorN_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     var COORD_W = 0;
     var COORD_X = 1;
     var COORD_Y = 2;
@@ -12,6 +12,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
     var COORD_YZ = 5;
     var COORD_ZX = 6;
     var COORD_XYZ = 7;
+    var EVENT_NAME_CHANGE = 'change';
     var atan2 = Math.atan2;
     var exp = Math.exp;
     var cos = Math.cos;
@@ -24,14 +25,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
     }
     function makeConstantE3(label, α, x, y, z, yz, zx, xy, β) {
         mustBeString_1.default('label', label);
-        mustBeNumber_1.default('α', α);
-        mustBeNumber_1.default('x', x);
-        mustBeNumber_1.default('y', y);
-        mustBeNumber_1.default('z', z);
-        mustBeNumber_1.default('yz', yz);
-        mustBeNumber_1.default('zx', zx);
-        mustBeNumber_1.default('xy', xy);
-        mustBeNumber_1.default('β', β);
         var that;
         that = {
             get α() {
@@ -98,15 +91,29 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         __extends(G3, _super);
         function G3() {
             _super.call(this, [0, 0, 0, 0, 0, 0, 0, 0], false, 8);
+            this.eventBus = new EventEmitter_1.default(this);
         }
+        G3.prototype.on = function (eventName, callback) {
+            this.eventBus.addEventListener(eventName, callback);
+        };
+        G3.prototype.off = function (eventName, callback) {
+            this.eventBus.removeEventListener(eventName, callback);
+        };
+        G3.prototype.setCoordinate = function (index, newValue, name) {
+            var coords = this.coords;
+            var previous = coords[index];
+            if (newValue !== previous) {
+                coords[index] = newValue;
+                this.modified = true;
+                this.eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
+            }
+        };
         Object.defineProperty(G3.prototype, "α", {
             get: function () {
                 return this.coords[COORD_W];
             },
             set: function (α) {
-                mustBeNumber_1.default('α', α);
-                this.modified = this.modified || this.coords[COORD_W] !== α;
-                this.coords[COORD_W] = α;
+                this.setCoordinate(COORD_W, α, 'α');
             },
             enumerable: true,
             configurable: true
@@ -116,9 +123,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
                 return this.coords[COORD_X];
             },
             set: function (x) {
-                mustBeNumber_1.default('x', x);
-                this.modified = this.modified || this.coords[COORD_X] !== x;
-                this.coords[COORD_X] = x;
+                this.setCoordinate(COORD_X, x, 'x');
             },
             enumerable: true,
             configurable: true
@@ -128,9 +133,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
                 return this.coords[COORD_Y];
             },
             set: function (y) {
-                mustBeNumber_1.default('y', y);
-                this.modified = this.modified || this.coords[COORD_Y] !== y;
-                this.coords[COORD_Y] = y;
+                this.setCoordinate(COORD_Y, y, 'y');
             },
             enumerable: true,
             configurable: true
@@ -140,9 +143,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
                 return this.coords[COORD_Z];
             },
             set: function (z) {
-                mustBeNumber_1.default('z', z);
-                this.modified = this.modified || this.coords[COORD_Z] !== z;
-                this.coords[COORD_Z] = z;
+                this.setCoordinate(COORD_Z, z, 'z');
             },
             enumerable: true,
             configurable: true
@@ -152,9 +153,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
                 return this.coords[COORD_YZ];
             },
             set: function (yz) {
-                mustBeNumber_1.default('yz', yz);
-                this.modified = this.modified || this.coords[COORD_YZ] !== yz;
-                this.coords[COORD_YZ] = yz;
+                this.setCoordinate(COORD_YZ, yz, 'yz');
             },
             enumerable: true,
             configurable: true
@@ -164,9 +163,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
                 return this.coords[COORD_ZX];
             },
             set: function (zx) {
-                mustBeNumber_1.default('zx', zx);
-                this.modified = this.modified || this.coords[COORD_ZX] !== zx;
-                this.coords[COORD_ZX] = zx;
+                this.setCoordinate(COORD_ZX, zx, 'zx');
             },
             enumerable: true,
             configurable: true
@@ -176,9 +173,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
                 return this.coords[COORD_XY];
             },
             set: function (xy) {
-                mustBeNumber_1.default('xy', xy);
-                this.modified = this.modified || this.coords[COORD_XY] !== xy;
-                this.coords[COORD_XY] = xy;
+                this.setCoordinate(COORD_XY, xy, 'xy');
             },
             enumerable: true,
             configurable: true
@@ -188,17 +183,13 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
                 return this.coords[COORD_XYZ];
             },
             set: function (β) {
-                mustBeNumber_1.default('β', β);
-                this.modified = this.modified || this.coords[COORD_XYZ] !== β;
-                this.coords[COORD_XYZ] = β;
+                this.setCoordinate(COORD_XYZ, β, 'β');
             },
             enumerable: true,
             configurable: true
         });
         G3.prototype.add = function (M, α) {
             if (α === void 0) { α = 1; }
-            mustBeObject_1.default('M', M);
-            mustBeNumber_1.default('α', α);
             this.α += M.α * α;
             this.x += M.x * α;
             this.y += M.y * α;
@@ -210,27 +201,21 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         G3.prototype.addPseudo = function (β) {
-            mustBeNumber_1.default('β', β);
             this.β += β;
             return this;
         };
         G3.prototype.addScalar = function (α) {
-            mustBeNumber_1.default('α', α);
             this.α += α;
             return this;
         };
         G3.prototype.addVector = function (v, α) {
             if (α === void 0) { α = 1; }
-            mustBeObject_1.default('v', v);
-            mustBeNumber_1.default('α', α);
             this.x += v.x * α;
             this.y += v.y * α;
             this.z += v.z * α;
             return this;
         };
         G3.prototype.add2 = function (a, b) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
             this.α = a.α + b.α;
             this.x = a.x + b.x;
             this.y = a.y + b.y;
@@ -269,7 +254,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return rcoG3_1.default(a, b, this);
         };
         G3.prototype.copy = function (M) {
-            mustBeObject_1.default('M', M);
             this.α = M.α;
             this.x = M.x;
             this.y = M.y;
@@ -284,7 +268,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this.zero().addScalar(α);
         };
         G3.prototype.copySpinor = function (spinor) {
-            mustBeObject_1.default('spinor', spinor);
             this.zero();
             this.α = spinor.α;
             this.yz = spinor.yz;
@@ -293,7 +276,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         G3.prototype.copyVector = function (vector) {
-            mustBeObject_1.default('vector', vector);
             this.zero();
             this.x = vector.x;
             this.y = vector.y;
@@ -304,7 +286,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this.div2(this, m);
         };
         G3.prototype.divByScalar = function (α) {
-            mustBeNumber_1.default('α', α);
             this.α /= α;
             this.x /= α;
             this.y /= α;
@@ -374,8 +355,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this.α === 0 && this.x === 0 && this.y === 0 && this.z === 0 && this.yz === 0 && this.zx === 0 && this.xy === 0 && this.β === 0;
         };
         G3.prototype.lerp = function (target, α) {
-            mustBeObject_1.default('target', target);
-            mustBeNumber_1.default('α', α);
             this.α += (target.α - this.α) * α;
             this.x += (target.x - this.x) * α;
             this.y += (target.y - this.y) * α;
@@ -387,9 +366,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         G3.prototype.lerp2 = function (a, b, α) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
-            mustBeNumber_1.default('α', α);
             this.copy(a).lerp(b, α);
             return this;
         };
@@ -474,7 +450,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return squaredNormG3_1.default(this);
         };
         G3.prototype.reflect = function (n) {
-            mustBeObject_1.default('n', n);
             var N = Euclidean3_1.default.fromVectorE3(n);
             var M = Euclidean3_1.default.copy(this);
             var R = N.mul(M).mul(N).scale(-1);
@@ -496,7 +471,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return G3.copy(this).rev();
         };
         G3.prototype.rotate = function (R) {
-            mustBeObject_1.default('R', R);
             var x = this.x;
             var y = this.y;
             var z = this.z;
@@ -541,7 +515,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return scpG3_1.default(a, b, this);
         };
         G3.prototype.scale = function (α) {
-            mustBeNumber_1.default('α', α);
             this.α *= α;
             this.x *= α;
             this.y *= α;
@@ -553,8 +526,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         G3.prototype.slerp = function (target, α) {
-            mustBeObject_1.default('target', target);
-            mustBeNumber_1.default('α', α);
             return this;
         };
         G3.prototype.spinor = function (a, b) {
@@ -573,8 +544,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         };
         G3.prototype.sub = function (M, α) {
             if (α === void 0) { α = 1; }
-            mustBeObject_1.default('M', M);
-            mustBeNumber_1.default('α', α);
             this.α -= M.α * α;
             this.x -= M.x * α;
             this.y -= M.y * α;
@@ -586,8 +555,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         G3.prototype.sub2 = function (a, b) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
             this.α = a.α - b.α;
             this.x = a.x - b.x;
             this.y = a.y - b.y;

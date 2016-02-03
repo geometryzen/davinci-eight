@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.172.0</em>
+            <em>API Docs for: 2.173.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,6 +40,7 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -48,6 +49,7 @@
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
@@ -64,6 +66,7 @@
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CurvePath.html">CurvePath</a></li>
+                                <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
@@ -82,6 +85,7 @@
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
+                                <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
                                 <li><a href="../classes/ExtrudeSimplexGeometry.html">ExtrudeSimplexGeometry</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
@@ -95,7 +99,7 @@
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/Glyph.html">Glyph</a></li>
-                                <li><a href="../classes/GraphicsContext.html">GraphicsContext</a></li>
+                                <li><a href="../classes/GraphicsBuffers.html">GraphicsBuffers</a></li>
                                 <li><a href="../classes/GraphicsProgram.html">GraphicsProgram</a></li>
                                 <li><a href="../classes/GraphicsProgramBuilder.html">GraphicsProgramBuilder</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -171,6 +175,7 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
+                                <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
@@ -202,6 +207,7 @@
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -250,7 +256,6 @@ import IContextProvider from &#x27;../core/IContextProvider&#x27;;
 import IDrawable from &#x27;../core/IDrawable&#x27;;
 import IDrawList from &#x27;../scene/IDrawList&#x27;;
 import IGraphicsProgram from &#x27;../core/IGraphicsProgram&#x27;;
-import IUnknown from &#x27;../core/IUnknown&#x27;;
 import IUnknownArray from &#x27;../collections/IUnknownArray&#x27;;
 import NumberIUnknownMap from &#x27;../collections/NumberIUnknownMap&#x27;;
 import refChange from &#x27;../utils/refChange&#x27;;
@@ -259,53 +264,26 @@ import StringIUnknownMap from &#x27;../collections/StringIUnknownMap&#x27;;
 import uuid4 from &#x27;../utils/uuid4&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 
-let CLASS_NAME_DRAWLIST = &quot;createDrawList&quot;
-let CLASS_NAME_GROUP = &quot;DrawableGroup&quot;
-let CLASS_NAME_ALL = &quot;DrawableGroups&quot;
-
-// FIXME; Probably good to have another collection of DrawableGroup
+const CLASS_NAME_DRAWLIST = &quot;createDrawList&quot;
 
 /**
  * A grouping of IDrawable, by IGraphicsProgram.
  */
-// FIXME: extends Shareable
-class DrawableGroup implements IUnknown {
-    /**
-     * I can&#x27;t see this being used; it&#x27;s all about the drawables!
-     */
+class DrawableGroup extends Shareable {
     private _program: IGraphicsProgram;
-    private _drawables = new IUnknownArray&lt;IDrawable&gt;();
-    private _refCount = 1;
-    private _uuid = uuid4().generate();
+    private _drawables: IUnknownArray&lt;IDrawable&gt;;
     constructor(program: IGraphicsProgram) {
+        super(&#x27;DrawableGroup&#x27;);
         this._program = program;
         this._program.addRef();
-        refChange(this._uuid, CLASS_NAME_GROUP, +1);
+        this._drawables = new IUnknownArray&lt;IDrawable&gt;();
     }
-    addRef(): number {
-        this._refCount++;
-        refChange(this._uuid, CLASS_NAME_GROUP, +1);
-        return this._refCount;
-    }
-    release(): number {
-        this._refCount--;
-        refChange(this._uuid, CLASS_NAME_GROUP, -1);
-        if (this._refCount === 0) {
-            this._program.release();
-            this._program = void 0;
-            this._drawables.release();
-            this._drawables = void 0;
-            this._refCount = void 0;
-            this._uuid = void 0;
-            return 0;
-        }
-        else {
-            return this._refCount;
-        }
-    }
-    get material(): IGraphicsProgram {
-        this._program.addRef();
-        return this._program;
+    protected destructor(): void {
+        this._program.release();
+        this._program = void 0;
+        this._drawables.release();
+        this._drawables = void 0;
+        super.destructor();
     }
     /**
      * accept provides a way to push out the IGraphicsProgram without bumping the reference count.
@@ -332,26 +310,26 @@ class DrawableGroup implements IUnknown {
     }
     draw(ambients: Facet[], canvasId?: number): void {
 
-        var i: number
-        var length: number
-        var drawables = this._drawables
-        var material = this._program
+        const program = this._program
 
-        material.use(canvasId)
+        program.use(canvasId)
 
         if (ambients) {
-            ambients.forEach(function(ambient) {
-                ambient.setUniforms(material, canvasId)
-            })
+            const aLength = ambients.length;
+            for (let a = 0; a &lt; aLength; a++) {
+                const ambient = ambients[a];
+                ambient.setUniforms(program, canvasId);
+            }
         }
 
-        length = drawables.length
-        for (i = 0; i &lt; length; i++) {
-            var drawable = drawables.get(i)
-            drawable.draw(canvasId)
-            drawable.release()
+        const drawables = this._drawables
+        const iLength = drawables.length;
+        for (let i = 0; i &lt; iLength; i++) {
+            const drawable = drawables.getWeakRef(i)
+            drawable.draw(canvasId);
         }
     }
+
     findOne(match: (drawable: IDrawable) =&gt; boolean): IDrawable {
         const drawables = this._drawables;
         for (let i = 0, iLength = drawables.length; i &lt; iLength; i++) {
@@ -373,13 +351,13 @@ class DrawableGroup implements IUnknown {
 /**
  * Should look like a set of IDrawable Groups. Maybe like a Scene!
  */
-class DrawableGroups extends Shareable/*IDrawList*/ {
+class DrawableGroups extends Shareable {
     /**
      * Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])
      */
     private _groups = new StringIUnknownMap&lt;DrawableGroup&gt;();
     constructor() {
-        super(CLASS_NAME_ALL)
+        super(&#x27;DrawableGroups&#x27;)
     }
     protected destructor(): void {
         this._groups.release()
@@ -388,7 +366,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
     }
     add(drawable: IDrawable) {
         // Now let&#x27;s see if we can get a program...
-        let program: IGraphicsProgram = drawable.material;
+        const program: IGraphicsProgram = drawable.graphicsProgram;
         if (program) {
             try {
                 let programId: string = program.uuid
@@ -412,11 +390,10 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         }
     }
     containsDrawable(drawable: IDrawable): boolean {
-
-        var material = drawable.material
-        if (material) {
+        const graphicsProgram = drawable.graphicsProgram;
+        if (graphicsProgram) {
             try {
-                var group = this._groups.getWeakRef(material.uuid)
+                var group = this._groups.getWeakRef(graphicsProgram.uuid)
                 if (group) {
                     return group.containsDrawable(drawable)
                 }
@@ -425,7 +402,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
                 }
             }
             finally {
-                material.release()
+                graphicsProgram.release()
             }
         }
         else {
@@ -445,7 +422,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         return void 0;
     }
     remove(drawable: IDrawable) {
-        let material: IGraphicsProgram = drawable.material
+        const material: IGraphicsProgram = drawable.graphicsProgram;
         if (material) {
             try {
                 let programId: string = material.uuid
@@ -471,22 +448,13 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         }
     }
     draw(ambients: Facet[], canvasId?: number) {
-        // Manually hoisted variable declarations.
-        var drawGroups: StringIUnknownMap&lt;DrawableGroup&gt;
-        var materialKey: string;
-        var materialKeys: string[]
-        var materialsLength: number
-        var i: number
-        var drawGroup: DrawableGroup
-
-        drawGroups = this._groups;
-        materialKeys = drawGroups.keys
-        materialsLength = materialKeys.length
-        for (i = 0; i &lt; materialsLength; i++) {
-            materialKey = materialKeys[i]
-            drawGroup = drawGroups.get(materialKey)
-            drawGroup.draw(ambients, canvasId)
-            drawGroup.release()
+        const drawGroups: StringIUnknownMap&lt;DrawableGroup&gt; = this._groups;
+        const materialKeys = drawGroups.keys;
+        const materialsLength = materialKeys.length;
+        for (let i = 0; i &lt; materialsLength; i++) {
+            const materialKey = materialKeys[i];
+            const drawGroup = drawGroups.getWeakRef(materialKey);
+            drawGroup.draw(ambients, canvasId);
         }
     }
     // FIXME: Rename to traverse

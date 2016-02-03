@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList', '../checks/mustBeArray', '../checks/mustBeFunction', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, createDrawList_1, MonitorList_1, mustBeArray_1, mustBeFunction_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, Shareable_1) {
+define(["require", "exports", '../core', '../scene/createDrawList', '../scene/MonitorList', '../checks/mustBeArray', '../checks/mustBeFunction', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable'], function (require, exports, core_1, createDrawList_1, MonitorList_1, mustBeArray_1, mustBeFunction_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, Shareable_1) {
     var LOGGING_NAME = 'Scene';
     function ctorContext() {
         return LOGGING_NAME + " constructor";
@@ -36,8 +36,10 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
             return this.drawList.containsDrawable(drawable);
         };
         Scene.prototype.draw = function (ambients, canvasId) {
-            mustBeArray_1.default('ambients', ambients);
-            mustBeNumber_1.default('canvasId', canvasId);
+            if (!core_1.default.fastPath) {
+                mustBeArray_1.default('ambients', ambients);
+                mustBeNumber_1.default('canvasId', canvasId);
+            }
             return this.drawList.draw(ambients, canvasId);
         };
         Scene.prototype.findOne = function (match) {
@@ -45,7 +47,9 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
             return this.drawList.findOne(match);
         };
         Scene.prototype.getDrawableByName = function (name) {
-            mustBeString_1.default('name', name);
+            if (!core_1.default.fastPath) {
+                mustBeString_1.default('name', name);
+            }
             return this.drawList.getDrawableByName(name);
         };
         Scene.prototype.getDrawablesByName = function (name) {

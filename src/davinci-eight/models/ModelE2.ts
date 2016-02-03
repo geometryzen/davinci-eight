@@ -59,7 +59,7 @@ export default class ModelE2 extends Shareable implements IAnimationTarget {
      * @constructor
      * @param type [string = 'ModelE2'] The name used for reference counting.
      */
-    constructor(type: string = 'ModelE2') {
+    constructor(type = 'ModelE2') {
         super(mustBeString('type', type))
         this._position.modified = true
         this._attitude.modified = true
@@ -115,9 +115,11 @@ export default class ModelE2 extends Shareable implements IAnimationTarget {
             case ModelE2.PROP_ATTITUDE: {
                 return this._attCache.copy(this._attitude).coords
             }
+                break;
             case ModelE2.PROP_POSITION: {
                 return this._posCache.copy(this._position).coords
             }
+                break;
             default: {
                 console.warn("ModelE2.getProperty " + name)
                 return void 0
@@ -129,9 +131,10 @@ export default class ModelE2 extends Shareable implements IAnimationTarget {
      * @method setProperty
      * @param name {string}
      * @param data {number[]}
-     * @return {void}
+     * @return {ModelE2}
+     * @chainable
      */
-    setProperty(name: string, data: number[]): void {
+    setProperty(name: string, data: number[]): ModelE2 {
         switch (name) {
             case ModelE2.PROP_ATTITUDE: {
                 this._attCache.coords = data
@@ -147,5 +150,6 @@ export default class ModelE2 extends Shareable implements IAnimationTarget {
                 console.warn("ModelE2.setProperty " + name)
             }
         }
+        return this;
     }
 }

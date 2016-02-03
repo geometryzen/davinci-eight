@@ -75,7 +75,7 @@ import createDrawList from 'davinci-eight/scene/createDrawList';
 import IDrawList from 'davinci-eight/scene/IDrawList';
 import Drawable from 'davinci-eight/scene/Drawable';
 import Scene from 'davinci-eight/scene/Scene';
-import GraphicsContext from 'davinci-eight/scene/GraphicsContext';
+import WebGLRenderer from 'davinci-eight/scene/WebGLRenderer';
 // geometries
 import AxialSimplexGeometry from 'davinci-eight/geometries/AxialSimplexGeometry';
 import ArrowGeometry from 'davinci-eight/geometries/ArrowGeometry';
@@ -173,7 +173,9 @@ import ModelE2 from 'davinci-eight/models/ModelE2';
 import ModelE3 from 'davinci-eight/models/ModelE3';
 
 // programs
+import IGraphicsBuffers from 'davinci-eight/core/IGraphicsBuffers';
 import IGraphicsProgram from 'davinci-eight/core/IGraphicsProgram';
+import GraphicsBuffers from 'davinci-eight/resources/GraphicsBuffers';
 
 // renderers
 import IContextRenderer from 'davinci-eight/renderers/IContextRenderer';
@@ -195,6 +197,9 @@ import animation from 'davinci-eight/utils/animation';
 
 // visual
 import arrow from 'davinci-eight/visual/createArrow';
+import box from 'davinci-eight/visual/createBox';
+import cylinder from 'davinci-eight/visual/createCylinder';
+import sphere from 'davinci-eight/visual/createSphere';
 import vector from 'davinci-eight/visual/vector';
 
 /**
@@ -209,15 +214,20 @@ var eight = {
      */
     get LAST_MODIFIED() { return core.LAST_MODIFIED },
 
+    get fastPath(): boolean {
+        return core.fastPath;
+    },
+    set fastPath(value: boolean) {
+        core.fastPath = value;
+    },
     get strict(): boolean {
-        return core.strict
+        return core.strict;
     },
     set strict(value: boolean) {
-        core.strict = value
+        core.strict = value;
     },
     get verbose(): boolean {
-        ;
-        return core.verbose
+        return core.verbose;
     },
     set verbose(value: boolean) {
         if (typeof value === 'boolean') {
@@ -284,7 +294,7 @@ var eight = {
     get Drawable() { return Drawable },
     get PerspectiveCamera() { return PerspectiveCamera },
     get getCanvasElementById() { return getCanvasElementById },
-    get GraphicsContext() { return GraphicsContext },
+    get WebGLRenderer() { return WebGLRenderer },
     get createDrawList() { return createDrawList },
     get renderer() { return renderer },
     get webgl() { return contextProxy },
@@ -359,6 +369,7 @@ var eight = {
     get simplicesToDrawPrimitive() { return simplicesToDrawPrimitive },
 
     get GraphicsProgramSymbols() { return GraphicsProgramSymbols },
+    get GraphicsBuffers() { return GraphicsBuffers },
     // programs
     get programFromScripts() { return programFromScripts },
     get DrawAttribute() { return DrawAttribute },
@@ -389,6 +400,9 @@ var eight = {
     get sqrt() { return mathcore.sqrt },
     // visual
     get arrow() { return arrow },
+    get box() { return box },
+    get cylinder() { return cylinder },
+    get sphere() { return sphere },
     get vector() { return vector }
 }
 export default eight;

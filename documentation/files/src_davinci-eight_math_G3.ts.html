@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.172.0</em>
+            <em>API Docs for: 2.173.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -40,6 +40,7 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/AbstractMatrix.html">AbstractMatrix</a></li>
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/Arrow.html">Arrow</a></li>
                                 <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
@@ -48,6 +49,7 @@
                                 <li><a href="../classes/AxialSimplexGeometry.html">AxialSimplexGeometry</a></li>
                                 <li><a href="../classes/BarnSimplexGeometry.html">BarnSimplexGeometry</a></li>
                                 <li><a href="../classes/BlendFactor.html">BlendFactor</a></li>
+                                <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/BufferResource.html">BufferResource</a></li>
                                 <li><a href="../classes/Capability.html">Capability</a></li>
                                 <li><a href="../classes/CartesianE3.html">CartesianE3</a></li>
@@ -64,6 +66,7 @@
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidSimplexGeometry.html">CuboidSimplexGeometry</a></li>
                                 <li><a href="../classes/CurvePath.html">CurvePath</a></li>
+                                <li><a href="../classes/Cylinder.html">Cylinder</a></li>
                                 <li><a href="../classes/CylinderGeometry.html">CylinderGeometry</a></li>
                                 <li><a href="../classes/CylinderSimplexGeometry.html">CylinderSimplexGeometry</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
@@ -82,6 +85,7 @@
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
                                 <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
+                                <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
                                 <li><a href="../classes/ExtrudeSimplexGeometry.html">ExtrudeSimplexGeometry</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Facet.html">Facet</a></li>
@@ -95,7 +99,7 @@
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/Glyph.html">Glyph</a></li>
-                                <li><a href="../classes/GraphicsContext.html">GraphicsContext</a></li>
+                                <li><a href="../classes/GraphicsBuffers.html">GraphicsBuffers</a></li>
                                 <li><a href="../classes/GraphicsProgram.html">GraphicsProgram</a></li>
                                 <li><a href="../classes/GraphicsProgramBuilder.html">GraphicsProgramBuilder</a></li>
                                 <li><a href="../classes/GraphicsProgramSymbols.html">GraphicsProgramSymbols</a></li>
@@ -171,6 +175,7 @@
                                 <li><a href="../classes/SliceSimplexGeometry.html">SliceSimplexGeometry</a></li>
                                 <li><a href="../classes/Slide.html">Slide</a></li>
                                 <li><a href="../classes/SmartGraphicsProgram.html">SmartGraphicsProgram</a></li>
+                                <li><a href="../classes/Sphere.html">Sphere</a></li>
                                 <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
                                 <li><a href="../classes/SpinG2.html">SpinG2</a></li>
                                 <li><a href="../classes/SpinG3.html">SpinG3</a></li>
@@ -202,6 +207,7 @@
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLDisable.html">WebGLDisable</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -248,14 +254,13 @@
     <pre class="code prettyprint linenums">
 import dotVector from &#x27;../math/dotVectorE3&#x27;;
 import Euclidean3 from &#x27;../math/Euclidean3&#x27;;
+import EventEmitter from &#x27;../utils/EventEmitter&#x27;;
 import extG3 from &#x27;../math/extG3&#x27;;
 import GeometricE3 from &#x27;../math/GeometricE3&#x27;;
 import lcoG3 from &#x27;../math/lcoG3&#x27;;
 import GeometricOperators from &#x27;../math/GeometricOperators&#x27;;
 import mulG3 from &#x27;../math/mulG3&#x27;;
 import mustBeInteger from &#x27;../checks/mustBeInteger&#x27;;
-import mustBeNumber from &#x27;../checks/mustBeNumber&#x27;;
-import mustBeObject from &#x27;../checks/mustBeObject&#x27;;
 import mustBeString from &#x27;../checks/mustBeString&#x27;;
 import MutableGeometricElement3D from &#x27;../math/MutableGeometricElement3D&#x27;;
 import quadVector from &#x27;../math/quadVectorE3&#x27;;
@@ -273,23 +278,26 @@ import wedgeYZ from &#x27;../math/wedgeYZ&#x27;;
 import wedgeZX from &#x27;../math/wedgeZX&#x27;;
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
-let COORD_W = 0
-let COORD_X = 1
-let COORD_Y = 2
-let COORD_Z = 3
-let COORD_XY = 4
-let COORD_YZ = 5
-let COORD_ZX = 6
-let COORD_XYZ = 7
+const COORD_W = 0
+const COORD_X = 1
+const COORD_Y = 2
+const COORD_Z = 3
+const COORD_XY = 4
+const COORD_YZ = 5
+const COORD_ZX = 6
+const COORD_XYZ = 7
 
-let atan2 = Math.atan2
-let exp = Math.exp
-let cos = Math.cos
-let log = Math.log
-let sin = Math.sin
-let sqrt = Math.sqrt
+const EVENT_NAME_CHANGE = &#x27;change&#x27;;
 
-let BASIS_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;e3&quot;, &quot;e12&quot;, &quot;e23&quot;, &quot;e31&quot;, &quot;e123&quot;]
+const atan2 = Math.atan2
+const exp = Math.exp
+const cos = Math.cos
+const log = Math.log
+const sin = Math.sin
+const sqrt = Math.sqrt
+
+const BASIS_LABELS = [&quot;1&quot;, &quot;e1&quot;, &quot;e2&quot;, &quot;e3&quot;, &quot;e12&quot;, &quot;e23&quot;, &quot;e31&quot;, &quot;e123&quot;]
+
 /**
  * Coordinates corresponding to basis labels.
  */
@@ -299,14 +307,6 @@ function coordinates(m: GeometricE3): number[] {
 
 function makeConstantE3(label: string, α: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, β: number): GeometricE3 {
     mustBeString(&#x27;label&#x27;, label)
-    mustBeNumber(&#x27;α&#x27;, α)
-    mustBeNumber(&#x27;x&#x27;, x)
-    mustBeNumber(&#x27;y&#x27;, y)
-    mustBeNumber(&#x27;z&#x27;, z)
-    mustBeNumber(&#x27;yz&#x27;, yz)
-    mustBeNumber(&#x27;zx&#x27;, zx)
-    mustBeNumber(&#x27;xy&#x27;, xy)
-    mustBeNumber(&#x27;β&#x27;, β)
     var that: GeometricE3;
     that = {
         get α() {
@@ -378,6 +378,13 @@ let I = makeConstantE3(&#x27;I&#x27;, 0, 0, 0, 0, 0, 0, 0, 1);
  */
 export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, MutableGeometricElement3D&lt;GeometricE3, G3, SpinorE3, VectorE3&gt;, GeometricOperators&lt;G3&gt; {
     /**
+     * @property eventBus
+     * @type EventEmitter
+     * @private
+     */
+    private eventBus: EventEmitter&lt;G3&gt;;
+
+    /**
      * Constructs a &lt;code&gt;G3&lt;/code&gt;.
      * The multivector is initialized to zero.
      * @class G3
@@ -385,21 +392,43 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @constructor
      */
     constructor() {
-        super([0, 0, 0, 0, 0, 0, 0, 0], false, 8)
+        super([0, 0, 0, 0, 0, 0, 0, 0], false, 8);
+        this.eventBus = new EventEmitter&lt;G3&gt;(this);
     }
+
+    on(eventName: string, callback) {
+        this.eventBus.addEventListener(eventName, callback);
+    }
+
+    off(eventName: string, callback) {
+        this.eventBus.removeEventListener(eventName, callback);
+    }
+
+    /**
+     * Consistently set a coordinate value in the most optimized way.
+     */
+    private setCoordinate(index: number, newValue: number, name: string) {
+        const coords = this.coords;
+        const previous = coords[index];
+        if (newValue !== previous) {
+            coords[index] = newValue;
+            this.modified = true;
+            this.eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
+        }
+    }
+
     /**
      * The scalar part of this multivector.
      * @property α
      * @type {number}
      */
     get α(): number {
-        return this.coords[COORD_W]
+        return this.coords[COORD_W];
     }
     set α(α: number) {
-        mustBeNumber(&#x27;α&#x27;, α)
-        this.modified = this.modified || this.coords[COORD_W] !== α
-        this.coords[COORD_W] = α
+        this.setCoordinate(COORD_W, α, &#x27;α&#x27;);
     }
+
     /**
      * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt; standard basis vector.
      * @property x
@@ -409,10 +438,9 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
         return this.coords[COORD_X]
     }
     set x(x: number) {
-        mustBeNumber(&#x27;x&#x27;, x)
-        this.modified = this.modified || this.coords[COORD_X] !== x
-        this.coords[COORD_X] = x
+        this.setCoordinate(COORD_X, x, &#x27;x&#x27;);
     }
+
     /**
      * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis vector.
      * @property y
@@ -422,10 +450,9 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
         return this.coords[COORD_Y]
     }
     set y(y: number) {
-        mustBeNumber(&#x27;y&#x27;, y)
-        this.modified = this.modified || this.coords[COORD_Y] !== y
-        this.coords[COORD_Y] = y
+        this.setCoordinate(COORD_Y, y, &#x27;y&#x27;);
     }
+
     /**
      * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;3&lt;/sub&gt; standard basis vector.
      * @property z
@@ -435,10 +462,9 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
         return this.coords[COORD_Z]
     }
     set z(z: number) {
-        mustBeNumber(&#x27;z&#x27;, z)
-        this.modified = this.modified || this.coords[COORD_Z] !== z
-        this.coords[COORD_Z] = z
+        this.setCoordinate(COORD_Z, z, &#x27;z&#x27;);
     }
+
     /**
      * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;3&lt;/sub&gt; standard basis bivector.
      * @property yz
@@ -448,10 +474,9 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
         return this.coords[COORD_YZ]
     }
     set yz(yz: number) {
-        mustBeNumber(&#x27;yz&#x27;, yz)
-        this.modified = this.modified || this.coords[COORD_YZ] !== yz
-        this.coords[COORD_YZ] = yz
+        this.setCoordinate(COORD_YZ, yz, &#x27;yz&#x27;);
     }
+
     /**
      * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;3&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt; standard basis bivector.
      * @property zx
@@ -461,10 +486,9 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
         return this.coords[COORD_ZX]
     }
     set zx(zx: number) {
-        mustBeNumber(&#x27;zx&#x27;, zx)
-        this.modified = this.modified || this.coords[COORD_ZX] !== zx
-        this.coords[COORD_ZX] = zx
+        this.setCoordinate(COORD_ZX, zx, &#x27;zx&#x27;);
     }
+
     /**
      * The coordinate corresponding to the &lt;b&gt;e&lt;/b&gt;&lt;sub&gt;1&lt;/sub&gt;&lt;b&gt;e&lt;/b&gt;&lt;sub&gt;2&lt;/sub&gt; standard basis bivector.
      * @property xy
@@ -474,9 +498,7 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
         return this.coords[COORD_XY]
     }
     set xy(xy: number) {
-        mustBeNumber(&#x27;xy&#x27;, xy)
-        this.modified = this.modified || this.coords[COORD_XY] !== xy
-        this.coords[COORD_XY] = xy
+        this.setCoordinate(COORD_XY, xy, &#x27;xy&#x27;);
     }
     /**
      * The pseudoscalar part of this multivector.
@@ -487,9 +509,7 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
         return this.coords[COORD_XYZ]
     }
     set β(β: number) {
-        mustBeNumber(&#x27;β&#x27;, β)
-        this.modified = this.modified || this.coords[COORD_XYZ] !== β
-        this.coords[COORD_XYZ] = β
+        this.setCoordinate(COORD_XYZ, β, &#x27;β&#x27;);
     }
 
     /**
@@ -503,8 +523,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     add(M: GeometricE3, α = 1): G3 {
-        mustBeObject(&#x27;M&#x27;, M)
-        mustBeNumber(&#x27;α&#x27;, α)
         this.α += M.α * α
         this.x += M.x * α
         this.y += M.y * α
@@ -526,7 +544,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     addPseudo(β: number): G3 {
-        mustBeNumber(&#x27;β&#x27;, β)
         this.β += β
         return this
     }
@@ -541,7 +558,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     addScalar(α: number): G3 {
-        mustBeNumber(&#x27;α&#x27;, α)
         this.α += α
         return this
     }
@@ -557,8 +573,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     addVector(v: VectorE3, α = 1): G3 {
-        mustBeObject(&#x27;v&#x27;, v)
-        mustBeNumber(&#x27;α&#x27;, α)
         this.x += v.x * α
         this.y += v.y * α
         this.z += v.z * α
@@ -576,8 +590,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     add2(a: GeometricE3, b: GeometricE3): G3 {
-        mustBeObject(&#x27;a&#x27;, a)
-        mustBeObject(&#x27;b&#x27;, b)
         this.α = a.α + b.α
         this.x = a.x + b.x
         this.y = a.y + b.y
@@ -687,7 +699,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     copy(M: GeometricE3): G3 {
-        mustBeObject(&#x27;M&#x27;, M)
         this.α = M.α
         this.x = M.x
         this.y = M.y
@@ -719,7 +730,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     copySpinor(spinor: SpinorE3) {
-        mustBeObject(&#x27;spinor&#x27;, spinor)
         this.zero()
         this.α = spinor.α
         this.yz = spinor.yz
@@ -738,7 +748,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     copyVector(vector: VectorE3) {
-        mustBeObject(&#x27;vector&#x27;, vector)
         this.zero()
         this.x = vector.x
         this.y = vector.y
@@ -768,7 +777,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     divByScalar(α: number): G3 {
-        mustBeNumber(&#x27;α&#x27;, α)
         this.α /= α
         this.x /= α
         this.y /= α
@@ -918,8 +926,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     lerp(target: GeometricE3, α: number): G3 {
-        mustBeObject(&#x27;target&#x27;, target)
-        mustBeNumber(&#x27;α&#x27;, α)
         this.α += (target.α - this.α) * α;
         this.x += (target.x - this.x) * α;
         this.y += (target.y - this.y) * α;
@@ -943,9 +949,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     lerp2(a: GeometricE3, b: GeometricE3, α: number): G3 {
-        mustBeObject(&#x27;a&#x27;, a)
-        mustBeObject(&#x27;b&#x27;, b)
-        mustBeNumber(&#x27;α&#x27;, α)
         this.copy(a).lerp(b, α)
         return this
     }
@@ -1129,7 +1132,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      */
     reflect(n: VectorE3): G3 {
         // TODO: Optimize.
-        mustBeObject(&#x27;n&#x27;, n);
         let N = Euclidean3.fromVectorE3(n);
         let M = Euclidean3.copy(this);
         let R = N.mul(M).mul(N).scale(-1);
@@ -1174,7 +1176,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     rotate(R: SpinorE3): G3 {
-        mustBeObject(&#x27;R&#x27;, R);
         // FIXME: This only rotates the vector components.
         let x = this.x;
         let y = this.y;
@@ -1287,7 +1288,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @param α {number} 
      */
     scale(α: number): G3 {
-        mustBeNumber(&#x27;α&#x27;, α)
         this.α *= α
         this.x *= α
         this.y *= α
@@ -1300,8 +1300,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
     }
 
     slerp(target: GeometricE3, α: number): G3 {
-        mustBeObject(&#x27;target&#x27;, target)
-        mustBeNumber(&#x27;α&#x27;, α)
         // TODO
         return this;
     }
@@ -1343,8 +1341,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     sub(M: GeometricE3, α = 1): G3 {
-        mustBeObject(&#x27;M&#x27;, M)
-        mustBeNumber(&#x27;α&#x27;, α)
         this.α -= M.α * α
         this.x -= M.x * α
         this.y -= M.y * α
@@ -1366,8 +1362,6 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
      * @chainable
      */
     sub2(a: GeometricE3, b: GeometricE3): G3 {
-        mustBeObject(&#x27;a&#x27;, a)
-        mustBeObject(&#x27;b&#x27;, b)
         this.α = a.α - b.α
         this.x = a.x - b.x
         this.y = a.y - b.y

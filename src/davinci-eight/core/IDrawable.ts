@@ -15,10 +15,10 @@ import IResource from '../core/IResource';
  */
 interface IDrawable extends IResource {
     /**
-     * @property material
+     * @property graphicsProgram
      * @type {IGraphicsProgram}
      */
-    material: IGraphicsProgram;
+    graphicsProgram: IGraphicsProgram;
 
     /**
      * User assigned name of the drawable object.
@@ -31,10 +31,10 @@ interface IDrawable extends IResource {
 
     /**
      * @method draw
-     * @param [canvasId] {number} Determines which canvas the IDrawable should draw to.
+     * @param canvasId {number} Determines which canvas the IDrawable should draw to.
      * @return {void}
      */
-    draw(canvasId?: number): void;
+    draw(canvasId: number): void;
 
     /**
      * @method getFacet

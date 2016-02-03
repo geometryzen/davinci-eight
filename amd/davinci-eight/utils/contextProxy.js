@@ -6,7 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../core', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeArray', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource_1, DrawMode_1, core_1, expectArg_1, initWebGL_1, isDefined_1, isUndefined_1, mustBeArray_1, mustBeInteger_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, randumbInteger_1, refChange_1, Shareable_1, StringIUnknownMap_1, TextureResource_1, uuid4_1) {
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Drawable';
-    var LOGGING_NAME_KERNEL = 'GraphicsContext (Kernel)';
+    var LOGGING_NAME_KERNEL = 'WebGLRenderer';
     function mustBeContext(gl, method) {
         if (gl) {
             return gl;

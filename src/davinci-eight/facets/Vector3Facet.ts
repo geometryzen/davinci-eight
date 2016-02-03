@@ -34,8 +34,19 @@ export default class Vector3Facet extends Shareable implements Facet {
     getProperty(name: string): number[] {
         return void 0;
     }
-    setProperty(name: string, value: number[]): void {
+
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param value {number[]}
+     * @return {Vector3Facet}
+     * @chainable
+     */
+    setProperty(name: string, value: number[]): Vector3Facet {
+        return this;
     }
+
+
     setUniforms(visitor: FacetVisitor, canvasId?: number): void {
         visitor.vec3(this._name, this._vector, canvasId)
     }

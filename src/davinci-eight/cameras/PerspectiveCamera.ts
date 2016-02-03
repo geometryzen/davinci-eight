@@ -148,9 +148,10 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      * @method setProperty
      * @param name {string}
      * @param value {number[]}
-     * @return {void}
+     * @return {PerspectiveCamera}
+     * @chainable
      */
-    setProperty(name: string, value: number[]): void {
+    setProperty(name: string, value: number[]): PerspectiveCamera {
         mustBeString('name', name);
         mustBeObject('value', value);
         switch (name) {
@@ -163,6 +164,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
                 // FIXME
             }
         }
+        return this;
     }
 
     /**

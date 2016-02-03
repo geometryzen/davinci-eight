@@ -2,18 +2,26 @@ define(["require", "exports", '../core/GraphicsProgramSymbols', '../checks/mustB
     function sizeType(size) {
         mustBeInteger_1.default('size', size);
         switch (size) {
-            case 1: {
-                return 'float';
-            }
-            case 2: {
-                return 'vec2';
-            }
-            case 3: {
-                return 'vec3';
-            }
-            case 4: {
-                return 'vec4';
-            }
+            case 1:
+                {
+                    return 'float';
+                }
+                break;
+            case 2:
+                {
+                    return 'vec2';
+                }
+                break;
+            case 3:
+                {
+                    return 'vec3';
+                }
+                break;
+            case 4:
+                {
+                    return 'vec4';
+                }
+                break;
             default: {
                 throw new Error("Can't compute the GLSL attribute type from size " + size);
             }
@@ -23,9 +31,11 @@ define(["require", "exports", '../core/GraphicsProgramSymbols', '../checks/mustB
         mustBeString_1.default('key', key);
         mustBeInteger_1.default('size', size);
         switch (key) {
-            case GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR: {
-                return 'vec3';
-            }
+            case GraphicsProgramSymbols_1.default.ATTRIBUTE_COLOR:
+                {
+                    return 'vec3';
+                }
+                break;
             default: {
                 return sizeType(size);
             }

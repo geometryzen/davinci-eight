@@ -1,12 +1,12 @@
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
-import mustBeObject from '../checks/mustBeObject';
+import mustBeArray from '../checks/mustBeArray';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeString from '../checks/mustBeString';
 import Shareable from '../utils/Shareable';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
-var LOGGING_NAME = 'PointSizeFacet'
+const LOGGING_NAME = 'PointSizeFacet'
 
 function contextBuilder() {
     return LOGGING_NAME
@@ -27,7 +27,7 @@ export default class PointSizeFacet extends Shareable implements Facet {
      * @constructor
      * @param [pointSize = 2] {number}
      */
-    constructor(pointSize: number = 2) {
+    constructor(pointSize = 2) {
         super('PointSizeFacet')
         this.pointSize = mustBeInteger('pointSize', pointSize)
     }
@@ -37,7 +37,10 @@ export default class PointSizeFacet extends Shareable implements Facet {
     getProperty(name: string): number[] {
         return void 0;
     }
-    setProperty(name: string, value: number[]): void {
+    setProperty(name: string, value: number[]): PointSizeFacet {
+        mustBeString('name', name, contextBuilder);
+        mustBeArray('value', value, contextBuilder);
+        return this;
     }
     setUniforms(visitor: FacetVisitor, canvasId: number): void {
         visitor.uniform1f(GraphicsProgramSymbols.UNIFORM_POINT_SIZE, this.pointSize, canvasId)

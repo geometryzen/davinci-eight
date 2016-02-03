@@ -17,6 +17,7 @@ define(["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math
             return void 0;
         };
         EulerFacet.prototype.setProperty = function (name, value) {
+            return this;
         };
         EulerFacet.prototype.setUniforms = function (visitor, canvasId) {
             console.warn("EulerFacet.setUniforms");

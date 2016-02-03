@@ -2,7 +2,6 @@ import IContextProvider from '../core/IContextProvider';
 import IDrawable from '../core/IDrawable';
 import IDrawList from '../scene/IDrawList';
 import IGraphicsProgram from '../core/IGraphicsProgram';
-import IUnknown from '../core/IUnknown';
 import IUnknownArray from '../collections/IUnknownArray';
 import NumberIUnknownMap from '../collections/NumberIUnknownMap';
 import refChange from '../utils/refChange';
@@ -11,53 +10,26 @@ import StringIUnknownMap from '../collections/StringIUnknownMap';
 import uuid4 from '../utils/uuid4';
 import Facet from '../core/Facet';
 
-let CLASS_NAME_DRAWLIST = "createDrawList"
-let CLASS_NAME_GROUP = "DrawableGroup"
-let CLASS_NAME_ALL = "DrawableGroups"
-
-// FIXME; Probably good to have another collection of DrawableGroup
+const CLASS_NAME_DRAWLIST = "createDrawList"
 
 /**
  * A grouping of IDrawable, by IGraphicsProgram.
  */
-// FIXME: extends Shareable
-class DrawableGroup implements IUnknown {
-    /**
-     * I can't see this being used; it's all about the drawables!
-     */
+class DrawableGroup extends Shareable {
     private _program: IGraphicsProgram;
-    private _drawables = new IUnknownArray<IDrawable>();
-    private _refCount = 1;
-    private _uuid = uuid4().generate();
+    private _drawables: IUnknownArray<IDrawable>;
     constructor(program: IGraphicsProgram) {
+        super('DrawableGroup');
         this._program = program;
         this._program.addRef();
-        refChange(this._uuid, CLASS_NAME_GROUP, +1);
+        this._drawables = new IUnknownArray<IDrawable>();
     }
-    addRef(): number {
-        this._refCount++;
-        refChange(this._uuid, CLASS_NAME_GROUP, +1);
-        return this._refCount;
-    }
-    release(): number {
-        this._refCount--;
-        refChange(this._uuid, CLASS_NAME_GROUP, -1);
-        if (this._refCount === 0) {
-            this._program.release();
-            this._program = void 0;
-            this._drawables.release();
-            this._drawables = void 0;
-            this._refCount = void 0;
-            this._uuid = void 0;
-            return 0;
-        }
-        else {
-            return this._refCount;
-        }
-    }
-    get material(): IGraphicsProgram {
-        this._program.addRef();
-        return this._program;
+    protected destructor(): void {
+        this._program.release();
+        this._program = void 0;
+        this._drawables.release();
+        this._drawables = void 0;
+        super.destructor();
     }
     /**
      * accept provides a way to push out the IGraphicsProgram without bumping the reference count.
@@ -84,26 +56,26 @@ class DrawableGroup implements IUnknown {
     }
     draw(ambients: Facet[], canvasId?: number): void {
 
-        var i: number
-        var length: number
-        var drawables = this._drawables
-        var material = this._program
+        const program = this._program
 
-        material.use(canvasId)
+        program.use(canvasId)
 
         if (ambients) {
-            ambients.forEach(function(ambient) {
-                ambient.setUniforms(material, canvasId)
-            })
+            const aLength = ambients.length;
+            for (let a = 0; a < aLength; a++) {
+                const ambient = ambients[a];
+                ambient.setUniforms(program, canvasId);
+            }
         }
 
-        length = drawables.length
-        for (i = 0; i < length; i++) {
-            var drawable = drawables.get(i)
-            drawable.draw(canvasId)
-            drawable.release()
+        const drawables = this._drawables
+        const iLength = drawables.length;
+        for (let i = 0; i < iLength; i++) {
+            const drawable = drawables.getWeakRef(i)
+            drawable.draw(canvasId);
         }
     }
+
     findOne(match: (drawable: IDrawable) => boolean): IDrawable {
         const drawables = this._drawables;
         for (let i = 0, iLength = drawables.length; i < iLength; i++) {
@@ -125,13 +97,13 @@ class DrawableGroup implements IUnknown {
 /**
  * Should look like a set of IDrawable Groups. Maybe like a Scene!
  */
-class DrawableGroups extends Shareable/*IDrawList*/ {
+class DrawableGroups extends Shareable {
     /**
      * Mapping from programId to DrawableGroup ~ (IGraphicsProgram, IDrawable[])
      */
     private _groups = new StringIUnknownMap<DrawableGroup>();
     constructor() {
-        super(CLASS_NAME_ALL)
+        super('DrawableGroups')
     }
     protected destructor(): void {
         this._groups.release()
@@ -140,7 +112,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
     }
     add(drawable: IDrawable) {
         // Now let's see if we can get a program...
-        let program: IGraphicsProgram = drawable.material;
+        const program: IGraphicsProgram = drawable.graphicsProgram;
         if (program) {
             try {
                 let programId: string = program.uuid
@@ -164,11 +136,10 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         }
     }
     containsDrawable(drawable: IDrawable): boolean {
-
-        var material = drawable.material
-        if (material) {
+        const graphicsProgram = drawable.graphicsProgram;
+        if (graphicsProgram) {
             try {
-                var group = this._groups.getWeakRef(material.uuid)
+                var group = this._groups.getWeakRef(graphicsProgram.uuid)
                 if (group) {
                     return group.containsDrawable(drawable)
                 }
@@ -177,7 +148,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
                 }
             }
             finally {
-                material.release()
+                graphicsProgram.release()
             }
         }
         else {
@@ -197,7 +168,7 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         return void 0;
     }
     remove(drawable: IDrawable) {
-        let material: IGraphicsProgram = drawable.material
+        const material: IGraphicsProgram = drawable.graphicsProgram;
         if (material) {
             try {
                 let programId: string = material.uuid
@@ -223,22 +194,13 @@ class DrawableGroups extends Shareable/*IDrawList*/ {
         }
     }
     draw(ambients: Facet[], canvasId?: number) {
-        // Manually hoisted variable declarations.
-        var drawGroups: StringIUnknownMap<DrawableGroup>
-        var materialKey: string;
-        var materialKeys: string[]
-        var materialsLength: number
-        var i: number
-        var drawGroup: DrawableGroup
-
-        drawGroups = this._groups;
-        materialKeys = drawGroups.keys
-        materialsLength = materialKeys.length
-        for (i = 0; i < materialsLength; i++) {
-            materialKey = materialKeys[i]
-            drawGroup = drawGroups.get(materialKey)
-            drawGroup.draw(ambients, canvasId)
-            drawGroup.release()
+        const drawGroups: StringIUnknownMap<DrawableGroup> = this._groups;
+        const materialKeys = drawGroups.keys;
+        const materialsLength = materialKeys.length;
+        for (let i = 0; i < materialsLength; i++) {
+            const materialKey = materialKeys[i];
+            const drawGroup = drawGroups.getWeakRef(materialKey);
+            drawGroup.draw(ambients, canvasId);
         }
     }
     // FIXME: Rename to traverse

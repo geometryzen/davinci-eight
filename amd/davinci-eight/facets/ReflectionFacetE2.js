@@ -35,6 +35,7 @@ define(["require", "exports", '../checks/mustBeArray', '../checks/mustBeString',
         ReflectionFacetE2.prototype.setProperty = function (name, value) {
             mustBeString_1.default('name', name);
             mustBeArray_1.default('value', value);
+            return this;
         };
         ReflectionFacetE2.prototype.setUniforms = function (visitor, canvasId) {
             if (this._normal.modified) {

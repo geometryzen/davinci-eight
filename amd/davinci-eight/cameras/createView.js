@@ -25,6 +25,7 @@ define(["require", "exports", '../math/Euclidean3', '../math/R3', '../math/Mat4R
                 return void 0;
             },
             setProperty: function (name, value) {
+                return self;
             },
             get eye() {
                 return eye;

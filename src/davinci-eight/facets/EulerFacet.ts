@@ -23,7 +23,8 @@ export default class EulerFacet extends Shareable implements Facet {
     getProperty(name: string): number[] {
         return void 0
     }
-    setProperty(name: string, value: number[]): void {
+    setProperty(name: string, value: number[]): EulerFacet {
+      return this;
     }
     /**
      * @method setUniforms

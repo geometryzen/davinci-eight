@@ -1,15 +1,12 @@
 import arc3 from '../geometries/arc3';
 import VectorE3 from '../math/VectorE3';
-import SimplexGeometry from '../geometries/SimplexGeometry';
-import Simplex from '../geometries/Simplex';
 import SliceSimplexGeometry from '../geometries/SliceSimplexGeometry';
 import SpinG3 from '../math/SpinG3';
 import SpinorE3 from '../math/SpinorE3';
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R2 from '../math/R2';
 import R3 from '../math/R3';
 
-// TODO: The caps don't have radial segments!
+// TODO: The caps don't have radial segments.
 
 function computeVertices(radius: number, height: number, axis: VectorE3, start: VectorE3, angle: number, generator: SpinorE3, heightSegments: number, thetaSegments: number, points: R3[], vertices: number[][], uvs: R2[][]) {
 
@@ -80,29 +77,23 @@ export default class CylinderSimplexGeometry extends SliceSimplexGeometry {
      * @param openTop [boolean = false]
      * @param openBottom [boolean = false]
      */
-    constructor(
-        radius: number = 1,
-        height: number = 1,
-        axis: VectorE3 = R3.e2,
-        openTop: boolean = false,
-        openBottom: boolean = false
-    ) {
-        super(axis, void 0, void 0)
-        this.radius = radius
-        this.height = height
-        this.openTop = openTop
-        this.openBottom = openBottom
-        this.setModified(true)
+    constructor(radius = 1, height = 1, axis = R3.e2, openTop = false, openBottom = false) {
+        super(axis, void 0, void 0);
+        this.radius = radius;
+        this.height = height;
+        this.openTop = openTop;
+        this.openBottom = openBottom;
+        this.setModified(true);
     }
     public regenerate(): void {
         this.data = []
-        let radius = this.radius
-        //let height = this.height
-        let heightSegments = this.flatSegments
-        let thetaSegments = this.curvedSegments
-        var generator: SpinorE3 = SpinG3.dual(this.axis)
+        const radius = this.radius
+        const height = this.height
+        const heightSegments = this.flatSegments
+        const thetaSegments = this.curvedSegments
+        const generator: SpinorE3 = SpinG3.dual(this.axis)
 
-        let heightHalf = this.height / 2;
+        const heightHalf = height / 2;
 
         var points: R3[] = [];
         // The double array allows us to manage the i,j indexing more naturally.

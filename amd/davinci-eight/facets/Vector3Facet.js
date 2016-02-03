@@ -22,6 +22,7 @@ define(["require", "exports", '../checks/mustBeObject', '../checks/mustBeString'
             return void 0;
         };
         Vector3Facet.prototype.setProperty = function (name, value) {
+            return this;
         };
         Vector3Facet.prototype.setUniforms = function (visitor, canvasId) {
             visitor.vec3(this._name, this._vector, canvasId);

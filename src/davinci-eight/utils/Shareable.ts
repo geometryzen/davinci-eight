@@ -24,6 +24,11 @@ export default class Shareable implements IUnknown {
         this._type = mustBeString('type', type)
         refChange(this._uuid, type, +1)
     }
+
+    isZombie(): boolean {
+        return typeof this._refCount === 'undefined';
+    }
+
     /**
      * <p>
      * Notifies this instance that something is dereferencing it.
@@ -37,6 +42,7 @@ export default class Shareable implements IUnknown {
         refChange(this._uuid, this._type, +1)
         return this._refCount
     }
+
     /**
      * <p>
      * Notifies this instance that something is dereferencing it.
@@ -58,6 +64,7 @@ export default class Shareable implements IUnknown {
         }
         return refCount;
     }
+
     /**
      * <p>
      * Outputs a warning to the console that this method should be implemented by the derived class.
@@ -72,11 +79,12 @@ export default class Shareable implements IUnknown {
      * @return {void}
      * @protected
      */
-    protected destructor(grumble: boolean = false): void {
+    protected destructor(grumble = false): void {
         if (grumble) {
             console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.")
         }
     }
+
     /**
      * @property uuid
      * @type {string}

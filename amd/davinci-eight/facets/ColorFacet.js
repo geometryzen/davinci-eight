@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core', '../checks/mustBeNumber', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, core_1, mustBeNumber_1, Shareable_1, GraphicsProgramSymbols_1) {
+define(["require", "exports", '../core/Color', '../core', '../checks/mustBeNumber', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, core_1, mustBeNumber_1, Shareable_1, GraphicsProgramSymbols_1) {
     var COORD_R = 0;
     var COORD_G = 1;
     var COORD_B = 2;
@@ -34,13 +34,13 @@ define(["require", "exports", '../core', '../checks/mustBeNumber', '../utils/Sha
         __extends(ColorFacet, _super);
         function ColorFacet() {
             _super.call(this, 'ColorFacet');
-            this.xyz = [1, 1, 1];
+            this.color = Color_1.default.fromRGB(1, 1, 1);
             this.a = 1;
             this.uColorName = GraphicsProgramSymbols_1.default.UNIFORM_COLOR;
             this.uAlphaName = GraphicsProgramSymbols_1.default.UNIFORM_ALPHA;
         }
         ColorFacet.prototype.destructor = function () {
-            this.xyz = void 0;
+            this.color = void 0;
             _super.prototype.destructor.call(this);
         };
         ColorFacet.prototype.incRef = function () {
@@ -53,32 +53,33 @@ define(["require", "exports", '../core', '../checks/mustBeNumber', '../utils/Sha
         };
         Object.defineProperty(ColorFacet.prototype, "r", {
             get: function () {
-                return this.xyz[COORD_R];
+                return this.color.r;
             },
             set: function (red) {
                 mustBeNumber_1.default('red', red);
-                this.xyz[COORD_R] = red;
+                this.color.r = red;
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(ColorFacet.prototype, "g", {
             get: function () {
-                return this.xyz[COORD_G];
+                return this.color.g;
             },
             set: function (green) {
                 mustBeNumber_1.default('green', green);
-                this.xyz[COORD_G] = green;
+                this.color.g = green;
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(ColorFacet.prototype, "b", {
             get: function () {
-                return this.xyz[COORD_B];
+                return this.color.b;
             },
             set: function (blue) {
-                this.xyz[COORD_B] = blue;
+                mustBeNumber_1.default('blue', blue);
+                this.color.b = blue;
             },
             enumerable: true,
             configurable: true
@@ -122,15 +123,21 @@ define(["require", "exports", '../core', '../checks/mustBeNumber', '../utils/Sha
         ColorFacet.prototype.getProperty = function (name) {
             checkPropertyName(name);
             switch (name) {
-                case ColorFacet.PROP_RGB: {
-                    return [this.r, this.g, this.b];
-                }
-                case ColorFacet.PROP_RED: {
-                    return [this.r];
-                }
-                case ColorFacet.PROP_GREEN: {
-                    return [this.g];
-                }
+                case ColorFacet.PROP_RGB:
+                    {
+                        return [this.r, this.g, this.b];
+                    }
+                    break;
+                case ColorFacet.PROP_RED:
+                    {
+                        return [this.r];
+                    }
+                    break;
+                case ColorFacet.PROP_GREEN:
+                    {
+                        return [this.g];
+                    }
+                    break;
                 default: {
                     return void 0;
                 }
@@ -139,23 +146,26 @@ define(["require", "exports", '../core', '../checks/mustBeNumber', '../utils/Sha
         ColorFacet.prototype.setProperty = function (name, data) {
             checkPropertyName(name);
             switch (name) {
-                case ColorFacet.PROP_RGB: {
-                    this.r = data[COORD_R];
-                    this.g = data[COORD_G];
-                    this.b = data[COORD_B];
+                case ColorFacet.PROP_RGB:
+                    {
+                        this.r = data[COORD_R];
+                        this.g = data[COORD_G];
+                        this.b = data[COORD_B];
+                    }
                     break;
-                }
-                case ColorFacet.PROP_RED: {
-                    this.r = data[COORD_R];
+                case ColorFacet.PROP_RED:
+                    {
+                        this.r = data[COORD_R];
+                    }
                     break;
-                }
                 default: {
                 }
             }
+            return this;
         };
         ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
             if (this.uColorName) {
-                visitor.vector3(this.uColorName, this.xyz, canvasId);
+                visitor.vector3(this.uColorName, this.color.coords, canvasId);
             }
             if (this.uAlphaName) {
                 visitor.uniform1f(this.uAlphaName, this.a, canvasId);

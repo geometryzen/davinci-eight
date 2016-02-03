@@ -1,5 +1,4 @@
 import IUnknown from '../core/IUnknown';
-import mustBeString from '../checks/mustBeString';
 import Shareable from '../utils/Shareable';
 
 /**
@@ -28,9 +27,8 @@ export default class StringIUnknownMap<V extends IUnknown> extends Shareable imp
      * @protected
      */
     protected destructor(): void {
-        let self = this;
-        this.forEach(function(key: string) {
-            self.putWeakRef(key, void 0)
+        this.forEach((key: string) => {
+            this.putWeakRef(key, void 0)
         })
         super.destructor()
     }
@@ -41,7 +39,7 @@ export default class StringIUnknownMap<V extends IUnknown> extends Shareable imp
      * @return {boolean} <p><code>true</code> if there is an element at the specified key.</p>
      */
     public exists(key: string): boolean {
-        let element = this.elements[key];
+        const element = this.elements[key];
         return element ? true : false;
     }
     /**
@@ -50,7 +48,7 @@ export default class StringIUnknownMap<V extends IUnknown> extends Shareable imp
      * @return {V}
      */
     public get(key: string): V {
-        let element = this.elements[key];
+        const element = this.elements[key];
         if (element) {
             element.addRef();
             return element;
@@ -86,9 +84,8 @@ export default class StringIUnknownMap<V extends IUnknown> extends Shareable imp
      * @return {void}
      */
     public putWeakRef(key: string, value: V): void {
-        mustBeString('key', key)
-        var elements = this.elements
-        var existing = elements[key]
+        const elements = this.elements
+        const existing = elements[key]
         if (existing) {
             existing.release()
         }
@@ -99,7 +96,7 @@ export default class StringIUnknownMap<V extends IUnknown> extends Shareable imp
      * @param callback {(key: string, value: V) => void}
      */
     public forEach(callback: (key: string, value: V) => void): void {
-        let keys: string[] = this.keys;
+        const keys: string[] = this.keys;
         for (var i = 0, iLength = keys.length; i < iLength; i++) {
             let key: string = keys[i];
             callback(key, this.elements[key]);
@@ -117,8 +114,8 @@ export default class StringIUnknownMap<V extends IUnknown> extends Shareable imp
      * @type {V[]}
      */
     get values(): V[] {
-        var values: V[] = []
-        var keys: string[] = this.keys
+        const values: V[] = []
+        const keys: string[] = this.keys
         for (var i = 0, iLength = keys.length; i < iLength; i++) {
             let key: string = keys[i]
             values.push(this.elements[key])
@@ -131,8 +128,7 @@ export default class StringIUnknownMap<V extends IUnknown> extends Shareable imp
      * @return {V}
      */
     public remove(key: string): V {
-        mustBeString('key', key)
-        var value = this.elements[key]
+        const value = this.elements[key]
         delete this.elements[key]
         return value
     }

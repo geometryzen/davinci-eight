@@ -2,14 +2,11 @@ import ColumnVector from '../math/ColumnVector';
 import VectorE3 from '../math/VectorE3';
 import dotVectorE3 from '../math/dotVectorE3';
 import Euclidean3 from '../math/Euclidean3';
-import expectArg from '../checks/expectArg';
 import MutableLinearElement from '../math/MutableLinearElement';
 import Mat3R from '../math/Mat3R';
 import Mat4R from '../math/Mat4R';
 import isDefined from '../checks/isDefined';
 import isNumber from '../checks/isNumber';
-import mustBeNumber from '../checks/mustBeNumber';
-import mustBeObject from '../checks/mustBeObject';
 import SpinorE3 from '../math/SpinorE3';
 import toStringCustom from '../math/toStringCustom';
 import VectorN from '../math/VectorN';
@@ -17,14 +14,12 @@ import wedgeXY from '../math/wedgeXY';
 import wedgeYZ from '../math/wedgeYZ';
 import wedgeZX from '../math/wedgeZX';
 
-let exp = Math.exp
-let log = Math.log
-let sqrt = Math.sqrt
+const sqrt = Math.sqrt
 
-let COORD_X = 0
-let COORD_Y = 1
-let COORD_Z = 2
-let BASIS_LABELS = ['e1', 'e2', 'e3']
+const COORD_X = 0
+const COORD_Y = 1
+const COORD_Z = 2
+const BASIS_LABELS = ['e1', 'e2', 'e3']
 
 /**
  * Coordinates corresponding to basis labels.
@@ -118,9 +113,7 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @return {R3} <code>this</code>
      * @chainable
      */
-    add(vector: VectorE3, α: number = 1) {
-        mustBeObject('vector', vector)
-        mustBeNumber('α', α)
+    add(vector: VectorE3, α = 1) {
         this.x += vector.x * α
         this.y += vector.y * α
         this.z += vector.z * α
@@ -137,8 +130,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     add2(a: VectorE3, b: VectorE3): R3 {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
         this.x = a.x + b.x
         this.y = a.y + b.y
         this.z = a.z + b.z
@@ -201,7 +192,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     reflect(n: VectorE3) {
-        mustBeObject('n', n);
         let ax = this.x;
         let ay = this.y;
         let az = this.z;
@@ -224,7 +214,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     rotate(R: SpinorE3): R3 {
-        mustBeObject('R', R);
         let x = this.x;
         let y = this.y;
         let z = this.z;
@@ -263,7 +252,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     copy(v: VectorE3) {
-        mustBeObject('v', v);
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
@@ -295,7 +283,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     cross(v: VectorE3): R3 {
-        mustBeObject('v', v);
         return this.cross2(this, v);
     }
     /**
@@ -309,8 +296,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     cross2(a: VectorE3, b: VectorE3): R3 {
-        mustBeObject('a', a);
-        mustBeObject('b', b);
 
         let ax = a.x, ay = a.y, az = a.z;
         let bx = b.x, by = b.y, bz = b.z;
@@ -361,7 +346,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     divByScalar(α: number) {
-        mustBeNumber('α', α);
         if (α !== 0) {
             let invScalar = 1 / α;
             this.x *= invScalar;
@@ -414,8 +398,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     lerp(target: VectorE3, α: number) {
-        mustBeObject('target', target)
-        mustBeNumber('α', α)
         this.x += (target.x - this.x) * α;
         this.y += (target.y - this.y) * α;
         this.z += (target.z - this.z) * α;
@@ -433,9 +415,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     lerp2(a: VectorE3, b: VectorE3, α: number) {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
-        mustBeNumber('α', α)
         this.copy(a).lerp(b, α)
         return this
     }
@@ -458,7 +437,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @param α {number} 
      */
     scale(α: number): R3 {
-        mustBeNumber('α', α)
         this.x *= α
         this.y *= α
         this.z *= α
@@ -477,9 +455,9 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @deprecated
      */
     setXYZ(x: number, y: number, z: number) {
-        this.x = mustBeNumber('x', x)
-        this.y = mustBeNumber('y', y)
-        this.z = mustBeNumber('z', z)
+        this.x = x
+        this.y = y
+        this.z = z
         return this
     }
 
@@ -495,8 +473,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
     }
 
     slerp(target: VectorE3, α: number) {
-        mustBeObject('target', target)
-        mustBeNumber('α', α)
         return this;
     }
 
@@ -521,9 +497,7 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @return {R3} <code>this</code>
      * @chainable
      */
-    sub(v: VectorE3, α: number = 1): R3 {
-        mustBeObject('v', v)
-        mustBeNumber('α', α)
+    sub(v: VectorE3, α = 1): R3 {
         this.x -= v.x * α
         this.y -= v.y * α
         this.z -= v.z * α
@@ -541,8 +515,6 @@ export default class R3 extends VectorN<number> implements ColumnVector<Mat3R, R
      * @chainable
      */
     sub2(a: VectorE3, b: VectorE3) {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
         this.x = a.x - b.x
         this.y = a.y - b.y
         this.z = a.z - b.z

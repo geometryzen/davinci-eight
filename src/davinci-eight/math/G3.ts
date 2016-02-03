@@ -1,13 +1,12 @@
 import dotVector from '../math/dotVectorE3';
 import Euclidean3 from '../math/Euclidean3';
+import EventEmitter from '../utils/EventEmitter';
 import extG3 from '../math/extG3';
 import GeometricE3 from '../math/GeometricE3';
 import lcoG3 from '../math/lcoG3';
 import GeometricOperators from '../math/GeometricOperators';
 import mulG3 from '../math/mulG3';
 import mustBeInteger from '../checks/mustBeInteger';
-import mustBeNumber from '../checks/mustBeNumber';
-import mustBeObject from '../checks/mustBeObject';
 import mustBeString from '../checks/mustBeString';
 import MutableGeometricElement3D from '../math/MutableGeometricElement3D';
 import quadVector from '../math/quadVectorE3';
@@ -25,23 +24,26 @@ import wedgeYZ from '../math/wedgeYZ';
 import wedgeZX from '../math/wedgeZX';
 
 // GraphicsProgramSymbols constants for the coordinate indices into the data array.
-let COORD_W = 0
-let COORD_X = 1
-let COORD_Y = 2
-let COORD_Z = 3
-let COORD_XY = 4
-let COORD_YZ = 5
-let COORD_ZX = 6
-let COORD_XYZ = 7
+const COORD_W = 0
+const COORD_X = 1
+const COORD_Y = 2
+const COORD_Z = 3
+const COORD_XY = 4
+const COORD_YZ = 5
+const COORD_ZX = 6
+const COORD_XYZ = 7
 
-let atan2 = Math.atan2
-let exp = Math.exp
-let cos = Math.cos
-let log = Math.log
-let sin = Math.sin
-let sqrt = Math.sqrt
+const EVENT_NAME_CHANGE = 'change';
 
-let BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]
+const atan2 = Math.atan2
+const exp = Math.exp
+const cos = Math.cos
+const log = Math.log
+const sin = Math.sin
+const sqrt = Math.sqrt
+
+const BASIS_LABELS = ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]
+
 /**
  * Coordinates corresponding to basis labels.
  */
@@ -51,14 +53,6 @@ function coordinates(m: GeometricE3): number[] {
 
 function makeConstantE3(label: string, α: number, x: number, y: number, z: number, yz: number, zx: number, xy: number, β: number): GeometricE3 {
     mustBeString('label', label)
-    mustBeNumber('α', α)
-    mustBeNumber('x', x)
-    mustBeNumber('y', y)
-    mustBeNumber('z', z)
-    mustBeNumber('yz', yz)
-    mustBeNumber('zx', zx)
-    mustBeNumber('xy', xy)
-    mustBeNumber('β', β)
     var that: GeometricE3;
     that = {
         get α() {
@@ -130,6 +124,13 @@ let I = makeConstantE3('I', 0, 0, 0, 0, 0, 0, 0, 1);
  */
 export default class G3 extends VectorN<number> implements GeometricE3, MutableGeometricElement3D<GeometricE3, G3, SpinorE3, VectorE3>, GeometricOperators<G3> {
     /**
+     * @property eventBus
+     * @type EventEmitter
+     * @private
+     */
+    private eventBus: EventEmitter<G3>;
+
+    /**
      * Constructs a <code>G3</code>.
      * The multivector is initialized to zero.
      * @class G3
@@ -137,21 +138,43 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @constructor
      */
     constructor() {
-        super([0, 0, 0, 0, 0, 0, 0, 0], false, 8)
+        super([0, 0, 0, 0, 0, 0, 0, 0], false, 8);
+        this.eventBus = new EventEmitter<G3>(this);
     }
+
+    on(eventName: string, callback) {
+        this.eventBus.addEventListener(eventName, callback);
+    }
+
+    off(eventName: string, callback) {
+        this.eventBus.removeEventListener(eventName, callback);
+    }
+
+    /**
+     * Consistently set a coordinate value in the most optimized way.
+     */
+    private setCoordinate(index: number, newValue: number, name: string) {
+        const coords = this.coords;
+        const previous = coords[index];
+        if (newValue !== previous) {
+            coords[index] = newValue;
+            this.modified = true;
+            this.eventBus.emit(EVENT_NAME_CHANGE, name, newValue);
+        }
+    }
+
     /**
      * The scalar part of this multivector.
      * @property α
      * @type {number}
      */
     get α(): number {
-        return this.coords[COORD_W]
+        return this.coords[COORD_W];
     }
     set α(α: number) {
-        mustBeNumber('α', α)
-        this.modified = this.modified || this.coords[COORD_W] !== α
-        this.coords[COORD_W] = α
+        this.setCoordinate(COORD_W, α, 'α');
     }
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub> standard basis vector.
      * @property x
@@ -161,10 +184,9 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         return this.coords[COORD_X]
     }
     set x(x: number) {
-        mustBeNumber('x', x)
-        this.modified = this.modified || this.coords[COORD_X] !== x
-        this.coords[COORD_X] = x
+        this.setCoordinate(COORD_X, x, 'x');
     }
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>2</sub> standard basis vector.
      * @property y
@@ -174,10 +196,9 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         return this.coords[COORD_Y]
     }
     set y(y: number) {
-        mustBeNumber('y', y)
-        this.modified = this.modified || this.coords[COORD_Y] !== y
-        this.coords[COORD_Y] = y
+        this.setCoordinate(COORD_Y, y, 'y');
     }
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>3</sub> standard basis vector.
      * @property z
@@ -187,10 +208,9 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         return this.coords[COORD_Z]
     }
     set z(z: number) {
-        mustBeNumber('z', z)
-        this.modified = this.modified || this.coords[COORD_Z] !== z
-        this.coords[COORD_Z] = z
+        this.setCoordinate(COORD_Z, z, 'z');
     }
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>2</sub><b>e</b><sub>3</sub> standard basis bivector.
      * @property yz
@@ -200,10 +220,9 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         return this.coords[COORD_YZ]
     }
     set yz(yz: number) {
-        mustBeNumber('yz', yz)
-        this.modified = this.modified || this.coords[COORD_YZ] !== yz
-        this.coords[COORD_YZ] = yz
+        this.setCoordinate(COORD_YZ, yz, 'yz');
     }
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>3</sub><b>e</b><sub>1</sub> standard basis bivector.
      * @property zx
@@ -213,10 +232,9 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         return this.coords[COORD_ZX]
     }
     set zx(zx: number) {
-        mustBeNumber('zx', zx)
-        this.modified = this.modified || this.coords[COORD_ZX] !== zx
-        this.coords[COORD_ZX] = zx
+        this.setCoordinate(COORD_ZX, zx, 'zx');
     }
+
     /**
      * The coordinate corresponding to the <b>e</b><sub>1</sub><b>e</b><sub>2</sub> standard basis bivector.
      * @property xy
@@ -226,9 +244,7 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         return this.coords[COORD_XY]
     }
     set xy(xy: number) {
-        mustBeNumber('xy', xy)
-        this.modified = this.modified || this.coords[COORD_XY] !== xy
-        this.coords[COORD_XY] = xy
+        this.setCoordinate(COORD_XY, xy, 'xy');
     }
     /**
      * The pseudoscalar part of this multivector.
@@ -239,9 +255,7 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         return this.coords[COORD_XYZ]
     }
     set β(β: number) {
-        mustBeNumber('β', β)
-        this.modified = this.modified || this.coords[COORD_XYZ] !== β
-        this.coords[COORD_XYZ] = β
+        this.setCoordinate(COORD_XYZ, β, 'β');
     }
 
     /**
@@ -255,8 +269,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     add(M: GeometricE3, α = 1): G3 {
-        mustBeObject('M', M)
-        mustBeNumber('α', α)
         this.α += M.α * α
         this.x += M.x * α
         this.y += M.y * α
@@ -278,7 +290,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     addPseudo(β: number): G3 {
-        mustBeNumber('β', β)
         this.β += β
         return this
     }
@@ -293,7 +304,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     addScalar(α: number): G3 {
-        mustBeNumber('α', α)
         this.α += α
         return this
     }
@@ -309,8 +319,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     addVector(v: VectorE3, α = 1): G3 {
-        mustBeObject('v', v)
-        mustBeNumber('α', α)
         this.x += v.x * α
         this.y += v.y * α
         this.z += v.z * α
@@ -328,8 +336,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     add2(a: GeometricE3, b: GeometricE3): G3 {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
         this.α = a.α + b.α
         this.x = a.x + b.x
         this.y = a.y + b.y
@@ -439,7 +445,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     copy(M: GeometricE3): G3 {
-        mustBeObject('M', M)
         this.α = M.α
         this.x = M.x
         this.y = M.y
@@ -471,7 +476,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     copySpinor(spinor: SpinorE3) {
-        mustBeObject('spinor', spinor)
         this.zero()
         this.α = spinor.α
         this.yz = spinor.yz
@@ -490,7 +494,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     copyVector(vector: VectorE3) {
-        mustBeObject('vector', vector)
         this.zero()
         this.x = vector.x
         this.y = vector.y
@@ -520,7 +523,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     divByScalar(α: number): G3 {
-        mustBeNumber('α', α)
         this.α /= α
         this.x /= α
         this.y /= α
@@ -670,8 +672,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     lerp(target: GeometricE3, α: number): G3 {
-        mustBeObject('target', target)
-        mustBeNumber('α', α)
         this.α += (target.α - this.α) * α;
         this.x += (target.x - this.x) * α;
         this.y += (target.y - this.y) * α;
@@ -695,9 +695,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     lerp2(a: GeometricE3, b: GeometricE3, α: number): G3 {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
-        mustBeNumber('α', α)
         this.copy(a).lerp(b, α)
         return this
     }
@@ -881,7 +878,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      */
     reflect(n: VectorE3): G3 {
         // TODO: Optimize.
-        mustBeObject('n', n);
         let N = Euclidean3.fromVectorE3(n);
         let M = Euclidean3.copy(this);
         let R = N.mul(M).mul(N).scale(-1);
@@ -926,7 +922,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     rotate(R: SpinorE3): G3 {
-        mustBeObject('R', R);
         // FIXME: This only rotates the vector components.
         let x = this.x;
         let y = this.y;
@@ -1039,7 +1034,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @param α {number} 
      */
     scale(α: number): G3 {
-        mustBeNumber('α', α)
         this.α *= α
         this.x *= α
         this.y *= α
@@ -1052,8 +1046,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
     }
 
     slerp(target: GeometricE3, α: number): G3 {
-        mustBeObject('target', target)
-        mustBeNumber('α', α)
         // TODO
         return this;
     }
@@ -1095,8 +1087,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     sub(M: GeometricE3, α = 1): G3 {
-        mustBeObject('M', M)
-        mustBeNumber('α', α)
         this.α -= M.α * α
         this.x -= M.x * α
         this.y -= M.y * α
@@ -1118,8 +1108,6 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
      * @chainable
      */
     sub2(a: GeometricE3, b: GeometricE3): G3 {
-        mustBeObject('a', a)
-        mustBeObject('b', b)
         this.α = a.α - b.α
         this.x = a.x - b.x
         this.y = a.y - b.y

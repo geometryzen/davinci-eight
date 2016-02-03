@@ -5,46 +5,21 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../collections/IUnknownArray', '../collections/NumberIUnknownMap', '../utils/refChange', '../utils/Shareable', '../collections/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray_1, NumberIUnknownMap_1, refChange_1, Shareable_1, StringIUnknownMap_1, uuid4_1) {
     var CLASS_NAME_DRAWLIST = "createDrawList";
-    var CLASS_NAME_GROUP = "DrawableGroup";
-    var CLASS_NAME_ALL = "DrawableGroups";
-    var DrawableGroup = (function () {
+    var DrawableGroup = (function (_super) {
+        __extends(DrawableGroup, _super);
         function DrawableGroup(program) {
-            this._drawables = new IUnknownArray_1.default();
-            this._refCount = 1;
-            this._uuid = uuid4_1.default().generate();
+            _super.call(this, 'DrawableGroup');
             this._program = program;
             this._program.addRef();
-            refChange_1.default(this._uuid, CLASS_NAME_GROUP, +1);
+            this._drawables = new IUnknownArray_1.default();
         }
-        DrawableGroup.prototype.addRef = function () {
-            this._refCount++;
-            refChange_1.default(this._uuid, CLASS_NAME_GROUP, +1);
-            return this._refCount;
+        DrawableGroup.prototype.destructor = function () {
+            this._program.release();
+            this._program = void 0;
+            this._drawables.release();
+            this._drawables = void 0;
+            _super.prototype.destructor.call(this);
         };
-        DrawableGroup.prototype.release = function () {
-            this._refCount--;
-            refChange_1.default(this._uuid, CLASS_NAME_GROUP, -1);
-            if (this._refCount === 0) {
-                this._program.release();
-                this._program = void 0;
-                this._drawables.release();
-                this._drawables = void 0;
-                this._refCount = void 0;
-                this._uuid = void 0;
-                return 0;
-            }
-            else {
-                return this._refCount;
-            }
-        };
-        Object.defineProperty(DrawableGroup.prototype, "material", {
-            get: function () {
-                this._program.addRef();
-                return this._program;
-            },
-            enumerable: true,
-            configurable: true
-        });
         DrawableGroup.prototype.acceptProgram = function (visitor) {
             visitor(this._program);
         };
@@ -69,21 +44,20 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             }
         };
         DrawableGroup.prototype.draw = function (ambients, canvasId) {
-            var i;
-            var length;
-            var drawables = this._drawables;
-            var material = this._program;
-            material.use(canvasId);
+            var program = this._program;
+            program.use(canvasId);
             if (ambients) {
-                ambients.forEach(function (ambient) {
-                    ambient.setUniforms(material, canvasId);
-                });
+                var aLength = ambients.length;
+                for (var a = 0; a < aLength; a++) {
+                    var ambient = ambients[a];
+                    ambient.setUniforms(program, canvasId);
+                }
             }
-            length = drawables.length;
-            for (i = 0; i < length; i++) {
-                var drawable = drawables.get(i);
+            var drawables = this._drawables;
+            var iLength = drawables.length;
+            for (var i = 0; i < iLength; i++) {
+                var drawable = drawables.getWeakRef(i);
                 drawable.draw(canvasId);
-                drawable.release();
             }
         };
         DrawableGroup.prototype.findOne = function (match) {
@@ -103,11 +77,11 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             this._drawables.forEach(callback);
         };
         return DrawableGroup;
-    })();
+    })(Shareable_1.default);
     var DrawableGroups = (function (_super) {
         __extends(DrawableGroups, _super);
         function DrawableGroups() {
-            _super.call(this, CLASS_NAME_ALL);
+            _super.call(this, 'DrawableGroups');
             this._groups = new StringIUnknownMap_1.default();
         }
         DrawableGroups.prototype.destructor = function () {
@@ -116,7 +90,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             _super.prototype.destructor.call(this);
         };
         DrawableGroups.prototype.add = function (drawable) {
-            var program = drawable.material;
+            var program = drawable.graphicsProgram;
             if (program) {
                 try {
                     var programId = program.uuid;
@@ -138,10 +112,10 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             }
         };
         DrawableGroups.prototype.containsDrawable = function (drawable) {
-            var material = drawable.material;
-            if (material) {
+            var graphicsProgram = drawable.graphicsProgram;
+            if (graphicsProgram) {
                 try {
-                    var group = this._groups.getWeakRef(material.uuid);
+                    var group = this._groups.getWeakRef(graphicsProgram.uuid);
                     if (group) {
                         return group.containsDrawable(drawable);
                     }
@@ -150,7 +124,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
                     }
                 }
                 finally {
-                    material.release();
+                    graphicsProgram.release();
                 }
             }
             else {
@@ -170,7 +144,7 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             return void 0;
         };
         DrawableGroups.prototype.remove = function (drawable) {
-            var material = drawable.material;
+            var material = drawable.graphicsProgram;
             if (material) {
                 try {
                     var programId = material.uuid;
@@ -195,20 +169,13 @@ define(["require", "exports", '../collections/IUnknownArray', '../collections/Nu
             }
         };
         DrawableGroups.prototype.draw = function (ambients, canvasId) {
-            var drawGroups;
-            var materialKey;
-            var materialKeys;
-            var materialsLength;
-            var i;
-            var drawGroup;
-            drawGroups = this._groups;
-            materialKeys = drawGroups.keys;
-            materialsLength = materialKeys.length;
-            for (i = 0; i < materialsLength; i++) {
-                materialKey = materialKeys[i];
-                drawGroup = drawGroups.get(materialKey);
+            var drawGroups = this._groups;
+            var materialKeys = drawGroups.keys;
+            var materialsLength = materialKeys.length;
+            for (var i = 0; i < materialsLength; i++) {
+                var materialKey = materialKeys[i];
+                var drawGroup = drawGroups.getWeakRef(materialKey);
                 drawGroup.draw(ambients, canvasId);
-                drawGroup.release();
             }
         };
         DrawableGroups.prototype.traverseDrawables = function (callback, callback2) {

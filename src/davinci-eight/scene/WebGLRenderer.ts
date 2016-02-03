@@ -1,4 +1,5 @@
 import Capability from '../commands/Capability';
+import Facet from '../core/Facet';
 import createRenderer from '../renderers/renderer';
 import ContextController from '../core/ContextController';
 import ContextKahuna from '../core/ContextKahuna';
@@ -10,6 +11,7 @@ import IContextRenderer from '../renderers/IContextRenderer';
 import IBuffer from '../core/IBuffer';
 import IContextCommand from '../core/IContextCommand';
 import IBufferGeometry from '../geometries/IBufferGeometry';
+import IDrawList from '../scene/IDrawList';
 import ITexture2D from '../core/ITexture2D';
 import ITextureCubeMap from '../core/ITextureCubeMap';
 import IUnknownArray from '../collections/IUnknownArray';
@@ -19,10 +21,10 @@ import readOnly from '../i18n/readOnly';
 import Shareable from '../utils/Shareable';
 
 /**
- * @class GraphicsContext
+ * @class WebGLRenderer
  * @extends Shareable
  */
-export default class GraphicsContext extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
+export default class WebGLRenderer extends Shareable implements ContextController, IContextProvider, IContextMonitor, IContextRenderer {
     /**
      * @property _kahuna
      * @type {ContextKahuna}
@@ -38,17 +40,17 @@ export default class GraphicsContext extends Shareable implements ContextControl
     private _renderer: IContextRenderer;
 
     /**
-     * @class GraphicsContext
+     * @class WebGLRenderer
      * @constructor
      * @param [attributes] {WebGLContextAttributes} Allow the context to be configured.
-     * @beta
      */
     constructor(attributes?: WebGLContextAttributes) {
-        super('GraphicsContext')
-        this._kahuna = contextProxy(attributes)
-        this._renderer = createRenderer()
-        this._kahuna.addContextListener(this._renderer)
-        this._kahuna.synchronize(this._renderer)
+        super('WebGLRenderer');
+        this._kahuna = contextProxy(attributes);
+        this._renderer = createRenderer();
+        this._kahuna.addContextListener(this._renderer);
+        this._kahuna.synchronize(this._renderer);
+        this.enable(Capability.DEPTH_TEST);
     }
 
     /**
@@ -120,10 +122,10 @@ export default class GraphicsContext extends Shareable implements ContextControl
      * @param green {number}
      * @param blue {number}
      * @param alpha {number}
-     * @return {GraphicsContext}
+     * @return {WebGLRenderer}
      * @chainable
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): GraphicsContext {
+    clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer {
         this._renderer.clearColor(red, green, blue, alpha)
         return this
     }
@@ -201,10 +203,10 @@ export default class GraphicsContext extends Shareable implements ContextControl
      * Turns off specific WebGL capabilities for this context.
      * @method disable
      * @param capability {Capability}
-     * @return {GraphicsContext}
+     * @return {WebGLRenderer}
      * @chainable
      */
-    disable(capability: Capability): GraphicsContext {
+    disable(capability: Capability): WebGLRenderer {
         this._renderer.disable(capability)
         return this
     }
@@ -213,10 +215,10 @@ export default class GraphicsContext extends Shareable implements ContextControl
      * Turns on specific WebGL capabilities for this context.
      * @method enable
      * @param capability {Capability}
-     * @return {GraphicsContext}
+     * @return {WebGLRenderer}
      * @chainable
      */
-    enable(capability: Capability): GraphicsContext {
+    enable(capability: Capability): WebGLRenderer {
         this._renderer.enable(capability)
         return this
     }
@@ -243,16 +245,26 @@ export default class GraphicsContext extends Shareable implements ContextControl
     }
 
     /**
+     * @method render
+     * @param drawList {IDrawList}
+     * @param ambients {Facet[]}
+     * @return {void}
+     */
+    render(drawList: IDrawList, ambients: Facet[]): void {
+        return this._renderer.render(drawList, ambients);
+    }
+
+    /**
      * Defines what part of the canvas will be used in rendering the drawing buffer.
      * @method viewport
      * @param x {number}
      * @param y {number}
      * @param width {number}
      * @param height {number}
-     * @return {GraphicsContext}
+     * @return {WebGLRenderer}
      * @chainable
      */
-    viewport(x: number, y: number, width: number, height: number): GraphicsContext {
+    viewport(x: number, y: number, width: number, height: number): WebGLRenderer {
         this._renderer.viewport(x, y, width, height)
         return this
     }
@@ -262,10 +274,10 @@ export default class GraphicsContext extends Shareable implements ContextControl
      * @method start
      * @param canvas {HTMLCanvasElement} The HTML canvas element.
      * @param [canvasId] {number} An optional user-defined alias for the canvas when using multi-canvas.
-     * @return {GraphicsContext}
+     * @return {WebGLRenderer}
      * @chainable
      */
-    start(canvas: HTMLCanvasElement, canvasId?: number): GraphicsContext {
+    start(canvas: HTMLCanvasElement, canvasId?: number): WebGLRenderer {
         // FIXME: DRY delegate to kahuna.
         if (!(canvas instanceof HTMLCanvasElement)) {
             console.warn("canvas must be an HTMLCanvasElement to start the context.")
@@ -278,10 +290,10 @@ export default class GraphicsContext extends Shareable implements ContextControl
 
     /**
      * @method stop
-     * @return {GraphicsContext}
+     * @return {WebGLRenderer}
      * @chainable
      */
-    stop(): GraphicsContext {
+    stop(): WebGLRenderer {
         this._kahuna.stop()
         return this
     }

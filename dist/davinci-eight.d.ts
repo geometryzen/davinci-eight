@@ -2554,9 +2554,10 @@ declare module EIGHT {
     }
 
     /**
-     *
+     * A provider of a collection of 'uniform' variables for use in a WebGL program.
      */
     interface Facet extends IAnimationTarget {
+        setProperty(name: string, value: number[]): Facet;
         setUniforms(visitor: FacetVisitor, canvasId?: number): void;
     }
 
@@ -2794,6 +2795,19 @@ declare module EIGHT {
     }
 
     /**
+     * A collection of primitives, one for each canvas.
+     */
+    interface IGraphicsBuffers extends IResource {
+        /**
+         * @method draw
+         * @param program {IGraphicsProgram}
+         * @param canvasId {number}
+         * @return {void}
+         */
+        draw(program: IGraphicsProgram, canvasId: number): void;
+    }
+
+    /**
      * A collection of WebGLProgram(s), one for each canvas in which the program is used.
      */
     interface IGraphicsProgram extends IResource, FacetVisitor {
@@ -2965,7 +2979,7 @@ declare module EIGHT {
          */
         constructor();
         getProperty(name: string): number[];
-        setProperty(name: string, value: number[]): void;
+        setProperty(name: string, value: number[]): ModelE2;
     }
 
     /**
@@ -2991,14 +3005,20 @@ declare module EIGHT {
         incRef(): ModelFacet;
         decRef(): ModelFacet;
         getProperty(name: string): number[];
-        setProperty(name: string, value: number[]): void;
+        setProperty(name: string, value: number[]): ModelFacet;
         setUniforms(visitor: FacetVisitor, canvasId?: number): void;
     }
 
     /**
      * The publish date of the latest version of the library.
      */
-    var LAST_MODIFIED: string
+    var LAST_MODIFIED: string;
+
+    /**
+     * May be set to 'true' after initializing to ensure that rendering
+     * is not encumbered by assertions and the like.
+     */
+    var fastPath: boolean;
 
     /**
      * Deterimies whether the library strictly inforces invariants.
@@ -3139,7 +3159,7 @@ declare module EIGHT {
          * The graphics program that will be used when drawing.
          * Drawable objects may be grouped by program for efficiency.
          */
-        material: IGraphicsProgram;
+        graphicsProgram: IGraphicsProgram;
 
         /**
          * User assigned name of the drawable object.
@@ -3328,12 +3348,12 @@ declare module EIGHT {
      *   <li>Monitoring for <code>webglcontextlost</code> and <code>webglcontextrestored</code>.</li>
      * </ul>
      */
-    class GraphicsContext extends Shareable implements ContextController, IContextMonitor, IContextRenderer {
+    class WebGLRenderer extends Shareable implements ContextController, IContextMonitor, IContextRenderer {
 
         /**
          * If the canvas property has not been initialized by calling `start()`,
          * then any attempt to access this property will trigger the construction of
-         * a new HTML canvas element which will remain in effect for this GraphicsContext
+         * a new HTML canvas element which will remain in effect for this WebGLRenderer
          * until `stop()` is called.
          */
         canvas: HTMLCanvasElement;
@@ -3354,7 +3374,7 @@ declare module EIGHT {
         gl: WebGLRenderingContext;
 
         /**
-         * Constructs a <code>GraphicsContext</code> using <code>WebGLContextAttributes</code>.
+         * Constructs a <code>WebGLRenderer</code> using <code>WebGLContextAttributes</code>.
          */
         constructor(attributes?: WebGLContextAttributes);
 
@@ -3368,7 +3388,7 @@ declare module EIGHT {
          * Specifies color values to use by the <code>clear</code> method to clear the color buffer.
          * <p>
          */
-        clearColor(red: number, green: number, blue: number, alpha: number): GraphicsContext;
+        clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer;
 
         /**
          *
@@ -3413,12 +3433,17 @@ declare module EIGHT {
         /**
          * Turns off specific WebGL capabilities for this context.
          */
-        disable(capability: Capability): GraphicsContext;
+        disable(capability: Capability): WebGLRenderer;
 
         /**
          * Turns on specific WebGL capabilities for this context.
          */
-        enable(capability: Capability): GraphicsContext;
+        enable(capability: Capability): WebGLRenderer;
+
+        /**
+         *
+         */
+        render(drawList: IDrawList, ambients: Facet[]): void;
 
         /**
          *
@@ -3430,12 +3455,12 @@ declare module EIGHT {
          * @param canvas The HTML canvas element.
          * @param canvasId An optional user-defined alias for the canvas when using multi-canvas.
          */
-        start(canvas: HTMLCanvasElement, canvasId?: number): GraphicsContext;
+        start(canvas: HTMLCanvasElement, canvasId?: number): WebGLRenderer;
 
         /**
          * Terminates the <code>WebGLRenderingContext</code> for the underlying canvas.
          */
-        stop(): GraphicsContext;
+        stop(): WebGLRenderer;
 
         /**
          *
@@ -3449,7 +3474,7 @@ declare module EIGHT {
          * @param width
          * @param height
          */
-        viewport(x: number, y: number, width: number, height: number): GraphicsContext;
+        viewport(x: number, y: number, width: number, height: number): WebGLRenderer;
     }
 
     class Geometry {
@@ -3737,6 +3762,14 @@ declare module EIGHT {
         vector4(name: string, coords: number[], canvasId?: number): void;
     }
 
+    class GraphicsBuffers extends Shareable implements IGraphicsBuffers {
+        constructor(primitives: Primitive[]);
+        contextFree(canvasId: number): void;
+        contextGain(manager: IContextProvider): void;
+        contextLost(canvasId: number): void;
+        draw(program: IGraphicsProgram, canvasId: number): void;
+    }
+
     /**
      * A collection of primitives, a single graphics program, and some facets.
      * The primitives provide attribute arguments to the graphics program.
@@ -3752,14 +3785,14 @@ declare module EIGHT {
         /**
          * The graphics program used to render the primitives.
          */
-        material: IGraphicsProgram;
+        graphicsProgram: IGraphicsProgram;
 
         /**
          * A user-assigned name that allows the drawable object to be found.
          */
         name: string;
 
-        constructor(primitives: Primitive[], material: IGraphicsProgram);
+        constructor(graphicsBuffers: IGraphicsBuffers, graphicsProgram: IGraphicsProgram);
         /**
          * Draws the primitives using the graphics program to the specified canvas.
          * <code>canvasId</code> is optional and may be omitted when using a single canvas.
@@ -3883,7 +3916,7 @@ declare module EIGHT {
 
     class AbstractFacet extends Shareable implements Facet {
         getProperty(name: string): number[];
-        setProperty(name: string, value: number[]): void;
+        setProperty(name: string, value: number[]): Facet;
         setUniforms(visitor: FacetVisitor, canvasId?: number): void;
     }
 
@@ -3981,7 +4014,7 @@ declare module EIGHT {
          * @param name
          * @param value
          */
-        setProperty(name: string, value: Array<number>): void;
+        setProperty(name: string, value: Array<number>): ReflectionFacetE2;
 
         /**
          * @param visitor
@@ -4014,7 +4047,7 @@ declare module EIGHT {
          * @param name
          * @param value
          */
-        setProperty(name: string, value: Array<number>): void;
+        setProperty(name: string, value: Array<number>): ReflectionFacetE3;
 
         /**
          * @param visitor
@@ -4215,7 +4248,7 @@ declare module EIGHT {
     interface IAnimationTarget extends IUnknown {
         uuid: string;
         getProperty(name: string): number[];
-        setProperty(name: string, value: number[]): void;
+        setProperty(name: string, value: number[]): IAnimationTarget;
     }
 
     interface IAnimation extends IUnknown {
@@ -4388,9 +4421,132 @@ declare module EIGHT {
         detach(): void;
     }
     ///////////////////////////////////////////////////////////////////////////////
+    /**
+     *
+     */
+    interface Arrow extends IDrawable {
+
+        /**
+         * The color property.
+         */
+        color: Color;
+
+        /**
+         * The attitude, a unitary spinor.
+         */
+        R: G3;
+
+        /**
+         * The position, a vector.
+         */
+        X: G3;
+    }
+
+    /**
+     *
+     */
+    interface Box extends IDrawable {
+
+        /**
+         * The color property.
+         */
+        color: Color;
+
+        /**
+         * The attitude, a unitary spinor.
+         */
+        R: G3;
+
+        /**
+         * The position, a vector.
+         */
+        X: G3;
+
+        /**
+         * The width of the box.
+         */
+        width: number;
+
+        /**
+         * The height of the box.
+         */
+        height: number;
+
+        /**
+         * The depth of the box.
+         */
+        depth: number;
+    }
+
+    /**
+     *
+     */
+    interface Cylinder extends IDrawable {
+
+        /**
+         * The color property.
+         */
+        color: Color;
+
+        /**
+         * The attitude, a unitary spinor.
+         */
+        R: G3;
+
+        /**
+         * The position, a vector.
+         */
+        X: G3;
+
+        /**
+         * The axis, a unit vector.
+         */
+        axis: G3;
+    }
+
+    /**
+     *
+     */
+    interface Sphere extends IDrawable {
+
+        /**
+         * The radius of the sphere.
+         */
+        radius: number;
+
+        /**
+         * The color property.
+         */
+        color: Color;
+
+        /**
+         * The attitude, a unitary spinor.
+         */
+        R: G3;
+
+        /**
+         * The position, a vector.
+         */
+        X: G3;
+
+        /**
+         * The axis, a unit vector.
+         */
+        axis: G3;
+    }
+
     function vector(x: number, y: number, z: number): G3;
-    function arrow(axis: VectorE3): IDrawable;
+    function arrow(): Arrow;
+    function box(): Box;
+    function cylinder(): Cylinder;
+    function sphere(): Sphere;
     ///////////////////////////////////////////////////////////////////////////////
+    /**
+     * The universal cosine function, cos.
+     * Returns the cosine of the argument.
+     * If the argument is an object with a cos method, calls the method.
+     * Otherwise calls Math.cos(x).
+     */
     function cos<T>(x: T): T;
     function cosh<T>(x: T): T;
 
@@ -4417,13 +4573,18 @@ declare module EIGHT {
     function log<T>(x: T): T;
     function norm<T>(x: T): T;
     function quad<T>(x: T): T;
+    /**
+     * The universal sine function, sin.
+     * Returns the sine of the argument.
+     * If the argument is an object with a sin method, calls the method.
+     * Otherwise calls Math.sin(x).
+     */
     function sin<T>(x: T): T;
     function sinh<T>(x: T): T;
     function sqrt<T>(x: T): T;
     ///////////////////////////////////////////////////////////////////////////////
 }
 
-declare module 'eight'
-{
+declare module 'eight' {
     export = EIGHT;
 }

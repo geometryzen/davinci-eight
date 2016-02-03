@@ -6,7 +6,7 @@ let traceName: string = void 0;
 // TODO: Very first time refChange is called, check count is +1
 // FIXME: Use a better sentinel for command mode.
 
-let LOGGING_NAME_REF_CHANGE = 'refChange';
+const LOGGING_NAME_REF_CHANGE = 'refChange';
 
 function prefix(message: string): string {
     return LOGGING_NAME_REF_CHANGE + ": " + message;
@@ -25,7 +25,7 @@ function error(message: string) {
 }
 
 function garbageCollect() {
-    let uuids: string[] = Object.keys(statistics);
+    const uuids: string[] = Object.keys(statistics);
     uuids.forEach(function(uuid: string) {
         let element = statistics[uuid];
         if (element.refCount === 0) {

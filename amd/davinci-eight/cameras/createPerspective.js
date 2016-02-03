@@ -1,10 +1,10 @@
-define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core/GraphicsProgramSymbols', '../math/R1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, createView_1, Mat4R_1, GraphicsProgramSymbols_1, R1_1, isUndefined_1, expectArg_1, perspectiveMatrix_1) {
+define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core/GraphicsProgramSymbols', '../math/R1', '../checks/isUndefined', '../checks/mustBeNumber', '../cameras/perspectiveMatrix'], function (require, exports, createView_1, Mat4R_1, GraphicsProgramSymbols_1, R1_1, isUndefined_1, mustBeNumber_1, perspectiveMatrix_1) {
     function createPerspective(options) {
         options = options || {};
         var fov = new R1_1.default([isUndefined_1.default(options.fov) ? 75 * Math.PI / 180 : options.fov]);
         var aspect = new R1_1.default([isUndefined_1.default(options.aspect) ? 1 : options.aspect]);
         var near = new R1_1.default([isUndefined_1.default(options.near) ? 0.1 : options.near]);
-        var far = new R1_1.default([expectArg_1.default('options.far', isUndefined_1.default(options.far) ? 2000 : options.far).toBeNumber().value]);
+        var far = new R1_1.default([mustBeNumber_1.default('options.far', isUndefined_1.default(options.far) ? 2000 : options.far)]);
         var projectionMatrixName = isUndefined_1.default(options.projectionMatrixName) ? GraphicsProgramSymbols_1.default.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
         var refCount = 1;
         var base = createView_1.default(options);
@@ -26,6 +26,7 @@ define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core
                 return void 0;
             },
             setProperty: function (name, value) {
+                return self;
             },
             get eye() {
                 return base.eye;
@@ -64,7 +65,7 @@ define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core
                 self.setFov(value);
             },
             setFov: function (value) {
-                expectArg_1.default('fov', value).toBeNumber();
+                mustBeNumber_1.default('fov', value);
                 matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
                 fov.x = value;
                 return self;
@@ -76,7 +77,7 @@ define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core
                 self.setAspect(value);
             },
             setAspect: function (value) {
-                expectArg_1.default('aspect', value).toBeNumber();
+                mustBeNumber_1.default('aspect', value);
                 matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
                 aspect.x = value;
                 return self;
@@ -88,9 +89,10 @@ define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core
                 self.setNear(value);
             },
             setNear: function (value) {
-                expectArg_1.default('near', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || near.x !== value;
-                near.x = value;
+                if (value !== near.x) {
+                    near.x = value;
+                    matrixNeedsUpdate = true;
+                }
                 return self;
             },
             get far() {
@@ -100,9 +102,10 @@ define(["require", "exports", '../cameras/createView', '../math/Mat4R', '../core
                 self.setFar(value);
             },
             setFar: function (value) {
-                expectArg_1.default('far', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || far.x !== value;
-                far.x = value;
+                if (value !== far.x) {
+                    far.x = value;
+                    matrixNeedsUpdate = true;
+                }
                 return self;
             },
             setUniforms: function (visitor, canvasId) {

@@ -1,14 +1,12 @@
 import AbstractMatrix from '../math/AbstractMatrix';
 import add2x2 from '../math/add2x2';
 import det2x2 from '../math/det2x2';
-import GeometricElement from '../math/GeometricElement';
 import isDefined from '../checks/isDefined';
 import Matrix from '../math/Matrix';
 import mustBeInteger from '../checks/mustBeInteger';
 import mustBeNumber from '../checks/mustBeNumber';
 import Ring from '../math/MutableRingElement';
 import RingOperators from '../math/RingOperators';
-import SpinorE2 from '../math/SpinorE2';
 import VectorE1 from '../math/VectorE1';
 import VectorE2 from '../math/VectorE2';
 

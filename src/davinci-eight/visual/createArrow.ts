@@ -1,34 +1,83 @@
 import Arrow from './Arrow';
-import ArrowGeometry from '../geometries/ArrowGeometry';
 import ColorFacet from '../facets/ColorFacet';
+import Color from '../core/Color';
 import Drawable from '../scene/Drawable';
 import Facet from '../core/Facet';
+import G3 from '../math/G3';
 import IContextProvider from '../core/IContextProvider';
-import MeshLambertMaterial from '../materials/MeshLambertMaterial';
 import ModelFacet from '../facets/ModelFacet';
 import readOnly from '../i18n/readOnly';
-import VectorE3 from '../math/VectorE3';
+import visualCache from './visualCache';
 
-export default function(axis: VectorE3): Arrow {
-    const geometry = new ArrowGeometry(axis);
-    const primitives = geometry.toPrimitives();
-    const program = new MeshLambertMaterial();
-    const drawable = new Drawable(primitives, program);
-    drawable.setFacet('model', new ModelFacet());
-    drawable.setFacet('color', new ColorFacet());
+const COLOR_FACET_NAME = 'color';
+const MODEL_FACET_NAME = 'model';
+
+export default function(): Arrow {
+
+    let graphicsBuffers = visualCache.arrow();
+    let graphicsProgram = visualCache.program();
+    const drawable = new Drawable(graphicsBuffers, graphicsProgram);
+    graphicsBuffers.release();
+    graphicsBuffers = void 0;
+    graphicsProgram.release();
+    graphicsProgram = void 0;
+
+    let modelFacet = new ModelFacet();
+    drawable.setFacet(MODEL_FACET_NAME, modelFacet);
+    modelFacet.release();
+    modelFacet = void 0;
+
+    let colorFacet = new ColorFacet();
+    drawable.setFacet('color', colorFacet);
+    colorFacet.release();
+    colorFacet = void 0;
 
     const arrow: Arrow = {
-        get material() {
-            return drawable.material;
+        get color() {
+            const facet = <ColorFacet>drawable.getFacet(COLOR_FACET_NAME);
+            const color = facet.color;
+            facet.release();
+            return color;
         },
-        set material(unused) {
-            throw new Error(readOnly('material').message);
+        set color(color: Color) {
+            const facet = <ColorFacet>drawable.getFacet(COLOR_FACET_NAME);
+            facet.color.copy(color);
+            facet.release();
+        },
+        get graphicsProgram() {
+            return drawable.graphicsProgram;
+        },
+        set graphicsProgram(unused) {
+            throw new Error(readOnly('graphicsProgram').message);
         },
         get name() {
             return drawable.name;
         },
         set name(value: string) {
             drawable.name = value;
+        },
+        get R() {
+            const model = <ModelFacet>drawable.getFacet(MODEL_FACET_NAME);
+            const R = model.R;
+            model.release();
+            return R;
+        },
+        set R(R: G3) {
+            const model = <ModelFacet>drawable.getFacet(MODEL_FACET_NAME);
+            model.R.copy(R);
+            model.release();
+            //          throw new Error(readOnly('R').message);
+        },
+        get X() {
+            const model = <ModelFacet>drawable.getFacet(MODEL_FACET_NAME);
+            const X = model.X;
+            model.release();
+            return X;
+        },
+        set X(X: G3) {
+            const model = <ModelFacet>drawable.getFacet(MODEL_FACET_NAME);
+            model.X.copyVector(X);
+            model.release();
         },
         getFacet(name: string): Facet {
             return drawable.getFacet(name);

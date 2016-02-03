@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../checks/expectArg', '../math/inv4x4', '../checks/isDefined', '../math/mul4x4', '../checks/mustBeNumber'], function (require, exports, AbstractMatrix_1, add4x4_1, expectArg_1, inv4x4_1, isDefined_1, mul4x4_1, mustBeNumber_1) {
+define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../math/inv4x4', '../math/mul4x4'], function (require, exports, AbstractMatrix_1, add4x4_1, inv4x4_1, mul4x4_1) {
     var Mat4R = (function (_super) {
         __extends(Mat4R, _super);
         function Mat4R(elements) {
@@ -166,9 +166,9 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             return this.mul2(lhs, this);
         };
         Mat4R.prototype.reflection = function (n) {
-            var nx = mustBeNumber_1.default('n.x', n.x);
-            var ny = mustBeNumber_1.default('n.y', n.y);
-            var nz = mustBeNumber_1.default('n.z', n.z);
+            var nx = n.x;
+            var ny = n.y;
+            var nz = n.z;
             var aa = -2 * nx * ny;
             var cc = -2 * ny * nz;
             var bb = -2 * nz * nx;
@@ -182,14 +182,22 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             return this.rmul(Mat4R.rotation(spinor));
         };
         Mat4R.prototype.rotation = function (spinor) {
-            var x = -expectArg_1.default('spinor.yz', spinor.yz).toBeNumber().value;
-            var y = -expectArg_1.default('spinor.zx', spinor.zx).toBeNumber().value;
-            var z = -expectArg_1.default('spinor.xy', spinor.xy).toBeNumber().value;
-            var α = expectArg_1.default('spinor.α', spinor.α).toBeNumber().value;
-            var x2 = x + x, y2 = y + y, z2 = z + z;
-            var xx = x * x2, xy = x * y2, xz = x * z2;
-            var yy = y * y2, yz = y * z2, zz = z * z2;
-            var wx = α * x2, wy = α * y2, wz = α * z2;
+            var x = -spinor.yz;
+            var y = -spinor.zx;
+            var z = -spinor.xy;
+            var α = spinor.α;
+            var x2 = x + x;
+            var y2 = y + y;
+            var z2 = z + z;
+            var xx = x * x2;
+            var xy = x * y2;
+            var xz = x * z2;
+            var yy = y * y2;
+            var yz = y * z2;
+            var zz = z * z2;
+            var wx = α * x2;
+            var wy = α * y2;
+            var wz = α * z2;
             this.set(1 - yy - zz, xy - wz, xz + wy, 0, xy + wz, 1 - xx - zz, yz - wx, 0, xz - wy, yz + wx, 1 - xx - yy, 0, 0, 0, 0, 1);
             return this;
         };
@@ -224,9 +232,6 @@ define(["require", "exports", '../math/AbstractMatrix', '../math/add4x4', '../ch
             return this;
         };
         Mat4R.prototype.toFixed = function (digits) {
-            if (isDefined_1.default(digits)) {
-                expectArg_1.default('digits', digits).toBeNumber();
-            }
             var text = [];
             for (var i = 0; i < this.dimensions; i++) {
                 text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));

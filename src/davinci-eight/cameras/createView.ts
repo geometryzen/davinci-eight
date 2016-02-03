@@ -28,7 +28,7 @@ export default function createView(options?: { viewMatrixName?: string }): View 
     look.modified = true
     up.modified = true
 
-    let self: View = {
+    const self: View = {
         addRef(): number {
             refCount++
             return refCount
@@ -43,8 +43,8 @@ export default function createView(options?: { viewMatrixName?: string }): View 
         getProperty(name: string): number[] {
             return void 0
         },
-        setProperty(name: string, value: number[]): void {
-            // Do nothing.
+        setProperty(name: string, value: number[]): View {
+            return self;
         },
         get eye(): R3 {
             return eye

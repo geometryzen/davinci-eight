@@ -66,7 +66,7 @@ export default class IUnknownArray<T extends IUnknown> extends Shareable {
      * @return {T}
      */
     get(index: number): T {
-        var element = this.getWeakRef(index)
+        const element = this.getWeakRef(index)
         if (element) {
             element.addRef()
         }

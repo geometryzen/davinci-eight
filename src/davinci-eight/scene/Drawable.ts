@@ -1,11 +1,7 @@
 import IContextProvider from '../core/IContextProvider';
 import IDrawable from '../core/IDrawable';
-import IBufferGeometry from '../geometries/IBufferGeometry';
-import isDefined from '../checks/isDefined';
+import IGraphicsBuffers from '../core/IGraphicsBuffers';
 import IGraphicsProgram from '../core/IGraphicsProgram';
-import IUnknownArray from '../collections/IUnknownArray';
-import NumberIUnknownMap from '../collections/NumberIUnknownMap';
-import Primitive from '../geometries/Primitive';
 import readOnly from '../i18n/readOnly';
 import Shareable from '../utils/Shareable';
 import StringIUnknownMap from '../collections/StringIUnknownMap';
@@ -14,7 +10,7 @@ import Facet from '../core/Facet';
 /**
  * Name used for reference count monitoring and logging.
  */
-const LOGGING_NAME = 'Drawable'
+const LOGGING_NAME = 'Drawable';
 
 /**
  * @class Drawable
@@ -23,17 +19,18 @@ const LOGGING_NAME = 'Drawable'
 export default class Drawable extends Shareable implements IDrawable {
 
     /**
-     * @property primitives
-     * @type {Primitive[]}
+     * @property graphicsBuffers
+     * @type {IGraphicsBuffers}
+     * @private
      */
-    public primitives: Primitive[];
+    private _graphicsBuffers: IGraphicsBuffers;
 
     /**
      * @property graphicsProgram
      * @type {IGraphicsProgram}
      * @private
      */
-    public graphicsProgram: IGraphicsProgram;
+    private _graphicsProgram: IGraphicsProgram;
 
     /**
      * @property name
@@ -41,13 +38,6 @@ export default class Drawable extends Shareable implements IDrawable {
      * @optional
      */
     public name: string;
-
-    /**
-     * FIXME This is a bad name because it is not just a collection of buffersByCanvasId.
-     * A map from canvas to IBufferGeometry.
-     * It's a function that returns a mesh, given a canvasId a lookup
-     */
-    private buffersByCanvasId: NumberIUnknownMap<IUnknownArray<IBufferGeometry>>;
 
     /**
      * @property facets
@@ -59,18 +49,15 @@ export default class Drawable extends Shareable implements IDrawable {
     /**
      * @class Drawable
      * @constructor
-     * @param primitives {Primitive[]}
-     * @param material {IGraphicsProgram}
+     * @param graphicsBuffers {IGraphicsBuffers}
+     * @param graphicsProgram {IGraphicsProgram}
      */
-    constructor(primitives: Primitive[], material: IGraphicsProgram) {
+    constructor(graphicsBuffers: IGraphicsBuffers, graphicsProgram: IGraphicsProgram) {
         super(LOGGING_NAME)
-        this.primitives = primitives
-
-        this.graphicsProgram = material
-        this.graphicsProgram.addRef()
-
-        this.buffersByCanvasId = new NumberIUnknownMap<IUnknownArray<IBufferGeometry>>()
-
+        this._graphicsBuffers = graphicsBuffers;
+        this._graphicsBuffers.addRef();
+        this._graphicsProgram = graphicsProgram
+        this._graphicsProgram.addRef()
         this.facets = new StringIUnknownMap<Facet>();
     }
 
@@ -80,52 +67,42 @@ export default class Drawable extends Shareable implements IDrawable {
      * @protected
      */
     protected destructor(): void {
-        this.primitives = void 0;
-        this.buffersByCanvasId.release()
-        this.buffersByCanvasId = void 0
-        this.graphicsProgram.release()
-        this.graphicsProgram = void 0
+        this._graphicsBuffers.release();
+        this._graphicsBuffers = void 0;
+        this._graphicsProgram.release()
+        this._graphicsProgram = void 0
         this.facets.release()
         this.facets = void 0
     }
 
     /**
      * @method draw
-     * @param [canvasId = 0] {number}
+     * @param canvasId {number}
      * @return {void}
      */
-    draw(canvasId = 0): void {
-        // We know we are going to need a "good" canvasId to perform the buffers lookup.
-        // So we may as well test that condition now.
-        if (isDefined(canvasId)) {
-            let material = this.graphicsProgram
+    draw(canvasId: number): void {
+        // Using the private member ensures that we don't accidentally addRef.
+        const program = this._graphicsProgram
+        program.use(canvasId)
 
-            let buffers: IUnknownArray<IBufferGeometry> = this.buffersByCanvasId.getWeakRef(canvasId)
-            if (isDefined(buffers)) {
-                material.use(canvasId)
+        // FIXME: The name is unused. Think we should just have a list
+        // and then access using either the real uniform name or a property name.
+        const facets: StringIUnknownMap<Facet> = this.facets
+        // TODO: Faster iteration of facets without using a callback.
+        facets.forEach(function(name, uniform) {
+            uniform.setUniforms(program, canvasId)
+        })
 
-                // FIXME: The name is unused. Think we should just have a list
-                // and then access using either the real uniform name or a property name.
-                this.facets.forEach(function(name, uniform) {
-                    uniform.setUniforms(material, canvasId)
-                })
-
-                for (var i = 0; i < buffers.length; i++) {
-                    var buffer = buffers.getWeakRef(i)
-                    buffer.bind(material/*, aNameToKeyName*/) // FIXME: Why not part of the API?
-                    buffer.draw()
-                    buffer.unbind()
-                }
-            }
-        }
+        this._graphicsBuffers.draw(program, canvasId)
     }
 
     /**
      * @method contextFree
-     * @param [canvasId] {number}
+     * @param canvasId {number}
      */
-    contextFree(canvasId?: number): void {
-        this.graphicsProgram.contextFree(canvasId)
+    contextFree(canvasId: number): void {
+        this._graphicsBuffers.contextFree(canvasId)
+        this._graphicsProgram.contextFree(canvasId)
     }
 
     /**
@@ -134,31 +111,18 @@ export default class Drawable extends Shareable implements IDrawable {
      * @return {void}
      */
     contextGain(manager: IContextProvider): void {
-        // 1. Replace the existing buffer geometry if we have geometry. 
-        if (this.primitives) {
-            for (var i = 0, iLength = this.primitives.length; i < iLength; i++) {
-                var primitive = this.primitives[i]
-                if (!this.buffersByCanvasId.exists(manager.canvasId)) {
-                    this.buffersByCanvasId.putWeakRef(manager.canvasId, new IUnknownArray<IBufferGeometry>([]))
-                }
-                var buffers = this.buffersByCanvasId.getWeakRef(manager.canvasId)
-                buffers.pushWeakRef(manager.createBufferGeometry(primitive))
-            }
-        }
-        else {
-            console.warn("contextGain method has no primitices, canvasId => " + manager.canvasId)
-        }
-        // 2. Delegate the context to the material.
-        this.graphicsProgram.contextGain(manager)
+        this._graphicsBuffers.contextGain(manager)
+        this._graphicsProgram.contextGain(manager)
     }
 
     /**
      * @method contextLost
-     * @param [canvasId] {number}
+     * @param canvasId {number}
      * @return {void}
      */
-    contextLost(canvasId?: number): void {
-        this.graphicsProgram.contextLost(canvasId)
+    contextLost(canvasId: number): void {
+        this._graphicsBuffers.contextLost(canvasId)
+        this._graphicsProgram.contextLost(canvasId)
     }
 
     /**
@@ -181,16 +145,16 @@ export default class Drawable extends Shareable implements IDrawable {
     }
 
     /**
-     * Provides a reference counted reference to the graphics program.
-     * @property material
+     * Provides a reference counted reference to the graphics program property.
+     * @property graphicsProgram
      * @type {IGraphicsProgram}
      * @readOnly
      */
-    get material(): IGraphicsProgram {
-        this.graphicsProgram.addRef()
-        return this.graphicsProgram
+    get graphicsProgram(): IGraphicsProgram {
+        this._graphicsProgram.addRef()
+        return this._graphicsProgram
     }
-    set material(unused) {
-        throw new Error(readOnly('material').message)
+    set graphicsProgram(unused) {
+        throw new Error(readOnly('graphicsProgram').message)
     }
 }

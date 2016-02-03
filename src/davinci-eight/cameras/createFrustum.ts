@@ -3,8 +3,6 @@ import Frustum from 'davinci-eight/cameras/Frustum';
 import View from 'davinci-eight/cameras/View';
 import createView from 'davinci-eight/cameras/createView';
 import Mat4R from 'davinci-eight/math/Mat4R';
-import SpinG3 from 'davinci-eight/math/SpinG3';
-import GraphicsProgramSymbols from 'davinci-eight/core/GraphicsProgramSymbols';
 import VectorE3 from 'davinci-eight/math/VectorE3';
 import R1 from '../math/R1';
 import R3 from '../math/R3';
@@ -48,7 +46,8 @@ export default function createFrustum(viewMatrixName: string, projectionMatrixNa
         getProperty(name: string): number[] {
             return void 0
         },
-        setProperty(name: string, value: number[]): void {
+        setProperty(name: string, value: number[]): Frustum {
+            return this;
         },
         // Delegate to the base camera.
         get eye(): R3 {

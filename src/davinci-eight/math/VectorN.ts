@@ -1,11 +1,6 @@
 import Mutable from '../math/Mutable';
-import expectArg from '../checks/expectArg';
 import isDefined from '../checks/isDefined';
 import isUndefined from '../checks/isUndefined';
-
-function constructorString(T: string): string {
-    return "new VectorN<" + T + ">(data: " + T + "[], modified: boolean = false, size?: number)";
-}
 
 function pushString(T: string): string {
     return "push(value: " + T + "): number";
@@ -13,24 +8,6 @@ function pushString(T: string): string {
 
 function popString(T: string): string {
     return "pop(): " + T;
-}
-
-function contextNameKind(context: string, name: string, kind: string): string {
-    return name + " must be a " + kind + " in " + context;
-}
-
-function contextNameLength(context: string, name: string, length: number): string {
-    return name + " length must be " + length + " in " + context;
-}
-
-function ctorDataKind(): string {
-    return contextNameKind(constructorString('T'), 'data', 'T[]');
-}
-
-function ctorDataLength(length: number): () => string {
-    return function(): string {
-        return contextNameLength(constructorString('T'), 'data', length);
-    };
 }
 
 function verboten(operation: string): string {
@@ -43,14 +20,6 @@ function verbotenPush(): string {
 
 function verbotenPop(): string {
     return verboten(popString('T'));
-}
-
-function ctorModifiedKind(): string {
-    return contextNameKind(constructorString('T'), 'modified', 'boolean');
-}
-
-function ctorSizeKind(): string {
-    return contextNameKind(constructorString('T'), 'size', 'number');
 }
 
 /**
@@ -73,15 +42,14 @@ export default class VectorN<T> implements Mutable<T[]> {
      * @param [size]
      */
     constructor(data: T[], modified = false, size?: number) {
-        let dataArg = expectArg('data', data).toBeObject(ctorDataKind);
-        this.modified = expectArg('modified', modified).toBeBoolean(ctorModifiedKind).value;
+        this.modified = modified;
         if (isDefined(size)) {
-            this._size = expectArg('size', size).toBeNumber(ctorSizeKind).toSatisfy(size >= 0, "size must be positive").value;
-            this._data = dataArg.toSatisfy(data.length === size, ctorDataLength(size)()).value;
+            this._size = size;
+            this._data = data;
         }
         else {
             this._size = void 0;
-            this._data = dataArg.value;
+            this._data = data;
         }
     }
 
@@ -94,10 +62,6 @@ export default class VectorN<T> implements Mutable<T[]> {
             return this._data;
         }
         else if (this._callback) {
-            var data = this._callback();
-            if (isDefined(this._size)) {
-                expectArg('callback()', data).toSatisfy(data.length === this._size, "callback() length must be " + this._size);
-            }
             return this._callback();
         }
         else {
@@ -105,9 +69,6 @@ export default class VectorN<T> implements Mutable<T[]> {
         }
     }
     set coords(data: T[]) {
-        if (isDefined(this._size)) {
-            expectArg('data', data).toSatisfy(data.length === this._size, "data length must be " + this._size);
-        }
         this._data = data;
         this._callback = void 0;
         this.modified = true;
@@ -183,11 +144,11 @@ export default class VectorN<T> implements Mutable<T[]> {
      * @return {void}
      */
     setComponent(index: number, value: T): void {
-        let data: T[] = this.coords;
-        let existing = data[index];
-        if (value !== existing) {
-            data[index] = value;
-            this.coords = data;
+        const coords: T[] = this.coords;
+        const previous = coords[index];
+        if (value !== previous) {
+            coords[index] = value;
+            this.coords = coords;
             this.modified = true;
         }
     }

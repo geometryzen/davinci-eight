@@ -1,7 +1,9 @@
-import IDrawable from '../core/IDrawable';
+import VisualComponent from './VisualComponent';
 
-interface Arrow extends IDrawable {
-
+/**
+ * @class Arrow
+ */
+interface Arrow extends VisualComponent {
 }
 
 export default Arrow;

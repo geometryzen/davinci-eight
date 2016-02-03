@@ -11,7 +11,7 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME = 'MeshLambertMaterial'
+const LOGGING_NAME = 'MeshLambertMaterial'
 
 function nameBuilder(): string {
     return LOGGING_NAME;
@@ -35,7 +35,7 @@ export default class MeshLambertMaterial extends GraphicsProgram {
         super.destructor()
     }
     protected createGraphicsProgram(): IGraphicsProgram {
-        let smb = new GraphicsProgramBuilder()
+        const smb = new GraphicsProgramBuilder()
 
         smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_POSITION, 3)
         smb.attribute(GraphicsProgramSymbols.ATTRIBUTE_NORMAL, 3)

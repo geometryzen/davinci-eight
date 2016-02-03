@@ -1,12 +1,7 @@
 import VectorE4 from '../math/VectorE4';
 import MutableLinearElement from '../math/MutableLinearElement';
-import expectArg from '../checks/expectArg';
 import SpinorE4 from '../math/SpinorE4';
 import VectorN from '../math/VectorN';
-
-let exp = Math.exp
-let log = Math.log
-let sqrt = Math.sqrt
 
 /**
  * @class R4
@@ -71,7 +66,7 @@ export default class R4 extends VectorN<number> implements VectorE4, MutableLine
         this.w = w;
         return this;
     }
-    add(vector: VectorE4, α: number = 1) {
+    add(vector: VectorE4, α = 1) {
         this.x += vector.x * α
         this.y += vector.y * α
         this.z += vector.z * α

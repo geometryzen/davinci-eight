@@ -1,10 +1,7 @@
 import Color from '../core/Color';
 import core from '../core';
-import Mat3R from '../math/Mat3R';
-import Mat4R from '../math/Mat4R';
 import mustBeNumber from '../checks/mustBeNumber';
 import Shareable from '../utils/Shareable';
-import SpinG3 from '../math/SpinG3';
 import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import Facet from '../core/Facet';
 import FacetVisitor from '../core/FacetVisitor';
@@ -86,11 +83,12 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
     public static PROP_ALPHA = 'a';
 
     /**
-     * @property xyz
-     * @type {number[]}
-     * @private
+     * @property color
+     * @type {Color}
+     * @public
      */
-    private xyz: number[] = [1, 1, 1];
+    public color = Color.fromRGB(1, 1, 1);
+
     /**
      * @property a
      * @type {number}
@@ -129,7 +127,7 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
      * @protected
      */
     protected destructor(): void {
-        this.xyz = void 0
+        this.color = void 0
         super.destructor()
     }
 
@@ -149,11 +147,11 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
      * @type {number}
      */
     get r(): number {
-        return this.xyz[COORD_R]
+        return this.color.r;
     }
     set r(red: number) {
-        mustBeNumber('red', red)
-        this.xyz[COORD_R] = red
+        mustBeNumber('red', red);
+        this.color.r = red;
     }
 
     /**
@@ -162,11 +160,11 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
      * @type {number}
      */
     get g(): number {
-        return this.xyz[COORD_G]
+        return this.color.g
     }
     set g(green: number) {
-        mustBeNumber('green', green)
-        this.xyz[COORD_G] = green
+        mustBeNumber('green', green);
+        this.color.g = green;
     }
 
     /**
@@ -175,10 +173,11 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
      * @type {number}
      */
     get b(): number {
-        return this.xyz[COORD_B]
+        return this.color.b;
     }
     set b(blue: number) {
-        this.xyz[COORD_B] = blue
+        mustBeNumber('blue', blue);
+        this.color.b = blue;
     }
 
     /**
@@ -264,12 +263,15 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
             case ColorFacet.PROP_RGB: {
                 return [this.r, this.g, this.b]
             }
+                break;
             case ColorFacet.PROP_RED: {
                 return [this.r]
             }
+                break;
             case ColorFacet.PROP_GREEN: {
                 return [this.g]
             }
+                break;
             default: {
                 return void 0
             }
@@ -280,24 +282,27 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
      * @method setProperty
      * @param name {string}
      * @param data {number[]}
-     * @return {void}
+     * @return {ColorFacet}
+     * @chainable
      */
-    setProperty(name: string, data: number[]): void {
+    setProperty(name: string, data: number[]): ColorFacet {
         checkPropertyName(name);
         switch (name) {
             case ColorFacet.PROP_RGB: {
                 this.r = data[COORD_R]
                 this.g = data[COORD_G]
                 this.b = data[COORD_B]
-                break
             }
+                break;
             case ColorFacet.PROP_RED: {
                 this.r = data[COORD_R]
-                break
             }
+                break;
             default: {
+                // Do nothing.
             }
         }
+        return this;
     }
 
     /**
@@ -308,7 +313,7 @@ export default class ColorFacet extends Shareable implements Facet, IAnimationTa
      */
     setUniforms(visitor: FacetVisitor, canvasId?: number): void {
         if (this.uColorName) {
-            visitor.vector3(this.uColorName, this.xyz, canvasId)
+            visitor.vector3(this.uColorName, this.color.coords, canvasId)
         }
         if (this.uAlphaName) {
             visitor.uniform1f(this.uAlphaName, this.a, canvasId)

@@ -1,16 +1,13 @@
 import AbstractMatrix from '../math/AbstractMatrix';
 import add3x3 from '../math/add3x3';
 import det3x3 from '../math/det3x3';
-import expectArg from '../checks/expectArg';
 import inv3x3 from '../math/inv3x3';
-import isDefined from '../checks/isDefined';
 import Matrix from '../math/Matrix';
 import Mat4R from './Mat4R';
 import mul3x3 from '../math/mul3x3';
 import mustBeNumber from '../checks/mustBeNumber';
 import Ring from '../math/MutableRingElement';
 import RingOperators from '../math/RingOperators';
-import SpinorE3 from '../math/SpinorE3';
 import VectorE2 from '../math/VectorE2';
 import VectorE3 from '../math/VectorE3';
 

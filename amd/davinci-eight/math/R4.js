@@ -4,9 +4,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/VectorN'], function (require, exports, VectorN_1) {
-    var exp = Math.exp;
-    var log = Math.log;
-    var sqrt = Math.sqrt;
     var R4 = (function (_super) {
         __extends(R4, _super);
         function R4(data, modified) {

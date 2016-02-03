@@ -16,6 +16,15 @@ interface Facet extends IAnimationTarget, IUnknown {
      * @return {void}
      */
     setUniforms(visitor: FacetVisitor, canvasId: number): void
+
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param value {number[]}
+     * @return {IAnimationTarget}
+     * @chainable
+     */
+    setProperty(name: string, value: number[]): Facet;
 }
 
 export default Facet;

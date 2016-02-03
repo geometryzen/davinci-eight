@@ -71,7 +71,7 @@ export default class ModelE3 extends Shareable implements IAnimationTarget {
      * @constructor
      * @param type [string = 'ModelE3'] The name used for reference counting.
      */
-    constructor(type: string = 'ModelE3') {
+    constructor(type = 'ModelE3') {
         super(mustBeString('type', type))
         this._position.modified = true
         this._attitude.modified = true
@@ -128,9 +128,11 @@ export default class ModelE3 extends Shareable implements IAnimationTarget {
             case ModelE3.PROP_ATTITUDE: {
                 return this._attCache.copy(this._attitude).coords
             }
+                break;
             case ModelE3.PROP_POSITION: {
                 return this._posCache.copy(this._position).coords
             }
+                break;
             default: {
                 console.warn("ModelE3.getProperty " + name)
                 return void 0
@@ -142,9 +144,10 @@ export default class ModelE3 extends Shareable implements IAnimationTarget {
      * @method setProperty
      * @param name {string}
      * @param data {number[]}
-     * @return {void}
+     * @return {ModelE3}
+     * @chainable
      */
-    setProperty(name: string, data: number[]): void {
+    setProperty(name: string, data: number[]): ModelE3 {
         switch (name) {
             case ModelE3.PROP_ATTITUDE: {
                 this._attCache.coords = data
@@ -160,5 +163,6 @@ export default class ModelE3 extends Shareable implements IAnimationTarget {
                 console.warn("ModelE3.setProperty " + name)
             }
         }
+        return this;
     }
 }

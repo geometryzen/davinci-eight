@@ -4,8 +4,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../geometries/b2', '../geometries/b3', '../math/VectorN'], function (require, exports, b2_1, b3_1, VectorN_1) {
-    var exp = Math.exp;
-    var log = Math.log;
     var sqrt = Math.sqrt;
     var COORD_X = 0;
     var COORD_Y = 1;

@@ -18,7 +18,8 @@
   ],
   "files": [
     "src/davinci-eight.ts",
-    "src/davinci-eight/math/Euclidean3.spec.ts",
+    "src/davinci-eight/utils/EventEmitter.ts"
+,    "src/davinci-eight/math/Euclidean3.spec.ts",
     "typings/jasmine/jasmine.d.ts"
   ]
 }

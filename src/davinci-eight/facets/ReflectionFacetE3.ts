@@ -7,7 +7,6 @@ import R3 from '../math/R3';
 import Mat4R from '../math/Mat4R';
 import readOnly from '../i18n/readOnly';
 import Shareable from '../utils/Shareable';
-import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 
 /**
  * @class ReflectionFacetE3
@@ -81,9 +80,10 @@ export default class ReflectionFacetE3 extends Shareable implements Facet {
      * @param value {Array<number>}
      * @return {void}
      */
-    setProperty(name: string, value: Array<number>): void {
+    setProperty(name: string, value: Array<number>): ReflectionFacetE3 {
         mustBeString('name', name)
         mustBeArray('value', value)
+        return this;
     }
 
     /**

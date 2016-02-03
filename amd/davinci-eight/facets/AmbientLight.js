@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/Color', '../checks/mustBeNumber', '../checks/mustBeObject', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, mustBeNumber_1, mustBeObject_1, Shareable_1, GraphicsProgramSymbols_1) {
+define(["require", "exports", '../core/Color', '../checks/mustBeArray', '../checks/mustBeNumber', '../checks/mustBeObject', '../checks/mustBeString', '../utils/Shareable', '../core/GraphicsProgramSymbols'], function (require, exports, Color_1, mustBeArray_1, mustBeNumber_1, mustBeObject_1, mustBeString_1, Shareable_1, GraphicsProgramSymbols_1) {
     var LOGGING_NAME = 'AmbientLight';
     function contextBuilder() {
         return LOGGING_NAME;
@@ -25,6 +25,9 @@ define(["require", "exports", '../core/Color', '../checks/mustBeNumber', '../che
             return void 0;
         };
         AmbientLight.prototype.setProperty = function (name, value) {
+            mustBeString_1.default('name', name, contextBuilder);
+            mustBeArray_1.default('value', value, contextBuilder);
+            return this;
         };
         AmbientLight.prototype.setUniforms = function (visitor, canvasId) {
             var coords = [this.color.r, this.color.g, this.color.b];

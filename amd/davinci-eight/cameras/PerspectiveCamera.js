@@ -59,6 +59,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
                 default: {
                 }
             }
+            return this;
         };
         Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
             get: function () {

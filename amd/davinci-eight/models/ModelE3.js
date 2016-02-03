@@ -43,12 +43,16 @@ define(["require", "exports", '../checks/mustBeString', '../math/G3', '../math/R
         });
         ModelE3.prototype.getProperty = function (name) {
             switch (name) {
-                case ModelE3.PROP_ATTITUDE: {
-                    return this._attCache.copy(this._attitude).coords;
-                }
-                case ModelE3.PROP_POSITION: {
-                    return this._posCache.copy(this._position).coords;
-                }
+                case ModelE3.PROP_ATTITUDE:
+                    {
+                        return this._attCache.copy(this._attitude).coords;
+                    }
+                    break;
+                case ModelE3.PROP_POSITION:
+                    {
+                        return this._posCache.copy(this._position).coords;
+                    }
+                    break;
                 default: {
                     console.warn("ModelE3.getProperty " + name);
                     return void 0;
@@ -73,6 +77,7 @@ define(["require", "exports", '../checks/mustBeString', '../math/G3', '../math/R
                     console.warn("ModelE3.setProperty " + name);
                 }
             }
+            return this;
         };
         ModelE3.PROP_ATTITUDE = 'R';
         ModelE3.PROP_POSITION = 'X';

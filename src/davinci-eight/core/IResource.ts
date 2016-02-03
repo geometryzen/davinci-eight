@@ -1,7 +1,7 @@
-import IUnknown from '../core/IUnknown';
 import IContextConsumer from '../core/IContextConsumer';
 
-interface IResource extends IUnknown, IContextConsumer {
+// FIXME: Opportunity to flatten the hierarchy.
+interface IResource extends IContextConsumer {
 
 }
 

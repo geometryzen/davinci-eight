@@ -47,6 +47,13 @@ define(["require", "exports", '../collections/IUnknownArray', '../utils/refChang
             enable: function (capability) {
                 commands.pushWeakRef(new WebGLEnable_1.default(capability));
             },
+            render: function (drawList, ambients) {
+                var gl = _manager.gl;
+                if (gl) {
+                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                    return drawList.draw(ambients, _manager.canvasId);
+                }
+            },
             viewport: function (x, y, width, height) {
                 return self.gl.viewport(x, y, width, height);
             },

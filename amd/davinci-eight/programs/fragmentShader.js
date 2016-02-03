@@ -22,7 +22,6 @@ define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeDefine
             lines.push("varying highp vec3 vLight;");
         }
         lines.push("void main(void) {");
-        var glFragColor = [];
         if (vLight) {
             if (vColor) {
                 lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");

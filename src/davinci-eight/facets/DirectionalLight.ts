@@ -1,4 +1,3 @@
-import CartesianE3 from '../math/CartesianE3';
 import Color from '../core/Color';
 import ColorRGB from '../core/ColorRGB';
 import Facet from '../core/Facet';
@@ -10,7 +9,7 @@ import GraphicsProgramSymbols from '../core/GraphicsProgramSymbols';
 import R3 from '../math/R3';
 import VectorE3 from '../math/VectorE3';
 
-var LOGGING_NAME = 'DirectionalLight'
+const LOGGING_NAME = 'DirectionalLight'
 
 function contextBuilder() {
     return LOGGING_NAME
@@ -82,42 +81,45 @@ export default class DirectionalLight extends Shareable implements Facet {
      * @return {number[]}
      */
     getProperty(name: string): number[] {
-        mustBeString('name', name)
+        mustBeString('name', name, contextBuilder)
         switch (name) {
             case DirectionalLight.PROP_COLOR: {
-                return this.color.coords
+                return this.color.coords;
             }
+                break;
             case DirectionalLight.PROP_DIRECTION: {
                 return this.direction.coords
             }
+                break;
             default: {
-                console.warn("unknown property: " + name)
+                console.warn("unknown property: " + name);
             }
         }
     }
-  
+
     /**
      * @method setProperty
      * @param name {string}
      * @param value {number[]}
-     * @return {void}
+     * @return {DirectionalLight}
      */
-    setProperty(name: string, value: number[]): void {
-        mustBeString('name', name)
-        mustBeObject('value', value)
+    setProperty(name: string, value: number[]): DirectionalLight {
+        mustBeString('name', name, contextBuilder);
+        mustBeObject('value', value, contextBuilder);
         switch (name) {
             case DirectionalLight.PROP_COLOR: {
-                this.color.coords = value
-                break;
+                this.color.coords = value;
             }
+                break;
             case DirectionalLight.PROP_DIRECTION: {
-                this.direction.coords = value
-                break;
+                this.direction.coords = value;
             }
+                break;
             default: {
                 console.warn("unknown property: " + name)
             }
         }
+        return this;
     }
 
     /**

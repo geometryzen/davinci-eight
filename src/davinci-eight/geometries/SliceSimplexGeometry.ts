@@ -1,6 +1,5 @@
 import AxialSimplexGeometry from '../geometries/AxialSimplexGeometry';
 import VectorE3 from '../math/VectorE3';
-import SimplexGeometry from '../geometries/SimplexGeometry';
 import isDefined from '../checks/isDefined';
 import mustBeNumber from '../checks/mustBeNumber';
 import R3 from '../math/R3';

@@ -11,7 +11,7 @@ import VectorE3 from '../math/VectorE3';
 import R1 from '../math/R1';
 import R3 from '../math/R3';
 import isUndefined from '../checks/isUndefined';
-import expectArg from '../checks/expectArg';
+import mustBeNumber from '../checks/mustBeNumber';
 import computePerspectiveMatrix from '../cameras/perspectiveMatrix';
 
 /**
@@ -29,7 +29,7 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
     let fov: R1 = new R1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
     let aspect: R1 = new R1([isUndefined(options.aspect) ? 1 : options.aspect]);
     let near: R1 = new R1([isUndefined(options.near) ? 0.1 : options.near]);
-    let far: R1 = new R1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
+    let far: R1 = new R1([mustBeNumber('options.far', isUndefined(options.far) ? 2000 : options.far)]);
     let projectionMatrixName = isUndefined(options.projectionMatrixName) ? GraphicsProgramSymbols.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
     var refCount = 1
@@ -37,7 +37,7 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
     let projectionMatrix: Mat4R = Mat4R.one()
     var matrixNeedsUpdate = true
 
-    let self: Perspective = {
+    const self: Perspective = {
         addRef(): number {
             refCount++
             return refCount
@@ -52,8 +52,8 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
         getProperty(name: string): number[] {
             return void 0
         },
-        setProperty(name: string, value: number[]): void {
-            // Do nothing.
+        setProperty(name: string, value: number[]): Perspective {
+            return self;
         },
         // Delegate to the base camera.
         get eye(): R3 {
@@ -93,7 +93,7 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             self.setFov(value);
         },
         setFov(value: number) {
-            expectArg('fov', value).toBeNumber();
+            mustBeNumber('fov', value);
             matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
             fov.x = value;
             return self;
@@ -105,7 +105,7 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             self.setAspect(value);
         },
         setAspect(value: number) {
-            expectArg('aspect', value).toBeNumber();
+            mustBeNumber('aspect', value);
             matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
             aspect.x = value;
             return self;
@@ -117,9 +117,10 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             self.setNear(value);
         },
         setNear(value: number) {
-            expectArg('near', value).toBeNumber();
-            matrixNeedsUpdate = matrixNeedsUpdate || near.x !== value;
-            near.x = value;
+            if (value !== near.x) {
+                near.x = value;
+                matrixNeedsUpdate = true;
+            }
             return self;
         },
         get far(): number {
@@ -129,9 +130,10 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             self.setFar(value);
         },
         setFar(value: number) {
-            expectArg('far', value).toBeNumber();
-            matrixNeedsUpdate = matrixNeedsUpdate || far.x !== value;
-            far.x = value;
+            if (value !== far.x) {
+                far.x = value;
+                matrixNeedsUpdate = true;
+            }
             return self;
         },
         setUniforms(visitor: FacetVisitor, canvasId?: number) {

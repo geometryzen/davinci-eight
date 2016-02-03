@@ -1,6 +1,8 @@
 import Capability from '../commands/Capability';
+import Facet from '../core/Facet';
 import IContextConsumer from '../core/IContextConsumer';
 import IContextCommand from '../core/IContextCommand';
+import IDrawList from '../scene/IDrawList';
 import IUnknownArray from '../collections/IUnknownArray';
 
 /**
@@ -60,6 +62,14 @@ interface IContextRenderer extends IContextConsumer {
      * @return {void} This method does not return a value.
      */
     enable(capability: Capability): void;
+
+    /**
+     * @method render
+     * @param drawList {IDrawList}
+     * @param ambients {Facet[]}
+     * @return {void}
+     */
+    render(drawList: IDrawList, ambients: Facet[]): void;
 
     /**
      * Defines what part of the canvas will be used in rendering the drawing buffer.

@@ -1,3 +1,4 @@
+import core from '../core';
 import IContextProvider from '../core/IContextProvider';
 import IContextMonitor from '../core/IContextMonitor';
 import createDrawList from '../scene/createDrawList';
@@ -113,8 +114,10 @@ export default class Scene extends Shareable implements IDrawList {
      * @beta
      */
     draw(ambients: Facet[], canvasId?: number): void {
-        mustBeArray('ambients', ambients);
-        mustBeNumber('canvasId', canvasId);
+        if (!core.fastPath) {
+            mustBeArray('ambients', ambients);
+            mustBeNumber('canvasId', canvasId);
+        }
         return this.drawList.draw(ambients, canvasId);
     }
 
@@ -134,7 +137,9 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {IDrawable}
      */
     getDrawableByName(name: string): IDrawable {
-        mustBeString('name', name);
+        if (!core.fastPath) {
+            mustBeString('name', name);
+        }
         return this.drawList.getDrawableByName(name);
     }
 

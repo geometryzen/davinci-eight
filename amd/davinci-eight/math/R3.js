@@ -3,9 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/Mat3R', '../math/Mat4R', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeNumber', '../checks/mustBeObject', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3_1, Euclidean3_1, Mat3R_1, Mat4R_1, isDefined_1, isNumber_1, mustBeNumber_1, mustBeObject_1, toStringCustom_1, VectorN_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
-    var exp = Math.exp;
-    var log = Math.log;
+define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../math/Mat3R', '../math/Mat4R', '../checks/isDefined', '../checks/isNumber', '../math/toStringCustom', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, dotVectorE3_1, Euclidean3_1, Mat3R_1, Mat4R_1, isDefined_1, isNumber_1, toStringCustom_1, VectorN_1, wedgeXY_1, wedgeYZ_1, wedgeZX_1) {
     var sqrt = Math.sqrt;
     var COORD_X = 0;
     var COORD_Y = 1;
@@ -59,16 +57,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         });
         R3.prototype.add = function (vector, α) {
             if (α === void 0) { α = 1; }
-            mustBeObject_1.default('vector', vector);
-            mustBeNumber_1.default('α', α);
             this.x += vector.x * α;
             this.y += vector.y * α;
             this.z += vector.z * α;
             return this;
         };
         R3.prototype.add2 = function (a, b) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
             this.x = a.x + b.x;
             this.y = a.y + b.y;
             this.z = a.z + b.z;
@@ -93,7 +87,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         R3.prototype.reflect = function (n) {
-            mustBeObject_1.default('n', n);
             var ax = this.x;
             var ay = this.y;
             var az = this.z;
@@ -107,7 +100,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         R3.prototype.rotate = function (R) {
-            mustBeObject_1.default('R', R);
             var x = this.x;
             var y = this.y;
             var z = this.z;
@@ -128,7 +120,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return new R3([this.x, this.y, this.z]);
         };
         R3.prototype.copy = function (v) {
-            mustBeObject_1.default('v', v);
             this.x = v.x;
             this.y = v.y;
             this.z = v.z;
@@ -141,12 +132,9 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         R3.prototype.cross = function (v) {
-            mustBeObject_1.default('v', v);
             return this.cross2(this, v);
         };
         R3.prototype.cross2 = function (a, b) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
             var ax = a.x, ay = a.y, az = a.z;
             var bx = b.x, by = b.y, bz = b.z;
             this.x = wedgeYZ_1.default(ax, ay, az, bx, by, bz);
@@ -174,7 +162,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             }
         };
         R3.prototype.divByScalar = function (α) {
-            mustBeNumber_1.default('α', α);
             if (α !== 0) {
                 var invScalar = 1 / α;
                 this.x *= invScalar;
@@ -201,17 +188,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         R3.prototype.lerp = function (target, α) {
-            mustBeObject_1.default('target', target);
-            mustBeNumber_1.default('α', α);
             this.x += (target.x - this.x) * α;
             this.y += (target.y - this.y) * α;
             this.z += (target.z - this.z) * α;
             return this;
         };
         R3.prototype.lerp2 = function (a, b, α) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
-            mustBeNumber_1.default('α', α);
             this.copy(a).lerp(b, α);
             return this;
         };
@@ -219,16 +201,15 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this.divByScalar(this.magnitude());
         };
         R3.prototype.scale = function (α) {
-            mustBeNumber_1.default('α', α);
             this.x *= α;
             this.y *= α;
             this.z *= α;
             return this;
         };
         R3.prototype.setXYZ = function (x, y, z) {
-            this.x = mustBeNumber_1.default('x', x);
-            this.y = mustBeNumber_1.default('y', y);
-            this.z = mustBeNumber_1.default('z', z);
+            this.x = x;
+            this.y = y;
+            this.z = z;
             return this;
         };
         R3.prototype.setY = function (y) {
@@ -236,8 +217,6 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
             return this;
         };
         R3.prototype.slerp = function (target, α) {
-            mustBeObject_1.default('target', target);
-            mustBeNumber_1.default('α', α);
             return this;
         };
         R3.prototype.squaredNorm = function () {
@@ -245,16 +224,12 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../m
         };
         R3.prototype.sub = function (v, α) {
             if (α === void 0) { α = 1; }
-            mustBeObject_1.default('v', v);
-            mustBeNumber_1.default('α', α);
             this.x -= v.x * α;
             this.y -= v.y * α;
             this.z -= v.z * α;
             return this;
         };
         R3.prototype.sub2 = function (a, b) {
-            mustBeObject_1.default('a', a);
-            mustBeObject_1.default('b', b);
             this.x = a.x - b.x;
             this.y = a.y - b.y;
             this.z = a.z - b.z;
