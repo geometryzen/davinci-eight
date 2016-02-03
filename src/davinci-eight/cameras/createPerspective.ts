@@ -136,7 +136,7 @@ export default function createPerspective(options?: { fov?: number; aspect?: num
             }
             return self;
         },
-        setUniforms(visitor: FacetVisitor, canvasId?: number) {
+        setUniforms(visitor: FacetVisitor, canvasId: number) {
             if (matrixNeedsUpdate) {
                 computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
                 matrixNeedsUpdate = false;

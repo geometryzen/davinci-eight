@@ -7561,6 +7561,7 @@ System.register("davinci-eight/utils/contextProxy.js", ["../core/BufferResource"
           this.normalized = void 0;
           this.stride = void 0;
           this.offset = void 0;
+          _super.prototype.destructor.call(this);
         };
         Object.defineProperty(ElementsBlockAttrib.prototype, "buffer", {
           get: function() {
@@ -10689,10 +10690,9 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
       uuid4_1,
       refChange_1,
       SimpleWebGLProgram_1;
-  var DEFAULT_CANVAS_ID,
-      LOGGING_NAME_IMATERIAL;
+  var LOGGING_NAME_IMATERIAL;
   function missingWebGLRenderingContext(method, canvasId) {
-    console.warn(LOGGING_NAME_IMATERIAL + " " + method + " missing WebGLRenderingContext for canvasId => " + canvasId + ". Did you specify the correct canvasId?");
+    console.warn(LOGGING_NAME_IMATERIAL + " " + method + " missing WebGLRenderingContext for canvasId => " + canvasId + ". Did you specify the correct canvasId");
   }
   function createGraphicsProgram(monitors, vertexShader, fragmentShader, attribs) {
     MonitorList_1.default.verify('monitors', monitors, function() {
@@ -10715,18 +10715,12 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         return fragmentShader;
       },
       attributes: function(canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           return program.attributes;
         }
       },
       uniforms: function(canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           return program.uniforms;
@@ -10747,9 +10741,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         return refCount;
       },
       contextFree: function(canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           program.contextFree(canvasId);
@@ -10767,9 +10758,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       contextLost: function(canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           program.contextLost(canvasId);
@@ -10780,9 +10768,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         return uuid;
       },
       use: function(canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           program.use();
@@ -10791,9 +10776,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       enableAttrib: function(name, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var attribLoc = program.attributes[name];
@@ -10805,9 +10787,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       disableAttrib: function(name, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var attribLoc = program.attributes[name];
@@ -10817,9 +10796,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         } else {}
       },
       uniform1f: function(name, x, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10829,9 +10805,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         } else {}
       },
       uniform2f: function(name, x, y, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10841,9 +10814,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       uniform3f: function(name, x, y, z, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10853,9 +10823,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       uniform4f: function(name, x, y, z, w, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10865,9 +10832,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       mat2: function(name, matrix, transpose, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10877,9 +10841,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       mat3: function(name, matrix, transpose, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10889,9 +10850,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       mat4: function(name, matrix, transpose, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10901,9 +10859,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       vec2: function(name, vector, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10913,9 +10868,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       vec3: function(name, vector, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10925,9 +10877,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       vec4: function(name, vector, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10937,9 +10886,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       vector2: function(name, data, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10949,9 +10895,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       vector3: function(name, data, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10961,9 +10904,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
         }
       },
       vector4: function(name, data, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = DEFAULT_CANVAS_ID;
-        }
         var program = programsByCanvasId.getWeakRef(canvasId);
         if (program) {
           var uniformLoc = program.uniforms[name];
@@ -10992,7 +10932,6 @@ System.register("davinci-eight/programs/createGraphicsProgram.js", ["../scene/Mo
       SimpleWebGLProgram_1 = SimpleWebGLProgram_1_1;
     }],
     execute: function() {
-      DEFAULT_CANVAS_ID = 0;
       LOGGING_NAME_IMATERIAL = 'IGraphicsProgram';
     }
   };
@@ -21555,10 +21494,10 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
         fastPath: false,
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2016-02-02',
+        LAST_MODIFIED: '2016-02-03',
         NAMESPACE: 'EIGHT',
         verbose: false,
-        VERSION: '2.173.0'
+        VERSION: '2.174.0'
       };
       exports_1("default", core);
     }
@@ -22399,7 +22338,7 @@ System.register("davinci-eight/math/G3.js", ["../math/dotVectorE3", "../math/Euc
           this.x = -this.x;
           this.y = -this.y;
           this.z = -this.z;
-          this.yz = this.yz;
+          this.yz = -this.yz;
           this.zx = -this.zx;
           this.xy = -this.xy;
           this.β = -this.β;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.173.0</em>
+            <em>API Docs for: 2.174.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -345,7 +345,7 @@ export default function createView(options?: { viewMatrixName?: string }): View 
             up.direction()
             return self
         },
-        setUniforms(visitor: FacetVisitor, canvasId?: number) {
+        setUniforms(visitor: FacetVisitor, canvasId: number) {
             if (eye.modified || look.modified || up.modified) {
                 // TODO: view matrix would be better.
                 computeViewMatrix(eye, look, up, viewMatrix)

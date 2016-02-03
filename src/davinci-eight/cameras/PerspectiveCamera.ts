@@ -83,7 +83,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId?: number): void {
+    setUniforms(visitor: FacetVisitor, canvasId: number): void {
         this.inner.setNear(this.near);
         this.inner.setFar(this.far);
         this.inner.setUniforms(visitor, canvasId);
@@ -94,7 +94,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId?: number): void {
+    contextFree(canvasId: number): void {
         // Do nothing
     }
 
@@ -112,7 +112,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId?: number): void {
+    contextLost(canvasId: number): void {
         // Do nothing.
     }
 
@@ -121,7 +121,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      * @param [canvasId] {number}
      * @return {void}
      */
-    draw(canvasId?: number): void {
+    draw(canvasId: number): void {
         // Do nothing.
     }
 

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.173.0</em>
+            <em>API Docs for: 2.174.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -295,21 +295,21 @@ interface IGraphicsProgram extends IResource, FacetVisitor {
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    use(canvasId?: number): void;
+    use(canvasId: number): void;
 
     /**
      * @method attributes
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{ [name: string]: AttribLocation }}
      */
-    attributes(canvasId?: number): { [name: string]: AttribLocation };
+    attributes(canvasId: number): { [name: string]: AttribLocation };
 
     /**
      * @method uniforms
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{ [name: string]: UniformLocation }}
      */
-    uniforms(canvasId?: number): { [name: string]: UniformLocation };
+    uniforms(canvasId: number): { [name: string]: UniformLocation };
 
     /**
      * &lt;p&gt;
@@ -322,7 +322,7 @@ interface IGraphicsProgram extends IResource, FacetVisitor {
      * @beta
      */
     // FIXME: Can we move to the attribute index?
-    enableAttrib(name: string, canvasId?: number): void;
+    enableAttrib(name: string, canvasId: number): void;
 
     /**
      * &lt;p&gt;
@@ -335,7 +335,7 @@ interface IGraphicsProgram extends IResource, FacetVisitor {
      * @beta
      */
     // FIXME: Can we move to the attribute index?
-    disableAttrib(name: string, canvasId?: number): void;
+    disableAttrib(name: string, canvasId: number): void;
 }
 
 export default IGraphicsProgram;

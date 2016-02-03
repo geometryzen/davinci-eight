@@ -91,7 +91,7 @@ export default function createView(options?: { viewMatrixName?: string }): View 
             up.direction()
             return self
         },
-        setUniforms(visitor: FacetVisitor, canvasId?: number) {
+        setUniforms(visitor: FacetVisitor, canvasId: number) {
             if (eye.modified || look.modified || up.modified) {
                 // TODO: view matrix would be better.
                 computeViewMatrix(eye, look, up, viewMatrix)

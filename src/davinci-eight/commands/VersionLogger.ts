@@ -23,7 +23,7 @@ export default class VersionLogger extends Shareable implements IContextCommand 
     constructor() {
         super(QUALIFIED_NAME)
     }
-    contextFree(canvasId?: number): void {
+    contextFree(canvasId: number): void {
         // Do nothing.
     }
     /**
@@ -38,7 +38,7 @@ export default class VersionLogger extends Shareable implements IContextCommand 
         var gl = manager.gl
         console.log(gl.getParameter(gl.VERSION))
     }
-    contextLost(canvasId?: number): void {
+    contextLost(canvasId: number): void {
         // Do nothing.
     }
     /**

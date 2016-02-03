@@ -773,7 +773,7 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         this.x = -this.x
         this.y = -this.y
         this.z = -this.z
-        this.yz = this.yz
+        this.yz = -this.yz
         this.zx = -this.zx
         this.xy = -this.xy
         this.β = -this.β

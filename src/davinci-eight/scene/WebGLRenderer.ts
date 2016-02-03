@@ -135,7 +135,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId?: number): void {
+    contextFree(canvasId: number): void {
         return this._renderer.contextFree(canvasId)
     }
 
@@ -153,7 +153,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId?: number) {
+    contextLost(canvasId: number) {
         this._renderer.contextLost(canvasId)
     }
 
@@ -277,7 +277,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * @return {WebGLRenderer}
      * @chainable
      */
-    start(canvas: HTMLCanvasElement, canvasId?: number): WebGLRenderer {
+    start(canvas: HTMLCanvasElement, canvasId: number): WebGLRenderer {
         // FIXME: DRY delegate to kahuna.
         if (!(canvas instanceof HTMLCanvasElement)) {
             console.warn("canvas must be an HTMLCanvasElement to start the context.")

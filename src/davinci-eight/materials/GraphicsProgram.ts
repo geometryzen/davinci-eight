@@ -129,7 +129,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    use(canvasId?: number): void {
+    use(canvasId: number): void {
         if (this.inner) {
             return this.inner.use(canvasId)
         }
@@ -153,7 +153,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{[name: string]: AttribLocation}}
      */
-    attributes(canvasId?: number): { [name: string]: AttribLocation } {
+    attributes(canvasId: number): { [name: string]: AttribLocation } {
         // FIXME: Why is this called?
         // FIXME: The map should be protected but that is slow
         // FIXME Clear need for performant solution.
@@ -177,7 +177,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{[name: string]: UniformLocation}}
      */
-    uniforms(canvasId?: number): { [name: string]: UniformLocation } {
+    uniforms(canvasId: number): { [name: string]: UniformLocation } {
         if (this.inner) {
             return this.inner.uniforms(canvasId)
         }
@@ -199,7 +199,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    enableAttrib(name: string, canvasId?: number): void {
+    enableAttrib(name: string, canvasId: number): void {
         if (this.inner) {
             return this.inner.enableAttrib(name, canvasId)
         }
@@ -221,7 +221,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    disableAttrib(name: string, canvasId?: number) {
+    disableAttrib(name: string, canvasId: number) {
         if (this.inner) {
             return this.inner.disableAttrib(name, canvasId)
         }
@@ -242,7 +242,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    contextFree(canvasId?: number): void {
+    contextFree(canvasId: number): void {
         if (this.inner) {
             this.inner.contextFree(canvasId)
         }
@@ -267,7 +267,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    contextLost(canvasId?: number) {
+    contextLost(canvasId: number) {
         if (this.inner) {
             this.inner.contextLost(canvasId)
         }
@@ -290,7 +290,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform1f(name: string, x: number, canvasId?: number): void {
+    uniform1f(name: string, x: number, canvasId: number): void {
         if (this.inner) {
             this.inner.uniform1f(name, x, canvasId)
         }
@@ -317,7 +317,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform2f(name: string, x: number, y: number, canvasId?: number): void {
+    uniform2f(name: string, x: number, y: number, canvasId: number): void {
         if (this.inner) {
             this.inner.uniform2f(name, x, y, canvasId)
         }
@@ -345,7 +345,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform3f(name: string, x: number, y: number, z: number, canvasId?: number): void {
+    uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void {
         if (this.inner) {
             this.inner.uniform3f(name, x, y, z, canvasId)
         }
@@ -374,7 +374,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId?: number): void {
+    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void {
         if (this.inner) {
             this.inner.uniform4f(name, x, y, z, w, canvasId)
         }
@@ -401,7 +401,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    mat2(name: string, matrix: Mat2R, transpose?: boolean, canvasId?: number): void {
+    mat2(name: string, matrix: Mat2R, transpose: boolean, canvasId: number): void {
         if (this.inner) {
             this.inner.mat2(name, matrix, transpose, canvasId)
         }
@@ -428,7 +428,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    mat3(name: string, matrix: Mat3R, transpose?: boolean, canvasId?: number): void {
+    mat3(name: string, matrix: Mat3R, transpose: boolean, canvasId: number): void {
         if (this.inner) {
             this.inner.mat3(name, matrix, transpose, canvasId)
         }
@@ -455,7 +455,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    mat4(name: string, matrix: Mat4R, transpose?: boolean, canvasId?: number): void {
+    mat4(name: string, matrix: Mat4R, transpose: boolean, canvasId: number): void {
         if (this.inner) {
             this.inner.mat4(name, matrix, transpose, canvasId)
         }
@@ -483,7 +483,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vec2(name: string, vector: VectorE2, canvasId?: number): void {
+    vec2(name: string, vector: VectorE2, canvasId: number): void {
         if (this.inner) {
             this.inner.vec2(name, vector, canvasId)
         }
@@ -509,7 +509,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vec3(name: string, vector: VectorE3, canvasId?: number): void {
+    vec3(name: string, vector: VectorE3, canvasId: number): void {
         if (this.inner) {
             this.inner.vec3(name, vector, canvasId)
         }
@@ -535,7 +535,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vec4(name: string, vector: VectorE4, canvasId?: number): void {
+    vec4(name: string, vector: VectorE4, canvasId: number): void {
         if (this.inner) {
             this.inner.vec4(name, vector, canvasId)
         }
@@ -561,7 +561,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector2(name: string, data: number[], canvasId?: number): void {
+    vector2(name: string, data: number[], canvasId: number): void {
         if (this.inner) {
             this.inner.vector2(name, data, canvasId)
         }
@@ -587,7 +587,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector3(name: string, data: number[], canvasId?: number): void {
+    vector3(name: string, data: number[], canvasId: number): void {
         if (this.inner) {
             this.inner.vector3(name, data, canvasId)
         }
@@ -613,7 +613,7 @@ export default class GraphicsProgram extends Shareable implements IGraphicsProgr
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    vector4(name: string, data: number[], canvasId?: number): void {
+    vector4(name: string, data: number[], canvasId: number): void {
         if (this.inner) {
             this.inner.vector4(name, data, canvasId)
         }

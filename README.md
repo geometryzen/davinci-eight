@@ -27,8 +27,6 @@ More simply, 3D geometry is simpler when it is done using Geometric Algebra!
 
 WARNING. This library is under active development; the API is subject to changes that are likely to break semantic versioning.
 
-[![Build Status](https://travis-ci.org/geometryzen/davinci-eight.png)](https://travis-ci.org/geometryzen/davinci-eight)
-
 ## API documentation
 
 [API Documentation](http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html)
@@ -270,7 +268,8 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.167.0: 2015-11-25 cleanup
 * 2.168.0: 2015-11-30 cleanup
 * 2.169.0: 2015-12-03 Primitive
+* 2.174.0: 2016-02-03 G3.neg
 
 ## License
-Copyright (c) 2014-2015 David Holmes
+Copyright (c) 2014-2016 David Holmes
 Licensed under the MIT license.

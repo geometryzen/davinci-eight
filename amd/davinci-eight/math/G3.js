@@ -400,7 +400,7 @@ define(["require", "exports", '../math/dotVectorE3', '../math/Euclidean3', '../u
             this.x = -this.x;
             this.y = -this.y;
             this.z = -this.z;
-            this.yz = this.yz;
+            this.yz = -this.yz;
             this.zx = -this.zx;
             this.xy = -this.xy;
             this.β = -this.β;

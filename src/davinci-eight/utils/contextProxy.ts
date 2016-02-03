@@ -199,6 +199,7 @@ class ElementsBlockAttrib extends Shareable {
         this.normalized = void 0;
         this.stride = void 0;
         this.offset = void 0;
+        super.destructor();
     }
     // FIXME: can we hide _buffer and avoid the addRef at the same time?
     get buffer() {
@@ -238,7 +239,7 @@ function attribKey(aName: string, aNameToKeyName?: { [aName: string]: string }):
 /**
  *
  */
-function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBlock, aNameToKeyName?: { [name: string]: string }, canvasId?: number) {
+function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBlock, aNameToKeyName: { [name: string]: string }, canvasId: number) {
     // FIXME: This is where we get the IGraphicsProgram attributes property.
     // FIXME: Can we invert this?
     // What are we offering to the program:
@@ -281,7 +282,7 @@ function bindProgramAttribLocations(program: IGraphicsProgram, block: ElementsBl
     }
 }
 
-function unbindProgramAttribLocations(program: IGraphicsProgram, canvasId?: number) {
+function unbindProgramAttribLocations(program: IGraphicsProgram, canvasId: number) {
     // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
     let attribLocations = program.attributes(canvasId)
     if (attribLocations) {

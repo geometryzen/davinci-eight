@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.173.0</em>
+            <em>API Docs for: 2.174.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -269,9 +269,6 @@ import UniformLocation from &#x27;../core/UniformLocation&#x27;;
 import refChange from &#x27;../utils/refChange&#x27;;
 import SimpleWebGLProgram from &#x27;../programs/SimpleWebGLProgram&#x27;;
 
-// We should be able to set this to any integer.
-const DEFAULT_CANVAS_ID = 0
-
 /**
  * Name used for reference count monitoring and logging.
  */
@@ -281,7 +278,7 @@ const LOGGING_NAME_IMATERIAL = &#x27;IGraphicsProgram&#x27;
  * Creates a WebGLProgram with compiled and linked shaders.
  */
 function missingWebGLRenderingContext(method: string, canvasId: number) {
-    console.warn(&#x60;${LOGGING_NAME_IMATERIAL} ${method} missing WebGLRenderingContext for canvasId =&gt; ${canvasId}. Did you specify the correct canvasId?&#x60;);
+    console.warn(&#x60;${LOGGING_NAME_IMATERIAL} ${method} missing WebGLRenderingContext for canvasId =&gt; ${canvasId}. Did you specify the correct canvasId&#x60;);
 }
 // FIXME: Handle list of shaders? Else createSimpleProgram
 
@@ -311,13 +308,13 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
         get fragmentShader() {
             return fragmentShader
         },
-        attributes(canvasId: number = DEFAULT_CANVAS_ID): { [name: string]: AttribLocation } {
+        attributes(canvasId: number): { [name: string]: AttribLocation } {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 return program.attributes;
             }
         },
-        uniforms(canvasId: number = DEFAULT_CANVAS_ID): { [name: string]: UniformLocation } {
+        uniforms(canvasId: number): { [name: string]: UniformLocation } {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 return program.uniforms;
@@ -337,7 +334,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
             }
             return refCount
         },
-        contextFree(canvasId: number = DEFAULT_CANVAS_ID) {
+        contextFree(canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 program.contextFree(canvasId)
@@ -355,7 +352,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 programsByCanvasId.getWeakRef(canvasId).contextGain(manager)
             }
         },
-        contextLost(canvasId: number = DEFAULT_CANVAS_ID) {
+        contextLost(canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 program.contextLost(canvasId)
@@ -365,7 +362,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
         get uuid() {
             return uuid
         },
-        use(canvasId: number = DEFAULT_CANVAS_ID): void {
+        use(canvasId: number): void {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 program.use()
@@ -374,7 +371,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 missingWebGLRenderingContext(&#x60;use(canvasId =&gt; ${canvasId})&#x60;, canvasId);
             }
         },
-        enableAttrib(name: string, canvasId: number = DEFAULT_CANVAS_ID) {
+        enableAttrib(name: string, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const attribLoc = program.attributes[name]
@@ -389,7 +386,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 missingWebGLRenderingContext(&#x60;enableAttrib(name =&gt; ${name}, canvasId =&gt; ${canvasId})&#x60;, canvasId);
             }
         },
-        disableAttrib(name: string, canvasId: number = DEFAULT_CANVAS_ID) {
+        disableAttrib(name: string, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const attribLoc = program.attributes[name]
@@ -404,7 +401,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 // Do nothing.
             }
         },
-        uniform1f(name: string, x: number, canvasId: number = DEFAULT_CANVAS_ID) {
+        uniform1f(name: string, x: number, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -419,7 +416,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 // warning
             }
         },
-        uniform2f(name: string, x: number, y: number, canvasId: number = DEFAULT_CANVAS_ID) {
+        uniform2f(name: string, x: number, y: number, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -428,7 +425,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        uniform3f(name: string, x: number, y: number, z: number, canvasId: number = DEFAULT_CANVAS_ID) {
+        uniform3f(name: string, x: number, y: number, z: number, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -437,7 +434,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number = DEFAULT_CANVAS_ID) {
+        uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -446,7 +443,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        mat2(name: string, matrix: Mat2R, transpose?: boolean, canvasId: number = DEFAULT_CANVAS_ID) {
+        mat2(name: string, matrix: Mat2R, transpose: boolean, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -455,7 +452,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        mat3(name: string, matrix: Mat3R, transpose?: boolean, canvasId: number = DEFAULT_CANVAS_ID) {
+        mat3(name: string, matrix: Mat3R, transpose: boolean, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -464,7 +461,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        mat4(name: string, matrix: Mat4R, transpose?: boolean, canvasId: number = DEFAULT_CANVAS_ID) {
+        mat4(name: string, matrix: Mat4R, transpose: boolean, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -473,7 +470,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        vec2(name: string, vector: VectorE2, canvasId: number = DEFAULT_CANVAS_ID) {
+        vec2(name: string, vector: VectorE2, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -482,7 +479,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        vec3(name: string, vector: VectorE3, canvasId: number = DEFAULT_CANVAS_ID) {
+        vec3(name: string, vector: VectorE3, canvasId: number) {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -491,7 +488,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        vec4(name: string, vector: VectorE4, canvasId: number = DEFAULT_CANVAS_ID): void {
+        vec4(name: string, vector: VectorE4, canvasId: number): void {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -500,7 +497,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        vector2(name: string, data: number[], canvasId: number = DEFAULT_CANVAS_ID): void {
+        vector2(name: string, data: number[], canvasId: number): void {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -509,7 +506,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        vector3(name: string, data: number[], canvasId: number = DEFAULT_CANVAS_ID): void {
+        vector3(name: string, data: number[], canvasId: number): void {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]
@@ -518,7 +515,7 @@ export default function createGraphicsProgram(monitors: IContextMonitor[], verte
                 }
             }
         },
-        vector4(name: string, data: number[], canvasId: number = DEFAULT_CANVAS_ID): void {
+        vector4(name: string, data: number[], canvasId: number): void {
             const program = programsByCanvasId.getWeakRef(canvasId)
             if (program) {
                 const uniformLoc = program.uniforms[name]

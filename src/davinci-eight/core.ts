@@ -8,10 +8,10 @@ const core = {
     fastPath: false,
     strict: false,
     GITHUB: 'https://github.com/geometryzen/davinci-eight',
-    LAST_MODIFIED: '2016-02-02',
+    LAST_MODIFIED: '2016-02-03',
     NAMESPACE: 'EIGHT',
     verbose: false,
-    VERSION: '2.173.0'
+    VERSION: '2.174.0'
 };
 
 export default core;

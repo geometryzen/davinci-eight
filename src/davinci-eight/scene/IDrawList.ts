@@ -31,7 +31,7 @@ interface IDrawList extends IContextConsumer {
      * @param [canvasId] {number}
      * @return {void}
      */
-    draw(ambients: Facet[], canvasId?: number): void;
+    draw(ambients: Facet[], canvasId: number): void;
 
     /**
      * Finds a drawable that matches the specified match test.

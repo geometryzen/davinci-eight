@@ -152,7 +152,7 @@ export default class DirectionalLight extends Shareable implements Facet {
      * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId?: number): void {
+    setUniforms(visitor: FacetVisitor, canvasId: number): void {
         visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION, this.direction.coords, canvasId)
         var coords = [this.color.r, this.color.g, this.color.b]
         visitor.vector3(GraphicsProgramSymbols.UNIFORM_DIRECTIONAL_LIGHT_COLOR, coords, canvasId)

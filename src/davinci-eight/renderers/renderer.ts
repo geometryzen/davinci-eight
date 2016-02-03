@@ -44,7 +44,7 @@ export default function renderer(): IContextRenderer {
         clearColor(red: number, green: number, blue: number, alpha: number): void {
             commands.pushWeakRef(new WebGLClearColor(red, green, blue, alpha))
         },
-        contextFree(canvasId?: number) {
+        contextFree(canvasId: number) {
             commands.forEach(function(command: IContextCommand) {
                 command.contextFree(canvasId)
             })
@@ -57,7 +57,7 @@ export default function renderer(): IContextRenderer {
                 command.contextGain(manager)
             })
         },
-        contextLost(canvasId?: number) {
+        contextLost(canvasId: number) {
             commands.forEach(function(command: IContextCommand) {
                 command.contextLost(canvasId)
             })

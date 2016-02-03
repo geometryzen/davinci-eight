@@ -61,7 +61,7 @@ export default class WebGLBlendFunc extends Shareable implements IContextCommand
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId?: number): void {
+    contextFree(canvasId: number): void {
         // do nothing
     }
     /**
@@ -77,7 +77,7 @@ export default class WebGLBlendFunc extends Shareable implements IContextCommand
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId?: number): void {
+    contextLost(canvasId: number): void {
         // do nothing
     }
     private execute(gl: WebGLRenderingContext): void {

@@ -113,7 +113,7 @@ export default class Scene extends Shareable implements IDrawList {
      * @return {void}
      * @beta
      */
-    draw(ambients: Facet[], canvasId?: number): void {
+    draw(ambients: Facet[], canvasId: number): void {
         if (!core.fastPath) {
             mustBeArray('ambients', ambients);
             mustBeNumber('canvasId', canvasId);

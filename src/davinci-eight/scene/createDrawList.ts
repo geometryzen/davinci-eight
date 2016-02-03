@@ -54,7 +54,7 @@ class DrawableGroup extends Shareable {
             drawables.splice(index, 1).release()
         }
     }
-    draw(ambients: Facet[], canvasId?: number): void {
+    draw(ambients: Facet[], canvasId: number): void {
 
         const program = this._program
 
@@ -193,7 +193,7 @@ class DrawableGroups extends Shareable {
             }
         }
     }
-    draw(ambients: Facet[], canvasId?: number) {
+    draw(ambients: Facet[], canvasId: number) {
         const drawGroups: StringIUnknownMap<DrawableGroup> = this._groups;
         const materialKeys = drawGroups.keys;
         const materialsLength = materialKeys.length;
@@ -245,7 +245,7 @@ export default function createDrawList(): IDrawList {
                 return refCount;
             }
         },
-        contextFree(canvasId?: number) {
+        contextFree(canvasId: number) {
             drawableGroups.traverseDrawables(
                 function(drawable) {
                     drawable.contextFree(canvasId)
@@ -274,7 +274,7 @@ export default function createDrawList(): IDrawList {
                 )
             }
         },
-        contextLost(canvasId?: number) {
+        contextLost(canvasId: number) {
             if (canvasIdToManager.exists(canvasId)) {
                 drawableGroups.traverseDrawables(
                     function(drawable) {
@@ -298,7 +298,7 @@ export default function createDrawList(): IDrawList {
         containsDrawable(drawable: IDrawable): boolean {
             return drawableGroups.containsDrawable(drawable)
         },
-        draw(ambients: Facet[], canvasId?: number): void {
+        draw(ambients: Facet[], canvasId: number): void {
             drawableGroups.draw(ambients, canvasId)
         },
         findOne(match: (drawable: IDrawable) => boolean): IDrawable {

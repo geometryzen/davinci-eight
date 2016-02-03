@@ -108,6 +108,7 @@ define(["require", "exports", '../core/BufferResource', '../core/DrawMode', '../
             this.normalized = void 0;
             this.stride = void 0;
             this.offset = void 0;
+            _super.prototype.destructor.call(this);
         };
         Object.defineProperty(ElementsBlockAttrib.prototype, "buffer", {
             get: function () {

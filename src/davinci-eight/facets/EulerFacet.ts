@@ -32,7 +32,7 @@ export default class EulerFacet extends Shareable implements Facet {
      * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId?: number): void {
+    setUniforms(visitor: FacetVisitor, canvasId: number): void {
         console.warn("EulerFacet.setUniforms");
     }
     /**

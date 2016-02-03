@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.173.0</em>
+            <em>API Docs for: 2.174.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -389,7 +389,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId?: number): void {
+    contextFree(canvasId: number): void {
         return this._renderer.contextFree(canvasId)
     }
 
@@ -407,7 +407,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId?: number) {
+    contextLost(canvasId: number) {
         this._renderer.contextLost(canvasId)
     }
 
@@ -531,7 +531,7 @@ export default class WebGLRenderer extends Shareable implements ContextControlle
      * @return {WebGLRenderer}
      * @chainable
      */
-    start(canvas: HTMLCanvasElement, canvasId?: number): WebGLRenderer {
+    start(canvas: HTMLCanvasElement, canvasId: number): WebGLRenderer {
         // FIXME: DRY delegate to kahuna.
         if (!(canvas instanceof HTMLCanvasElement)) {
             console.warn(&quot;canvas must be an HTMLCanvasElement to start the context.&quot;)

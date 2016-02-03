@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.173.0",
+        "version": "2.174.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -27848,21 +27848,21 @@
         },
         {
             "file": "src/davinci-eight/programs/createGraphicsProgram.ts",
-            "line": 21,
+            "line": 18,
             "description": "Name used for reference count monitoring and logging.",
             "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/createGraphicsProgram.ts",
-            "line": 26,
+            "line": 23,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": "IContextRenderer",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/createGraphicsProgram.ts",
-            "line": 46,
+            "line": 43,
             "description": "Because we are multi-canvas aware, programs are tracked by the canvas id.",
             "class": "IContextRenderer",
             "module": "EIGHT"
@@ -29944,34 +29944,34 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 238,
+            "line": 239,
             "class": "Arrow",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 298,
+            "line": 299,
             "description": "Implementation of IBufferGeometry coupled to the 'blocks' implementation.",
             "class": "Arrow",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 393,
+            "line": 394,
             "description": "Implementation of removeContextListener for the kahuna.",
             "class": "Arrow",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 426,
+            "line": 427,
             "description": "We must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
             "class": "Arrow",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 462,
+            "line": 463,
             "class": "Arrow",
             "module": "EIGHT"
         },
@@ -30903,15 +30903,15 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/programs/createGraphicsProgram.ts:21"
+            "line": " src/davinci-eight/programs/createGraphicsProgram.ts:18"
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " src/davinci-eight/programs/createGraphicsProgram.ts:26"
+            "line": " src/davinci-eight/programs/createGraphicsProgram.ts:23"
         },
         {
             "message": "Missing item type\nBecause we are multi-canvas aware, programs are tracked by the canvas id.",
-            "line": " src/davinci-eight/programs/createGraphicsProgram.ts:46"
+            "line": " src/davinci-eight/programs/createGraphicsProgram.ts:43"
         },
         {
             "message": "Missing item type\nGenerates a fragment shader",
@@ -31087,23 +31087,23 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:238"
+            "line": " src/davinci-eight/utils/contextProxy.ts:239"
         },
         {
             "message": "Missing item type\nImplementation of IBufferGeometry coupled to the 'blocks' implementation.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:298"
+            "line": " src/davinci-eight/utils/contextProxy.ts:299"
         },
         {
             "message": "Missing item type\nImplementation of removeContextListener for the kahuna.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:393"
+            "line": " src/davinci-eight/utils/contextProxy.ts:394"
         },
         {
             "message": "Missing item type\nWe must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:426"
+            "line": " src/davinci-eight/utils/contextProxy.ts:427"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:462"
+            "line": " src/davinci-eight/utils/contextProxy.ts:463"
         },
         {
             "message": "Missing item type\nConvenience function for &lt;HTMLCanvasElement&gt;document.getElementById(elementId).",

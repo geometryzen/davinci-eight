@@ -31,7 +31,7 @@ export default class WebGLEnable extends Shareable implements IContextCommand, I
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId?: number): void {
+    contextFree(canvasId: number): void {
         // do nothing
     }
     /**
@@ -48,7 +48,7 @@ export default class WebGLEnable extends Shareable implements IContextCommand, I
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId?: number): void {
+    contextLost(canvasId: number): void {
         // do nothing
     }
 

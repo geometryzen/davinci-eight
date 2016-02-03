@@ -16,7 +16,7 @@ export default class ContextAttributesLogger extends Shareable implements IConte
     constructor() {
         super(QUALIFIED_NAME)
     }
-    contextFree(canvasId?: number): void {
+    contextFree(canvasId: number): void {
         // Do nothing.
     }
     contextGain(manager: IContextProvider): void {
@@ -29,7 +29,7 @@ export default class ContextAttributesLogger extends Shareable implements IConte
         console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer)
         console.log("stencil               => " + attributes.stencil)
     }
-    contextLost(canvasId?: number): void {
+    contextLost(canvasId: number): void {
         // Do nothing.
     }
     destructor(): void {

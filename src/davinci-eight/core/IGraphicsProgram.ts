@@ -41,21 +41,21 @@ interface IGraphicsProgram extends IResource, FacetVisitor {
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {void}
      */
-    use(canvasId?: number): void;
+    use(canvasId: number): void;
 
     /**
      * @method attributes
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{ [name: string]: AttribLocation }}
      */
-    attributes(canvasId?: number): { [name: string]: AttribLocation };
+    attributes(canvasId: number): { [name: string]: AttribLocation };
 
     /**
      * @method uniforms
      * @param [canvasId] {number} Determines which WebGLProgram to use.
      * @return {{ [name: string]: UniformLocation }}
      */
-    uniforms(canvasId?: number): { [name: string]: UniformLocation };
+    uniforms(canvasId: number): { [name: string]: UniformLocation };
 
     /**
      * <p>
@@ -68,7 +68,7 @@ interface IGraphicsProgram extends IResource, FacetVisitor {
      * @beta
      */
     // FIXME: Can we move to the attribute index?
-    enableAttrib(name: string, canvasId?: number): void;
+    enableAttrib(name: string, canvasId: number): void;
 
     /**
      * <p>
@@ -81,7 +81,7 @@ interface IGraphicsProgram extends IResource, FacetVisitor {
      * @beta
      */
     // FIXME: Can we move to the attribute index?
-    disableAttrib(name: string, canvasId?: number): void;
+    disableAttrib(name: string, canvasId: number): void;
 }
 
 export default IGraphicsProgram;

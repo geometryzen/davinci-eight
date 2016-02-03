@@ -21,7 +21,7 @@ interface IContextConsumer extends IUnknown {
      * @param [canvasId] {number} Determines the context for which resources are being freed.
      */
     // FIXME: Passing in the manager would allow some implementations to not cache the WebGL rendering context.  
-    contextFree(canvasId?: number): void;
+    contextFree(canvasId: number): void;
 
     /**
      * Called to inform the dependent of a new WebGL rendering context.
@@ -43,7 +43,7 @@ interface IContextConsumer extends IUnknown {
      * The canvasId is provided, rather than the manager, to remind implementors
      * that resources have been lost and cannot be freed by the application.
      */
-    contextLost(canvasId?: number): void;
+    contextLost(canvasId: number): void;
 }
 
 export default IContextConsumer;

@@ -120,7 +120,7 @@ export default function(): Box {
         setFacet(name: string, facet: Facet): void {
             drawable.setFacet(name, facet);
         },
-        draw(canvasId?: number): void {
+        draw(canvasId: number): void {
             return drawable.draw(canvasId);
         },
         addRef(): number {
@@ -129,13 +129,13 @@ export default function(): Box {
         release(): number {
             return drawable.release();
         },
-        contextFree(canvasId?: number): void {
+        contextFree(canvasId: number): void {
             return drawable.contextFree(canvasId);
         },
         contextGain(manager: IContextProvider): void {
             return drawable.contextGain(manager);
         },
-        contextLost(canvasId?: number): void {
+        contextLost(canvasId: number): void {
             return drawable.contextLost(canvasId);
         }
     };

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.173.0</em>
+            <em>API Docs for: 2.174.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -337,7 +337,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      * @param [canvasId] {number}
      * @return {void}
      */
-    setUniforms(visitor: FacetVisitor, canvasId?: number): void {
+    setUniforms(visitor: FacetVisitor, canvasId: number): void {
         this.inner.setNear(this.near);
         this.inner.setFar(this.far);
         this.inner.setUniforms(visitor, canvasId);
@@ -348,7 +348,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextFree(canvasId?: number): void {
+    contextFree(canvasId: number): void {
         // Do nothing
     }
 
@@ -366,7 +366,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      * @param [canvasId] {number}
      * @return {void}
      */
-    contextLost(canvasId?: number): void {
+    contextLost(canvasId: number): void {
         // Do nothing.
     }
 
@@ -375,7 +375,7 @@ export default class PerspectiveCamera extends Shareable implements Perspective,
      * @param [canvasId] {number}
      * @return {void}
      */
-    draw(canvasId?: number): void {
+    draw(canvasId: number): void {
         // Do nothing.
     }
 
