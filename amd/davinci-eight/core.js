@@ -6,7 +6,7 @@ define(["require", "exports"], function (require, exports) {
         LAST_MODIFIED: '2016-02-03',
         NAMESPACE: 'EIGHT',
         verbose: false,
-        VERSION: '2.174.0'
+        VERSION: '2.175.0'
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = core;

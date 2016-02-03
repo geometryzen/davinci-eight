@@ -905,13 +905,16 @@ export default class G3 extends VectorN<number> implements GeometricE3, MutableG
         this.β = -this.β
         return this
     }
+
     /**
      * @method __tilde__
      * @return {G3}
+     * @private
      */
     __tilde__(): G3 {
         return G3.copy(this).rev()
     }
+
     /**
      * <p>
      * <code>this ⟼ R * this * rev(R)</code>

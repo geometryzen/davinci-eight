@@ -21497,7 +21497,7 @@ System.register("davinci-eight/core.js", [], function(exports_1) {
         LAST_MODIFIED: '2016-02-03',
         NAMESPACE: 'EIGHT',
         verbose: false,
-        VERSION: '2.174.0'
+        VERSION: '2.175.0'
       };
       exports_1("default", core);
     }

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.174.0</em>
+            <em>API Docs for: 2.175.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -1159,13 +1159,16 @@ export default class G3 extends VectorN&lt;number&gt; implements GeometricE3, Mu
         this.β = -this.β
         return this
     }
+
     /**
      * @method __tilde__
      * @return {G3}
+     * @private
      */
     __tilde__(): G3 {
         return G3.copy(this).rev()
     }
+
     /**
      * &lt;p&gt;
      * &lt;code&gt;this ⟼ R * this * rev(R)&lt;/code&gt;
