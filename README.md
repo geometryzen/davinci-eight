@@ -29,7 +29,7 @@ WARNING. This library is under active development; the API is subject to changes
 
 ## API documentation
 
-[API Documentation](http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html)
+[API Documentation](http://www.mathdoodle.io/docs/davinci-eight/index.html)
 
 ## Getting Started
 
