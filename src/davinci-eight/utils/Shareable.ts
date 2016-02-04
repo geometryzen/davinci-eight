@@ -54,13 +54,15 @@ export default class Shareable implements IUnknown {
     release(): number {
         this._refCount--
         refChange(this._uuid, this._type, -1)
-        let refCount = this._refCount
+        const refCount = this._refCount
         if (refCount === 0) {
             // destructor called with `true` means grumble if the method has not been overridden.
             this.destructor(true)
+            // refCount is used to indicate zombie status so let that go to undefined.
             this._refCount = void 0
-            this._type = void 0
-            this._uuid = void 0
+            // Keep the type and uuid around for debugging reference count problems.
+            // this._type = void 0
+            // this._uuid = void 0
         }
         return refCount;
     }

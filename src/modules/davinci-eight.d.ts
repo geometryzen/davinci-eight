@@ -3143,13 +3143,6 @@ declare module EIGHT {
     }
 
     /**
-     *
-     */
-    interface ContextKahuna extends ContextController, IContextProvider, IContextMonitor, ContextUnique {
-
-    }
-
-    /**
      * The Drawable interface indicates that the implementation can make a call
      * to either drawArrays or drawElements on the WebGL rendering context.
      */
@@ -3219,9 +3212,11 @@ declare module EIGHT {
         constructor(monitors?: IContextMonitor[])
         add(drawable: IDrawable): void
         addRef(): number
+        attachTo(monitor: IContextMonitor): void
         contextFree(canvasId: number): void
         contextGain(manager: IContextProvider): void
         contextLost(canvasId: number): void
+        detachFrom(monitor: IContextMonitor): void
         draw(ambients: Facet[], canvasId: number): void
         findOne(match: (drawable: IDrawable) => boolean): IDrawable
         getDrawableByName(name: string): IDrawable

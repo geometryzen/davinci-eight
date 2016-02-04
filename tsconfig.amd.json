@@ -13,6 +13,7 @@
     "inlineSources": false
   },
   "files": [
-    "src/davinci-eight.ts"
+    "src/davinci-eight.ts",
+    "src/davinci-eight/shaders/ShareableWebGLShader.ts"
   ]
 }

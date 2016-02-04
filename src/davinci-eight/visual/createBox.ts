@@ -44,6 +44,12 @@ export default function(): Box {
             facet.color.copy(color);
             facet.release();
         },
+        get graphicsBuffers() {
+            return drawable.graphicsBuffers;
+        },
+        set graphicsBuffers(unused) {
+            throw new Error(readOnly('graphicsBuffers').message);
+        },
         get graphicsProgram() {
             return drawable.graphicsProgram;
         },
@@ -120,8 +126,11 @@ export default function(): Box {
         setFacet(name: string, facet: Facet): void {
             drawable.setFacet(name, facet);
         },
-        draw(canvasId: number): void {
-            return drawable.draw(canvasId);
+        //  draw(canvasId: number): void {
+        //    return drawable.draw(canvasId);
+        //  },
+        setUniforms(canvasId: number): void {
+            drawable.setUniforms(canvasId);
         },
         addRef(): number {
             return drawable.addRef();

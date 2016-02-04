@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.175.0</em>
+            <em>API Docs for: 2.176.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -262,11 +262,6 @@ import StringIUnknownMap from &#x27;../collections/StringIUnknownMap&#x27;;
 import Facet from &#x27;../core/Facet&#x27;;
 
 /**
- * Name used for reference count monitoring and logging.
- */
-const LOGGING_NAME = &#x27;Drawable&#x27;;
-
-/**
  * @class Drawable
  * @extends Shareable
  */
@@ -298,7 +293,7 @@ export default class Drawable extends Shareable implements IDrawable {
      * @type {StringIUnknownMap&amp;lt;Facet&amp;gt;}
      * @private
      */
-    private facets: StringIUnknownMap&lt;Facet&gt;;
+    private _facets: StringIUnknownMap&lt;Facet&gt;;
 
     /**
      * @class Drawable
@@ -307,12 +302,12 @@ export default class Drawable extends Shareable implements IDrawable {
      * @param graphicsProgram {IGraphicsProgram}
      */
     constructor(graphicsBuffers: IGraphicsBuffers, graphicsProgram: IGraphicsProgram) {
-        super(LOGGING_NAME)
+        super(&#x27;Drawable&#x27;)
         this._graphicsBuffers = graphicsBuffers;
         this._graphicsBuffers.addRef();
         this._graphicsProgram = graphicsProgram
         this._graphicsProgram.addRef()
-        this.facets = new StringIUnknownMap&lt;Facet&gt;();
+        this._facets = new StringIUnknownMap&lt;Facet&gt;();
     }
 
     /**
@@ -321,12 +316,13 @@ export default class Drawable extends Shareable implements IDrawable {
      * @protected
      */
     protected destructor(): void {
-        this._graphicsBuffers.release();
-        this._graphicsBuffers = void 0;
+        this._graphicsBuffers.release()
+        this._graphicsBuffers = void 0
         this._graphicsProgram.release()
         this._graphicsProgram = void 0
-        this.facets.release()
-        this.facets = void 0
+        this._facets.release()
+        this._facets = void 0
+        super.destructor()
     }
 
     /**
@@ -337,17 +333,27 @@ export default class Drawable extends Shareable implements IDrawable {
     draw(canvasId: number): void {
         // Using the private member ensures that we don&#x27;t accidentally addRef.
         const program = this._graphicsProgram
+
         program.use(canvasId)
 
-        // FIXME: The name is unused. Think we should just have a list
-        // and then access using either the real uniform name or a property name.
-        const facets: StringIUnknownMap&lt;Facet&gt; = this.facets
-        // TODO: Faster iteration of facets without using a callback.
-        facets.forEach(function(name, uniform) {
-            uniform.setUniforms(program, canvasId)
-        })
+        this.setUniforms(canvasId);
 
         this._graphicsBuffers.draw(program, canvasId)
+    }
+
+    /**
+     * @method setUniforms
+     * @param canvasId {number}
+     * @return {void}
+     */
+    setUniforms(canvasId: number): void {
+
+        const facets: StringIUnknownMap&lt;Facet&gt; = this._facets
+        // TODO: Faster iteration of facets without using a callback.
+        facets.forEach((name: string, facet: Facet) =&gt; {
+            facet.setUniforms(this._graphicsProgram, canvasId)
+        })
+
     }
 
     /**
@@ -385,7 +391,7 @@ export default class Drawable extends Shareable implements IDrawable {
      * @return {Facet}
      */
     getFacet(name: string): Facet {
-        return this.facets.get(name)
+        return this._facets.get(name)
     }
 
     /**
@@ -395,7 +401,21 @@ export default class Drawable extends Shareable implements IDrawable {
      * @return {void}
      */
     setFacet(name: string, facet: Facet): void {
-        this.facets.put(name, facet)
+        this._facets.put(name, facet)
+    }
+
+    /**
+     * Provides a reference counted reference to the graphics buffers property.
+     * @property graphicsBuffers
+     * @type {IGraphicsBuffers}
+     * @readOnly
+     */
+    get graphicsBuffers(): IGraphicsBuffers {
+        this._graphicsBuffers.addRef()
+        return this._graphicsBuffers
+    }
+    set graphicsBuffers(unused) {
+        throw new Error(readOnly(&#x27;graphicsBuffers&#x27;).message)
     }
 
     /**

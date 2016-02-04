@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.175.0</em>
+            <em>API Docs for: 2.176.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -253,6 +253,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Facet from &#x27;../core/Facet&#x27;;
+import IGraphicsBuffers from &#x27;../core/IGraphicsBuffers&#x27;;
 import IGraphicsProgram from &#x27;../core/IGraphicsProgram&#x27;;
 import IResource from &#x27;../core/IResource&#x27;;
 
@@ -269,10 +270,18 @@ import IResource from &#x27;../core/IResource&#x27;;
  */
 interface IDrawable extends IResource {
     /**
+     * @property graphicsBuffers
+     * @type {IGraphicsBuffers}
+     */
+    graphicsBuffers: IGraphicsBuffers;
+
+    /**
      * @property graphicsProgram
      * @type {IGraphicsProgram}
      */
     graphicsProgram: IGraphicsProgram;
+
+    setUniforms(canvasId: number);
 
     /**
      * User assigned name of the drawable object.
@@ -288,7 +297,7 @@ interface IDrawable extends IResource {
      * @param canvasId {number} Determines which canvas the IDrawable should draw to.
      * @return {void}
      */
-    draw(canvasId: number): void;
+    // draw(canvasId: number): void;
 
     /**
      * @method getFacet

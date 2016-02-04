@@ -21,8 +21,6 @@ define(["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../
             if (refCount === 0) {
                 this.destructor(true);
                 this._refCount = void 0;
-                this._type = void 0;
-                this._uuid = void 0;
             }
             return refCount;
         };

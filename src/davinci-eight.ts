@@ -34,7 +34,6 @@ import Color from 'davinci-eight/core/Color';
 import core from 'davinci-eight/core';
 import DrawMode from 'davinci-eight/core/DrawMode';
 import ContextController from 'davinci-eight/core/ContextController';
-import ContextKahuna from 'davinci-eight/core/ContextKahuna';
 import IContextConsumer from 'davinci-eight/core/IContextConsumer';
 import IContextProgramConsumer from 'davinci-eight/core/IContextProgramConsumer';
 import IContextProvider from 'davinci-eight/core/IContextProvider';
@@ -71,7 +70,6 @@ import LineTopology from 'davinci-eight/topologies/LineTopology';
 import MeshTopology from 'davinci-eight/topologies/MeshTopology';
 import GridTopology from 'davinci-eight/topologies/GridTopology';
 // scene
-import createDrawList from 'davinci-eight/scene/createDrawList';
 import IDrawList from 'davinci-eight/scene/IDrawList';
 import Drawable from 'davinci-eight/scene/Drawable';
 import Scene from 'davinci-eight/scene/Scene';
@@ -180,10 +178,8 @@ import GraphicsBuffers from 'davinci-eight/resources/GraphicsBuffers';
 // renderers
 import IContextRenderer from 'davinci-eight/renderers/IContextRenderer';
 import initWebGL from 'davinci-eight/renderers/initWebGL';
-import renderer from 'davinci-eight/renderers/renderer';
 
 // utils
-import contextProxy from 'davinci-eight/utils/contextProxy';
 import Framerate from 'davinci-eight/utils/Framerate';
 import getCanvasElementById from 'davinci-eight/utils/getCanvasElementById';
 import IUnknownArray from 'davinci-eight/collections/IUnknownArray';
@@ -295,9 +291,6 @@ var eight = {
     get PerspectiveCamera() { return PerspectiveCamera },
     get getCanvasElementById() { return getCanvasElementById },
     get WebGLRenderer() { return WebGLRenderer },
-    get createDrawList() { return createDrawList },
-    get renderer() { return renderer },
-    get webgl() { return contextProxy },
     get animation() { return animation },
     get DrawMode() { return DrawMode },
     get AttribLocation() { return AttribLocation },

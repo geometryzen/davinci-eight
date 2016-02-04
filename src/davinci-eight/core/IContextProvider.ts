@@ -1,11 +1,9 @@
 import IContextConsumer from '../core/IContextConsumer';
 import IContextMonitor from '../core/IContextMonitor';
-import ContextUnique from '../core/ContextUnique';
 import IBuffer from '../core/IBuffer';
 import IBufferGeometry from '../geometries/IBufferGeometry';
 import ITexture2D from '../core/ITexture2D';
 import ITextureCubeMap from '../core/ITextureCubeMap';
-import IUnknown from '../core/IUnknown';
 import Primitive from '../geometries/Primitive';
 
 /**

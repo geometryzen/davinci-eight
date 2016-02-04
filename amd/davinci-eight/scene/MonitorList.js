@@ -27,14 +27,21 @@ define(["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '..
             this.monitors.forEach(function (monitor) {
                 monitor.release();
             });
+            _super.prototype.destructor.call(this);
         };
         MonitorList.prototype.addContextListener = function (user) {
             this.monitors.forEach(function (monitor) {
                 monitor.addContextListener(user);
             });
         };
-        MonitorList.prototype.push = function (monitor) {
+        MonitorList.prototype.add = function (monitor) {
+            monitor.addRef();
             this.monitors.push(monitor);
+        };
+        MonitorList.prototype.remove = function (monitor) {
+            var index = this.monitors.indexOf(monitor);
+            this.monitors[index].release();
+            this.monitors.splice(index, 1);
         };
         MonitorList.prototype.removeContextListener = function (user) {
             this.monitors.forEach(function (monitor) {

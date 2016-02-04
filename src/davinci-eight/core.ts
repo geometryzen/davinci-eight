@@ -1,17 +1,28 @@
+class Eight {
+    fastPath: boolean;
+    strict: boolean;
+    GITHUB: string;
+    LAST_MODIFIED: string;
+    NAMESPACE: string;
+    verbose: boolean;
+    VERSION: string;
+    logging: { [name: string]: number };
+
+    constructor() {
+        this.fastPath = false;
+        this.strict = false;
+        this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
+        this.LAST_MODIFIED = '2016-02-03';
+        this.NAMESPACE = 'EIGHT';
+        this.verbose = false;
+        this.VERSION = '2.176.0';
+        this.logging = {};
+    }
+}
+
 /**
  *
  */
-const core = {
-    /**
-     * If true, ensures that assertions do not exist on the rendering "fast path".
-     */
-    fastPath: false,
-    strict: false,
-    GITHUB: 'https://github.com/geometryzen/davinci-eight',
-    LAST_MODIFIED: '2016-02-03',
-    NAMESPACE: 'EIGHT',
-    verbose: false,
-    VERSION: '2.175.0'
-};
+const core = new Eight()
 
 export default core;

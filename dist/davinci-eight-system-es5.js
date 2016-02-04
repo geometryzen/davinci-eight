@@ -2320,7 +2320,7 @@ System.register("davinci-eight/topologies/LineTopology.js", ["../topologies/Topo
   };
 });
 
-System.register("davinci-eight/scene/createDrawList.js", ["../collections/IUnknownArray", "../collections/NumberIUnknownMap", "../utils/refChange", "../utils/Shareable", "../collections/StringIUnknownMap", "../utils/uuid4"], function(exports_1) {
+System.register("davinci-eight/scene/Scene.js", ["../core", "../collections/IUnknownArray", "../scene/MonitorList", "../checks/mustBeArray", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../collections/NumberIUnknownMap", "../utils/Shareable", "../collections/StringIUnknownMap"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -2330,125 +2330,50 @@ System.register("davinci-eight/scene/createDrawList.js", ["../collections/IUnkno
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var IUnknownArray_1,
+  var core_1,
+      IUnknownArray_1,
+      MonitorList_1,
+      mustBeArray_1,
+      mustBeFunction_1,
+      mustBeNumber_1,
+      mustBeObject_1,
+      mustBeString_1,
       NumberIUnknownMap_1,
-      refChange_1,
       Shareable_1,
-      StringIUnknownMap_1,
-      uuid4_1;
-  var CLASS_NAME_DRAWLIST,
+      StringIUnknownMap_1;
+  var LOGGING_NAME,
       DrawableGroup,
-      DrawableGroups;
-  function createDrawList() {
-    var drawableGroups = new DrawableGroups();
-    var canvasIdToManager = new NumberIUnknownMap_1.default();
-    var refCount = 1;
-    var uuid = uuid4_1.default().generate();
-    var self = {
-      addRef: function() {
-        refCount++;
-        refChange_1.default(uuid, CLASS_NAME_DRAWLIST, +1);
-        return refCount;
-      },
-      release: function() {
-        refCount--;
-        refChange_1.default(uuid, CLASS_NAME_DRAWLIST, -1);
-        if (refCount === 0) {
-          drawableGroups.release();
-          drawableGroups = void 0;
-          canvasIdToManager.release();
-          canvasIdToManager = void 0;
-          refCount = void 0;
-          uuid = void 0;
-          return 0;
-        } else {
-          return refCount;
-        }
-      },
-      contextFree: function(canvasId) {
-        drawableGroups.traverseDrawables(function(drawable) {
-          drawable.contextFree(canvasId);
-        }, function(program) {
-          program.contextFree(canvasId);
-        });
-        canvasIdToManager.remove(canvasId);
-      },
-      contextGain: function(manager) {
-        if (!canvasIdToManager.exists(manager.canvasId)) {
-          canvasIdToManager.put(manager.canvasId, manager);
-          drawableGroups.traverseDrawables(function(drawable) {
-            drawable.contextGain(manager);
-          }, function(material) {
-            material.contextGain(manager);
-          });
-        }
-      },
-      contextLost: function(canvasId) {
-        if (canvasIdToManager.exists(canvasId)) {
-          drawableGroups.traverseDrawables(function(drawable) {
-            drawable.contextLost(canvasId);
-          }, function(material) {
-            material.contextLost(canvasId);
-          });
-          canvasIdToManager.remove(canvasId);
-        }
-      },
-      add: function(drawable) {
-        canvasIdToManager.forEach(function(id, manager) {
-          drawable.contextGain(manager);
-        });
-        drawableGroups.add(drawable);
-      },
-      containsDrawable: function(drawable) {
-        return drawableGroups.containsDrawable(drawable);
-      },
-      draw: function(ambients, canvasId) {
-        drawableGroups.draw(ambients, canvasId);
-      },
-      findOne: function(match) {
-        return drawableGroups.findOne(match);
-      },
-      getDrawableByName: function(name) {
-        return drawableGroups.findOne(function(drawable) {
-          return drawable.name === name;
-        });
-      },
-      getDrawablesByName: function(name) {
-        var result = new IUnknownArray_1.default();
-        drawableGroups.traverseDrawables(function(candidate) {
-          if (candidate.name === name) {
-            result.push(candidate);
-          }
-        }, function(program) {});
-        return result;
-      },
-      remove: function(drawable) {
-        drawableGroups.remove(drawable);
-      },
-      traverse: function(callback, canvasId, prolog) {
-        drawableGroups.traverseDrawables(callback, prolog);
-      }
-    };
-    refChange_1.default(uuid, CLASS_NAME_DRAWLIST, +1);
-    return self;
+      DrawableGroups,
+      Scene;
+  function ctorContext() {
+    return LOGGING_NAME + " constructor";
   }
-  exports_1("default", createDrawList);
   return {
-    setters: [function(IUnknownArray_1_1) {
+    setters: [function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(IUnknownArray_1_1) {
       IUnknownArray_1 = IUnknownArray_1_1;
+    }, function(MonitorList_1_1) {
+      MonitorList_1 = MonitorList_1_1;
+    }, function(mustBeArray_1_1) {
+      mustBeArray_1 = mustBeArray_1_1;
+    }, function(mustBeFunction_1_1) {
+      mustBeFunction_1 = mustBeFunction_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
     }, function(NumberIUnknownMap_1_1) {
       NumberIUnknownMap_1 = NumberIUnknownMap_1_1;
-    }, function(refChange_1_1) {
-      refChange_1 = refChange_1_1;
     }, function(Shareable_1_1) {
       Shareable_1 = Shareable_1_1;
     }, function(StringIUnknownMap_1_1) {
       StringIUnknownMap_1 = StringIUnknownMap_1_1;
-    }, function(uuid4_1_1) {
-      uuid4_1 = uuid4_1_1;
     }],
     execute: function() {
-      CLASS_NAME_DRAWLIST = "createDrawList";
+      LOGGING_NAME = 'Scene';
       DrawableGroup = (function(_super) {
         __extends(DrawableGroup, _super);
         function DrawableGroup(program) {
@@ -2459,9 +2384,7 @@ System.register("davinci-eight/scene/createDrawList.js", ["../collections/IUnkno
         }
         DrawableGroup.prototype.destructor = function() {
           this._program.release();
-          this._program = void 0;
           this._drawables.release();
-          this._drawables = void 0;
           _super.prototype.destructor.call(this);
         };
         DrawableGroup.prototype.acceptProgram = function(visitor) {
@@ -2488,20 +2411,23 @@ System.register("davinci-eight/scene/createDrawList.js", ["../collections/IUnkno
           }
         };
         DrawableGroup.prototype.draw = function(ambients, canvasId) {
-          var program = this._program;
-          program.use(canvasId);
+          var graphicsProgram = this._program;
+          graphicsProgram.use(canvasId);
           if (ambients) {
             var aLength = ambients.length;
             for (var a = 0; a < aLength; a++) {
               var ambient = ambients[a];
-              ambient.setUniforms(program, canvasId);
+              ambient.setUniforms(graphicsProgram, canvasId);
             }
           }
           var drawables = this._drawables;
           var iLength = drawables.length;
           for (var i = 0; i < iLength; i++) {
             var drawable = drawables.getWeakRef(i);
-            drawable.draw(canvasId);
+            drawable.setUniforms(canvasId);
+            var buffers = drawable.graphicsBuffers;
+            buffers.draw(graphicsProgram, canvasId);
+            buffers.release();
           }
         };
         DrawableGroup.prototype.findOne = function(match) {
@@ -2530,7 +2456,6 @@ System.register("davinci-eight/scene/createDrawList.js", ["../collections/IUnkno
         }
         DrawableGroups.prototype.destructor = function() {
           this._groups.release();
-          this._groups = void 0;
           _super.prototype.destructor.call(this);
         };
         DrawableGroups.prototype.add = function(drawable) {
@@ -2626,56 +2551,6 @@ System.register("davinci-eight/scene/createDrawList.js", ["../collections/IUnkno
         };
         return DrawableGroups;
       })(Shareable_1.default);
-    }
-  };
-});
-
-System.register("davinci-eight/scene/Scene.js", ["../core", "../scene/createDrawList", "../scene/MonitorList", "../checks/mustBeArray", "../checks/mustBeFunction", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../utils/Shareable"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var core_1,
-      createDrawList_1,
-      MonitorList_1,
-      mustBeArray_1,
-      mustBeFunction_1,
-      mustBeNumber_1,
-      mustBeObject_1,
-      mustBeString_1,
-      Shareable_1;
-  var LOGGING_NAME,
-      Scene;
-  function ctorContext() {
-    return LOGGING_NAME + " constructor";
-  }
-  return {
-    setters: [function(core_1_1) {
-      core_1 = core_1_1;
-    }, function(createDrawList_1_1) {
-      createDrawList_1 = createDrawList_1_1;
-    }, function(MonitorList_1_1) {
-      MonitorList_1 = MonitorList_1_1;
-    }, function(mustBeArray_1_1) {
-      mustBeArray_1 = mustBeArray_1_1;
-    }, function(mustBeFunction_1_1) {
-      mustBeFunction_1 = mustBeFunction_1_1;
-    }, function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(mustBeObject_1_1) {
-      mustBeObject_1 = mustBeObject_1_1;
-    }, function(mustBeString_1_1) {
-      mustBeString_1 = mustBeString_1_1;
-    }, function(Shareable_1_1) {
-      Shareable_1 = Shareable_1_1;
-    }],
-    execute: function() {
-      LOGGING_NAME = 'Scene';
       Scene = (function(_super) {
         __extends(Scene, _super);
         function Scene(monitors) {
@@ -2683,9 +2558,10 @@ System.register("davinci-eight/scene/Scene.js", ["../core", "../scene/createDraw
             monitors = [];
           }
           _super.call(this, LOGGING_NAME);
+          this._drawableGroups = new DrawableGroups();
+          this._canvasIdToManager = new NumberIUnknownMap_1.default();
           mustBeArray_1.default('monitors', monitors);
           MonitorList_1.default.verify('monitors', monitors, ctorContext);
-          this.drawList = createDrawList_1.default();
           this.monitors = new MonitorList_1.default(monitors);
           this.monitors.addContextListener(this);
           this.monitors.synchronize(this);
@@ -2693,59 +2569,97 @@ System.register("davinci-eight/scene/Scene.js", ["../core", "../scene/createDraw
         Scene.prototype.destructor = function() {
           this.monitors.removeContextListener(this);
           this.monitors.release();
-          this.monitors = void 0;
-          this.drawList.release();
-          this.drawList = void 0;
+          this._canvasIdToManager.release();
+          this._drawableGroups.release();
+          _super.prototype.destructor.call(this);
+        };
+        Scene.prototype.attachTo = function(monitor) {
+          this.monitors.add(monitor);
+          monitor.addContextListener(this);
+        };
+        Scene.prototype.detachFrom = function(monitor) {
+          monitor.removeContextListener(this);
+          this.monitors.remove(monitor);
         };
         Scene.prototype.add = function(drawable) {
           mustBeObject_1.default('drawable', drawable);
-          return this.drawList.add(drawable);
+          this._canvasIdToManager.forEach(function(id, manager) {
+            drawable.contextGain(manager);
+          });
+          this._drawableGroups.add(drawable);
         };
         Scene.prototype.containsDrawable = function(drawable) {
           mustBeObject_1.default('drawable', drawable);
-          return this.drawList.containsDrawable(drawable);
+          return this._drawableGroups.containsDrawable(drawable);
         };
         Scene.prototype.draw = function(ambients, canvasId) {
           if (!core_1.default.fastPath) {
             mustBeArray_1.default('ambients', ambients);
             mustBeNumber_1.default('canvasId', canvasId);
           }
-          return this.drawList.draw(ambients, canvasId);
+          this._drawableGroups.draw(ambients, canvasId);
         };
         Scene.prototype.findOne = function(match) {
           mustBeFunction_1.default('match', match);
-          return this.drawList.findOne(match);
+          return this._drawableGroups.findOne(match);
         };
         Scene.prototype.getDrawableByName = function(name) {
           if (!core_1.default.fastPath) {
             mustBeString_1.default('name', name);
           }
-          return this.drawList.getDrawableByName(name);
+          return this._drawableGroups.findOne(function(drawable) {
+            return drawable.name === name;
+          });
         };
         Scene.prototype.getDrawablesByName = function(name) {
           mustBeString_1.default('name', name);
-          return this.drawList.getDrawablesByName(name);
+          var result = new IUnknownArray_1.default();
+          this._drawableGroups.traverseDrawables(function(candidate) {
+            if (candidate.name === name) {
+              result.push(candidate);
+            }
+          }, function(program) {});
+          return result;
         };
         Scene.prototype.remove = function(drawable) {
           mustBeObject_1.default('drawable', drawable);
-          return this.drawList.remove(drawable);
+          this._drawableGroups.remove(drawable);
         };
         Scene.prototype.traverse = function(callback, canvasId, prolog) {
           mustBeFunction_1.default('callback', callback);
           mustBeNumber_1.default('canvasId', canvasId);
-          this.drawList.traverse(callback, canvasId, prolog);
+          this._drawableGroups.traverseDrawables(callback, prolog);
         };
         Scene.prototype.contextFree = function(canvasId) {
           mustBeNumber_1.default('canvasId', canvasId);
-          this.drawList.contextFree(canvasId);
+          this._drawableGroups.traverseDrawables(function(drawable) {
+            drawable.contextFree(canvasId);
+          }, function(program) {
+            program.contextFree(canvasId);
+          });
+          this._canvasIdToManager.remove(canvasId);
         };
         Scene.prototype.contextGain = function(manager) {
           mustBeObject_1.default('manager', manager);
-          this.drawList.contextGain(manager);
+          if (!this._canvasIdToManager.exists(manager.canvasId)) {
+            this._canvasIdToManager.put(manager.canvasId, manager);
+            this._drawableGroups.traverseDrawables(function(drawable) {
+              drawable.contextGain(manager);
+            }, function(material) {
+              material.contextGain(manager);
+            });
+          }
         };
         Scene.prototype.contextLost = function(canvasId) {
           mustBeNumber_1.default('canvasId', canvasId);
-          this.drawList.contextLost(canvasId);
+          if (this._canvasIdToManager.exists(canvasId)) {
+            this._drawableGroups.traverseDrawables(function(drawable) {
+              drawable.contextLost(canvasId);
+            }, function(material) {
+              material.contextLost(canvasId);
+            });
+            this._canvasIdToManager.remove(canvasId);
+          }
         };
         return Scene;
       })(Shareable_1.default);
@@ -2754,7 +2668,7 @@ System.register("davinci-eight/scene/Scene.js", ["../core", "../scene/createDraw
   };
 });
 
-System.register("davinci-eight/scene/WebGLRenderer.js", ["../commands/Capability", "../renderers/renderer", "../utils/contextProxy", "../checks/mustBeDefined", "../i18n/readOnly", "../utils/Shareable"], function(exports_1) {
+System.register("davinci-eight/core/BufferResource.js", ["../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeObject", "../utils/Shareable"], function(exports_1) {
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -2764,62 +2678,788 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../commands/Capability
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
-  var Capability_1,
-      renderer_1,
-      contextProxy_1,
-      mustBeDefined_1,
-      readOnly_1,
+  var isDefined_1,
+      mustBeBoolean_1,
+      mustBeObject_1,
       Shareable_1;
-  var WebGLRenderer;
+  var CLASS_NAME,
+      BufferResource;
   return {
-    setters: [function(Capability_1_1) {
-      Capability_1 = Capability_1_1;
-    }, function(renderer_1_1) {
-      renderer_1 = renderer_1_1;
-    }, function(contextProxy_1_1) {
-      contextProxy_1 = contextProxy_1_1;
-    }, function(mustBeDefined_1_1) {
-      mustBeDefined_1 = mustBeDefined_1_1;
-    }, function(readOnly_1_1) {
-      readOnly_1 = readOnly_1_1;
+    setters: [function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(mustBeBoolean_1_1) {
+      mustBeBoolean_1 = mustBeBoolean_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
     }, function(Shareable_1_1) {
       Shareable_1 = Shareable_1_1;
     }],
     execute: function() {
+      CLASS_NAME = 'BufferResource';
+      BufferResource = (function(_super) {
+        __extends(BufferResource, _super);
+        function BufferResource(manager, isElements) {
+          _super.call(this, CLASS_NAME);
+          this.manager = mustBeObject_1.default('manager', manager);
+          this._isElements = mustBeBoolean_1.default('isElements', isElements);
+          manager.addContextListener(this);
+          manager.synchronize(this);
+        }
+        BufferResource.prototype.destructor = function() {
+          this.contextFree(this.manager.canvasId);
+          this.manager.removeContextListener(this);
+          this.manager = void 0;
+          this._isElements = void 0;
+          _super.prototype.destructor.call(this);
+        };
+        BufferResource.prototype.contextFree = function(canvasId) {
+          if (this._buffer) {
+            var gl = this.manager.gl;
+            if (isDefined_1.default(gl)) {
+              gl.deleteBuffer(this._buffer);
+            } else {
+              console.error(CLASS_NAME + " must leak WebGLBuffer because WebGLRenderingContext is " + typeof gl);
+            }
+            this._buffer = void 0;
+          } else {}
+        };
+        BufferResource.prototype.contextGain = function(manager) {
+          if (this.manager.canvasId === manager.canvasId) {
+            if (!this._buffer) {
+              this._buffer = manager.gl.createBuffer();
+            } else {}
+          } else {
+            console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
+          }
+        };
+        BufferResource.prototype.contextLost = function() {
+          this._buffer = void 0;
+        };
+        BufferResource.prototype.bind = function() {
+          var gl = this.manager.gl;
+          if (gl) {
+            var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+            gl.bindBuffer(target, this._buffer);
+          } else {
+            console.warn(CLASS_NAME + " bind() missing WebGL rendering context.");
+          }
+        };
+        BufferResource.prototype.unbind = function() {
+          var gl = this.manager.gl;
+          if (gl) {
+            var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+            gl.bindBuffer(target, null);
+          } else {
+            console.warn(CLASS_NAME + " unbind() missing WebGL rendering context.");
+          }
+        };
+        return BufferResource;
+      })(Shareable_1.default);
+      exports_1("default", BufferResource);
+    }
+  };
+});
+
+System.register("davinci-eight/utils/randumbInteger.js", [], function(exports_1) {
+  function randumbInteger() {
+    var r = Math.random();
+    var s = r * 1000000;
+    var i = Math.round(s);
+    return i;
+  }
+  exports_1("default", randumbInteger);
+  return {
+    setters: [],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/resources/TextureResource.js", ["../checks/expectArg", "../utils/refChange", "../utils/uuid4"], function(exports_1) {
+  var expectArg_1,
+      refChange_1,
+      uuid4_1;
+  var LOGGING_NAME_ITEXTURE,
+      ms,
+      os,
+      TextureResource;
+  return {
+    setters: [function(expectArg_1_1) {
+      expectArg_1 = expectArg_1_1;
+    }, function(refChange_1_1) {
+      refChange_1 = refChange_1_1;
+    }, function(uuid4_1_1) {
+      uuid4_1 = uuid4_1_1;
+    }],
+    execute: function() {
+      LOGGING_NAME_ITEXTURE = 'ITexture';
+      ms = new Array();
+      os = [];
+      TextureResource = (function() {
+        function TextureResource(monitors, target) {
+          this._refCount = 1;
+          this._uuid = uuid4_1.default().generate();
+          var monitor = monitors[0];
+          this._monitor = expectArg_1.default('montor', monitor).toBeObject().value;
+          this._target = target;
+          refChange_1.default(this._uuid, LOGGING_NAME_ITEXTURE, +1);
+          monitor.addContextListener(this);
+          monitor.synchronize(this);
+        }
+        TextureResource.prototype.addRef = function() {
+          this._refCount++;
+          refChange_1.default(this._uuid, LOGGING_NAME_ITEXTURE, +1);
+          return this._refCount;
+        };
+        TextureResource.prototype.release = function() {
+          this._refCount--;
+          refChange_1.default(this._uuid, LOGGING_NAME_ITEXTURE, -1);
+          if (this._refCount === 0) {
+            this._monitor.removeContextListener(this);
+            this.contextFree();
+          }
+          return this._refCount;
+        };
+        TextureResource.prototype.contextFree = function() {
+          if (this._texture) {
+            this._gl.deleteTexture(this._texture);
+            this._texture = void 0;
+          }
+          this._gl = void 0;
+        };
+        TextureResource.prototype.contextGain = function(manager) {
+          var gl = manager.gl;
+          if (this._gl !== gl) {
+            this.contextFree();
+            this._gl = gl;
+            this._texture = gl.createTexture();
+          }
+        };
+        TextureResource.prototype.contextLost = function() {
+          this._texture = void 0;
+          this._gl = void 0;
+        };
+        TextureResource.prototype.bind = function() {
+          if (this._gl) {
+            this._gl.bindTexture(this._target, this._texture);
+          } else {
+            console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGL rendering context.");
+          }
+        };
+        TextureResource.prototype.unbind = function() {
+          if (this._gl) {
+            this._gl.bindTexture(this._target, null);
+          } else {
+            console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGL rendering context.");
+          }
+        };
+        return TextureResource;
+      })();
+      exports_1("default", TextureResource);
+    }
+  };
+});
+
+System.register("davinci-eight/commands/WebGLClearColor.js", ["../checks/mustBeNumber", "../utils/Shareable"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var mustBeNumber_1,
+      Shareable_1;
+  var WebGLClearColor;
+  return {
+    setters: [function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(Shareable_1_1) {
+      Shareable_1 = Shareable_1_1;
+    }],
+    execute: function() {
+      WebGLClearColor = (function(_super) {
+        __extends(WebGLClearColor, _super);
+        function WebGLClearColor(red, green, blue, alpha) {
+          if (red === void 0) {
+            red = 0;
+          }
+          if (green === void 0) {
+            green = 0;
+          }
+          if (blue === void 0) {
+            blue = 0;
+          }
+          if (alpha === void 0) {
+            alpha = 1;
+          }
+          _super.call(this, 'WebGLClearColor');
+          this.red = mustBeNumber_1.default('red', red);
+          this.green = mustBeNumber_1.default('green', green);
+          this.blue = mustBeNumber_1.default('blue', blue);
+          this.alpha = mustBeNumber_1.default('alpha', alpha);
+        }
+        WebGLClearColor.prototype.destructor = function() {
+          this.red = void 0;
+          this.green = void 0;
+          this.blue = void 0;
+          this.alpha = void 0;
+          _super.prototype.destructor.call(this);
+        };
+        WebGLClearColor.prototype.contextFree = function(canvasId) {};
+        WebGLClearColor.prototype.contextGain = function(manager) {
+          mustBeNumber_1.default('red', this.red);
+          mustBeNumber_1.default('green', this.green);
+          mustBeNumber_1.default('blue', this.blue);
+          mustBeNumber_1.default('alpha', this.alpha);
+          manager.gl.clearColor(this.red, this.green, this.blue, this.alpha);
+        };
+        WebGLClearColor.prototype.contextLost = function(canvasId) {};
+        return WebGLClearColor;
+      })(Shareable_1.default);
+      exports_1("default", WebGLClearColor);
+    }
+  };
+});
+
+System.register("davinci-eight/commands/WebGLEnable.js", ["../commands/glCapability", "../checks/mustBeNumber", "../utils/Shareable"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var glCapability_1,
+      mustBeNumber_1,
+      Shareable_1;
+  var WebGLEnable;
+  return {
+    setters: [function(glCapability_1_1) {
+      glCapability_1 = glCapability_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(Shareable_1_1) {
+      Shareable_1 = Shareable_1_1;
+    }],
+    execute: function() {
+      WebGLEnable = (function(_super) {
+        __extends(WebGLEnable, _super);
+        function WebGLEnable(capability) {
+          _super.call(this, 'WebGLEnable');
+          this._capability = mustBeNumber_1.default('capability', capability);
+        }
+        WebGLEnable.prototype.contextFree = function(canvasId) {};
+        WebGLEnable.prototype.contextGain = function(manager) {
+          manager.gl.enable(glCapability_1.default(this._capability, manager.gl));
+        };
+        WebGLEnable.prototype.contextLost = function(canvasId) {};
+        WebGLEnable.prototype.destructor = function() {
+          this._capability = void 0;
+          _super.prototype.destructor.call(this);
+        };
+        return WebGLEnable;
+      })(Shareable_1.default);
+      exports_1("default", WebGLEnable);
+    }
+  };
+});
+
+System.register("davinci-eight/commands/Capability.js", [], function(exports_1) {
+  var Capability;
+  return {
+    setters: [],
+    execute: function() {
+      (function(Capability) {
+        Capability[Capability["BLEND"] = 0] = "BLEND";
+        Capability[Capability["CULL_FACE"] = 1] = "CULL_FACE";
+        Capability[Capability["DEPTH_TEST"] = 2] = "DEPTH_TEST";
+        Capability[Capability["POLYGON_OFFSET_FILL"] = 3] = "POLYGON_OFFSET_FILL";
+        Capability[Capability["SCISSOR_TEST"] = 4] = "SCISSOR_TEST";
+      })(Capability || (Capability = {}));
+      exports_1("default", Capability);
+    }
+  };
+});
+
+System.register("davinci-eight/commands/glCapability.js", ["../commands/Capability", "../checks/isDefined", "../checks/mustBeDefined", "../checks/mustBeInteger"], function(exports_1) {
+  var Capability_1,
+      isDefined_1,
+      mustBeDefined_1,
+      mustBeInteger_1;
+  function glCapability(capability, gl) {
+    if (isDefined_1.default(capability)) {
+      mustBeInteger_1.default('capability', capability);
+      mustBeDefined_1.default('gl', gl);
+      switch (capability) {
+        case Capability_1.default.BLEND:
+          return gl.BLEND;
+        case Capability_1.default.CULL_FACE:
+          return gl.CULL_FACE;
+        case Capability_1.default.DEPTH_TEST:
+          return gl.DEPTH_TEST;
+        case Capability_1.default.POLYGON_OFFSET_FILL:
+          return gl.POLYGON_OFFSET_FILL;
+        case Capability_1.default.SCISSOR_TEST:
+          return gl.SCISSOR_TEST;
+        default:
+          {
+            throw new Error(capability + " is not a valid capability.");
+          }
+      }
+    } else {
+      return void 0;
+    }
+  }
+  exports_1("default", glCapability);
+  return {
+    setters: [function(Capability_1_1) {
+      Capability_1 = Capability_1_1;
+    }, function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(mustBeDefined_1_1) {
+      mustBeDefined_1 = mustBeDefined_1_1;
+    }, function(mustBeInteger_1_1) {
+      mustBeInteger_1 = mustBeInteger_1_1;
+    }],
+    execute: function() {}
+  };
+});
+
+System.register("davinci-eight/commands/WebGLDisable.js", ["../commands/glCapability", "../checks/mustBeNumber", "../utils/Shareable"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var glCapability_1,
+      mustBeNumber_1,
+      Shareable_1;
+  var WebGLDisable;
+  return {
+    setters: [function(glCapability_1_1) {
+      glCapability_1 = glCapability_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(Shareable_1_1) {
+      Shareable_1 = Shareable_1_1;
+    }],
+    execute: function() {
+      WebGLDisable = (function(_super) {
+        __extends(WebGLDisable, _super);
+        function WebGLDisable(capability) {
+          _super.call(this, 'WebGLDisable');
+          this._capability = mustBeNumber_1.default('capability', capability);
+        }
+        WebGLDisable.prototype.contextFree = function(canvasId) {};
+        WebGLDisable.prototype.contextGain = function(manager) {
+          manager.gl.disable(glCapability_1.default(this._capability, manager.gl));
+        };
+        WebGLDisable.prototype.contextLost = function(canvasId) {};
+        WebGLDisable.prototype.destructor = function() {
+          this._capability = void 0;
+          _super.prototype.destructor.call(this);
+        };
+        return WebGLDisable;
+      })(Shareable_1.default);
+      exports_1("default", WebGLDisable);
+    }
+  };
+});
+
+System.register("davinci-eight/scene/WebGLRenderer.js", ["../core/BufferResource", "../commands/Capability", "../core/DrawMode", "../core", "../checks/expectArg", "../collections/IUnknownArray", "../renderers/initWebGL", "../checks/isDefined", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeDefined", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../utils/randumbInteger", "../i18n/readOnly", "../utils/Shareable", "../collections/StringIUnknownMap", "../resources/TextureResource", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1) {
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var BufferResource_1,
+      Capability_1,
+      DrawMode_1,
+      core_1,
+      expectArg_1,
+      IUnknownArray_1,
+      initWebGL_1,
+      isDefined_1,
+      isUndefined_1,
+      mustBeArray_1,
+      mustBeDefined_1,
+      mustBeInteger_1,
+      mustBeNumber_1,
+      mustBeObject_1,
+      mustBeString_1,
+      randumbInteger_1,
+      readOnly_1,
+      Shareable_1,
+      StringIUnknownMap_1,
+      TextureResource_1,
+      WebGLClearColor_1,
+      WebGLEnable_1,
+      WebGLDisable_1;
+  var DrawElementsCommand,
+      ElementsBlock,
+      ElementsBlockAttrib,
+      BufferGeometry,
+      WebGLRenderer;
+  function isBufferUsage(usage) {
+    mustBeNumber_1.default('usage', usage);
+    switch (usage) {
+      case WebGLRenderingContext.STATIC_DRAW:
+        {
+          return true;
+        }
+        break;
+      default:
+        {
+          return false;
+        }
+    }
+  }
+  function mustBeContext(gl, method) {
+    if (gl) {
+      return gl;
+    } else {
+      throw new Error(method + ": gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
+    }
+  }
+  function messageUnrecognizedMesh(uuid) {
+    mustBeString_1.default('uuid', uuid);
+    return uuid + " is not a recognized mesh uuid";
+  }
+  function attribKey(aName, aNameToKeyName) {
+    if (aNameToKeyName) {
+      var key = aNameToKeyName[aName];
+      return key ? key : aName;
+    } else {
+      return aName;
+    }
+  }
+  function bindProgramAttribLocations(program, block, aNameToKeyName, canvasId) {
+    var attribLocations = program.attributes(canvasId);
+    if (attribLocations) {
+      var aNames = Object.keys(attribLocations);
+      for (var i = 0,
+          iLength = aNames.length; i < iLength; i++) {
+        var aName = aNames[i];
+        var key = attribKey(aName, aNameToKeyName);
+        var attributes = block.attributes;
+        var attribute = attributes.getWeakRef(key);
+        if (attribute) {
+          var buffer = attribute.buffer;
+          buffer.bind();
+          var attributeLocation = attribLocations[aName];
+          attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
+          buffer.unbind();
+          attributeLocation.enable();
+          buffer.release();
+        } else {
+          console.warn("program attribute " + aName + " is not satisfied by the mesh");
+        }
+        attributes.release();
+      }
+    } else {
+      console.warn("program.attributes is falsey.");
+    }
+  }
+  function unbindProgramAttribLocations(program, canvasId) {
+    var attribLocations = program.attributes(canvasId);
+    if (attribLocations) {
+      var aNames = Object.keys(attribLocations);
+      for (var i = 0,
+          iLength = aNames.length; i < iLength; i++) {
+        attribLocations[aNames[i]].disable();
+      }
+    } else {
+      console.warn("program.attributes is falsey.");
+    }
+  }
+  return {
+    setters: [function(BufferResource_1_1) {
+      BufferResource_1 = BufferResource_1_1;
+    }, function(Capability_1_1) {
+      Capability_1 = Capability_1_1;
+    }, function(DrawMode_1_1) {
+      DrawMode_1 = DrawMode_1_1;
+    }, function(core_1_1) {
+      core_1 = core_1_1;
+    }, function(expectArg_1_1) {
+      expectArg_1 = expectArg_1_1;
+    }, function(IUnknownArray_1_1) {
+      IUnknownArray_1 = IUnknownArray_1_1;
+    }, function(initWebGL_1_1) {
+      initWebGL_1 = initWebGL_1_1;
+    }, function(isDefined_1_1) {
+      isDefined_1 = isDefined_1_1;
+    }, function(isUndefined_1_1) {
+      isUndefined_1 = isUndefined_1_1;
+    }, function(mustBeArray_1_1) {
+      mustBeArray_1 = mustBeArray_1_1;
+    }, function(mustBeDefined_1_1) {
+      mustBeDefined_1 = mustBeDefined_1_1;
+    }, function(mustBeInteger_1_1) {
+      mustBeInteger_1 = mustBeInteger_1_1;
+    }, function(mustBeNumber_1_1) {
+      mustBeNumber_1 = mustBeNumber_1_1;
+    }, function(mustBeObject_1_1) {
+      mustBeObject_1 = mustBeObject_1_1;
+    }, function(mustBeString_1_1) {
+      mustBeString_1 = mustBeString_1_1;
+    }, function(randumbInteger_1_1) {
+      randumbInteger_1 = randumbInteger_1_1;
+    }, function(readOnly_1_1) {
+      readOnly_1 = readOnly_1_1;
+    }, function(Shareable_1_1) {
+      Shareable_1 = Shareable_1_1;
+    }, function(StringIUnknownMap_1_1) {
+      StringIUnknownMap_1 = StringIUnknownMap_1_1;
+    }, function(TextureResource_1_1) {
+      TextureResource_1 = TextureResource_1_1;
+    }, function(WebGLClearColor_1_1) {
+      WebGLClearColor_1 = WebGLClearColor_1_1;
+    }, function(WebGLEnable_1_1) {
+      WebGLEnable_1 = WebGLEnable_1_1;
+    }, function(WebGLDisable_1_1) {
+      WebGLDisable_1 = WebGLDisable_1_1;
+    }],
+    execute: function() {
+      DrawElementsCommand = (function() {
+        function DrawElementsCommand(mode, count, type, offset) {
+          mustBeInteger_1.default('mode', mode);
+          mustBeInteger_1.default('count', count);
+          mustBeInteger_1.default('type', type);
+          mustBeInteger_1.default('offset', offset);
+          this.mode = mode;
+          this.count = count;
+          this.type = type;
+          this.offset = offset;
+        }
+        DrawElementsCommand.prototype.execute = function(gl) {
+          if (isDefined_1.default(gl)) {
+            switch (this.mode) {
+              case DrawMode_1.default.TRIANGLE_STRIP:
+                gl.drawElements(gl.TRIANGLE_STRIP, this.count, this.type, this.offset);
+                break;
+              case DrawMode_1.default.TRIANGLE_FAN:
+                gl.drawElements(gl.TRIANGLE_FAN, this.count, this.type, this.offset);
+                break;
+              case DrawMode_1.default.TRIANGLES:
+                gl.drawElements(gl.TRIANGLES, this.count, this.type, this.offset);
+                break;
+              case DrawMode_1.default.LINE_STRIP:
+                gl.drawElements(gl.LINE_STRIP, this.count, this.type, this.offset);
+                break;
+              case DrawMode_1.default.LINE_LOOP:
+                gl.drawElements(gl.LINE_LOOP, this.count, this.type, this.offset);
+                break;
+              case DrawMode_1.default.LINES:
+                gl.drawElements(gl.LINES, this.count, this.type, this.offset);
+                break;
+              case DrawMode_1.default.POINTS:
+                gl.drawElements(gl.POINTS, this.count, this.type, this.offset);
+                break;
+              default:
+                throw new Error("mode: " + this.mode);
+            }
+          }
+        };
+        return DrawElementsCommand;
+      })();
+      ElementsBlock = (function(_super) {
+        __extends(ElementsBlock, _super);
+        function ElementsBlock(indexBuffer, attributes, drawCommand) {
+          _super.call(this, 'ElementsBlock');
+          this._indexBuffer = indexBuffer;
+          this._indexBuffer.addRef();
+          this._attributes = attributes;
+          this._attributes.addRef();
+          this.drawCommand = drawCommand;
+        }
+        ElementsBlock.prototype.destructor = function() {
+          this._attributes.release();
+          this._attributes = void 0;
+          this._indexBuffer.release();
+          this._indexBuffer = void 0;
+          _super.prototype.destructor.call(this);
+        };
+        ElementsBlock.prototype.bind = function() {
+          this._indexBuffer.bind();
+        };
+        ElementsBlock.prototype.unbind = function() {
+          this._indexBuffer.unbind();
+        };
+        Object.defineProperty(ElementsBlock.prototype, "attributes", {
+          get: function() {
+            this._attributes.addRef();
+            return this._attributes;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        return ElementsBlock;
+      })(Shareable_1.default);
+      ElementsBlockAttrib = (function(_super) {
+        __extends(ElementsBlockAttrib, _super);
+        function ElementsBlockAttrib(buffer, size, normalized, stride, offset) {
+          _super.call(this, 'ElementsBlockAttrib');
+          this._buffer = buffer;
+          this._buffer.addRef();
+          this.size = size;
+          this.normalized = normalized;
+          this.stride = stride;
+          this.offset = offset;
+        }
+        ElementsBlockAttrib.prototype.destructor = function() {
+          this._buffer.release();
+          this._buffer = void 0;
+          this.size = void 0;
+          this.normalized = void 0;
+          this.stride = void 0;
+          this.offset = void 0;
+          _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(ElementsBlockAttrib.prototype, "buffer", {
+          get: function() {
+            this._buffer.addRef();
+            return this._buffer;
+          },
+          enumerable: true,
+          configurable: true
+        });
+        return ElementsBlockAttrib;
+      })(Shareable_1.default);
+      BufferGeometry = (function(_super) {
+        __extends(BufferGeometry, _super);
+        function BufferGeometry(canvasId, gl, blocks) {
+          _super.call(this, 'BufferGeometry');
+          this.canvasId = canvasId;
+          this._blocks = blocks;
+          this._blocks.addRef();
+          this.gl = gl;
+        }
+        BufferGeometry.prototype.destructor = function() {
+          this._blocks.release();
+          this._blocks = void 0;
+          this.gl = void 0;
+          _super.prototype.destructor.call(this);
+        };
+        BufferGeometry.prototype.bind = function(program, aNameToKeyName) {
+          if (this._program !== program) {
+            if (this._program) {
+              this.unbind();
+            }
+            var block = this._blocks.getWeakRef(this.uuid);
+            if (block) {
+              if (program) {
+                this._program = program;
+                this._program.addRef();
+                block.bind();
+                bindProgramAttribLocations(this._program, block, aNameToKeyName, this.canvasId);
+              } else {
+                mustBeObject_1.default('program', program);
+              }
+            } else {
+              throw new Error(messageUnrecognizedMesh(this.uuid));
+            }
+          }
+        };
+        BufferGeometry.prototype.draw = function() {
+          var block = this._blocks.getWeakRef(this.uuid);
+          if (block) {
+            block.drawCommand.execute(this.gl);
+          } else {
+            throw new Error(messageUnrecognizedMesh(this.uuid));
+          }
+        };
+        BufferGeometry.prototype.unbind = function() {
+          if (this._program) {
+            var block = this._blocks.getWeakRef(this.uuid);
+            if (block) {
+              block.unbind();
+              unbindProgramAttribLocations(this._program, this.canvasId);
+            } else {
+              throw new Error(messageUnrecognizedMesh(this.uuid));
+            }
+            this._program.release();
+            this._program = void 0;
+          }
+        };
+        return BufferGeometry;
+      })(Shareable_1.default);
       WebGLRenderer = (function(_super) {
         __extends(WebGLRenderer, _super);
         function WebGLRenderer(attributes) {
+          var _this = this;
           _super.call(this, 'WebGLRenderer');
-          this._kahuna = contextProxy_1.default(attributes);
-          this._renderer = renderer_1.default();
-          this._kahuna.addContextListener(this._renderer);
-          this._kahuna.synchronize(this._renderer);
+          this._blocks = new StringIUnknownMap_1.default();
+          this._users = [];
+          this._commands = new IUnknownArray_1.default([]);
+          console.log(core_1.default.NAMESPACE + " " + this._type + " " + core_1.default.VERSION);
+          this._attributes = attributes;
           this.enable(Capability_1.default.DEPTH_TEST);
+          this._webGLContextLost = function(event) {
+            if (isDefined_1.default(_this._canvas)) {
+              event.preventDefault();
+              _this._gl = void 0;
+              _this._users.forEach(function(user) {
+                user.contextLost(_this._canvasId);
+              });
+            }
+          };
+          this._webGLContextRestored = function(event) {
+            if (isDefined_1.default(_this._canvas)) {
+              event.preventDefault();
+              _this._gl = initWebGL_1.default(_this._canvas, attributes);
+              _this._users.forEach(function(user) {
+                user.contextGain(_this);
+              });
+            }
+          };
         }
         WebGLRenderer.prototype.destructor = function() {
-          this._kahuna.removeContextListener(this._renderer);
-          this._kahuna.release();
-          this._kahuna = void 0;
-          this._renderer.release();
-          this._renderer = void 0;
+          this.stop();
+          this._blocks.release();
+          while (this._users.length > 0) {
+            this._users.pop();
+          }
+          this._commands.release();
           _super.prototype.destructor.call(this);
         };
         WebGLRenderer.prototype.addContextListener = function(user) {
-          this._kahuna.addContextListener(user);
+          mustBeObject_1.default('user', user);
+          var index = this._users.indexOf(user);
+          if (index < 0) {
+            this._users.push(user);
+          } else {
+            console.warn("user already exists for addContextListener");
+          }
         };
         Object.defineProperty(WebGLRenderer.prototype, "canvas", {
           get: function() {
-            return this._kahuna.canvas;
+            if (!this._canvas) {
+              this.start(document.createElement('canvas'), randumbInteger_1.default());
+            }
+            return this._canvas;
           },
           set: function(canvas) {
-            this._kahuna.canvas = canvas;
+            throw new Error(readOnly_1.default('canvas').message);
           },
           enumerable: true,
           configurable: true
         });
         Object.defineProperty(WebGLRenderer.prototype, "canvasId", {
           get: function() {
-            return this._kahuna.canvasId;
+            return this._canvasId;
           },
           set: function(unused) {
             throw new Error(readOnly_1.default('canvasId').message);
@@ -2829,7 +3469,8 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../commands/Capability
         });
         Object.defineProperty(WebGLRenderer.prototype, "commands", {
           get: function() {
-            return this._renderer.commands;
+            this._commands.addRef();
+            return this._commands;
           },
           set: function(unused) {
             throw new Error(readOnly_1.default('commands').message);
@@ -2838,44 +3479,101 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../commands/Capability
           configurable: true
         });
         WebGLRenderer.prototype.clearColor = function(red, green, blue, alpha) {
-          this._renderer.clearColor(red, green, blue, alpha);
+          this._commands.pushWeakRef(new WebGLClearColor_1.default(red, green, blue, alpha));
           return this;
         };
         WebGLRenderer.prototype.contextFree = function(canvasId) {
-          return this._renderer.contextFree(canvasId);
+          this._commands.forEach(function(command) {
+            command.contextFree(canvasId);
+          });
         };
         WebGLRenderer.prototype.contextGain = function(manager) {
-          return this._renderer.contextGain(manager);
+          this._commands.forEach(function(command) {
+            command.contextGain(manager);
+          });
         };
         WebGLRenderer.prototype.contextLost = function(canvasId) {
-          this._renderer.contextLost(canvasId);
+          this._commands.forEach(function(command) {
+            command.contextLost(canvasId);
+          });
         };
         WebGLRenderer.prototype.createArrayBuffer = function() {
-          return this._kahuna.createArrayBuffer();
+          return new BufferResource_1.default(this, false);
         };
         WebGLRenderer.prototype.createBufferGeometry = function(primitive, usage) {
-          return this._kahuna.createBufferGeometry(primitive, usage);
+          mustBeObject_1.default('primitive', primitive);
+          mustBeInteger_1.default('primitive.mode', primitive.mode);
+          mustBeArray_1.default('primitive.indices', primitive.indices);
+          mustBeObject_1.default('primitive.attributes', primitive.attributes);
+          if (isDefined_1.default(usage)) {
+            expectArg_1.default('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
+          } else {
+            usage = isDefined_1.default(this._gl) ? this._gl.STATIC_DRAW : void 0;
+          }
+          if (isUndefined_1.default(this._gl)) {
+            if (core_1.default.verbose) {
+              console.warn("Impossible to create a buffer geometry without a WebGL context.");
+            }
+            return void 0;
+          }
+          var mesh = new BufferGeometry(this._canvasId, this._gl, this._blocks);
+          var indexBuffer = this.createElementArrayBuffer();
+          indexBuffer.bind();
+          if (isDefined_1.default(this._gl)) {
+            this._gl.bufferData(this._gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
+          } else {
+            console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
+          }
+          indexBuffer.unbind();
+          var attributes = new StringIUnknownMap_1.default();
+          var names = Object.keys(primitive.attributes);
+          var namesLength = names.length;
+          for (var i = 0; i < namesLength; i++) {
+            var name_1 = names[i];
+            var buffer = this.createArrayBuffer();
+            buffer.bind();
+            var vertexAttrib = primitive.attributes[name_1];
+            var data = vertexAttrib.values;
+            this._gl.bufferData(this._gl.ARRAY_BUFFER, new Float32Array(data), usage);
+            var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+            attributes.put(name_1, attribute);
+            attribute.release();
+            buffer.unbind();
+            buffer.release();
+          }
+          var drawCommand = new DrawElementsCommand(primitive.mode, primitive.indices.length, this._gl.UNSIGNED_SHORT, 0);
+          var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
+          this._blocks.put(mesh.uuid, block);
+          block.release();
+          attributes.release();
+          indexBuffer.release();
+          return mesh;
         };
         WebGLRenderer.prototype.createElementArrayBuffer = function() {
-          return this._kahuna.createElementArrayBuffer();
+          return new BufferResource_1.default(this, true);
         };
         WebGLRenderer.prototype.createTextureCubeMap = function() {
-          return this._kahuna.createTextureCubeMap();
+          return new TextureResource_1.default([this], mustBeContext(this._gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
         };
         WebGLRenderer.prototype.createTexture2D = function() {
-          return this._kahuna.createTexture2D();
+          return new TextureResource_1.default([this], mustBeContext(this._gl, 'createTexture2D()').TEXTURE_2D);
         };
         WebGLRenderer.prototype.disable = function(capability) {
-          this._renderer.disable(capability);
+          this._commands.pushWeakRef(new WebGLDisable_1.default(capability));
           return this;
         };
         WebGLRenderer.prototype.enable = function(capability) {
-          this._renderer.enable(capability);
+          this._commands.pushWeakRef(new WebGLEnable_1.default(capability));
           return this;
         };
         Object.defineProperty(WebGLRenderer.prototype, "gl", {
           get: function() {
-            return this._kahuna.gl;
+            if (this._gl) {
+              return this._gl;
+            } else {
+              console.warn("property gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
+              return void 0;
+            }
           },
           set: function(unused) {
             throw new Error(readOnly_1.default('gl').message);
@@ -2884,13 +3582,21 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../commands/Capability
           configurable: true
         });
         WebGLRenderer.prototype.removeContextListener = function(user) {
-          return this._kahuna.removeContextListener(user);
+          mustBeObject_1.default('user', user);
+          var index = this._users.indexOf(user);
+          if (index >= 0) {
+            this._users.splice(index, 1);
+          }
         };
         WebGLRenderer.prototype.render = function(drawList, ambients) {
-          return this._renderer.render(drawList, ambients);
+          var gl = this._gl;
+          if (gl) {
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            return drawList.draw(ambients, this._canvasId);
+          }
         };
         WebGLRenderer.prototype.viewport = function(x, y, width, height) {
-          this._renderer.viewport(x, y, width, height);
+          this._gl.viewport(x, y, width, height);
           return this;
         };
         WebGLRenderer.prototype.start = function(canvas, canvasId) {
@@ -2899,15 +3605,74 @@ System.register("davinci-eight/scene/WebGLRenderer.js", ["../commands/Capability
             return this;
           }
           mustBeDefined_1.default('canvas', canvas);
-          this._kahuna.start(canvas, canvasId);
+          var alreadyStarted = isDefined_1.default(this._canvas);
+          if (!alreadyStarted) {
+            this._canvas = canvas;
+            this._canvasId = canvasId;
+          } else {
+            mustBeInteger_1.default('_canvasId', this._canvasId);
+            if (core_1.default.verbose) {
+              console.warn(this._type + " Ignoring start() because already started.");
+            }
+            return;
+          }
+          if (isDefined_1.default(this._canvas)) {
+            this._gl = initWebGL_1.default(this._canvas, this._attributes);
+            this.emitStartEvent();
+            this._canvas.addEventListener('webglcontextlost', this._webGLContextLost, false);
+            this._canvas.addEventListener('webglcontextrestored', this._webGLContextRestored, false);
+          }
           return this;
         };
         WebGLRenderer.prototype.stop = function() {
-          this._kahuna.stop();
+          if (isDefined_1.default(this._canvas)) {
+            this._canvas.removeEventListener('webglcontextrestored', this._webGLContextRestored, false);
+            this._canvas.removeEventListener('webglcontextlost', this._webGLContextLost, false);
+            if (this._gl) {
+              this.emitStopEvent();
+              this._gl = void 0;
+            }
+            this._canvas = void 0;
+            this._canvasId = void 0;
+          }
           return this;
         };
+        WebGLRenderer.prototype.emitStartEvent = function() {
+          var _this = this;
+          this._users.forEach(function(user) {
+            _this.emitContextGain(user);
+          });
+          this._commands.forEach(function(command) {
+            _this.emitContextGain(command);
+          });
+        };
+        WebGLRenderer.prototype.emitContextGain = function(consumer) {
+          if (this._gl.isContextLost()) {
+            consumer.contextLost(this._canvasId);
+          } else {
+            consumer.contextGain(this);
+          }
+        };
+        WebGLRenderer.prototype.emitStopEvent = function() {
+          var _this = this;
+          this._users.forEach(function(user) {
+            _this.emitContextFree(user);
+          });
+          this._commands.forEach(function(command) {
+            _this.emitContextFree(command);
+          });
+        };
+        WebGLRenderer.prototype.emitContextFree = function(consumer) {
+          if (this._gl.isContextLost()) {
+            consumer.contextLost(this._canvasId);
+          } else {
+            consumer.contextFree(this._canvasId);
+          }
+        };
         WebGLRenderer.prototype.synchronize = function(consumer) {
-          return this._kahuna.synchronize(consumer);
+          if (this._gl) {
+            this.emitContextGain(consumer);
+          } else {}
         };
         return WebGLRenderer;
       })(Shareable_1.default);
@@ -6583,413 +7348,6 @@ System.register("davinci-eight/models/ModelE2.js", ["../checks/mustBeString", ".
   };
 });
 
-System.register("davinci-eight/commands/WebGLClearColor.js", ["../checks/mustBeNumber", "../utils/Shareable"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var mustBeNumber_1,
-      Shareable_1;
-  var WebGLClearColor;
-  return {
-    setters: [function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(Shareable_1_1) {
-      Shareable_1 = Shareable_1_1;
-    }],
-    execute: function() {
-      WebGLClearColor = (function(_super) {
-        __extends(WebGLClearColor, _super);
-        function WebGLClearColor(red, green, blue, alpha) {
-          if (red === void 0) {
-            red = 0;
-          }
-          if (green === void 0) {
-            green = 0;
-          }
-          if (blue === void 0) {
-            blue = 0;
-          }
-          if (alpha === void 0) {
-            alpha = 1;
-          }
-          _super.call(this, 'WebGLClearColor');
-          this.red = mustBeNumber_1.default('red', red);
-          this.green = mustBeNumber_1.default('green', green);
-          this.blue = mustBeNumber_1.default('blue', blue);
-          this.alpha = mustBeNumber_1.default('alpha', alpha);
-        }
-        WebGLClearColor.prototype.contextFree = function(canvasId) {};
-        WebGLClearColor.prototype.contextGain = function(manager) {
-          mustBeNumber_1.default('red', this.red);
-          mustBeNumber_1.default('green', this.green);
-          mustBeNumber_1.default('blue', this.blue);
-          mustBeNumber_1.default('alpha', this.alpha);
-          manager.gl.clearColor(this.red, this.green, this.blue, this.alpha);
-        };
-        WebGLClearColor.prototype.contextLost = function(canvasId) {};
-        WebGLClearColor.prototype.destructor = function() {
-          this.red = void 0;
-          this.green = void 0;
-          this.blue = void 0;
-          this.alpha = void 0;
-          _super.prototype.destructor.call(this);
-        };
-        return WebGLClearColor;
-      })(Shareable_1.default);
-      exports_1("default", WebGLClearColor);
-    }
-  };
-});
-
-System.register("davinci-eight/commands/WebGLEnable.js", ["../commands/glCapability", "../checks/mustBeNumber", "../utils/Shareable"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var glCapability_1,
-      mustBeNumber_1,
-      Shareable_1;
-  var WebGLEnable;
-  return {
-    setters: [function(glCapability_1_1) {
-      glCapability_1 = glCapability_1_1;
-    }, function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(Shareable_1_1) {
-      Shareable_1 = Shareable_1_1;
-    }],
-    execute: function() {
-      WebGLEnable = (function(_super) {
-        __extends(WebGLEnable, _super);
-        function WebGLEnable(capability) {
-          _super.call(this, 'WebGLEnable');
-          this._capability = mustBeNumber_1.default('capability', capability);
-        }
-        WebGLEnable.prototype.contextFree = function(canvasId) {};
-        WebGLEnable.prototype.contextGain = function(manager) {
-          manager.gl.enable(glCapability_1.default(this._capability, manager.gl));
-        };
-        WebGLEnable.prototype.contextLost = function(canvasId) {};
-        WebGLEnable.prototype.destructor = function() {
-          this._capability = void 0;
-          _super.prototype.destructor.call(this);
-        };
-        return WebGLEnable;
-      })(Shareable_1.default);
-      exports_1("default", WebGLEnable);
-    }
-  };
-});
-
-System.register("davinci-eight/commands/Capability.js", [], function(exports_1) {
-  var Capability;
-  return {
-    setters: [],
-    execute: function() {
-      (function(Capability) {
-        Capability[Capability["BLEND"] = 0] = "BLEND";
-        Capability[Capability["CULL_FACE"] = 1] = "CULL_FACE";
-        Capability[Capability["DEPTH_TEST"] = 2] = "DEPTH_TEST";
-        Capability[Capability["POLYGON_OFFSET_FILL"] = 3] = "POLYGON_OFFSET_FILL";
-        Capability[Capability["SCISSOR_TEST"] = 4] = "SCISSOR_TEST";
-      })(Capability || (Capability = {}));
-      exports_1("default", Capability);
-    }
-  };
-});
-
-System.register("davinci-eight/commands/glCapability.js", ["../commands/Capability", "../checks/isDefined", "../checks/mustBeDefined", "../checks/mustBeInteger"], function(exports_1) {
-  var Capability_1,
-      isDefined_1,
-      mustBeDefined_1,
-      mustBeInteger_1;
-  function glCapability(capability, gl) {
-    if (isDefined_1.default(capability)) {
-      mustBeInteger_1.default('capability', capability);
-      mustBeDefined_1.default('gl', gl);
-      switch (capability) {
-        case Capability_1.default.BLEND:
-          return gl.BLEND;
-        case Capability_1.default.CULL_FACE:
-          return gl.CULL_FACE;
-        case Capability_1.default.DEPTH_TEST:
-          return gl.DEPTH_TEST;
-        case Capability_1.default.POLYGON_OFFSET_FILL:
-          return gl.POLYGON_OFFSET_FILL;
-        case Capability_1.default.SCISSOR_TEST:
-          return gl.SCISSOR_TEST;
-        default:
-          {
-            throw new Error(capability + " is not a valid capability.");
-          }
-      }
-    } else {
-      return void 0;
-    }
-  }
-  exports_1("default", glCapability);
-  return {
-    setters: [function(Capability_1_1) {
-      Capability_1 = Capability_1_1;
-    }, function(isDefined_1_1) {
-      isDefined_1 = isDefined_1_1;
-    }, function(mustBeDefined_1_1) {
-      mustBeDefined_1 = mustBeDefined_1_1;
-    }, function(mustBeInteger_1_1) {
-      mustBeInteger_1 = mustBeInteger_1_1;
-    }],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/commands/WebGLDisable.js", ["../commands/glCapability", "../checks/mustBeNumber", "../utils/Shareable"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var glCapability_1,
-      mustBeNumber_1,
-      Shareable_1;
-  var WebGLDisable;
-  return {
-    setters: [function(glCapability_1_1) {
-      glCapability_1 = glCapability_1_1;
-    }, function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(Shareable_1_1) {
-      Shareable_1 = Shareable_1_1;
-    }],
-    execute: function() {
-      WebGLDisable = (function(_super) {
-        __extends(WebGLDisable, _super);
-        function WebGLDisable(capability) {
-          _super.call(this, 'WebGLDisable');
-          this._capability = mustBeNumber_1.default('capability', capability);
-        }
-        WebGLDisable.prototype.contextFree = function(canvasId) {};
-        WebGLDisable.prototype.contextGain = function(manager) {
-          manager.gl.disable(glCapability_1.default(this._capability, manager.gl));
-        };
-        WebGLDisable.prototype.contextLost = function(canvasId) {};
-        WebGLDisable.prototype.destructor = function() {
-          this._capability = void 0;
-          _super.prototype.destructor.call(this);
-        };
-        return WebGLDisable;
-      })(Shareable_1.default);
-      exports_1("default", WebGLDisable);
-    }
-  };
-});
-
-System.register("davinci-eight/renderers/renderer.js", ["../collections/IUnknownArray", "../utils/refChange", "../utils/uuid4", "../commands/WebGLClearColor", "../commands/WebGLEnable", "../commands/WebGLDisable"], function(exports_1) {
-  var IUnknownArray_1,
-      refChange_1,
-      uuid4_1,
-      WebGLClearColor_1,
-      WebGLEnable_1,
-      WebGLDisable_1;
-  var CLASS_NAME;
-  function renderer() {
-    var _manager;
-    var uuid = uuid4_1.default().generate();
-    var refCount = 1;
-    var commands = new IUnknownArray_1.default([]);
-    var self = {
-      addRef: function() {
-        refCount++;
-        refChange_1.default(uuid, CLASS_NAME, +1);
-        return refCount;
-      },
-      get canvas() {
-        return _manager ? _manager.canvas : void 0;
-      },
-      get commands() {
-        return commands;
-      },
-      get gl() {
-        return _manager ? _manager.gl : void 0;
-      },
-      clearColor: function(red, green, blue, alpha) {
-        commands.pushWeakRef(new WebGLClearColor_1.default(red, green, blue, alpha));
-      },
-      contextFree: function(canvasId) {
-        commands.forEach(function(command) {
-          command.contextFree(canvasId);
-        });
-        _manager = void 0;
-      },
-      contextGain: function(manager) {
-        _manager = manager;
-        commands.forEach(function(command) {
-          command.contextGain(manager);
-        });
-      },
-      contextLost: function(canvasId) {
-        commands.forEach(function(command) {
-          command.contextLost(canvasId);
-        });
-        _manager = void 0;
-      },
-      disable: function(capability) {
-        commands.pushWeakRef(new WebGLDisable_1.default(capability));
-      },
-      enable: function(capability) {
-        commands.pushWeakRef(new WebGLEnable_1.default(capability));
-      },
-      render: function(drawList, ambients) {
-        var gl = _manager.gl;
-        if (gl) {
-          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-          return drawList.draw(ambients, _manager.canvasId);
-        }
-      },
-      viewport: function(x, y, width, height) {
-        return self.gl.viewport(x, y, width, height);
-      },
-      release: function() {
-        refCount--;
-        refChange_1.default(uuid, CLASS_NAME, -1);
-        if (refCount === 0) {
-          commands.release();
-          commands = void 0;
-          return 0;
-        } else {
-          return refCount;
-        }
-      }
-    };
-    refChange_1.default(uuid, CLASS_NAME, +1);
-    return self;
-  }
-  exports_1("default", renderer);
-  return {
-    setters: [function(IUnknownArray_1_1) {
-      IUnknownArray_1 = IUnknownArray_1_1;
-    }, function(refChange_1_1) {
-      refChange_1 = refChange_1_1;
-    }, function(uuid4_1_1) {
-      uuid4_1 = uuid4_1_1;
-    }, function(WebGLClearColor_1_1) {
-      WebGLClearColor_1 = WebGLClearColor_1_1;
-    }, function(WebGLEnable_1_1) {
-      WebGLEnable_1 = WebGLEnable_1_1;
-    }, function(WebGLDisable_1_1) {
-      WebGLDisable_1 = WebGLDisable_1_1;
-    }],
-    execute: function() {
-      CLASS_NAME = "CanonicalIContextRenderer";
-    }
-  };
-});
-
-System.register("davinci-eight/core/BufferResource.js", ["../checks/isDefined", "../checks/mustBeBoolean", "../checks/mustBeObject", "../utils/Shareable"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var isDefined_1,
-      mustBeBoolean_1,
-      mustBeObject_1,
-      Shareable_1;
-  var CLASS_NAME,
-      BufferResource;
-  return {
-    setters: [function(isDefined_1_1) {
-      isDefined_1 = isDefined_1_1;
-    }, function(mustBeBoolean_1_1) {
-      mustBeBoolean_1 = mustBeBoolean_1_1;
-    }, function(mustBeObject_1_1) {
-      mustBeObject_1 = mustBeObject_1_1;
-    }, function(Shareable_1_1) {
-      Shareable_1 = Shareable_1_1;
-    }],
-    execute: function() {
-      CLASS_NAME = 'BufferResource';
-      BufferResource = (function(_super) {
-        __extends(BufferResource, _super);
-        function BufferResource(manager, isElements) {
-          _super.call(this, CLASS_NAME);
-          this.manager = mustBeObject_1.default('manager', manager);
-          this._isElements = mustBeBoolean_1.default('isElements', isElements);
-          manager.addContextListener(this);
-          manager.synchronize(this);
-        }
-        BufferResource.prototype.destructor = function() {
-          this.contextFree(this.manager.canvasId);
-          this.manager.removeContextListener(this);
-          this.manager = void 0;
-          this._isElements = void 0;
-        };
-        BufferResource.prototype.contextFree = function(canvasId) {
-          if (this._buffer) {
-            var gl = this.manager.gl;
-            if (isDefined_1.default(gl)) {
-              gl.deleteBuffer(this._buffer);
-            } else {
-              console.error(CLASS_NAME + " must leak WebGLBuffer because WebGLRenderingContext is " + typeof gl);
-            }
-            this._buffer = void 0;
-          } else {}
-        };
-        BufferResource.prototype.contextGain = function(manager) {
-          if (this.manager.canvasId === manager.canvasId) {
-            if (!this._buffer) {
-              this._buffer = manager.gl.createBuffer();
-            } else {}
-          } else {
-            console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
-          }
-        };
-        BufferResource.prototype.contextLost = function() {
-          this._buffer = void 0;
-        };
-        BufferResource.prototype.bind = function() {
-          var gl = this.manager.gl;
-          if (gl) {
-            var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
-            gl.bindBuffer(target, this._buffer);
-          } else {
-            console.warn(CLASS_NAME + " bind() missing WebGL rendering context.");
-          }
-        };
-        BufferResource.prototype.unbind = function() {
-          var gl = this.manager.gl;
-          if (gl) {
-            var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
-            gl.bindBuffer(target, null);
-          } else {
-            console.warn(CLASS_NAME + " unbind() missing WebGL rendering context.");
-          }
-        };
-        return BufferResource;
-      })(Shareable_1.default);
-      exports_1("default", BufferResource);
-    }
-  };
-});
-
 System.register("davinci-eight/renderers/initWebGL.js", ["../checks/isDefined"], function(exports_1) {
   var isDefined_1;
   function initWebGL(canvas, attributes) {
@@ -7013,625 +7371,6 @@ System.register("davinci-eight/renderers/initWebGL.js", ["../checks/isDefined"],
       isDefined_1 = isDefined_1_1;
     }],
     execute: function() {}
-  };
-});
-
-System.register("davinci-eight/utils/randumbInteger.js", [], function(exports_1) {
-  function randumbInteger() {
-    var r = Math.random();
-    var s = r * 1000000;
-    var i = Math.round(s);
-    return i;
-  }
-  exports_1("default", randumbInteger);
-  return {
-    setters: [],
-    execute: function() {}
-  };
-});
-
-System.register("davinci-eight/resources/TextureResource.js", ["../checks/expectArg", "../utils/refChange", "../utils/uuid4"], function(exports_1) {
-  var expectArg_1,
-      refChange_1,
-      uuid4_1;
-  var LOGGING_NAME_ITEXTURE,
-      ms,
-      os,
-      TextureResource;
-  return {
-    setters: [function(expectArg_1_1) {
-      expectArg_1 = expectArg_1_1;
-    }, function(refChange_1_1) {
-      refChange_1 = refChange_1_1;
-    }, function(uuid4_1_1) {
-      uuid4_1 = uuid4_1_1;
-    }],
-    execute: function() {
-      LOGGING_NAME_ITEXTURE = 'ITexture';
-      ms = new Array();
-      os = [];
-      TextureResource = (function() {
-        function TextureResource(monitors, target) {
-          this._refCount = 1;
-          this._uuid = uuid4_1.default().generate();
-          var monitor = monitors[0];
-          this._monitor = expectArg_1.default('montor', monitor).toBeObject().value;
-          this._target = target;
-          refChange_1.default(this._uuid, LOGGING_NAME_ITEXTURE, +1);
-          monitor.addContextListener(this);
-          monitor.synchronize(this);
-        }
-        TextureResource.prototype.addRef = function() {
-          this._refCount++;
-          refChange_1.default(this._uuid, LOGGING_NAME_ITEXTURE, +1);
-          return this._refCount;
-        };
-        TextureResource.prototype.release = function() {
-          this._refCount--;
-          refChange_1.default(this._uuid, LOGGING_NAME_ITEXTURE, -1);
-          if (this._refCount === 0) {
-            this._monitor.removeContextListener(this);
-            this.contextFree();
-          }
-          return this._refCount;
-        };
-        TextureResource.prototype.contextFree = function() {
-          if (this._texture) {
-            this._gl.deleteTexture(this._texture);
-            this._texture = void 0;
-          }
-          this._gl = void 0;
-        };
-        TextureResource.prototype.contextGain = function(manager) {
-          var gl = manager.gl;
-          if (this._gl !== gl) {
-            this.contextFree();
-            this._gl = gl;
-            this._texture = gl.createTexture();
-          }
-        };
-        TextureResource.prototype.contextLost = function() {
-          this._texture = void 0;
-          this._gl = void 0;
-        };
-        TextureResource.prototype.bind = function() {
-          if (this._gl) {
-            this._gl.bindTexture(this._target, this._texture);
-          } else {
-            console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGL rendering context.");
-          }
-        };
-        TextureResource.prototype.unbind = function() {
-          if (this._gl) {
-            this._gl.bindTexture(this._target, null);
-          } else {
-            console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGL rendering context.");
-          }
-        };
-        return TextureResource;
-      })();
-      exports_1("default", TextureResource);
-    }
-  };
-});
-
-System.register("davinci-eight/utils/contextProxy.js", ["../core/BufferResource", "../core/DrawMode", "../core", "../checks/expectArg", "../renderers/initWebGL", "../checks/isDefined", "../checks/isUndefined", "../checks/mustBeArray", "../checks/mustBeInteger", "../checks/mustBeNumber", "../checks/mustBeObject", "../checks/mustBeString", "../utils/randumbInteger", "../utils/refChange", "../utils/Shareable", "../collections/StringIUnknownMap", "../resources/TextureResource", "../utils/uuid4"], function(exports_1) {
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var BufferResource_1,
-      DrawMode_1,
-      core_1,
-      expectArg_1,
-      initWebGL_1,
-      isDefined_1,
-      isUndefined_1,
-      mustBeArray_1,
-      mustBeInteger_1,
-      mustBeNumber_1,
-      mustBeObject_1,
-      mustBeString_1,
-      randumbInteger_1,
-      refChange_1,
-      Shareable_1,
-      StringIUnknownMap_1,
-      TextureResource_1,
-      uuid4_1;
-  var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE,
-      LOGGING_NAME_MESH,
-      LOGGING_NAME_KERNEL,
-      DrawElementsCommand,
-      ElementsBlock,
-      ElementsBlockAttrib,
-      BufferGeometry;
-  function mustBeContext(gl, method) {
-    if (gl) {
-      return gl;
-    } else {
-      throw new Error(method + ": gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
-    }
-  }
-  function isBufferUsage(usage) {
-    mustBeNumber_1.default('usage', usage);
-    switch (usage) {
-      case WebGLRenderingContext.STATIC_DRAW:
-        {
-          return true;
-        }
-      default:
-        {
-          return false;
-        }
-    }
-  }
-  function messageUnrecognizedMesh(uuid) {
-    mustBeString_1.default('uuid', uuid);
-    return uuid + " is not a recognized mesh uuid";
-  }
-  function attribKey(aName, aNameToKeyName) {
-    if (aNameToKeyName) {
-      var key = aNameToKeyName[aName];
-      return key ? key : aName;
-    } else {
-      return aName;
-    }
-  }
-  function bindProgramAttribLocations(program, block, aNameToKeyName, canvasId) {
-    var attribLocations = program.attributes(canvasId);
-    if (attribLocations) {
-      var aNames = Object.keys(attribLocations);
-      for (var i = 0,
-          iLength = aNames.length; i < iLength; i++) {
-        var aName = aNames[i];
-        var key = attribKey(aName, aNameToKeyName);
-        var attributes = block.attributes;
-        var attribute = attributes.getWeakRef(key);
-        if (attribute) {
-          var buffer = attribute.buffer;
-          buffer.bind();
-          var attributeLocation = attribLocations[aName];
-          attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-          buffer.unbind();
-          attributeLocation.enable();
-          buffer.release();
-        } else {
-          console.warn("program attribute " + aName + " is not satisfied by the mesh");
-        }
-        attributes.release();
-      }
-    } else {
-      console.warn("program.attributes is falsey.");
-    }
-  }
-  function unbindProgramAttribLocations(program, canvasId) {
-    var attribLocations = program.attributes(canvasId);
-    if (attribLocations) {
-      var aNames = Object.keys(attribLocations);
-      for (var i = 0,
-          iLength = aNames.length; i < iLength; i++) {
-        attribLocations[aNames[i]].disable();
-      }
-    } else {
-      console.warn("program.attributes is falsey.");
-    }
-  }
-  function webgl(attributes) {
-    var uuid = uuid4_1.default().generate();
-    var _blocks = new StringIUnknownMap_1.default();
-    var users = [];
-    function addContextListener(user) {
-      mustBeObject_1.default('user', user);
-      var index = users.indexOf(user);
-      if (index < 0) {
-        users.push(user);
-      } else {
-        console.warn("user already exists for addContextListener");
-      }
-    }
-    function removeContextListener(user) {
-      mustBeObject_1.default('user', user);
-      var index = users.indexOf(user);
-      if (index >= 0) {
-        var removals = users.splice(index, 1);
-      } else {}
-    }
-    function synchronize(user) {
-      if (gl) {
-        if (gl.isContextLost()) {
-          user.contextLost(_canvasId);
-        } else {
-          user.contextGain(kahuna);
-        }
-      } else {}
-    }
-    var gl;
-    var _canvas;
-    var _canvasId;
-    var refCount = 0;
-    var tokenArg = expectArg_1.default('token', "");
-    var webGLContextLost = function(event) {
-      if (isDefined_1.default(_canvas)) {
-        event.preventDefault();
-        gl = void 0;
-        users.forEach(function(user) {
-          user.contextLost(_canvasId);
-        });
-      }
-    };
-    var webGLContextRestored = function(event) {
-      if (isDefined_1.default(_canvas)) {
-        event.preventDefault();
-        gl = initWebGL_1.default(_canvas, attributes);
-        users.forEach(function(user) {
-          user.contextGain(kahuna);
-        });
-      }
-    };
-    var kahuna = {
-      get canvasId() {
-        return _canvasId;
-      },
-      createBufferGeometry: function(primitive, usage) {
-        mustBeObject_1.default('primitive', primitive);
-        mustBeInteger_1.default('primitive.mode', primitive.mode);
-        mustBeArray_1.default('primitive.indices', primitive.indices);
-        mustBeObject_1.default('primitive.attributes', primitive.attributes);
-        if (isDefined_1.default(usage)) {
-          expectArg_1.default('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
-        } else {
-          usage = isDefined_1.default(gl) ? gl.STATIC_DRAW : void 0;
-        }
-        if (isUndefined_1.default(gl)) {
-          if (core_1.default.verbose) {
-            console.warn("Impossible to create a buffer geometry without a WebGL context.");
-          }
-          return void 0;
-        }
-        var mesh = new BufferGeometry(_canvasId, gl, _blocks);
-        var indexBuffer = kahuna.createElementArrayBuffer();
-        indexBuffer.bind();
-        if (isDefined_1.default(gl)) {
-          gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(primitive.indices), usage);
-        } else {
-          console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
-        }
-        indexBuffer.unbind();
-        var attributes = new StringIUnknownMap_1.default();
-        var names = Object.keys(primitive.attributes);
-        var namesLength = names.length;
-        for (var i = 0; i < namesLength; i++) {
-          var name_1 = names[i];
-          var buffer = kahuna.createArrayBuffer();
-          buffer.bind();
-          var vertexAttrib = primitive.attributes[name_1];
-          var data = vertexAttrib.values;
-          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
-          var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-          attributes.put(name_1, attribute);
-          attribute.release();
-          buffer.unbind();
-          buffer.release();
-        }
-        var drawCommand = new DrawElementsCommand(primitive.mode, primitive.indices.length, gl.UNSIGNED_SHORT, 0);
-        var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
-        _blocks.put(mesh.uuid, block);
-        block.release();
-        attributes.release();
-        indexBuffer.release();
-        return mesh;
-      },
-      start: function(canvas, canvasId) {
-        if (canvasId === void 0) {
-          canvasId = 0;
-        }
-        var alreadyStarted = isDefined_1.default(_canvas);
-        if (!alreadyStarted) {
-          _canvas = canvas;
-          _canvasId = canvasId;
-        } else {
-          mustBeInteger_1.default('_canvasId', _canvasId);
-          if (core_1.default.verbose) {
-            console.warn(LOGGING_NAME_KERNEL + " Ignoring start() because already started.");
-          }
-          return;
-        }
-        if (isDefined_1.default(_canvas)) {
-          gl = initWebGL_1.default(_canvas, attributes);
-          users.forEach(function(user) {
-            kahuna.synchronize(user);
-          });
-          _canvas.addEventListener('webglcontextlost', webGLContextLost, false);
-          _canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
-        }
-      },
-      stop: function() {
-        if (isDefined_1.default(_canvas)) {
-          _canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
-          _canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
-          if (gl) {
-            if (gl.isContextLost()) {
-              users.forEach(function(user) {
-                user.contextLost(_canvasId);
-              });
-            } else {
-              users.forEach(function(user) {
-                user.contextFree(_canvasId);
-              });
-            }
-            gl = void 0;
-          }
-          _canvas = void 0;
-          _canvasId = void 0;
-        }
-      },
-      addContextListener: function(user) {
-        addContextListener(user);
-      },
-      removeContextListener: function(user) {
-        removeContextListener(user);
-      },
-      synchronize: function(user) {
-        synchronize(user);
-      },
-      get canvas() {
-        if (!_canvas) {
-          kahuna.start(document.createElement('canvas'), randumbInteger_1.default());
-        }
-        return _canvas;
-      },
-      get gl() {
-        if (gl) {
-          return gl;
-        } else {
-          console.warn("property gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
-          return void 0;
-        }
-      },
-      addRef: function() {
-        refCount++;
-        refChange_1.default(uuid, LOGGING_NAME_KERNEL, +1);
-        return refCount;
-      },
-      release: function() {
-        refCount--;
-        refChange_1.default(uuid, LOGGING_NAME_KERNEL, -1);
-        if (refCount === 0) {
-          _blocks.release();
-          while (users.length > 0) {
-            var user = users.pop();
-          }
-        }
-        return refCount;
-      },
-      createArrayBuffer: function() {
-        return new BufferResource_1.default(kahuna, false);
-      },
-      createElementArrayBuffer: function() {
-        return new BufferResource_1.default(kahuna, true);
-      },
-      createTexture2D: function() {
-        return new TextureResource_1.default([kahuna], mustBeContext(gl, 'createTexture2D()').TEXTURE_2D);
-      },
-      createTextureCubeMap: function() {
-        return new TextureResource_1.default([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
-      }
-    };
-    kahuna.addRef();
-    return kahuna;
-  }
-  exports_1("default", webgl);
-  return {
-    setters: [function(BufferResource_1_1) {
-      BufferResource_1 = BufferResource_1_1;
-    }, function(DrawMode_1_1) {
-      DrawMode_1 = DrawMode_1_1;
-    }, function(core_1_1) {
-      core_1 = core_1_1;
-    }, function(expectArg_1_1) {
-      expectArg_1 = expectArg_1_1;
-    }, function(initWebGL_1_1) {
-      initWebGL_1 = initWebGL_1_1;
-    }, function(isDefined_1_1) {
-      isDefined_1 = isDefined_1_1;
-    }, function(isUndefined_1_1) {
-      isUndefined_1 = isUndefined_1_1;
-    }, function(mustBeArray_1_1) {
-      mustBeArray_1 = mustBeArray_1_1;
-    }, function(mustBeInteger_1_1) {
-      mustBeInteger_1 = mustBeInteger_1_1;
-    }, function(mustBeNumber_1_1) {
-      mustBeNumber_1 = mustBeNumber_1_1;
-    }, function(mustBeObject_1_1) {
-      mustBeObject_1 = mustBeObject_1_1;
-    }, function(mustBeString_1_1) {
-      mustBeString_1 = mustBeString_1_1;
-    }, function(randumbInteger_1_1) {
-      randumbInteger_1 = randumbInteger_1_1;
-    }, function(refChange_1_1) {
-      refChange_1 = refChange_1_1;
-    }, function(Shareable_1_1) {
-      Shareable_1 = Shareable_1_1;
-    }, function(StringIUnknownMap_1_1) {
-      StringIUnknownMap_1 = StringIUnknownMap_1_1;
-    }, function(TextureResource_1_1) {
-      TextureResource_1 = TextureResource_1_1;
-    }, function(uuid4_1_1) {
-      uuid4_1 = uuid4_1_1;
-    }],
-    execute: function() {
-      LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
-      LOGGING_NAME_MESH = 'Drawable';
-      LOGGING_NAME_KERNEL = 'WebGLRenderer';
-      DrawElementsCommand = (function() {
-        function DrawElementsCommand(mode, count, type, offset) {
-          mustBeInteger_1.default('mode', mode);
-          mustBeInteger_1.default('count', count);
-          mustBeInteger_1.default('type', type);
-          mustBeInteger_1.default('offset', offset);
-          this.mode = mode;
-          this.count = count;
-          this.type = type;
-          this.offset = offset;
-        }
-        DrawElementsCommand.prototype.execute = function(gl) {
-          if (isDefined_1.default(gl)) {
-            switch (this.mode) {
-              case DrawMode_1.default.TRIANGLE_STRIP:
-                gl.drawElements(gl.TRIANGLE_STRIP, this.count, this.type, this.offset);
-                break;
-              case DrawMode_1.default.TRIANGLE_FAN:
-                gl.drawElements(gl.TRIANGLE_FAN, this.count, this.type, this.offset);
-                break;
-              case DrawMode_1.default.TRIANGLES:
-                gl.drawElements(gl.TRIANGLES, this.count, this.type, this.offset);
-                break;
-              case DrawMode_1.default.LINE_STRIP:
-                gl.drawElements(gl.LINE_STRIP, this.count, this.type, this.offset);
-                break;
-              case DrawMode_1.default.LINE_LOOP:
-                gl.drawElements(gl.LINE_LOOP, this.count, this.type, this.offset);
-                break;
-              case DrawMode_1.default.LINES:
-                gl.drawElements(gl.LINES, this.count, this.type, this.offset);
-                break;
-              case DrawMode_1.default.POINTS:
-                gl.drawElements(gl.POINTS, this.count, this.type, this.offset);
-                break;
-              default:
-                throw new Error("mode: " + this.mode);
-            }
-          }
-        };
-        return DrawElementsCommand;
-      })();
-      ElementsBlock = (function(_super) {
-        __extends(ElementsBlock, _super);
-        function ElementsBlock(indexBuffer, attributes, drawCommand) {
-          _super.call(this, 'ElementsBlock');
-          this._indexBuffer = indexBuffer;
-          this._indexBuffer.addRef();
-          this._attributes = attributes;
-          this._attributes.addRef();
-          this.drawCommand = drawCommand;
-        }
-        ElementsBlock.prototype.destructor = function() {
-          this._attributes.release();
-          this._attributes = void 0;
-          this._indexBuffer.release();
-          this._indexBuffer = void 0;
-          _super.prototype.destructor.call(this);
-        };
-        ElementsBlock.prototype.bind = function() {
-          this._indexBuffer.bind();
-        };
-        ElementsBlock.prototype.unbind = function() {
-          this._indexBuffer.unbind();
-        };
-        Object.defineProperty(ElementsBlock.prototype, "attributes", {
-          get: function() {
-            this._attributes.addRef();
-            return this._attributes;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        return ElementsBlock;
-      })(Shareable_1.default);
-      ElementsBlockAttrib = (function(_super) {
-        __extends(ElementsBlockAttrib, _super);
-        function ElementsBlockAttrib(buffer, size, normalized, stride, offset) {
-          _super.call(this, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE);
-          this._buffer = buffer;
-          this._buffer.addRef();
-          this.size = size;
-          this.normalized = normalized;
-          this.stride = stride;
-          this.offset = offset;
-        }
-        ElementsBlockAttrib.prototype.destructor = function() {
-          this._buffer.release();
-          this._buffer = void 0;
-          this.size = void 0;
-          this.normalized = void 0;
-          this.stride = void 0;
-          this.offset = void 0;
-          _super.prototype.destructor.call(this);
-        };
-        Object.defineProperty(ElementsBlockAttrib.prototype, "buffer", {
-          get: function() {
-            this._buffer.addRef();
-            return this._buffer;
-          },
-          enumerable: true,
-          configurable: true
-        });
-        return ElementsBlockAttrib;
-      })(Shareable_1.default);
-      BufferGeometry = (function(_super) {
-        __extends(BufferGeometry, _super);
-        function BufferGeometry(canvasId, gl, blocks) {
-          _super.call(this, 'BufferGeometry');
-          this.canvasId = canvasId;
-          this._blocks = blocks;
-          this._blocks.addRef();
-          this.gl = gl;
-        }
-        BufferGeometry.prototype.destructor = function() {
-          this._blocks.release();
-          this._blocks = void 0;
-          this.gl = void 0;
-          _super.prototype.destructor.call(this);
-        };
-        BufferGeometry.prototype.bind = function(program, aNameToKeyName) {
-          if (this._program !== program) {
-            if (this._program) {
-              this.unbind();
-            }
-            var block = this._blocks.getWeakRef(this.uuid);
-            if (block) {
-              if (program) {
-                this._program = program;
-                this._program.addRef();
-                block.bind();
-                bindProgramAttribLocations(this._program, block, aNameToKeyName, this.canvasId);
-              } else {
-                mustBeObject_1.default('program', program);
-              }
-            } else {
-              throw new Error(messageUnrecognizedMesh(this.uuid));
-            }
-          }
-        };
-        BufferGeometry.prototype.draw = function() {
-          var block = this._blocks.getWeakRef(this.uuid);
-          if (block) {
-            block.drawCommand.execute(this.gl);
-          } else {
-            throw new Error(messageUnrecognizedMesh(this.uuid));
-          }
-        };
-        BufferGeometry.prototype.unbind = function() {
-          if (this._program) {
-            var block = this._blocks.getWeakRef(this.uuid);
-            if (block) {
-              block.unbind();
-              unbindProgramAttribLocations(this._program, this.canvasId);
-            } else {
-              throw new Error(messageUnrecognizedMesh(this.uuid));
-            }
-            this._program.release();
-            this._program = void 0;
-          }
-        };
-        return BufferGeometry;
-      })(Shareable_1.default);
-    }
   };
 });
 
@@ -7815,6 +7554,12 @@ System.register("davinci-eight/visual/createArrow.js", ["../facets/ColorFacet", 
         facet.color.copy(color);
         facet.release();
       },
+      get graphicsBuffers() {
+        return drawable.graphicsBuffers;
+      },
+      set graphicsBuffers(unused) {
+        throw new Error(readOnly_1.default('graphicsBuffers').message);
+      },
       get graphicsProgram() {
         return drawable.graphicsProgram;
       },
@@ -7855,8 +7600,8 @@ System.register("davinci-eight/visual/createArrow.js", ["../facets/ColorFacet", 
       setFacet: function(name, facet) {
         drawable.setFacet(name, facet);
       },
-      draw: function(canvasId) {
-        return drawable.draw(canvasId);
+      setUniforms: function(canvasId) {
+        drawable.setUniforms(canvasId);
       },
       addRef: function() {
         return drawable.addRef();
@@ -7932,6 +7677,12 @@ System.register("davinci-eight/visual/createBox.js", ["../facets/ColorFacet", ".
         var facet = drawable.getFacet(COLOR_FACET_NAME);
         facet.color.copy(color);
         facet.release();
+      },
+      get graphicsBuffers() {
+        return drawable.graphicsBuffers;
+      },
+      set graphicsBuffers(unused) {
+        throw new Error(readOnly_1.default('graphicsBuffers').message);
       },
       get graphicsProgram() {
         return drawable.graphicsProgram;
@@ -8009,8 +7760,8 @@ System.register("davinci-eight/visual/createBox.js", ["../facets/ColorFacet", ".
       setFacet: function(name, facet) {
         drawable.setFacet(name, facet);
       },
-      draw: function(canvasId) {
-        return drawable.draw(canvasId);
+      setUniforms: function(canvasId) {
+        drawable.setUniforms(canvasId);
       },
       addRef: function() {
         return drawable.addRef();
@@ -8097,6 +7848,12 @@ System.register("davinci-eight/visual/createCylinder.js", ["../facets/ColorFacet
         facet.color.copy(color);
         facet.release();
       },
+      get graphicsBuffers() {
+        return drawable.graphicsBuffers;
+      },
+      set graphicsBuffers(unused) {
+        throw new Error(readOnly_1.default('graphicsBuffers').message);
+      },
       get graphicsProgram() {
         return drawable.graphicsProgram;
       },
@@ -8141,8 +7898,8 @@ System.register("davinci-eight/visual/createCylinder.js", ["../facets/ColorFacet
       setFacet: function(name, facet) {
         drawable.setFacet(name, facet);
       },
-      draw: function(canvasId) {
-        return drawable.draw(canvasId);
+      setUniforms: function(canvasId) {
+        drawable.setUniforms(canvasId);
       },
       addRef: function() {
         return drawable.addRef();
@@ -8714,8 +8471,7 @@ System.register("davinci-eight/scene/Drawable.js", ["../i18n/readOnly", "../util
   var readOnly_1,
       Shareable_1,
       StringIUnknownMap_1;
-  var LOGGING_NAME,
-      Drawable;
+  var Drawable;
   return {
     setters: [function(readOnly_1_1) {
       readOnly_1 = readOnly_1_1;
@@ -8725,33 +8481,37 @@ System.register("davinci-eight/scene/Drawable.js", ["../i18n/readOnly", "../util
       StringIUnknownMap_1 = StringIUnknownMap_1_1;
     }],
     execute: function() {
-      LOGGING_NAME = 'Drawable';
       Drawable = (function(_super) {
         __extends(Drawable, _super);
         function Drawable(graphicsBuffers, graphicsProgram) {
-          _super.call(this, LOGGING_NAME);
+          _super.call(this, 'Drawable');
           this._graphicsBuffers = graphicsBuffers;
           this._graphicsBuffers.addRef();
           this._graphicsProgram = graphicsProgram;
           this._graphicsProgram.addRef();
-          this.facets = new StringIUnknownMap_1.default();
+          this._facets = new StringIUnknownMap_1.default();
         }
         Drawable.prototype.destructor = function() {
           this._graphicsBuffers.release();
           this._graphicsBuffers = void 0;
           this._graphicsProgram.release();
           this._graphicsProgram = void 0;
-          this.facets.release();
-          this.facets = void 0;
+          this._facets.release();
+          this._facets = void 0;
+          _super.prototype.destructor.call(this);
         };
         Drawable.prototype.draw = function(canvasId) {
           var program = this._graphicsProgram;
           program.use(canvasId);
-          var facets = this.facets;
-          facets.forEach(function(name, uniform) {
-            uniform.setUniforms(program, canvasId);
-          });
+          this.setUniforms(canvasId);
           this._graphicsBuffers.draw(program, canvasId);
+        };
+        Drawable.prototype.setUniforms = function(canvasId) {
+          var _this = this;
+          var facets = this._facets;
+          facets.forEach(function(name, facet) {
+            facet.setUniforms(_this._graphicsProgram, canvasId);
+          });
         };
         Drawable.prototype.contextFree = function(canvasId) {
           this._graphicsBuffers.contextFree(canvasId);
@@ -8766,11 +8526,22 @@ System.register("davinci-eight/scene/Drawable.js", ["../i18n/readOnly", "../util
           this._graphicsProgram.contextLost(canvasId);
         };
         Drawable.prototype.getFacet = function(name) {
-          return this.facets.get(name);
+          return this._facets.get(name);
         };
         Drawable.prototype.setFacet = function(name, facet) {
-          this.facets.put(name, facet);
+          this._facets.put(name, facet);
         };
+        Object.defineProperty(Drawable.prototype, "graphicsBuffers", {
+          get: function() {
+            this._graphicsBuffers.addRef();
+            return this._graphicsBuffers;
+          },
+          set: function(unused) {
+            throw new Error(readOnly_1.default('graphicsBuffers').message);
+          },
+          enumerable: true,
+          configurable: true
+        });
         Object.defineProperty(Drawable.prototype, "graphicsProgram", {
           get: function() {
             this._graphicsProgram.addRef();
@@ -11039,14 +10810,21 @@ System.register("davinci-eight/scene/MonitorList.js", ["../utils/Shareable", "..
           this.monitors.forEach(function(monitor) {
             monitor.release();
           });
+          _super.prototype.destructor.call(this);
         };
         MonitorList.prototype.addContextListener = function(user) {
           this.monitors.forEach(function(monitor) {
             monitor.addContextListener(user);
           });
         };
-        MonitorList.prototype.push = function(monitor) {
+        MonitorList.prototype.add = function(monitor) {
+          monitor.addRef();
           this.monitors.push(monitor);
+        };
+        MonitorList.prototype.remove = function(monitor) {
+          var index = this.monitors.indexOf(monitor);
+          this.monitors[index].release();
+          this.monitors.splice(index, 1);
         };
         MonitorList.prototype.removeContextListener = function(user) {
           this.monitors.forEach(function(monitor) {
@@ -11355,8 +11133,6 @@ System.register("davinci-eight/utils/Shareable.js", ["../checks/mustBeString", "
           if (refCount === 0) {
             this.destructor(true);
             this._refCount = void 0;
-            this._type = void 0;
-            this._uuid = void 0;
           }
           return refCount;
         };
@@ -18561,6 +18337,12 @@ System.register("davinci-eight/visual/createSphere.js", ["../facets/ColorFacet",
         facet.color.copy(color);
         facet.release();
       },
+      get graphicsBuffers() {
+        return drawable.graphicsBuffers;
+      },
+      set graphicsBuffers(unused) {
+        throw new Error(readOnly_1.default('graphicsBuffers').message);
+      },
       get graphicsProgram() {
         return drawable.graphicsProgram;
       },
@@ -18615,8 +18397,8 @@ System.register("davinci-eight/visual/createSphere.js", ["../facets/ColorFacet",
       setFacet: function(name, facet) {
         drawable.setFacet(name, facet);
       },
-      draw: function(canvasId) {
-        return drawable.draw(canvasId);
+      setUniforms: function(canvasId) {
+        drawable.setUniforms(canvasId);
       },
       addRef: function() {
         return drawable.addRef();
@@ -21486,19 +21268,25 @@ System.register("davinci-eight/math/squaredNormG3.js", [], function(exports_1) {
 });
 
 System.register("davinci-eight/core.js", [], function(exports_1) {
-  var core;
+  var Eight,
+      core;
   return {
     setters: [],
     execute: function() {
-      core = {
-        fastPath: false,
-        strict: false,
-        GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2016-02-03',
-        NAMESPACE: 'EIGHT',
-        verbose: false,
-        VERSION: '2.175.0'
-      };
+      Eight = (function() {
+        function Eight() {
+          this.fastPath = false;
+          this.strict = false;
+          this.GITHUB = 'https://github.com/geometryzen/davinci-eight';
+          this.LAST_MODIFIED = '2016-02-03';
+          this.NAMESPACE = 'EIGHT';
+          this.verbose = false;
+          this.VERSION = '2.176.0';
+          this.logging = {};
+        }
+        return Eight;
+      })();
+      core = new Eight();
       exports_1("default", core);
     }
   };
@@ -22859,7 +22647,7 @@ System.register("davinci-eight/visual/vector.js", ["../math/G3"], function(expor
   };
 });
 
-System.register("davinci-eight.js", ["davinci-eight/slideshow/Slide", "davinci-eight/slideshow/Director", "davinci-eight/slideshow/DirectorKeyboardHandler", "davinci-eight/slideshow/animations/WaitAnimation", "davinci-eight/slideshow/animations/ColorAnimation", "davinci-eight/slideshow/animations/Vector2Animation", "davinci-eight/slideshow/animations/Vector3Animation", "davinci-eight/slideshow/animations/Spinor2Animation", "davinci-eight/slideshow/animations/Spinor3Animation", "davinci-eight/cameras/createFrustum", "davinci-eight/cameras/createPerspective", "davinci-eight/cameras/createView", "davinci-eight/cameras/frustumMatrix", "davinci-eight/cameras/PerspectiveCamera", "davinci-eight/cameras/perspectiveMatrix", "davinci-eight/cameras/viewMatrix", "davinci-eight/commands/BlendFactor", "davinci-eight/commands/WebGLBlendFunc", "davinci-eight/commands/WebGLClearColor", "davinci-eight/commands/Capability", "davinci-eight/commands/WebGLDisable", "davinci-eight/commands/WebGLEnable", "davinci-eight/core/AttribLocation", "davinci-eight/core/Color", "davinci-eight/core", "davinci-eight/core/DrawMode", "davinci-eight/core/GraphicsProgramSymbols", "davinci-eight/core/UniformLocation", "davinci-eight/curves/Curve", "davinci-eight/devices/Keyboard", "davinci-eight/geometries/DrawAttribute", "davinci-eight/geometries/DrawPrimitive", "davinci-eight/geometries/Simplex", "davinci-eight/geometries/Vertex", "davinci-eight/geometries/simplicesToGeometryMeta", "davinci-eight/geometries/computeFaceNormals", "davinci-eight/geometries/cube", "davinci-eight/geometries/quadrilateral", "davinci-eight/geometries/square", "davinci-eight/geometries/tetrahedron", "davinci-eight/geometries/simplicesToDrawPrimitive", "davinci-eight/geometries/triangle", "davinci-eight/topologies/Topology", "davinci-eight/topologies/PointTopology", "davinci-eight/topologies/LineTopology", "davinci-eight/topologies/MeshTopology", "davinci-eight/topologies/GridTopology", "davinci-eight/scene/createDrawList", "davinci-eight/scene/Drawable", "davinci-eight/scene/Scene", "davinci-eight/scene/WebGLRenderer", "davinci-eight/geometries/AxialSimplexGeometry", "davinci-eight/geometries/ArrowGeometry", "davinci-eight/geometries/BarnSimplexGeometry", "davinci-eight/geometries/ConeGeometry", "davinci-eight/geometries/ConeSimplexGeometry", "davinci-eight/geometries/CuboidGeometry", "davinci-eight/geometries/CuboidSimplexGeometry", "davinci-eight/geometries/CylinderGeometry", "davinci-eight/geometries/CylinderSimplexGeometry", "davinci-eight/geometries/DodecahedronSimplexGeometry", "davinci-eight/geometries/IcosahedronSimplexGeometry", "davinci-eight/geometries/KleinBottleSimplexGeometry", "davinci-eight/geometries/Simplex1Geometry", "davinci-eight/geometries/MobiusStripSimplexGeometry", "davinci-eight/geometries/OctahedronSimplexGeometry", "davinci-eight/geometries/SliceSimplexGeometry", "davinci-eight/geometries/GridSimplexGeometry", "davinci-eight/geometries/PolyhedronSimplexGeometry", "davinci-eight/geometries/RevolutionSimplexGeometry", "davinci-eight/geometries/RingGeometry", "davinci-eight/geometries/RingSimplexGeometry", "davinci-eight/geometries/SphereGeometry", "davinci-eight/geometries/TetrahedronSimplexGeometry", "davinci-eight/geometries/VortexSimplexGeometry", "davinci-eight/programs/createGraphicsProgram", "davinci-eight/programs/smartProgram", "davinci-eight/programs/programFromScripts", "davinci-eight/materials/GraphicsProgram", "davinci-eight/materials/HTMLScriptsGraphicsProgram", "davinci-eight/materials/LineMaterial", "davinci-eight/materials/MeshMaterial", "davinci-eight/materials/MeshLambertMaterial", "davinci-eight/materials/PointMaterial", "davinci-eight/materials/GraphicsProgramBuilder", "davinci-eight/math/Dimensions", "davinci-eight/math/Euclidean2", "davinci-eight/math/Euclidean3", "davinci-eight/math/mathcore", "davinci-eight/math/R1", "davinci-eight/math/Mat2R", "davinci-eight/math/Mat3R", "davinci-eight/math/Mat4R", "davinci-eight/math/QQ", "davinci-eight/math/Unit", "davinci-eight/math/G2", "davinci-eight/math/G3", "davinci-eight/math/SpinG2", "davinci-eight/math/SpinG3", "davinci-eight/math/R2", "davinci-eight/math/R3", "davinci-eight/math/R4", "davinci-eight/math/VectorN", "davinci-eight/facets/AmbientLight", "davinci-eight/facets/ColorFacet", "davinci-eight/facets/DirectionalLight", "davinci-eight/facets/EulerFacet", "davinci-eight/facets/ModelFacet", "davinci-eight/facets/PointSizeFacet", "davinci-eight/facets/ReflectionFacetE2", "davinci-eight/facets/ReflectionFacetE3", "davinci-eight/facets/Vector3Facet", "davinci-eight/models/ModelE2", "davinci-eight/models/ModelE3", "davinci-eight/resources/GraphicsBuffers", "davinci-eight/renderers/initWebGL", "davinci-eight/renderers/renderer", "davinci-eight/utils/contextProxy", "davinci-eight/utils/getCanvasElementById", "davinci-eight/collections/IUnknownArray", "davinci-eight/collections/NumberIUnknownMap", "davinci-eight/utils/refChange", "davinci-eight/utils/Shareable", "davinci-eight/collections/StringIUnknownMap", "davinci-eight/utils/animation", "davinci-eight/visual/createArrow", "davinci-eight/visual/createBox", "davinci-eight/visual/createCylinder", "davinci-eight/visual/createSphere", "davinci-eight/visual/vector"], function(exports_1) {
+System.register("davinci-eight.js", ["davinci-eight/slideshow/Slide", "davinci-eight/slideshow/Director", "davinci-eight/slideshow/DirectorKeyboardHandler", "davinci-eight/slideshow/animations/WaitAnimation", "davinci-eight/slideshow/animations/ColorAnimation", "davinci-eight/slideshow/animations/Vector2Animation", "davinci-eight/slideshow/animations/Vector3Animation", "davinci-eight/slideshow/animations/Spinor2Animation", "davinci-eight/slideshow/animations/Spinor3Animation", "davinci-eight/cameras/createFrustum", "davinci-eight/cameras/createPerspective", "davinci-eight/cameras/createView", "davinci-eight/cameras/frustumMatrix", "davinci-eight/cameras/PerspectiveCamera", "davinci-eight/cameras/perspectiveMatrix", "davinci-eight/cameras/viewMatrix", "davinci-eight/commands/BlendFactor", "davinci-eight/commands/WebGLBlendFunc", "davinci-eight/commands/WebGLClearColor", "davinci-eight/commands/Capability", "davinci-eight/commands/WebGLDisable", "davinci-eight/commands/WebGLEnable", "davinci-eight/core/AttribLocation", "davinci-eight/core/Color", "davinci-eight/core", "davinci-eight/core/DrawMode", "davinci-eight/core/GraphicsProgramSymbols", "davinci-eight/core/UniformLocation", "davinci-eight/curves/Curve", "davinci-eight/devices/Keyboard", "davinci-eight/geometries/DrawAttribute", "davinci-eight/geometries/DrawPrimitive", "davinci-eight/geometries/Simplex", "davinci-eight/geometries/Vertex", "davinci-eight/geometries/simplicesToGeometryMeta", "davinci-eight/geometries/computeFaceNormals", "davinci-eight/geometries/cube", "davinci-eight/geometries/quadrilateral", "davinci-eight/geometries/square", "davinci-eight/geometries/tetrahedron", "davinci-eight/geometries/simplicesToDrawPrimitive", "davinci-eight/geometries/triangle", "davinci-eight/topologies/Topology", "davinci-eight/topologies/PointTopology", "davinci-eight/topologies/LineTopology", "davinci-eight/topologies/MeshTopology", "davinci-eight/topologies/GridTopology", "davinci-eight/scene/Drawable", "davinci-eight/scene/Scene", "davinci-eight/scene/WebGLRenderer", "davinci-eight/geometries/AxialSimplexGeometry", "davinci-eight/geometries/ArrowGeometry", "davinci-eight/geometries/BarnSimplexGeometry", "davinci-eight/geometries/ConeGeometry", "davinci-eight/geometries/ConeSimplexGeometry", "davinci-eight/geometries/CuboidGeometry", "davinci-eight/geometries/CuboidSimplexGeometry", "davinci-eight/geometries/CylinderGeometry", "davinci-eight/geometries/CylinderSimplexGeometry", "davinci-eight/geometries/DodecahedronSimplexGeometry", "davinci-eight/geometries/IcosahedronSimplexGeometry", "davinci-eight/geometries/KleinBottleSimplexGeometry", "davinci-eight/geometries/Simplex1Geometry", "davinci-eight/geometries/MobiusStripSimplexGeometry", "davinci-eight/geometries/OctahedronSimplexGeometry", "davinci-eight/geometries/SliceSimplexGeometry", "davinci-eight/geometries/GridSimplexGeometry", "davinci-eight/geometries/PolyhedronSimplexGeometry", "davinci-eight/geometries/RevolutionSimplexGeometry", "davinci-eight/geometries/RingGeometry", "davinci-eight/geometries/RingSimplexGeometry", "davinci-eight/geometries/SphereGeometry", "davinci-eight/geometries/TetrahedronSimplexGeometry", "davinci-eight/geometries/VortexSimplexGeometry", "davinci-eight/programs/createGraphicsProgram", "davinci-eight/programs/smartProgram", "davinci-eight/programs/programFromScripts", "davinci-eight/materials/GraphicsProgram", "davinci-eight/materials/HTMLScriptsGraphicsProgram", "davinci-eight/materials/LineMaterial", "davinci-eight/materials/MeshMaterial", "davinci-eight/materials/MeshLambertMaterial", "davinci-eight/materials/PointMaterial", "davinci-eight/materials/GraphicsProgramBuilder", "davinci-eight/math/Dimensions", "davinci-eight/math/Euclidean2", "davinci-eight/math/Euclidean3", "davinci-eight/math/mathcore", "davinci-eight/math/R1", "davinci-eight/math/Mat2R", "davinci-eight/math/Mat3R", "davinci-eight/math/Mat4R", "davinci-eight/math/QQ", "davinci-eight/math/Unit", "davinci-eight/math/G2", "davinci-eight/math/G3", "davinci-eight/math/SpinG2", "davinci-eight/math/SpinG3", "davinci-eight/math/R2", "davinci-eight/math/R3", "davinci-eight/math/R4", "davinci-eight/math/VectorN", "davinci-eight/facets/AmbientLight", "davinci-eight/facets/ColorFacet", "davinci-eight/facets/DirectionalLight", "davinci-eight/facets/EulerFacet", "davinci-eight/facets/ModelFacet", "davinci-eight/facets/PointSizeFacet", "davinci-eight/facets/ReflectionFacetE2", "davinci-eight/facets/ReflectionFacetE3", "davinci-eight/facets/Vector3Facet", "davinci-eight/models/ModelE2", "davinci-eight/models/ModelE3", "davinci-eight/resources/GraphicsBuffers", "davinci-eight/renderers/initWebGL", "davinci-eight/utils/getCanvasElementById", "davinci-eight/collections/IUnknownArray", "davinci-eight/collections/NumberIUnknownMap", "davinci-eight/utils/refChange", "davinci-eight/utils/Shareable", "davinci-eight/collections/StringIUnknownMap", "davinci-eight/utils/animation", "davinci-eight/visual/createArrow", "davinci-eight/visual/createBox", "davinci-eight/visual/createCylinder", "davinci-eight/visual/createSphere", "davinci-eight/visual/vector"], function(exports_1) {
   var Slide_1,
       Director_1,
       DirectorKeyboardHandler_1,
@@ -22907,7 +22695,6 @@ System.register("davinci-eight.js", ["davinci-eight/slideshow/Slide", "davinci-e
       LineTopology_1,
       MeshTopology_1,
       GridTopology_1,
-      createDrawList_1,
       Drawable_1,
       Scene_1,
       WebGLRenderer_1,
@@ -22976,8 +22763,6 @@ System.register("davinci-eight.js", ["davinci-eight/slideshow/Slide", "davinci-e
       ModelE3_1,
       GraphicsBuffers_1,
       initWebGL_1,
-      renderer_1,
-      contextProxy_1,
       getCanvasElementById_1,
       IUnknownArray_1,
       NumberIUnknownMap_1,
@@ -23086,8 +22871,6 @@ System.register("davinci-eight.js", ["davinci-eight/slideshow/Slide", "davinci-e
       MeshTopology_1 = MeshTopology_1_1;
     }, function(GridTopology_1_1) {
       GridTopology_1 = GridTopology_1_1;
-    }, function(createDrawList_1_1) {
-      createDrawList_1 = createDrawList_1_1;
     }, function(Drawable_1_1) {
       Drawable_1 = Drawable_1_1;
     }, function(Scene_1_1) {
@@ -23224,10 +23007,6 @@ System.register("davinci-eight.js", ["davinci-eight/slideshow/Slide", "davinci-e
       GraphicsBuffers_1 = GraphicsBuffers_1_1;
     }, function(initWebGL_1_1) {
       initWebGL_1 = initWebGL_1_1;
-    }, function(renderer_1_1) {
-      renderer_1 = renderer_1_1;
-    }, function(contextProxy_1_1) {
-      contextProxy_1 = contextProxy_1_1;
     }, function(getCanvasElementById_1_1) {
       getCanvasElementById_1 = getCanvasElementById_1_1;
     }, function(IUnknownArray_1_1) {
@@ -23405,15 +23184,6 @@ System.register("davinci-eight.js", ["davinci-eight/slideshow/Slide", "davinci-e
         },
         get WebGLRenderer() {
           return WebGLRenderer_1.default;
-        },
-        get createDrawList() {
-          return createDrawList_1.default;
-        },
-        get renderer() {
-          return renderer_1.default;
-        },
-        get webgl() {
-          return contextProxy_1.default;
         },
         get animation() {
           return animation_1.default;

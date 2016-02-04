@@ -41,6 +41,7 @@ export default class BufferResource extends Shareable implements IBuffer {
         this.manager.removeContextListener(this)
         this.manager = void 0
         this._isElements = void 0
+        super.destructor();
     }
 
     /**

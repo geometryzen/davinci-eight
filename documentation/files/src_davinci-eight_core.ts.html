@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.175.0</em>
+            <em>API Docs for: 2.176.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -252,21 +252,32 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+class Eight {
+    fastPath: boolean;
+    strict: boolean;
+    GITHUB: string;
+    LAST_MODIFIED: string;
+    NAMESPACE: string;
+    verbose: boolean;
+    VERSION: string;
+    logging: { [name: string]: number };
+
+    constructor() {
+        this.fastPath = false;
+        this.strict = false;
+        this.GITHUB = &#x27;https://github.com/geometryzen/davinci-eight&#x27;;
+        this.LAST_MODIFIED = &#x27;2016-02-03&#x27;;
+        this.NAMESPACE = &#x27;EIGHT&#x27;;
+        this.verbose = false;
+        this.VERSION = &#x27;2.176.0&#x27;;
+        this.logging = {};
+    }
+}
+
 /**
  *
  */
-const core = {
-    /**
-     * If true, ensures that assertions do not exist on the rendering &quot;fast path&quot;.
-     */
-    fastPath: false,
-    strict: false,
-    GITHUB: &#x27;https://github.com/geometryzen/davinci-eight&#x27;,
-    LAST_MODIFIED: &#x27;2016-02-03&#x27;,
-    NAMESPACE: &#x27;EIGHT&#x27;,
-    verbose: false,
-    VERSION: &#x27;2.175.0&#x27;
-};
+const core = new Eight()
 
 export default core;
 

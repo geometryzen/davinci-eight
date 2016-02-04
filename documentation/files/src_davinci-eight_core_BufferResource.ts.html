@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.175.0</em>
+            <em>API Docs for: 2.176.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -295,6 +295,7 @@ export default class BufferResource extends Shareable implements IBuffer {
         this.manager.removeContextListener(this)
         this.manager = void 0
         this._isElements = void 0
+        super.destructor();
     }
 
     /**

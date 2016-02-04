@@ -36,14 +36,21 @@ export default class MonitorList extends Shareable {
         this.monitors.forEach(function(monitor) {
             monitor.release()
         })
+        super.destructor()
     }
     addContextListener(user: IContextConsumer) {
         this.monitors.forEach(function(monitor) {
             monitor.addContextListener(user)
         });
     }
-    push(monitor: IContextMonitor): void {
+    add(monitor: IContextMonitor): void {
+        monitor.addRef();
         this.monitors.push(monitor)
+    }
+    remove(monitor: IContextMonitor): void {
+        const index = this.monitors.indexOf(monitor);
+        this.monitors[index].release();
+        this.monitors.splice(index, 1);
     }
     removeContextListener(user: IContextConsumer) {
         this.monitors.forEach(function(monitor) {

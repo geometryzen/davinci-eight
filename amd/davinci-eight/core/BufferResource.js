@@ -19,6 +19,7 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', 
             this.manager.removeContextListener(this);
             this.manager = void 0;
             this._isElements = void 0;
+            _super.prototype.destructor.call(this);
         };
         BufferResource.prototype.contextFree = function (canvasId) {
             if (this._buffer) {

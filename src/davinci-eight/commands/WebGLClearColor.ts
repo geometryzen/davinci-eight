@@ -9,14 +9,13 @@ import Shareable from '../utils/Shareable';
  * <p> 
  * @class WebGLClearColor
  * @extends Shareable
- * @implements IContextCommand
- * @implements IContextConsumer
  */
 export default class WebGLClearColor extends Shareable implements IContextCommand {
     public red: number;
     public green: number;
     public blue: number;
     public alpha: number;
+
     /**
      * @class WebGLClearColor
      * @constructor
@@ -32,14 +31,28 @@ export default class WebGLClearColor extends Shareable implements IContextComman
         this.blue = mustBeNumber('blue', blue)
         this.alpha = mustBeNumber('alpha', alpha)
     }
+
+    /**
+     * @method destructor
+     * @return {void}
+     */
+    destructor(): void {
+        this.red = void 0
+        this.green = void 0
+        this.blue = void 0
+        this.alpha = void 0
+        super.destructor()
+    }
+
     /**
      * @method contextFree
-     * @param [canvasId] {number}
+     * @param canvasId {number}
      * @return {void}
      */
     contextFree(canvasId: number): void {
-        // do nothing
+        // Do nothing;
     }
+
     /**
      * @method contextGain
      * @param manager {IContextProvider}
@@ -55,22 +68,10 @@ export default class WebGLClearColor extends Shareable implements IContextComman
 
     /**
      * @method contextLost
-     * @param [canvasId] {number}
+     * @param canvasId {number}
      * @return {void}
      */
     contextLost(canvasId: number): void {
-        // do nothing
-    }
-
-    /**
-     * @method destructor
-     * @return {void}
-     */
-    destructor(): void {
-        this.red = void 0
-        this.green = void 0
-        this.blue = void 0
-        this.alpha = void 0
-        super.destructor()
+        // Do nothing;
     }
 }

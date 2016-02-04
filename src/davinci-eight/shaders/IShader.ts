@@ -1,4 +1,4 @@
-import IResource = require('../core/IResource');
+import IResource from '../core/IResource';
 
 /**
  * Under Construction
@@ -8,4 +8,4 @@ interface IShader extends IResource {
 
 }
 
-export = IShader
+export default IShader

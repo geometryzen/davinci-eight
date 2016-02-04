@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.175.0</em>
+            <em>API Docs for: 2.176.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -252,44 +252,41 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextProvider = require(&#x27;../core/IContextProvider&#x27;);
-import IContextMonitor = require(&#x27;../core/IContextMonitor&#x27;);
-import IShader = require(&#x27;../shaders/IShader&#x27;);
-import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import IContextProvider from &#x27;../core/IContextProvider&#x27;;
+import IContextMonitor from &#x27;../core/IContextMonitor&#x27;;
+import IShader from &#x27;../shaders/IShader&#x27;;
+import Shareable from &#x27;../utils/Shareable&#x27;;
 
 /**
  * Under Construction
  * Intentionally Undocumented
  */
-class ShareableWebGLShader extends Shareable implements IShader {
-  private shader: WebGLShader;
-  /**
-   * Construction on a single monitor says that this will only be used with one.
-   * But what if someone external calls monitor.addContextListener(shader)?
-   * Then the shader starts receiving events for that monitor.
-   * This means that this resource is inherantly multi-canvas.
-   * It also means that the argument in the constructor is bogus because it is not fixed.
-   * It&#x27;s just an initial list.
-   * But then we need IContextProvider to extend IContextMonitor so that this can unhook?
-   */
-  constructor(monitor: IContextMonitor) {
-    super(&#x27;WebGLShader&#x27;);
-    monitor.addContextListener(this);
-  }
-  destructor(): void {
-  }
-  contextFree(canvasId: number): void {
+export default class ShareableWebGLShader extends Shareable implements IShader {
+    private shader: WebGLShader;
+    private monitor: IContextMonitor;
+    constructor(monitor: IContextMonitor) {
+        super(&#x27;WebGLShader&#x27;)
+        this.monitor = monitor
+        monitor.addRef()
+        monitor.addContextListener(this)
+    }
+    destructor(): void {
+        this.monitor.removeContextListener(this)
+        this.monitor.release()
+        this.monitor = void 0
+        super.destructor()
+    }
+    contextFree(canvasId: number): void {
 
-  }
-  contextGain(manager: IContextProvider): void {
-    
-  }
-  contextLost(canvasId: number): void {
-    
-  }
+    }
+    contextGain(manager: IContextProvider): void {
+
+    }
+    contextLost(canvasId: number): void {
+
+    }
 }
 
-export = ShareableWebGLShader;
     </pre>
 </div>
                     </div>

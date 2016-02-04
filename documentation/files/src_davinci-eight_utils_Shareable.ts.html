@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.175.0</em>
+            <em>API Docs for: 2.176.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -308,13 +308,15 @@ export default class Shareable implements IUnknown {
     release(): number {
         this._refCount--
         refChange(this._uuid, this._type, -1)
-        let refCount = this._refCount
+        const refCount = this._refCount
         if (refCount === 0) {
             // destructor called with &#x60;true&#x60; means grumble if the method has not been overridden.
             this.destructor(true)
+            // refCount is used to indicate zombie status so let that go to undefined.
             this._refCount = void 0
-            this._type = void 0
-            this._uuid = void 0
+            // Keep the type and uuid around for debugging reference count problems.
+            // this._type = void 0
+            // this._uuid = void 0
         }
         return refCount;
     }

@@ -1,4 +1,5 @@
 import Facet from '../core/Facet';
+import IGraphicsBuffers from '../core/IGraphicsBuffers';
 import IGraphicsProgram from '../core/IGraphicsProgram';
 import IResource from '../core/IResource';
 
@@ -15,10 +16,18 @@ import IResource from '../core/IResource';
  */
 interface IDrawable extends IResource {
     /**
+     * @property graphicsBuffers
+     * @type {IGraphicsBuffers}
+     */
+    graphicsBuffers: IGraphicsBuffers;
+
+    /**
      * @property graphicsProgram
      * @type {IGraphicsProgram}
      */
     graphicsProgram: IGraphicsProgram;
+
+    setUniforms(canvasId: number);
 
     /**
      * User assigned name of the drawable object.
@@ -34,7 +43,7 @@ interface IDrawable extends IResource {
      * @param canvasId {number} Determines which canvas the IDrawable should draw to.
      * @return {void}
      */
-    draw(canvasId: number): void;
+    // draw(canvasId: number): void;
 
     /**
      * @method getFacet

@@ -17,6 +17,13 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             this.blue = mustBeNumber_1.default('blue', blue);
             this.alpha = mustBeNumber_1.default('alpha', alpha);
         }
+        WebGLClearColor.prototype.destructor = function () {
+            this.red = void 0;
+            this.green = void 0;
+            this.blue = void 0;
+            this.alpha = void 0;
+            _super.prototype.destructor.call(this);
+        };
         WebGLClearColor.prototype.contextFree = function (canvasId) {
         };
         WebGLClearColor.prototype.contextGain = function (manager) {
@@ -27,13 +34,6 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
             manager.gl.clearColor(this.red, this.green, this.blue, this.alpha);
         };
         WebGLClearColor.prototype.contextLost = function (canvasId) {
-        };
-        WebGLClearColor.prototype.destructor = function () {
-            this.red = void 0;
-            this.green = void 0;
-            this.blue = void 0;
-            this.alpha = void 0;
-            _super.prototype.destructor.call(this);
         };
         return WebGLClearColor;
     })(Shareable_1.default);

@@ -129,6 +129,7 @@ export default class AttribLocation implements IContextProgramConsumer {
      * @return {void}
      */
     enable(): void {
+        // FIXME: This 
         this._context.enableVertexAttribArray(this._index);
     }
 

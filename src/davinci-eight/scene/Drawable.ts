@@ -8,11 +8,6 @@ import StringIUnknownMap from '../collections/StringIUnknownMap';
 import Facet from '../core/Facet';
 
 /**
- * Name used for reference count monitoring and logging.
- */
-const LOGGING_NAME = 'Drawable';
-
-/**
  * @class Drawable
  * @extends Shareable
  */
@@ -44,7 +39,7 @@ export default class Drawable extends Shareable implements IDrawable {
      * @type {StringIUnknownMap&lt;Facet&gt;}
      * @private
      */
-    private facets: StringIUnknownMap<Facet>;
+    private _facets: StringIUnknownMap<Facet>;
 
     /**
      * @class Drawable
@@ -53,12 +48,12 @@ export default class Drawable extends Shareable implements IDrawable {
      * @param graphicsProgram {IGraphicsProgram}
      */
     constructor(graphicsBuffers: IGraphicsBuffers, graphicsProgram: IGraphicsProgram) {
-        super(LOGGING_NAME)
+        super('Drawable')
         this._graphicsBuffers = graphicsBuffers;
         this._graphicsBuffers.addRef();
         this._graphicsProgram = graphicsProgram
         this._graphicsProgram.addRef()
-        this.facets = new StringIUnknownMap<Facet>();
+        this._facets = new StringIUnknownMap<Facet>();
     }
 
     /**
@@ -67,12 +62,13 @@ export default class Drawable extends Shareable implements IDrawable {
      * @protected
      */
     protected destructor(): void {
-        this._graphicsBuffers.release();
-        this._graphicsBuffers = void 0;
+        this._graphicsBuffers.release()
+        this._graphicsBuffers = void 0
         this._graphicsProgram.release()
         this._graphicsProgram = void 0
-        this.facets.release()
-        this.facets = void 0
+        this._facets.release()
+        this._facets = void 0
+        super.destructor()
     }
 
     /**
@@ -83,17 +79,27 @@ export default class Drawable extends Shareable implements IDrawable {
     draw(canvasId: number): void {
         // Using the private member ensures that we don't accidentally addRef.
         const program = this._graphicsProgram
+
         program.use(canvasId)
 
-        // FIXME: The name is unused. Think we should just have a list
-        // and then access using either the real uniform name or a property name.
-        const facets: StringIUnknownMap<Facet> = this.facets
-        // TODO: Faster iteration of facets without using a callback.
-        facets.forEach(function(name, uniform) {
-            uniform.setUniforms(program, canvasId)
-        })
+        this.setUniforms(canvasId);
 
         this._graphicsBuffers.draw(program, canvasId)
+    }
+
+    /**
+     * @method setUniforms
+     * @param canvasId {number}
+     * @return {void}
+     */
+    setUniforms(canvasId: number): void {
+
+        const facets: StringIUnknownMap<Facet> = this._facets
+        // TODO: Faster iteration of facets without using a callback.
+        facets.forEach((name: string, facet: Facet) => {
+            facet.setUniforms(this._graphicsProgram, canvasId)
+        })
+
     }
 
     /**
@@ -131,7 +137,7 @@ export default class Drawable extends Shareable implements IDrawable {
      * @return {Facet}
      */
     getFacet(name: string): Facet {
-        return this.facets.get(name)
+        return this._facets.get(name)
     }
 
     /**
@@ -141,7 +147,21 @@ export default class Drawable extends Shareable implements IDrawable {
      * @return {void}
      */
     setFacet(name: string, facet: Facet): void {
-        this.facets.put(name, facet)
+        this._facets.put(name, facet)
+    }
+
+    /**
+     * Provides a reference counted reference to the graphics buffers property.
+     * @property graphicsBuffers
+     * @type {IGraphicsBuffers}
+     * @readOnly
+     */
+    get graphicsBuffers(): IGraphicsBuffers {
+        this._graphicsBuffers.addRef()
+        return this._graphicsBuffers
+    }
+    set graphicsBuffers(unused) {
+        throw new Error(readOnly('graphicsBuffers').message)
     }
 
     /**

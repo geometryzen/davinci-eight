@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.175.0</em>
+            <em>API Docs for: 2.176.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -290,14 +290,21 @@ export default class MonitorList extends Shareable {
         this.monitors.forEach(function(monitor) {
             monitor.release()
         })
+        super.destructor()
     }
     addContextListener(user: IContextConsumer) {
         this.monitors.forEach(function(monitor) {
             monitor.addContextListener(user)
         });
     }
-    push(monitor: IContextMonitor): void {
+    add(monitor: IContextMonitor): void {
+        monitor.addRef();
         this.monitors.push(monitor)
+    }
+    remove(monitor: IContextMonitor): void {
+        const index = this.monitors.indexOf(monitor);
+        this.monitors[index].release();
+        this.monitors.splice(index, 1);
     }
     removeContextListener(user: IContextConsumer) {
         this.monitors.forEach(function(monitor) {
