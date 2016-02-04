@@ -41,7 +41,7 @@ class DrawableGroup extends Shareable {
         super.destructor();
     }
     /**
-     * accept provides a way to push out the IGraphicsProgram without bumping the reference count.
+     * Provides a way to push out the IGraphicsProgram without bumping the reference count.
      */
     acceptProgram(visitor: (program: IGraphicsProgram) => void) {
         visitor(this._program);

@@ -28583,7 +28583,7 @@
         {
             "file": "src/davinci-eight/scene/Scene.ts",
             "line": 43,
-            "description": "accept provides a way to push out the IGraphicsProgram without bumping the reference count.",
+            "description": "Provides a way to push out the IGraphicsProgram without bumping the reference count.",
             "class": "Scene",
             "module": "EIGHT"
         },
@@ -30919,7 +30919,7 @@
             "line": " src/davinci-eight/scene/Scene.ts:26"
         },
         {
-            "message": "Missing item type\naccept provides a way to push out the IGraphicsProgram without bumping the reference count.",
+            "message": "Missing item type\nProvides a way to push out the IGraphicsProgram without bumping the reference count.",
             "line": " src/davinci-eight/scene/Scene.ts:43"
         },
         {
